@@ -1,7 +1,7 @@
 # TASK-004 - Player Season Statistics
 
 - **Milestone:** Season Statistics Vertical Slice
-- **Status:** Not started
+- **Status:** Implemented and verified; pending independent review
 - **Branch:** `feature/season-statistics`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
@@ -345,34 +345,34 @@ Do not test internal React implementation details.
 
 ## Acceptance Criteria
 
-- [ ] Known players can load their available fixture-backed seasons.
-- [ ] Available seasons are ordered newest first.
-- [ ] The newest season is selected by default.
-- [ ] Users can choose another available season.
-- [ ] Selected-season statistics load from the backend.
-- [ ] The displayed season and statistics always correspond.
-- [ ] Shared contracts are used by frontend and backend.
-- [ ] Provider-private season fields do not leak.
-- [ ] Invalid player IDs return structured errors.
-- [ ] Invalid season IDs return structured errors.
-- [ ] Unknown players and unknown seasons are handled clearly.
-- [ ] Players with no season data receive an accessible empty state.
-- [ ] Loading feedback is accessible.
-- [ ] Error feedback is accessible.
-- [ ] Games played renders correctly.
-- [ ] Per-game averages render to one decimal place.
-- [ ] Shooting percentages render correctly.
-- [ ] Zero-valued statistics render as valid values.
-- [ ] Existing player profile functionality remains working.
-- [ ] Existing player search remains working.
-- [ ] Existing health functionality remains working.
-- [ ] Desktop and mobile layouts work.
-- [ ] Formatting passes.
-- [ ] Lint passes.
-- [ ] Strict type checking passes.
-- [ ] Tests pass.
-- [ ] Production build passes.
-- [ ] Full validation passes.
+- [x] Known players can load their available fixture-backed seasons.
+- [x] Available seasons are ordered newest first.
+- [x] The newest season is selected by default.
+- [x] Users can choose another available season.
+- [x] Selected-season statistics load from the backend.
+- [x] The displayed season and statistics always correspond.
+- [x] Shared contracts are used by frontend and backend.
+- [x] Provider-private season fields do not leak.
+- [x] Invalid player IDs return structured errors.
+- [x] Invalid season IDs return structured errors.
+- [x] Unknown players and unknown seasons are handled clearly.
+- [x] Players with no season data receive an accessible empty state.
+- [x] Loading feedback is accessible.
+- [x] Error feedback is accessible.
+- [x] Games played renders correctly.
+- [x] Per-game averages render to one decimal place.
+- [x] Shooting percentages render correctly.
+- [x] Zero-valued statistics render as valid values.
+- [x] Existing player profile functionality remains working.
+- [x] Existing player search remains working.
+- [x] Existing health functionality remains working.
+- [x] Desktop and mobile layouts work.
+- [x] Formatting passes.
+- [x] Lint passes.
+- [x] Strict type checking passes.
+- [x] Tests pass.
+- [x] Production build passes.
+- [x] Full validation passes.
 
 ## Explicitly Out of Scope
 

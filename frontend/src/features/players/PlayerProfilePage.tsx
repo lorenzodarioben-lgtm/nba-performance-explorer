@@ -5,6 +5,7 @@ import type { PlayerProfile } from '@nba-performance-explorer/contracts';
 
 import { PlayerProfileError } from './api';
 import { formatDraft, formatHeight, formatTeamName, formatWeight } from './format';
+import { PlayerSeasonStatistics } from './PlayerSeasonStatistics';
 import { isValidPlayerId, usePlayerProfileQuery } from './usePlayerProfileQuery';
 
 // Focus the page heading once the terminal route state mounts so keyboard and screen-reader
@@ -141,6 +142,7 @@ function ProfileView({ profile }: { profile: PlayerProfile }) {
           </div>
         ))}
       </dl>
+      <PlayerSeasonStatistics playerId={profile.id} />
       <BackToSearchLink />
     </ProfileShell>
   );

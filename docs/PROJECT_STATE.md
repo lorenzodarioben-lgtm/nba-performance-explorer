@@ -9,37 +9,50 @@ _Last updated: 2026-06-21_
 
 - **Current milestone:** Season Statistics Vertical Slice
 - **Current task:** TASK-004 - Player Season Statistics
-- **Current status:** Not started
+- **Current status:** Implemented and verified; pending independent review
 - **Current branch:** feature/season-statistics
 
 ## Summary
 
-TASK-003 (Player Profile Overview) is completed and merged into `main` (commit `c4c25c6`,
-merged through pull request #3 in merge commit `dc7af98`). The `feature/season-statistics`
-branch is cut from that merge. TASK-001, TASK-002, and TASK-003 are all merged into `main`.
+TASK-001, TASK-002, and TASK-003 are all merged into `main` (TASK-003 via commit `c4c25c6`,
+pull request #3 merge `dc7af98`). TASK-004 is implemented on `feature/season-statistics`
+with all changes uncommitted.
 
-On top of the TASK-001 foundation, the application now provides:
+On top of the player search and profile, the application now provides fixture-backed
+regular-season statistics on the player profile:
 
-- Fixture-backed player search (`GET /api/players?search=`) with an accessible combobox on
-  the home page that navigates to `/players/:playerId`.
-- A fixture-backed player profile (`GET /api/players/:playerId`) rendered at
-  `/players/:playerId`, with shared Zod contracts (`PlayerProfile`, `TeamProfile`,
-  `DraftInfo`, `PlayerProfileResponse`, `PlayerIdSchema`), structured 400/404 errors,
-  provider-private fixture data mapped to domain models, and an accessible profile page with
-  loading/not-found/invalid-link/error states, route-level heading focus, and back-to-search
-  navigation.
+- Backend endpoints `GET /api/players/:playerId/seasons` (newest-first season list, or an
+  empty list for a known player with no data) and
+  `GET /api/players/:playerId/seasons/:season/stats`, behind the replaceable player provider.
+  Shared strict Zod contracts (`SeasonIdSchema` with consecutive-year validation,
+  `PlayerSeason`, `PlayerSeasonsResponse` with enforced uniqueness and newest-first ordering,
+  `PlayerSeasonStats`, `PlayerSeasonStatsResponse`) are used by both applications. The routes
+  validate the player id then the season, distinguish unknown player from unknown season,
+  return structured 400 (`INVALID_PLAYER_ID`/`INVALID_SEASON_ID`) and 404
+  (`PLAYER_NOT_FOUND`/`SEASON_NOT_FOUND`) errors, validate outgoing payloads, and never leak
+  provider-private fixture fields.
+- A `PlayerSeasonStatistics` section on `/players/:playerId` with a native, labelled season
+  `<select>` (newest selected by default), TanStack Query hooks (`AbortSignal`, `retry: false`,
+  no placeholder data), a derived effective-season that reconciles a removed selection to the
+  newest available, accessible loading/empty/unavailable-season/error states, and a semantic
+  statistics description list with one-decimal per-game values and percentage formatting.
 
-Baseline before TASK-004 implementation, verified on 2026-06-21 with Node.js 22.19.0 and
-npm 10.9.3 on a clean `feature/season-statistics` working tree:
+Verified on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3:
 
 - `npm run validate` passes (format check, lint, strict type check, tests, build) and
   `git diff --check` is clean.
-- 64 tests pass: 36 frontend and 28 backend.
+- 100 tests pass: 52 frontend and 48 backend.
+- Live manual verification (backend on `:3001`, Vite on `:5173`): newest-season default,
+  newest-first options, selecting another season (including a team change), zero-valued
+  statistics, a one-season player, a no-season empty state, unknown player/season and invalid
+  ids through the API, preserved search/profile/health behaviour, desktop and 375px mobile
+  layouts, and a clean browser console. The generic 500 and invalid-contract states are
+  covered by the automated MSW tests.
 
 ## Immediate next action
 
-Plan the implementation of TASK-004 (`docs/tasks/TASK-004-season-statistics.md`) before
-changing any application code. Implementation has not started.
+Review the complete TASK-004 diff and, once approved, commit it on
+`feature/season-statistics`. Do not begin charts, game logs, comparison, or any later task.
 
 ## How to update this file
 

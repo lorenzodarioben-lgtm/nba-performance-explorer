@@ -1,11 +1,12 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { delay, http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
 
 const profileUrl = 'http://localhost/api/players/:playerId';
+const seasonsUrl = 'http://localhost/api/players/:playerId/seasons';
 const healthUrl = 'http://localhost/api/health';
 
 const completeProfile = {
@@ -41,6 +42,13 @@ function rowValue(label: string): string {
   const term = screen.getByText(label);
   return term.parentElement?.querySelector('dd')?.textContent ?? '';
 }
+
+beforeEach(() => {
+  // The profile success view mounts the season section, which requests the season list.
+  // Default to an empty list so these profile-focused tests stay focused and issue no
+  // unhandled request.
+  server.use(http.get(seasonsUrl, () => HttpResponse.json({ seasons: [] })));
+});
 
 describe('player profile page', () => {
   it('requests the player id taken from the route', async () => {

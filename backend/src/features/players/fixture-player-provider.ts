@@ -1,10 +1,24 @@
-import type { PlayerProfile, PlayerSummary } from '@nba-performance-explorer/contracts';
+import type {
+  PlayerProfile,
+  PlayerSeason,
+  PlayerSeasonStats,
+  PlayerSummary,
+} from '@nba-performance-explorer/contracts';
 
 import { mapFixturePlayer } from './map-fixture-player.js';
 import { mapFixturePlayerProfile } from './map-fixture-player-profile.js';
+import {
+  mapFixtureSeasonStats,
+  mapFixtureSeasonSummary,
+} from './map-fixture-season.js';
 import { fixturePlayers } from './player-fixtures.js';
 import type { PlayerProvider } from './player-provider.js';
+import { fixtureSeasons } from './season-fixtures.js';
 import { fixtureTeams } from './team-fixtures.js';
+
+function compareSeasonDescending(leftSeason: string, rightSeason: string): number {
+  return Number(rightSeason.slice(0, 4)) - Number(leftSeason.slice(0, 4));
+}
 
 function compareText(left: string, right: string): number {
   if (left < right) {
@@ -54,6 +68,28 @@ export class FixturePlayerProvider implements PlayerProvider {
     }
 
     return mapFixturePlayerProfile(record, team);
+  }
+
+  async listPlayerSeasons(playerId: string): Promise<PlayerSeason[]> {
+    return fixtureSeasons
+      .filter((record) => record.playerId === playerId)
+      .sort((left, right) => compareSeasonDescending(left.season, right.season))
+      .map(mapFixtureSeasonSummary);
+  }
+
+  async getPlayerSeasonStats(
+    playerId: string,
+    season: string,
+  ): Promise<PlayerSeasonStats | null> {
+    const record = fixtureSeasons.find(
+      (entry) => entry.playerId === playerId && entry.season === season,
+    );
+
+    if (!record) {
+      return null;
+    }
+
+    return mapFixtureSeasonStats(record);
   }
 }
 
