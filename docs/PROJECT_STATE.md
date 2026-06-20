@@ -7,49 +7,52 @@ _Last updated: 2026-06-21_
 
 ## Current state
 
-- **Current milestone:** Player Profile Vertical Slice
-- **Current task:** TASK-003 - Player Profile Overview
+- **Current milestone:** Season Statistics Vertical Slice
+- **Current task:** TASK-004 - Player Season Statistics
 - **Current status:** Implemented and verified; pending independent review
-- **Current branch:** feature/player-profile
+- **Current branch:** feature/season-statistics
 
 ## Summary
 
-TASK-002 (Player Search) is completed and merged into `main` (commit `0f60737`, merged
-through pull request #2 in merge commit `5c3fe2e`). TASK-003 is implemented on
-`feature/player-profile` with all changes uncommitted.
+TASK-001, TASK-002, and TASK-003 are all merged into `main` (TASK-003 via commit `c4c25c6`,
+pull request #3 merge `dc7af98`). TASK-004 is implemented on `feature/season-statistics`
+with all changes uncommitted.
 
-On top of the TASK-001 foundation and TASK-002 search, the application now provides a
-fixture-backed player profile:
+On top of the player search and profile, the application now provides fixture-backed
+regular-season statistics on the player profile:
 
-- A `GET /api/players/:playerId` endpoint behind the replaceable player provider. It
-  validates the public id (`^[1-9]\d*$`) with a shared `PlayerIdSchema`, returns a structured
-  400 for invalid ids, 404 for unknown ids, and a `PlayerProfileResponse` validated by the
-  shared contract for known ids. Provider-private fixture fields (including centralised team
-  metadata) are mapped to domain models and never leak.
-- A real React profile page at `/players/:playerId` (replacing the placeholder). It reads
-  the route id, fetches through TanStack Query with the request `AbortSignal`, runtime-
-  validates the response, and renders accessible loading, success, not-found, invalid-link,
-  and generic-error states with a semantic description list, formatted height/weight/draft,
-  safe omission of absent optionals, route-level heading focus, and back-to-search
-  navigation. Shared contracts (`PlayerProfile`, `TeamProfile`, `DraftInfo`,
-  `PlayerProfileResponse`, `PlayerIdSchema`) are used by both applications.
+- Backend endpoints `GET /api/players/:playerId/seasons` (newest-first season list, or an
+  empty list for a known player with no data) and
+  `GET /api/players/:playerId/seasons/:season/stats`, behind the replaceable player provider.
+  Shared strict Zod contracts (`SeasonIdSchema` with consecutive-year validation,
+  `PlayerSeason`, `PlayerSeasonsResponse` with enforced uniqueness and newest-first ordering,
+  `PlayerSeasonStats`, `PlayerSeasonStatsResponse`) are used by both applications. The routes
+  validate the player id then the season, distinguish unknown player from unknown season,
+  return structured 400 (`INVALID_PLAYER_ID`/`INVALID_SEASON_ID`) and 404
+  (`PLAYER_NOT_FOUND`/`SEASON_NOT_FOUND`) errors, validate outgoing payloads, and never leak
+  provider-private fixture fields.
+- A `PlayerSeasonStatistics` section on `/players/:playerId` with a native, labelled season
+  `<select>` (newest selected by default), TanStack Query hooks (`AbortSignal`, `retry: false`,
+  no placeholder data), a derived effective-season that reconciles a removed selection to the
+  newest available, accessible loading/empty/unavailable-season/error states, and a semantic
+  statistics description list with one-decimal per-game values and percentage formatting.
 
 Verified on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3:
 
 - `npm run validate` passes (format check, lint, strict type check, tests, build) and
   `git diff --check` is clean.
-- 64 tests pass: 36 frontend and 28 backend.
-- Live manual verification (backend on `:3001`, Vite on `:5173`): direct profile URLs and
-  dev refresh, search selection into the real profile, known/complete profiles, unknown-id
-  not-found, invalid-id link state, omitted optionals (including no-draft), back navigation,
-  the existing health and search behaviour, and desktop and 375px mobile widths, all with a
-  clean browser console. The 500 and contract-invalid states are not reproducible against the
-  always-healthy fixture server and are covered by the automated MSW tests.
+- 100 tests pass: 52 frontend and 48 backend.
+- Live manual verification (backend on `:3001`, Vite on `:5173`): newest-season default,
+  newest-first options, selecting another season (including a team change), zero-valued
+  statistics, a one-season player, a no-season empty state, unknown player/season and invalid
+  ids through the API, preserved search/profile/health behaviour, desktop and 375px mobile
+  layouts, and a clean browser console. The generic 500 and invalid-contract states are
+  covered by the automated MSW tests.
 
 ## Immediate next action
 
-Review the complete TASK-003 diff and, once approved, commit it on `feature/player-profile`.
-Do not begin season statistics or any later task.
+Review the complete TASK-004 diff and, once approved, commit it on
+`feature/season-statistics`. Do not begin charts, game logs, comparison, or any later task.
 
 ## How to update this file
 

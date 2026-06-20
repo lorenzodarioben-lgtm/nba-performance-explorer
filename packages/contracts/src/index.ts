@@ -22,6 +22,19 @@ export {
   type TeamProfile,
 } from './player-profile.js';
 
+export {
+  PlayerSeasonSchema,
+  PlayerSeasonStatsResponseSchema,
+  PlayerSeasonStatsSchema,
+  PlayerSeasonsResponseSchema,
+  SeasonIdSchema,
+  type PlayerSeason,
+  type PlayerSeasonStats,
+  type PlayerSeasonStatsResponse,
+  type PlayerSeasonsResponse,
+  type SeasonId,
+} from './player-season.js';
+
 export const HealthResponseSchema = z
   .object({
     status: z.literal('ok'),
