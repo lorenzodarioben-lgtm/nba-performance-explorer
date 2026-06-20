@@ -1,5 +1,14 @@
 import { z } from 'zod';
 
+export {
+  PlayerSearchResponseSchema,
+  PlayerSummarySchema,
+  TeamSummarySchema,
+  type PlayerSearchResponse,
+  type PlayerSummary,
+  type TeamSummary,
+} from './player-search.js';
+
 export const HealthResponseSchema = z
   .object({
     status: z.literal('ok'),

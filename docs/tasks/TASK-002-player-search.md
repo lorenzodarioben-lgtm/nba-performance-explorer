@@ -1,7 +1,7 @@
 # TASK-002 - Player Search
 
 - **Milestone:** Player Search Vertical Slice
-- **Status:** Not started
+- **Status:** Implemented and verified; pending independent review
 - **Branch:** `feature/player-search`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
@@ -132,27 +132,27 @@ Do not add a new testing framework or dependency for this task.
 
 ## Acceptance Criteria
 
-- [ ] Fixture-backed player search works from the home page.
-- [ ] Search does not run below two non-whitespace characters.
-- [ ] Surrounding input whitespace is trimmed.
-- [ ] Eligible requests are debounced by approximately 300 milliseconds.
-- [ ] No more than eight results appear.
-- [ ] Results show player name, team abbreviation, and position when available.
-- [ ] Loading, empty, and error states are accessible.
-- [ ] Mouse selection works.
-- [ ] `ArrowDown`, `ArrowUp`, `Enter`, and `Escape` work as specified.
-- [ ] The highlighted result is visually and semantically identifiable.
-- [ ] Selection navigates to `/players/:playerId`.
-- [ ] The player route renders only the bounded placeholder described by this task.
-- [ ] Frontend and backend use the shared player-search schemas and inferred types.
-- [ ] Provider-specific raw responses do not enter React components.
-- [ ] No live NBA API is used.
-- [ ] Formatting passes.
-- [ ] Lint passes.
-- [ ] Strict type checking passes.
-- [ ] Tests pass.
-- [ ] The production build passes.
-- [ ] Full root validation passes.
+- [x] Fixture-backed player search works from the home page.
+- [x] Search does not run below two non-whitespace characters.
+- [x] Surrounding input whitespace is trimmed.
+- [x] Eligible requests are debounced by approximately 300 milliseconds.
+- [x] No more than eight results appear.
+- [x] Results show player name, team abbreviation, and position when available.
+- [x] Loading, empty, and error states are accessible.
+- [x] Mouse selection works.
+- [x] `ArrowDown`, `ArrowUp`, `Enter`, and `Escape` work as specified.
+- [x] The highlighted result is visually and semantically identifiable.
+- [x] Selection navigates to `/players/:playerId`.
+- [x] The player route renders only the bounded placeholder described by this task.
+- [x] Frontend and backend use the shared player-search schemas and inferred types.
+- [x] Provider-specific raw responses do not enter React components.
+- [x] No live NBA API is used.
+- [x] Formatting passes.
+- [x] Lint passes.
+- [x] Strict type checking passes.
+- [x] Tests pass.
+- [x] The production build passes.
+- [x] Full root validation passes.
 
 ## Explicitly Out of Scope
 

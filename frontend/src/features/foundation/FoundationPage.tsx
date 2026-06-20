@@ -1,3 +1,4 @@
+import { PlayerSearch } from '../player-search/PlayerSearch';
 import { useHealthQuery } from './useHealthQuery';
 
 export function FoundationPage() {
@@ -16,7 +17,9 @@ export function FoundationPage() {
           NBA Performance Explorer
         </h1>
 
-        <div className="mt-8 border-t border-zinc-200 pt-6">
+        <PlayerSearch />
+
+        <div className="mt-10 border-t border-zinc-200 pt-6">
           {healthQuery.isPending ? (
             <p role="status" aria-live="polite" className="text-zinc-700">
               Checking backend status...
