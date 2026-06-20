@@ -1,5 +1,7 @@
 import {
   ApiErrorResponseSchema,
+  PlayerProfileResponseSchema,
+  PlayerProfileSchema,
   PlayerSearchResponseSchema,
 } from '@nba-performance-explorer/contracts';
 import request from 'supertest';
@@ -136,5 +138,135 @@ describe('GET /api/players', () => {
     expect(responseText).not.toContain('franchiseCode');
     expect(responseText).not.toContain('listedPosition');
     expect(responseText).not.toContain('sourceSlug');
+  });
+});
+
+describe('GET /api/players/:playerId', () => {
+  it('returns a complete profile that passes the shared contract', async () => {
+    const response = await request(app).get('/api/players/2544').expect(200);
+
+    expect(response.headers['content-type']).toMatch(/application\/json/);
+    expect(PlayerProfileResponseSchema.parse(response.body)).toEqual({
+      player: {
+        id: '2544',
+        fullName: 'LeBron James',
+        team: { abbreviation: 'LAL', name: 'Lakers', city: 'Los Angeles' },
+        position: 'F',
+        jerseyNumber: '23',
+        heightInches: 81,
+        weightPounds: 250,
+        country: 'USA',
+        draft: { year: 2003, round: 1, pick: 1 },
+      },
+    });
+  });
+
+  it('omits position when the fixture player has none', async () => {
+    const response = await request(app).get('/api/players/202681').expect(200);
+    const { player } = PlayerProfileResponseSchema.parse(response.body);
+
+    expect(player.fullName).toBe('Kyrie Irving');
+    expect(player).not.toHaveProperty('position');
+    expect(player.team).toEqual({
+      abbreviation: 'DAL',
+      name: 'Mavericks',
+      city: 'Dallas',
+    });
+  });
+
+  it('omits country when the fixture player has none', async () => {
+    const response = await request(app).get('/api/players/1627742').expect(200);
+    const { player } = PlayerProfileResponseSchema.parse(response.body);
+
+    expect(player.fullName).toBe('Brandon Ingram');
+    expect(player).not.toHaveProperty('country');
+    expect(player.draft).toEqual({ year: 2016, round: 1, pick: 2 });
+  });
+
+  it('omits the draft key when the fixture player has no draft', async () => {
+    const response = await request(app).get('/api/players/1629611').expect(200);
+    const { player } = PlayerProfileResponseSchema.parse(response.body);
+
+    expect(player.fullName).toBe('Terance Mann');
+    expect(player).not.toHaveProperty('draft');
+    expect(player.jerseyNumber).toBe('14');
+  });
+
+  it('does not expose provider-private fixture fields', async () => {
+    const response = await request(app).get('/api/players/2544').expect(200);
+    const responseText = JSON.stringify(response.body);
+
+    for (const privateField of [
+      'sourceId',
+      'givenName',
+      'familyName',
+      'franchiseCode',
+      'listedPosition',
+      'sourceSlug',
+    ]) {
+      expect(responseText).not.toContain(privateField);
+    }
+  });
+
+  it('limits the payload to the profile contract fields', async () => {
+    const response = await request(app).get('/api/players/2544').expect(200);
+
+    // A strict parse throws on extra keys, so an equal round-trip proves the payload
+    // carries only the allowed contract fields.
+    expect(PlayerProfileResponseSchema.parse(response.body)).toEqual(response.body);
+    expect(Object.keys(response.body)).toEqual(['player']);
+  });
+
+  it('rejects unknown fields through the strict profile contract', () => {
+    const valid = {
+      id: '2544',
+      fullName: 'LeBron James',
+      team: { abbreviation: 'LAL', name: 'Lakers', city: 'Los Angeles' },
+    };
+
+    expect(PlayerProfileSchema.safeParse(valid).success).toBe(true);
+    expect(PlayerProfileSchema.safeParse({ ...valid, sourceSlug: 'x' }).success).toBe(
+      false,
+    );
+  });
+
+  it.each([
+    ['zero', '0'],
+    ['a negative-like value', '-1'],
+    ['a decimal-like value', '1.5'],
+    ['an alphabetic value', 'abc'],
+  ])('rejects %s with a structured 400', async (_label, playerId) => {
+    const response = await request(app).get(`/api/players/${playerId}`).expect(400);
+
+    expect(ApiErrorResponseSchema.parse(response.body)).toEqual({
+      error: {
+        code: 'INVALID_PLAYER_ID',
+        message: 'Player id is not valid.',
+        status: 400,
+      },
+    });
+    expect(JSON.stringify(response.body).toLowerCase()).not.toContain('stack');
+  });
+
+  it('returns a structured 404 for an unknown valid id', async () => {
+    const response = await request(app).get('/api/players/999999').expect(404);
+
+    expect(ApiErrorResponseSchema.parse(response.body)).toEqual({
+      error: {
+        code: 'PLAYER_NOT_FOUND',
+        message: 'Player not found.',
+        status: 404,
+      },
+    });
+    expect(JSON.stringify(response.body).toLowerCase()).not.toContain('stack');
+  });
+
+  it('returns a structured 405 for unsupported methods', async () => {
+    const response = await request(app).post('/api/players/2544').expect(405);
+
+    expect(response.headers.allow).toBe('GET');
+    expect(ApiErrorResponseSchema.parse(response.body).error.code).toBe(
+      'METHOD_NOT_ALLOWED',
+    );
   });
 });

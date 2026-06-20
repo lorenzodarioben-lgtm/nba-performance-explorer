@@ -1,3 +1,9 @@
+export interface FixtureDraft {
+  year: number;
+  round: number;
+  pick: number;
+}
+
 export interface FixturePlayerRecord {
   sourceId: string;
   givenName: string;
@@ -5,8 +11,18 @@ export interface FixturePlayerRecord {
   franchiseCode: string;
   listedPosition?: string;
   sourceSlug: string;
+  jerseyNumber?: string;
+  heightInches?: number;
+  weightPounds?: number;
+  country?: string;
+  draft?: FixtureDraft;
 }
 
+// Illustrative, internally consistent fixture data. It is clearly mock data behind the
+// provider boundary and is never returned to clients in this private shape. Optional
+// profile fields are deliberately omitted for a few players to exercise the not-available
+// paths: Kyrie Irving has no position, Brandon Ingram has no country, and Terance Mann has
+// no draft information.
 export const fixturePlayers: readonly FixturePlayerRecord[] = [
   {
     sourceId: '2544',
@@ -15,6 +31,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'LAL',
     listedPosition: 'F',
     sourceSlug: 'lebron-james',
+    jerseyNumber: '23',
+    heightInches: 81,
+    weightPounds: 250,
+    country: 'USA',
+    draft: { year: 2003, round: 1, pick: 1 },
   },
   {
     sourceId: '201939',
@@ -23,6 +44,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'GSW',
     listedPosition: 'G',
     sourceSlug: 'stephen-curry',
+    jerseyNumber: '30',
+    heightInches: 74,
+    weightPounds: 185,
+    country: 'USA',
+    draft: { year: 2009, round: 1, pick: 7 },
   },
   {
     sourceId: '201142',
@@ -31,6 +57,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'PHX',
     listedPosition: 'F',
     sourceSlug: 'kevin-durant',
+    jerseyNumber: '35',
+    heightInches: 82,
+    weightPounds: 240,
+    country: 'USA',
+    draft: { year: 2007, round: 1, pick: 2 },
   },
   {
     sourceId: '203507',
@@ -39,6 +70,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'MIL',
     listedPosition: 'F',
     sourceSlug: 'giannis-antetokounmpo',
+    jerseyNumber: '34',
+    heightInches: 83,
+    weightPounds: 243,
+    country: 'Greece',
+    draft: { year: 2013, round: 1, pick: 15 },
   },
   {
     sourceId: '1628983',
@@ -47,6 +83,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'OKC',
     listedPosition: 'G',
     sourceSlug: 'shai-gilgeous-alexander',
+    jerseyNumber: '2',
+    heightInches: 78,
+    weightPounds: 195,
+    country: 'Canada',
+    draft: { year: 2018, round: 1, pick: 11 },
   },
   {
     sourceId: '1630162',
@@ -55,6 +96,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'MIN',
     listedPosition: 'G',
     sourceSlug: 'anthony-edwards',
+    jerseyNumber: '5',
+    heightInches: 76,
+    weightPounds: 225,
+    country: 'USA',
+    draft: { year: 2020, round: 1, pick: 1 },
   },
   {
     sourceId: '1641705',
@@ -63,6 +109,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'SAS',
     listedPosition: 'C',
     sourceSlug: 'victor-wembanyama',
+    jerseyNumber: '1',
+    heightInches: 87,
+    weightPounds: 235,
+    country: 'France',
+    draft: { year: 2023, round: 1, pick: 1 },
   },
   {
     sourceId: '1628378',
@@ -71,6 +122,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'CLE',
     listedPosition: 'G',
     sourceSlug: 'donovan-mitchell',
+    jerseyNumber: '45',
+    heightInches: 73,
+    weightPounds: 215,
+    country: 'USA',
+    draft: { year: 2017, round: 1, pick: 13 },
   },
   {
     sourceId: '1627742',
@@ -79,6 +135,10 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'NOP',
     listedPosition: 'F',
     sourceSlug: 'brandon-ingram',
+    jerseyNumber: '14',
+    heightInches: 80,
+    weightPounds: 190,
+    draft: { year: 2016, round: 1, pick: 2 },
   },
   {
     sourceId: '1630532',
@@ -87,6 +147,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'ORL',
     listedPosition: 'F',
     sourceSlug: 'franz-wagner',
+    jerseyNumber: '22',
+    heightInches: 82,
+    weightPounds: 220,
+    country: 'Germany',
+    draft: { year: 2021, round: 1, pick: 8 },
   },
   {
     sourceId: '1631094',
@@ -95,6 +160,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'ORL',
     listedPosition: 'F',
     sourceSlug: 'paolo-banchero',
+    jerseyNumber: '5',
+    heightInches: 82,
+    weightPounds: 250,
+    country: 'USA',
+    draft: { year: 2022, round: 1, pick: 1 },
   },
   {
     sourceId: '1626157',
@@ -103,6 +173,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'NYK',
     listedPosition: 'C-F',
     sourceSlug: 'karl-anthony-towns',
+    jerseyNumber: '32',
+    heightInches: 83,
+    weightPounds: 248,
+    country: 'USA',
+    draft: { year: 2015, round: 1, pick: 1 },
   },
   {
     sourceId: '1627734',
@@ -111,6 +186,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'SAC',
     listedPosition: 'F-C',
     sourceSlug: 'domantas-sabonis',
+    jerseyNumber: '10',
+    heightInches: 83,
+    weightPounds: 240,
+    country: 'Lithuania',
+    draft: { year: 2016, round: 1, pick: 11 },
   },
   {
     sourceId: '1628374',
@@ -119,6 +199,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'UTA',
     listedPosition: 'F',
     sourceSlug: 'lauri-markkanen',
+    jerseyNumber: '23',
+    heightInches: 84,
+    weightPounds: 240,
+    country: 'Finland',
+    draft: { year: 2017, round: 1, pick: 7 },
   },
   {
     sourceId: '203944',
@@ -127,6 +212,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'MIN',
     listedPosition: 'F',
     sourceSlug: 'julius-randle',
+    jerseyNumber: '30',
+    heightInches: 80,
+    weightPounds: 250,
+    country: 'USA',
+    draft: { year: 2014, round: 1, pick: 7 },
   },
   {
     sourceId: '1629611',
@@ -135,6 +225,10 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'ATL',
     listedPosition: 'G-F',
     sourceSlug: 'terance-mann',
+    jerseyNumber: '14',
+    heightInches: 77,
+    weightPounds: 215,
+    country: 'USA',
   },
   {
     sourceId: '1629029',
@@ -143,6 +237,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'LAL',
     listedPosition: 'G',
     sourceSlug: 'luka-doncic',
+    jerseyNumber: '77',
+    heightInches: 79,
+    weightPounds: 230,
+    country: 'Slovenia',
+    draft: { year: 2018, round: 1, pick: 3 },
   },
   {
     sourceId: '203999',
@@ -151,6 +250,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'DEN',
     listedPosition: 'C',
     sourceSlug: 'nikola-jokic',
+    jerseyNumber: '15',
+    heightInches: 83,
+    weightPounds: 284,
+    country: 'Serbia',
+    draft: { year: 2014, round: 2, pick: 41 },
   },
   {
     sourceId: '1628369',
@@ -159,6 +263,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'BOS',
     listedPosition: 'F',
     sourceSlug: 'jayson-tatum',
+    jerseyNumber: '0',
+    heightInches: 80,
+    weightPounds: 210,
+    country: 'USA',
+    draft: { year: 2017, round: 1, pick: 3 },
   },
   {
     sourceId: '1627759',
@@ -167,6 +276,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'BOS',
     listedPosition: 'G-F',
     sourceSlug: 'jaylen-brown',
+    jerseyNumber: '7',
+    heightInches: 78,
+    weightPounds: 223,
+    country: 'USA',
+    draft: { year: 2016, round: 1, pick: 3 },
   },
   {
     sourceId: '1628973',
@@ -175,6 +289,11 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     franchiseCode: 'NYK',
     listedPosition: 'G',
     sourceSlug: 'jalen-brunson',
+    jerseyNumber: '11',
+    heightInches: 73,
+    weightPounds: 190,
+    country: 'USA',
+    draft: { year: 2018, round: 2, pick: 33 },
   },
   {
     sourceId: '202681',
@@ -182,5 +301,10 @@ export const fixturePlayers: readonly FixturePlayerRecord[] = [
     familyName: 'Irving',
     franchiseCode: 'DAL',
     sourceSlug: 'kyrie-irving',
+    jerseyNumber: '11',
+    heightInches: 74,
+    weightPounds: 195,
+    country: 'USA',
+    draft: { year: 2011, round: 1, pick: 1 },
   },
 ] as const;

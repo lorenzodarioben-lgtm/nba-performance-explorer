@@ -1,7 +1,7 @@
 # TASK-002 - Player Search
 
 - **Milestone:** Player Search Vertical Slice
-- **Status:** Implemented and verified; pending independent review
+- **Status:** Completed and merged (commit `0f60737`, merged into `main` via pull request #2 in merge commit `5c3fe2e`)
 - **Branch:** `feature/player-search`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,

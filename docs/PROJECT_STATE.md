@@ -7,56 +7,49 @@ _Last updated: 2026-06-21_
 
 ## Current state
 
-- **Current milestone:** Player Search Vertical Slice
-- **Current task:** TASK-002 - Player Search
+- **Current milestone:** Player Profile Vertical Slice
+- **Current task:** TASK-003 - Player Profile Overview
 - **Current status:** Implemented and verified; pending independent review
-- **Current branch:** feature/player-search
+- **Current branch:** feature/player-profile
 
 ## Summary
 
-TASK-002 implements fixture-backed player search across the existing workspaces. Shared
-Zod contracts define team and player summaries. The Express backend validates search
-queries, uses a replaceable fixture provider, maps provider records to internal models,
-sorts deterministically, and returns no more than eight results. The React frontend uses a
-debounced TanStack Query hook and an accessible combobox/listbox to support keyboard and
-pointer selection into the bounded `/players/:playerId` placeholder route.
+TASK-002 (Player Search) is completed and merged into `main` (commit `0f60737`, merged
+through pull request #2 in merge commit `5c3fe2e`). TASK-003 is implemented on
+`feature/player-profile` with all changes uncommitted.
 
-Automated validation re-run on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3 against the
-current working tree (`npm run validate` plus each step individually):
+On top of the TASK-001 foundation and TASK-002 search, the application now provides a
+fixture-backed player profile:
 
-- Formatting (`format:check`) passed; `format` reported no changes.
-- Lint passed.
-- Strict type checking passed.
-- Thirty-five tests passed: 20 frontend and 15 backend.
-- Frontend and backend production builds passed.
-- `npm run validate` passed end to end and `git diff --check` reported no issues.
+- A `GET /api/players/:playerId` endpoint behind the replaceable player provider. It
+  validates the public id (`^[1-9]\d*$`) with a shared `PlayerIdSchema`, returns a structured
+  400 for invalid ids, 404 for unknown ids, and a `PlayerProfileResponse` validated by the
+  shared contract for known ids. Provider-private fixture fields (including centralised team
+  metadata) are mapped to domain models and never leak.
+- A real React profile page at `/players/:playerId` (replacing the placeholder). It reads
+  the route id, fetches through TanStack Query with the request `AbortSignal`, runtime-
+  validates the response, and renders accessible loading, success, not-found, invalid-link,
+  and generic-error states with a semantic description list, formatted height/weight/draft,
+  safe omission of absent optionals, route-level heading focus, and back-to-search
+  navigation. Shared contracts (`PlayerProfile`, `TeamProfile`, `DraftInfo`,
+  `PlayerProfileResponse`, `PlayerIdSchema`) are used by both applications.
 
-Live manual verification on 2026-06-21 with the backend on `http://localhost:3001` and the
-Vite dev server on `http://localhost:5173` (using the `/api` proxy):
+Verified on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3:
 
-- Backend health renders "Backend status: ok"; the health error state also rendered when
-  the page loaded before the API was ready.
-- Direct backend requests against the real fixture provider confirmed: missing, blank,
-  one-character, and repeated `search` parameters return the shared structured HTTP 400;
-  surrounding whitespace is trimmed; matching is case-insensitive; no-match returns an
-  empty list; "an" returns exactly eight deterministically ordered players; POST returns
-  405; and no provider-private fixture fields appear in responses.
-- In the browser: search runs only at two or more trimmed characters, results render name,
-  team, and position, the empty state announces "No players found.", combobox/listbox ARIA
-  semantics are correct (`aria-expanded`, `aria-controls`, `aria-activedescendant`,
-  `aria-selected`), ArrowDown/ArrowUp move and wrap the highlight, the highlight is visible,
-  Escape closes the list without reopening from cache, and both mouse click and Enter
-  navigate to `/players/:playerId`. The bounded placeholder and its return link work, and
-  the layout holds at a 375px mobile width with a clean browser console.
-- The player-search loading state and the 500/invalid-contract error states are not
-  conveniently reproducible against the always-healthy local fixture server; they are
-  covered by the automated MSW frontend tests.
+- `npm run validate` passes (format check, lint, strict type check, tests, build) and
+  `git diff --check` is clean.
+- 64 tests pass: 36 frontend and 28 backend.
+- Live manual verification (backend on `:3001`, Vite on `:5173`): direct profile URLs and
+  dev refresh, search selection into the real profile, known/complete profiles, unknown-id
+  not-found, invalid-id link state, omitted optionals (including no-draft), back navigation,
+  the existing health and search behaviour, and desktop and 375px mobile widths, all with a
+  clean browser console. The 500 and contract-invalid states are not reproducible against the
+  always-healthy fixture server and are covered by the automated MSW tests.
 
 ## Immediate next action
 
-TASK-002 is implemented and verified on `feature/player-search` with all changes
-uncommitted. Review the complete TASK-002 diff and, once approved, commit it on this branch.
-Do not begin the full player-profile work (a future task) yet.
+Review the complete TASK-003 diff and, once approved, commit it on `feature/player-profile`.
+Do not begin season statistics or any later task.
 
 ## How to update this file
 
