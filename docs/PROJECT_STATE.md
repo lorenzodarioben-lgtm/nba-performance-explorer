@@ -7,18 +7,18 @@ _Last updated: 2026-06-20_
 
 ## Current state
 
-- **Current milestone:** Phase 1 - Project Foundation
-- **Current task:** TASK-001 - Project Foundation
-- **Current status:** Complete, pending review
-- **Current branch:** chore/project-foundation
+- **Current milestone:** Player Search Vertical Slice
+- **Current task:** TASK-002 - Player Search
+- **Current status:** Not started
+- **Current branch:** feature/player-search
 
 ## Summary
 
-The npm workspace foundation is implemented with `frontend`, `backend`, and
-`packages/contracts`. The React frontend checks `GET /api/health` through TanStack Query and
-renders accessible loading, success, and error states. The Express 5 backend exposes the
-validated health endpoint and structured 404, 405, and 500 responses. Both applications
-use the same Zod schemas and inferred TypeScript types from the contracts workspace.
+TASK-001 is completed, reviewed, and merged into `main` in merge commit `8bfdab2`. The npm
+workspace foundation includes `frontend`, `backend`, and `packages/contracts`. The React
+frontend checks `GET /api/health` through TanStack Query, and the Express 5 backend exposes
+the validated health endpoint and structured errors. Both applications use shared Zod
+contracts.
 
 Verified on 2026-06-20 with Node.js 22.19.0 and npm 10.9.3:
 
@@ -33,8 +33,8 @@ Verified on 2026-06-20 with Node.js 22.19.0 and npm 10.9.3:
 
 ## Immediate next action
 
-Review the uncommitted TASK-001 changes. After they are accepted, define and activate the
-next bounded task before beginning any TASK-002 implementation.
+Plan the implementation of TASK-002
+(`docs/tasks/TASK-002-player-search.md`) before changing application code.
 
 ## How to update this file
 

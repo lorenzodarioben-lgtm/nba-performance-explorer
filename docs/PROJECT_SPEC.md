@@ -1,6 +1,6 @@
 # Project Specification — NBA Performance Explorer
 
-> Status: Initial development (no implementation exists yet).
+> Status: Initial development (project foundation implemented; product features pending).
 > This document is a source of truth. Coding agents must read it before making changes.
 
 ## Product statement

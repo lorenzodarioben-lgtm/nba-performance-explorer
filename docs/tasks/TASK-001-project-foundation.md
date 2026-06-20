@@ -1,8 +1,8 @@
 # TASK-001 — Project Foundation
 
 - **Milestone:** Phase 1 — Project Foundation
-- **Status:** Not started
-- **Branch:** to be created (work on a dedicated branch, not `main`)
+- **Status:** Completed
+- **Branch:** `chore/project-foundation` (merged into `main` in merge commit `8bfdab2`)
 
 > Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_STATE.md`, and
 > `AGENTS.md` before starting. Stay strictly within this task.
