@@ -7,49 +7,39 @@ _Last updated: 2026-06-21_
 
 ## Current state
 
-- **Current milestone:** Player Profile Vertical Slice
-- **Current task:** TASK-003 - Player Profile Overview
-- **Current status:** Implemented and verified; pending independent review
-- **Current branch:** feature/player-profile
+- **Current milestone:** Season Statistics Vertical Slice
+- **Current task:** TASK-004 - Player Season Statistics
+- **Current status:** Not started
+- **Current branch:** feature/season-statistics
 
 ## Summary
 
-TASK-002 (Player Search) is completed and merged into `main` (commit `0f60737`, merged
-through pull request #2 in merge commit `5c3fe2e`). TASK-003 is implemented on
-`feature/player-profile` with all changes uncommitted.
+TASK-003 (Player Profile Overview) is completed and merged into `main` (commit `c4c25c6`,
+merged through pull request #3 in merge commit `dc7af98`). The `feature/season-statistics`
+branch is cut from that merge. TASK-001, TASK-002, and TASK-003 are all merged into `main`.
 
-On top of the TASK-001 foundation and TASK-002 search, the application now provides a
-fixture-backed player profile:
+On top of the TASK-001 foundation, the application now provides:
 
-- A `GET /api/players/:playerId` endpoint behind the replaceable player provider. It
-  validates the public id (`^[1-9]\d*$`) with a shared `PlayerIdSchema`, returns a structured
-  400 for invalid ids, 404 for unknown ids, and a `PlayerProfileResponse` validated by the
-  shared contract for known ids. Provider-private fixture fields (including centralised team
-  metadata) are mapped to domain models and never leak.
-- A real React profile page at `/players/:playerId` (replacing the placeholder). It reads
-  the route id, fetches through TanStack Query with the request `AbortSignal`, runtime-
-  validates the response, and renders accessible loading, success, not-found, invalid-link,
-  and generic-error states with a semantic description list, formatted height/weight/draft,
-  safe omission of absent optionals, route-level heading focus, and back-to-search
-  navigation. Shared contracts (`PlayerProfile`, `TeamProfile`, `DraftInfo`,
-  `PlayerProfileResponse`, `PlayerIdSchema`) are used by both applications.
+- Fixture-backed player search (`GET /api/players?search=`) with an accessible combobox on
+  the home page that navigates to `/players/:playerId`.
+- A fixture-backed player profile (`GET /api/players/:playerId`) rendered at
+  `/players/:playerId`, with shared Zod contracts (`PlayerProfile`, `TeamProfile`,
+  `DraftInfo`, `PlayerProfileResponse`, `PlayerIdSchema`), structured 400/404 errors,
+  provider-private fixture data mapped to domain models, and an accessible profile page with
+  loading/not-found/invalid-link/error states, route-level heading focus, and back-to-search
+  navigation.
 
-Verified on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3:
+Baseline before TASK-004 implementation, verified on 2026-06-21 with Node.js 22.19.0 and
+npm 10.9.3 on a clean `feature/season-statistics` working tree:
 
 - `npm run validate` passes (format check, lint, strict type check, tests, build) and
   `git diff --check` is clean.
 - 64 tests pass: 36 frontend and 28 backend.
-- Live manual verification (backend on `:3001`, Vite on `:5173`): direct profile URLs and
-  dev refresh, search selection into the real profile, known/complete profiles, unknown-id
-  not-found, invalid-id link state, omitted optionals (including no-draft), back navigation,
-  the existing health and search behaviour, and desktop and 375px mobile widths, all with a
-  clean browser console. The 500 and contract-invalid states are not reproducible against the
-  always-healthy fixture server and are covered by the automated MSW tests.
 
 ## Immediate next action
 
-Review the complete TASK-003 diff and, once approved, commit it on `feature/player-profile`.
-Do not begin season statistics or any later task.
+Plan the implementation of TASK-004 (`docs/tasks/TASK-004-season-statistics.md`) before
+changing any application code. Implementation has not started.
 
 ## How to update this file
 

@@ -1,7 +1,7 @@
 # TASK-003 - Player Profile Overview
 
 - **Milestone:** Player Profile Vertical Slice
-- **Status:** Implemented and verified; pending independent review
+- **Status:** Completed and merged (commit `c4c25c6`, merged into `main` via pull request #3 in merge commit `dc7af98`)
 - **Branch:** `feature/player-profile`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
