@@ -302,11 +302,21 @@ describe('player search', () => {
     );
   });
 
-  it('supports pointer selection and navigates to the selected player', async () => {
+  it('supports pointer selection and opens the real player profile', async () => {
     server.use(
       http.get(playerSearchUrl, () =>
         HttpResponse.json({
           players: [leBronJames],
+        }),
+      ),
+      http.get(`${playerSearchUrl}/2544`, () =>
+        HttpResponse.json({
+          player: {
+            id: '2544',
+            fullName: 'LeBron James',
+            team: { abbreviation: 'LAL', name: 'Lakers', city: 'Los Angeles' },
+            position: 'F',
+          },
         }),
       ),
     );
@@ -319,11 +329,10 @@ describe('player search', () => {
     fireEvent.click(option);
 
     expect(
-      screen.getByRole('heading', {
-        name: 'Player profile',
+      await screen.findByRole('heading', {
+        name: 'LeBron James',
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText('Selected player ID:')).toHaveTextContent('2544');
   });
 
   it('wraps the highlighted option with ArrowDown and ArrowUp', async () => {
@@ -363,11 +372,21 @@ describe('player search', () => {
     expect(input).toHaveAttribute('aria-activedescendant', curryOption.id);
   });
 
-  it('opens the highlighted player with Enter', async () => {
+  it('opens the real player profile with Enter', async () => {
     server.use(
       http.get(playerSearchUrl, () =>
         HttpResponse.json({
           players: [stephenCurry],
+        }),
+      ),
+      http.get(`${playerSearchUrl}/201939`, () =>
+        HttpResponse.json({
+          player: {
+            id: '201939',
+            fullName: 'Stephen Curry',
+            team: { abbreviation: 'GSW', name: 'Warriors', city: 'Golden State' },
+            position: 'G',
+          },
         }),
       ),
     );
@@ -384,7 +403,11 @@ describe('player search', () => {
       key: 'Enter',
     });
 
-    expect(screen.getByText('Selected player ID:')).toHaveTextContent('201939');
+    expect(
+      await screen.findByRole('heading', {
+        name: 'Stephen Curry',
+      }),
+    ).toBeInTheDocument();
   });
 
   it('closes with Escape and does not reopen from cached results', async () => {
@@ -490,26 +513,5 @@ describe('player search', () => {
 
     expect(screen.getByText('Stephen Curry')).toBeInTheDocument();
     expect(screen.queryByText('LeBron James')).not.toBeInTheDocument();
-  });
-});
-
-describe('player placeholder route', () => {
-  it('renders the selected ID, later-task message, and return link', () => {
-    renderApp('/players/2544');
-
-    expect(
-      screen.getByRole('heading', {
-        name: 'Player profile',
-      }),
-    ).toBeInTheDocument();
-    expect(screen.getByText('Selected player ID:')).toHaveTextContent('2544');
-    expect(
-      screen.getByText('The full player profile is planned for a later task.'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', {
-        name: 'Return to player search',
-      }),
-    ).toHaveAttribute('href', '/');
   });
 });

@@ -1,7 +1,7 @@
 # TASK-003 - Player Profile Overview
 
 - **Milestone:** Player Profile Vertical Slice
-- **Status:** Not started
+- **Status:** Implemented and verified; pending independent review
 - **Branch:** `feature/player-profile`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
@@ -206,29 +206,29 @@ Do not add a new testing framework or dependency.
 
 ## Acceptance Criteria
 
-- [ ] Known player profiles load from fixture-backed backend data.
-- [ ] Search selection opens the real player profile.
-- [ ] Direct `/players/:playerId` navigation works.
-- [ ] Browser refresh on the profile route works in development.
-- [ ] Shared profile contracts are used by frontend and backend.
-- [ ] Provider-private fields do not leak.
-- [ ] Invalid player IDs return structured 400 responses.
-- [ ] Unknown player IDs return structured 404 responses.
-- [ ] Loading state is accessible.
-- [ ] Not-found state is accessible.
-- [ ] Generic error state is accessible.
-- [ ] Player identity and team information render correctly.
-- [ ] Optional metadata renders safely.
-- [ ] Back navigation works.
-- [ ] Mobile and desktop layouts work.
-- [ ] Existing player search remains functional.
-- [ ] Existing health functionality remains functional.
-- [ ] Formatting passes.
-- [ ] Lint passes.
-- [ ] Strict type checking passes.
-- [ ] Tests pass.
-- [ ] Production build passes.
-- [ ] Full validation passes.
+- [x] Known player profiles load from fixture-backed backend data.
+- [x] Search selection opens the real player profile.
+- [x] Direct `/players/:playerId` navigation works.
+- [x] Browser refresh on the profile route works in development.
+- [x] Shared profile contracts are used by frontend and backend.
+- [x] Provider-private fields do not leak.
+- [x] Invalid player IDs return structured 400 responses.
+- [x] Unknown player IDs return structured 404 responses.
+- [x] Loading state is accessible.
+- [x] Not-found state is accessible.
+- [x] Generic error state is accessible.
+- [x] Player identity and team information render correctly.
+- [x] Optional metadata renders safely.
+- [x] Back navigation works.
+- [x] Mobile and desktop layouts work.
+- [x] Existing player search remains functional.
+- [x] Existing health functionality remains functional.
+- [x] Formatting passes.
+- [x] Lint passes.
+- [x] Strict type checking passes.
+- [x] Tests pass.
+- [x] Production build passes.
+- [x] Full validation passes.
 
 ## Explicitly Out of Scope
 

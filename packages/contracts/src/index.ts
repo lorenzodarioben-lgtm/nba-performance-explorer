@@ -9,6 +9,19 @@ export {
   type TeamSummary,
 } from './player-search.js';
 
+export {
+  DraftInfoSchema,
+  PlayerIdSchema,
+  PlayerProfileResponseSchema,
+  PlayerProfileSchema,
+  TeamProfileSchema,
+  type DraftInfo,
+  type PlayerId,
+  type PlayerProfile,
+  type PlayerProfileResponse,
+  type TeamProfile,
+} from './player-profile.js';
+
 export const HealthResponseSchema = z
   .object({
     status: z.literal('ok'),
