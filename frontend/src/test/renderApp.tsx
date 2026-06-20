@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router';
 
 import { App } from '../App';
 
-export function renderApp() {
+export function renderApp(initialEntry = '/') {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -14,7 +14,7 @@ export function renderApp() {
   });
 
   return render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={[initialEntry]}>
       <QueryClientProvider client={queryClient}>
         <App />
       </QueryClientProvider>

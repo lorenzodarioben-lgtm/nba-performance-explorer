@@ -4,12 +4,7 @@ import {
   type HealthResponse,
 } from '@nba-performance-explorer/contracts';
 
-const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
-const apiBaseUrl = configuredApiBaseUrl?.replace(/\/+$/, '') ?? '';
-
-function createApiUrl(path: string) {
-  return `${apiBaseUrl}${path}`;
-}
+import { createApiUrl } from '../../shared/api/createApiUrl';
 
 export async function fetchHealth(): Promise<HealthResponse> {
   const response = await fetch(createApiUrl('/api/health'), {
