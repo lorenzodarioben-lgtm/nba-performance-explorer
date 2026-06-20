@@ -7,52 +7,43 @@ _Last updated: 2026-06-21_
 
 ## Current state
 
-- **Current milestone:** Season Statistics Vertical Slice
-- **Current task:** TASK-004 - Player Season Statistics
-- **Current status:** Implemented and verified; pending independent review
-- **Current branch:** feature/season-statistics
+- **Current milestone:** Career Trends Visualisation Slice
+- **Current task:** TASK-005 - Player Career Trends Chart
+- **Current status:** Not started
+- **Current branch:** feature/career-trends-chart
 
 ## Summary
 
-TASK-001, TASK-002, and TASK-003 are all merged into `main` (TASK-003 via commit `c4c25c6`,
-pull request #3 merge `dc7af98`). TASK-004 is implemented on `feature/season-statistics`
-with all changes uncommitted.
+TASK-001 through TASK-004 are all merged into `main` (TASK-004 via commit `8ce4fa5`, pull
+request #4 merge `1c08394`). The `feature/career-trends-chart` branch is cut from that merge.
 
-On top of the player search and profile, the application now provides fixture-backed
-regular-season statistics on the player profile:
+On top of the TASK-001 foundation, the application now provides:
 
-- Backend endpoints `GET /api/players/:playerId/seasons` (newest-first season list, or an
-  empty list for a known player with no data) and
-  `GET /api/players/:playerId/seasons/:season/stats`, behind the replaceable player provider.
-  Shared strict Zod contracts (`SeasonIdSchema` with consecutive-year validation,
-  `PlayerSeason`, `PlayerSeasonsResponse` with enforced uniqueness and newest-first ordering,
-  `PlayerSeasonStats`, `PlayerSeasonStatsResponse`) are used by both applications. The routes
-  validate the player id then the season, distinguish unknown player from unknown season,
-  return structured 400 (`INVALID_PLAYER_ID`/`INVALID_SEASON_ID`) and 404
-  (`PLAYER_NOT_FOUND`/`SEASON_NOT_FOUND`) errors, validate outgoing payloads, and never leak
-  provider-private fixture fields.
-- A `PlayerSeasonStatistics` section on `/players/:playerId` with a native, labelled season
-  `<select>` (newest selected by default), TanStack Query hooks (`AbortSignal`, `retry: false`,
-  no placeholder data), a derived effective-season that reconciles a removed selection to the
-  newest available, accessible loading/empty/unavailable-season/error states, and a semantic
-  statistics description list with one-decimal per-game values and percentage formatting.
+- Fixture-backed player search (`GET /api/players?search=`) with an accessible combobox that
+  navigates to `/players/:playerId`.
+- A fixture-backed player profile (`GET /api/players/:playerId`) with shared Zod contracts,
+  structured 400/404 errors, and accessible loading/not-found/invalid-link/error states.
+- Fixture-backed regular-season statistics on the profile:
+  `GET /api/players/:playerId/seasons` and `GET /api/players/:playerId/seasons/:season/stats`,
+  shared strict season contracts (`SeasonIdSchema`, `PlayerSeason`, `PlayerSeasonsResponse`,
+  `PlayerSeasonStats`, `PlayerSeasonStatsResponse`), and an accessible `PlayerSeasonStatistics`
+  section with a native season selector (newest default), selection reconciliation, and a
+  semantic statistics list.
 
-Verified on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3:
+No charting library is installed yet; TASK-005 introduces the first charting layer (Recharts,
+per ADR-004).
+
+Baseline before TASK-005 implementation, verified on 2026-06-21 with Node.js 22.19.0 and
+npm 10.9.3 on a clean `feature/career-trends-chart` working tree:
 
 - `npm run validate` passes (format check, lint, strict type check, tests, build) and
   `git diff --check` is clean.
 - 100 tests pass: 52 frontend and 48 backend.
-- Live manual verification (backend on `:3001`, Vite on `:5173`): newest-season default,
-  newest-first options, selecting another season (including a team change), zero-valued
-  statistics, a one-season player, a no-season empty state, unknown player/season and invalid
-  ids through the API, preserved search/profile/health behaviour, desktop and 375px mobile
-  layouts, and a clean browser console. The generic 500 and invalid-contract states are
-  covered by the automated MSW tests.
 
 ## Immediate next action
 
-Review the complete TASK-004 diff and, once approved, commit it on
-`feature/season-statistics`. Do not begin charts, game logs, comparison, or any later task.
+Plan the implementation of TASK-005 (`docs/tasks/TASK-005-career-trends-chart.md`) before
+changing any application code. Implementation has not started.
 
 ## How to update this file
 
