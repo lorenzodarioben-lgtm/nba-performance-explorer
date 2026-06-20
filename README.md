@@ -1,67 +1,116 @@
 # NBA Performance Explorer
 
-> ⚠️ **Status: Initial development.** This repository currently contains **project planning
-> and documentation only**. There is no application to run yet — no frontend, no backend,
-> and no installed dependencies. Nothing below describes working features; it describes what
-> the project is *intended* to become. Do not treat any feature as implemented until
-> `docs/PROJECT_STATE.md` says so.
+> **Status:** Project foundation implemented. The repository currently provides a working
+> frontend/backend development environment and health check only. Product features such as
+> player search, profiles, charts, and comparisons have not been implemented.
 
-## What this will be
+NBA Performance Explorer is a portfolio web application for exploring NBA player
+performance. The product scope and planned user journey are documented in
+[`docs/PROJECT_SPEC.md`](docs/PROJECT_SPEC.md).
 
-NBA Performance Explorer is a planned responsive web application for searching NBA players,
-examining player performance across seasons, viewing calculated insights and interactive
-charts, and comparing two players. The intended core journey is: search for a player →
-open their profile → pick a season → view key stats, trends, and a game log → pick another
-player → compare them → share the URL.
+## Prerequisites
 
-For the full product definition, see [`docs/PROJECT_SPEC.md`](docs/PROJECT_SPEC.md).
+- Node.js `>=22.12.0 <23` (Node.js `22.19.0` was used for TASK-001 verification).
+- npm `10.9.3` or a compatible npm version included with Node.js 22.
+- Git.
 
-## Current status
+The repository includes `.nvmrc` with the Node.js major version:
 
-- **Milestone:** Phase 1 — Project Foundation
-- **Active task:** TASK-001 — Project Foundation (not started)
-- **What exists today:** planning and agent-workflow documentation only.
+```sh
+nvm use
+```
 
-The authoritative, up-to-date status is always in
-[`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md).
+## Installation
 
-## Planned stack
+Install all three npm workspaces from the repository root:
 
-Nothing here is installed yet; this is the approved direction.
+```sh
+npm ci
+```
 
-**Frontend:** React, TypeScript, Vite, React Router, Tailwind CSS, TanStack Query,
-Recharts, Zod.
+The repository uses one root `package-lock.json`.
 
-**Backend:** Node.js, TypeScript, serverless-compatible, with a replaceable data-provider
-abstraction, runtime validation, structured errors, and caching.
+## Development
 
-**Testing:** Vitest, React Testing Library, Mock Service Worker; Playwright later for
-critical end-to-end flows.
+Start the frontend and backend together:
+
+```sh
+npm run dev
+```
+
+The frontend runs at `http://localhost:5173` and the backend runs at
+`http://localhost:3001`.
+
+Start one application at a time:
+
+```sh
+npm run dev:frontend
+npm run dev:backend
+```
+
+The frontend requests `GET /api/health`. During local development, Vite proxies `/api`
+requests to the backend, so normal local development does not require CORS configuration.
+
+## Validation
+
+Run an individual quality gate from the repository root:
+
+```sh
+npm run format
+npm run format:check
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+```
+
+Run the complete CI validation sequence:
+
+```sh
+npm run validate
+```
+
+`validate` runs the formatting check, linting, strict type checking, tests, and production
+build.
+
+## Workspace Structure
+
+```text
+frontend/           React, TypeScript, Vite, Tailwind CSS, and TanStack Query
+backend/            Express 5 API with separate application and server entry points
+packages/contracts/ Shared Zod schemas and inferred TypeScript API types
+```
+
+The frontend and backend both import `HealthResponseSchema`, `HealthResponse`,
+`ApiErrorResponseSchema`, and `ApiErrorResponse` from the contracts workspace. API schemas
+are not duplicated between applications.
+
+## Environment Variables
+
+Tracked examples are provided at:
+
+- `frontend/.env.example`
+- `backend/.env.example`
+
+Frontend:
+
+- `VITE_API_BASE_URL` is an optional, non-secret API origin override. When it is empty or
+  unset, requests use same-origin relative URLs. Never place credentials, API keys, or
+  tokens in a `VITE_` variable because Vite exposes those values to browser code.
+
+Backend:
+
+- `PORT` optionally changes the local API port from the default `3001`.
+
+Real `.env` files are ignored by Git. Example files contain non-secret values only.
 
 ## Documentation
 
-| Document | Purpose |
-| --- | --- |
-| [`docs/PROJECT_SPEC.md`](docs/PROJECT_SPEC.md) | Product statement, target user, core journey, MVP, non-goals, definition of done. |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Frontend/backend architecture, data-provider abstraction, state management, domain-model boundary, security, testing, deployment shape. |
-| [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) | Live project status and the immediate next action. |
-| [`docs/DECISIONS.md`](docs/DECISIONS.md) | Architecture decision records (ADRs). |
-| [`docs/tasks/`](docs/tasks/) | Bounded task definitions, starting with TASK-001. |
-| [`AGENTS.md`](AGENTS.md) | Working agreement that every coding agent must follow. |
-
-## Getting started
-
-There is no setup yet because no application exists. Local setup instructions (installing
-dependencies, running the frontend and backend, and environment variables) will be added as
-part of **TASK-001 — Project Foundation**, and this section will be updated to match what is
-actually runnable at that point.
-
-## Contributing / working in this repo
-
-All work follows the agreement in [`AGENTS.md`](AGENTS.md): read the spec, architecture,
-project state, and the active task file first; stay within the active task; keep TypeScript
-strict; never expose secrets; verify formatting, linting, type checking, tests, and the
-build before claiming completion; and never commit or push unless explicitly instructed.
+- [`docs/PROJECT_SPEC.md`](docs/PROJECT_SPEC.md): product scope and definition of done.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): system boundaries and architecture rules.
+- [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md): current implementation status.
+- [`docs/DECISIONS.md`](docs/DECISIONS.md): architecture decision records.
+- [`AGENTS.md`](AGENTS.md): repository working agreement.
 
 ## License
 
