@@ -94,3 +94,118 @@ integration happens during TASK-001.
 **Consequences.** The team can build and test the full core journey deterministically and
 offline. The data-provider abstraction (ADR-002) makes the later switch to a live source
 low-risk.
+
+---
+
+## ADR-006 - Use npm workspaces
+
+- **Status:** Accepted
+- **Date:** 2026-06-20
+
+**Context.** The frontend, backend, and shared API contracts need independent package
+boundaries while remaining simple to install and validate as one repository.
+
+**Decision.** Use npm workspaces with exactly `frontend`, `backend`, and
+`packages/contracts`, managed by one root `package-lock.json`.
+
+**Consequences.** A single `npm ci` installs the repository, root scripts coordinate all
+workspaces, and no additional monorepo orchestrator is required.
+
+---
+
+## ADR-007 - Share API contracts through a workspace
+
+- **Status:** Accepted
+- **Date:** 2026-06-20
+
+**Context.** Duplicating response schemas in the frontend and backend would allow their
+runtime validation and TypeScript types to drift.
+
+**Decision.** Define Zod schemas and inferred TypeScript API types once in
+`packages/contracts`. Both applications import the same compiled package.
+
+**Consequences.** API response changes have one source of truth. The contracts workspace
+must build before commands that consume it.
+
+---
+
+## ADR-008 - Separate the Express application from the local server
+
+- **Status:** Accepted
+- **Date:** 2026-06-20
+
+**Context.** Tests and future serverless adapters need the Express application without
+opening a network port.
+
+**Decision.** `backend/src/app.ts` creates and exports the Express application.
+`backend/src/server.ts` is the local process entry point that calls `listen`.
+
+**Consequences.** Supertest can exercise the application directly, local development
+remains straightforward, and a future deployment adapter can reuse the app without
+changing route setup.
+
+---
+
+## ADR-009 - Standardize the repository on Node.js 22
+
+- **Status:** Accepted
+- **Date:** 2026-06-20
+
+**Context.** Development, CI, and package compatibility need a documented runtime target.
+
+**Decision.** Target Node.js 22 with root engines `>=22.12.0 <23`, `.nvmrc` set to `22`,
+and GitHub Actions configured for Node.js 22.
+
+**Consequences.** Contributors and CI share one runtime major. Dependencies must remain
+compatible with the supported Node.js 22 range.
+
+---
+
+## ADR-010 - Integrate Tailwind CSS through the Vite plugin
+
+- **Status:** Accepted
+- **Date:** 2026-06-20
+
+**Context.** Tailwind CSS 4 provides a first-party Vite integration that avoids a separate
+PostCSS configuration for this application.
+
+**Decision.** Use `tailwindcss` with `@tailwindcss/vite` in the frontend Vite configuration
+and import Tailwind from the application stylesheet.
+
+**Consequences.** Styling participates directly in the Vite pipeline with minimal
+configuration.
+
+---
+
+## ADR-011 - Use React Router Declarative Mode
+
+- **Status:** Accepted
+- **Date:** 2026-06-20
+
+**Context.** The application needs client-side routing and shareable URLs, but TASK-001
+does not need framework mode, route loaders, SSR, or data-router APIs.
+
+**Decision.** Use the `react-router` package with `BrowserRouter`, `Routes`, and `Route`.
+The installed stable release is React Router 7.18.0 because React Router 8.0.1 requires
+Node.js 22.22.0 or newer, outside the TASK-001 verification environment.
+
+**Consequences.** Routing stays component-based and compatible with Node.js 22.19.0. A
+future upgrade must preserve Declarative Mode unless a separate decision changes the
+routing architecture.
+
+---
+
+## ADR-012 - Use relative API requests with a Vite development proxy
+
+- **Status:** Accepted
+- **Date:** 2026-06-20
+
+**Context.** Local frontend development should call the backend without browser CORS
+configuration, while deployed environments may place the API on another non-secret
+origin.
+
+**Decision.** The frontend requests relative `/api` URLs by default. Vite proxies `/api` to
+the local backend. `VITE_API_BASE_URL` may optionally provide a non-secret base URL.
+
+**Consequences.** Local development remains same-origin and simple. Credentials must never
+be placed in `VITE_` variables because those values are exposed to browser code.
