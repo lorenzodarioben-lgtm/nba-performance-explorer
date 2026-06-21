@@ -32,7 +32,10 @@ export function isValidSeasonId(season: string | undefined): season is string {
   return season !== undefined && SeasonIdSchema.safeParse(season).success;
 }
 
-function seasonErrorFor(status: number, code: string | undefined): PlayerSeasonError {
+export function seasonErrorFor(
+  status: number,
+  code: string | undefined,
+): PlayerSeasonError {
   if (code === 'SEASON_NOT_FOUND') {
     return new PlayerSeasonError('season-not-found');
   }

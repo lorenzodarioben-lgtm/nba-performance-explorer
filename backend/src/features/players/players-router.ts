@@ -1,4 +1,5 @@
 import {
+  PlayerGameLogResponseSchema,
   PlayerProfileResponseSchema,
   PlayerSearchResponseSchema,
   PlayerSeasonStatsResponseSchema,
@@ -75,10 +76,10 @@ export function createPlayersRouter(
 
   playersRouter.all('/:playerId/season-trends', methodNotAllowedHandler);
 
-  playersRouter.get('/:playerId/seasons', async (request, response) => {
-    const parsedParams = parsePlayerIdParam(request.params);
+  playersRouter.get('/:playerId/seasons/:season/games', async (request, response) => {
+    const parsedId = parsePlayerIdParam(request.params);
 
-    if (!parsedParams.success) {
+    if (!parsedId.success) {
       return sendApiError(
         response,
         400,
@@ -87,19 +88,39 @@ export function createPlayersRouter(
       );
     }
 
-    const { playerId } = parsedParams.data;
+    const parsedSeason = parseSeasonParam(request.params);
+
+    if (!parsedSeason.success) {
+      return sendApiError(
+        response,
+        400,
+        'INVALID_SEASON_ID',
+        'Season id is not valid.',
+      );
+    }
+
+    const { playerId } = parsedId.data;
+    const { season } = parsedSeason.data;
     const profile = await playerProvider.getPlayerById(playerId);
 
     if (!profile) {
       return sendApiError(response, 404, 'PLAYER_NOT_FOUND', 'Player not found.');
     }
 
-    const seasons = await playerProvider.listPlayerSeasons(playerId);
+    const stats = await playerProvider.getPlayerSeasonStats(playerId, season);
 
-    return response.status(200).json(PlayerSeasonsResponseSchema.parse({ seasons }));
+    if (!stats) {
+      return sendApiError(response, 404, 'SEASON_NOT_FOUND', 'Season not found.');
+    }
+
+    const games = await playerProvider.listPlayerGames(playerId, season);
+
+    return response
+      .status(200)
+      .json(PlayerGameLogResponseSchema.parse({ season, games }));
   });
 
-  playersRouter.all('/:playerId/seasons', methodNotAllowedHandler);
+  playersRouter.all('/:playerId/seasons/:season/games', methodNotAllowedHandler);
 
   playersRouter.get('/:playerId/seasons/:season/stats', async (request, response) => {
     const parsedId = parsePlayerIdParam(request.params);
@@ -144,6 +165,32 @@ export function createPlayersRouter(
   });
 
   playersRouter.all('/:playerId/seasons/:season/stats', methodNotAllowedHandler);
+
+  playersRouter.get('/:playerId/seasons', async (request, response) => {
+    const parsedParams = parsePlayerIdParam(request.params);
+
+    if (!parsedParams.success) {
+      return sendApiError(
+        response,
+        400,
+        'INVALID_PLAYER_ID',
+        'Player id is not valid.',
+      );
+    }
+
+    const { playerId } = parsedParams.data;
+    const profile = await playerProvider.getPlayerById(playerId);
+
+    if (!profile) {
+      return sendApiError(response, 404, 'PLAYER_NOT_FOUND', 'Player not found.');
+    }
+
+    const seasons = await playerProvider.listPlayerSeasons(playerId);
+
+    return response.status(200).json(PlayerSeasonsResponseSchema.parse({ seasons }));
+  });
+
+  playersRouter.all('/:playerId/seasons', methodNotAllowedHandler);
 
   playersRouter.get('/:playerId', async (request, response) => {
     const parsedParams = parsePlayerIdParam(request.params);

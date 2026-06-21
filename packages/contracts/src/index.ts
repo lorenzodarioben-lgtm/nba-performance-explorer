@@ -40,6 +40,21 @@ export {
   type PlayerSeasonTrendsResponse,
 } from './player-season-trends.js';
 
+export {
+  GameDateSchema,
+  GameIdSchema,
+  GameLocationSchema,
+  GameResultSchema,
+  PlayerGameLogResponseSchema,
+  PlayerGameSchema,
+  type GameDate,
+  type GameId,
+  type GameLocation,
+  type GameResult,
+  type PlayerGame,
+  type PlayerGameLogResponse,
+} from './player-game-log.js';
+
 export const HealthResponseSchema = z
   .object({
     status: z.literal('ok'),

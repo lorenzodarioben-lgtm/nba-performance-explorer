@@ -1,7 +1,7 @@
 # TASK-006 - Player Game Log
 
 - **Milestone:** Selected-Season Game Log Slice
-- **Status:** Not started
+- **Status:** Implemented and verified; awaiting independent review
 - **Branch:** `feature/player-game-log`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
@@ -356,40 +356,40 @@ package appears genuinely required, stop and request approval.
 
 ## Acceptance Criteria
 
-- [ ] Known players can load fixture-backed games for a selected season.
-- [ ] The existing season selector controls the game log.
-- [ ] No duplicate season selector is introduced.
-- [ ] Games are ordered newest first.
-- [ ] Duplicate game IDs are rejected.
-- [ ] Game dates are valid ISO calendar dates.
-- [ ] Team and opponent abbreviations render correctly.
-- [ ] Home and away matchups render correctly.
-- [ ] Win and loss results render as text.
-- [ ] Minutes, points, rebounds, and assists render correctly.
-- [ ] Zero-valued statistics render correctly.
-- [ ] A known season with no fixture games receives an accessible empty state.
-- [ ] Unknown players are handled clearly.
-- [ ] Unknown seasons are handled clearly.
-- [ ] Invalid player IDs return structured errors.
-- [ ] Invalid season IDs return structured errors.
-- [ ] Loading feedback is accessible.
-- [ ] Error feedback is accessible.
-- [ ] Previous-season games are not shown under a new season.
-- [ ] Shared contracts are used by frontend and backend.
-- [ ] Provider-private fields do not leak.
-- [ ] Existing selected-season statistics remain functional.
-- [ ] Existing career trends remain functional.
-- [ ] Existing profile functionality remains working.
-- [ ] Existing search remains working.
-- [ ] Existing health functionality remains working.
-- [ ] Desktop and mobile layouts work.
-- [ ] No game-detail page, playoff data, pagination, or advanced metrics are introduced.
-- [ ] Formatting passes.
-- [ ] Lint passes.
-- [ ] Strict type checking passes.
-- [ ] Tests pass.
-- [ ] Production build passes.
-- [ ] Full validation passes.
+- [x] Known players can load fixture-backed games for a selected season.
+- [x] The existing season selector controls the game log.
+- [x] No duplicate season selector is introduced.
+- [x] Games are ordered newest first.
+- [x] Duplicate game IDs are rejected.
+- [x] Game dates are valid ISO calendar dates.
+- [x] Team and opponent abbreviations render correctly.
+- [x] Home and away matchups render correctly.
+- [x] Win and loss results render as text.
+- [x] Minutes, points, rebounds, and assists render correctly.
+- [x] Zero-valued statistics render correctly.
+- [x] A known season with no fixture games receives an accessible empty state.
+- [x] Unknown players are handled clearly.
+- [x] Unknown seasons are handled clearly.
+- [x] Invalid player IDs return structured errors.
+- [x] Invalid season IDs return structured errors.
+- [x] Loading feedback is accessible.
+- [x] Error feedback is accessible.
+- [x] Previous-season games are not shown under a new season.
+- [x] Shared contracts are used by frontend and backend.
+- [x] Provider-private fields do not leak.
+- [x] Existing selected-season statistics remain functional.
+- [x] Existing career trends remain functional.
+- [x] Existing profile functionality remains working.
+- [x] Existing search remains working.
+- [x] Existing health functionality remains working.
+- [x] Desktop and mobile layouts work.
+- [x] No game-detail page, playoff data, pagination, or advanced metrics are introduced.
+- [x] Formatting passes.
+- [x] Lint passes.
+- [x] Strict type checking passes.
+- [x] Tests pass.
+- [x] Production build passes.
+- [x] Full validation passes.
 
 ## Explicitly Out of Scope
 

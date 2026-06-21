@@ -11,6 +11,7 @@ import { PlayerSeasonStatistics } from './PlayerSeasonStatistics';
 const profileUrl = 'http://localhost/api/players/:playerId';
 const seasonsUrl = 'http://localhost/api/players/:playerId/seasons';
 const statsUrl = 'http://localhost/api/players/:playerId/seasons/:season/stats';
+const gamesUrl = 'http://localhost/api/players/:playerId/seasons/:season/games';
 
 const lebronProfile = {
   id: '2544',
@@ -74,6 +75,12 @@ beforeEach(() => {
     http.get(profileUrl, () => HttpResponse.json({ player: lebronProfile })),
     http.get('http://localhost/api/players/:playerId/season-trends', () =>
       HttpResponse.json({ seasons: [] }),
+    ),
+    http.get(gamesUrl, ({ params }) =>
+      HttpResponse.json({
+        season: String(params.season),
+        games: [],
+      }),
     ),
   );
 });

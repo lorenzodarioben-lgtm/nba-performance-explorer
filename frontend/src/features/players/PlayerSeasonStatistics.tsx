@@ -3,6 +3,7 @@ import { useId, useState } from 'react';
 import type { PlayerSeasonStats } from '@nba-performance-explorer/contracts';
 
 import { formatPercentage, formatPerGame } from './format';
+import { PlayerGameLog } from './PlayerGameLog';
 import { PlayerSeasonError } from './season-api';
 import { usePlayerSeasonsQuery } from './usePlayerSeasonsQuery';
 import { usePlayerSeasonStatsQuery } from './usePlayerSeasonStatsQuery';
@@ -169,6 +170,7 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
           </select>
 
           <StatsRegion statsQuery={statsQuery} selectedSeason={effectiveSeason} />
+          <PlayerGameLog playerId={playerId} season={effectiveSeason} />
         </div>
       ) : null}
     </section>
