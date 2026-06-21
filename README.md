@@ -1,8 +1,9 @@
 # NBA Performance Explorer
 
-> **Status:** Project foundation implemented. The repository currently provides a working
-> frontend/backend development environment and health check only. Product features such as
-> player search, profiles, charts, and comparisons have not been implemented.
+> **Status:** Functioning full-stack application with fixture-backed player search, profiles,
+> selected-season statistics, career trends, and game logs. Two-player comparison is the next
+> documented slice. Live-provider integration and public production deployment are not yet
+> implemented.
 
 NBA Performance Explorer is a portfolio web application for exploring NBA player
 performance. The product scope and planned user journey are documented in
@@ -81,9 +82,8 @@ backend/            Express 5 API with separate application and server entry poi
 packages/contracts/ Shared Zod schemas and inferred TypeScript API types
 ```
 
-The frontend and backend both import `HealthResponseSchema`, `HealthResponse`,
-`ApiErrorResponseSchema`, and `ApiErrorResponse` from the contracts workspace. API schemas
-are not duplicated between applications.
+The frontend and backend import shared Zod schemas and inferred API types from the contracts
+workspace. API schemas are not duplicated between applications.
 
 ## Environment Variables
 

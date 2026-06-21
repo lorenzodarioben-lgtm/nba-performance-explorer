@@ -1,8 +1,13 @@
 # TASK-006 - Player Game Log
 
 - **Milestone:** Selected-Season Game Log Slice
-- **Status:** Implemented and verified; awaiting independent review
+- **Status:** Completed and merged (documentation commit `1329ed4`, implementation commit
+  `507be68`, merged into `main` via pull request #6 in merge commit `1704dac`)
 - **Branch:** `feature/player-game-log`
+
+Final verification recorded 83 frontend tests and 75 backend tests (158 total). The
+production frontend bundle was 700.51 KB JavaScript (209.35 KB gzip) and 12.42 KB CSS
+(3.30 KB gzip). The existing Vite chunk-size warning remained known and non-blocking.
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before starting. Stay strictly within this

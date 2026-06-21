@@ -7,16 +7,16 @@ _Last updated: 2026-06-21_
 
 ## Current state
 
-- **Current milestone:** Selected-Season Game Log Slice
-- **Current task:** TASK-006 - Player Game Log
-- **Current status:** Implemented and verified; awaiting independent review
-- **Current branch:** feature/player-game-log
+- **Current milestone:** Two-Player Comparison Slice
+- **Current task:** TASK-007 - Two-Player Comparison
+- **Current status:** Documentation defined; implementation not started
+- **Current branch:** feature/player-comparison
 
 ## Summary
 
-TASK-001 through TASK-005 are all merged into `main` (TASK-005 via commit `144a81b`, pull
-request #5 merge `5ef4efa`). TASK-006 is implemented and verified on the
-`feature/player-game-log` branch but has not been committed.
+TASK-001 through TASK-006 are completed and merged into `main`. TASK-006 used documentation
+commit `1329ed4` and implementation commit `507be68`, merged through pull request #6 in merge
+commit `1704dac`.
 
 On top of the TASK-001 foundation, the application now provides:
 
@@ -35,32 +35,23 @@ On top of the TASK-001 foundation, the application now provides:
   with shared strict contracts, newest-first games, accessible loading/empty/error states, and
   a semantic horizontally scrollable table.
 
-TASK-006 preserved the existing profile, search, selected-season statistics, career trends,
-back navigation, and health behaviour. It introduced no dependency, live NBA API, game-detail
-route, playoff data, pagination, sorting/filtering controls, or advanced metrics.
+Runtime NBA data remains fixture-backed behind the replaceable provider boundary. A live data
+provider and public deployment remain future work.
 
-TASK-006 verification completed on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3:
+The clean merged baseline was re-verified on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3:
 
-- Formatting, lint, strict type checking, tests, production builds, and full root validation
-  pass; `git diff --check` is clean.
+- `npm ci` and full root validation pass; `git diff --check` is clean.
 - 158 tests pass: 83 frontend and 75 backend.
-- The frontend production bundle is 700.51 KB (209.35 KB gzip), a small increase from the
-  documented ~696 KB post-chart baseline. The existing Vite large-chunk warning remains.
-- The root development command starts both applications. Live browser checks verified
-  multi-game, one-game, and empty-season states; season changes; player search and profile
-  navigation; health; a single season selector and page-level heading; a clean browser console;
-  and a 375 px viewport with no page-level horizontal overflow and local table scrolling.
-- Direct API checks verified successful, empty, unknown-player, invalid-player, unknown-season,
-  and invalid-season responses.
-- No dependency manifest or lockfile changed.
+- The frontend production bundle is 700.51 KB JavaScript (209.35 KB gzip) and 12.42 KB CSS
+  (3.30 KB gzip).
+- The existing Recharts/Vite chunk-size warning remains known and non-blocking.
 
-Baseline before TASK-006 was 123 tests (64 frontend and 59 backend) on a clean working tree.
-The implementation remains uncommitted for review.
+TASK-007 is defined in `docs/tasks/TASK-007-player-comparison.md`. It adds no implementation
+in this documentation turn.
 
 ## Immediate next action
 
-Perform an independent review of the uncommitted TASK-006 changes, then commit and open a pull
-request only when explicitly instructed.
+Prepare a fresh implementation plan for TASK-007 before changing application code.
 
 ## How to update this file
 
