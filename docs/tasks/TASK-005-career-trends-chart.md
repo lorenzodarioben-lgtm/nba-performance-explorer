@@ -1,7 +1,7 @@
 # TASK-005 - Player Career Trends Chart
 
 - **Milestone:** Career Trends Visualisation Slice
-- **Status:** Not started
+- **Status:** Implemented and verified; pending independent review
 - **Branch:** `feature/career-trends-chart`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
@@ -280,38 +280,38 @@ behaviour.
 
 ## Acceptance Criteria
 
-- [ ] Known players can load fixture-backed career-trend data.
-- [ ] Trend data is ordered oldest first.
-- [ ] Duplicate seasons are rejected.
-- [ ] Points, rebounds, and assists are visualised.
-- [ ] Charted values match the backend response.
-- [ ] A visible legend identifies every series.
-- [ ] Series are distinguishable without relying only on colour.
-- [ ] The chart is responsive.
-- [ ] The chart does not overflow at mobile width.
-- [ ] An accessible textual or tabular equivalent is provided.
-- [ ] Every plotted value is available in the accessible representation.
-- [ ] A player with one season receives an insufficient-data state.
-- [ ] A player with no seasons receives an empty state.
-- [ ] Loading feedback is accessible.
-- [ ] Error feedback is accessible.
-- [ ] Invalid player IDs are handled without unnecessary requests.
-- [ ] Unknown players are handled clearly.
-- [ ] Shared contracts are used by frontend and backend.
-- [ ] Provider-private fields do not leak.
-- [ ] Existing player profile remains functional.
-- [ ] Existing season selection remains functional.
-- [ ] Existing selected-season statistics remain functional.
-- [ ] Existing search remains functional.
-- [ ] Existing health functionality remains functional.
-- [ ] Desktop and mobile layouts work.
-- [ ] No game logs, playoff data, comparison, or advanced metrics are introduced.
-- [ ] Formatting passes.
-- [ ] Lint passes.
-- [ ] Strict type checking passes.
-- [ ] Tests pass.
-- [ ] Production build passes.
-- [ ] Full validation passes.
+- [x] Known players can load fixture-backed career-trend data.
+- [x] Trend data is ordered oldest first.
+- [x] Duplicate seasons are rejected.
+- [x] Points, rebounds, and assists are visualised.
+- [x] Charted values match the backend response.
+- [x] A visible legend identifies every series.
+- [x] Series are distinguishable without relying only on colour.
+- [x] The chart is responsive.
+- [x] The chart does not overflow at mobile width.
+- [x] An accessible textual or tabular equivalent is provided.
+- [x] Every plotted value is available in the accessible representation.
+- [x] A player with one season receives an insufficient-data state.
+- [x] A player with no seasons receives an empty state.
+- [x] Loading feedback is accessible.
+- [x] Error feedback is accessible.
+- [x] Invalid player IDs are handled without unnecessary requests.
+- [x] Unknown players are handled clearly.
+- [x] Shared contracts are used by frontend and backend.
+- [x] Provider-private fields do not leak.
+- [x] Existing player profile remains functional.
+- [x] Existing season selection remains functional.
+- [x] Existing selected-season statistics remain functional.
+- [x] Existing search remains functional.
+- [x] Existing health functionality remains functional.
+- [x] Desktop and mobile layouts work.
+- [x] No game logs, playoff data, comparison, or advanced metrics are introduced.
+- [x] Formatting passes.
+- [x] Lint passes.
+- [x] Strict type checking passes.
+- [x] Tests pass.
+- [x] Production build passes.
+- [x] Full validation passes.
 
 ## Explicitly Out of Scope
 

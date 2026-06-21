@@ -13,4 +13,5 @@ export interface PlayerProvider {
     playerId: string,
     season: string,
   ): Promise<PlayerSeasonStats | null>;
+  listPlayerSeasonStats(playerId: string): Promise<PlayerSeasonStats[]>;
 }

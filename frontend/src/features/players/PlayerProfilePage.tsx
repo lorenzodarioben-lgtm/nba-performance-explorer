@@ -5,6 +5,7 @@ import type { PlayerProfile } from '@nba-performance-explorer/contracts';
 
 import { PlayerProfileError } from './api';
 import { formatDraft, formatHeight, formatTeamName, formatWeight } from './format';
+import { PlayerCareerTrends } from './PlayerCareerTrends';
 import { PlayerSeasonStatistics } from './PlayerSeasonStatistics';
 import { isValidPlayerId, usePlayerProfileQuery } from './usePlayerProfileQuery';
 
@@ -143,6 +144,7 @@ function ProfileView({ profile }: { profile: PlayerProfile }) {
         ))}
       </dl>
       <PlayerSeasonStatistics playerId={profile.id} />
+      <PlayerCareerTrends playerId={profile.id} />
       <BackToSearchLink />
     </ProfileShell>
   );

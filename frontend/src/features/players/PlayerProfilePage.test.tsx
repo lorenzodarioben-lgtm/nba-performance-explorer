@@ -44,10 +44,15 @@ function rowValue(label: string): string {
 }
 
 beforeEach(() => {
-  // The profile success view mounts the season section, which requests the season list.
-  // Default to an empty list so these profile-focused tests stay focused and issue no
-  // unhandled request.
-  server.use(http.get(seasonsUrl, () => HttpResponse.json({ seasons: [] })));
+  // The profile success view mounts the season and career-trends sections, which request the
+  // season list and trends. Default both to empty so these profile-focused tests stay focused
+  // and issue no unhandled request.
+  server.use(
+    http.get(seasonsUrl, () => HttpResponse.json({ seasons: [] })),
+    http.get('http://localhost/api/players/:playerId/season-trends', () =>
+      HttpResponse.json({ seasons: [] }),
+    ),
+  );
 });
 
 describe('player profile page', () => {

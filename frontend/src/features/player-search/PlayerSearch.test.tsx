@@ -73,9 +73,12 @@ beforeEach(() => {
         service: 'nba-performance-explorer-api',
       }),
     ),
-    // Selecting a result navigates to the profile, which mounts the season section. Default
-    // to an empty season list so these search-focused tests issue no unhandled request.
+    // Selecting a result navigates to the profile, which mounts the season and career-trends
+    // sections. Default both to empty so these search-focused tests issue no unhandled request.
     http.get('http://localhost/api/players/:playerId/seasons', () =>
+      HttpResponse.json({ seasons: [] }),
+    ),
+    http.get('http://localhost/api/players/:playerId/season-trends', () =>
       HttpResponse.json({ seasons: [] }),
     ),
   );
