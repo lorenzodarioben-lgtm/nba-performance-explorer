@@ -1,9 +1,10 @@
 # NBA Performance Explorer
 
 > **Status:** Functioning full-stack application with fixture-backed player search, profiles,
-> selected-season statistics, career trends, and game logs. Two-player comparison is implemented
-> on the `feature/player-comparison` branch and awaiting review (not yet merged). Live-provider
-> integration and public production deployment are not yet implemented.
+> selected-season statistics, career trends, game logs, and two-player comparison. TASK-008
+> planning is complete: direct NBA.com Stats access from the Node.js backend is approved with
+> accepted legal, stability, and deployment-connectivity risks. Live-provider implementation and
+> public production deployment have not started.
 
 NBA Performance Explorer is a portfolio web application for exploring NBA player
 performance. The product scope and planned user journey are documented in
@@ -102,7 +103,29 @@ Backend:
 
 - `PORT` optionally changes the local API port from the default `3001`.
 
+Planned TASK-008 backend configuration (documented but not implemented yet):
+
+- `NBA_DATA_PROVIDER=fixture|nba-stats` selects fixture or direct NBA.com Stats data.
+- `fixture` remains the default for tests, CI, and offline demonstrations.
+- Production must explicitly select `nba-stats`; NBA.com failures will not silently return
+  fixture data.
+- `NBA_STATS_TIMEOUT_MS` controls the live-provider timeout and defaults to `10000`.
+- NBA.com Stats requires no API key.
+
 Real `.env` files are ignored by Git. Example files contain non-secret values only.
+
+## NBA.com Data Notice
+
+This is an unofficial portfolio project and is not affiliated with, endorsed by, or sponsored by
+the National Basketball Association. When the planned live provider is enabled, NBA statistics
+and data are sourced from NBA.com.
+
+NBA.com Stats is undocumented and unsupported as a public API. Endpoint availability, schema
+stability, historical correctness, uptime, and access from shared cloud-hosting networks are not
+guaranteed. NBA.com terms may restrict public use of a comprehensive, regularly updated
+statistics application and may require written permission. The project will not use proxies, IP
+rotation, WAF bypasses, or other blocking-evasion techniques. Fixture mode remains available for
+offline demonstrations.
 
 ## Documentation
 

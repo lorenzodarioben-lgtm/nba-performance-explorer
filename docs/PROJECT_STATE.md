@@ -9,7 +9,7 @@ _Last updated: 2026-06-21_
 
 - **Current milestone:** Live NBA Data Provider Integration
 - **Current task:** TASK-008 - Live NBA Data Provider Integration
-- **Current status:** Documentation defined; implementation not started
+- **Current status:** Planning complete and provider approved with accepted risks; implementation not started
 - **Current branch:** feature/live-nba-provider
 
 ## Summary
@@ -17,7 +17,9 @@ _Last updated: 2026-06-21_
 TASK-001 through TASK-007 are completed and merged into `main`. TASK-007 (two-player comparison)
 used documentation commit `9be5fad` and implementation commit `6512678`, merged through pull
 request #7 in merge commit `842dd31`. TASK-008 (live NBA data provider integration) is the
-active milestone; it is documentation-defined only and no TASK-008 application code has started.
+active milestone. Planning is complete, direct NBA.com Stats access through the existing Node.js
+backend is approved as an accepted-risk product decision, and no TASK-008 application code has
+started.
 
 On top of the TASK-001 foundation, the application now provides:
 
@@ -47,6 +49,19 @@ On top of the TASK-001 foundation, the application now provides:
 Runtime NBA data remains fixture-backed behind the replaceable provider boundary until TASK-008
 integrates a live provider. A public production deployment remains future work.
 
+TASK-008 will add `NbaStatsPlayerProvider`, selected explicitly with
+`NBA_DATA_PROVIDER=fixture|nba-stats`. The provider will use Node.js 22 built-in `fetch` against
+NBA.com's `commonallplayers`, `commonplayerinfo`, `playercareerstats`, and `playergamelog`
+endpoints. Fixture mode remains the default for tests, CI, and offline demonstrations. NBA.com
+person IDs remain unchanged. The plan includes local cached search, backend-private Zod
+validation, bounded in-memory caching, a 10-second timeout, stable provider errors, no automatic
+retries, no silent fixture fallback, and a deployment-host connectivity gate.
+
+The project owner accepts that NBA.com Stats is undocumented and unsupported, terms may restrict
+the intended public use, endpoint stability is not guaranteed, and common cloud-hosting IP ranges
+may be blocked. No proxying or blocking-evasion technique is authorized. Production live mode
+must not be enabled if the intended host fails the bounded connectivity gate.
+
 The merged `main` baseline was verified on 2026-06-21 with `npm ci` and full root validation:
 
 - Full root validation passes (format, lint, strict type-check, tests, build); `git diff --check`
@@ -61,9 +76,9 @@ TASK-007 is documented in `docs/tasks/TASK-007-player-comparison.md`; TASK-008 i
 
 ## Immediate next action
 
-Run a fresh TASK-008 planning-only session: browse and compare current live NBA API providers
-and resolve the deferred provider-selection questions in
-`docs/tasks/TASK-008-live-nba-provider.md` before writing any application code.
+Review and approve the final implementation specification in
+`docs/tasks/TASK-008-live-nba-provider.md`. After approval, begin a fresh implementation session
+that follows ADR-013 and the ordered TASK-008 plan without expanding scope.
 
 ## How to update this file
 
