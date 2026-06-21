@@ -5,9 +5,12 @@
 //
 // Coverage: LeBron James (2544) has three seasons authored out of order (and a team change
 // from CLE to LAL) to exercise the provider's deterministic newest-first sort; Stephen Curry
-// (201939) has two seasons including a valid zero-valued statistic; Victor Wembanyama
-// (1641705) has exactly one season. Players without any record here (for example Terance
-// Mann, 1629611) represent a known player with no season data.
+// (201939) has three seasons including a valid zero-valued statistic and two seasons that
+// overlap LeBron's (2023-24 and 2017-18) for multi-season comparison; Kevin Durant (201142)
+// has a single 2021-22 season with Brooklyn (BKN) that overlaps no other player, giving a
+// genuine no-common-season comparison pair and a team change from his Phoenix profile; Victor
+// Wembanyama (1641705) has exactly one season. Players without any record here (for example
+// Terance Mann, 1629611) represent a known player with no season data.
 export interface FixtureSeasonStat {
   playerId: string;
   season: string;
@@ -75,7 +78,8 @@ export const fixtureSeasons: readonly FixtureSeasonStat[] = [
     threePointPercentage: 0.367,
     freeThrowPercentage: 0.731,
   },
-  // Stephen Curry — two seasons authored oldest-first; one season has a valid zero.
+  // Stephen Curry — three seasons authored out of order; 2022-23 has a valid zero, and
+  // 2023-24 and 2017-18 overlap LeBron for a multi-season comparison pair.
   {
     playerId: '201939',
     season: '2022-23',
@@ -107,6 +111,41 @@ export const fixtureSeasons: readonly FixtureSeasonStat[] = [
     fieldGoalPercentage: 0.45,
     threePointPercentage: 0.408,
     freeThrowPercentage: 0.923,
+  },
+  {
+    playerId: '201939',
+    season: '2017-18',
+    franchiseCode: 'GSW',
+    gamesPlayed: 51,
+    minutesPerGame: 32,
+    pointsPerGame: 26.4,
+    reboundsPerGame: 5.1,
+    assistsPerGame: 6.1,
+    stealsPerGame: 1.6,
+    blocksPerGame: 0.2,
+    turnoversPerGame: 3,
+    fieldGoalPercentage: 0.495,
+    threePointPercentage: 0.423,
+    freeThrowPercentage: 0.921,
+  },
+  // Kevin Durant — a single 2021-22 season with Brooklyn (BKN), overlapping no other player
+  // so any pairing with him exercises the no-common-season state, and showing a team change
+  // from his Phoenix (PHX) profile.
+  {
+    playerId: '201142',
+    season: '2021-22',
+    franchiseCode: 'BKN',
+    gamesPlayed: 55,
+    minutesPerGame: 37.2,
+    pointsPerGame: 29.9,
+    reboundsPerGame: 7.4,
+    assistsPerGame: 6.4,
+    stealsPerGame: 0.9,
+    blocksPerGame: 0.9,
+    turnoversPerGame: 3.5,
+    fieldGoalPercentage: 0.518,
+    threePointPercentage: 0.383,
+    freeThrowPercentage: 0.91,
   },
   // Victor Wembanyama — exactly one season.
   {

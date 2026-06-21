@@ -7,16 +7,18 @@ _Last updated: 2026-06-21_
 
 ## Current state
 
-- **Current milestone:** Selected-Season Game Log Slice
-- **Current task:** TASK-006 - Player Game Log
-- **Current status:** Implemented and verified; awaiting independent review
-- **Current branch:** feature/player-game-log
+- **Current milestone:** Two-Player Comparison Slice
+- **Current task:** TASK-007 - Two-Player Comparison
+- **Current status:** Implemented on the feature branch; awaiting independent review (not merged)
+- **Current branch:** feature/player-comparison
 
 ## Summary
 
-TASK-001 through TASK-005 are all merged into `main` (TASK-005 via commit `144a81b`, pull
-request #5 merge `5ef4efa`). TASK-006 is implemented and verified on the
-`feature/player-game-log` branch but has not been committed.
+TASK-001 through TASK-006 are completed and merged into `main`. TASK-006 used documentation
+commit `1329ed4` and implementation commit `507be68`, merged through pull request #6 in merge
+commit `1704dac`. TASK-007 (two-player comparison) is implemented on
+`feature/player-comparison` and awaiting independent review; it is not committed, pushed, or
+merged.
 
 On top of the TASK-001 foundation, the application now provides:
 
@@ -34,33 +36,36 @@ On top of the TASK-001 foundation, the application now provides:
   (`GET /api/players/:playerId/seasons/:season/games`) driven by the existing season selector,
   with shared strict contracts, newest-first games, accessible loading/empty/error states, and
   a semantic horizontally scrollable table.
+- A fixture-backed two-player comparison at `/compare?player1=&player2=&season=` (TASK-007, on
+  the feature branch). It composes the existing profile, available-seasons, and selected-season
+  statistics endpoints (no new endpoint or contract), reuses an extracted accessible search
+  combobox (`PlayerCombobox`), shares one comparison season defaulting to the newest season both
+  players played, and renders all eleven `PlayerSeasonStats` fields with season-specific team
+  abbreviations in a semantic table. Duplicate, invalid-id, unknown-player, no-common-season,
+  no-season-data, unavailable-season, and partial-failure states are all accessible, and the
+  layout has no page-level horizontal overflow at 375 px.
 
-TASK-006 preserved the existing profile, search, selected-season statistics, career trends,
-back navigation, and health behaviour. It introduced no dependency, live NBA API, game-detail
-route, playoff data, pagination, sorting/filtering controls, or advanced metrics.
+Runtime NBA data remains fixture-backed behind the replaceable provider boundary. A live data
+provider and public deployment remain future work.
 
-TASK-006 verification completed on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3:
+The TASK-007 feature branch was verified on 2026-06-21:
 
-- Formatting, lint, strict type checking, tests, production builds, and full root validation
-  pass; `git diff --check` is clean.
-- 158 tests pass: 83 frontend and 75 backend.
-- The frontend production bundle is 700.51 KB (209.35 KB gzip), a small increase from the
-  documented ~696 KB post-chart baseline. The existing Vite large-chunk warning remains.
-- The root development command starts both applications. Live browser checks verified
-  multi-game, one-game, and empty-season states; season changes; player search and profile
-  navigation; health; a single season selector and page-level heading; a clean browser console;
-  and a 375 px viewport with no page-level horizontal overflow and local table scrolling.
-- Direct API checks verified successful, empty, unknown-player, invalid-player, unknown-season,
-  and invalid-season responses.
-- No dependency manifest or lockfile changed.
+- Full root validation passes (format, lint, strict type-check, tests, build); `git diff --check`
+  is clean.
+- 214 tests pass: 135 frontend and 79 backend (up from 83 and 75 on the clean baseline).
+- The frontend production bundle is 713.87 KB JavaScript (212.74 KB gzip) and 13.47 KB CSS
+  (3.46 KB gzip).
+- The existing Recharts/Vite chunk-size warning remains known and non-blocking.
+- No dependency manifest or lockfile changed. Two season fixtures were added (Stephen Curry
+  2017-18, Kevin Durant 2021-22 on BKN) with focused backend tests, plus `BKN` team metadata,
+  to make the multi-common-season and no-common-season cases demonstrable.
 
-Baseline before TASK-006 was 123 tests (64 frontend and 59 backend) on a clean working tree.
-The implementation remains uncommitted for review.
+TASK-007 is documented in `docs/tasks/TASK-007-player-comparison.md`.
 
 ## Immediate next action
 
-Perform an independent review of the uncommitted TASK-006 changes, then commit and open a pull
-request only when explicitly instructed.
+Perform a fresh independent review of the TASK-007 changes on `feature/player-comparison`; if
+approved, commit, open a pull request, and merge.
 
 ## How to update this file
 
