@@ -1,7 +1,7 @@
 # TASK-004 - Player Season Statistics
 
 - **Milestone:** Season Statistics Vertical Slice
-- **Status:** Implemented and verified; pending independent review
+- **Status:** Completed and merged (commit `8ce4fa5`, merged into `main` via pull request #4 in merge commit `1c08394`)
 - **Branch:** `feature/season-statistics`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,

@@ -35,6 +35,11 @@ export {
   type SeasonId,
 } from './player-season.js';
 
+export {
+  PlayerSeasonTrendsResponseSchema,
+  type PlayerSeasonTrendsResponse,
+} from './player-season-trends.js';
+
 export const HealthResponseSchema = z
   .object({
     status: z.literal('ok'),

@@ -2,6 +2,7 @@ import {
   PlayerProfileResponseSchema,
   PlayerSearchResponseSchema,
   PlayerSeasonStatsResponseSchema,
+  PlayerSeasonTrendsResponseSchema,
   PlayerSeasonsResponseSchema,
   type PlayerSearchResponse,
 } from '@nba-performance-explorer/contracts';
@@ -45,6 +46,34 @@ export function createPlayersRouter(
   });
 
   playersRouter.all('/', methodNotAllowedHandler);
+
+  playersRouter.get('/:playerId/season-trends', async (request, response) => {
+    const parsedParams = parsePlayerIdParam(request.params);
+
+    if (!parsedParams.success) {
+      return sendApiError(
+        response,
+        400,
+        'INVALID_PLAYER_ID',
+        'Player id is not valid.',
+      );
+    }
+
+    const { playerId } = parsedParams.data;
+    const profile = await playerProvider.getPlayerById(playerId);
+
+    if (!profile) {
+      return sendApiError(response, 404, 'PLAYER_NOT_FOUND', 'Player not found.');
+    }
+
+    const seasons = await playerProvider.listPlayerSeasonStats(playerId);
+
+    return response
+      .status(200)
+      .json(PlayerSeasonTrendsResponseSchema.parse({ seasons }));
+  });
+
+  playersRouter.all('/:playerId/season-trends', methodNotAllowedHandler);
 
   playersRouter.get('/:playerId/seasons', async (request, response) => {
     const parsedParams = parsePlayerIdParam(request.params);

@@ -20,6 +20,10 @@ function compareSeasonDescending(leftSeason: string, rightSeason: string): numbe
   return Number(rightSeason.slice(0, 4)) - Number(leftSeason.slice(0, 4));
 }
 
+function compareSeasonAscending(leftSeason: string, rightSeason: string): number {
+  return Number(leftSeason.slice(0, 4)) - Number(rightSeason.slice(0, 4));
+}
+
 function compareText(left: string, right: string): number {
   if (left < right) {
     return -1;
@@ -90,6 +94,13 @@ export class FixturePlayerProvider implements PlayerProvider {
     }
 
     return mapFixtureSeasonStats(record);
+  }
+
+  async listPlayerSeasonStats(playerId: string): Promise<PlayerSeasonStats[]> {
+    return fixtureSeasons
+      .filter((record) => record.playerId === playerId)
+      .sort((left, right) => compareSeasonAscending(left.season, right.season))
+      .map(mapFixtureSeasonStats);
   }
 }
 

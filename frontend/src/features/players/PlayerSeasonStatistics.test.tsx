@@ -68,7 +68,14 @@ function statValue(label: string): string {
 }
 
 beforeEach(() => {
-  server.use(http.get(profileUrl, () => HttpResponse.json({ player: lebronProfile })));
+  // The profile success view also mounts the career-trends section; default it to empty so
+  // these season-statistics tests issue no unhandled trends request.
+  server.use(
+    http.get(profileUrl, () => HttpResponse.json({ player: lebronProfile })),
+    http.get('http://localhost/api/players/:playerId/season-trends', () =>
+      HttpResponse.json({ seasons: [] }),
+    ),
+  );
 });
 
 async function getSeasonSelect(): Promise<HTMLSelectElement> {
