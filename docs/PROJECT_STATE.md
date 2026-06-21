@@ -7,18 +7,17 @@ _Last updated: 2026-06-21_
 
 ## Current state
 
-- **Current milestone:** Two-Player Comparison Slice
-- **Current task:** TASK-007 - Two-Player Comparison
-- **Current status:** Implemented on the feature branch; awaiting independent review (not merged)
-- **Current branch:** feature/player-comparison
+- **Current milestone:** Live NBA Data Provider Integration
+- **Current task:** TASK-008 - Live NBA Data Provider Integration
+- **Current status:** Documentation defined; implementation not started
+- **Current branch:** feature/live-nba-provider
 
 ## Summary
 
-TASK-001 through TASK-006 are completed and merged into `main`. TASK-006 used documentation
-commit `1329ed4` and implementation commit `507be68`, merged through pull request #6 in merge
-commit `1704dac`. TASK-007 (two-player comparison) is implemented on
-`feature/player-comparison` and awaiting independent review; it is not committed, pushed, or
-merged.
+TASK-001 through TASK-007 are completed and merged into `main`. TASK-007 (two-player comparison)
+used documentation commit `9be5fad` and implementation commit `6512678`, merged through pull
+request #7 in merge commit `842dd31`. TASK-008 (live NBA data provider integration) is the
+active milestone; it is documentation-defined only and no TASK-008 application code has started.
 
 On top of the TASK-001 foundation, the application now provides:
 
@@ -45,27 +44,26 @@ On top of the TASK-001 foundation, the application now provides:
   no-season-data, unavailable-season, and partial-failure states are all accessible, and the
   layout has no page-level horizontal overflow at 375 px.
 
-Runtime NBA data remains fixture-backed behind the replaceable provider boundary. A live data
-provider and public deployment remain future work.
+Runtime NBA data remains fixture-backed behind the replaceable provider boundary until TASK-008
+integrates a live provider. A public production deployment remains future work.
 
-The TASK-007 feature branch was verified on 2026-06-21:
+The merged `main` baseline was verified on 2026-06-21 with `npm ci` and full root validation:
 
 - Full root validation passes (format, lint, strict type-check, tests, build); `git diff --check`
-  is clean.
-- 214 tests pass: 135 frontend and 79 backend (up from 83 and 75 on the clean baseline).
+  and the working tree are clean.
+- 214 tests pass: 135 frontend and 79 backend.
 - The frontend production bundle is 713.87 KB JavaScript (212.74 KB gzip) and 13.47 KB CSS
   (3.46 KB gzip).
 - The existing Recharts/Vite chunk-size warning remains known and non-blocking.
-- No dependency manifest or lockfile changed. Two season fixtures were added (Stephen Curry
-  2017-18, Kevin Durant 2021-22 on BKN) with focused backend tests, plus `BKN` team metadata,
-  to make the multi-common-season and no-common-season cases demonstrable.
 
-TASK-007 is documented in `docs/tasks/TASK-007-player-comparison.md`.
+TASK-007 is documented in `docs/tasks/TASK-007-player-comparison.md`; TASK-008 is documented in
+`docs/tasks/TASK-008-live-nba-provider.md`.
 
 ## Immediate next action
 
-Perform a fresh independent review of the TASK-007 changes on `feature/player-comparison`; if
-approved, commit, open a pull request, and merge.
+Run a fresh TASK-008 planning-only session: browse and compare current live NBA API providers
+and resolve the deferred provider-selection questions in
+`docs/tasks/TASK-008-live-nba-provider.md` before writing any application code.
 
 ## How to update this file
 

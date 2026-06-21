@@ -1,7 +1,7 @@
 # TASK-007 — Two-Player Comparison
 
 - **Milestone:** Two-Player Comparison Slice
-- **Status:** Implemented on the feature branch; awaiting independent review (not merged)
+- **Status:** Completed and merged
 - **Branch:** `feature/player-comparison`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
@@ -11,9 +11,19 @@
 
 ## Status
 
-TASK-007 is implemented on `feature/player-comparison` and awaiting fresh independent review.
-It has not been committed, pushed, or merged. No dependency manifest or lockfile changed, and
-no shared contract changed. See "Implementation Summary" below for the verified result.
+TASK-007 is complete and merged into `main`.
+
+- Documentation commit: `9be5fad` ("docs: define two-player comparison task")
+- Implementation commit: `6512678` ("feat: add two-player comparison")
+- Pull request: #7
+- Merge commit: `842dd31` ("Merge pull request #7 from
+  lorenzodarioben-lgtm/feature/player-comparison")
+- Verified merged baseline: 135 frontend tests and 79 backend tests (214 total); production
+  bundle 713.87 KB JavaScript (212.74 KB gzip) and 13.47 KB CSS (3.46 KB gzip); the existing
+  Recharts/Vite "chunk larger than 500 KB" warning remains known and non-blocking. No
+  dependency manifest or lockfile changed, and no shared contract changed.
+
+See "Implementation Summary" below for the full result.
 
 ## Implementation Summary (2026-06-21)
 
@@ -155,7 +165,8 @@ interface, mappers, and routes were unchanged.
 
 No dependency was added or upgraded; `package.json`, `package-lock.json`,
 `frontend/package.json`, `backend/package.json`, and `packages/contracts/package.json` are
-unchanged. No commit, push, branch, or merge was made.
+unchanged. The work was reviewed and merged into `main` via pull request #7 (merge commit
+`842dd31`).
 
 ## Objective
 
