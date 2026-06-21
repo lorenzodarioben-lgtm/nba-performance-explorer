@@ -1,4 +1,5 @@
 import type {
+  PlayerGame,
   PlayerProfile,
   PlayerSeason,
   PlayerSeasonStats,
@@ -14,4 +15,5 @@ export interface PlayerProvider {
     season: string,
   ): Promise<PlayerSeasonStats | null>;
   listPlayerSeasonStats(playerId: string): Promise<PlayerSeasonStats[]>;
+  listPlayerGames(playerId: string, season: string): Promise<PlayerGame[]>;
 }

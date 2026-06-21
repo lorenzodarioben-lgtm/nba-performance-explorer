@@ -1,7 +1,7 @@
 # TASK-005 - Player Career Trends Chart
 
 - **Milestone:** Career Trends Visualisation Slice
-- **Status:** Implemented and verified; pending independent review
+- **Status:** Completed and merged (commit `144a81b`, merged into `main` via pull request #5 in merge commit `5ef4efa`)
 - **Branch:** `feature/career-trends-chart`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,

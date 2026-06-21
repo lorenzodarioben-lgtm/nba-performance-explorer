@@ -7,56 +7,63 @@ _Last updated: 2026-06-21_
 
 ## Current state
 
-- **Current milestone:** Career Trends Visualisation Slice
-- **Current task:** TASK-005 - Player Career Trends Chart
-- **Current status:** Implemented and verified; pending independent review
-- **Current branch:** feature/career-trends-chart
+- **Current milestone:** Selected-Season Game Log Slice
+- **Current task:** TASK-006 - Player Game Log
+- **Current status:** Implemented and verified; awaiting independent review
+- **Current branch:** feature/player-game-log
 
 ## Summary
 
-TASK-001 through TASK-004 are all merged into `main` (TASK-004 via commit `8ce4fa5`, pull
-request #4 merge `1c08394`). TASK-005 is implemented on `feature/career-trends-chart` with all
-changes uncommitted.
+TASK-001 through TASK-005 are all merged into `main` (TASK-005 via commit `144a81b`, pull
+request #5 merge `5ef4efa`). TASK-006 is implemented and verified on the
+`feature/player-game-log` branch but has not been committed.
 
-On top of player search, profile, and season statistics, the application now provides a
-fixture-backed career-trends visualisation on the player profile:
+On top of the TASK-001 foundation, the application now provides:
 
-- Backend endpoint `GET /api/players/:playerId/season-trends` behind the replaceable player
-  provider, returning all of a player's regular-season statistics strictly oldest-first (or an
-  empty array for a known player with no data). The shared strict `PlayerSeasonTrendsResponse`
-  contract reuses `PlayerSeasonStats` and enforces unique, oldest-first ordering; the route
-  returns structured 400 (`INVALID_PLAYER_ID`) and 404 (`PLAYER_NOT_FOUND`) errors, validates
-  outgoing payloads, and never leaks provider-private fields.
-- A `PlayerCareerTrends` section on `/players/:playerId` (below the season statistics) that
-  fetches through TanStack Query and renders a responsive Recharts line chart of points,
-  rebounds, and assists per game alongside an always-visible accessible data table built from
-  the same transformed rows. Series are distinguished by line pattern (solid/dashed/dotted),
-  legend marker shape, and label — not colour alone. Chart animation is disabled. Distinct
-  accessible states cover loading, no seasons, a single season (insufficient-data message plus
-  the table), two-or-more seasons, and errors. Recharts 3.8.1 is a frontend-only dependency
-  (per ADR-004).
+- Fixture-backed player search (`GET /api/players?search=`) navigating to `/players/:playerId`.
+- A fixture-backed player profile (`GET /api/players/:playerId`) with shared Zod contracts and
+  accessible loading/not-found/invalid-link/error states.
+- Fixture-backed regular-season statistics on the profile
+  (`GET /api/players/:playerId/seasons` and `.../seasons/:season/stats`) with a native season
+  selector (newest default) and selection reconciliation.
+- A fixture-backed career-trends line chart (`GET /api/players/:playerId/season-trends`) of
+  points, rebounds, and assists per game, with an accessible data table. Charting uses
+  Recharts 3.8.1 (a frontend-only dependency, per ADR-004); adding it grew the frontend
+  production bundle from ~347 KB to ~696 KB.
+- A fixture-backed selected-season game log
+  (`GET /api/players/:playerId/seasons/:season/games`) driven by the existing season selector,
+  with shared strict contracts, newest-first games, accessible loading/empty/error states, and
+  a semantic horizontally scrollable table.
 
-Verified on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3:
+TASK-006 preserved the existing profile, search, selected-season statistics, career trends,
+back navigation, and health behaviour. It introduced no dependency, live NBA API, game-detail
+route, playoff data, pagination, sorting/filtering controls, or advanced metrics.
 
-- `npm run validate` passes (format check, lint, strict type check, tests, build) and
-  `git diff --check` is clean.
-- 123 tests pass: 64 frontend and 59 backend.
-- The frontend production bundle grew from ~347 KB to ~696 KB with Recharts.
-- Live manual verification (backend on `:3001`, Vite on `:5173`): the multi-season chart and
-  accessible table (oldest-first, matching one-decimal values, distinct line patterns, legend),
-  the one-season insufficient-data state, the no-season empty state, unknown/invalid ids through
-  the API, preserved search/profile/season-statistics/health behaviour, desktop and 375px mobile
-  layouts (responsive chart, no horizontal overflow), and a clean browser console. The generic
-  500 and invalid-contract states are covered by the automated MSW tests.
+TASK-006 verification completed on 2026-06-21 with Node.js 22.19.0 and npm 10.9.3:
+
+- Formatting, lint, strict type checking, tests, production builds, and full root validation
+  pass; `git diff --check` is clean.
+- 158 tests pass: 83 frontend and 75 backend.
+- The frontend production bundle is 700.51 KB (209.35 KB gzip), a small increase from the
+  documented ~696 KB post-chart baseline. The existing Vite large-chunk warning remains.
+- The root development command starts both applications. Live browser checks verified
+  multi-game, one-game, and empty-season states; season changes; player search and profile
+  navigation; health; a single season selector and page-level heading; a clean browser console;
+  and a 375 px viewport with no page-level horizontal overflow and local table scrolling.
+- Direct API checks verified successful, empty, unknown-player, invalid-player, unknown-season,
+  and invalid-season responses.
+- No dependency manifest or lockfile changed.
+
+Baseline before TASK-006 was 123 tests (64 frontend and 59 backend) on a clean working tree.
+The implementation remains uncommitted for review.
 
 ## Immediate next action
 
-Review the complete TASK-005 diff and, once approved, commit it on
-`feature/career-trends-chart`. Do not begin game logs, comparison, calculated insights, or any
-later task.
+Perform an independent review of the uncommitted TASK-006 changes, then commit and open a pull
+request only when explicitly instructed.
 
 ## How to update this file
 
 After completing a task, update the fields above (milestone, task, status, branch), refresh
 the summary to describe what now exists, and set the immediate next action to the following
-task. Keep this honest - do not list features here that are not actually implemented.
+task. Keep it honest - do not list features here that are not actually implemented.

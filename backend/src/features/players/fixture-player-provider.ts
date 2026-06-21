@@ -1,10 +1,13 @@
 import type {
+  PlayerGame,
   PlayerProfile,
   PlayerSeason,
   PlayerSeasonStats,
   PlayerSummary,
 } from '@nba-performance-explorer/contracts';
 
+import { fixtureGames } from './game-fixtures.js';
+import { mapFixtureGame } from './map-fixture-game.js';
 import { mapFixturePlayer } from './map-fixture-player.js';
 import { mapFixturePlayerProfile } from './map-fixture-player-profile.js';
 import {
@@ -101,6 +104,23 @@ export class FixturePlayerProvider implements PlayerProvider {
       .filter((record) => record.playerId === playerId)
       .sort((left, right) => compareSeasonAscending(left.season, right.season))
       .map(mapFixtureSeasonStats);
+  }
+
+  async listPlayerGames(playerId: string, season: string): Promise<PlayerGame[]> {
+    return fixtureGames
+      .filter((record) => record.playerId === playerId && record.season === season)
+      .sort((left, right) => {
+        if (left.gameDate < right.gameDate) {
+          return 1;
+        }
+
+        if (left.gameDate > right.gameDate) {
+          return -1;
+        }
+
+        return 0;
+      })
+      .map(mapFixtureGame);
   }
 }
 
