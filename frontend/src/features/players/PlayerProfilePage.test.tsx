@@ -273,6 +273,20 @@ describe('player profile page', () => {
     ).toBeInTheDocument();
   });
 
+  it('links to compare the current player, preselected as Player A', async () => {
+    server.use(
+      http.get(profileUrl, () => HttpResponse.json({ player: completeProfile })),
+    );
+
+    renderApp('/players/2544');
+
+    await screen.findByRole('heading', { name: 'LeBron James' });
+    expect(screen.getByRole('link', { name: /Compare LeBron James/ })).toHaveAttribute(
+      'href',
+      '/compare?player1=2544',
+    );
+  });
+
   it('moves focus to the heading after the profile loads', async () => {
     server.use(
       http.get(profileUrl, () => HttpResponse.json({ player: completeProfile })),

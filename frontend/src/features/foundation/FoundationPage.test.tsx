@@ -63,6 +63,22 @@ describe('foundation health status', () => {
     );
   });
 
+  it('links to the two-player comparison page', () => {
+    server.use(
+      http.get(healthUrl, async () => {
+        await delay('infinite');
+        return HttpResponse.json({});
+      }),
+    );
+
+    renderApp();
+
+    expect(screen.getByRole('link', { name: 'Compare two players' })).toHaveAttribute(
+      'href',
+      '/compare',
+    );
+  });
+
   it('treats data that violates the shared health contract as an error', async () => {
     server.use(
       http.get(healthUrl, () =>

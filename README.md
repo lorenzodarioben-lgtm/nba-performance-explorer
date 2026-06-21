@@ -1,9 +1,9 @@
 # NBA Performance Explorer
 
 > **Status:** Functioning full-stack application with fixture-backed player search, profiles,
-> selected-season statistics, career trends, and game logs. Two-player comparison is the next
-> documented slice. Live-provider integration and public production deployment are not yet
-> implemented.
+> selected-season statistics, career trends, and game logs. Two-player comparison is implemented
+> on the `feature/player-comparison` branch and awaiting review (not yet merged). Live-provider
+> integration and public production deployment are not yet implemented.
 
 NBA Performance Explorer is a portfolio web application for exploring NBA player
 performance. The product scope and planned user journey are documented in

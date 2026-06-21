@@ -145,6 +145,14 @@ function ProfileView({ profile }: { profile: PlayerProfile }) {
       </dl>
       <PlayerSeasonStatistics playerId={profile.id} />
       <PlayerCareerTrends playerId={profile.id} />
+      <p className="mt-8">
+        <Link
+          to={`/compare?player1=${encodeURIComponent(profile.id)}`}
+          className="font-semibold text-red-700 underline underline-offset-4"
+        >
+          Compare {profile.fullName} with another player
+        </Link>
+      </p>
       <BackToSearchLink />
     </ProfileShell>
   );

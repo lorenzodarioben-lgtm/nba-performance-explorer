@@ -1,3 +1,5 @@
+import { Link } from 'react-router';
+
 import { PlayerSearch } from '../player-search/PlayerSearch';
 import { useHealthQuery } from './useHealthQuery';
 
@@ -18,6 +20,15 @@ export function FoundationPage() {
         </h1>
 
         <PlayerSearch />
+
+        <p className="mt-6 text-sm">
+          <Link
+            to="/compare"
+            className="font-semibold text-red-700 underline underline-offset-4"
+          >
+            Compare two players
+          </Link>
+        </p>
 
         <div className="mt-10 border-t border-zinc-200 pt-6">
           {healthQuery.isPending ? (

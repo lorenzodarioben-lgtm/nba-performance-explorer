@@ -1,5 +1,6 @@
 import {
   ApiErrorResponseSchema,
+  PlayerProfileResponseSchema,
   PlayerSeasonStatsResponseSchema,
   PlayerSeasonStatsSchema,
   PlayerSeasonsResponseSchema,
@@ -179,6 +180,61 @@ describe('GET /api/players/:playerId/seasons/:season/stats', () => {
     expect(ApiErrorResponseSchema.parse(response.body).error.code).toBe(
       'METHOD_NOT_ALLOWED',
     );
+  });
+});
+
+describe('comparison fixture coverage', () => {
+  it('returns three newest-first seasons for Stephen Curry', async () => {
+    const response = await request(app).get('/api/players/201939/seasons').expect(200);
+    const { seasons } = PlayerSeasonsResponseSchema.parse(response.body);
+
+    // Two of Curry's seasons (2023-24 and 2017-18) overlap LeBron's, enabling a
+    // multi-common-season comparison pair.
+    expect(seasons.map((entry) => entry.season)).toEqual([
+      '2023-24',
+      '2022-23',
+      '2017-18',
+    ]);
+    expect(seasons.map((entry) => entry.team.abbreviation)).toEqual([
+      'GSW',
+      'GSW',
+      'GSW',
+    ]);
+  });
+
+  it('maps Stephen Curry 2017-18 statistics correctly', async () => {
+    const response = await request(app)
+      .get('/api/players/201939/seasons/2017-18/stats')
+      .expect(200);
+    const { stats } = PlayerSeasonStatsResponseSchema.parse(response.body);
+
+    expect(stats.season).toBe('2017-18');
+    expect(stats.team.abbreviation).toBe('GSW');
+    expect(stats.gamesPlayed).toBe(51);
+    expect(stats.pointsPerGame).toBe(26.4);
+  });
+
+  it('returns a single Brooklyn season for Kevin Durant', async () => {
+    const response = await request(app).get('/api/players/201142/seasons').expect(200);
+    const { seasons } = PlayerSeasonsResponseSchema.parse(response.body);
+
+    // Durant overlaps no other player's seasons, so any pairing with him exercises the
+    // no-common-season state.
+    expect(seasons).toEqual([{ season: '2021-22', team: { abbreviation: 'BKN' } }]);
+  });
+
+  it('reflects Kevin Durant playing for a team other than his profile team', async () => {
+    const profile = await request(app).get('/api/players/201142').expect(200);
+    const stats = await request(app)
+      .get('/api/players/201142/seasons/2021-22/stats')
+      .expect(200);
+
+    expect(
+      PlayerProfileResponseSchema.parse(profile.body).player.team.abbreviation,
+    ).toBe('PHX');
+    expect(
+      PlayerSeasonStatsResponseSchema.parse(stats.body).stats.team.abbreviation,
+    ).toBe('BKN');
   });
 });
 

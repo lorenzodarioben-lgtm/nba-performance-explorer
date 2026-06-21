@@ -9,6 +9,7 @@ export interface FixtureTeam {
 
 export const fixtureTeams: Readonly<Record<string, FixtureTeam>> = {
   ATL: { name: 'Hawks', city: 'Atlanta' },
+  BKN: { name: 'Nets', city: 'Brooklyn' },
   BOS: { name: 'Celtics', city: 'Boston' },
   CLE: { name: 'Cavaliers', city: 'Cleveland' },
   DAL: { name: 'Mavericks', city: 'Dallas' },

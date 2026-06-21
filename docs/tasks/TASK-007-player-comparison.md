@@ -1,7 +1,7 @@
 # TASK-007 — Two-Player Comparison
 
 - **Milestone:** Two-Player Comparison Slice
-- **Status:** Not started
+- **Status:** Implemented on the feature branch; awaiting independent review (not merged)
 - **Branch:** `feature/player-comparison`
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
@@ -11,8 +11,151 @@
 
 ## Status
 
-TASK-007 is documentation-defined. No implementation, dependency, shared-contract, backend,
-frontend, or fixture change has started.
+TASK-007 is implemented on `feature/player-comparison` and awaiting fresh independent review.
+It has not been committed, pushed, or merged. No dependency manifest or lockfile changed, and
+no shared contract changed. See "Implementation Summary" below for the verified result.
+
+## Implementation Summary (2026-06-21)
+
+### Approach
+
+The comparison page composes the **existing** profile, available-seasons, and selected-season
+statistics endpoints in the frontend (no comparison endpoint, router, provider method, mapper,
+or shared contract was added). It reuses the existing TanStack Query hooks and query keys
+(`["players","profile",id]`, `["players","seasons",id]`, `["players","season-stats",id,season]`),
+so profiles, season lists, and statistics each run in parallel and re-key per player/season.
+
+### Files created
+
+- `frontend/src/features/player-search/PlayerCombobox.tsx` — the accessible debounced search
+  combobox extracted from `PlayerSearch`, with an optional `excludePlayerId` to omit the
+  other slot's player and announce "That player is already selected." when it is the only match.
+- `frontend/src/features/player-comparison/comparison-state.ts` — pure URL/season helpers
+  (parse recognized params with repeated-param rejection, duplicate detection, selection/
+  replace/clear/season actions that drop the season on a player change, deterministic
+  `buildComparisonParams`, common-season intersection and newest-common selection).
+- `frontend/src/features/player-comparison/comparison-state.test.ts` — 23 pure-helper tests.
+- `frontend/src/features/player-comparison/ComparisonPlayerSlot.tsx` — a controlled slot
+  (identity + Replace/Clear, loading, invalid-link, unknown-player, and duplicate recovery,
+  and the single staged combobox).
+- `frontend/src/features/player-comparison/ComparisonSeasonSelector.tsx` — a native select of
+  common seasons only.
+- `frontend/src/features/player-comparison/PlayerComparisonTable.tsx` — the semantic table.
+- `frontend/src/features/player-comparison/PlayerComparisonPage.tsx` — page state ownership.
+- `frontend/src/features/player-comparison/PlayerComparisonPage.test.tsx` — 27 integration tests.
+
+### Files modified
+
+- `frontend/src/App.tsx` — registered the `/compare` route (Declarative Mode) before the catch-all.
+- `frontend/src/features/player-search/PlayerSearch.tsx` — now a thin navigation wrapper around
+  `PlayerCombobox` (home-search behaviour and label "Search NBA players" unchanged).
+- `frontend/src/features/foundation/FoundationPage.tsx` + `.test.tsx` — added a "Compare two
+  players" link to `/compare`, plus a regression test.
+- `frontend/src/features/players/PlayerProfilePage.tsx` + `.test.tsx` — added a "Compare
+  &lt;player&gt; with another player" link to `/compare?player1=<id>`, plus a regression test.
+- `backend/src/features/players/season-fixtures.ts` — added Stephen Curry `2017-18` (GSW) and
+  Kevin Durant `2021-22` (BKN); see Fixture changes.
+- `backend/src/features/players/team-fixtures.ts` — added `BKN` (Brooklyn Nets) metadata.
+- `backend/src/features/players/season-router.test.ts` — added 4 focused fixture-coverage tests.
+
+No files were deleted. No shared contract, backend route, provider interface, frontend API
+client, existing query hook, formatting utility, dependency manifest, or lockfile changed.
+
+### Final URL behaviour
+
+- Canonical URL: `/compare?player1=<id>&player2=<id>&season=<YYYY-YY>`; generated params are
+  always emitted in the order `player1`, `player2`, `season`, omitting absent ones.
+- IDs validated with `PlayerIdSchema`, season with `SeasonIdSchema`. A repeated recognized
+  parameter (e.g. `?player1=a&player1=b`) is treated as invalid, not silently resolved.
+- Player order is preserved (never sorted/canonicalised/swapped). Partial URLs (`/compare`,
+  player1-only, player2-only, both, both+season) all stay on the page.
+- Selecting/replacing/clearing a player pushes history and removes `season` in the same update;
+  changing the season pushes history; the automatic default season is added with history
+  **replace** only. Direct navigation and refresh restore the same comparison.
+
+### Final season behaviour
+
+- One shared comparison season. The selector lists only the seasons both players share
+  (newest-first by numeric start year). The default is the newest common season, written to the
+  URL via replace once both identities and both season lists are ready (no loop).
+- Malformed season → invalid-link alert; valid-but-not-common season → unavailable-season alert;
+  both keep the common-season selector available and request no statistics. No-common-season,
+  one-player-no-seasons, and both-players-no-seasons each show a distinct accessible status.
+
+### Final player-selection behaviour
+
+- Two distinct known players are required. Selection reuses the established combobox (minimum
+  length, 300 ms debounce, keyboard navigation/wrapping, Enter/Escape, pointer selection,
+  stale-result protection, ARIA combobox/listbox). One combobox is staged at a time.
+- Duplicate prevention is layered: the active combobox excludes the other slot's player (with an
+  accessible "already selected" message), the page selection handler has a defensive guard, and
+  a duplicate direct URL renders a comparison-level alert with replacement for Player B.
+- Invalid-id and unknown-player states are per-slot and never hide the valid counterpart; an
+  invalid slot issues no request.
+
+### Statistics shown
+
+All eleven `PlayerSeasonStats` numeric fields (games played; minutes, points, rebounds, assists,
+steals, blocks, turnovers per game; FG%, 3P%, FT%), formatted with the existing `formatPerGame`
+and `formatPercentage`. The season-specific `team.abbreviation` is shown in each column heading
+and the season in the caption. No winner, verdict, ranking, delta, or composite is computed.
+
+### Stale-data and partial-failure protection
+
+Statistics queries are enabled only when both players are known and a common season is in effect;
+they are keyed by player id and season with no placeholder/previous data, and the table renders
+only when both responses' `season` matches the effective season. A one-side failure or a
+contract-validation failure shows a generic alert and never a half-valid table. `AbortSignal`
+propagates through every request.
+
+### Accessibility and responsive
+
+Exactly one page-level `<h1>` ("Compare players"), focused on route entry. Distinct slot
+headings/labels and player-specific Replace/Clear button names. Loading uses `role="status"`,
+errors use `role="alert"`. The authoritative representation is a semantic table (caption =
+season, `<th scope="row">` statistic names, `<th scope="col">` player + season team). At 375 px
+the slots stack and horizontal scrolling is confined to a keyboard-focusable labelled wrapper
+(`role="group"`, `tabIndex=0`) with no page-level horizontal overflow. No colour-only meaning and
+no chart were added.
+
+### Fixture changes and justification
+
+Two season records were added so the live app can demonstrate scenarios that no existing
+fixture pairing could: Stephen Curry `2017-18` (GSW) gives LeBron+Curry two common seasons
+(2023-24 and 2017-18) for season switching and a team change (LeBron is CLE in 2017-18); Kevin
+Durant `2021-22` (BKN) is disjoint from every other player's seasons, giving a genuine
+no-common-season pair and a team change from his PHX profile. Both are existing public players
+(no new public player was added); `BKN` team metadata was added for consistency. The provider
+interface, mappers, and routes were unchanged.
+
+### Verification
+
+- Automated: frontend **135** tests (was 83) and backend **79** tests (was 75) — **214** total;
+  formatting, lint, strict type-check, and production build all pass. Production bundle:
+  **713.87 KB** JavaScript (212.74 KB gzip) and **13.47 KB** CSS (3.46 KB gzip). The pre-existing
+  Recharts/Vite "chunk larger than 500 KB" warning remains and is non-blocking. `git diff --check`
+  is clean.
+- Manual (real frontend on 5173 + backend on 3001): direct full/partial URLs restore the
+  comparison; the default newest-common season is added via replace and only common seasons
+  appear in the selector; changing the season updates both players and pushes history; a 2017-18
+  comparison shows LeBron on CLE; no-overlap (Durant vs Wembanyama), one-no-seasons (vs Terance
+  Mann), duplicate, and malformed-id states all render correctly with no table; empty `/compare`
+  stages Player A with the heading focused; home and profile expose comparison entry points and
+  home search still works; at 375 px there is no page-level horizontal overflow and table
+  scrolling stays inside the keyboard-reachable wrapper; the browser console is clean and only the
+  expected `/api` requests are issued. Servers were stopped and ports 5173/3001 confirmed free.
+
+### Known limitations
+
+- Runtime data remains fixture-backed behind the provider boundary; no live NBA provider.
+- Browser back/forward restoration is verified manually (the shared `renderApp` test helper does
+  not drive history navigation), and the bundle still exceeds Vite's 500 KB chunk warning.
+
+### Not changed
+
+No dependency was added or upgraded; `package.json`, `package-lock.json`,
+`frontend/package.json`, `backend/package.json`, and `packages/contracts/package.json` are
+unchanged. No commit, push, branch, or merge was made.
 
 ## Objective
 
@@ -380,37 +523,37 @@ no artificial comparison endpoint tests.
 
 ## Acceptance Criteria
 
-- [ ] Users can select exactly two distinct fixture-backed players.
-- [ ] Existing accessible search behaviour is reused deliberately.
-- [ ] Duplicate player selection is prevented and invalid duplicate URLs are handled.
-- [ ] A valid comparison is represented by a directly loadable, refresh-safe URL.
-- [ ] Both player identities are clearly identified.
-- [ ] The deterministic comparison-season rule is implemented.
-- [ ] Players with differing season availability are handled correctly.
-- [ ] No-common-season and no-season-data states are accessible.
-- [ ] Compared regular-season values use validated existing domain models.
-- [ ] Team changes across seasons are represented correctly.
-- [ ] Loading, incomplete, invalid, unavailable, and failure states are accessible.
-- [ ] Stale player or season data is never shown under new labels.
-- [ ] TanStack Query manages server state and propagates abort signals.
-- [ ] Successful API data is runtime-validated with shared contracts.
-- [ ] Provider-private fields do not leak.
-- [ ] The authoritative comparison representation is semantic and understandable without
+- [x] Users can select exactly two distinct fixture-backed players.
+- [x] Existing accessible search behaviour is reused deliberately.
+- [x] Duplicate player selection is prevented and invalid duplicate URLs are handled.
+- [x] A valid comparison is represented by a directly loadable, refresh-safe URL.
+- [x] Both player identities are clearly identified.
+- [x] The deterministic comparison-season rule is implemented.
+- [x] Players with differing season availability are handled correctly.
+- [x] No-common-season and no-season-data states are accessible.
+- [x] Compared regular-season values use validated existing domain models.
+- [x] Team changes across seasons are represented correctly.
+- [x] Loading, incomplete, invalid, unavailable, and failure states are accessible.
+- [x] Stale player or season data is never shown under new labels.
+- [x] TanStack Query manages server state and propagates abort signals.
+- [x] Successful API data is runtime-validated with shared contracts.
+- [x] Provider-private fields do not leak.
+- [x] The authoritative comparison representation is semantic and understandable without
   colour.
-- [ ] Exactly one page-level `<h1>` is rendered.
-- [ ] Keyboard and pointer selection and replacement work.
-- [ ] Desktop and approximately 375 px layouts work without page-level horizontal overflow.
-- [ ] Existing search, profile, season statistics, career trends, game log, and health
+- [x] Exactly one page-level `<h1>` is rendered.
+- [x] Keyboard and pointer selection and replacement work.
+- [x] Desktop and approximately 375 px layouts work without page-level horizontal overflow.
+- [x] Existing search, profile, season statistics, career trends, game log, and health
   behaviour remain functional.
-- [ ] No live provider, deployment, authentication, calculated winner, advanced metrics,
+- [x] No live provider, deployment, authentication, calculated winner, advanced metrics,
   playoff comparison, game comparison, persistence store, Redux, Zustand, second chart
   library, or unrelated redesign is introduced.
-- [ ] Formatting passes.
-- [ ] Lint passes.
-- [ ] Strict type checking passes.
-- [ ] Tests pass.
-- [ ] Production build passes.
-- [ ] Full root validation passes.
+- [x] Formatting passes.
+- [x] Lint passes.
+- [x] Strict type checking passes.
+- [x] Tests pass.
+- [x] Production build passes.
+- [x] Full root validation passes.
 
 ## Documentation Completion Criteria
 
