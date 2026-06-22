@@ -352,3 +352,89 @@ suite, formatting, lint, strict type checking, the production build, and full va
 `git diff --check` clean; production remains fixture-backed pending a separately approved Render
 re-test; documentation records verified outcomes and limitations; the complete diff is reviewed;
 and no commit or push occurs without explicit instruction.
+
+## Implementation Status — Stage A and Stage D (2026-06-23)
+
+Stage A (safe sanitized diagnostics) and Stage D (gate strengthening) are implemented and verified
+offline. **No root cause has been claimed**: Stage B has not run, so the actual legitimate
+`commonallplayers` response variation is still unproven. Stage C remains blocked until Stage B
+produces sanitized evidence, and Stage E has not started. Production remains fixture-backed; the
+live provider is **not** fixed and live production mode is **not** ready.
+
+### Stage A — implemented
+
+- New `NBA_STATS_DIAGNOSTICS` configuration flag parsed strictly (omitted or `false` → off; `true`
+  → on; any other value fails startup), alongside the existing strict switches. Off by default.
+- New backend-private `nba-stats-diagnostics.ts` module: a structural-only `ResponseDiagnostic`
+  type, the `primitiveCategory` / `topLevelPropertyNames` / `hasProperty` / `summarizeZodIssues`
+  helpers, a `DiagnosticReporter` interface, a `noopDiagnosticReporter`, and a
+  `createConsoleDiagnosticReporter`.
+- `selectResultSet`, the typed cell accessors, `validateMapped`, and the value-format checks in the
+  mappers now attach a sanitized diagnostic to the thrown `ProviderError` at every
+  `PROVIDER_INVALID_RESPONSE` site (envelope, result-set, required-columns, row-width, cell-type,
+  value-format, mapped-schema stages). The throw conditions, messages, and public error are
+  unchanged; the diagnostic carries only structural metadata.
+- The live provider emits a diagnostic (enriched with the safe upstream endpoint name) through an
+  injected reporter when a response is rejected. The reporter is a no-op unless
+  `NBA_STATS_DIAGNOSTICS=true`, wired at the composition root. Emission never changes whether
+  parsing succeeds or fails and never alters the public API error response.
+
+### Stage D — implemented
+
+- `nba-connectivity-gate.ts` now runs the **same** production parser/mapper per endpoint
+  (`parseDirectory`, `mapPlayerProfile`, `parseCareerSeasons`, `mapGameLog`) after the HTTP/JSON
+  check, reusing the exported functions (no duplicated parser logic). A check passes only when the
+  real mapper accepts the body and fails (sanitized) when it would raise
+  `PROVIDER_INVALID_RESPONSE`. A `gateExitCode` helper makes the non-zero-on-failure exit testable.
+- The gate keeps its small request scope, timeout, and manual-invocation guard; it prints only the
+  stable code plus the structural diagnostic, never bodies, rows, player values, headers, cookies,
+  or full URLs.
+
+### Files
+
+- Created: `backend/src/features/players/nba-stats/nba-stats-diagnostics.ts` (+ test).
+- Modified: `backend/src/config/player-provider-config.ts` (+ test),
+  `backend/src/features/players/provider-error.ts`,
+  `backend/src/features/players/nba-stats/nba-stats-response.ts`,
+  `backend/src/features/players/nba-stats/nba-stats-mappers.ts`,
+  `backend/src/features/players/nba-stats/nba-stats-player-provider.ts` (+ test),
+  `backend/src/features/players/player-provider-factory.ts` (+ test),
+  `backend/src/scripts/nba-connectivity-gate.ts` (+ test), `backend/.env.example`.
+- No change to shared contracts, the frontend, the fixture provider, the `PlayerProvider`
+  interface, the routes, the cache, `render.yaml`, or any Render setting.
+
+### Verification (all offline)
+
+- Formatting, ESLint, strict frontend and backend type-checking, and the production build pass.
+- Tests: 139 frontend and 217 backend (356 total), all passing — 31 new backend tests covering the
+  diagnostics flag, the sanitized diagnostic content and stages, the sentinel-secret sanitation
+  sweep, the public-error invariance, the reporter wiring, and the strengthened gate. No test
+  contacts NBA.com.
+- `git diff --check` clean. The frontend bundle is unchanged (backend-only change).
+
+### Stage B — the exact controlled Render run still required (not executed here)
+
+To obtain the sanitized evidence that unblocks Stage C, run the strengthened gate from the Render
+host while production continues serving in fixture mode:
+
+```sh
+node backend/dist/scripts/nba-connectivity-gate.js
+# or: npm run connectivity-gate --workspace backend
+```
+
+Because the gate now runs the production `parseDirectory` path for `commonallplayers`, its
+`commonallplayers` line is expected to print `FAIL` with a sanitized one-line diagnostic naming the
+exact rejection. The evidence to record (sanitized output only, no raw bodies) is the
+`commonallplayers` diagnostic, specifically:
+
+- the failing `stage` (one of `envelope`, `result-set`, `required-columns`, `row-width`,
+  `cell-type`, `value-format`, `mapped-schema`);
+- the `category` and the relevant structural fields — e.g. `hasResultSets`/`hasResultSet` and
+  `topLevelKeys` for an envelope mismatch; `resultSetNames` for a result-set mismatch;
+  `missingColumns` for a column mismatch; `rejectedColumn` + `valueCategory` (+ `rejectedRowIndex`)
+  for a cell-type or value-format mismatch; `zodIssues` codes/paths where present.
+
+Optionally, the same evidence can be captured from the live application path by setting
+`NBA_STATS_DIAGNOSTICS=true` for a single controlled run, but the gate alone exercises the identical
+parser and is sufficient. Do not capture or store raw response bodies, rows, headers, or cookies.
+Stage C (the compatibility fix) must not begin until this evidence proves the legitimate variation.
