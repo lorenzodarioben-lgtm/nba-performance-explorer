@@ -2,7 +2,7 @@
 
 - **Milestone:** Production Deployment
 - **Status:** Planning complete; implementation not started
-- **Branch:** `feature/production-deployment`
+- **Branch:** merged into `main` through pull request #10 (`9c27e3c`)
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_STATE.md`,
 > and `docs/DECISIONS.md` before any work. TASK-001 through TASK-008 are completed and merged.
@@ -418,9 +418,7 @@ fixture-backed public fallback is approved as the gate-fail outcome.
 
 ### Repository implementation status (uncommitted)
 
-The repository-side deployment work is implemented on `feature/production-deployment` and left
-uncommitted for review (no deployment, hosting account, commit, push, or live NBA.com request was
-made):
+The repository-side deployment work was merged into `main` through pull request #10 in merge commit `9c27e3c`. Render was then switched to track `main`, the fixture-backed deployment was verified healthy, and the feature branch was deleted.
 
 - `render.yaml` — one free Render web service: Node 22, `npm ci && npm run build`,
   `node backend/dist/server.js`, `/api/health` health check, fixture mode default, `FRONTEND_DIST`
