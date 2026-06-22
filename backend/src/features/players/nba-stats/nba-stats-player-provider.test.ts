@@ -1,6 +1,10 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { createNbaStatsCache } from './nba-stats-cache.js';
+import type {
+  DiagnosticReporter,
+  ResponseDiagnostic,
+} from './nba-stats-diagnostics.js';
 import type { NbaStatsHttpClient } from './nba-stats-http-client.js';
 import {
   currentNbaSeason,
@@ -42,12 +46,13 @@ function createFakeClient(handlers: Partial<Record<string, Responder>>) {
 
 const FIXED_NOW = new Date('2024-03-15T00:00:00Z'); // NBA season 2023-24
 
-function makeProvider(client: NbaStatsHttpClient) {
+function makeProvider(client: NbaStatsHttpClient, reporter?: DiagnosticReporter) {
   const cache = createNbaStatsCache({ now: () => FIXED_NOW.getTime() });
   return new NbaStatsPlayerProvider({
     httpClient: client,
     cache,
     now: () => FIXED_NOW,
+    ...(reporter ? { reporter } : {}),
   });
 }
 
@@ -338,5 +343,91 @@ describe('NbaStatsPlayerProvider', () => {
     expect(games).toHaveLength(1);
     expect(games[0]?.opponent.abbreviation).toBe('DEN');
     expect(await provider.listPlayerGames('2544', '2017-18')).toEqual([]);
+  });
+});
+
+describe('NbaStatsPlayerProvider diagnostics emission', () => {
+  const invalidDirectoryBody = envelope(
+    resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+      rowFor(DIRECTORY_HEADERS, {
+        PERSON_ID: 2544,
+        DISPLAY_LAST_COMMA_FIRST: 'James, LeBron',
+        DISPLAY_FIRST_LAST: 'LeBron James',
+        ROSTERSTATUS: 9, // neither 0 nor 1
+      }),
+    ]),
+  );
+
+  function recordingReporter() {
+    const reports: ResponseDiagnostic[] = [];
+    const reporter: DiagnosticReporter = {
+      report: (diagnostic) => {
+        reports.push(diagnostic);
+      },
+    };
+    return { reporter, reports };
+  }
+
+  it('reports a sanitized diagnostic enriched with the endpoint on an invalid response', async () => {
+    const { reporter, reports } = recordingReporter();
+    const { client } = createFakeClient({
+      commonallplayers: () => invalidDirectoryBody,
+    });
+    const provider = makeProvider(client, reporter);
+
+    await expect(provider.searchPlayers('lebron', 8)).rejects.toMatchObject({
+      code: 'PROVIDER_INVALID_RESPONSE',
+    });
+
+    expect(reports).toHaveLength(1);
+    expect(reports[0]).toMatchObject({
+      endpoint: 'commonallplayers',
+      stage: 'value-format',
+      category: 'invalid-roster-status',
+    });
+  });
+
+  it('does not report anything on a successful parse', async () => {
+    const { reporter, reports } = recordingReporter();
+    const { client } = createFakeClient({ commonallplayers: () => directoryBody });
+    const provider = makeProvider(client, reporter);
+
+    expect(await provider.searchPlayers('lebron', 8)).toHaveLength(1);
+    expect(reports).toHaveLength(0);
+  });
+
+  it('emits nothing through console when no reporter is configured', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const { client } = createFakeClient({
+      commonallplayers: () => invalidDirectoryBody,
+    });
+    const provider = makeProvider(client); // default no-op reporter
+
+    await expect(provider.searchPlayers('lebron', 8)).rejects.toMatchObject({
+      code: 'PROVIDER_INVALID_RESPONSE',
+    });
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it('does not change whether parsing succeeds or fails when diagnostics are enabled', async () => {
+    const { reporter } = recordingReporter();
+
+    const searchWith = (body: unknown, withReporter: boolean) => {
+      const { client } = createFakeClient({ commonallplayers: () => body });
+      const provider = withReporter
+        ? makeProvider(client, reporter)
+        : makeProvider(client);
+      return provider.searchPlayers('lebron', 8);
+    };
+
+    await expect(searchWith(invalidDirectoryBody, true)).rejects.toMatchObject({
+      code: 'PROVIDER_INVALID_RESPONSE',
+    });
+    await expect(searchWith(invalidDirectoryBody, false)).rejects.toMatchObject({
+      code: 'PROVIDER_INVALID_RESPONSE',
+    });
+    expect(await searchWith(directoryBody, true)).toHaveLength(1);
+    expect(await searchWith(directoryBody, false)).toHaveLength(1);
   });
 });

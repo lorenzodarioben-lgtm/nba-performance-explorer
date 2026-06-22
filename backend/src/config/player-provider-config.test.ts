@@ -141,3 +141,29 @@ describe('parsePlayerProviderConfig — timeout', () => {
     }
   });
 });
+
+describe('parsePlayerProviderConfig — diagnostics', () => {
+  it('disables diagnostics by default when the variable is absent', () => {
+    expect(parsePlayerProviderConfig({}).diagnostics).toBe(false);
+  });
+
+  it('enables diagnostics only for an explicit "true"', () => {
+    expect(
+      parsePlayerProviderConfig({ NBA_STATS_DIAGNOSTICS: 'true' }).diagnostics,
+    ).toBe(true);
+  });
+
+  it('disables diagnostics for an explicit "false"', () => {
+    expect(
+      parsePlayerProviderConfig({ NBA_STATS_DIAGNOSTICS: 'false' }).diagnostics,
+    ).toBe(false);
+  });
+
+  it('rejects any other diagnostics value', () => {
+    for (const value of ['', 'TRUE', '1', 'yes', 'on']) {
+      expect(() => parsePlayerProviderConfig({ NBA_STATS_DIAGNOSTICS: value })).toThrow(
+        PlayerProviderConfigError,
+      );
+    }
+  });
+});

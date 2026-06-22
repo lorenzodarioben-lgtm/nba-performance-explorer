@@ -2,6 +2,8 @@
 // error middleware maps it to a stable public HTTP response. Internal messages are short and
 // safe (never raw upstream URLs, bodies, headers, or cookies); the public message is generic.
 
+import type { ResponseDiagnostic } from './nba-stats/nba-stats-diagnostics.js';
+
 export type ProviderErrorCode =
   | 'PROVIDER_TIMEOUT'
   | 'PROVIDER_UNAVAILABLE'
@@ -9,11 +11,20 @@ export type ProviderErrorCode =
 
 export class ProviderError extends Error {
   readonly code: ProviderErrorCode;
+  // Optional sanitized structural diagnostic describing *where* an invalid response was rejected.
+  // It is attached by the parser/mappers and emitted only when diagnostics are explicitly enabled
+  // or by the connectivity gate. It never carries upstream payload data (see nba-stats-diagnostics).
+  readonly diagnostic?: ResponseDiagnostic | undefined;
 
-  constructor(code: ProviderErrorCode, message: string) {
+  constructor(
+    code: ProviderErrorCode,
+    message: string,
+    diagnostic?: ResponseDiagnostic,
+  ) {
     super(message);
     this.name = 'ProviderError';
     this.code = code;
+    this.diagnostic = diagnostic;
   }
 }
 
@@ -31,8 +42,9 @@ export function providerUnavailable(
 
 export function providerInvalidResponse(
   message = 'Upstream source returned an unexpected response.',
+  diagnostic?: ResponseDiagnostic,
 ): ProviderError {
-  return new ProviderError('PROVIDER_INVALID_RESPONSE', message);
+  return new ProviderError('PROVIDER_INVALID_RESPONSE', message, diagnostic);
 }
 
 export interface ProviderHttpError {
