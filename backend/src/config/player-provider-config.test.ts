@@ -40,13 +40,53 @@ describe('parsePlayerProviderConfig — mode', () => {
     );
   });
 
-  it('fails when fixture is explicitly selected in production', () => {
+  it('fails when fixture is selected in production without explicit approval', () => {
     expect(() =>
       parsePlayerProviderConfig({
         NBA_DATA_PROVIDER: 'fixture',
         NODE_ENV: 'production',
       }),
     ).toThrow(PlayerProviderConfigError);
+  });
+
+  it('allows an explicitly approved production fixture deployment', () => {
+    expect(
+      parsePlayerProviderConfig({
+        NBA_DATA_PROVIDER: 'fixture',
+        NBA_ALLOW_FIXTURE_IN_PRODUCTION: 'true',
+        NODE_ENV: 'production',
+      }).mode,
+    ).toBe('fixture');
+  });
+
+  it('rejects production fixture mode when the allowance is false', () => {
+    expect(() =>
+      parsePlayerProviderConfig({
+        NBA_DATA_PROVIDER: 'fixture',
+        NBA_ALLOW_FIXTURE_IN_PRODUCTION: 'false',
+        NODE_ENV: 'production',
+      }),
+    ).toThrow(PlayerProviderConfigError);
+  });
+
+  it('still rejects an absent production provider when fixture use is approved', () => {
+    expect(() =>
+      parsePlayerProviderConfig({
+        NBA_ALLOW_FIXTURE_IN_PRODUCTION: 'true',
+        NODE_ENV: 'production',
+      }),
+    ).toThrow(PlayerProviderConfigError);
+  });
+
+  it('rejects invalid fixture-production allowance values', () => {
+    for (const value of ['', 'TRUE', '1', 'yes']) {
+      expect(() =>
+        parsePlayerProviderConfig({
+          NBA_DATA_PROVIDER: 'fixture',
+          NBA_ALLOW_FIXTURE_IN_PRODUCTION: value,
+        }),
+      ).toThrow(PlayerProviderConfigError);
+    }
   });
 
   it('rejects an unknown provider value', () => {
@@ -73,6 +113,7 @@ describe('parsePlayerProviderConfig — timeout', () => {
         NBA_STATS_TIMEOUT_MS: String(MIN_NBA_STATS_TIMEOUT_MS),
       }).timeoutMs,
     ).toBe(MIN_NBA_STATS_TIMEOUT_MS);
+
     expect(
       parsePlayerProviderConfig({
         NBA_STATS_TIMEOUT_MS: String(MAX_NBA_STATS_TIMEOUT_MS),

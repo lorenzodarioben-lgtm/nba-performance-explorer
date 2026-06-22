@@ -1,0 +1,28 @@
+# Render Blueprint for the NBA Performance Explorer.
+#
+# One free web service runs the Express backend, which serves both the built frontend
+# and the /api routes from a single origin. Render automatically runs the service with
+# NODE_ENV=production.
+#
+# The initial public deployment deliberately uses fixture mode until the deployment-host
+# NBA.com connectivity gate passes. NBA_ALLOW_FIXTURE_IN_PRODUCTION=true is an explicit
+# opt-in and prevents fixture mode from becoming an accidental production fallback.
+services:
+  - type: web
+    name: nba-performance-explorer
+    runtime: node
+    plan: free
+    region: oregon
+    autoDeploy: true
+    buildCommand: npm ci && npm run build
+    startCommand: node backend/dist/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NBA_DATA_PROVIDER
+        value: fixture
+      - key: NBA_ALLOW_FIXTURE_IN_PRODUCTION
+        value: 'true'
+      - key: NBA_STATS_TIMEOUT_MS
+        value: '10000'
+      - key: FRONTEND_DIST
+        value: frontend/dist
