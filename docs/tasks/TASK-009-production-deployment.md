@@ -451,3 +451,23 @@ made):
 - Significant architectural decisions (host choice, CORS/proxy design, connectivity-gate outcome,
   any fixture-fallback policy) are recorded as new ADRs without rewriting existing ADR history.
 - No commit or push occurs unless explicitly instructed.
+
+## Verified deployment outcome — 2026-06-22
+
+- Public URL: `https://nba-performance-explorer.onrender.com`
+- Compatibility commit: `8060ba5`
+- One-time connectivity-gate commit: `5cd3f77`
+- Live-provider trial commit: `1989322`
+- Fixture rollback commit: `aa60e07`
+- `/api/health` returned HTTP 200 with `"status":"ok"`.
+- Fixture-backed search, profile, season statistics, game log, career trends, and comparison were
+  smoke-tested successfully.
+- The Render-host gate returned `PASS` for `commonallplayers`, `commonplayerinfo`,
+  `playercareerstats`, and `playergamelog`.
+- The live provider started with `provider: nba-stats`.
+- Real player search failed with `PROVIDER_INVALID_RESPONSE` and HTTP 502.
+- The service was rolled back to fixture mode and verified healthy.
+- Final production mode for TASK-009 is the explicit fixture demonstration.
+- Live NBA.com data is disabled pending a separate response-validation investigation.
+- No proxy, IP rotation, cookie harvesting, CAPTCHA bypass, WAF bypass, or silent fixture
+  fallback was used.

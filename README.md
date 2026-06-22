@@ -224,8 +224,19 @@ The public application will remain fully usable with deterministic fixture data.
 must clearly disclose that live NBA.com data is disabled because the hosting environment could
 not reliably reach NBA.com. No blocking-evasion mechanism should be introduced.
 
-No successful public deployment has been completed yet, and deployment-host NBA.com connectivity
-remains unverified.
+Verified deployment outcome on 2026-06-22:
+
+- The application deployed successfully to
+  `https://nba-performance-explorer.onrender.com`.
+- `/api/health`, player search, profiles, season statistics, game logs, career trends, and
+  comparison were smoke-tested successfully in fixture mode.
+- The deployment-host gate returned `PASS` for `commonallplayers`, `commonplayerinfo`,
+  `playercareerstats`, and `playergamelog`.
+- A subsequent `nba-stats` deployment started successfully, but real player search failed strict
+  backend response validation with `PROVIDER_INVALID_RESPONSE` and HTTP 502.
+- Production was rolled back to the explicitly approved fixture demonstration and is healthy.
+- Live NBA.com data remains disabled pending a separately scoped response-validation
+  investigation.
 
 ## Documentation
 

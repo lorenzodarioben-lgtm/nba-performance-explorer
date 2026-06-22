@@ -301,3 +301,15 @@ mode; the documentation must state that live data is disabled in that case, that
 accepted ADR-013 outcome, and that no blocking-evasion is used. Alternatives (Render static plus
 web service, Vercel plus Render, Koyeb) were considered and recorded in the TASK-009 plan; they
 add a second service or platform and cross-origin routing without improving NBA.com reachability.
+
+### Verified Render outcome — 2026-06-22
+
+The public Render deployment succeeded in fixture mode. The deployment-host connectivity gate
+returned `PASS` for all four approved NBA.com endpoint families at the HTTP/JSON level. A live
+`nba-stats` deployment then started successfully, but player search failed strict response
+validation with `PROVIDER_INVALID_RESPONSE` and HTTP 502.
+
+The ADR-013 fallback was therefore applied: production was restored to the explicitly approved
+fixture demonstration. The public application remains healthy, no silent runtime fallback occurs,
+and no blocking-evasion technique was introduced. Live provider schema investigation is deferred
+to a separately scoped task.

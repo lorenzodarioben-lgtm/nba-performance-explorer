@@ -9,7 +9,7 @@ _Last updated: 2026-06-22_
 
 - **Current milestone:** Production Deployment
 - **Current task:** TASK-009 - Production Deployment
-- **Current status:** Render compatibility fix implemented and validated locally; uncommitted and awaiting redeployment
+- **Current status:** Public Render deployment live in fixture mode; connectivity gate passed; live mode rolled back after response-validation failure
 - **Current branch:** `feature/production-deployment`
 
 ## Summary
@@ -23,38 +23,21 @@ merge commit `f8256d2`. Its earlier documentation state merged through pull requ
 boundary and is selected through runtime configuration. Fixture mode remains the default for
 tests, CI, local development, offline use, and intentionally fixture-backed demonstrations.
 
-TASK-009, production deployment, is the active milestone. The branch includes:
+TASK-009 successfully deployed the application to Render at
+`https://nba-performance-explorer.onrender.com`. The public health endpoint and the complete
+fixture-backed user journey were smoke-tested successfully, including player search, profiles,
+season statistics, game logs, career trends, and two-player comparison.
 
-- A Render Blueprint in `render.yaml`.
-- One Render web service running the Express backend.
-- Same-origin serving of the built React frontend and all `/api` routes.
-- Environment-gated static frontend serving through `FRONTEND_DIST`.
-- A deployment-host NBA.com connectivity-gate script.
-- Offline tests for production static serving and the connectivity gate.
-- Production documentation, smoke-test procedures, rollback instructions, and known limitations.
+The deployment-host connectivity gate returned `PASS` for all four approved NBA.com endpoint
+families at the HTTP-success and JSON-response level. Live mode was then enabled with
+`NBA_DATA_PROVIDER=nba-stats`. The service started successfully, but real player search returned
+`PROVIDER_INVALID_RESPONSE` with HTTP 502 because the upstream response did not satisfy the
+backend's strict application-level validation.
 
-The first Render build completed successfully, but the service failed during startup. Render runs
-the service with `NODE_ENV=production`, while the original provider configuration deliberately
-rejected `NBA_DATA_PROVIDER=fixture` in production. The previous documentation and Blueprint
-incorrectly assumed that leaving `NODE_ENV` unset in `render.yaml` would prevent production mode.
-
-A compatibility fix is now implemented locally:
-
-- `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true|false` was added as a strict explicit safety switch.
-- Production still requires an explicit `NBA_DATA_PROVIDER`.
-- Production fixture mode remains rejected unless
-  `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true` is supplied exactly.
-- An absent production provider remains a startup error even when the fixture allowance is enabled.
-- Invalid allowance values fail configuration before the server listens.
-- Live `nba-stats` mode is unchanged.
-- A configured live provider never silently falls back to fixtures.
-- `render.yaml` now explicitly selects fixture mode and explicitly approves that temporary
-  production fixture demonstration.
-- `backend/.env.example`, the README, and the relevant task and architecture documentation are
-  being updated to describe the real Render behavior.
-
-No successful public deployment exists yet. The compatibility fix has not yet been committed,
-pushed, or redeployed. Deployment-host NBA.com connectivity remains unverified.
+The service was rolled back to `NBA_DATA_PROVIDER=fixture` with
+`NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`. The public application is currently live and healthy in
+the explicitly approved fixture demonstration mode. Live NBA.com data remains disabled, and no
+silent fallback or blocking-evasion mechanism was introduced.
 
 On top of the TASK-001 foundation, the application provides:
 
@@ -125,7 +108,7 @@ The merged `main` baseline was previously verified with:
 - CSS bundle: 13.47 KB raw and 3.46 KB gzip.
 - The existing Vite chunk-size warning remaining known and non-blocking.
 
-The current uncommitted Render compatibility fix was validated locally on 2026-06-22 with:
+The final TASK-009 branch state was validated locally on 2026-06-22 with:
 
 - Formatting check passed.
 - ESLint passed.
@@ -157,29 +140,13 @@ TASK-009 is documented in
 
 ## Immediate next action
 
-Finish updating the TASK-008 and TASK-009 documentation so it no longer claims that Render can
-leave `NODE_ENV` unset.
+Commit and push the verified deployment evidence, then wait for GitHub checks and the final
+Render redeployment to remain healthy in fixture mode. Merge pull request #10 only after those
+checks pass.
 
-Then:
-
-1. Run the full root validation again.
-2. Run `git diff --check`.
-3. Review the complete diff and confirm that only the intended TASK-009 compatibility and
-   documentation changes exist.
-4. Commit the compatibility fix on `feature/production-deployment`.
-5. Push the branch to update pull request #10.
-6. Allow Render to redeploy automatically, or manually deploy the latest commit if necessary.
-7. Confirm that the service reaches the `Live` state.
-8. Smoke-test the public homepage.
-9. Smoke-test `GET /api/health`.
-10. Verify that fixture-backed player search, profiles, statistics, trends, game logs, and
-    comparison work through the public URL.
-11. Run the ADR-013 NBA.com connectivity gate from the deployed host.
-12. Enable `NBA_DATA_PROVIDER=nba-stats` and remove or disable
-    `NBA_ALLOW_FIXTURE_IN_PRODUCTION` only when all four endpoint checks pass.
-13. If any endpoint check fails, retain the explicitly approved fixture demonstration and document
-    the limitation without introducing blocking-evasion behavior.
-14. Merge pull request #10 only after the deployment and smoke-test evidence has been recorded.
+After the merge, update Render so the production service tracks `main` before deleting the
+feature branch. Investigate the live provider's `PROVIDER_INVALID_RESPONSE` in a separate,
+explicitly scoped task using sanitized schema metadata rather than raw NBA.com response bodies.
 
 ## How to update this file
 
