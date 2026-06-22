@@ -3,14 +3,14 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Coding agents read this to understand where things stand before starting work.
 
-_Last updated: 2026-06-22_
+_Last updated: 2026-06-23_
 
 ## Current state
 
-- **Current milestone:** Production Deployment
-- **Current task:** TASK-009 - Production Deployment (completed)
-- **Current status:** Completed and merged through pull request #10; Render is live from `main` in fixture mode
-- **Current branch:** `main`
+- **Current milestone:** Live NBA Provider Response Validation and Compatibility
+- **Current task:** TASK-010 - Live NBA Provider Response Validation and Compatibility (Stage A and Stage D implemented; Stage B pending explicit authorization; Stage C blocked on evidence; Stage E not started)
+- **Current status:** Sanitized response diagnostics (Stage A) and the strengthened deployment-host connectivity gate (Stage D) are implemented and verified offline on branch `fix/live-nba-provider-response-validation`. No root cause has been claimed — the legitimate live `commonallplayers` response variation is still unproven and awaits a Stage B sanitized Render diagnostic run. Production remains live from `main` in the verified fixture-backed mode; the live provider is not fixed and live production mode is not ready. TASK-009 is completed and merged (pull request #10, `9c27e3c`); the post-merge documentation state merged through pull request #11 (`fa437d3`).
+- **Current branch:** `fix/live-nba-provider-response-validation`
 
 ## Summary
 
@@ -97,6 +97,14 @@ deployment host fails the bounded connectivity gate.
 
 ## Validation state
 
+The TASK-010 branch `fix/live-nba-provider-response-validation` (Stage A and Stage D) was validated
+locally on 2026-06-23 with formatting, ESLint, strict type checking, the full offline test suite,
+and the production build all passing, and `git diff --check` clean. The suite is now 139 frontend
+and 217 backend tests (356 total) — 31 new backend tests for the diagnostics flag, sanitized
+diagnostic content and stages, the sentinel-secret sanitation sweep, public-error invariance, the
+reporter wiring, and the strengthened gate. The frontend bundle is unchanged (a backend-only
+change). This branch is not yet merged into `main`.
+
 The merged `main` baseline was previously verified with:
 
 - 139 frontend tests.
@@ -138,12 +146,27 @@ TASK-008 is documented in
 TASK-009 is documented in
 `docs/tasks/TASK-009-production-deployment.md`.
 
+TASK-010 is documented in
+`docs/tasks/TASK-010-live-nba-provider-response-validation.md`.
+
 ## Immediate next action
 
-Define the next scoped task to investigate the live NBA provider's
-`PROVIDER_INVALID_RESPONSE` using sanitized response-schema metadata. Keep Render tracking
-`main` and keep production in the verified fixture-backed mode until the validation mismatch is
-fixed, reviewed, and retested from the deployment host.
+TASK-010 Stage A (sanitized, off-by-default response diagnostics) and Stage D (a strengthened
+deployment-host gate that runs the same production parser/mapper per endpoint) are implemented and
+verified offline on branch `fix/live-nba-provider-response-validation`. The confirmed architecture
+gap — the old gate validated only HTTP 2xx plus parseable JSON, whereas player search additionally
+runs the strict `parseDirectory` / `selectResultSet` path over the `commonallplayers` response — is
+now closed in the gate. The exact legitimate response variation remains unproven and must not be
+assumed.
+
+The next steps are: (1) review the diagnostics and strengthened gate; then (2) perform one
+explicitly authorized, sanitized Stage B Render diagnostic run — execute the strengthened gate from
+the Render host (`node backend/dist/scripts/nba-connectivity-gate.js`) and record only the
+sanitized `commonallplayers` diagnostic (failing stage, category, and structural fields), no raw
+bodies. Stage C (the narrow parser/mapper compatibility fix) stays blocked until that evidence
+proves the variation, and Stage E (controlled live re-test) requires separate approval. Keep Render
+tracking `main` and keep production in the verified fixture-backed mode throughout; no root cause
+has been claimed and live production mode is not ready.
 
 ## How to update this file
 

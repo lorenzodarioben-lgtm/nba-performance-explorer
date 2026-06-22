@@ -193,6 +193,50 @@ describe('provider error mapping', () => {
       expect(JSON.stringify(response.body).toLowerCase()).not.toContain('nba stats');
     },
   );
+
+  it('never exposes the diagnostic, parser stage, endpoint, or internal message publicly', async () => {
+    const error = providerInvalidResponse(
+      'internal: CommonAllPlayers is missing column PLAYER_SLUG',
+      {
+        stage: 'required-columns',
+        category: 'missing-column',
+        endpoint: 'commonallplayers',
+        expectedResultSet: 'CommonAllPlayers',
+        missingColumns: ['PLAYER_SLUG'],
+        topLevelKeys: ['resource', 'resultSets'],
+      },
+    );
+    const failingApp = createApp(failingProvider(error));
+
+    const response = await request(failingApp)
+      .get('/api/players')
+      .query({ search: 'le' })
+      .expect(502);
+
+    // The public body is exactly the stable structured error — nothing more.
+    expect(response.body).toEqual({
+      error: {
+        code: 'PROVIDER_INVALID_RESPONSE',
+        message: 'The NBA data source returned an unexpected response.',
+        status: 502,
+      },
+    });
+
+    const serialized = JSON.stringify(response.body);
+    for (const forbidden of [
+      'stage',
+      'required-columns',
+      'missing-column',
+      'commonallplayers',
+      'CommonAllPlayers',
+      'PLAYER_SLUG',
+      'topLevelKeys',
+      'diagnostic',
+      'internal:',
+    ]) {
+      expect(serialized).not.toContain(forbidden);
+    }
+  });
 });
 
 describe('GET /api/players/:playerId', () => {

@@ -6,8 +6,13 @@ import type {
   PlayerSummary,
 } from '@nba-performance-explorer/contracts';
 
+import { ProviderError } from '../provider-error.js';
 import type { PlayerProvider } from '../player-provider.js';
 import { NbaStatsCache } from './nba-stats-cache.js';
+import {
+  noopDiagnosticReporter,
+  type DiagnosticReporter,
+} from './nba-stats-diagnostics.js';
 import type { NbaStatsHttpClient } from './nba-stats-http-client.js';
 import {
   availableSeasonsFromGroups,
@@ -38,6 +43,9 @@ export interface NbaStatsPlayerProviderDeps {
   cache: NbaStatsCache;
   // Injected clock for deterministic current-season resolution. Defaults to the system clock.
   now?: () => Date;
+  // Receives sanitized response diagnostics on an invalid-response failure. Defaults to a no-op,
+  // so diagnostics are emitted only when an explicitly enabled reporter is injected.
+  reporter?: DiagnosticReporter;
 }
 
 // The current NBA season in `YYYY-YY` form. The season starts in October, so October–December
@@ -54,11 +62,33 @@ export class NbaStatsPlayerProvider implements PlayerProvider {
   private readonly httpClient: NbaStatsHttpClient;
   private readonly cache: NbaStatsCache;
   private readonly now: () => Date;
+  private readonly reporter: DiagnosticReporter;
 
   constructor(deps: NbaStatsPlayerProviderDeps) {
     this.httpClient = deps.httpClient;
     this.cache = deps.cache;
     this.now = deps.now ?? (() => new Date());
+    this.reporter = deps.reporter ?? noopDiagnosticReporter;
+  }
+
+  // Emit a sanitized diagnostic when an upstream response is rejected, enriched with the safe
+  // endpoint name. The error is always rethrown unchanged, so whether parsing succeeds or fails and
+  // the public error response are unaffected; the reporter is a no-op unless diagnostics are
+  // explicitly enabled.
+  private async instrument<T>(endpoint: string, run: () => Promise<T>): Promise<T> {
+    try {
+      return await run();
+    } catch (error) {
+      if (error instanceof ProviderError && error.diagnostic) {
+        try {
+          this.reporter.report({ ...error.diagnostic, endpoint });
+        } catch {
+          // Diagnostics are observational only: a reporter that throws must never mask the parser
+          // failure or change the outcome. Swallow the reporter error and rethrow the original.
+        }
+      }
+      throw error;
+    }
   }
 
   async searchPlayers(searchTerm: string, limit: number): Promise<PlayerSummary[]> {
@@ -67,16 +97,18 @@ export class NbaStatsPlayerProvider implements PlayerProvider {
   }
 
   async getPlayerById(playerId: string): Promise<PlayerProfile | null> {
-    return this.cache.getOrLoad(
-      `nba-stats:profile:${playerId}`,
-      async () =>
-        mapPlayerProfile(
-          await this.httpClient.fetchEndpoint('commonplayerinfo', {
-            PlayerID: playerId,
-            LeagueID: '00',
-          }),
-        ),
-      (profile) => (profile === null ? EMPTY_TTL_MS : PROFILE_TTL_MS),
+    return this.instrument('commonplayerinfo', () =>
+      this.cache.getOrLoad(
+        `nba-stats:profile:${playerId}`,
+        async () =>
+          mapPlayerProfile(
+            await this.httpClient.fetchEndpoint('commonplayerinfo', {
+              PlayerID: playerId,
+              LeagueID: '00',
+            }),
+          ),
+        (profile) => (profile === null ? EMPTY_TTL_MS : PROFILE_TTL_MS),
+      ),
     );
   }
 
@@ -97,41 +129,45 @@ export class NbaStatsPlayerProvider implements PlayerProvider {
 
   async listPlayerGames(playerId: string, season: string): Promise<PlayerGame[]> {
     const isCurrentSeason = season === currentNbaSeason(this.now());
-    return this.cache.getOrLoad(
-      `nba-stats:games:${playerId}:${season}`,
-      async () =>
-        mapGameLog(
-          await this.httpClient.fetchEndpoint('playergamelog', {
-            PlayerID: playerId,
-            Season: season,
-            SeasonType: 'Regular Season',
-            DateFrom: '',
-            DateTo: '',
-            LeagueID: '00',
-          }),
-        ),
-      (games) => {
-        if (games.length === 0) {
-          return EMPTY_TTL_MS;
-        }
-        return isCurrentSeason ? GAME_LOG_CURRENT_TTL_MS : GAME_LOG_HISTORICAL_TTL_MS;
-      },
+    return this.instrument('playergamelog', () =>
+      this.cache.getOrLoad(
+        `nba-stats:games:${playerId}:${season}`,
+        async () =>
+          mapGameLog(
+            await this.httpClient.fetchEndpoint('playergamelog', {
+              PlayerID: playerId,
+              Season: season,
+              SeasonType: 'Regular Season',
+              DateFrom: '',
+              DateTo: '',
+              LeagueID: '00',
+            }),
+          ),
+        (games) => {
+          if (games.length === 0) {
+            return EMPTY_TTL_MS;
+          }
+          return isCurrentSeason ? GAME_LOG_CURRENT_TTL_MS : GAME_LOG_HISTORICAL_TTL_MS;
+        },
+      ),
     );
   }
 
   private async loadDirectory(): Promise<DirectoryPlayer[]> {
     const season = currentNbaSeason(this.now());
-    return this.cache.getOrLoad(
-      `nba-stats:directory:${season}`,
-      async () =>
-        parseDirectory(
-          await this.httpClient.fetchEndpoint('commonallplayers', {
-            LeagueID: '00',
-            Season: season,
-            IsOnlyCurrentSeason: '0',
-          }),
-        ),
-      (players) => (players.length === 0 ? EMPTY_TTL_MS : DIRECTORY_TTL_MS),
+    return this.instrument('commonallplayers', () =>
+      this.cache.getOrLoad(
+        `nba-stats:directory:${season}`,
+        async () =>
+          parseDirectory(
+            await this.httpClient.fetchEndpoint('commonallplayers', {
+              LeagueID: '00',
+              Season: season,
+              IsOnlyCurrentSeason: '0',
+            }),
+          ),
+        (players) => (players.length === 0 ? EMPTY_TTL_MS : DIRECTORY_TTL_MS),
+      ),
     );
   }
 
@@ -142,24 +178,26 @@ export class NbaStatsPlayerProvider implements PlayerProvider {
       currentNbaSeason(this.now()).slice(0, 4),
       10,
     );
-    return this.cache.getOrLoad(
-      `nba-stats:career:${playerId}`,
-      async () =>
-        parseCareerSeasons(
-          await this.httpClient.fetchEndpoint('playercareerstats', {
-            PlayerID: playerId,
-            PerMode: 'PerGame',
-            LeagueID: '00',
-          }),
-        ),
-      (groups) => {
-        if (groups.size === 0) {
-          return EMPTY_TTL_MS;
-        }
-        return newestSeasonStartYear(groups) === currentStartYear
-          ? CAREER_ACTIVE_TTL_MS
-          : CAREER_INACTIVE_TTL_MS;
-      },
+    return this.instrument('playercareerstats', () =>
+      this.cache.getOrLoad(
+        `nba-stats:career:${playerId}`,
+        async () =>
+          parseCareerSeasons(
+            await this.httpClient.fetchEndpoint('playercareerstats', {
+              PlayerID: playerId,
+              PerMode: 'PerGame',
+              LeagueID: '00',
+            }),
+          ),
+        (groups) => {
+          if (groups.size === 0) {
+            return EMPTY_TTL_MS;
+          }
+          return newestSeasonStartYear(groups) === currentStartYear
+            ? CAREER_ACTIVE_TTL_MS
+            : CAREER_INACTIVE_TTL_MS;
+        },
+      ),
     );
   }
 }

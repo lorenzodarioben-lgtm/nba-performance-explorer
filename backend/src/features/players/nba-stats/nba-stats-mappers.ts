@@ -53,21 +53,36 @@ export function parseDirectory(body: unknown): DirectoryPlayer[] {
   const table = selectResultSet(body, DIRECTORY_RESULT_SET, DIRECTORY_COLUMNS);
   const players: DirectoryPlayer[] = [];
 
-  for (const row of table.rows) {
+  for (const [rowIndex, row] of table.rows.entries()) {
     const fullName = optionalString(table, row, 'DISPLAY_FIRST_LAST');
     if (fullName === undefined) {
       continue;
     }
     const personIdValue = requireFiniteNumber(table, row, 'PERSON_ID');
     if (!Number.isSafeInteger(personIdValue) || personIdValue <= 0) {
-      throw providerInvalidResponse('NBA Stats returned an invalid player id.');
+      throw providerInvalidResponse('NBA Stats returned an invalid player id.', {
+        stage: 'value-format',
+        category: 'invalid-player-id',
+        expectedResultSet: DIRECTORY_RESULT_SET,
+        rejectedColumn: 'PERSON_ID',
+        rejectedRowIndex: rowIndex,
+        valueCategory: 'number',
+      });
     }
     const { firstName, surname } = parseDirectoryNames(
       requireString(table, row, 'DISPLAY_LAST_COMMA_FIRST'),
+      rowIndex,
     );
     const rosterStatus = requireFiniteNumber(table, row, 'ROSTERSTATUS');
     if (rosterStatus !== 0 && rosterStatus !== 1) {
-      throw providerInvalidResponse('NBA Stats returned an invalid roster status.');
+      throw providerInvalidResponse('NBA Stats returned an invalid roster status.', {
+        stage: 'value-format',
+        category: 'invalid-roster-status',
+        expectedResultSet: DIRECTORY_RESULT_SET,
+        rejectedColumn: 'ROSTERSTATUS',
+        rejectedRowIndex: rowIndex,
+        valueCategory: 'number',
+      });
     }
     const personId = String(personIdValue);
     const isActive = rosterStatus === 1;
@@ -89,7 +104,10 @@ export function parseDirectory(body: unknown): DirectoryPlayer[] {
   return players;
 }
 
-function parseDirectoryNames(value: string): {
+function parseDirectoryNames(
+  value: string,
+  rowIndex: number,
+): {
   firstName: string;
   surname: string;
 } {
@@ -97,6 +115,14 @@ function parseDirectoryNames(value: string): {
   if (commaIndex <= 0) {
     throw providerInvalidResponse(
       'NBA Stats returned an invalid last-comma-first player name.',
+      {
+        stage: 'value-format',
+        category: 'invalid-last-comma-first-name',
+        expectedResultSet: DIRECTORY_RESULT_SET,
+        rejectedColumn: 'DISPLAY_LAST_COMMA_FIRST',
+        rejectedRowIndex: rowIndex,
+        valueCategory: 'string',
+      },
     );
   }
 
@@ -105,6 +131,14 @@ function parseDirectoryNames(value: string): {
   if (firstName === '' || surname === '') {
     throw providerInvalidResponse(
       'NBA Stats returned an incomplete last-comma-first player name.',
+      {
+        stage: 'value-format',
+        category: 'incomplete-last-comma-first-name',
+        expectedResultSet: DIRECTORY_RESULT_SET,
+        rejectedColumn: 'DISPLAY_LAST_COMMA_FIRST',
+        rejectedRowIndex: rowIndex,
+        valueCategory: 'string',
+      },
     );
   }
 
@@ -169,7 +203,12 @@ export function mapPlayerProfile(body: unknown): PlayerProfile | null {
     return null;
   }
   if (table.rows.length > 1) {
-    throw providerInvalidResponse('NBA Stats returned multiple profile rows.');
+    throw providerInvalidResponse('NBA Stats returned multiple profile rows.', {
+      stage: 'value-format',
+      category: 'multiple-profile-rows',
+      expectedResultSet: PROFILE_RESULT_SET,
+      rowCount: table.rows.length,
+    });
   }
 
   const row = table.rows[0];
@@ -345,7 +384,13 @@ export function parseCareerSeasons(body: unknown): Map<string, CareerRow[]> {
   for (const row of table.rows) {
     const season = requireString(table, row, 'SEASON_ID');
     if (!SEASON_ID_PATTERN.test(season)) {
-      throw providerInvalidResponse('NBA Stats returned an invalid season id.');
+      throw providerInvalidResponse('NBA Stats returned an invalid season id.', {
+        stage: 'value-format',
+        category: 'invalid-season-id',
+        expectedResultSet: CAREER_RESULT_SET,
+        rejectedColumn: 'SEASON_ID',
+        valueCategory: 'string',
+      });
     }
 
     const careerRow: CareerRow = {
@@ -397,7 +442,11 @@ function selectSeasonRow(rows: CareerRow[]): CareerRow {
   if (rows.length === 1) {
     const [only] = rows;
     if (!only) {
-      throw providerInvalidResponse('NBA Stats returned an empty season group.');
+      throw providerInvalidResponse('NBA Stats returned an empty season group.', {
+        stage: 'value-format',
+        category: 'empty-season-group',
+        expectedResultSet: CAREER_RESULT_SET,
+      });
     }
     return only;
   }
@@ -406,11 +455,21 @@ function selectSeasonRow(rows: CareerRow[]): CareerRow {
   if (aggregates.length !== 1) {
     throw providerInvalidResponse(
       'NBA Stats returned a multi-team season without a unique aggregate row.',
+      {
+        stage: 'value-format',
+        category: 'multi-team-without-unique-aggregate',
+        expectedResultSet: CAREER_RESULT_SET,
+        rowCount: rows.length,
+      },
     );
   }
   const [aggregate] = aggregates;
   if (!aggregate) {
-    throw providerInvalidResponse('NBA Stats returned an empty aggregate group.');
+    throw providerInvalidResponse('NBA Stats returned an empty aggregate group.', {
+      stage: 'value-format',
+      category: 'empty-aggregate-group',
+      expectedResultSet: CAREER_RESULT_SET,
+    });
   }
   return aggregate;
 }
@@ -548,14 +607,26 @@ const MONTHS: Readonly<Record<string, number>> = {
 function parseGameDate(value: string): string {
   const match = /^([A-Za-z]{3}) (\d{1,2}), (\d{4})$/.exec(value);
   if (!match) {
-    throw providerInvalidResponse('NBA Stats returned an unrecognized game date.');
+    throw providerInvalidResponse('NBA Stats returned an unrecognized game date.', {
+      stage: 'value-format',
+      category: 'unrecognized-game-date',
+      expectedResultSet: GAME_LOG_RESULT_SET,
+      rejectedColumn: 'GAME_DATE',
+      valueCategory: 'string',
+    });
   }
   const month = MONTHS[(match[1] ?? '').toUpperCase()];
   const day = Number.parseInt(match[2] ?? '', 10);
   const year = Number.parseInt(match[3] ?? '', 10);
 
   if (month === undefined || !Number.isInteger(day) || !Number.isInteger(year)) {
-    throw providerInvalidResponse('NBA Stats returned an invalid game date.');
+    throw providerInvalidResponse('NBA Stats returned an invalid game date.', {
+      stage: 'value-format',
+      category: 'invalid-game-date',
+      expectedResultSet: GAME_LOG_RESULT_SET,
+      rejectedColumn: 'GAME_DATE',
+      valueCategory: 'string',
+    });
   }
 
   const utc = new Date(Date.UTC(year, month - 1, day));
@@ -564,7 +635,13 @@ function parseGameDate(value: string): string {
     utc.getUTCMonth() !== month - 1 ||
     utc.getUTCDate() !== day
   ) {
-    throw providerInvalidResponse('NBA Stats returned a non-calendar game date.');
+    throw providerInvalidResponse('NBA Stats returned a non-calendar game date.', {
+      stage: 'value-format',
+      category: 'non-calendar-game-date',
+      expectedResultSet: GAME_LOG_RESULT_SET,
+      rejectedColumn: 'GAME_DATE',
+      valueCategory: 'string',
+    });
   }
 
   const monthText = String(month).padStart(2, '0');
@@ -581,13 +658,25 @@ interface ParsedMatchup {
 function parseMatchup(value: string): ParsedMatchup {
   const match = /^([A-Z]{3}) (vs\.|@) ([A-Z]{3})$/.exec(value);
   if (!match) {
-    throw providerInvalidResponse('NBA Stats returned an unrecognized matchup.');
+    throw providerInvalidResponse('NBA Stats returned an unrecognized matchup.', {
+      stage: 'value-format',
+      category: 'unrecognized-matchup',
+      expectedResultSet: GAME_LOG_RESULT_SET,
+      rejectedColumn: 'MATCHUP',
+      valueCategory: 'string',
+    });
   }
   const team = match[1];
   const separator = match[2];
   const opponent = match[3];
   if (team === undefined || separator === undefined || opponent === undefined) {
-    throw providerInvalidResponse('NBA Stats returned an incomplete matchup.');
+    throw providerInvalidResponse('NBA Stats returned an incomplete matchup.', {
+      stage: 'value-format',
+      category: 'incomplete-matchup',
+      expectedResultSet: GAME_LOG_RESULT_SET,
+      rejectedColumn: 'MATCHUP',
+      valueCategory: 'string',
+    });
   }
   return {
     team: { abbreviation: team },
@@ -602,7 +691,13 @@ export function mapGameLog(body: unknown): PlayerGame[] {
   const games: PlayerGame[] = table.rows.map((row) => {
     const result = requireString(table, row, 'WL');
     if (result !== 'W' && result !== 'L') {
-      throw providerInvalidResponse('NBA Stats returned an invalid win/loss value.');
+      throw providerInvalidResponse('NBA Stats returned an invalid win/loss value.', {
+        stage: 'value-format',
+        category: 'invalid-win-loss',
+        expectedResultSet: GAME_LOG_RESULT_SET,
+        rejectedColumn: 'WL',
+        valueCategory: 'string',
+      });
     }
     const matchup = parseMatchup(requireString(table, row, 'MATCHUP'));
 
@@ -627,7 +722,12 @@ export function mapGameLog(body: unknown): PlayerGame[] {
   const ids = new Set<string>();
   for (const game of games) {
     if (ids.has(game.id)) {
-      throw providerInvalidResponse('NBA Stats returned duplicate game ids.');
+      throw providerInvalidResponse('NBA Stats returned duplicate game ids.', {
+        stage: 'value-format',
+        category: 'duplicate-game-ids',
+        expectedResultSet: GAME_LOG_RESULT_SET,
+        rejectedColumn: 'Game_ID',
+      });
     }
     ids.add(game.id);
   }
@@ -638,7 +738,13 @@ export function mapGameLog(body: unknown): PlayerGame[] {
 
   for (let index = 1; index < games.length; index += 1) {
     if (games[index - 1]?.date === games[index]?.date) {
-      throw providerInvalidResponse('NBA Stats returned multiple games on one date.');
+      throw providerInvalidResponse('NBA Stats returned multiple games on one date.', {
+        stage: 'value-format',
+        category: 'multiple-games-on-one-date',
+        expectedResultSet: GAME_LOG_RESULT_SET,
+        rejectedColumn: 'GAME_DATE',
+        rejectedRowIndex: index,
+      });
     }
   }
 

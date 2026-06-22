@@ -8,12 +8,15 @@ export type PlayerProviderMode = 'fixture' | 'nba-stats';
 export interface PlayerProviderConfig {
   mode: PlayerProviderMode;
   timeoutMs: number;
+  // Sanitized response diagnostics. Off unless explicitly enabled for a controlled diagnostic run.
+  diagnostics: boolean;
 }
 
 export interface ProviderConfigEnv {
   NBA_DATA_PROVIDER?: string | undefined;
   NBA_STATS_TIMEOUT_MS?: string | undefined;
   NBA_ALLOW_FIXTURE_IN_PRODUCTION?: string | undefined;
+  NBA_STATS_DIAGNOSTICS?: string | undefined;
   NODE_ENV?: string | undefined;
 }
 
@@ -39,6 +42,23 @@ function parseAllowFixtureInProduction(raw: string | undefined): boolean {
 
   throw new PlayerProviderConfigError(
     'NBA_ALLOW_FIXTURE_IN_PRODUCTION must be "true" or "false".',
+  );
+}
+
+// Sanitized response diagnostics are disabled unless explicitly enabled. Only exactly "true" or
+// "false" (or omission) is accepted; any other value fails startup, matching the other strict
+// boolean switches.
+function parseDiagnostics(raw: string | undefined): boolean {
+  if (raw === undefined || raw === 'false') {
+    return false;
+  }
+
+  if (raw === 'true') {
+    return true;
+  }
+
+  throw new PlayerProviderConfigError(
+    'NBA_STATS_DIAGNOSTICS must be "true" or "false".',
   );
 }
 
@@ -111,6 +131,7 @@ export function parsePlayerProviderConfig(
   );
   const mode = parseMode(env, allowFixtureInProduction);
   const timeoutMs = parseTimeoutMs(env.NBA_STATS_TIMEOUT_MS);
+  const diagnostics = parseDiagnostics(env.NBA_STATS_DIAGNOSTICS);
 
-  return { mode, timeoutMs };
+  return { mode, timeoutMs, diagnostics };
 }
