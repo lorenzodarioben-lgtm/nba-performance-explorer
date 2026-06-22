@@ -1,12 +1,11 @@
 # NBA Performance Explorer
 
-> **Status:** Functioning full-stack application with player search, profiles, selected-season
-> statistics, career trends, game logs, and two-player comparison. A live NBA.com Stats provider
-> (TASK-008) is implemented behind the backend provider boundary and selected with
-> `NBA_DATA_PROVIDER`; fixtures remain the default for tests, CI, and offline use. This is an
-> unofficial project (see "NBA.com Data Notice"). TASK-008 is completed and merged into `main`
-> through pull request #9. Production deployment work is in progress, but no successful public
-> deployment exists yet and deployment-host NBA.com connectivity remains unverified.
+> **Status:** Public Render deployment is live at
+> `https://nba-performance-explorer.onrender.com` in intentionally fixture-backed mode. The
+> deployment-host connectivity gate passed all four approved NBA.com endpoint families at the
+> HTTP/JSON level. A live-provider trial then returned `PROVIDER_INVALID_RESPONSE` during player
+> search, so production was safely rolled back to fixture mode. TASK-009 is complete pending
+> pull request #10 merge.
 
 NBA Performance Explorer is a portfolio web application for exploring NBA player
 performance. The product scope and planned user journey are documented in
