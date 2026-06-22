@@ -4,10 +4,9 @@
 > statistics, career trends, game logs, and two-player comparison. A live NBA.com Stats provider
 > (TASK-008) is implemented behind the backend provider boundary and selected with
 > `NBA_DATA_PROVIDER`; fixtures remain the default for tests, CI, and offline use. This is an
-> unofficial project (see "NBA.com Data Notice"). TASK-008 is implemented and independently
-> reviewed on `feature/live-nba-provider`, pending pull request and merge; it is not yet merged
-> into `main`. Public production deployment and the required deployment-connectivity gate have
-> not been done.
+> unofficial project (see "NBA.com Data Notice"). TASK-008 is completed and merged into `main`
+> through pull request #9. Public production deployment and the deployment-host NBA.com
+> connectivity gate remain unverified and have not been done.
 
 NBA Performance Explorer is a portfolio web application for exploring NBA player
 performance. The product scope and planned user journey are documented in

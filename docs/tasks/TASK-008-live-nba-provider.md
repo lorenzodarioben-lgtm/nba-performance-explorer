@@ -1,7 +1,7 @@
 # TASK-008 — Live NBA Data Provider Integration
 
 - **Milestone:** Live NBA Data Provider Integration
-- **Status:** Implemented and independently reviewed; pending pull request and merge
+- **Status:** Completed and merged
 - **Branch:** `feature/live-nba-provider`
 - **Selected provider:** Direct NBA.com Stats access through `NbaStatsPlayerProvider`
 - **Risk posture:** Accepted product-owner legal, stability, and deployment-connectivity risks
@@ -9,9 +9,8 @@
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before implementation. TASK-001
 > through TASK-007 are completed and merged. This document is the final TASK-008
-> implementation specification. The planning decisions below are now implemented on the
-> feature branch (see "Implementation Result"), pending pull request and merge and not yet merged
-> into `main`.
+> implementation specification. The planning decisions below are implemented and merged into
+> `main` via pull request #9 (see "Implementation Result").
 
 ## Objective
 
@@ -831,9 +830,19 @@ Manual live verification must cover:
 
 ## Implementation Result (2026-06-22)
 
-Implemented and independently reviewed against this specification on
-`feature/live-nba-provider`, pending pull request and merge and not yet merged into `main`. The
+Implemented, independently reviewed against this specification, and merged into `main`. The
 architecture, endpoint set, configuration, and risk posture match ADR-013.
+
+Merge record:
+
+- Planning-definition commit: `1a49c24` ("docs: define live NBA provider task")
+- Final provider-plan commit: `4be8852` ("docs: finalize accepted-risk NBA.com provider plan")
+- Implementation commit: `7f6a33d` ("feat: integrate live NBA data provider")
+- Initial documentation pull request: #8 (merge commit `6b417eb`)
+- Implementation pull request: #9 (merge commit `f8256d2`)
+- Verified merged baseline: 139 frontend tests and 173 backend tests (312 total); production
+  bundle 714.05 KB JavaScript (212.81 KB gzip) and 13.47 KB CSS (3.46 KB gzip); the existing
+  Recharts/Vite "chunk larger than 500 KB" warning remains known and non-blocking.
 
 The independent review corrected strict handling of explicitly empty configuration values,
 enforced every committed endpoint column and required result set (including
@@ -903,11 +912,12 @@ No files were deleted. The `PlayerProvider` interface is unchanged.
 - The cache is process-local; restarts, cold starts, and multiple instances do not share it.
 - Endpoint availability, schema stability, and cloud-host reachability for NBA.com are not
   guaranteed (accepted risk, ADR-013).
-- No merge or pull request has occurred.
+- Public deployment and the deployment-host NBA.com connectivity gate are not done; they are
+  TASK-009.
 
 ## Suggested Commit Boundaries
 
-No commit is authorized during planning. After implementation and review, use coherent boundaries:
+The implementation was merged into `main` using coherent commit boundaries:
 
 1. `docs: finalize accepted-risk NBA.com provider plan`
 2. `feat: support players and seasons without a single team`
@@ -915,7 +925,7 @@ No commit is authorized during planning. After implementation and review, use co
 4. `test: cover NBA Stats failures caching and provider selection`
 5. `docs: record TASK-008 implementation results`
 
-Do not push unless separately instructed.
+These commits were merged into `main` through pull request #9 (`f8256d2`).
 
 ## Deployment-Connectivity Gate
 
