@@ -1,7 +1,7 @@
 # TASK-008 — Live NBA Data Provider Integration
 
 - **Milestone:** Live NBA Data Provider Integration
-- **Status:** Planning complete; implementation not started
+- **Status:** Implemented and independently reviewed; pending pull request and merge
 - **Branch:** `feature/live-nba-provider`
 - **Selected provider:** Direct NBA.com Stats access through `NbaStatsPlayerProvider`
 - **Risk posture:** Accepted product-owner legal, stability, and deployment-connectivity risks
@@ -9,8 +9,9 @@
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before implementation. TASK-001
 > through TASK-007 are completed and merged. This document is the final TASK-008
-> implementation specification. It records planning decisions only; no TASK-008
-> application code or dependency change has been made yet.
+> implementation specification. The planning decisions below are now implemented on the
+> feature branch (see "Implementation Result"), pending pull request and merge and not yet merged
+> into `main`.
 
 ## Objective
 
@@ -827,6 +828,82 @@ Manual live verification must cover:
 8. Two-player comparison.
 9. Repeated requests proving cache hits and in-flight de-duplication.
 10. Controlled mocked timeout, 403, 429, HTML, and schema-drift responses.
+
+## Implementation Result (2026-06-22)
+
+Implemented and independently reviewed against this specification on
+`feature/live-nba-provider`, pending pull request and merge and not yet merged into `main`. The
+architecture, endpoint set, configuration, and risk posture match ADR-013.
+
+The independent review corrected strict handling of explicitly empty configuration values,
+enforced every committed endpoint column and required result set (including
+`AvailableSeasons`), rejected duplicate or malformed unused result sets, used explicit
+first-name/surname directory fields, normalized valid hybrid NBA positions into the existing
+public contract, rejected malformed multi-team career data consistently, and ensured
+domain-invalid career responses cannot be cached. Focused regression tests cover each repair.
+
+### Files created
+
+- `backend/src/config/player-provider-config.ts` (+ test) — `NBA_DATA_PROVIDER` /
+  `NBA_STATS_TIMEOUT_MS` parsing with strict, fail-before-listen validation.
+- `backend/src/features/players/provider-error.ts` — `PROVIDER_TIMEOUT` /
+  `PROVIDER_UNAVAILABLE` / `PROVIDER_INVALID_RESPONSE` and their stable HTTP mapping.
+- `backend/src/features/players/player-provider-factory.ts` (+ test) — the composition root that
+  selects fixture or live provider.
+- `backend/src/features/players/nba-stats/nba-stats-cache.ts` (+ test) — bounded (500-entry) LRU
+  with TTL, in-flight de-duplication, errors never cached, injectable clock, per-test factory.
+- `backend/src/features/players/nba-stats/nba-stats-http-client.ts` (+ test) — Node 22
+  `fetch`/`URL`/`URLSearchParams`/`AbortController`, approved headers, 10s timeout, zero retries,
+  status/content-type checks, no leakage.
+- `backend/src/features/players/nba-stats/nba-stats-response.ts` (+ test) — `zod` envelope and
+  result-set validation with typed cell accessors.
+- `backend/src/features/players/nba-stats/nba-stats-search.ts` (+ test) — deterministic local
+  ranking over the cached directory.
+- `backend/src/features/players/nba-stats/nba-stats-mappers.ts` (+ test) — directory, profile,
+  seasons/selected-season/career-trend (with `TOT` aggregate handling), and game-log mapping.
+- `backend/src/features/players/nba-stats/nba-stats-player-provider.ts` (+ test) —
+  `NbaStatsPlayerProvider` and the current-season helper.
+
+### Files modified
+
+- `backend/src/app.ts` — `createApp(playerProvider?)` injection.
+- `backend/src/server.ts` — parse config, build the selected provider, fail before `listen`.
+- `backend/src/middleware/errors.ts` — map `ProviderError` to 504/503/502 generically.
+- `backend/package.json` + `package-lock.json` — added the direct `zod@^4.4.3` backend dependency
+  (the contracts-compatible version). No other dependency changed.
+- `backend/.env.example` — documented `NBA_DATA_PROVIDER` and `NBA_STATS_TIMEOUT_MS` (no secrets).
+- `packages/contracts/src/player-search.ts`, `player-profile.ts`, `player-season.ts` — made
+  `team` optional on `PlayerSummary`, `PlayerProfile`, `PlayerSeason`, `PlayerSeasonStats`
+  (game-log `team`/`opponent` stay required).
+- Frontend `No current team` (search, profile) and `Multiple teams` (season selector, season
+  statistics, comparison table) fallbacks in `PlayerCombobox.tsx`, `PlayerProfilePage.tsx`,
+  `PlayerSeasonStatistics.tsx`, `PlayerComparisonTable.tsx`, with regression tests in the four
+  matching frontend test files.
+- Backend `players-router.test.ts`, `season-router.test.ts`, `season-trends-router.test.ts` —
+  optional-team contract assertions and provider-error HTTP mapping.
+
+No files were deleted. The `PlayerProvider` interface is unchanged.
+
+### Verification (all offline)
+
+- Formatting, lint, strict type-check, and production build pass.
+- Tests: **139 frontend** and **173 backend** — **312 total** — all passing. No automated test
+  contacts NBA.com; the HTTP client tests mock `globalThis.fetch`, the provider tests inject a
+  fake client, and fixture-backed route tests are unchanged.
+- Production bundle: **714.05 KB** JavaScript (212.81 KB gzip) and **13.47 KB** CSS (3.46 KB
+  gzip). The pre-existing Recharts/Vite "chunk larger than 500 KB" warning remains and is
+  non-blocking.
+- No live NBA.com request was made during implementation or testing. No real `.env`, API key,
+  or raw upstream payload exists in the repository.
+
+### Not done in this turn / limitations
+
+- No live NBA.com requests and no deployment-connectivity gate were performed (out of scope for
+  this turn; required before production `nba-stats` is enabled per ADR-013).
+- The cache is process-local; restarts, cold starts, and multiple instances do not share it.
+- Endpoint availability, schema stability, and cloud-host reachability for NBA.com are not
+  guaranteed (accepted risk, ADR-013).
+- No merge or pull request has occurred.
 
 ## Suggested Commit Boundaries
 

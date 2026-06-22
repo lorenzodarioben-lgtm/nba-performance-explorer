@@ -92,10 +92,12 @@ interface ProfileRow {
 }
 
 function buildProfileRows(profile: PlayerProfile): ProfileRow[] {
-  const rows: ProfileRow[] = [
-    { label: 'Team', value: formatTeamName(profile.team) },
-    { label: 'Abbreviation', value: profile.team.abbreviation },
-  ];
+  const rows: ProfileRow[] = profile.team
+    ? [
+        { label: 'Team', value: formatTeamName(profile.team) },
+        { label: 'Abbreviation', value: profile.team.abbreviation },
+      ]
+    : [{ label: 'Team', value: 'No current team' }];
 
   if (profile.position !== undefined) {
     rows.push({ label: 'Position', value: profile.position });

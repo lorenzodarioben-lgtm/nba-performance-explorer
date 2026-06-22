@@ -16,7 +16,7 @@ interface StatRow {
 function buildStatRows(stats: PlayerSeasonStats): StatRow[] {
   return [
     { label: 'Season', value: stats.season },
-    { label: 'Team', value: stats.team.abbreviation },
+    { label: 'Team', value: stats.team ? stats.team.abbreviation : 'Multiple teams' },
     { label: 'Games played', value: String(stats.gamesPlayed) },
     { label: 'Minutes per game', value: formatPerGame(stats.minutesPerGame) },
     { label: 'Points per game', value: formatPerGame(stats.pointsPerGame) },
@@ -164,7 +164,8 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
           >
             {seasons.map((entry) => (
               <option key={entry.season} value={entry.season}>
-                {entry.season} · {entry.team.abbreviation}
+                {entry.season} ·{' '}
+                {entry.team ? entry.team.abbreviation : 'Multiple teams'}
               </option>
             ))}
           </select>

@@ -273,6 +273,29 @@ describe('season contracts', () => {
     freeThrowPercentage: 1,
   };
 
+  it('accepts season summaries and statistics without a team (traded season)', () => {
+    // A multi-team (traded) season has no single public team; the live provider omits it.
+    expect(
+      PlayerSeasonsResponseSchema.safeParse({ seasons: [{ season: '2023-24' }] })
+        .success,
+    ).toBe(true);
+    const statsWithoutTeam = {
+      season: '2023-24',
+      gamesPlayed: 70,
+      minutesPerGame: 35.2,
+      pointsPerGame: 27.4,
+      reboundsPerGame: 7.1,
+      assistsPerGame: 8.3,
+      stealsPerGame: 1.2,
+      blocksPerGame: 0.6,
+      turnoversPerGame: 3.1,
+      fieldGoalPercentage: 0.542,
+      threePointPercentage: 0,
+      freeThrowPercentage: 1,
+    };
+    expect(PlayerSeasonStatsSchema.safeParse(statsWithoutTeam).success).toBe(true);
+  });
+
   it('validates consecutive seasons including century rollover', () => {
     for (const valid of ['2023-24', '1999-00', '2099-00']) {
       expect(SeasonIdSchema.safeParse(valid).success).toBe(true);

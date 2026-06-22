@@ -199,6 +199,23 @@ describe('player season statistics', () => {
     await waitFor(() => expect(statValue('Team')).toBe('SAS'));
   });
 
+  it('shows "Multiple teams" for a traded season with no single team', async () => {
+    server.use(
+      http.get(seasonsUrl, () =>
+        HttpResponse.json({ seasons: [{ season: '2023-24' }] }),
+      ),
+      http.get(statsUrl, ({ params }) =>
+        HttpResponse.json(statsResponse(String(params.season), { team: undefined })),
+      ),
+    );
+
+    renderApp('/players/2544');
+
+    const select = await getSeasonSelect();
+    expect(within(select).getByRole('option')).toHaveTextContent('Multiple teams');
+    await waitFor(() => expect(statValue('Team')).toBe('Multiple teams'));
+  });
+
   it('shows an accessible loading state while seasons load', async () => {
     server.use(
       http.get(seasonsUrl, async () => {

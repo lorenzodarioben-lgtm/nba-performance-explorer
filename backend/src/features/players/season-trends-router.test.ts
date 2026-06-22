@@ -177,6 +177,13 @@ describe('season trends contract', () => {
   });
   const build = (ids: string[]) => ({ seasons: ids.map(stat) });
 
+  it('accepts a trends entry without a team (traded season)', () => {
+    const entry = { ...stat('2023-24'), team: undefined };
+    expect(
+      PlayerSeasonTrendsResponseSchema.safeParse({ seasons: [entry] }).success,
+    ).toBe(true);
+  });
+
   it('accepts oldest-first and rejects reversed, duplicate, and unknown-field responses', () => {
     expect(
       PlayerSeasonTrendsResponseSchema.safeParse(build(['2017-18', '2023-24'])).success,

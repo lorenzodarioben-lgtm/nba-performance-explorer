@@ -7,7 +7,14 @@ import {
 import request from 'supertest';
 import { describe, expect, it } from 'vitest';
 
-import { app } from '../../app.js';
+import { app, createApp } from '../../app.js';
+import type { PlayerProvider } from './player-provider.js';
+import {
+  type ProviderError,
+  providerInvalidResponse,
+  providerTimeout,
+  providerUnavailable,
+} from './provider-error.js';
 
 describe('GET /api/players', () => {
   it.each([
@@ -139,6 +146,53 @@ describe('GET /api/players', () => {
     expect(responseText).not.toContain('listedPosition');
     expect(responseText).not.toContain('sourceSlug');
   });
+});
+
+describe('optional team contract', () => {
+  it('accepts a player summary and profile without a team', () => {
+    // The live NBA.com provider may omit team for free agents / inactive players.
+    expect(
+      PlayerSearchResponseSchema.safeParse({
+        players: [{ id: '2544', fullName: 'LeBron James' }],
+      }).success,
+    ).toBe(true);
+    expect(
+      PlayerProfileSchema.safeParse({ id: '2544', fullName: 'LeBron James' }).success,
+    ).toBe(true);
+  });
+});
+
+describe('provider error mapping', () => {
+  function failingProvider(error: ProviderError): PlayerProvider {
+    const fail = (): Promise<never> => Promise.reject(error);
+    return {
+      searchPlayers: fail,
+      getPlayerById: fail,
+      listPlayerSeasons: fail,
+      getPlayerSeasonStats: fail,
+      listPlayerSeasonStats: fail,
+      listPlayerGames: fail,
+    };
+  }
+
+  it.each([
+    ['timeout', providerTimeout(), 504, 'PROVIDER_TIMEOUT'],
+    ['unavailable', providerUnavailable(), 503, 'PROVIDER_UNAVAILABLE'],
+    ['invalid response', providerInvalidResponse(), 502, 'PROVIDER_INVALID_RESPONSE'],
+  ])(
+    'maps a provider %s to its stable HTTP status without leaking details',
+    async (_label, error, status, code) => {
+      const failingApp = createApp(failingProvider(error));
+      const response = await request(failingApp)
+        .get('/api/players')
+        .query({ search: 'le' })
+        .expect(status);
+
+      expect(ApiErrorResponseSchema.parse(response.body).error.code).toBe(code);
+      expect(JSON.stringify(response.body).toLowerCase()).not.toContain('stack');
+      expect(JSON.stringify(response.body).toLowerCase()).not.toContain('nba stats');
+    },
+  );
 });
 
 describe('GET /api/players/:playerId', () => {

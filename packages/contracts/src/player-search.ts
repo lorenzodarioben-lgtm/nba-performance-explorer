@@ -12,7 +12,9 @@ export const PlayerSummarySchema = z
   .object({
     id: z.string().trim().min(1),
     fullName: z.string().trim().min(1),
-    team: TeamSummarySchema,
+    // Optional: a free agent, inactive, or retired player may have no current team
+    // (for example from the live NBA.com provider). Fixture data still always includes it.
+    team: TeamSummarySchema.optional(),
     position: z.string().trim().min(1).max(10).optional(),
   })
   .strict();

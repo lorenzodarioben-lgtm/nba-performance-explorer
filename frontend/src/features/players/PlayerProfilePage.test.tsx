@@ -168,6 +168,20 @@ describe('player profile page', () => {
     expect(screen.queryByText('Draft')).not.toBeInTheDocument();
   });
 
+  it('shows "No current team" when the profile has no team', async () => {
+    server.use(
+      http.get(profileUrl, () =>
+        HttpResponse.json({ player: { id: '203999', fullName: 'Nikola Jokic' } }),
+      ),
+    );
+
+    renderApp('/players/203999');
+
+    await screen.findByRole('heading', { name: 'Nikola Jokic' });
+    expect(rowValue('Team')).toBe('No current team');
+    expect(screen.queryByText('Abbreviation')).not.toBeInTheDocument();
+  });
+
   it('renders an accessible not-found state for an unknown player', async () => {
     server.use(
       http.get(profileUrl, () =>
