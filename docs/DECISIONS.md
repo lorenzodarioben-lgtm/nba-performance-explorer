@@ -284,10 +284,13 @@ CORS and no cross-service proxy. Build with `npm ci && npm run build`; start wit
 `node backend/dist/server.js`; select Node 22 via root `engines`. Configure the health check at
 `/api/health`. Static serving is gated by a `FRONTEND_DIST` environment variable so tests and the
 existing `/api` 404 behavior are unchanged. Run the ADR-013 connectivity gate from the deployed
-host before enabling live mode: if all four endpoints pass, set `NODE_ENV=production` and
-`NBA_DATA_PROVIDER=nba-stats`; if any fails, deploy/keep fixture mode (with `NODE_ENV` unset so the
-startup guard permits `fixture`) as an explicit, documented demonstration fallback. CI stays
-offline and fixture-backed and does not deploy.
+host before enabling live mode. Render runs the service with `NODE_ENV=production`, so the initial
+fixture deployment explicitly sets `NBA_DATA_PROVIDER=fixture` and
+`NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`. If all four endpoints pass, set
+`NBA_DATA_PROVIDER=nba-stats`, remove the fixture allowance or set it to `false`, and redeploy. If
+any endpoint fails, retain the explicitly approved fixture demonstration. Production still
+requires an explicit provider selection, and live-provider failures never silently fall back to
+fixtures. CI stays offline and fixture-backed and does not deploy.
 
 **Consequences.** One service, one HTTPS URL, one deploy, and one rollback give the simplest
 maintenance, at the cost of a whole-app cold start on the free tier (~1 minute after 15 minutes

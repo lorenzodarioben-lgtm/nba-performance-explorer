@@ -5,8 +5,8 @@
 > (TASK-008) is implemented behind the backend provider boundary and selected with
 > `NBA_DATA_PROVIDER`; fixtures remain the default for tests, CI, and offline use. This is an
 > unofficial project (see "NBA.com Data Notice"). TASK-008 is completed and merged into `main`
-> through pull request #9. Public production deployment and the deployment-host NBA.com
-> connectivity gate remain unverified and have not been done.
+> through pull request #9. Production deployment work is in progress, but no successful public
+> deployment exists yet and deployment-host NBA.com connectivity remains unverified.
 
 NBA Performance Explorer is a portfolio web application for exploring NBA player
 performance. The product scope and planned user journey are documented in
@@ -107,13 +107,20 @@ Backend:
 
 TASK-008 data-provider configuration:
 
-- `NBA_DATA_PROVIDER=fixture|nba-stats` selects fixture or direct NBA.com Stats data. Absent
-  outside production it defaults to `fixture`; tests and CI use `fixture` and never contact
-  NBA.com.
-- Production must explicitly select `nba-stats` (an absent or `fixture` value in production is a
-  startup error); NBA.com failures never silently return fixture data.
-- `NBA_STATS_TIMEOUT_MS` controls the live-provider request timeout: an integer from `1000`
-  through `30000`, default `10000`. Invalid configuration fails before the server listens.
+- `NBA_DATA_PROVIDER=fixture|nba-stats` selects fixture or direct NBA.com Stats data. When
+  absent outside production, it defaults to `fixture`. Tests and CI use `fixture` and never
+  contact NBA.com.
+- Production requires an explicit provider selection. An absent provider fails startup.
+- Fixture mode in production is permitted only when
+  `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`. Without that explicit approval, selecting
+  `fixture` in production fails startup.
+- `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true|false` is a strict safety switch for an intentionally
+  fixture-backed public demonstration. It defaults to disabled when absent.
+- `NBA_STATS_TIMEOUT_MS` controls the live-provider request timeout. It must be an integer
+  from `1000` through `30000` and defaults to `10000`.
+- Invalid configuration fails before the server begins listening.
+- A configured `nba-stats` provider never silently falls back to fixture data after an
+  upstream failure.
 - NBA.com Stats requires no API key. No provider setting belongs in a `VITE_` variable.
 
 Real `.env` files are ignored by Git. Example files contain non-secret values only.
@@ -127,40 +134,98 @@ the National Basketball Association. When the live provider is enabled
 NBA.com Stats is undocumented and unsupported as a public API. Endpoint availability, schema
 stability, historical correctness, uptime, and access from shared cloud-hosting networks are not
 guaranteed. NBA.com terms may restrict public use of a comprehensive, regularly updated
-statistics application and may require written permission. The project does not use proxies, IP
-rotation, WAF bypasses, or other blocking-evasion techniques. Local connectivity does not
-guarantee a deployed host can reach NBA.com: a deployment-connectivity gate must pass before live
-mode is enabled in production. Fixture mode remains available for tests, CI, and offline
+statistics application and may require written permission.
+
+The project does not use proxies, IP rotation, WAF bypasses, cookie harvesting, CAPTCHA
+bypasses, or other blocking-evasion techniques. Local connectivity does not guarantee that a
+deployed host can reach NBA.com. A deployment-host connectivity gate must pass before live mode
+is enabled publicly.
+
+Fixture mode remains available for tests, CI, offline use, and explicitly approved public
 demonstrations.
 
 ## Deployment
 
 The repository includes a Render Blueprint ([`render.yaml`](render.yaml)) that provisions one free
 web service. The Express backend serves the built frontend and the `/api` routes from a single
-origin (ADR-014), so no separate frontend host or CORS configuration is required.
+origin (ADR-014), so no separate frontend host, CORS configuration, or cross-service proxy is
+required.
 
-- Build: `npm ci && npm run build`. Start: `node backend/dist/server.js`.
-- Node 22 (from `.nvmrc` / `package.json` engines); HTTPS and the `/api/health` health check are
-  provided by the host. `PORT` is provided by the host.
-- Environment variables (set in the host, never committed): `NBA_DATA_PROVIDER`,
-  `NBA_STATS_TIMEOUT_MS`, and `FRONTEND_DIST` (path to the built frontend, which enables
-  same-origin static serving).
+Deployment configuration:
 
-The Blueprint deploys in **fixture mode** by default (safe: no NBA.com dependency, and
-`NODE_ENV` is intentionally not `production`). Before enabling live data, run the
-deployment-host connectivity gate **from the deployed host**:
+- Build command: `npm ci && npm run build`
+- Start command: `node backend/dist/server.js`
+- Node.js version: Node 22 from `.nvmrc` and the root `package.json` engines field
+- Health-check path: `/api/health`
+- `PORT` is provided automatically by Render.
+- Render runs the deployed service with `NODE_ENV=production`.
+- `FRONTEND_DIST=frontend/dist` enables same-origin static frontend serving.
+- Non-secret deployment variables are declared in `render.yaml`.
+- Neither fixture mode nor the NBA.com Stats provider requires an API key.
+
+### Initial fixture deployment
+
+The Blueprint initially deploys with:
+
+```text
+NBA_DATA_PROVIDER=fixture
+NBA_ALLOW_FIXTURE_IN_PRODUCTION=true
+NBA_STATS_TIMEOUT_MS=10000
+FRONTEND_DIST=frontend/dist
+```
+
+`NBA_ALLOW_FIXTURE_IN_PRODUCTION=true` is a deliberate public-demonstration opt-in. It prevents
+fixture mode from becoming an accidental production fallback while still allowing the application
+to be deployed safely before NBA.com connectivity has been verified.
+
+### Deployment-host connectivity gate
+
+Before enabling live data, run the connectivity gate from the deployed Render environment:
 
 ```sh
 npm run connectivity-gate --workspace backend
-# or, from the repository root: node backend/dist/scripts/nba-connectivity-gate.js
 ```
 
-It probes only the four approved NBA.com endpoints with a small sample and prints a sanitized
-PASS/FAIL per endpoint (no URLs, bodies, headers, or cookies), exiting non-zero if any fails. Only
-if all pass, set `NODE_ENV=production` and `NBA_DATA_PROVIDER=nba-stats` and redeploy to enable
-live data. Because NBA.com commonly blocks cloud-host IP ranges, the gate may fail; in that case
-keep fixture mode (no blocking-evasion is used). No public deployment has been performed yet, and
-deployment-host NBA.com connectivity is unverified.
+Alternatively, after the backend has been built:
+
+```sh
+node backend/dist/scripts/nba-connectivity-gate.js
+```
+
+The gate probes only the four approved NBA.com endpoint families with a small sample:
+
+- `commonallplayers`
+- `commonplayerinfo`
+- `playercareerstats`
+- `playergamelog`
+
+It prints a sanitized `PASS` or `FAIL` result for each endpoint and exits with a non-zero status
+if any endpoint is blocked, challenged, times out, or returns an invalid response. It does not log
+response bodies, request headers, cookies, or sensitive URL parameters.
+
+### Enabling live mode
+
+Only when all four connectivity checks pass:
+
+1. Change `NBA_DATA_PROVIDER` to `nba-stats`.
+2. Remove `NBA_ALLOW_FIXTURE_IN_PRODUCTION` or set it to `false`.
+3. Keep `NBA_STATS_TIMEOUT_MS=10000` unless another valid timeout is intentionally selected.
+4. Redeploy the service.
+5. Repeat the production smoke tests.
+
+If any connectivity check fails, keep:
+
+```text
+NBA_DATA_PROVIDER=fixture
+NBA_ALLOW_FIXTURE_IN_PRODUCTION=true
+```
+
+The public application will remain fully usable with deterministic fixture data. The deployment
+must clearly disclose that live NBA.com data is disabled because the hosting environment could
+not reliably reach NBA.com. No blocking-evasion mechanism should be introduced.
+
+No successful public deployment has been completed yet, and deployment-host NBA.com connectivity
+remains unverified.
 
 ## Documentation
 

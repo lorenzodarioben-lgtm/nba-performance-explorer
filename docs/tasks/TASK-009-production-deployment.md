@@ -277,25 +277,32 @@ cloud options, so it does not differentiate them.
 - Node version from root `package.json` `engines` (`>=22.12.0 <23`); optionally pin with a
   `.node-version` file containing `22`.
 
-### Exact environment variables (set in Render; never committed)
+### Exact environment variables
 
-Live mode (only after the connectivity gate passes):
+Render-provided runtime values:
 
-- `NODE_ENV=production`
-- `NBA_DATA_PROVIDER=nba-stats`
-- `NBA_STATS_TIMEOUT_MS=10000`
-- `FRONTEND_DIST=<resolved path to frontend/dist>` (enables static serving)
-- `PORT` — provided automatically by Render; the server already binds `process.env.PORT`.
+- `NODE_ENV=production` — supplied by Render automatically.
+- `PORT` — supplied by Render automatically; the server already binds `process.env.PORT`.
 
-Fixture demonstration / gate-fail fallback:
+Initial fixture-backed public demonstration:
 
 - `NBA_DATA_PROVIDER=fixture`
-- `FRONTEND_DIST=<resolved path to frontend/dist>`
-- Leave `NODE_ENV` unset (or non-`production`). The implemented startup guard rejects `fixture`
-  (or absent) when `NODE_ENV=production`, so a deliberate fixture demo must not set
-  `NODE_ENV=production`. This preserves the "no fixture in live production" rule while still
-  allowing the approved fixture demonstration.
-- No secret is required in either mode.
+- `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`
+- `NBA_STATS_TIMEOUT_MS=10000`
+- `FRONTEND_DIST=frontend/dist`
+
+The fixture allowance is an explicit production opt-in. It does not create a silent fallback:
+production still requires an explicit provider, and fixture mode remains rejected when the
+allowance is absent or false.
+
+Live mode, only after the deployment-host connectivity gate passes:
+
+- `NBA_DATA_PROVIDER=nba-stats`
+- Remove `NBA_ALLOW_FIXTURE_IN_PRODUCTION` or set it to `false`.
+- `NBA_STATS_TIMEOUT_MS=10000`
+- `FRONTEND_DIST=frontend/dist`
+
+No secret or API key is required in either mode.
 
 ### Frontend API URL strategy
 
@@ -335,24 +342,41 @@ call NBA.com, so it consumes no upstream quota.
 
 ### Deployment-host NBA.com connectivity-gate procedure
 
-- After deploying in fixture mode, run the gate FROM the Render host (a Render one-off Job or the
-  service shell): `node backend/dist/scripts/nba-connectivity-gate.js`.
-- It performs a tiny, quota-conscious sample with the existing client and headers: one
-  `commonallplayers` (current season), one `commonplayerinfo` (`2544`), one `playercareerstats`
-  (`2544`), one `playergamelog` (`2544`, one season).
-- For each endpoint it checks only HTTP status and JSON content type and prints `PASS`/`FAIL`. It
-  logs no URLs-with-parameters, headers, cookies, or bodies, and exits non-zero if any endpoint is
-  blocked, challenged, times out, or returns non-JSON.
-- No proxy, IP rotation, cookie harvesting, CAPTCHA bypass, or WAF bypass is used.
-- All four `PASS` → set `NODE_ENV=production` + `NBA_DATA_PROVIDER=nba-stats` and redeploy (live
-  mode). Any `FAIL` → keep fixture mode; do not enable live.
+- After the fixture deployment reaches `Live`, run the gate from the Render environment:
+  `node backend/dist/scripts/nba-connectivity-gate.js`.
+- It performs a small sample through the existing client and headers: one
+  `commonallplayers` request for the current season, one `commonplayerinfo` request for player
+  `2544`, one `playercareerstats` request for player `2544`, and one `playergamelog` request for
+  player `2544` and one season.
+- For each endpoint, it checks the HTTP status and JSON response shape and prints a sanitized
+  `PASS` or `FAIL`.
+- It logs no request headers, cookies, response bodies, or sensitive URL parameters.
+- It exits non-zero if any endpoint is blocked, challenged, times out, or returns an invalid
+  response.
+- No proxy, IP rotation, cookie harvesting, CAPTCHA bypass, WAF bypass, or other
+  blocking-evasion mechanism is permitted.
+- If all four checks pass, change `NBA_DATA_PROVIDER` to `nba-stats`, remove the fixture
+  allowance or set it to `false`, and redeploy.
+- If any check fails, retain `NBA_DATA_PROVIDER=fixture` with
+  `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`; do not enable live mode.
 
 ### Fixture-mode fallback if the gate fails
 
-Keep `NBA_DATA_PROVIDER=fixture` (NODE_ENV unset). The public site stays fully usable with
-deterministic fixture data across all features for demonstration. Document prominently that live
-NBA.com data is disabled because the deployment host cannot reach NBA.com, that this is the
-ADR-013 accepted outcome, and that no evasion is used.
+Keep:
+
+```text
+NBA_DATA_PROVIDER=fixture
+NBA_ALLOW_FIXTURE_IN_PRODUCTION=true
+```
+
+Render continues to provide `NODE_ENV=production`. The explicit allowance permits this
+intentional fixture-backed public demonstration without weakening the rule against silent
+production fallback.
+
+The public application remains fully usable with deterministic fixture data across all features.
+Document prominently that live NBA.com data is disabled because the deployment host could not
+reliably reach NBA.com, that this is the ADR-013 accepted outcome, and that no blocking-evasion
+mechanism is used.
 
 ### Production smoke tests (after each deploy)
 

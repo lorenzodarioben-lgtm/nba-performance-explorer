@@ -95,12 +95,16 @@ nba-stats
 
 Rules:
 
-- Outside production, `fixture` is the default when the variable is absent.
+- Outside production, `fixture` is the default when the provider variable is absent.
 - Tests and CI explicitly use `fixture`.
 - When `NODE_ENV=production`, an absent `NBA_DATA_PROVIDER` is a startup configuration error.
-- Production must explicitly set `NBA_DATA_PROVIDER=nba-stats`; explicitly selecting `fixture`
-  in production is also a startup configuration error.
-- Any other value throws a configuration error before the server starts listening.
+- Production fixture mode is permitted only when `NBA_DATA_PROVIDER=fixture` and
+  `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true` are both set explicitly.
+- When the fixture allowance is absent or `false`, selecting `fixture` in production fails
+  startup.
+- Any fixture-allowance value other than exactly `true` or `false` is invalid.
+- Any unsupported provider value throws a configuration error before the server starts
+  listening.
 - A configured `nba-stats` provider never falls back silently to fixture data after an upstream
   failure.
 
@@ -601,16 +605,21 @@ provider implementation details are never returned to clients.
 ### Configuration and construction
 
 - Default provider is `fixture`.
-- Explicit fixture mode.
+- Explicit fixture mode outside production.
 - Explicit `nba-stats` mode.
 - Missing provider outside production defaults to fixture.
 - Missing provider in production fails startup.
-- Explicit fixture mode in production fails startup.
+- Fixture mode in production fails without explicit approval.
+- Fixture mode in production succeeds when
+  `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`.
+- Fixture mode in production fails when the allowance is `false`.
+- An absent production provider still fails when the fixture allowance is `true`.
+- Invalid fixture-allowance values fail configuration.
 - Invalid provider value.
 - Default timeout.
 - Minimum/maximum timeout boundaries.
 - Invalid timeout values.
-- Provider is parsed and constructed once before listening.
+- Provider configuration is parsed and constructed once before listening.
 
 ### Result-set validation and HTTP
 

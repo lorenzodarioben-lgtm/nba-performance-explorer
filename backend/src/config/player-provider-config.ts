@@ -13,6 +13,7 @@ export interface PlayerProviderConfig {
 export interface ProviderConfigEnv {
   NBA_DATA_PROVIDER?: string | undefined;
   NBA_STATS_TIMEOUT_MS?: string | undefined;
+  NBA_ALLOW_FIXTURE_IN_PRODUCTION?: string | undefined;
   NODE_ENV?: string | undefined;
 }
 
@@ -27,27 +28,46 @@ export class PlayerProviderConfigError extends Error {
   }
 }
 
-function parseMode(env: ProviderConfigEnv): PlayerProviderMode {
+function parseAllowFixtureInProduction(raw: string | undefined): boolean {
+  if (raw === undefined || raw === 'false') {
+    return false;
+  }
+
+  if (raw === 'true') {
+    return true;
+  }
+
+  throw new PlayerProviderConfigError(
+    'NBA_ALLOW_FIXTURE_IN_PRODUCTION must be "true" or "false".',
+  );
+}
+
+function parseMode(
+  env: ProviderConfigEnv,
+  allowFixtureInProduction: boolean,
+): PlayerProviderMode {
   const isProduction = env.NODE_ENV === 'production';
   const raw = env.NBA_DATA_PROVIDER;
 
-  // Absent outside production defaults to fixtures; absent in production is an error so a live
-  // deployment can never silently run on fixture data.
+  // Absent outside production defaults to fixtures. Absent in production remains an error,
+  // preventing production from silently selecting fixture data.
   if (raw === undefined) {
     if (isProduction) {
       throw new PlayerProviderConfigError(
-        'NBA_DATA_PROVIDER must be set to "nba-stats" in production.',
+        'NBA_DATA_PROVIDER must be set explicitly in production.',
       );
     }
+
     return 'fixture';
   }
 
   if (raw === 'fixture') {
-    if (isProduction) {
+    if (isProduction && !allowFixtureInProduction) {
       throw new PlayerProviderConfigError(
-        'NBA_DATA_PROVIDER cannot be "fixture" in production; set it to "nba-stats".',
+        'NBA_DATA_PROVIDER cannot be "fixture" in production unless NBA_ALLOW_FIXTURE_IN_PRODUCTION is set to "true".',
       );
     }
+
     return 'fixture';
   }
 
@@ -85,8 +105,11 @@ function parseTimeoutMs(raw: string | undefined): number {
 export function parsePlayerProviderConfig(
   env: ProviderConfigEnv,
 ): PlayerProviderConfig {
-  // Parse both values eagerly so any invalid configuration fails before the server listens.
-  const mode = parseMode(env);
+  // Parse every value eagerly so invalid configuration fails before the server listens.
+  const allowFixtureInProduction = parseAllowFixtureInProduction(
+    env.NBA_ALLOW_FIXTURE_IN_PRODUCTION,
+  );
+  const mode = parseMode(env, allowFixtureInProduction);
   const timeoutMs = parseTimeoutMs(env.NBA_STATS_TIMEOUT_MS);
 
   return { mode, timeoutMs };
