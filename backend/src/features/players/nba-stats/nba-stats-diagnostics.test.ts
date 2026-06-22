@@ -3,9 +3,12 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ProviderError, providerErrorToHttp } from '../provider-error.js';
 import {
   createConsoleDiagnosticReporter,
+  freezeDiagnostic,
   hasProperty,
   noopDiagnosticReporter,
   primitiveCategory,
+  sanitizeIdentifier,
+  sanitizeIdentifierList,
   topLevelPropertyNames,
   type ResponseDiagnostic,
 } from './nba-stats-diagnostics.js';
@@ -319,5 +322,119 @@ describe('diagnostic reporters', () => {
     expect(message).toContain('commonallplayers');
     expect(message).toContain('invalid-roster-status');
     expect(message).not.toContain(SECRET);
+  });
+});
+
+// Control characters built from code points so no literal control byte appears in this source.
+const NEWLINE = String.fromCharCode(10);
+const TAB = String.fromCharCode(9);
+const NUL = String.fromCharCode(0);
+const ESCAPE = String.fromCharCode(27);
+const DEL = String.fromCharCode(127);
+const CONTROL_CHARS = [NEWLINE, TAB, NUL, ESCAPE, DEL];
+
+describe('identifier sanitisation is bounded and control-character safe', () => {
+  it('strips control characters, including newlines and terminal escapes', () => {
+    const dirty = `a${NEWLINE}b${TAB}${ESCAPE}[31mc${NUL}d${DEL}e`;
+    const clean = sanitizeIdentifier(dirty);
+
+    for (const control of CONTROL_CHARS) {
+      expect(clean).not.toContain(control);
+    }
+    // Printable content is preserved.
+    expect(clean).toContain('a');
+    expect(clean).toContain('e');
+  });
+
+  it('bounds a very long identifier', () => {
+    const clean = sanitizeIdentifier('x'.repeat(5000));
+    expect(clean.length).toBeLessThanOrEqual(120);
+    expect(clean).toContain('(+');
+  });
+
+  it('caps a very large list with a stable overflow marker', () => {
+    const many = Array.from({ length: 500 }, (_, index) => `name${index}`);
+    const list = sanitizeIdentifierList(many);
+    expect(list.length).toBeLessThanOrEqual(51);
+    expect(list[list.length - 1]).toContain('more');
+  });
+
+  it('bounds and sanitises adversarial top-level keys in a malformed envelope', () => {
+    const hostileKey = `evil${NEWLINE}${ESCAPE}[31m${'x'.repeat(5000)}`;
+    const body: Record<string, unknown> = { [hostileKey]: SECRET };
+    for (let index = 0; index < 500; index += 1) {
+      body[`pad${index}`] = index;
+    }
+
+    const diagnostic = diagnosticOf(() =>
+      selectResultSet(body, 'CommonAllPlayers', []),
+    );
+    const serialized = JSON.stringify(diagnostic);
+
+    expect(diagnostic.topLevelKeys?.length ?? 0).toBeLessThanOrEqual(51);
+    expect(serialized.length).toBeLessThan(20_000);
+    for (const control of CONTROL_CHARS) {
+      expect(serialized).not.toContain(control);
+    }
+    // SECRET is a value (the key's value), never read into the diagnostic.
+    expect(serialized).not.toContain(SECRET);
+    expectOnlyAllowedKeys(diagnostic);
+  });
+
+  it('bounds and control-strips a very large upstream result-set name list', () => {
+    const sets = Array.from({ length: 500 }, (_, index) =>
+      resultSet(`Set${index}${NEWLINE}${ESCAPE}`, ['A'], []),
+    );
+    const diagnostic = diagnosticOf(() =>
+      selectResultSet(envelope(...sets), 'CommonAllPlayers', []),
+    );
+    const serialized = JSON.stringify(diagnostic);
+
+    expect(diagnostic.category).toBe('missing-result-set');
+    expect(diagnostic.resultSetNames?.length ?? 0).toBeLessThanOrEqual(51);
+    for (const control of CONTROL_CHARS) {
+      expect(serialized).not.toContain(control);
+    }
+  });
+});
+
+describe('diagnostics are immutable across boundaries', () => {
+  it('freezes the diagnostic and its nested arrays', () => {
+    const diagnostic = diagnosticOf(() =>
+      selectResultSet(
+        envelope(resultSet('SomethingElse', ['A'], [])),
+        'CommonAllPlayers',
+        [],
+      ),
+    );
+
+    expect(Object.isFrozen(diagnostic)).toBe(true);
+    expect(Object.isFrozen(diagnostic.resultSetNames)).toBe(true);
+    expect(() => {
+      (diagnostic.resultSetNames as string[]).push('mutated');
+    }).toThrow();
+  });
+
+  it('freezeDiagnostic also freezes nested zod issue entries and paths', () => {
+    const diagnostic = diagnosticOf(() =>
+      selectResultSet({ resultSets: 'not-an-array' }, 'CommonAllPlayers', []),
+    );
+    expect(Object.isFrozen(diagnostic.zodIssues)).toBe(true);
+    const [issue] = diagnostic.zodIssues ?? [];
+    expect(issue).toBeDefined();
+    if (issue) {
+      expect(Object.isFrozen(issue)).toBe(true);
+      expect(Object.isFrozen(issue.path)).toBe(true);
+    }
+  });
+
+  it('is idempotent when re-frozen', () => {
+    const frozen = freezeDiagnostic({
+      stage: 'envelope',
+      category: 'malformed-envelope',
+      topLevelKeys: ['a', 'b'],
+    });
+    expect(Object.isFrozen(frozen)).toBe(true);
+    expect(Object.isFrozen(frozen.topLevelKeys)).toBe(true);
   });
 });

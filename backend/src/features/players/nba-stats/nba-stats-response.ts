@@ -11,6 +11,7 @@ import { providerInvalidResponse } from '../provider-error.js';
 import {
   hasProperty,
   primitiveCategory,
+  sanitizeIdentifierList,
   summarizeZodIssues,
   topLevelPropertyNames,
   type ResponseDiagnostic,
@@ -53,7 +54,10 @@ export function selectResultSet(
     });
   }
 
-  const allResultSetNames = envelope.data.resultSets.map((set) => set.name);
+  // Sanitized for diagnostics only; the raw names are still used below for duplicate detection.
+  const allResultSetNames = sanitizeIdentifierList(
+    envelope.data.resultSets.map((set) => set.name),
+  );
   const resultSetNames = new Set<string>();
   for (const resultSet of envelope.data.resultSets) {
     if (resultSetNames.has(resultSet.name)) {

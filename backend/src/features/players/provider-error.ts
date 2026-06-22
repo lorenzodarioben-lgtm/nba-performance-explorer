@@ -2,7 +2,10 @@
 // error middleware maps it to a stable public HTTP response. Internal messages are short and
 // safe (never raw upstream URLs, bodies, headers, or cookies); the public message is generic.
 
-import type { ResponseDiagnostic } from './nba-stats/nba-stats-diagnostics.js';
+import {
+  freezeDiagnostic,
+  type ResponseDiagnostic,
+} from './nba-stats/nba-stats-diagnostics.js';
 
 export type ProviderErrorCode =
   | 'PROVIDER_TIMEOUT'
@@ -44,7 +47,14 @@ export function providerInvalidResponse(
   message = 'Upstream source returned an unexpected response.',
   diagnostic?: ResponseDiagnostic,
 ): ProviderError {
-  return new ProviderError('PROVIDER_INVALID_RESPONSE', message, diagnostic);
+  // Freeze the diagnostic at this single choke point so it is immutable everywhere it is later
+  // observed (the connectivity gate, the provider reporter, tests) — a reporter cannot mutate the
+  // metadata stored on the error or arrays shared through a shallow copy.
+  return new ProviderError(
+    'PROVIDER_INVALID_RESPONSE',
+    message,
+    diagnostic ? freezeDiagnostic(diagnostic) : undefined,
+  );
 }
 
 export interface ProviderHttpError {

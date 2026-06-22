@@ -80,7 +80,12 @@ export class NbaStatsPlayerProvider implements PlayerProvider {
       return await run();
     } catch (error) {
       if (error instanceof ProviderError && error.diagnostic) {
-        this.reporter.report({ ...error.diagnostic, endpoint });
+        try {
+          this.reporter.report({ ...error.diagnostic, endpoint });
+        } catch {
+          // Diagnostics are observational only: a reporter that throws must never mask the parser
+          // failure or change the outcome. Swallow the reporter error and rethrow the original.
+        }
       }
       throw error;
     }

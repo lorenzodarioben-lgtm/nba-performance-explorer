@@ -159,11 +159,45 @@ describe('parsePlayerProviderConfig — diagnostics', () => {
     ).toBe(false);
   });
 
-  it('rejects any other diagnostics value', () => {
-    for (const value of ['', 'TRUE', '1', 'yes', 'on']) {
+  it('rejects whitespace, casing, and any other non-exact diagnostics value', () => {
+    for (const value of [
+      '',
+      ' ',
+      ' true',
+      'true ',
+      'True',
+      'TRUE',
+      'False',
+      '1',
+      '0',
+      'yes',
+      'no',
+      'on',
+      'off',
+    ]) {
       expect(() => parsePlayerProviderConfig({ NBA_STATS_DIAGNOSTICS: value })).toThrow(
         PlayerProviderConfigError,
       );
     }
+  });
+
+  it('does not relax the production fixture guard when diagnostics are enabled', () => {
+    expect(() =>
+      parsePlayerProviderConfig({
+        NBA_DATA_PROVIDER: 'fixture',
+        NODE_ENV: 'production',
+        NBA_STATS_DIAGNOSTICS: 'true',
+      }),
+    ).toThrow(PlayerProviderConfigError);
+  });
+
+  it('leaves a valid production live config intact when diagnostics are enabled', () => {
+    const config = parsePlayerProviderConfig({
+      NBA_DATA_PROVIDER: 'nba-stats',
+      NODE_ENV: 'production',
+      NBA_STATS_DIAGNOSTICS: 'true',
+    });
+    expect(config.mode).toBe('nba-stats');
+    expect(config.diagnostics).toBe(true);
   });
 });

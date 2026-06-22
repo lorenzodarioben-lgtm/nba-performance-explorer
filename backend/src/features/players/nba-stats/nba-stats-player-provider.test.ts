@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
+import { ProviderError } from '../provider-error.js';
 import { createNbaStatsCache } from './nba-stats-cache.js';
 import type {
   DiagnosticReporter,
@@ -429,5 +430,59 @@ describe('NbaStatsPlayerProvider diagnostics emission', () => {
     });
     expect(await searchWith(directoryBody, true)).toHaveLength(1);
     expect(await searchWith(directoryBody, false)).toHaveLength(1);
+  });
+
+  it('never lets a throwing reporter mask the original parser failure', async () => {
+    const throwingReporter: DiagnosticReporter = {
+      report: () => {
+        throw new Error('reporter blew up');
+      },
+    };
+    const { client } = createFakeClient({
+      commonallplayers: () => invalidDirectoryBody,
+    });
+    const provider = makeProvider(client, throwingReporter);
+
+    // The original ProviderError propagates unchanged; the reporter error never surfaces.
+    await expect(provider.searchPlayers('lebron', 8)).rejects.toMatchObject({
+      code: 'PROVIDER_INVALID_RESPONSE',
+    });
+  });
+
+  it('a throwing reporter cannot turn a successful parse into a failure', async () => {
+    const throwingReporter: DiagnosticReporter = {
+      report: () => {
+        throw new Error('reporter blew up');
+      },
+    };
+    const { client } = createFakeClient({ commonallplayers: () => directoryBody });
+    const provider = makeProvider(client, throwingReporter);
+
+    expect(await provider.searchPlayers('lebron', 8)).toHaveLength(1);
+  });
+
+  it('a reporter mutating its copy cannot corrupt the diagnostic stored on the error', async () => {
+    const mutatingReporter: DiagnosticReporter = {
+      report: (diagnostic) => {
+        // Mutate the received copy; the frozen original on the error must be unaffected.
+        diagnostic.stage = 'mapped-schema';
+        diagnostic.endpoint = 'tampered';
+      },
+    };
+    const { client } = createFakeClient({
+      commonallplayers: () => invalidDirectoryBody,
+    });
+    const provider = makeProvider(client, mutatingReporter);
+
+    const error = await provider.searchPlayers('lebron', 8).then(
+      () => {
+        throw new Error('expected a rejection');
+      },
+      (caught: unknown) => caught as ProviderError,
+    );
+
+    expect(error.code).toBe('PROVIDER_INVALID_RESPONSE');
+    expect(error.diagnostic?.stage).toBe('value-format');
+    expect(error.diagnostic?.category).toBe('invalid-roster-status');
   });
 });

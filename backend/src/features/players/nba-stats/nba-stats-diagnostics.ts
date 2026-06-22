@@ -88,7 +88,7 @@ export const noopDiagnosticReporter: DiagnosticReporter = {
 };
 
 // A reporter that writes the sanitized diagnostic to the process logs. The diagnostic only ever
-// contains structural metadata, so serializing it cannot leak upstream data.
+// contains bounded structural metadata, so serializing it cannot leak upstream data or bloat output.
 export function createConsoleDiagnosticReporter(): DiagnosticReporter {
   return {
     report(diagnostic) {
@@ -118,22 +118,87 @@ export function hasProperty(value: unknown, key: string): boolean {
   );
 }
 
-// Sorted top-level property names of a plain object body, or undefined for non-objects. Names
-// only; values are never read.
+// Bounds applied to every upstream-derived structural label so a hostile or malformed response
+// cannot bloat a log line, inject control characters/newlines/terminal escapes, or smuggle long
+// arbitrary content into a diagnostic. Our own constants (the column/result-set names we require)
+// are already short and safe; these bounds protect the labels that originate from the response.
+const MAX_DIAGNOSTIC_ITEMS = 50;
+const MAX_DIAGNOSTIC_STRING_LENGTH = 80;
+const MAX_ZOD_ISSUES = 20;
+const REPLACEMENT_CHARACTER = '�';
+
+// A control character we must never reproduce in output: C0 controls (incl. newline, tab, NUL,
+// escape), DEL, and the C1 controls. Compared by code point so no control byte appears in source.
+function isControlCodePoint(code: number): boolean {
+  return code <= 0x1f || (code >= 0x7f && code <= 0x9f);
+}
+
+// Make an upstream-derived identifier safe to emit: replace every control character (neutralizing
+// newline and terminal-escape injection) and bound the length so one identifier cannot dominate the
+// output. The original value is never reproduced verbatim once it exceeds the bound.
+export function sanitizeIdentifier(value: string): string {
+  let cleaned = '';
+  for (const character of value) {
+    const code = character.codePointAt(0) ?? 0;
+    cleaned += isControlCodePoint(code) ? REPLACEMENT_CHARACTER : character;
+  }
+  if (cleaned.length <= MAX_DIAGNOSTIC_STRING_LENGTH) {
+    return cleaned;
+  }
+  return `${cleaned.slice(0, MAX_DIAGNOSTIC_STRING_LENGTH)}…(+${cleaned.length - MAX_DIAGNOSTIC_STRING_LENGTH})`;
+}
+
+// Bound a list of upstream-derived identifiers: cap the item count (with a stable overflow marker)
+// and sanitize every retained entry.
+export function sanitizeIdentifierList(values: readonly string[]): string[] {
+  const limited = values.slice(0, MAX_DIAGNOSTIC_ITEMS).map(sanitizeIdentifier);
+  if (values.length > MAX_DIAGNOSTIC_ITEMS) {
+    limited.push(`…(+${values.length - MAX_DIAGNOSTIC_ITEMS} more)`);
+  }
+  return limited;
+}
+
+// Sorted, bounded, sanitized top-level property names of a plain object body, or undefined for
+// non-objects. Key names only; values are never read.
 export function topLevelPropertyNames(value: unknown): string[] | undefined {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) {
     return undefined;
   }
-  return Object.keys(value).sort();
+  return sanitizeIdentifierList(Object.keys(value).sort());
 }
 
 // Reduce a Zod error to sanitized code/path summaries. Messages (which can echo values) are
-// dropped; paths are object keys and array indices only.
+// dropped; the issue count is bounded and path segments (object keys and array indices) are
+// sanitized.
 export function summarizeZodIssues(error: z.ZodError): ZodIssueSummary[] {
-  return error.issues.map((issue) => ({
-    code: String(issue.code),
+  return error.issues.slice(0, MAX_ZOD_ISSUES).map((issue) => ({
+    code: sanitizeIdentifier(String(issue.code)),
     path: issue.path.map((segment) =>
-      typeof segment === 'number' ? segment : String(segment),
+      typeof segment === 'number' ? segment : sanitizeIdentifier(String(segment)),
     ),
   }));
+}
+
+// Deep-freeze a diagnostic so neither a reporter nor any later consumer can mutate the structural
+// metadata stored on the original error — including arrays shared through a shallow copy. Returns
+// the same (now frozen) object.
+export function freezeDiagnostic(diagnostic: ResponseDiagnostic): ResponseDiagnostic {
+  for (const list of [
+    diagnostic.topLevelKeys,
+    diagnostic.resultSetNames,
+    diagnostic.missingColumns,
+    diagnostic.duplicateColumns,
+  ]) {
+    if (list) {
+      Object.freeze(list);
+    }
+  }
+  if (diagnostic.zodIssues) {
+    for (const issue of diagnostic.zodIssues) {
+      Object.freeze(issue.path);
+      Object.freeze(issue);
+    }
+    Object.freeze(diagnostic.zodIssues);
+  }
+  return Object.freeze(diagnostic);
 }
