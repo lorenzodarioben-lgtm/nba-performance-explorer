@@ -19,9 +19,9 @@ services:
     healthCheckPath: /api/health
     envVars:
       - key: NBA_DATA_PROVIDER
-        value: nba-stats
+        value: fixture
       - key: NBA_ALLOW_FIXTURE_IN_PRODUCTION
-        value: 'false'
+        value: 'true'
       - key: NBA_STATS_TIMEOUT_MS
         value: '10000'
       - key: FRONTEND_DIST
