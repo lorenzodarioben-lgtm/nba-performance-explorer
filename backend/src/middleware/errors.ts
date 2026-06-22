@@ -4,6 +4,11 @@ import {
 } from '@nba-performance-explorer/contracts';
 import type { ErrorRequestHandler, RequestHandler, Response } from 'express';
 
+import {
+  ProviderError,
+  providerErrorToHttp,
+} from '../features/players/provider-error.js';
+
 export function sendApiError(
   response: Response,
   status: number,
@@ -33,6 +38,15 @@ export const notFoundHandler: RequestHandler = (_request, response) => {
 export const errorHandler: ErrorRequestHandler = (error, _request, response, next) => {
   if (response.headersSent) {
     next(error);
+    return;
+  }
+
+  // A provider error maps to a stable upstream-failure status with a generic public message.
+  // Only the safe category code is logged — never the upstream URL, body, headers, or stack.
+  if (error instanceof ProviderError) {
+    const { status, code, message } = providerErrorToHttp(error);
+    console.warn(`Provider error while handling request: ${code}`);
+    sendApiError(response, status, code, message);
     return;
   }
 

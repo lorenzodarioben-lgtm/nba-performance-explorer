@@ -293,6 +293,35 @@ describe('player comparison page', () => {
     expect(statCells('Blocks per game')).toEqual(['0.5', '0.0']);
   });
 
+  it('shows "Multiple teams" in a column heading for a traded season', async () => {
+    server.use(
+      http.get('http://localhost/api/players/2544/seasons/2023-24/stats', () =>
+        HttpResponse.json({
+          stats: {
+            season: '2023-24',
+            gamesPlayed: 71,
+            minutesPerGame: 35,
+            pointsPerGame: 25.7,
+            reboundsPerGame: 7,
+            assistsPerGame: 7,
+            stealsPerGame: 1,
+            blocksPerGame: 0.5,
+            turnoversPerGame: 3,
+            fieldGoalPercentage: 0.5,
+            threePointPercentage: 0.4,
+            freeThrowPercentage: 0.8,
+          },
+        }),
+      ),
+    );
+    renderApp('/compare?player1=2544&player2=201939&season=2023-24');
+
+    await screen.findByRole('table');
+    expect(
+      screen.getByRole('columnheader', { name: /LeBron James/ }),
+    ).toHaveTextContent('Multiple teams');
+  });
+
   it('wraps the table in a keyboard-reachable scroll region', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 

@@ -29,7 +29,8 @@ export type DraftInfo = z.infer<typeof DraftInfoSchema>;
 // Reuse the merged player-summary identity fields, replace the team with the richer
 // profile team, and add the optional profile metadata.
 export const PlayerProfileSchema = PlayerSummarySchema.extend({
-  team: TeamProfileSchema,
+  // Optional for the same reason as `PlayerSummary.team`: a player without a current team.
+  team: TeamProfileSchema.optional(),
   jerseyNumber: z.string().trim().min(1).optional(),
   heightInches: z.number().int().positive().optional(),
   weightPounds: z.number().int().positive().optional(),

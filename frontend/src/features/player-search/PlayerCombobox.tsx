@@ -209,13 +209,16 @@ export function PlayerCombobox({
         >
           {players.map((player) => {
             const isHighlighted = player.id === highlightedPlayer?.id;
+            const teamLabel = player.team
+              ? player.team.abbreviation
+              : 'No current team';
 
             return (
               <li
                 id={`${listboxId}-option-${player.id}`}
                 key={player.id}
                 role="option"
-                aria-label={`${player.fullName}, ${player.team.abbreviation}${
+                aria-label={`${player.fullName}, ${teamLabel}${
                   player.position ? `, ${player.position}` : ''
                 }`}
                 aria-selected={isHighlighted}
@@ -233,7 +236,7 @@ export function PlayerCombobox({
                   {player.fullName}
                 </span>
                 <span className="mt-1 block text-sm text-zinc-600">
-                  {player.team.abbreviation}
+                  {teamLabel}
                   {player.position ? ` | ${player.position}` : ''}
                 </span>
               </li>

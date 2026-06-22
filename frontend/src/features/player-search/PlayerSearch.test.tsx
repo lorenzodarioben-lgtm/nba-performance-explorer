@@ -242,6 +242,23 @@ describe('player search', () => {
     ).toBeInTheDocument();
   });
 
+  it('shows "No current team" for a search result without a team', async () => {
+    server.use(
+      http.get(playerSearchUrl, () =>
+        HttpResponse.json({
+          players: [{ id: '2544', fullName: 'LeBron James' }],
+        }),
+      ),
+    );
+    renderApp();
+
+    await submitDebouncedSearch('le');
+
+    expect(
+      await screen.findByRole('option', { name: 'LeBron James, No current team' }),
+    ).toBeInTheDocument();
+  });
+
   it('renders an accessible empty state only after an eligible search', async () => {
     server.use(
       http.get(playerSearchUrl, () =>

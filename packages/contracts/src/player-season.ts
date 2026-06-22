@@ -24,7 +24,9 @@ export type SeasonId = z.infer<typeof SeasonIdSchema>;
 export const PlayerSeasonSchema = z
   .object({
     season: SeasonIdSchema,
-    team: TeamSummarySchema,
+    // Optional: a season split across multiple teams has no single team to report (the live
+    // NBA.com provider exposes a `TOT` aggregate row, which is not a real team).
+    team: TeamSummarySchema.optional(),
   })
   .strict();
 
@@ -65,7 +67,8 @@ const percentageRatioSchema = z.number().finite().min(0).max(1);
 export const PlayerSeasonStatsSchema = z
   .object({
     season: SeasonIdSchema,
-    team: TeamSummarySchema,
+    // Optional for the same reason as `PlayerSeason.team`: a multi-team (traded) season.
+    team: TeamSummarySchema.optional(),
     gamesPlayed: z.number().int().nonnegative(),
     minutesPerGame: perGameValueSchema,
     pointsPerGame: perGameValueSchema,

@@ -50,7 +50,7 @@ function ColumnHeading({ column }: { column: ComparisonColumn }) {
     >
       <span className="block">{column.fullName}</span>
       <span className="block text-sm font-normal text-zinc-600">
-        {column.stats.team.abbreviation}
+        {column.stats.team ? column.stats.team.abbreviation : 'Multiple teams'}
       </span>
     </th>
   );

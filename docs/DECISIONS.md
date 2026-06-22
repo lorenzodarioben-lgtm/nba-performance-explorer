@@ -209,3 +209,55 @@ the local backend. `VITE_API_BASE_URL` may optionally provide a non-secret base 
 
 **Consequences.** Local development remains same-origin and simple. Credentials must never
 be placed in `VITE_` variables because those values are exposed to browser code.
+
+---
+
+## ADR-013 - Use direct NBA.com Stats access with accepted product risks
+
+- **Status:** Accepted
+- **Date:** 2026-06-21
+
+**Context.** TASK-008 needs live player search, profiles, complete historical regular-season
+statistics, career trends, game logs, and two-player comparison while preserving the NBA.com
+person IDs already used by routes, fixtures, tests, and bookmarks. API-Sports was validated and
+rejected because its proprietary IDs, incomplete search behavior, limited historical coverage,
+multi-request career discovery, game-log joins, and 100-request daily free tier did not fit the
+application. Direct NBA.com Stats access was validated locally from Node.js 22 against
+`commonplayerinfo`, `playercareerstats`, and `playergamelog`. A Python `nba_api` sidecar would call
+the same upstream endpoints and showed no reliability advantage.
+
+NBA.com Stats is undocumented and unsupported as a public API. NBA.com terms may restrict a
+public, comprehensive, regularly updated statistics application and may require written
+permission. Shared cloud-hosting IP ranges may be blocked or time out, and endpoint availability
+or schemas may change without notice. The project owner understands and accepts those product,
+legal, and reliability risks for this low-traffic portfolio project.
+
+**Decision.** Implement `NbaStatsPlayerProvider` as a direct Node.js 22 `fetch` implementation
+behind the existing `PlayerProvider` interface. Use only `commonallplayers`,
+`commonplayerinfo`, `playercareerstats`, and `playergamelog` for TASK-008. Search a cached live
+`commonallplayers` directory locally. Select the provider explicitly with
+`NBA_DATA_PROVIDER=fixture|nba-stats`; fixture mode remains the default for tests, CI, and offline
+demonstrations. Live mode uses a configurable 10-second timeout, private Zod validation, bounded
+process-local caching, stable provider errors, zero automatic retries, and no silent fixture
+fallback.
+
+Preserve NBA.com person IDs. Widen the public player/profile/season contracts so team fields may be
+absent for free agents, inactive or retired players, and multi-team aggregate seasons. Never
+represent NBA.com's `TOT` aggregate marker as a real team.
+
+No proxy, WAF bypass, IP rotation, cookie harvesting, or other blocking-evasion technique is
+authorized. Before live production mode is enabled, the intended deployment environment must pass
+a bounded connectivity check against all four selected endpoints. A failed deployment check stops
+production enablement.
+
+**Consequences.** The provider matches the application's current domain closely, keeps existing
+player URLs stable, obtains complete career statistics efficiently, and requires no Python
+runtime. The backend must add a direct `zod` dependency for private upstream schemas, implement
+browser-compatible request headers, and maintain a bounded in-memory cache. The frontend must
+render explicit `No current team` and `Multiple teams` states after the optional-team contract
+widening. Automated tests remain completely offline.
+
+The application and README must state prominently that the project is unofficial and unaffiliated
+with the NBA, attribute NBA statistics and data to NBA.com, and disclose that endpoint stability,
+availability, and deployment reachability are not guaranteed. Local success does not imply that a
+cloud deployment will work.
