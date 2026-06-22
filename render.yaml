@@ -15,13 +15,13 @@ services:
     region: oregon
     autoDeploy: true
     buildCommand: npm ci && npm run build
-    startCommand: sh -c 'node backend/dist/scripts/nba-connectivity-gate.js; exec node backend/dist/server.js'
+    startCommand: node backend/dist/server.js
     healthCheckPath: /api/health
     envVars:
       - key: NBA_DATA_PROVIDER
-        value: fixture
+        value: nba-stats
       - key: NBA_ALLOW_FIXTURE_IN_PRODUCTION
-        value: 'true'
+        value: 'false'
       - key: NBA_STATS_TIMEOUT_MS
         value: '10000'
       - key: FRONTEND_DIST
