@@ -15,7 +15,7 @@ services:
     region: oregon
     autoDeploy: true
     buildCommand: npm ci && npm run build
-    startCommand: node backend/dist/server.js
+    startCommand: sh -c 'node backend/dist/scripts/nba-connectivity-gate.js; exec node backend/dist/server.js'
     healthCheckPath: /api/health
     envVars:
       - key: NBA_DATA_PROVIDER
