@@ -261,3 +261,40 @@ The application and README must state prominently that the project is unofficial
 with the NBA, attribute NBA statistics and data to NBA.com, and disclose that endpoint stability,
 availability, and deployment reachability are not guaranteed. Local success does not imply that a
 cloud deployment will work.
+
+---
+
+## ADR-014 - Deploy on Render as a single same-origin web service with a fixture fallback
+
+- **Status:** Accepted
+- **Date:** 2026-06-22
+
+**Context.** TASK-009 needs a publicly accessible, low-cost production deployment of the React/Vite
+frontend and the Node.js 22 / Express backend. Current (2026) research found that Railway and
+Fly.io no longer offer a genuine free tier, while Render and Koyeb do, and Vercel/Netlify are free
+for static frontends. `stats.nba.com` is widely reported to block cloud datacenter IP ranges, so
+live mode from any cloud host is uncertain and is gated by ADR-013. The project prioritizes
+minimal cost, Node 22 support, GitHub deployment, HTTPS, secure environment variables, health
+checks, rollback, and the simplest possible maintenance.
+
+**Decision.** Deploy a single Render free Web Service that serves both the built frontend
+(`frontend/dist`, with an SPA fallback) and the existing `/api` routes from the one Express
+process, keeping the browser same-origin (relative `/api`, `VITE_API_BASE_URL` empty) with no
+CORS and no cross-service proxy. Build with `npm ci && npm run build`; start with
+`node backend/dist/server.js`; select Node 22 via root `engines`. Configure the health check at
+`/api/health`. Static serving is gated by a `FRONTEND_DIST` environment variable so tests and the
+existing `/api` 404 behavior are unchanged. Run the ADR-013 connectivity gate from the deployed
+host before enabling live mode: if all four endpoints pass, set `NODE_ENV=production` and
+`NBA_DATA_PROVIDER=nba-stats`; if any fails, deploy/keep fixture mode (with `NODE_ENV` unset so the
+startup guard permits `fixture`) as an explicit, documented demonstration fallback. CI stays
+offline and fixture-backed and does not deploy.
+
+**Consequences.** One service, one HTTPS URL, one deploy, and one rollback give the simplest
+maintenance, at the cost of a whole-app cold start on the free tier (~1 minute after 15 minutes
+idle), optionally mitigated by a free uptime ping within the 750 free instance-hours/month. The
+backend gains a small env-gated static-serving block and a connectivity-gate script. Because the
+host's cloud IP is likely blocked by NBA.com, the public deployment will probably run in fixture
+mode; the documentation must state that live data is disabled in that case, that this is the
+accepted ADR-013 outcome, and that no blocking-evasion is used. Alternatives (Render static plus
+web service, Vercel plus Render, Koyeb) were considered and recorded in the TASK-009 plan; they
+add a second service or platform and cross-origin routing without improving NBA.com reachability.

@@ -1,0 +1,28 @@
+# Render Blueprint for the NBA Performance Explorer (see https://render.com/docs/blueprint-spec).
+#
+# One free web service runs the Express backend, which serves both the built frontend
+# (via FRONTEND_DIST) and the /api routes from a single origin (ADR-014). Node 22 is selected by
+# the repository's .nvmrc / package.json "engines". PORT is provided by Render automatically and
+# is read by backend/src/server.ts.
+#
+# This deploys in fixture mode as the safe default: NODE_ENV is intentionally NOT set to
+# "production", so the startup guard permits NBA_DATA_PROVIDER=fixture. Enable live mode only
+# after the deployment-host NBA.com connectivity gate passes (see TASK-009 and ADR-013) by setting
+# NODE_ENV=production and NBA_DATA_PROVIDER=nba-stats in the Render dashboard, then redeploying.
+services:
+  - type: web
+    name: nba-performance-explorer
+    runtime: node
+    plan: free
+    region: oregon
+    autoDeploy: true
+    buildCommand: npm ci && npm run build
+    startCommand: node backend/dist/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NBA_DATA_PROVIDER
+        value: fixture
+      - key: NBA_STATS_TIMEOUT_MS
+        value: '10000'
+      - key: FRONTEND_DIST
+        value: frontend/dist

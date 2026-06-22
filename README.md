@@ -133,6 +133,35 @@ guarantee a deployed host can reach NBA.com: a deployment-connectivity gate must
 mode is enabled in production. Fixture mode remains available for tests, CI, and offline
 demonstrations.
 
+## Deployment
+
+The repository includes a Render Blueprint ([`render.yaml`](render.yaml)) that provisions one free
+web service. The Express backend serves the built frontend and the `/api` routes from a single
+origin (ADR-014), so no separate frontend host or CORS configuration is required.
+
+- Build: `npm ci && npm run build`. Start: `node backend/dist/server.js`.
+- Node 22 (from `.nvmrc` / `package.json` engines); HTTPS and the `/api/health` health check are
+  provided by the host. `PORT` is provided by the host.
+- Environment variables (set in the host, never committed): `NBA_DATA_PROVIDER`,
+  `NBA_STATS_TIMEOUT_MS`, and `FRONTEND_DIST` (path to the built frontend, which enables
+  same-origin static serving).
+
+The Blueprint deploys in **fixture mode** by default (safe: no NBA.com dependency, and
+`NODE_ENV` is intentionally not `production`). Before enabling live data, run the
+deployment-host connectivity gate **from the deployed host**:
+
+```sh
+npm run connectivity-gate --workspace backend
+# or, from the repository root: node backend/dist/scripts/nba-connectivity-gate.js
+```
+
+It probes only the four approved NBA.com endpoints with a small sample and prints a sanitized
+PASS/FAIL per endpoint (no URLs, bodies, headers, or cookies), exiting non-zero if any fails. Only
+if all pass, set `NODE_ENV=production` and `NBA_DATA_PROVIDER=nba-stats` and redeploy to enable
+live data. Because NBA.com commonly blocks cloud-host IP ranges, the gate may fail; in that case
+keep fixture mode (no blocking-evasion is used). No public deployment has been performed yet, and
+deployment-host NBA.com connectivity is unverified.
+
 ## Documentation
 
 - [`docs/PROJECT_SPEC.md`](docs/PROJECT_SPEC.md): product scope and definition of done.

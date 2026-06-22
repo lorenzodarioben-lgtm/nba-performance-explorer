@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
+    "connectivity-gate": "node dist/scripts/nba-connectivity-gate.js",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\"",
     "build": "npm run clean && tsc --project tsconfig.json",
     "typecheck": "tsc --project tsconfig.json --noEmit",

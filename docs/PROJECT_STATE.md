@@ -9,7 +9,7 @@ _Last updated: 2026-06-22_
 
 - **Current milestone:** Production Deployment
 - **Current task:** TASK-009 - Production Deployment
-- **Current status:** Documentation defined; implementation not started
+- **Current status:** Deployment repository files implemented (uncommitted); not yet deployed
 - **Current branch:** feature/production-deployment
 
 ## Summary
@@ -19,8 +19,10 @@ integration) used implementation commit `7f6a33d` and merged through pull reques
 commit `f8256d2` (its documentation merged earlier through pull request #8, `6b417eb`).
 `NbaStatsPlayerProvider` serves live NBA.com Stats data behind the existing `PlayerProvider`
 boundary, selected by configuration, with fixtures remaining the default. TASK-009 (production
-deployment) is the active milestone; it is documentation-defined only and no TASK-009 deployment
-work has started.
+deployment) is the active milestone. The deployment repository files — a Render Blueprint
+(`render.yaml`), env-gated same-origin static serving, and the NBA.com connectivity-gate script
+(ADR-014) — are implemented and uncommitted, with offline tests. No public deployment has been
+performed and deployment-host NBA.com connectivity is unverified.
 
 On top of the TASK-001 foundation, the application now provides:
 
@@ -86,12 +88,10 @@ TASK-008 is documented in `docs/tasks/TASK-008-live-nba-provider.md`; TASK-009 i
 
 ## Immediate next action
 
-Run a fresh TASK-009 planning-only session: browse current hosting-provider documentation and
-pricing, compare realistic deployment architectures, assess NBA.com cloud-connectivity risk, and
-resolve the deferred questions in `docs/tasks/TASK-009-production-deployment.md` before any
-deployment or configuration change. Before enabling `NBA_DATA_PROVIDER=nba-stats` on a deployed
-host, the deployment-host connectivity gate against the four NBA.com endpoints (ADR-013) must
-pass; a failed gate stops production live mode.
+Review the uncommitted TASK-009 repository work. Once approved, connect the repository to Render
+(`render.yaml`) and deploy in fixture mode, then run the deployment-host NBA.com connectivity gate
+(ADR-013) from the deployed host. Enable `NBA_DATA_PROVIDER=nba-stats` (with `NODE_ENV=production`)
+only if all four endpoints pass; otherwise keep the documented fixture-mode public deployment.
 
 ## How to update this file
 
