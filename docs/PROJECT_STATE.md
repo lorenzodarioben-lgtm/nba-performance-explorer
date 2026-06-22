@@ -3,14 +3,14 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Coding agents read this to understand where things stand before starting work.
 
-_Last updated: 2026-06-22_
+_Last updated: 2026-06-23_
 
 ## Current state
 
-- **Current milestone:** Production Deployment
-- **Current task:** TASK-009 - Production Deployment (completed)
-- **Current status:** Completed and merged through pull request #10; Render is live from `main` in fixture mode
-- **Current branch:** `main`
+- **Current milestone:** Live NBA Provider Response Validation and Compatibility
+- **Current task:** TASK-010 - Live NBA Provider Response Validation and Compatibility (definition complete; implementation not started)
+- **Current status:** Task defined on branch `fix/live-nba-provider-response-validation`. Production remains live from `main` in the verified fixture-backed mode; no production code has been changed. TASK-009 is completed and merged (pull request #10, `9c27e3c`); the post-merge documentation state merged through pull request #11 (`fa437d3`).
+- **Current branch:** `fix/live-nba-provider-response-validation`
 
 ## Summary
 
@@ -138,12 +138,25 @@ TASK-008 is documented in
 TASK-009 is documented in
 `docs/tasks/TASK-009-production-deployment.md`.
 
+TASK-010 is documented in
+`docs/tasks/TASK-010-live-nba-provider-response-validation.md`.
+
 ## Immediate next action
 
-Define the next scoped task to investigate the live NBA provider's
-`PROVIDER_INVALID_RESPONSE` using sanitized response-schema metadata. Keep Render tracking
-`main` and keep production in the verified fixture-backed mode until the validation mismatch is
-fixed, reviewed, and retested from the deployment host.
+TASK-010 is defined on branch `fix/live-nba-provider-response-validation`. It is a staged,
+evidence-driven investigation of the live-provider `PROVIDER_INVALID_RESPONSE` (HTTP 502) that
+occurred during real player search on Render. The confirmed architecture gap is that the
+deployment-host connectivity gate validates only HTTP 2xx plus parseable JSON, whereas player
+search additionally runs the strict `parseDirectory` / `selectResultSet` path over the
+`commonallplayers` response; the exact legitimate response variation is not yet proven and must
+not be assumed.
+
+The next step, after approval, is TASK-010 Stage A: add sanitized, off-by-default diagnostics that
+can pinpoint where the live `commonallplayers` response is rejected, followed by Stage B evidence
+collection before any parser change. Keep Render tracking `main` and keep production in the
+verified fixture-backed mode until the mismatch is proven by sanitized evidence, fixed, reviewed,
+and separately retested from the deployment host. No production code has been changed by the task
+definition.
 
 ## How to update this file
 
