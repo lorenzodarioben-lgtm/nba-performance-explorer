@@ -8,9 +8,9 @@ _Last updated: 2026-06-22_
 ## Current state
 
 - **Current milestone:** Production Deployment
-- **Current task:** TASK-009 - Production Deployment
-- **Current status:** Public Render deployment live in fixture mode; connectivity gate passed; live mode rolled back after response-validation failure
-- **Current branch:** `feature/production-deployment`
+- **Current task:** TASK-009 - Production Deployment (completed)
+- **Current status:** Completed and merged through pull request #10; Render is live from `main` in fixture mode
+- **Current branch:** `main`
 
 ## Summary
 
@@ -140,13 +140,10 @@ TASK-009 is documented in
 
 ## Immediate next action
 
-Commit and push the verified deployment evidence, then wait for GitHub checks and the final
-Render redeployment to remain healthy in fixture mode. Merge pull request #10 only after those
-checks pass.
-
-After the merge, update Render so the production service tracks `main` before deleting the
-feature branch. Investigate the live provider's `PROVIDER_INVALID_RESPONSE` in a separate,
-explicitly scoped task using sanitized schema metadata rather than raw NBA.com response bodies.
+Define the next scoped task to investigate the live NBA provider's
+`PROVIDER_INVALID_RESPONSE` using sanitized response-schema metadata. Keep Render tracking
+`main` and keep production in the verified fixture-backed mode until the validation mismatch is
+fixed, reviewed, and retested from the deployment host.
 
 ## How to update this file
 
