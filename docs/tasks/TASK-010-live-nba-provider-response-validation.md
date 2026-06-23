@@ -1,8 +1,8 @@
 # TASK-010 — Live NBA Provider Response Validation and Compatibility
 
 - **Milestone:** Live NBA Provider Response Validation and Compatibility
-- **Status:** Definition complete; implementation not started
-- **Branch:** `fix/live-nba-provider-response-validation`
+- **Status:** Stages A, D, and B complete; Stage C (directory-name compatibility) active; Stage E not started
+- **Branch:** Stages A & D merged into `main` via pull request #12 (`71b61e9`); Stage C on `fix/live-nba-directory-name-compatibility`
 - **Provider under investigation:** `NbaStatsPlayerProvider` (direct NBA.com Stats access, ADR-013)
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_STATE.md`, and
@@ -355,11 +355,13 @@ and no commit or push occurs without explicit instruction.
 
 ## Implementation Status — Stage A and Stage D (2026-06-23)
 
-Stage A (safe sanitized diagnostics) and Stage D (gate strengthening) are implemented and verified
-offline. **No root cause has been claimed**: Stage B has not run, so the actual legitimate
-`commonallplayers` response variation is still unproven. Stage C remains blocked until Stage B
-produces sanitized evidence, and Stage E has not started. Production remains fixture-backed; the
-live provider is **not** fixed and live production mode is **not** ready.
+Stage A (safe sanitized diagnostics) and Stage D (gate strengthening) were implemented, hardened
+under an adversarial pre-push review, and merged into `main` via pull request #12 (`71b61e9`).
+Stage B (one controlled, sanitized Render diagnostic run) is now complete and proved the legitimate
+`commonallplayers` variation (see "Stage B — Completed" below). Stage C (directory-name
+compatibility) is active on branch `fix/live-nba-directory-name-compatibility`; Stage E has not
+started. Production remains fixture-backed; the live provider is **not** fixed and live production
+mode is **not** ready.
 
 ### Stage A — implemented
 
@@ -406,35 +408,76 @@ live provider is **not** fixed and live production mode is **not** ready.
 ### Verification (all offline)
 
 - Formatting, ESLint, strict frontend and backend type-checking, and the production build pass.
-- Tests: 139 frontend and 217 backend (356 total), all passing — 31 new backend tests covering the
-  diagnostics flag, the sanitized diagnostic content and stages, the sentinel-secret sanitation
-  sweep, the public-error invariance, the reporter wiring, and the strengthened gate. No test
-  contacts NBA.com.
+- Tests at the Stage A/D commit: 139 frontend and 217 backend (356 total). The adversarial-review
+  hardening added 14 more backend tests, so the merged `main` baseline (`71b61e9`) is 139 frontend
+  and 231 backend (370 total), all passing. No test contacts NBA.com.
 - `git diff --check` clean. The frontend bundle is unchanged (backend-only change).
 
-### Stage B — the exact controlled Render run still required (not executed here)
+## Stage B — Completed (2026-06-23)
 
-To obtain the sanitized evidence that unblocks Stage C, run the strengthened gate from the Render
-host while production continues serving in fixture mode:
+One controlled, sanitized diagnostic run was performed from the Render production host with explicit
+authorization, while production continued serving in fixture mode.
+
+**Execution method.** Render Shell and One-Off Jobs are Starter-only (unavailable on the free
+instance), so the strengthened gate was run via a temporary Start Command override (the safest
+remaining option, with no `render.yaml` change):
 
 ```sh
-node backend/dist/scripts/nba-connectivity-gate.js
-# or: npm run connectivity-gate --workspace backend
+sh -c 'node backend/dist/scripts/nba-connectivity-gate.js; exec node backend/dist/server.js'
 ```
 
-Because the gate now runs the production `parseDirectory` path for `commonallplayers`, its
-`commonallplayers` line is expected to print `FAIL` with a sanitized one-line diagnostic naming the
-exact rejection. The evidence to record (sanitized output only, no raw bodies) is the
-`commonallplayers` diagnostic, specifically:
+The gate ran once, then `exec`d the normal fixture server. The original Start Command
+(`node backend/dist/server.js`) was restored immediately afterward. The environment was unchanged
+(`NBA_DATA_PROVIDER=fixture`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`, `NBA_STATS_TIMEOUT_MS=10000`,
+`FRONTEND_DIST=frontend/dist`); the live provider was never enabled and `NBA_STATS_DIAGNOSTICS` was
+not set.
 
-- the failing `stage` (one of `envelope`, `result-set`, `required-columns`, `row-width`,
-  `cell-type`, `value-format`, `mapped-schema`);
-- the `category` and the relevant structural fields — e.g. `hasResultSets`/`hasResultSet` and
-  `topLevelKeys` for an envelope mismatch; `resultSetNames` for a result-set mismatch;
-  `missingColumns` for a column mismatch; `rejectedColumn` + `valueCategory` (+ `rejectedRowIndex`)
-  for a cell-type or value-format mismatch; `zodIssues` codes/paths where present.
+**Gate results (sanitized).**
 
-Optionally, the same evidence can be captured from the live application path by setting
-`NBA_STATS_DIAGNOSTICS=true` for a single controlled run, but the gate alone exercises the identical
-parser and is sufficient. Do not capture or store raw response bodies, rows, headers, or cookies.
-Stage C (the compatibility fix) must not begin until this evidence proves the legitimate variation.
+| Endpoint | Result |
+|---|---|
+| `commonallplayers` | FAIL — `PROVIDER_INVALID_RESPONSE` |
+| `commonplayerinfo` | PASS — reachable and parsed |
+| `playercareerstats` | PASS — reachable and parsed |
+| `playergamelog` | PASS — reachable and parsed |
+
+**Exact sanitized `commonallplayers` diagnostic.**
+
+```json
+{
+  "stage": "value-format",
+  "category": "invalid-last-comma-first-name",
+  "expectedResultSet": "CommonAllPlayers",
+  "rejectedColumn": "DISPLAY_LAST_COMMA_FIRST",
+  "rejectedRowIndex": 1986,
+  "valueCategory": "string",
+  "endpoint": "commonallplayers"
+}
+```
+
+**Confirmed facts (explicit in the output).** The envelope parsed, `CommonAllPlayers` existed, the
+required columns existed, and row widths were valid (the parse reached the per-row value check).
+`DISPLAY_LAST_COMMA_FIRST` at row index 1986 is a **string** (`valueCategory: "string"`) whose
+value-format failed the `invalid-last-comma-first-name` check — i.e. it has no comma, or begins with
+a comma (empty surname). The other three endpoint parsers succeeded.
+
+**Not confirmed (no claim made).** The actual player identity; the actual cell value; whether the
+string had no comma or began with a comma; and whether additional incompatible rows exist after row
+1986 (the parser aborts on the first one).
+
+**Privacy.** No response body, raw row, raw cell value, player name, player ID, team ID, cookie,
+header, token, URL, or query value was captured or recorded — only bounded structural fields.
+
+**Restoration verified.** The Start Command was restored to `node backend/dist/server.js`; the new
+deploy went live with `provider: fixture` and ran no gate; `GET /api/health` returned HTTP 200; and
+the fixture-backed `?search=lebron` returned HTTP 200 with LeBron James. The local repository
+remained clean and unchanged throughout.
+
+## Stage C — Active
+
+Stage C implements the narrow directory-name compatibility fix proven by the Stage B evidence: when
+`DISPLAY_LAST_COMMA_FIRST` is a string without a usable comma, the already-present `DISPLAY_FIRST_LAST`
+full display name is used as the alternate name source, so player search no longer aborts. Standard
+`"Surname, First"` values, all other parsers, and provider-error semantics are unchanged; genuinely
+malformed rows still fail with `PROVIDER_INVALID_RESPONSE`. Stage E (controlled live re-test) has not
+started and requires separate approval.
