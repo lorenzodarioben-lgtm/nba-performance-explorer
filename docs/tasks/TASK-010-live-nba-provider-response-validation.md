@@ -1,8 +1,8 @@
 # TASK-010 — Live NBA Provider Response Validation and Compatibility
 
 - **Milestone:** Live NBA Provider Response Validation and Compatibility
-- **Status:** Stages A, D, and B complete; Stage C (directory-name compatibility) active; Stage E not started
-- **Branch:** Stages A & D merged into `main` via pull request #12 (`71b61e9`); Stage C on `fix/live-nba-directory-name-compatibility`
+- **Status:** Stages A–E complete; live NBA.com mode verified in production. Finalizing the live configuration in `render.yaml`.
+- **Branch:** Stages A & D merged via pull request #12 (`71b61e9`); Stage C via pull request #13 (`5518234`); live-config finalization on `chore/enable-live-nba-provider-production`
 - **Provider under investigation:** `NbaStatsPlayerProvider` (direct NBA.com Stats access, ADR-013)
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_STATE.md`, and
@@ -473,11 +473,51 @@ deploy went live with `provider: fixture` and ran no gate; `GET /api/health` ret
 the fixture-backed `?search=lebron` returned HTTP 200 with LeBron James. The local repository
 remained clean and unchanged throughout.
 
-## Stage C — Active
+## Stage C — Completed (merged via pull request #13, `5518234`)
 
-Stage C implements the narrow directory-name compatibility fix proven by the Stage B evidence: when
+Stage C implemented the narrow directory-name compatibility fix proven by the Stage B evidence: when
 `DISPLAY_LAST_COMMA_FIRST` is a string without a usable comma, the already-present `DISPLAY_FIRST_LAST`
-full display name is used as the alternate name source, so player search no longer aborts. Standard
-`"Surname, First"` values, all other parsers, and provider-error semantics are unchanged; genuinely
-malformed rows still fail with `PROVIDER_INVALID_RESPONSE`. Stage E (controlled live re-test) has not
-started and requires separate approval.
+full display name is used as the alternate name source (for the full name and both search name
+parts, with no invented surname/given split), so player search no longer aborts. Standard
+`"Surname, First"` values, all other parsers, and provider-error semantics are unchanged; rows with
+neither a usable comma name nor a usable display name fail with a sanitized `unusable-directory-name`
+diagnostic, and other malformed rows still fail with `PROVIDER_INVALID_RESPONSE`. Merged with the
+suite at 139 frontend and 244 backend tests (383 total) after an adversarial pre-push review.
+
+## Stage E — Completed (2026-06-24)
+
+Controlled live verification was performed from the Render production host with explicit
+authorization, on the merged `main` build `5518234`.
+
+**Gate re-run (temporary Start Command method, no `render.yaml` change).** The strengthened gate was
+run via `sh -c 'node backend/dist/scripts/nba-connectivity-gate.js; exec node backend/dist/server.js'`
+with the environment unchanged (fixture). All four endpoints **PASSED**, including `commonallplayers`
+— now run through the Stage C-fixed `parseDirectory` over the whole live directory:
+
+| Endpoint | Stage B | Stage E |
+|---|---|---|
+| `commonallplayers` | FAIL (`invalid-last-comma-first-name`) | **PASS** |
+| `commonplayerinfo` | PASS | PASS |
+| `playercareerstats` | PASS | PASS |
+| `playergamelog` | PASS | PASS |
+
+The gate passing over the entire directory resolves the Stage C "are there other incompatible rows"
+uncertainty: the full live `commonallplayers` directory now parses end-to-end. The normal Start
+Command (`node backend/dist/server.js`) was restored immediately and the service reverified
+(`provider: fixture`, `/api/health` 200, fixture search 200).
+
+**Live-provider verification.** With explicit approval, production was switched to the live provider
+via Render dashboard environment variables (`NBA_DATA_PROVIDER=nba-stats`,
+`NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`, `NBA_STATS_TIMEOUT_MS=10000`, normal Start Command). Logs
+reported `provider: nba-stats`. All eight public flows were verified over live data (HTTP 200): health;
+player search; player profile; available seasons; selected-season statistics; career trends; game
+log; and two-player comparison (data composed from a second live player). Only sanitized structural
+summaries (status codes, counts, key counts, public ids, season labels) were recorded — no raw
+upstream body, row, player value, cookie, header, token, URL, or query was captured.
+
+**Outcome.** The live provider works end-to-end in production. The project owner chose to keep
+production live-backed; this is finalized by updating `render.yaml` to the live configuration (this
+branch) so the Blueprint source of truth matches the verified Render state. No application code or
+parser was changed in Stage E. Per ADR-013 the accepted risks remain (NBA.com terms; shared cloud IPs
+may be blocked or time out later); the documented rollback is `NBA_DATA_PROVIDER=fixture` with
+`NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`.

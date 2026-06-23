@@ -3,14 +3,14 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Coding agents read this to understand where things stand before starting work.
 
-_Last updated: 2026-06-23_
+_Last updated: 2026-06-24_
 
 ## Current state
 
 - **Current milestone:** Live NBA Provider Response Validation and Compatibility
-- **Current task:** TASK-010 - Live NBA Provider Response Validation and Compatibility (Stages A, D, and B complete; Stage C — directory-name compatibility — active; Stage E not started)
-- **Current status:** Stage A (sanitized diagnostics) and Stage D (strengthened connectivity gate), with adversarial-review hardening, merged into `main` via pull request #12 (`71b61e9`). Stage B ran one controlled, sanitized Render diagnostic and proved the cause: the live `commonallplayers` directory has a row whose `DISPLAY_LAST_COMMA_FIRST` lacks a usable comma (stage `value-format`, category `invalid-last-comma-first-name`, row index 1986), which aborts player search; the other three endpoints parse cleanly. Production was reverified fixture-backed (provider `fixture`, `/api/health` 200, fixture LeBron search 200) and the original Render start command restored. Stage C (the narrow directory-name compatibility fix) is active on branch `fix/live-nba-directory-name-compatibility`; the live provider is not fixed and live production mode is not ready. TASK-009 is completed and merged (pull request #10, `9c27e3c`); the post-merge documentation state merged through pull request #11 (`fa437d3`).
-- **Current branch:** `fix/live-nba-directory-name-compatibility`
+- **Current task:** TASK-010 - Live NBA Provider Response Validation and Compatibility (Stages A–E complete; finalizing the live-mode configuration)
+- **Current status:** TASK-010 is functionally complete and **live NBA.com mode is verified in production**. Stage A (sanitized diagnostics) and Stage D (strengthened connectivity gate) merged via pull request #12 (`71b61e9`); Stage C (the directory-name compatibility fix) merged via pull request #13 (`5518234`). Stage B proved the cause (the live `commonallplayers` directory has a row whose `DISPLAY_LAST_COMMA_FIRST` lacks a usable comma — stage `value-format`, category `invalid-last-comma-first-name`, row 1986). Stage E (2026-06-24) re-ran the strengthened gate from the Render host on `5518234` — all four endpoints PASSED, including `commonallplayers` through the fixed `parseDirectory` — then switched production to the live provider and verified all eight flows (health, player search, profile, available seasons, selected-season statistics, career trends, game log, two-player comparison) over live data. Render is now serving `provider: nba-stats`. This branch updates `render.yaml` to make the live configuration the source of truth. TASK-009 is completed and merged (pull request #10, `9c27e3c`); the post-merge documentation state merged through pull request #11 (`fa437d3`).
+- **Current branch:** `chore/enable-live-nba-provider-production`
 
 ## Summary
 
@@ -97,12 +97,14 @@ deployment host fails the bounded connectivity gate.
 
 ## Validation state
 
-TASK-010 Stage A (sanitized diagnostics) and Stage D (strengthened connectivity gate), with the
-adversarial-review hardening, were merged into `main` via pull request #12 (`71b61e9`). The merged
-`main` baseline is 139 frontend and 231 backend tests (370 total); formatting, ESLint, strict type
-checking, the full offline suite, the production build, and `git diff --check` all pass, and the
-frontend bundle is unchanged (a backend-only change). Stage C (directory-name compatibility) is in
-progress on branch `fix/live-nba-directory-name-compatibility`.
+TASK-010 Stage A (sanitized diagnostics) and Stage D (strengthened connectivity gate) merged via
+pull request #12 (`71b61e9`); Stage C (directory-name compatibility) merged via pull request #13
+(`5518234`). The merged `main` baseline is 139 frontend and 244 backend tests (383 total), and
+formatting, ESLint, strict type checking, the full offline suite, the production build, and
+`git diff --check` all pass. This finalization branch
+changes only `render.yaml` and documentation (no application code), so the offline test suite is
+unchanged. Stage E live verification (2026-06-24) was performed against the deployed Render host and
+is operational evidence, not an automated test; no automated test contacts NBA.com.
 
 The merged `main` baseline was previously verified with:
 
@@ -150,20 +152,15 @@ TASK-010 is documented in
 
 ## Immediate next action
 
-TASK-010 Stages A, D, and B are complete. Stage B proved the `commonallplayers` rejection is a
-`value-format` failure (`category: invalid-last-comma-first-name`) on `DISPLAY_LAST_COMMA_FIRST` at
-directory row 1986 — a string lacking the expected `"Surname, First"` comma format — which aborts
-player search; the other three endpoints parse cleanly.
-
-The active step is Stage C: implement the narrow directory-name compatibility fix in
-`backend/src/features/players/nba-stats/nba-stats-mappers.ts` (the `commonallplayers` directory-name
-parsing). When `DISPLAY_LAST_COMMA_FIRST` is a string without a usable comma, fall back to the
-already-present `DISPLAY_FIRST_LAST` full display name as the alternate name source, keeping the
-player searchable, while leaving standard `"Surname, First"` mapping, the other parsers, and provider
-error semantics unchanged and still rejecting genuinely malformed rows with
-`PROVIDER_INVALID_RESPONSE`. After Stage C passes full validation and review, Stage E (a controlled
-live re-test from Render, then immediate rollback) requires separate explicit approval. Keep Render
-tracking `main` and keep production fixture-backed throughout; live production mode is not ready.
+TASK-010 Stages A–E are complete and live NBA.com mode is verified in production. The remaining step
+is to merge this finalization branch (`chore/enable-live-nba-provider-production`), which updates
+`render.yaml` to `NBA_DATA_PROVIDER=nba-stats` / `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false` so the
+Blueprint source of truth matches the verified live Render configuration, and records the Stage E
+outcome in the documentation. Merging keeps Render live with no gap (the dashboard override already
+matches). Per ADR-013 the live source carries accepted risks (NBA.com terms; shared cloud IPs may be
+blocked or time out); the documented rollback is to set `NBA_DATA_PROVIDER=fixture` and
+`NBA_ALLOW_FIXTURE_IN_PRODUCTION=true` (in `render.yaml` or, immediately, via the Render dashboard).
+After this branch merges, TASK-010 is done; define the next task before further work.
 
 ## How to update this file
 
