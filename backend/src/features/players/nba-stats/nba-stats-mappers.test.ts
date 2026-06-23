@@ -244,6 +244,77 @@ describe('parseDirectory', () => {
       ),
     );
   });
+
+  it('still rejects a conventional comma name with an empty given-name part', () => {
+    expectProviderInvalid(() =>
+      parseDirectory(
+        envelope(
+          resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+            rowFor(DIRECTORY_HEADERS, {
+              PERSON_ID: 4248,
+              DISPLAY_LAST_COMMA_FIRST: 'Surname,', // comma present, empty given name
+              DISPLAY_FIRST_LAST: 'Synthetic Player',
+              ROSTERSTATUS: 1,
+            }),
+          ]),
+        ),
+      ),
+    );
+  });
+
+  it('still rejects a conventional comma name with an empty surname part', () => {
+    expectProviderInvalid(() =>
+      parseDirectory(
+        envelope(
+          resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+            rowFor(DIRECTORY_HEADERS, {
+              PERSON_ID: 4249,
+              DISPLAY_LAST_COMMA_FIRST: ' , Givenname', // comma at index 1, surname trims to empty
+              DISPLAY_FIRST_LAST: 'Synthetic Player',
+              ROSTERSTATUS: 1,
+            }),
+          ]),
+        ),
+      ),
+    );
+  });
+
+  it('rejects a non-string display name', () => {
+    expectProviderInvalid(() =>
+      parseDirectory(
+        envelope(
+          resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+            rowFor(DIRECTORY_HEADERS, {
+              PERSON_ID: 4250,
+              DISPLAY_LAST_COMMA_FIRST: 'Nocomma',
+              DISPLAY_FIRST_LAST: 99, // not a string
+              ROSTERSTATUS: 1,
+            }),
+          ]),
+        ),
+      ),
+    );
+  });
+
+  it('trims surrounding whitespace on the fallback display name', () => {
+    const [player] = parseDirectory(
+      envelope(
+        resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+          rowFor(DIRECTORY_HEADERS, {
+            PERSON_ID: 4251,
+            DISPLAY_LAST_COMMA_FIRST: 'Nocomma',
+            DISPLAY_FIRST_LAST: '  Padded Synthetic  ',
+            ROSTERSTATUS: 1,
+            TEAM_ID: 0,
+          }),
+        ]),
+      ),
+    );
+
+    expect(player?.fullName).toBe('Padded Synthetic');
+    expect(player?.firstName).toBe('Padded Synthetic');
+    expect(player?.surname).toBe('Padded Synthetic');
+  });
 });
 
 const PROFILE_HEADERS = [

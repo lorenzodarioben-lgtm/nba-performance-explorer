@@ -1,3 +1,4 @@
+import { PlayerSummarySchema } from '@nba-performance-explorer/contracts';
 import { describe, expect, it, vi } from 'vitest';
 
 import { ProviderError } from '../provider-error.js';
@@ -484,5 +485,42 @@ describe('NbaStatsPlayerProvider diagnostics emission', () => {
     expect(error.code).toBe('PROVIDER_INVALID_RESPONSE');
     expect(error.diagnostic?.stage).toBe('value-format');
     expect(error.diagnostic?.category).toBe('invalid-roster-status');
+  });
+});
+
+describe('NbaStatsPlayerProvider directory-name fallback (TASK-010 Stage C)', () => {
+  const fallbackDirectoryBody = envelope(
+    resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+      rowFor(DIRECTORY_HEADERS, {
+        PERSON_ID: 2544,
+        DISPLAY_LAST_COMMA_FIRST: 'Synthetic Mononym', // no usable comma
+        DISPLAY_FIRST_LAST: 'Synthetic Mononym',
+        ROSTERSTATUS: 1,
+        TEAM_ID: 1610612747,
+        TEAM_ABBREVIATION: 'LAL',
+      }),
+    ]),
+  );
+
+  it('parses, returns, and contract-validates a fallback-named player through search', async () => {
+    const { client } = createFakeClient({
+      commonallplayers: () => fallbackDirectoryBody,
+    });
+    const provider = makeProvider(client);
+
+    const results = await provider.searchPlayers('synthetic', 8);
+
+    // The full display name is preserved and the public search contract is unchanged.
+    expect(results).toEqual([
+      { id: '2544', fullName: 'Synthetic Mononym', team: { abbreviation: 'LAL' } },
+    ]);
+    for (const summary of results) {
+      expect(() => PlayerSummarySchema.parse(summary)).not.toThrow();
+    }
+
+    // Findable by either display-name token through the live-provider directory path.
+    expect((await provider.searchPlayers('mononym', 8)).map((p) => p.id)).toEqual([
+      '2544',
+    ]);
   });
 });
