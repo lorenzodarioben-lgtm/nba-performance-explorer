@@ -8,9 +8,9 @@ _Last updated: 2026-06-23_
 ## Current state
 
 - **Current milestone:** Live NBA Provider Response Validation and Compatibility
-- **Current task:** TASK-010 - Live NBA Provider Response Validation and Compatibility (Stage A and Stage D implemented; Stage B pending explicit authorization; Stage C blocked on evidence; Stage E not started)
-- **Current status:** Sanitized response diagnostics (Stage A) and the strengthened deployment-host connectivity gate (Stage D) are implemented and verified offline on branch `fix/live-nba-provider-response-validation`. No root cause has been claimed — the legitimate live `commonallplayers` response variation is still unproven and awaits a Stage B sanitized Render diagnostic run. Production remains live from `main` in the verified fixture-backed mode; the live provider is not fixed and live production mode is not ready. TASK-009 is completed and merged (pull request #10, `9c27e3c`); the post-merge documentation state merged through pull request #11 (`fa437d3`).
-- **Current branch:** `fix/live-nba-provider-response-validation`
+- **Current task:** TASK-010 - Live NBA Provider Response Validation and Compatibility (Stages A, D, and B complete; Stage C — directory-name compatibility — active; Stage E not started)
+- **Current status:** Stage A (sanitized diagnostics) and Stage D (strengthened connectivity gate), with adversarial-review hardening, merged into `main` via pull request #12 (`71b61e9`). Stage B ran one controlled, sanitized Render diagnostic and proved the cause: the live `commonallplayers` directory has a row whose `DISPLAY_LAST_COMMA_FIRST` lacks a usable comma (stage `value-format`, category `invalid-last-comma-first-name`, row index 1986), which aborts player search; the other three endpoints parse cleanly. Production was reverified fixture-backed (provider `fixture`, `/api/health` 200, fixture LeBron search 200) and the original Render start command restored. Stage C (the narrow directory-name compatibility fix) is active on branch `fix/live-nba-directory-name-compatibility`; the live provider is not fixed and live production mode is not ready. TASK-009 is completed and merged (pull request #10, `9c27e3c`); the post-merge documentation state merged through pull request #11 (`fa437d3`).
+- **Current branch:** `fix/live-nba-directory-name-compatibility`
 
 ## Summary
 
@@ -97,13 +97,12 @@ deployment host fails the bounded connectivity gate.
 
 ## Validation state
 
-The TASK-010 branch `fix/live-nba-provider-response-validation` (Stage A and Stage D) was validated
-locally on 2026-06-23 with formatting, ESLint, strict type checking, the full offline test suite,
-and the production build all passing, and `git diff --check` clean. The suite is now 139 frontend
-and 217 backend tests (356 total) — 31 new backend tests for the diagnostics flag, sanitized
-diagnostic content and stages, the sentinel-secret sanitation sweep, public-error invariance, the
-reporter wiring, and the strengthened gate. The frontend bundle is unchanged (a backend-only
-change). This branch is not yet merged into `main`.
+TASK-010 Stage A (sanitized diagnostics) and Stage D (strengthened connectivity gate), with the
+adversarial-review hardening, were merged into `main` via pull request #12 (`71b61e9`). The merged
+`main` baseline is 139 frontend and 231 backend tests (370 total); formatting, ESLint, strict type
+checking, the full offline suite, the production build, and `git diff --check` all pass, and the
+frontend bundle is unchanged (a backend-only change). Stage C (directory-name compatibility) is in
+progress on branch `fix/live-nba-directory-name-compatibility`.
 
 The merged `main` baseline was previously verified with:
 
@@ -151,22 +150,20 @@ TASK-010 is documented in
 
 ## Immediate next action
 
-TASK-010 Stage A (sanitized, off-by-default response diagnostics) and Stage D (a strengthened
-deployment-host gate that runs the same production parser/mapper per endpoint) are implemented and
-verified offline on branch `fix/live-nba-provider-response-validation`. The confirmed architecture
-gap — the old gate validated only HTTP 2xx plus parseable JSON, whereas player search additionally
-runs the strict `parseDirectory` / `selectResultSet` path over the `commonallplayers` response — is
-now closed in the gate. The exact legitimate response variation remains unproven and must not be
-assumed.
+TASK-010 Stages A, D, and B are complete. Stage B proved the `commonallplayers` rejection is a
+`value-format` failure (`category: invalid-last-comma-first-name`) on `DISPLAY_LAST_COMMA_FIRST` at
+directory row 1986 — a string lacking the expected `"Surname, First"` comma format — which aborts
+player search; the other three endpoints parse cleanly.
 
-The next steps are: (1) review the diagnostics and strengthened gate; then (2) perform one
-explicitly authorized, sanitized Stage B Render diagnostic run — execute the strengthened gate from
-the Render host (`node backend/dist/scripts/nba-connectivity-gate.js`) and record only the
-sanitized `commonallplayers` diagnostic (failing stage, category, and structural fields), no raw
-bodies. Stage C (the narrow parser/mapper compatibility fix) stays blocked until that evidence
-proves the variation, and Stage E (controlled live re-test) requires separate approval. Keep Render
-tracking `main` and keep production in the verified fixture-backed mode throughout; no root cause
-has been claimed and live production mode is not ready.
+The active step is Stage C: implement the narrow directory-name compatibility fix in
+`backend/src/features/players/nba-stats/nba-stats-mappers.ts` (the `commonallplayers` directory-name
+parsing). When `DISPLAY_LAST_COMMA_FIRST` is a string without a usable comma, fall back to the
+already-present `DISPLAY_FIRST_LAST` full display name as the alternate name source, keeping the
+player searchable, while leaving standard `"Surname, First"` mapping, the other parsers, and provider
+error semantics unchanged and still rejecting genuinely malformed rows with
+`PROVIDER_INVALID_RESPONSE`. After Stage C passes full validation and review, Stage E (a controlled
+live re-test from Render, then immediate rollback) requires separate explicit approval. Keep Render
+tracking `main` and keep production fixture-backed throughout; live production mode is not ready.
 
 ## How to update this file
 
