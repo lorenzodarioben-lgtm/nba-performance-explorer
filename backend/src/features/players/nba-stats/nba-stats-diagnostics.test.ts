@@ -242,11 +242,38 @@ describe('parser diagnostics identify the failing stage', () => {
     expectOnlyAllowedKeys(diagnostic);
     expect(JSON.stringify(diagnostic)).not.toContain(SECRET);
   });
+
+  // TASK-010 Stage C: the alternate-name path rejects a row with neither a usable comma name nor a
+  // usable display name, with a sanitized category and no name value exposed.
+  it('flags an unusable directory name without exposing either name value', () => {
+    const diagnostic = diagnosticOf(() =>
+      parseDirectory(
+        envelope(
+          resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+            rowFor(DIRECTORY_HEADERS, {
+              PERSON_ID: 2544,
+              DISPLAY_LAST_COMMA_FIRST: `${SECRET}-no-comma`,
+              DISPLAY_FIRST_LAST: null, // missing alternate display name
+              ROSTERSTATUS: 1,
+            }),
+          ]),
+        ),
+      ),
+    );
+
+    expect(diagnostic.stage).toBe('value-format');
+    expect(diagnostic.category).toBe('unusable-directory-name');
+    expect(diagnostic.rejectedColumn).toBe('DISPLAY_FIRST_LAST');
+    expect(diagnostic.rejectedRowIndex).toBe(0);
+    expectOnlyAllowedKeys(diagnostic);
+    expect(JSON.stringify(diagnostic)).not.toContain(SECRET);
+  });
 });
 
 describe('diagnostics never expose upstream payload data', () => {
   it('keeps sentinel cell values out of every diagnostic field', () => {
-    // A directory row stuffed with sentinel values that still fails parsing.
+    // A directory row stuffed with sentinel values that still fails parsing (here on the roster
+    // status, after the names resolve), proving no sentinel cell value reaches the diagnostic.
     const diagnostic = diagnosticOf(() =>
       parseDirectory(
         envelope(
@@ -255,7 +282,7 @@ describe('diagnostics never expose upstream payload data', () => {
               PERSON_ID: 2544,
               DISPLAY_LAST_COMMA_FIRST: 'no-comma-here-just-secret',
               DISPLAY_FIRST_LAST: SECRET,
-              ROSTERSTATUS: 1,
+              ROSTERSTATUS: 9,
               TEAM_ABBREVIATION: SECRET,
               PLAYERCODE: SECRET,
             }),

@@ -54,10 +54,18 @@ export function parseDirectory(body: unknown): DirectoryPlayer[] {
   const players: DirectoryPlayer[] = [];
 
   for (const [rowIndex, row] of table.rows.entries()) {
-    const fullName = optionalString(table, row, 'DISPLAY_FIRST_LAST');
-    if (fullName === undefined) {
+    // Read the display name first (its non-string failure is reported before the comma field),
+    // then resolve the searchable name parts. A skipped nameless row returns undefined.
+    const displayFirstLast = optionalString(table, row, 'DISPLAY_FIRST_LAST');
+    const names = resolveDirectoryNames(
+      requireString(table, row, 'DISPLAY_LAST_COMMA_FIRST'),
+      displayFirstLast,
+      rowIndex,
+    );
+    if (names === undefined) {
       continue;
     }
+
     const personIdValue = requireFiniteNumber(table, row, 'PERSON_ID');
     if (!Number.isSafeInteger(personIdValue) || personIdValue <= 0) {
       throw providerInvalidResponse('NBA Stats returned an invalid player id.', {
@@ -69,10 +77,6 @@ export function parseDirectory(body: unknown): DirectoryPlayer[] {
         valueCategory: 'number',
       });
     }
-    const { firstName, surname } = parseDirectoryNames(
-      requireString(table, row, 'DISPLAY_LAST_COMMA_FIRST'),
-      rowIndex,
-    );
     const rosterStatus = requireFiniteNumber(table, row, 'ROSTERSTATUS');
     if (rosterStatus !== 0 && rosterStatus !== 1) {
       throw providerInvalidResponse('NBA Stats returned an invalid roster status.', {
@@ -84,19 +88,17 @@ export function parseDirectory(body: unknown): DirectoryPlayer[] {
         valueCategory: 'number',
       });
     }
-    const personId = String(personIdValue);
-    const isActive = rosterStatus === 1;
     const team = teamSummaryFor(
       requireFiniteNumber(table, row, 'TEAM_ID'),
       optionalString(table, row, 'TEAM_ABBREVIATION'),
     );
 
     players.push({
-      personId,
-      fullName,
-      firstName,
-      surname,
-      isActive,
+      personId: String(personIdValue),
+      fullName: names.fullName,
+      firstName: names.firstName,
+      surname: names.surname,
+      isActive: rosterStatus === 1,
       ...(team ? { team } : {}),
     });
   }
@@ -104,30 +106,64 @@ export function parseDirectory(body: unknown): DirectoryPlayer[] {
   return players;
 }
 
-function parseDirectoryNames(
-  value: string,
-  rowIndex: number,
-): {
+interface DirectoryNames {
+  fullName: string;
   firstName: string;
   surname: string;
-} {
-  const commaIndex = value.indexOf(',');
+}
+
+// Resolve a directory row's display name and search name parts (first/surname).
+//
+// Standard case: `DISPLAY_LAST_COMMA_FIRST` is in the conventional "Surname, First" form, so the
+// surname and given name are split from it and the full display name comes from `DISPLAY_FIRST_LAST`.
+// A conventional row with no display name is skipped (returns `undefined`) — unchanged behaviour.
+//
+// Alternate case (TASK-010 Stage C): a controlled Render diagnostic proved that at least one
+// legitimate directory row carries a `DISPLAY_LAST_COMMA_FIRST` value without a usable comma (stage
+// "value-format", category "invalid-last-comma-first-name", one directory row), which aborted the
+// whole directory and broke player search. Instead of failing, fall back to the already-present full
+// display name. Because the surname/given boundary cannot be known without the comma form, we do not
+// guess a split: the validated display name becomes the full name and both search name parts, so the
+// player stays findable by any name token without inventing structure the upstream data did not
+// provide. A row with neither a usable comma name nor a usable display name has no resolvable name
+// and is rejected as `PROVIDER_INVALID_RESPONSE`.
+//
+// (`DISPLAY_LAST_COMMA_FIRST` and `DISPLAY_FIRST_LAST` non-string values are already rejected by the
+// `requireString` / `optionalString` cell accessors before this function is reached.)
+function resolveDirectoryNames(
+  lastCommaFirst: string,
+  displayFirstLast: string | undefined,
+  rowIndex: number,
+): DirectoryNames | undefined {
+  const commaIndex = lastCommaFirst.indexOf(',');
+
   if (commaIndex <= 0) {
-    throw providerInvalidResponse(
-      'NBA Stats returned an invalid last-comma-first player name.',
-      {
-        stage: 'value-format',
-        category: 'invalid-last-comma-first-name',
-        expectedResultSet: DIRECTORY_RESULT_SET,
-        rejectedColumn: 'DISPLAY_LAST_COMMA_FIRST',
-        rejectedRowIndex: rowIndex,
-        valueCategory: 'string',
-      },
-    );
+    // No usable "Surname, First" comma: use the full display name as the alternate source.
+    if (displayFirstLast === undefined) {
+      throw providerInvalidResponse(
+        'NBA Stats returned a directory row with no usable player name.',
+        {
+          stage: 'value-format',
+          category: 'unusable-directory-name',
+          expectedResultSet: DIRECTORY_RESULT_SET,
+          rejectedColumn: 'DISPLAY_FIRST_LAST',
+          rejectedRowIndex: rowIndex,
+        },
+      );
+    }
+    return {
+      fullName: displayFirstLast,
+      firstName: displayFirstLast,
+      surname: displayFirstLast,
+    };
   }
 
-  const surname = value.slice(0, commaIndex).trim();
-  const firstName = value.slice(commaIndex + 1).trim();
+  // Conventional "Surname, First": skip a nameless row, otherwise split surname and given name.
+  if (displayFirstLast === undefined) {
+    return undefined;
+  }
+  const surname = lastCommaFirst.slice(0, commaIndex).trim();
+  const firstName = lastCommaFirst.slice(commaIndex + 1).trim();
   if (firstName === '' || surname === '') {
     throw providerInvalidResponse(
       'NBA Stats returned an incomplete last-comma-first player name.',
@@ -142,7 +178,7 @@ function parseDirectoryNames(
     );
   }
 
-  return { firstName, surname };
+  return { fullName: displayFirstLast, firstName, surname };
 }
 
 // A real team only: positive team id and a valid three-letter abbreviation. `TOT` (the traded

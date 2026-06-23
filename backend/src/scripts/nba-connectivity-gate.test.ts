@@ -281,6 +281,24 @@ describe('runConnectivityGate exercises the production parser', () => {
     );
     expect((await runSingle('commonallplayers', body)).ok).toBe(false);
   });
+
+  // TASK-010 Stage C: the legitimate variation proven in Stage B (a directory row whose
+  // DISPLAY_LAST_COMMA_FIRST lacks a usable comma) now passes the production directory parser.
+  it('passes commonallplayers when a row uses the display-name fallback (no usable comma)', async () => {
+    const body = envelope(
+      resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+        rowFor(DIRECTORY_HEADERS, {
+          PERSON_ID: 2544,
+          DISPLAY_LAST_COMMA_FIRST: 'Synthetic Mononym', // no usable comma
+          DISPLAY_FIRST_LAST: 'Synthetic Mononym',
+          ROSTERSTATUS: 1,
+          TEAM_ID: 1610612747,
+          TEAM_ABBREVIATION: 'LAL',
+        }),
+      ]),
+    );
+    expect((await runSingle('commonallplayers', body)).ok).toBe(true);
+  });
 });
 
 describe('gate failure output is sanitized', () => {

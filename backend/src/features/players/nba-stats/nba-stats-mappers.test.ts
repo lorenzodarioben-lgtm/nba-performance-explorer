@@ -9,6 +9,7 @@ import {
   mapSelectedSeasonStats,
   parseDirectory,
 } from './nba-stats-mappers.js';
+import { searchDirectory } from './nba-stats-search.js';
 
 function resultSet(name: string, headers: string[], rowSet: unknown[][]) {
   return { name, headers, rowSet };
@@ -114,6 +115,132 @@ describe('parseDirectory', () => {
     expectProviderInvalid(() =>
       parseDirectory(
         envelope(resultSet('CommonAllPlayers', headers, [rowFor(headers, {})])),
+      ),
+    );
+  });
+
+  // TASK-010 Stage C: a directory row whose DISPLAY_LAST_COMMA_FIRST lacks a usable comma falls
+  // back to the full display name (DISPLAY_FIRST_LAST) instead of aborting the whole directory.
+  it('falls back to the full display name when last-comma-first has no usable comma', () => {
+    const players = parseDirectory(
+      envelope(
+        resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+          rowFor(DIRECTORY_HEADERS, {
+            PERSON_ID: 4242,
+            DISPLAY_LAST_COMMA_FIRST: 'Synthetic Mononym', // no comma
+            DISPLAY_FIRST_LAST: 'Synthetic Mononym',
+            ROSTERSTATUS: 1,
+            TEAM_ID: 1610612747,
+            TEAM_ABBREVIATION: 'LAL',
+          }),
+        ]),
+      ),
+    );
+
+    expect(players).toEqual([
+      {
+        personId: '4242',
+        fullName: 'Synthetic Mononym',
+        firstName: 'Synthetic Mononym',
+        surname: 'Synthetic Mononym',
+        isActive: true,
+        team: { abbreviation: 'LAL' },
+      },
+    ]);
+  });
+
+  it('uses the same fallback when last-comma-first begins with a comma', () => {
+    const [player] = parseDirectory(
+      envelope(
+        resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+          rowFor(DIRECTORY_HEADERS, {
+            PERSON_ID: 4243,
+            DISPLAY_LAST_COMMA_FIRST: ', Givenonly', // empty surname before the comma
+            DISPLAY_FIRST_LAST: 'Givenonly Synthetic',
+            ROSTERSTATUS: 1,
+            TEAM_ID: 0,
+          }),
+        ]),
+      ),
+    );
+
+    expect(player).toEqual({
+      personId: '4243',
+      fullName: 'Givenonly Synthetic',
+      firstName: 'Givenonly Synthetic',
+      surname: 'Givenonly Synthetic',
+      isActive: true,
+    });
+  });
+
+  it('preserves the full display name and keeps a fallback-named player searchable', () => {
+    const players = parseDirectory(
+      envelope(
+        resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+          rowFor(DIRECTORY_HEADERS, {
+            PERSON_ID: 4244,
+            DISPLAY_LAST_COMMA_FIRST: 'Nocommahere', // no comma
+            DISPLAY_FIRST_LAST: 'Synthetic Fallback',
+            ROSTERSTATUS: 1,
+            TEAM_ID: 0,
+          }),
+        ]),
+      ),
+    );
+
+    expect(players[0]?.fullName).toBe('Synthetic Fallback');
+    // Findable by either display-name token through the existing search logic.
+    expect(searchDirectory(players, 'synthetic', 8).map((p) => p.id)).toEqual(['4244']);
+    expect(searchDirectory(players, 'fallback', 8).map((p) => p.id)).toEqual(['4244']);
+  });
+
+  it('rejects an unusable last-comma-first name with no alternate display name', () => {
+    expectProviderInvalid(() =>
+      parseDirectory(
+        envelope(
+          resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+            rowFor(DIRECTORY_HEADERS, {
+              PERSON_ID: 4245,
+              DISPLAY_LAST_COMMA_FIRST: 'Nocomma',
+              DISPLAY_FIRST_LAST: null, // missing alternate
+              ROSTERSTATUS: 1,
+            }),
+          ]),
+        ),
+      ),
+    );
+  });
+
+  it('rejects an unusable last-comma-first name with a whitespace-only display name', () => {
+    expectProviderInvalid(() =>
+      parseDirectory(
+        envelope(
+          resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+            rowFor(DIRECTORY_HEADERS, {
+              PERSON_ID: 4246,
+              DISPLAY_LAST_COMMA_FIRST: 'Nocomma',
+              DISPLAY_FIRST_LAST: '   ', // empty/whitespace alternate
+              ROSTERSTATUS: 1,
+            }),
+          ]),
+        ),
+      ),
+    );
+  });
+
+  it('still rejects a non-string last-comma-first value', () => {
+    expectProviderInvalid(() =>
+      parseDirectory(
+        envelope(
+          resultSet('CommonAllPlayers', DIRECTORY_HEADERS, [
+            rowFor(DIRECTORY_HEADERS, {
+              PERSON_ID: 4247,
+              DISPLAY_LAST_COMMA_FIRST: 42, // not a string
+              DISPLAY_FIRST_LAST: 'Synthetic Player',
+              ROSTERSTATUS: 1,
+            }),
+          ]),
+        ),
       ),
     );
   });
