@@ -313,3 +313,21 @@ The ADR-013 fallback was therefore applied: production was restored to the expli
 fixture demonstration. The public application remains healthy, no silent runtime fallback occurs,
 and no blocking-evasion technique was introduced. Live provider schema investigation is deferred
 to a separately scoped task.
+
+### Verified live outcome — 2026-06-24 (TASK-010)
+
+The `PROVIDER_INVALID_RESPONSE` was diagnosed and fixed in TASK-010. Sanitized Render diagnostics
+(Stage B) proved the cause: one live `commonallplayers` directory row had a `DISPLAY_LAST_COMMA_FIRST`
+value without a usable comma (stage `value-format`, category `invalid-last-comma-first-name`). The
+strengthened connectivity gate (Stage D) now runs the real application parsers/mappers per endpoint,
+and a narrow directory-name compatibility fix (Stage C) falls back to the full `DISPLAY_FIRST_LAST`
+display name for such rows.
+
+Stage E re-ran the strengthened gate from the Render host on `main` build `5518234`: all four
+endpoints PASSED, including `commonallplayers` parsed end-to-end. Production was then switched to the
+live provider and all eight public flows were verified over live NBA.com data. The project owner
+elected to keep production live-backed; `render.yaml` is updated to `NBA_DATA_PROVIDER=nba-stats` and
+`NBA_ALLOW_FIXTURE_IN_PRODUCTION=false` so the Blueprint source of truth matches the verified state.
+The ADR-013 accepted risks remain; the documented rollback is `NBA_DATA_PROVIDER=fixture` with
+`NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`. No silent runtime fallback and no blocking-evasion technique
+were introduced.

@@ -1,11 +1,12 @@
 # NBA Performance Explorer
 
 > **Status:** Public Render deployment is live at
-> `https://nba-performance-explorer.onrender.com` in intentionally fixture-backed mode. The
-> deployment-host connectivity gate passed all four approved NBA.com endpoint families at the
-> HTTP/JSON level. A live-provider trial then returned `PROVIDER_INVALID_RESPONSE` during player
-> search, so production was safely rolled back to fixture mode. TASK-009 is complete pending
-> pull request #10 merge.
+> `https://nba-performance-explorer.onrender.com` serving **live NBA.com Stats data**
+> (`NBA_DATA_PROVIDER=nba-stats`). The deployment-host connectivity gate passes all four approved
+> endpoint families through the application's real parsers, and the full public user journey was
+> verified live from the Render host (TASK-010 Stage E, 2026-06-24). Per ADR-013 the live source
+> carries accepted risks (NBA.com terms; shared cloud IPs may be blocked or time out); fixture mode
+> remains available as a documented rollback.
 
 NBA Performance Explorer is a portfolio web application for exploring NBA player
 performance. The product scope and planned user journey are documented in
@@ -162,20 +163,21 @@ Deployment configuration:
 - Non-secret deployment variables are declared in `render.yaml`.
 - Neither fixture mode nor the NBA.com Stats provider requires an API key.
 
-### Initial fixture deployment
+### Blueprint deployment configuration
 
-The Blueprint initially deploys with:
+The Blueprint deploys with live NBA.com Stats mode (verified — see "Verified deployment outcome"):
 
 ```text
-NBA_DATA_PROVIDER=fixture
-NBA_ALLOW_FIXTURE_IN_PRODUCTION=true
+NBA_DATA_PROVIDER=nba-stats
+NBA_ALLOW_FIXTURE_IN_PRODUCTION=false
 NBA_STATS_TIMEOUT_MS=10000
 FRONTEND_DIST=frontend/dist
 ```
 
-`NBA_ALLOW_FIXTURE_IN_PRODUCTION=true` is a deliberate public-demonstration opt-in. It prevents
-fixture mode from becoming an accidental production fallback while still allowing the application
-to be deployed safely before NBA.com connectivity has been verified.
+To roll back to the deterministic fixture demonstration (for example if the host can no longer
+reach NBA.com), set `NBA_DATA_PROVIDER=fixture` and `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`.
+`NBA_ALLOW_FIXTURE_IN_PRODUCTION` is a strict opt-in that prevents fixture mode from becoming an
+accidental production fallback.
 
 ### Deployment-host connectivity gate
 
@@ -236,6 +238,21 @@ Verified deployment outcome on 2026-06-22:
 - Production was rolled back to the explicitly approved fixture demonstration and is healthy.
 - Live NBA.com data remains disabled pending a separately scoped response-validation
   investigation.
+
+The `PROVIDER_INVALID_RESPONSE` was investigated and fixed in TASK-010 (sanitized diagnostics, a
+strengthened gate that runs the real application parsers, and a directory-name compatibility fix
+for live `commonallplayers` rows whose `DISPLAY_LAST_COMMA_FIRST` lacks a usable comma).
+
+Verified live outcome on 2026-06-24 (TASK-010 Stage E):
+
+- The strengthened connectivity gate, re-run from the Render host, returned `PASS` for all four
+  endpoint families — including `commonallplayers`, now parsed end-to-end by the fixed directory
+  parser.
+- Production was switched to the live provider (`NBA_DATA_PROVIDER=nba-stats`) and all eight public
+  flows were verified over live NBA.com data: health, player search, profile, available seasons,
+  selected-season statistics, career trends, game log, and two-player comparison.
+- No raw upstream response, row, or player value was exposed during verification.
+- Live mode is now the deployed configuration; fixture mode remains the documented rollback.
 
 ## Documentation
 

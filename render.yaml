@@ -4,9 +4,13 @@
 # and the /api routes from a single origin. Render automatically runs the service with
 # NODE_ENV=production.
 #
-# The initial public deployment deliberately uses fixture mode until the deployment-host
-# NBA.com connectivity gate passes. NBA_ALLOW_FIXTURE_IN_PRODUCTION=true is an explicit
-# opt-in and prevents fixture mode from becoming an accidental production fallback.
+# Live NBA.com Stats mode is enabled (NBA_DATA_PROVIDER=nba-stats). The deployment-host
+# connectivity gate passed all four endpoints and the full public user journey was
+# verified live from this host (TASK-010 Stage E). NBA_ALLOW_FIXTURE_IN_PRODUCTION=false
+# keeps fixture mode from being an accidental production fallback. Per ADR-013 the live
+# source carries accepted risks (NBA.com terms; shared cloud IPs may be blocked or time
+# out); if the host can no longer reach NBA.com, roll back by setting
+# NBA_DATA_PROVIDER=fixture and NBA_ALLOW_FIXTURE_IN_PRODUCTION=true.
 services:
   - type: web
     name: nba-performance-explorer
@@ -19,9 +23,9 @@ services:
     healthCheckPath: /api/health
     envVars:
       - key: NBA_DATA_PROVIDER
-        value: fixture
+        value: nba-stats
       - key: NBA_ALLOW_FIXTURE_IN_PRODUCTION
-        value: 'true'
+        value: 'false'
       - key: NBA_STATS_TIMEOUT_MS
         value: '10000'
       - key: FRONTEND_DIST
