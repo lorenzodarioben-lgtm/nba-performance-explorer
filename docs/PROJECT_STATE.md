@@ -8,8 +8,8 @@ _Last updated: 2026-06-24_
 ## Current state
 
 - **Current milestone:** Portfolio Readiness
-- **Current task:** TASK-011 - Portfolio Readiness and Final Production Audit (definition complete; implementation not started)
-- **Current status:** TASK-010 is complete and merged. The live NBA provider was finalized as the production source of truth in `render.yaml` (`NBA_DATA_PROVIDER=nba-stats`) via pull request #14 (`3e1d2ad`); production serves `provider: nba-stats` and all eight flows were verified live. TASK-011 is a non-feature portfolio-readiness pass defined on branch `chore/portfolio-readiness-audit`: an evidence-based audit found the frontend components are strong (accessible combobox, chart-as-table, semantic tables, focus management, sanitized errors), with the gaps being presentation/content — the landing page is branded "Project foundation" with a backend health-check debug widget, four user-facing strings still say "fixture-backed", `index.html` has a stale dev meta description and no favicon/social-preview, there is no top-level error boundary, and the README is setup-oriented without screenshots. No application code has been changed by the task definition; production remains live-backed and untouched.
+- **Current task:** TASK-011 - Portfolio Readiness and Final Production Audit (Stage C implemented; Stages A, B, and D pending)
+- **Current status:** TASK-010 is complete and merged; production serves `provider: nba-stats` (pull request #14, `3e1d2ad`). TASK-011 is in progress on branch `chore/portfolio-readiness-audit`. **Stage C (production UX and metadata) is implemented and committed locally:** the landing page is now a product hero (replacing the "Project foundation" scaffold and the raw backend health-check panel) with a small accessible service-status line; the four stale "fixture-backed" user-facing strings are removed; and `index.html` has product metadata, Open Graph/Twitter tags, and an original SVG favicon. Validation passes (146 frontend, 244 backend, 390 total); `git diff --check` clean. Stages A (recruiter-first README + screenshots), B (error boundary + a11y/responsive polish), and D (final validation, manual viewport/keyboard checks, production smoke test, portfolio assets) are not started. Manual browser viewport/keyboard/contrast confirmation and a production smoke test remain pending and are not claimed. No backend, contract, dependency, `render.yaml`, or Render change was made; production remains live-backed and untouched.
 - **Current branch:** `chore/portfolio-readiness-audit`
 
 ## Summary
@@ -155,22 +155,17 @@ TASK-011 is documented in
 
 ## Immediate next action
 
-TASK-010 is complete and merged (pull request #14, `3e1d2ad`); production is live-backed and
-verified. TASK-011 (Portfolio Readiness and Final Production Audit) is defined on branch
-`chore/portfolio-readiness-audit` from an evidence-based audit; implementation has not started.
-
-After approval, the recommended first step is **Stage C** (production UX and metadata): replace the
-four stale "fixture-backed" user-facing strings (`PlayerGameLog.tsx`, `PlayerComparisonPage.tsx`) and
-their tests, and rework the landing page so it presents as a finished product (a hero with a value
-proposition instead of the "Project foundation" framing and the raw backend health-check widget) —
-these are the highest-impact, recruiter-visible accuracy fixes. Then Stage A (recruiter-first README
-with screenshots), Stage B (error boundary and evidence-backed accessibility/responsive polish), and
-Stage D (final validation, manual viewport/keyboard checks, production smoke test, portfolio assets).
-No backend, shared-contract, `render.yaml`, or Render changes are in scope; production stays
-live-backed throughout. Several checks (responsive layout, keyboard behaviour, contrast, smoke test)
-require manual browser verification and must not be claimed without it. The older "Summary" section
-of this file still carries TASK-009-era fixture wording and is part of the TASK-011 Stage A
-documentation-accuracy pass.
+TASK-011 Stage C (production UX and metadata) is implemented and committed on branch
+`chore/portfolio-readiness-audit`: the product-hero landing, removal of the four stale
+"fixture-backed" strings, and `index.html` metadata + favicon. After approval, the remaining stages
+are Stage A (recruiter-first README with screenshots, plus the documentation-accuracy pass including
+this file's older "Summary" section, which still carries TASK-009-era fixture wording), Stage B (a
+top-level error boundary and evidence-backed accessibility/responsive polish), and Stage D (final
+validation, manual viewport/keyboard checks, a production smoke test, and portfolio assets). No
+backend, shared-contract, `render.yaml`, or Render changes are in scope; production stays live-backed
+throughout. Several checks (responsive layout at representative widths, keyboard behaviour, contrast,
+favicon/social preview, and the production smoke test) require manual browser verification and must
+not be claimed without it — they remain pending.
 
 ## How to update this file
 

@@ -307,4 +307,46 @@ portfolio summary / resume bullets / talking points.
 - **Bundle optimization** must show measurable value or be left as a documented Low item.
 - **Open question:** should the public landing keep any (sanitized) "system status" affordance, or
   drop it entirely in favour of a pure product hero? (Recommendation: drop the raw widget; rely on
-  the backend health check, which stays internal.)
+  the backend health check, which stays internal.) — **Resolved in Stage C:** kept a small,
+  unobtrusive, accessible service-status line with user-facing wording (no raw service identifier),
+  because it doubles as useful free-tier cold-start feedback.
+
+## Implementation Status — Stage C (2026-06-24)
+
+Stage C (Production UX and Metadata) is **implemented and committed locally**. Stages A, B, and D
+remain **pending**.
+
+Done in Stage C:
+
+- Replaced the "Project foundation" landing scaffold and the raw backend health-check debug panel
+  with a product hero (one `<h1>`, value proposition, the search as the primary action, a
+  capabilities list, an honest unofficial/NBA.com attribution note). Retained a small, accessible
+  service-status line ("Connecting to live data" / "Live data service available" / "Live data
+  service temporarily unavailable") that never exposes the internal service identifier.
+- Removed the four stale "fixture-backed" user-facing strings (`PlayerGameLog.tsx`,
+  `PlayerComparisonPage.tsx` ×3) and updated their tests.
+- `index.html`: product title/description, `theme-color`, Open Graph and Twitter card metadata
+  (production URL; no `og:image` yet), and an original SVG basketball favicon in `frontend/public/`.
+- Added landing-page tests and a deterministic `index.html` metadata test.
+
+Verification: `npm run validate` passes (139→**146 frontend** and 244 backend, **390 total**);
+`git diff --check` clean. A repository search confirms no user-facing `fixture-backed`,
+`Project foundation`, `Development foundation`, dev/placeholder, or `console.` wording remains in
+frontend production code (only test assertions verifying their absence, the accessible season-select
+placeholder option, and the search input `placeholder` attribute).
+
+Still pending (not done in Stage C):
+
+- **Manual browser viewport confirmation (~360/768/1024/1440 px)** — the layout was verified
+  statically (no fixed widths; `max-w-3xl`; responsive grids; wrapping heading) but **not** visually
+  confirmed in a browser. Likewise keyboard-only navigation, the rendered favicon/social preview,
+  contrast spot-checks, and a production smoke test remain for Stage D / a session with browser
+  tooling.
+- The social-preview `og:image` (Stage D), the README rewrite (Stage A), the top-level error
+  boundary and broader a11y/responsive polish (Stage B), and the portfolio assets/summary (Stage D).
+- The `docs/PROJECT_STATE.md` "Summary" section's TASK-009-era fixture wording (Stage A
+  documentation-accuracy pass).
+
+Production was **not** touched (no Render or `render.yaml` change); production remains **live-backed**
+(`provider: nba-stats`). The frontend change will deploy via the normal `main` auto-deploy once this
+branch merges; until then production is unchanged.
