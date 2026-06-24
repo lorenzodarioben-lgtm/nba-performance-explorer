@@ -239,21 +239,21 @@ export function PlayerComparisonPage() {
     if (noSeasons1 && noSeasons2) {
       return (
         <StatusMessage>
-          {`Neither ${name1} nor ${name2} has fixture-backed regular-season data to compare.`}
+          {`Neither ${name1} nor ${name2} has regular-season data to compare.`}
         </StatusMessage>
       );
     }
     if (noSeasons1) {
       return (
         <StatusMessage>
-          {`${name1} has no fixture-backed regular-season data, so there is nothing to compare.`}
+          {`${name1} has no regular-season data, so there is nothing to compare.`}
         </StatusMessage>
       );
     }
     if (noSeasons2) {
       return (
         <StatusMessage>
-          {`${name2} has no fixture-backed regular-season data, so there is nothing to compare.`}
+          {`${name2} has no regular-season data, so there is nothing to compare.`}
         </StatusMessage>
       );
     }

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>NBA Performance Explorer</title>
+  <circle cx="16" cy="16" r="14" fill="#dc2626" />
+  <g fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round">
+    <circle cx="16" cy="16" r="14" />
+    <line x1="16" y1="2" x2="16" y2="30" />
+    <line x1="2" y1="16" x2="30" y2="16" />
+    <path d="M6 6 C 12 11, 12 21, 6 26" />
+    <path d="M26 6 C 20 11, 20 21, 26 26" />
+  </g>
+</svg>
