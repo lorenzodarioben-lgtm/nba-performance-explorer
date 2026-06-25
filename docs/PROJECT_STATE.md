@@ -3,175 +3,101 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Coding agents read this to understand where things stand before starting work.
 
-_Last updated: 2026-06-24_
+_Last updated: 2026-06-26_
 
-## Current state
+## Current State
 
 - **Current milestone:** Portfolio Readiness
-- **Current task:** TASK-011 - Portfolio Readiness and Final Production Audit (Stage C implemented; Stages A, B, and D pending)
-- **Current status:** TASK-010 is complete and merged; production serves `provider: nba-stats` (pull request #14, `3e1d2ad`). TASK-011 is in progress on branch `chore/portfolio-readiness-audit`. **Stage C (production UX and metadata) is implemented and committed locally:** the landing page is now a product hero (replacing the "Project foundation" scaffold and the raw backend health-check panel) with a small accessible service-status line; the four stale "fixture-backed" user-facing strings are removed; and `index.html` has product metadata, Open Graph/Twitter tags, and an original SVG favicon. Validation passes (146 frontend, 244 backend, 390 total); `git diff --check` clean. Stages A (recruiter-first README + screenshots), B (error boundary + a11y/responsive polish), and D (final validation, manual viewport/keyboard checks, production smoke test, portfolio assets) are not started. Manual browser viewport/keyboard/contrast confirmation and a production smoke test remain pending and are not claimed. No backend, contract, dependency, `render.yaml`, or Render change was made; production remains live-backed and untouched.
-- **Current branch:** `chore/portfolio-readiness-audit`
+- **Current task:** TASK-011 - Stage A: README and Repository Presentation
+- **Current branch:** `docs/task-011-stage-a-readme`
+- **Current status:** TASK-011 Stage C was merged to `main` in PR #15 at
+  `1aa9c2e`. Production remains live-backed with `NBA_DATA_PROVIDER=nba-stats`,
+  `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`, `NBA_STATS_TIMEOUT_MS=10000`, and the
+  normal Render start command `node backend/dist/server.js`. Stage C is deployed:
+  the product hero, browser metadata, favicon, and provider-neutral empty states are
+  live. Stage A is implemented and validated locally on branch
+  `docs/task-011-stage-a-readme`: the README is rewritten for recruiter-facing project
+  presentation, the Stage C merge/deployment and upstream empty-career limitation are
+  documented, and the Stage D screenshot plan is recorded without creating image files.
+  Stages B and D remain pending and must not be started without separate approval.
 
 ## Summary
 
-TASK-001 through TASK-008 are completed and merged into `main`. TASK-008, the live NBA data
-provider integration, used implementation commit `7f6a33d` and merged through pull request #9 in
-merge commit `f8256d2`. Its earlier documentation state merged through pull request #8 in
-`6b417eb`.
+TASK-001 through TASK-010 are complete and merged. The application is deployed at
+`https://nba-performance-explorer.onrender.com` as a single Render web service: Express
+serves the built React SPA and the `/api` routes from one origin.
 
-`NbaStatsPlayerProvider` serves live NBA.com Stats data behind the existing `PlayerProvider`
-boundary and is selected through runtime configuration. Fixture mode remains the default for
-tests, CI, local development, offline use, and intentionally fixture-backed demonstrations.
+The product supports the core journey end to end:
 
-TASK-009 successfully deployed the application to Render at
-`https://nba-performance-explorer.onrender.com`. The public health endpoint and the complete
-fixture-backed user journey were smoke-tested successfully, including player search, profiles,
-season statistics, game logs, career trends, and two-player comparison.
+- Search NBA players.
+- Open a player profile.
+- View available seasons and selected-season statistics.
+- Explore career trends through an accessible chart with an equivalent semantic table.
+- View selected-season game logs.
+- Compare two players through shareable URLs.
 
-The deployment-host connectivity gate returned `PASS` for all four approved NBA.com endpoint
-families at the HTTP-success and JSON-response level. Live mode was then enabled with
-`NBA_DATA_PROVIDER=nba-stats`. The service started successfully, but real player search returned
-`PROVIDER_INVALID_RESPONSE` with HTTP 502 because the upstream response did not satisfy the
-backend's strict application-level validation.
+The backend uses a replaceable `PlayerProvider` boundary. The live provider uses the
+approved NBA.com Stats endpoint families (`commonallplayers`, `commonplayerinfo`,
+`playercareerstats`, and `playergamelog`) through a backend-only HTTP client, strict
+response parsing, shared public contracts, process-local caching, sanitized provider
+errors, zero automatic retries, and no silent fixture fallback. Fixture mode remains the
+default for local development, tests, CI, offline use, and explicitly approved rollback
+demonstrations.
 
-The service was rolled back to `NBA_DATA_PROVIDER=fixture` with
-`NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`. The public application is currently live and healthy in
-the explicitly approved fixture demonstration mode. Live NBA.com data remains disabled, and no
-silent fallback or blocking-evasion mechanism was introduced.
+TASK-011 Stage C changed only frontend UX, browser metadata, tests, and task
+documentation. It did not change backend code, shared contracts, dependencies,
+`render.yaml`, or Render settings. The deployed Stage C production smoke check confirmed
+that the homepage and a player profile route load in production.
 
-On top of the TASK-001 foundation, the application provides:
+The same smoke check discovered a player-specific upstream empty-career response. A
+bounded local diagnostic used the production NBA.com HTTP client, production timeout, and
+the real career parser/mapper without editing code, changing Git, changing configuration,
+or touching Render. Sanitized structural results:
 
-- Fixture-backed player search through `GET /api/players?search=`, navigating to
-  `/players/:playerId`.
-- A player profile through `GET /api/players/:playerId`, with shared Zod contracts and accessible
-  loading, not-found, invalid-link, and error states.
-- Regular-season statistics through `GET /api/players/:playerId/seasons` and
-  `GET /api/players/:playerId/seasons/:season/stats`, with a native season selector, newest-season
-  defaulting, and selection reconciliation.
-- A career-trends line chart through `GET /api/players/:playerId/season-trends`, displaying
-  points, rebounds, and assists per game with an accessible data table.
-- A selected-season game log through
-  `GET /api/players/:playerId/seasons/:season/games`, driven by the existing season selector and
-  displayed in a semantic horizontally scrollable table.
-- A two-player comparison at `/compare?player1=&player2=&season=`. It composes the existing
-  profile, available-seasons, and selected-season statistics endpoints without adding a new
-  comparison endpoint or contract.
-- An extracted accessible `PlayerCombobox`.
-- A shared comparison season defaulting to the newest season played by both selected players.
-- A semantic comparison table displaying all eleven `PlayerSeasonStats` fields and
-  season-specific team abbreviations.
-- Accessible handling of duplicate selections, invalid IDs, unknown players, no common season,
-  no season data, unavailable seasons, and partial request failures.
-- Responsive layouts without page-level horizontal overflow at approximately 375 px.
+- Player ID `2544`: expected `SeasonTotalsRegularSeason` result set present, 27
+  headers, 0 raw rows, 0 parsed seasons.
+- Player ID `201939`: expected `SeasonTotalsRegularSeason` result set present, 27
+  headers, 17 raw rows, 17 parsed seasons.
 
-Runtime NBA data is fixture-backed by default. Selecting
-`NBA_DATA_PROVIDER=nba-stats` serves live NBA.com Stats data through the same public contracts.
+Confirmed: the mapper is not filtering out player ID `2544`; the empty public seasons
+result comes from a structurally valid upstream response with zero career rows. The
+upstream reason remains unknown. This is now documented as an operational limitation of
+the live NBA.com dependency, not a code defect. No fallback data source, proxy, retry
+loop, special-case player ID, cache change, diagnostics toggle, or Render change is
+authorized for this incident.
 
-`NbaStatsPlayerProvider` uses Node.js 22 built-in `fetch` with the approved NBA.com endpoint
-families:
+## Validation State
 
-- `commonallplayers`
-- `commonplayerinfo`
-- `playercareerstats`
-- `playergamelog`
+Before TASK-011 Stage A work began, clean `main` at
+`1aa9c2ece4257701f1fd2466927051206c7fd22e` was validated with:
 
-The live-provider implementation includes:
-
-- Local cached player search.
-- Backend-private Zod response validation.
-- A bounded process-local LRU cache.
-- In-flight request de-duplication.
-- A configurable timeout defaulting to 10 seconds.
-- Stable provider errors mapped to HTTP 502, 503, and 504 responses.
-- Zero automatic retries.
-- No silent fixture fallback.
-- Unchanged NBA.com person IDs.
-- No API key requirement.
-- No proxying, IP rotation, cookie harvesting, CAPTCHA bypass, WAF bypass, or other
-  blocking-evasion behavior.
-
-The project owner accepts that NBA.com Stats is undocumented and unsupported, that endpoint
-stability is not guaranteed, that terms may restrict the intended public use, and that shared
-cloud-hosting IP ranges may be blocked. Live production mode must not be enabled when the intended
-deployment host fails the bounded connectivity gate.
-
-## Validation state
-
-TASK-010 Stage A (sanitized diagnostics) and Stage D (strengthened connectivity gate) merged via
-pull request #12 (`71b61e9`); Stage C (directory-name compatibility) merged via pull request #13
-(`5518234`). The merged `main` baseline is 139 frontend and 244 backend tests (383 total), and
-formatting, ESLint, strict type checking, the full offline suite, the production build, and
-`git diff --check` all pass. This finalization branch
-changes only `render.yaml` and documentation (no application code), so the offline test suite is
-unchanged. Stage E live verification (2026-06-24) was performed against the deployed Render host and
-is operational evidence, not an automated test; no automated test contacts NBA.com.
-
-The merged `main` baseline was previously verified with:
-
-- 139 frontend tests.
-- 173 backend tests.
-- 312 total tests.
-- Formatting, linting, strict type checking, tests, and production builds passing.
+- Formatting check passing.
+- ESLint passing.
+- Strict frontend and backend TypeScript checks passing.
+- 147 frontend tests passing.
+- 244 backend tests passing.
+- 391 total tests passing.
+- Shared contracts, frontend, and backend production builds passing.
 - `git diff --check` passing.
-- JavaScript bundle: 714.05 KB raw and 212.81 KB gzip.
-- CSS bundle: 13.47 KB raw and 3.46 KB gzip.
-- The existing Vite chunk-size warning remaining known and non-blocking.
 
-The final TASK-009 branch state was validated locally on 2026-06-22 with:
+The known Vite/Recharts chunk-size warning remains non-blocking. Automated tests remain
+offline and do not contact NBA.com.
 
-- Formatting check passed.
-- ESLint passed.
-- Strict frontend and backend TypeScript checks passed.
-- 139 frontend tests passed.
-- 186 backend tests passed.
-- 325 total tests passed.
-- Shared contracts build passed.
-- Frontend production build passed.
-- Backend production build passed.
-- `git diff --check` passed.
-- JavaScript bundle remained 714.05 KB raw and 212.81 KB gzip.
-- CSS bundle remained 13.47 KB raw and 3.46 KB gzip.
-- The existing Vite chunk-size warning remained known and non-blocking.
-- No automated test contacted NBA.com.
+After the Stage A documentation edits, the same validation gate passed again with 147
+frontend tests, 244 backend tests, and 391 total tests. `git diff --check` also passed.
 
-The four additional provider-configuration tests introduced by the compatibility fix verify:
+## Immediate Next Action
 
-- Explicitly approved fixture mode succeeds in production.
-- Fixture mode remains rejected in production when the allowance is absent or false.
-- An absent production provider remains rejected even when the allowance is true.
-- Invalid fixture-allowance values are rejected.
+Review the Stage A branch and merge it when approved. Do not push from this session.
+Stages B and D remain pending. Do not change frontend/backend application code,
+dependencies, `render.yaml`, Render settings, the provider, cache behavior, diagnostics,
+or production configuration as part of Stage A.
 
-TASK-008 is documented in
-`docs/tasks/TASK-008-live-nba-provider.md`.
+## How To Update This File
 
-TASK-009 is documented in
-`docs/tasks/TASK-009-production-deployment.md`.
+After completing a task, update the fields above, including the milestone, task, status,
+and branch. Refresh the summary so it describes only verified repository and deployment
+state, and set the immediate next action to the next concrete step.
 
-TASK-010 is documented in
-`docs/tasks/TASK-010-live-nba-provider-response-validation.md`.
-
-TASK-011 is documented in
-`docs/tasks/TASK-011-portfolio-readiness-and-final-audit.md`.
-
-## Immediate next action
-
-TASK-011 Stage C (production UX and metadata) is implemented and committed on branch
-`chore/portfolio-readiness-audit`: the product-hero landing, removal of the four stale
-"fixture-backed" strings, and `index.html` metadata + favicon. After approval, the remaining stages
-are Stage A (recruiter-first README with screenshots, plus the documentation-accuracy pass including
-this file's older "Summary" section, which still carries TASK-009-era fixture wording), Stage B (a
-top-level error boundary and evidence-backed accessibility/responsive polish), and Stage D (final
-validation, manual viewport/keyboard checks, a production smoke test, and portfolio assets). No
-backend, shared-contract, `render.yaml`, or Render changes are in scope; production stays live-backed
-throughout. Several checks (responsive layout at representative widths, keyboard behaviour, contrast,
-favicon/social preview, and the production smoke test) require manual browser verification and must
-not be claimed without it — they remain pending.
-
-## How to update this file
-
-After completing a task, update the fields above, including the milestone, task, status, and
-branch. Refresh the summary so it describes only verified repository and deployment state, and
-set the immediate next action to the next concrete step.
-
-Keep this file truthful. Do not describe a feature, deployment, test result, provider mode, or
-connectivity result as complete unless it has actually been verified.
+Keep this file truthful. Do not describe a feature, deployment, test result, provider
+mode, or connectivity result as complete unless it has actually been verified.
