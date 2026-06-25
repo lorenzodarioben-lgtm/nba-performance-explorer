@@ -1,267 +1,199 @@
 # NBA Performance Explorer
 
-> **Status:** Public Render deployment is live at
-> `https://nba-performance-explorer.onrender.com` serving **live NBA.com Stats data**
-> (`NBA_DATA_PROVIDER=nba-stats`). The deployment-host connectivity gate passes all four approved
-> endpoint families through the application's real parsers, and the full public user journey was
-> verified live from the Render host (TASK-010 Stage E, 2026-06-24). Per ADR-013 the live source
-> carries accepted risks (NBA.com terms; shared cloud IPs may be blocked or time out); fixture mode
-> remains available as a documented rollback.
+NBA Performance Explorer is a live portfolio web app for searching NBA players,
+exploring profiles, season statistics, career trends, game logs, and shareable
+two-player comparisons, with production data served from NBA.com through this
+project's backend provider.
 
-NBA Performance Explorer is a portfolio web application for exploring NBA player
-performance. The product scope and planned user journey are documented in
-[`docs/PROJECT_SPEC.md`](docs/PROJECT_SPEC.md).
+**Live demo:** https://nba-performance-explorer.onrender.com
 
-## Prerequisites
+The Render free service may need roughly 50 seconds to wake after inactivity. NBA.com
+is an external dependency, so live data availability is not guaranteed continuously.
 
-- Node.js `>=22.12.0 <23` (Node.js `22.19.0` was used for TASK-001 verification).
-- npm `10.9.3` or a compatible npm version included with Node.js 22.
-- Git.
+## Project Highlights
 
-The repository includes `.nvmrc` with the Node.js major version:
+- Live NBA player search and profile pages.
+- Available-season lists and selected-season statistics.
+- Accessible career-trend visualization with an equivalent semantic table.
+- Selected-season game logs.
+- Shareable two-player comparison URLs.
+- Shared Zod contracts for public API responses.
+- Deterministic fixture-backed tests for frontend, backend, and contracts.
+- Backend-private live NBA.com provider with sanitized empty and error states.
+- Single-service Render deployment and GitHub Actions validation.
 
-```sh
-nvm use
+## Technology Stack
+
+- TypeScript
+- React 19
+- Vite
+- Tailwind CSS
+- TanStack Query
+- React Router
+- Recharts
+- Node.js 22
+- Express 5
+- Zod
+- Vitest
+- Testing Library
+- Mock Service Worker
+- Supertest
+- ESLint
+- Prettier
+- GitHub Actions
+- Render
+
+## Architecture
+
+The browser calls only this project's Express API. The backend selects a configured
+`PlayerProvider`, maps provider-specific data into internal domain models, and validates
+public responses with shared Zod contracts. Live NBA.com request details stay
+backend-private. The fixture provider keeps local development, tests, and CI
+deterministic. A configured live provider never silently falls back to fixtures.
+
+```mermaid
+flowchart LR
+  Browser["Browser\nReact SPA"] --> Api["Express API\n/api"]
+  Api --> Provider["PlayerProvider"]
+  Provider --> Fixture["Fixture provider\ntests and local default"]
+  Provider --> Live["NBA.com Stats provider\nproduction"]
+  Api -. "validates public responses" .-> Contracts["Shared Zod\ncontracts"]
 ```
 
-## Installation
+Key boundaries:
 
-Install all three npm workspaces from the repository root:
+- No browser-side NBA.com requests.
+- No provider response shapes leak into React components.
+- No API keys are required for the current NBA.com provider.
+- No proxying, IP rotation, cookie harvesting, CAPTCHA bypass, or other blocking-evasion
+  behavior.
 
-```sh
+## Quality And Testing
+
+The canonical validation command is:
+
+```powershell
+npm run validate
+```
+
+Validation includes Prettier format checking, ESLint, strict TypeScript checking, all
+tests, and production builds for the contracts, frontend, and backend workspaces.
+
+Current verified baseline:
+
+- Frontend tests: 147
+- Backend tests: 244
+- Total tests: 391
+- GitHub Actions runs `npm run validate`
+- Automated tests do not make live NBA.com requests
+
+The frontend build currently emits a known Vite/Recharts chunk-size warning; the build
+still succeeds.
+
+## Local Development
+
+Prerequisites:
+
+- Node.js `>=22.12.0 <23`
+- npm compatible with Node.js 22
+- Git
+
+Fresh clone:
+
+```powershell
+git clone https://github.com/lorenzodarioben-lgtm/nba-performance-explorer.git
+cd nba-performance-explorer
 npm ci
-```
-
-The repository uses one root `package-lock.json`.
-
-## Development
-
-Start the frontend and backend together:
-
-```sh
 npm run dev
 ```
 
-The frontend runs at `http://localhost:5173` and the backend runs at
-`http://localhost:3001`.
+`npm run dev` builds the shared contracts, then starts both apps:
 
-Start one application at a time:
+- Frontend: `http://localhost:5173`
+- Backend API: `http://localhost:3001`
 
-```sh
+The frontend uses relative `/api` requests. In local development, Vite proxies `/api` to
+the backend, so CORS configuration is not needed.
+
+Local development defaults to the fixture provider when `NBA_DATA_PROVIDER` is unset.
+This keeps the app usable offline and keeps automated tests deterministic. Optional
+backend environment variables are documented in [backend/.env.example](backend/.env.example):
+
+- `NBA_DATA_PROVIDER=fixture|nba-stats`
+- `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true|false`
+- `NBA_STATS_TIMEOUT_MS=10000`
+- `NBA_STATS_DIAGNOSTICS=true|false`
+- `PORT=3001`
+
+Optional frontend environment:
+
+- `VITE_API_BASE_URL` can point the frontend at another non-secret API origin. Do not put
+  secrets in `VITE_` variables because they are exposed to browser code.
+
+Run one app at a time:
+
+```powershell
 npm run dev:frontend
 npm run dev:backend
 ```
 
-The frontend requests `GET /api/health`. During local development, Vite proxies `/api`
-requests to the backend, so normal local development does not require CORS configuration.
+## Production Configuration
 
-## Validation
-
-Run an individual quality gate from the repository root:
-
-```sh
-npm run format
-npm run format:check
-npm run lint
-npm run typecheck
-npm run test
-npm run build
-```
-
-Run the complete CI validation sequence:
-
-```sh
-npm run validate
-```
-
-`validate` runs the formatting check, linting, strict type checking, tests, and production
-build.
-
-## Workspace Structure
-
-```text
-frontend/           React, TypeScript, Vite, Tailwind CSS, and TanStack Query
-backend/            Express 5 API with separate application and server entry points
-packages/contracts/ Shared Zod schemas and inferred TypeScript API types
-```
-
-The frontend and backend import shared Zod schemas and inferred API types from the contracts
-workspace. API schemas are not duplicated between applications.
-
-## Environment Variables
-
-Tracked examples are provided at:
-
-- `frontend/.env.example`
-- `backend/.env.example`
-
-Frontend:
-
-- `VITE_API_BASE_URL` is an optional, non-secret API origin override. When it is empty or
-  unset, requests use same-origin relative URLs. Never place credentials, API keys, or
-  tokens in a `VITE_` variable because Vite exposes those values to browser code.
-
-Backend:
-
-- `PORT` optionally changes the local API port from the default `3001`.
-
-TASK-008 data-provider configuration:
-
-- `NBA_DATA_PROVIDER=fixture|nba-stats` selects fixture or direct NBA.com Stats data. When
-  absent outside production, it defaults to `fixture`. Tests and CI use `fixture` and never
-  contact NBA.com.
-- Production requires an explicit provider selection. An absent provider fails startup.
-- Fixture mode in production is permitted only when
-  `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`. Without that explicit approval, selecting
-  `fixture` in production fails startup.
-- `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true|false` is a strict safety switch for an intentionally
-  fixture-backed public demonstration. It defaults to disabled when absent.
-- `NBA_STATS_TIMEOUT_MS` controls the live-provider request timeout. It must be an integer
-  from `1000` through `30000` and defaults to `10000`.
-- Invalid configuration fails before the server begins listening.
-- A configured `nba-stats` provider never silently falls back to fixture data after an
-  upstream failure.
-- NBA.com Stats requires no API key. No provider setting belongs in a `VITE_` variable.
-
-Real `.env` files are ignored by Git. Example files contain non-secret values only.
-
-## NBA.com Data Notice
-
-This is an unofficial portfolio project and is not affiliated with, endorsed by, or sponsored by
-the National Basketball Association. When the live provider is enabled
-(`NBA_DATA_PROVIDER=nba-stats`), NBA statistics and data are sourced from NBA.com.
-
-NBA.com Stats is undocumented and unsupported as a public API. Endpoint availability, schema
-stability, historical correctness, uptime, and access from shared cloud-hosting networks are not
-guaranteed. NBA.com terms may restrict public use of a comprehensive, regularly updated
-statistics application and may require written permission.
-
-The project does not use proxies, IP rotation, WAF bypasses, cookie harvesting, CAPTCHA
-bypasses, or other blocking-evasion techniques. Local connectivity does not guarantee that a
-deployed host can reach NBA.com. A deployment-host connectivity gate must pass before live mode
-is enabled publicly.
-
-Fixture mode remains available for tests, CI, offline use, and explicitly approved public
-demonstrations.
-
-## Deployment
-
-The repository includes a Render Blueprint ([`render.yaml`](render.yaml)) that provisions one free
-web service. The Express backend serves the built frontend and the `/api` routes from a single
-origin (ADR-014), so no separate frontend host, CORS configuration, or cross-service proxy is
-required.
-
-Deployment configuration:
+Production is deployed as one Render web service using [render.yaml](render.yaml):
 
 - Build command: `npm ci && npm run build`
 - Start command: `node backend/dist/server.js`
-- Node.js version: Node 22 from `.nvmrc` and the root `package.json` engines field
-- Health-check path: `/api/health`
-- `PORT` is provided automatically by Render.
-- Render runs the deployed service with `NODE_ENV=production`.
-- `FRONTEND_DIST=frontend/dist` enables same-origin static frontend serving.
-- Non-secret deployment variables are declared in `render.yaml`.
-- Neither fixture mode nor the NBA.com Stats provider requires an API key.
+- Health check: `/api/health`
+- Express serves the built SPA from `frontend/dist`
+- Production provider: `NBA_DATA_PROVIDER=nba-stats`
+- Fixture fallback disabled: `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`
+- NBA.com timeout: `NBA_STATS_TIMEOUT_MS=10000`
 
-### Blueprint deployment configuration
+Render supplies `PORT` at runtime. The deployed service uses same-origin frontend and API
+requests, so there is no production CORS proxy.
 
-The Blueprint deploys with live NBA.com Stats mode (verified — see "Verified deployment outcome"):
-
-```text
-NBA_DATA_PROVIDER=nba-stats
-NBA_ALLOW_FIXTURE_IN_PRODUCTION=false
-NBA_STATS_TIMEOUT_MS=10000
-FRONTEND_DIST=frontend/dist
-```
-
-To roll back to the deterministic fixture demonstration (for example if the host can no longer
-reach NBA.com), set `NBA_DATA_PROVIDER=fixture` and `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`.
-`NBA_ALLOW_FIXTURE_IN_PRODUCTION` is a strict opt-in that prevents fixture mode from becoming an
-accidental production fallback.
-
-### Deployment-host connectivity gate
-
-Before enabling live data, run the connectivity gate from the deployed Render environment:
-
-```sh
-npm run connectivity-gate --workspace backend
-```
-
-Alternatively, after the backend has been built:
-
-```sh
-node backend/dist/scripts/nba-connectivity-gate.js
-```
-
-The gate probes only the four approved NBA.com endpoint families with a small sample:
-
-- `commonallplayers`
-- `commonplayerinfo`
-- `playercareerstats`
-- `playergamelog`
-
-It prints a sanitized `PASS` or `FAIL` result for each endpoint and exits with a non-zero status
-if any endpoint is blocked, challenged, times out, or returns an invalid response. It does not log
-response bodies, request headers, cookies, or sensitive URL parameters.
-
-### Enabling live mode
-
-Only when all four connectivity checks pass:
-
-1. Change `NBA_DATA_PROVIDER` to `nba-stats`.
-2. Remove `NBA_ALLOW_FIXTURE_IN_PRODUCTION` or set it to `false`.
-3. Keep `NBA_STATS_TIMEOUT_MS=10000` unless another valid timeout is intentionally selected.
-4. Redeploy the service.
-5. Repeat the production smoke tests.
-
-If any connectivity check fails, keep:
+Documented rollback, if the host can no longer reach NBA.com reliably:
 
 ```text
 NBA_DATA_PROVIDER=fixture
 NBA_ALLOW_FIXTURE_IN_PRODUCTION=true
 ```
 
-The public application will remain fully usable with deterministic fixture data. The deployment
-must clearly disclose that live NBA.com data is disabled because the hosting environment could
-not reliably reach NBA.com. No blocking-evasion mechanism should be introduced.
+That rollback is explicit configuration, not a silent runtime fallback.
 
-Verified deployment outcome on 2026-06-22:
+## Operational Limitations
 
-- The application deployed successfully to
-  `https://nba-performance-explorer.onrender.com`.
-- `/api/health`, player search, profiles, season statistics, game logs, career trends, and
-  comparison were smoke-tested successfully in fixture mode.
-- The deployment-host gate returned `PASS` for `commonallplayers`, `commonplayerinfo`,
-  `playercareerstats`, and `playergamelog`.
-- A subsequent `nba-stats` deployment started successfully, but real player search failed strict
-  backend response validation with `PROVIDER_INVALID_RESPONSE` and HTTP 502.
-- Production was rolled back to the explicitly approved fixture demonstration and is healthy.
-- Live NBA.com data remains disabled pending a separately scoped response-validation
-  investigation.
+This is an unofficial portfolio project and is not affiliated with, endorsed by, or
+sponsored by the National Basketball Association. NBA statistics and data are sourced
+from NBA.com when the live provider is enabled.
 
-The `PROVIDER_INVALID_RESPONSE` was investigated and fixed in TASK-010 (sanitized diagnostics, a
-strengthened gate that runs the real application parsers, and a directory-name compatibility fix
-for live `commonallplayers` rows whose `DISPLAY_LAST_COMMA_FIRST` lacks a usable comma).
+NBA.com Stats is undocumented and unsupported as a public API. It can rate-limit,
+block shared cloud-hosting IPs, change schemas, time out, or temporarily return empty
+results for individual players. During a production smoke check, one player-specific
+career response returned a valid empty result while another player returned complete
+season data through the same parser path.
 
-Verified live outcome on 2026-06-24 (TASK-010 Stage E):
+The application handles unavailable data with sanitized empty and error states. It does
+not expose raw upstream responses, request headers, cookies, tokens, or provider internals
+to the browser, and it does not silently substitute fixture data when live data fails.
 
-- The strengthened connectivity gate, re-run from the Render host, returned `PASS` for all four
-  endpoint families — including `commonallplayers`, now parsed end-to-end by the fixed directory
-  parser.
-- Production was switched to the live provider (`NBA_DATA_PROVIDER=nba-stats`) and all eight public
-  flows were verified over live NBA.com data: health, player search, profile, available seasons,
-  selected-season statistics, career trends, game log, and two-player comparison.
-- No raw upstream response, row, or player value was exposed during verification.
-- Live mode is now the deployed configuration; fixture mode remains the documented rollback.
+## Repository Structure
 
-## Documentation
+```text
+frontend/             React/Vite app, feature UI, client API code, frontend tests
+backend/              Express API, provider boundary, live NBA.com provider, backend tests
+packages/contracts/   Shared Zod schemas and API response types
+docs/                 Project spec, architecture, decisions, state, and task history
+render.yaml           Render Blueprint for the single production web service
+.github/workflows/    GitHub Actions CI workflow
+```
 
-- [`docs/PROJECT_SPEC.md`](docs/PROJECT_SPEC.md): product scope and definition of done.
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): system boundaries and architecture rules.
-- [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md): current implementation status.
-- [`docs/DECISIONS.md`](docs/DECISIONS.md): architecture decision records.
-- [`AGENTS.md`](AGENTS.md): repository working agreement.
+## Further Documentation
 
-## License
-
-Not yet specified.
+- [Project specification](docs/PROJECT_SPEC.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Architecture decisions](docs/DECISIONS.md)
+- [Current project state](docs/PROJECT_STATE.md)
+- [TASK-010 live provider validation](docs/tasks/TASK-010-live-nba-provider-response-validation.md)
+- [TASK-011 portfolio readiness](docs/tasks/TASK-011-portfolio-readiness-and-final-audit.md)
+- [Repository working agreement](AGENTS.md)
