@@ -106,5 +106,9 @@ describe('landing page', () => {
     expect(
       await screen.findByText(/Live data service temporarily unavailable/),
     ).toBeInTheDocument();
+    // A failed health check must not block or disable the player search.
+    expect(
+      screen.getByRole('combobox', { name: 'Search NBA players' }),
+    ).toBeInTheDocument();
   });
 });

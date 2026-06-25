@@ -1,41 +1,52 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-
 import { describe, expect, it } from 'vitest';
 
-// Deterministic check that the production document metadata reflects the finished product rather
-// than the development foundation. Reads the committed index.html directly (no DOM/tooling). Vitest
-// runs from the frontend workspace root, so index.html resolves against the current directory.
-const html = readFileSync(resolve(process.cwd(), 'index.html'), 'utf8');
+// Read the committed files through Vite's `?raw` loader so they resolve relative to this test file
+// (via the bundler), not the process working directory — reliable under `npm run validate` and any
+// other invocation. Deterministic, offline, no DOM tooling.
+import faviconSvg from '../public/favicon.svg?raw';
+import indexHtml from '../index.html?raw';
 
 describe('document metadata', () => {
   it('has a descriptive product title', () => {
-    expect(html).toMatch(/<title>NBA Performance Explorer/);
+    expect(indexHtml).toMatch(/<title>NBA Performance Explorer/);
   });
 
   it('has a meta description and no development-foundation wording', () => {
-    expect(html).toContain('name="description"');
-    expect(html).not.toContain('Development foundation');
+    expect(indexHtml).toContain('name="description"');
+    expect(indexHtml).not.toContain('Development foundation');
   });
 
   it('declares a theme colour and a favicon', () => {
-    expect(html).toContain('name="theme-color"');
-    expect(html).toContain('rel="icon"');
-    expect(html).toContain('/favicon.svg');
+    expect(indexHtml).toContain('name="theme-color"');
+    expect(indexHtml).toContain('rel="icon"');
+    expect(indexHtml).toContain('/favicon.svg');
   });
 
   it('declares Open Graph and Twitter card metadata with the production URL', () => {
-    expect(html).toContain('property="og:type"');
-    expect(html).toContain('property="og:title"');
-    expect(html).toContain('property="og:description"');
-    expect(html).toContain('property="og:url"');
-    expect(html).toContain('https://nba-performance-explorer.onrender.com');
-    expect(html).toContain('name="twitter:card"');
-    expect(html).toContain('name="twitter:title"');
-    expect(html).toContain('name="twitter:description"');
+    expect(indexHtml).toContain('property="og:type"');
+    expect(indexHtml).toContain('property="og:title"');
+    expect(indexHtml).toContain('property="og:description"');
+    expect(indexHtml).toContain('property="og:url"');
+    expect(indexHtml).toContain('https://nba-performance-explorer.onrender.com');
+    expect(indexHtml).toContain('name="twitter:card"');
+    expect(indexHtml).toContain('name="twitter:title"');
+    expect(indexHtml).toContain('name="twitter:description"');
   });
 
   it('does not reference an og:image (none committed yet)', () => {
-    expect(html).not.toContain('og:image');
+    expect(indexHtml).not.toContain('og:image');
+  });
+});
+
+describe('favicon', () => {
+  it('exists, is an SVG, and contains no scripts or external references', () => {
+    expect(faviconSvg).toContain('<svg');
+    // No script execution and no external/embedded resource fetches (the standard `xmlns` namespace
+    // URI is a declaration, not a network request, so it is intentionally allowed).
+    expect(faviconSvg).not.toContain('<script');
+    expect(faviconSvg).not.toContain('<image');
+    expect(faviconSvg).not.toMatch(/\bhref=/i);
+    expect(faviconSvg).not.toMatch(/\bsrc=/i);
+    expect(faviconSvg).not.toMatch(/url\(/i);
   });
 });

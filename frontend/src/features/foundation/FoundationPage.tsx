@@ -7,7 +7,7 @@ import { useHealthQuery } from './useHealthQuery';
 const capabilities = [
   'Player profiles with bio and team details',
   'Regular-season statistics for any season',
-  'Career points, rebounds, and assist trends',
+  'Career trends for points, rebounds, and assists',
   'Game-by-game logs',
   'Two-player season comparisons',
   'Shareable comparison links',
