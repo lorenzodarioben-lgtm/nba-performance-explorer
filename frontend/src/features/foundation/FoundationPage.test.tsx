@@ -7,21 +7,67 @@ import { server } from '../../test/server';
 
 const healthUrl = 'http://localhost/api/health';
 
-describe('foundation health status', () => {
-  it('renders an accessible loading state', () => {
-    server.use(
-      http.get(healthUrl, async () => {
-        await delay('infinite');
-        return HttpResponse.json({});
-      }),
-    );
+function mockHealthPending() {
+  server.use(
+    http.get(healthUrl, async () => {
+      await delay('infinite');
+      return HttpResponse.json({});
+    }),
+  );
+}
 
+describe('landing page', () => {
+  it('presents the product hero with a clear value proposition', () => {
+    mockHealthPending();
     renderApp();
 
-    expect(screen.getByRole('status')).toHaveTextContent('Checking backend status');
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'NBA Performance Explorer' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Search any NBA player and explore/i)).toBeInTheDocument();
+    // The supported capabilities are listed.
+    expect(screen.getByText('Two-player season comparisons')).toBeInTheDocument();
   });
 
-  it('displays a valid backend health response', async () => {
+  it('does not present itself as a development scaffold', () => {
+    mockHealthPending();
+    renderApp();
+
+    expect(screen.queryByText(/Project foundation/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Backend status/i)).not.toBeInTheDocument();
+    // No raw backend service identifier is exposed in the UI.
+    expect(screen.queryByText(/nba-performance-explorer-api/)).not.toBeInTheDocument();
+  });
+
+  it('keeps the player search as the primary action', () => {
+    mockHealthPending();
+    renderApp();
+
+    expect(
+      screen.getByRole('combobox', { name: 'Search NBA players' }),
+    ).toBeInTheDocument();
+  });
+
+  it('links to the two-player comparison page', () => {
+    mockHealthPending();
+    renderApp();
+
+    expect(screen.getByRole('link', { name: 'Compare two players' })).toHaveAttribute(
+      'href',
+      '/compare',
+    );
+  });
+
+  it('shows an accessible connecting state while the data service responds', () => {
+    mockHealthPending();
+    renderApp();
+
+    const status = screen.getByRole('status');
+    expect(status).toHaveTextContent('Connecting to live data');
+    expect(status).toHaveAttribute('aria-live', 'polite');
+  });
+
+  it('reports the data service as available on a successful health check', async () => {
     server.use(
       http.get(healthUrl, () =>
         HttpResponse.json({
@@ -34,13 +80,12 @@ describe('foundation health status', () => {
 
     renderApp();
 
-    expect(await screen.findByText('Backend status: ok')).toBeInTheDocument();
-    expect(
-      screen.getByText('Service: nba-performance-explorer-api'),
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Live data service available')).toBeInTheDocument();
+    // The raw service identifier is never rendered, even though the response contains it.
+    expect(screen.queryByText(/nba-performance-explorer-api/)).not.toBeInTheDocument();
   });
 
-  it('renders an accessible error state for a server failure', async () => {
+  it('reports a temporarily unavailable data service on a failed health check', async () => {
     server.use(
       http.get(healthUrl, () =>
         HttpResponse.json(
@@ -58,42 +103,12 @@ describe('foundation health status', () => {
 
     renderApp();
 
-    expect(await screen.findByRole('alert')).toHaveTextContent(
-      'Backend status unavailable',
-    );
-  });
-
-  it('links to the two-player comparison page', () => {
-    server.use(
-      http.get(healthUrl, async () => {
-        await delay('infinite');
-        return HttpResponse.json({});
-      }),
-    );
-
-    renderApp();
-
-    expect(screen.getByRole('link', { name: 'Compare two players' })).toHaveAttribute(
-      'href',
-      '/compare',
-    );
-  });
-
-  it('treats data that violates the shared health contract as an error', async () => {
-    server.use(
-      http.get(healthUrl, () =>
-        HttpResponse.json({
-          status: 'healthy',
-          timestamp: 'not-a-timestamp',
-          service: 'different-service',
-        }),
-      ),
-    );
-
-    renderApp();
-
-    expect(await screen.findByRole('alert')).toHaveTextContent(
-      'The health check could not be completed',
-    );
+    expect(
+      await screen.findByText(/Live data service temporarily unavailable/),
+    ).toBeInTheDocument();
+    // A failed health check must not block or disable the player search.
+    expect(
+      screen.getByRole('combobox', { name: 'Search NBA players' }),
+    ).toBeInTheDocument();
   });
 });

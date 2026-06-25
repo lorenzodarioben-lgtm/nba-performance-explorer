@@ -7,10 +7,10 @@ _Last updated: 2026-06-24_
 
 ## Current state
 
-- **Current milestone:** Live NBA Provider Response Validation and Compatibility
-- **Current task:** TASK-010 - Live NBA Provider Response Validation and Compatibility (Stages A–E complete; finalizing the live-mode configuration)
-- **Current status:** TASK-010 is functionally complete and **live NBA.com mode is verified in production**. Stage A (sanitized diagnostics) and Stage D (strengthened connectivity gate) merged via pull request #12 (`71b61e9`); Stage C (the directory-name compatibility fix) merged via pull request #13 (`5518234`). Stage B proved the cause (the live `commonallplayers` directory has a row whose `DISPLAY_LAST_COMMA_FIRST` lacks a usable comma — stage `value-format`, category `invalid-last-comma-first-name`, row 1986). Stage E (2026-06-24) re-ran the strengthened gate from the Render host on `5518234` — all four endpoints PASSED, including `commonallplayers` through the fixed `parseDirectory` — then switched production to the live provider and verified all eight flows (health, player search, profile, available seasons, selected-season statistics, career trends, game log, two-player comparison) over live data. Render is now serving `provider: nba-stats`. This branch updates `render.yaml` to make the live configuration the source of truth. TASK-009 is completed and merged (pull request #10, `9c27e3c`); the post-merge documentation state merged through pull request #11 (`fa437d3`).
-- **Current branch:** `chore/enable-live-nba-provider-production`
+- **Current milestone:** Portfolio Readiness
+- **Current task:** TASK-011 - Portfolio Readiness and Final Production Audit (Stage C implemented; Stages A, B, and D pending)
+- **Current status:** TASK-010 is complete and merged; production serves `provider: nba-stats` (pull request #14, `3e1d2ad`). TASK-011 is in progress on branch `chore/portfolio-readiness-audit`. **Stage C (production UX and metadata) is implemented and committed locally:** the landing page is now a product hero (replacing the "Project foundation" scaffold and the raw backend health-check panel) with a small accessible service-status line; the four stale "fixture-backed" user-facing strings are removed; and `index.html` has product metadata, Open Graph/Twitter tags, and an original SVG favicon. Validation passes (146 frontend, 244 backend, 390 total); `git diff --check` clean. Stages A (recruiter-first README + screenshots), B (error boundary + a11y/responsive polish), and D (final validation, manual viewport/keyboard checks, production smoke test, portfolio assets) are not started. Manual browser viewport/keyboard/contrast confirmation and a production smoke test remain pending and are not claimed. No backend, contract, dependency, `render.yaml`, or Render change was made; production remains live-backed and untouched.
+- **Current branch:** `chore/portfolio-readiness-audit`
 
 ## Summary
 
@@ -150,17 +150,22 @@ TASK-009 is documented in
 TASK-010 is documented in
 `docs/tasks/TASK-010-live-nba-provider-response-validation.md`.
 
+TASK-011 is documented in
+`docs/tasks/TASK-011-portfolio-readiness-and-final-audit.md`.
+
 ## Immediate next action
 
-TASK-010 Stages A–E are complete and live NBA.com mode is verified in production. The remaining step
-is to merge this finalization branch (`chore/enable-live-nba-provider-production`), which updates
-`render.yaml` to `NBA_DATA_PROVIDER=nba-stats` / `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false` so the
-Blueprint source of truth matches the verified live Render configuration, and records the Stage E
-outcome in the documentation. Merging keeps Render live with no gap (the dashboard override already
-matches). Per ADR-013 the live source carries accepted risks (NBA.com terms; shared cloud IPs may be
-blocked or time out); the documented rollback is to set `NBA_DATA_PROVIDER=fixture` and
-`NBA_ALLOW_FIXTURE_IN_PRODUCTION=true` (in `render.yaml` or, immediately, via the Render dashboard).
-After this branch merges, TASK-010 is done; define the next task before further work.
+TASK-011 Stage C (production UX and metadata) is implemented and committed on branch
+`chore/portfolio-readiness-audit`: the product-hero landing, removal of the four stale
+"fixture-backed" strings, and `index.html` metadata + favicon. After approval, the remaining stages
+are Stage A (recruiter-first README with screenshots, plus the documentation-accuracy pass including
+this file's older "Summary" section, which still carries TASK-009-era fixture wording), Stage B (a
+top-level error boundary and evidence-backed accessibility/responsive polish), and Stage D (final
+validation, manual viewport/keyboard checks, a production smoke test, and portfolio assets). No
+backend, shared-contract, `render.yaml`, or Render changes are in scope; production stays live-backed
+throughout. Several checks (responsive layout at representative widths, keyboard behaviour, contrast,
+favicon/social preview, and the production smoke test) require manual browser verification and must
+not be claimed without it — they remain pending.
 
 ## How to update this file
 

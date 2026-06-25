@@ -382,7 +382,7 @@ describe('player comparison page', () => {
     renderApp('/compare?player1=2544&player2=1629611');
 
     expect(
-      await screen.findByText(/Terance Mann has no fixture-backed regular-season data/),
+      await screen.findByText(/Terance Mann has no regular-season data/),
     ).toBeInTheDocument();
     expect(screen.queryByRole('table')).not.toBeInTheDocument();
   });

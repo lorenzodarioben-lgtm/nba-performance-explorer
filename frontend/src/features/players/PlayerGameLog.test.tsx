@@ -225,7 +225,7 @@ describe('player game log', () => {
     renderApp('/players/2544');
 
     const status = await screen.findByText(
-      'No fixture-backed games are available for the 2018-19 season.',
+      'No games are available for the 2018-19 season.',
     );
     expect(status).toHaveAttribute('role', 'status');
     expect(status).toHaveAttribute('aria-live', 'polite');

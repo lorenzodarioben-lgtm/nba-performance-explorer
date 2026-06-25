@@ -111,7 +111,7 @@ export function PlayerGameLog({
   } else if (gameLogQuery.data.games.length === 0) {
     content = (
       <p role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
-        No fixture-backed games are available for the {season} season.
+        No games are available for the {season} season.
       </p>
     );
   } else {
