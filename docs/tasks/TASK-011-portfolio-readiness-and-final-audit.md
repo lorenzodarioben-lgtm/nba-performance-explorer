@@ -247,9 +247,32 @@ Privacy and quality requirements:
 Recommended Stage D capture set:
 
 - Homepage hero.
-- A player profile with confirmed available season statistics.
-- The same player's career trends and game log.
-- A comparison between two players with confirmed common season data.
+- Stephen Curry profile and season statistics, if live season data is still confirmed
+  available immediately before capture.
+- Stephen Curry career trends and game log, if live season data is still confirmed
+  available immediately before capture.
+- Stephen Curry versus another player with confirmed common season data.
+- Do not use LeBron James for screenshots while the upstream career result remains empty.
+
+## Manual Verification Requirements For Stage D
+
+Stage D must preserve the original manual audit scope. Do not claim these checks are done
+until they are performed in a browser against the built or deployed application.
+
+- Viewport checks around `360px`, `414px`, `768px`, `1024px`, and `1440px`, with no page
+  horizontal overflow and wide tables scrolling only inside their intended regions.
+- Keyboard-only checks for the player search combobox, including arrow-key movement,
+  `Enter`, `Escape`, visible focus states, and recovery from empty or failed searches.
+- Focus visibility checks for links, controls, table scroll regions, comparison controls,
+  and any error or empty state actions.
+- Contrast spot checks for lighter body text, metadata, chart labels, form labels, and
+  disabled or secondary controls.
+- Browser metadata checks for title, description, favicon, and social-preview metadata.
+- Production smoke checks for `/api/health`, player search, player profile, available
+  seasons, selected-season statistics, career trends, game log, comparison, direct-route
+  refresh, sanitized empty/error states, and Render free-tier cold-start behavior.
+- Portfolio-asset checks for final screenshots, concise project summary, resume bullets,
+  and interview talking points.
 
 ## Pending Stages
 
@@ -286,5 +309,6 @@ After editing:
 
 ## Stop Condition
 
-Stop after Stage A is implemented, validated, reviewed, and committed locally. Do not
-push. Do not proceed to Stage B or Stage D without explicit approval.
+Stop after Stage A is implemented, validated, reviewed, committed, pushed only when
+explicitly approved, and prepared for pull-request review. Do not merge. Do not proceed
+to Stage B or Stage D without explicit approval.

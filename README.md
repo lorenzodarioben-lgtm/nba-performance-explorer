@@ -54,10 +54,10 @@ deterministic. A configured live provider never silently falls back to fixtures.
 ```mermaid
 flowchart LR
   Browser["Browser\nReact SPA"] --> Api["Express API\n/api"]
-  Api --> Contracts["Shared Zod\ncontracts"]
   Api --> Provider["PlayerProvider"]
   Provider --> Fixture["Fixture provider\ntests and local default"]
   Provider --> Live["NBA.com Stats provider\nproduction"]
+  Api -. "validates public responses" .-> Contracts["Shared Zod\ncontracts"]
 ```
 
 Key boundaries:
@@ -169,7 +169,7 @@ from NBA.com when the live provider is enabled.
 
 NBA.com Stats is undocumented and unsupported as a public API. It can rate-limit,
 block shared cloud-hosting IPs, change schemas, time out, or temporarily return empty
-results for individual players. During the final production audit, one player-specific
+results for individual players. During a production smoke check, one player-specific
 career response returned a valid empty result while another player returned complete
 season data through the same parser path.
 
@@ -197,7 +197,3 @@ render.yaml           Render Blueprint for the single production web service
 - [TASK-010 live provider validation](docs/tasks/TASK-010-live-nba-provider-response-validation.md)
 - [TASK-011 portfolio readiness](docs/tasks/TASK-011-portfolio-readiness-and-final-audit.md)
 - [Repository working agreement](AGENTS.md)
-
-## License
-
-Not yet specified.

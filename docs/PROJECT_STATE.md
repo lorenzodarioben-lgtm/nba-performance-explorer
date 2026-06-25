@@ -88,8 +88,9 @@ frontend tests, 244 backend tests, and 391 total tests. `git diff --check` also 
 
 ## Immediate Next Action
 
-Review the Stage A branch and merge it when approved. Do not push from this session.
-Stages B and D remain pending. Do not change frontend/backend application code,
+Complete the approved Stage A pre-push review, push the documentation branch if
+validation passes, and open a pull request for review. Do not merge it without separate
+approval. Stages B and D remain pending. Do not change frontend/backend application code,
 dependencies, `render.yaml`, Render settings, the provider, cache behavior, diagnostics,
 or production configuration as part of Stage A.
 
