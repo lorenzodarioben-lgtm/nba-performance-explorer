@@ -1,10 +1,9 @@
 # TASK-011 - Portfolio Readiness and Final Production Audit
 
 - **Milestone:** Portfolio Readiness
-- **Status:** Stage C merged and deployed; Stage A implemented and validated locally on
-  `docs/task-011-stage-a-readme`; Stages B and D pending
-- **Current branch:** `docs/task-011-stage-a-readme`
-- **Baseline main:** `1aa9c2e` (PR #15, `feat: polish production landing and browser metadata`)
+- **Status:** Stage A merged on `main` at `56a740e`; Stage B implemented and validated locally on `fix/task-011-stage-b-accessibility-responsive`; Stage D pending
+- **Current branch:** `fix/task-011-stage-b-accessibility-responsive`
+- **Baseline main:** `56a740e` (PR #16, Stage A README and repository presentation)
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before any work. TASK-001
@@ -109,7 +108,7 @@ Accepted interpretation:
 No response bodies, raw rows, raw cell values, request headers, cookies, tokens, full
 upstream URLs, query objects, or upstream error pages were recorded.
 
-## Current Stage A Scope
+## Completed Stage A Scope
 
 Stage A is limited to README and repository presentation documentation.
 
@@ -160,9 +159,9 @@ Do not add broken image references or fake screenshots. Since no committed scree
 currently exist, keep screenshot details in this task document rather than cluttering the
 public README.
 
-## Stage A Implementation Status
+## Completed Stage A Implementation Status
 
-Stage A is implemented locally on `docs/task-011-stage-a-readme`.
+Stage A was merged to `main` at `56a740e`.
 
 Done:
 
@@ -199,10 +198,10 @@ The original TASK-011 audit found these portfolio gaps:
 
 - Landing page presentation, provider wording, and browser metadata needed production
   polish. **Resolved in Stage C.**
-- The README was setup-oriented and too chronological for a recruiter. **Active in
+- The README was setup-oriented and too chronological for a recruiter. **Resolved in
   Stage A.**
 - A top-level React error boundary and broader evidence-backed accessibility/responsive
-  polish remain. **Deferred to Stage B.**
+  polish remained. **Resolved in Stage B.**
 - Final validation, manual viewport/keyboard/contrast checks, production smoke testing,
   screenshots, and portfolio assets remain. **Deferred to Stage D.**
 
@@ -217,6 +216,109 @@ Existing quality signals to preserve:
 - Fixture-backed deterministic tests and CI.
 - Sanitized provider errors and no silent provider fallback.
 
+## Stage B Implementation Status
+
+Stage B is implemented and validated locally on
+`fix/task-011-stage-b-accessibility-responsive`. TASK-011 is not complete because Stage D
+remains pending.
+
+Scope completed:
+
+- Added a dependency-free top-level React error boundary around the app root.
+- Performed a source- and test-based accessibility audit of the landing page, player
+  search combobox, profile route, season selector/statistics, career chart/table,
+  game-log table, comparison controls/table, loading/empty/error states, focus behavior,
+  direct routes, and catch-all routing.
+- Performed a static responsive-layout audit for the requested representative widths
+  (`360px`, `414px`, `768px`, `1024px`, `1440px`).
+- Fixed only confirmed Stage B issues.
+- Added deterministic frontend tests for the new error boundary/root integration and the
+  changed game-log scroll-region behavior.
+
+Browser viewport verification:
+
+- In-app browser tooling was attempted for local viewport checks, but it failed to
+  initialize before any page navigation.
+- No browser viewport checks, screenshots, production smoke tests, contrast checks, or
+  manual keyboard walkthroughs were performed in Stage B.
+- Stage B evidence is therefore limited to committed source, existing deterministic tests,
+  new deterministic tests, static CSS/markup inspection, and local automated validation.
+- Manual visual viewport confirmation remains required in Stage D.
+
+Accessibility strengths verified and preserved:
+
+- Player search uses a labeled combobox input with `aria-expanded`, `aria-controls`,
+  `aria-activedescendant`, listbox/options, keyboard Arrow/Enter/Escape handling, and
+  sanitized loading/empty/error states covered by tests.
+- Profile and comparison routes move focus to the page heading after client-side entry.
+- Loading states use polite status announcements; error states use sanitized alert text
+  without raw backend/provider wording.
+- Season controls are native labeled selects.
+- Profile and season statistics use semantic description lists.
+- Career trends render the chart as assistive-technology-hidden and provide the same data
+  in a semantic table; chart series also use non-colour line patterns.
+- Game-log and comparison data use captions and scoped row/column headers.
+- Comparison table already had a named, keyboard-focusable horizontal scroll container.
+- Direct invalid player/season routes avoid invalid network requests and render recovery
+  states.
+
+Confirmed Stage B findings and fixes:
+
+| Finding | Severity | Evidence | Affected file | Fix | Deterministic coverage | Stage D manual work |
+| --- | --- | --- | --- | --- | --- | --- |
+| Missing top-level render error recovery could leave users with a blank screen if an unexpected descendant render error escaped. | Medium | `frontend/src/main.tsx` rendered `App` under router/query providers with no error boundary. | `frontend/src/AppErrorBoundary.tsx`, `frontend/src/AppRoot.tsx`, `frontend/src/main.tsx` | Added `AppErrorBoundary` with a concise semantic fallback, focused heading, sanitized text, and native reload button; wrapped the existing router/query/app root without new dependencies. | `frontend/src/AppErrorBoundary.test.tsx` covers normal children, fallback activation, internal error text not rendered, keyboard-focusable reload button, reload callback without real navigation, and root-provider integration. | Verify fallback focus/reload behavior in a real browser during Stage D if desired. |
+| The game-log table intentionally overflows at narrow widths but its scroll container was not keyboard-focusable or named. | Medium | `PlayerGameLog.tsx` used `max-w-full overflow-x-auto` around a `min-w-[48rem]` table without `tabIndex`, accessible group name, or focus styling; the comparison table already had this pattern. | `frontend/src/features/players/PlayerGameLog.tsx` | Added `role="group"`, a season-specific `aria-label`, `tabIndex={0}`, and visible focus outline to the horizontal scroll container. | `PlayerGameLog.test.tsx` verifies the named group contains the table, has `tabindex="0"`, keeps overflow classes, and can receive focus. | Verify horizontal scrolling and focus visibility at `360px`, `414px`, `768px`, `1024px`, and `1440px` in Stage D. |
+
+No other accessibility issues were fixed because the audit did not confirm additional
+defects from source/test evidence. In particular, the existing combobox, heading-focus,
+live-region, table-caption/header, chart-equivalent-table, sanitized error, empty-state,
+button/link, native-label, and disabled-placeholder patterns were preserved rather than
+rewritten.
+
+Responsive findings:
+
+- Confirmed: the game-log table's local horizontal overflow needed keyboard access and a
+  visible focus state; fixed as above.
+- Confirmed: wide comparison data already used a named, keyboard-focusable local scroll
+  region; no change made.
+- Confirmed from source: page shells use constrained max widths and responsive padding;
+  grids collapse with Tailwind breakpoints; body has a documented `min-width: 320px` floor;
+  wide tables are constrained by local overflow containers rather than page-level fixed
+  widths.
+- Not performed: browser measurements for actual page-level horizontal overflow and visual
+  wrapping at `360px`, `414px`, `768px`, `1024px`, and `1440px`. These remain Stage D.
+
+Stage B verification:
+
+- Baseline gate on clean `main` verified `HEAD == origin/main == 56a740e`, a clean working
+  tree, Stage A merge history, live-backed `render.yaml`, and no temporary diagnostic
+  command/configuration.
+- Baseline `npm run validate` passed before branching with 147 frontend tests, 244 backend
+  tests, 391 total tests, and the known non-blocking Recharts chunk warning.
+- Focused Stage B tests passed: `npm run test --workspace frontend --
+  AppErrorBoundary.test.tsx PlayerGameLog.test.tsx` with 19 tests.
+- Full frontend tests passed with 154 tests.
+- Full `npm run validate` passed after implementation with 154 frontend tests, 244 backend
+  tests, 398 total tests, and successful contracts/frontend/backend production builds.
+- `git diff --check` passed after the Stage B changes.
+- The known Vite/Recharts chunk-size warning remains non-blocking.
+- Automated tests remained offline; no live NBA.com requests were made.
+
+Stage B review search classification:
+
+- `console.`: no production-source matches. Test-only `console.error` is used to silence
+  expected React error-boundary logging.
+- `TODO` / `FIXME` / `dangerouslySetInnerHTML`: no production-source matches.
+- Raw error rendering: API modules still throw parsed backend messages internally, but UI
+  components render sanitized fixed messages; existing and new tests cover this behavior.
+- Fixed widths likely to overflow: remaining `min-w-*` table widths are inside intended
+  local overflow containers; `body` keeps the existing `min-width: 320px` floor.
+- ARIA: Stage B added only the game-log scroll-region group label and the error fallback
+  alert; existing ARIA patterns remain covered by tests and were not broadly rewritten.
+
+No backend source, shared contracts, provider logic, cache behavior, diagnostics,
+dependencies, lockfiles, `render.yaml`, Render settings, production provider mode,
+README structure, screenshot assets, portfolio assets, or live-network tests were changed.
 ## Stage D Screenshot And Asset Plan
 
 Recommended image directory: `docs/assets/`
@@ -274,15 +376,15 @@ until they are performed in a browser against the built or deployed application.
 - Portfolio-asset checks for final screenshots, concise project summary, resume bullets,
   and interview talking points.
 
-## Pending Stages
+## Stage Status
 
 ### Stage B - Accessibility And Responsive Polish
 
-Pending. Do not start during Stage A.
+Implemented and validated locally on `fix/task-011-stage-b-accessibility-responsive`.
 
-Expected scope: top-level error boundary, evidence-backed accessibility/responsive
-polish, deterministic tests for any behavior touched, and clear separation between source
-inspection and manual browser verification.
+Delivered: top-level error boundary, evidence-backed accessibility/responsive audit,
+confirmed game-log scroll-region fix, deterministic tests for changed behavior, and clear
+separation between automated/source checks and Stage D manual browser verification.
 
 ### Stage D - Final Audit And Portfolio Assets
 
@@ -293,7 +395,7 @@ smoke test, screenshots/portfolio assets, project summary, resume bullets, inter
 talking points, and final documentation updates that distinguish automated checks from
 manual verification.
 
-## Stage A Validation Requirements
+## Historical Stage A Validation Requirements
 
 After editing:
 
@@ -307,8 +409,8 @@ After editing:
    branch names, outdated commit hashes, stale test counts, and development-foundation
    wording. Report any remaining matches and whether they are legitimate.
 
-## Stop Condition
+## Current Stop Condition
 
-Stop after Stage A is implemented, validated, reviewed, committed, pushed only when
-explicitly approved, and prepared for pull-request review. Do not merge. Do not proceed
-to Stage B or Stage D without explicit approval.
+Stop after Stage B is audited, implemented, tested, documented, and committed locally.
+Do not push without explicit approval. Do not proceed to Stage D without explicit
+approval.

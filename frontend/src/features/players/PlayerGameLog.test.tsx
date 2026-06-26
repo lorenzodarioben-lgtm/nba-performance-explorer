@@ -210,7 +210,17 @@ describe('player game log', () => {
     expect(within(table).getByText('0')).toBeInTheDocument();
     expect(table.querySelector('thead')).not.toBeNull();
     expect(table.querySelector('tbody')).not.toBeNull();
-    expect(table.parentElement).toHaveClass('max-w-full', 'overflow-x-auto');
+
+    const scrollRegion = screen.getByRole('group', {
+      name: 'Game log table for the 2023-24 season',
+    });
+    expect(scrollRegion).toContainElement(table);
+    expect(scrollRegion).toHaveAttribute('tabindex', '0');
+    expect(scrollRegion).toHaveClass('max-w-full', 'overflow-x-auto');
+
+    scrollRegion.focus();
+
+    expect(scrollRegion).toHaveFocus();
   });
 
   it('renders an accessible season-specific empty state without a table', async () => {
