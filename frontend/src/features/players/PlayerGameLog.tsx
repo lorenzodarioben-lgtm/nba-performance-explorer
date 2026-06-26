@@ -8,7 +8,12 @@ import { usePlayerGameLogQuery } from './usePlayerGameLogQuery';
 
 function GameLogTable({ games, season }: { games: PlayerGame[]; season: string }) {
   return (
-    <div className="mt-4 max-w-full overflow-x-auto">
+    <div
+      role="group"
+      aria-label={`Game log table for the ${season} season`}
+      tabIndex={0}
+      className="mt-4 max-w-full overflow-x-auto focus:outline-2 focus:outline-offset-2 focus:outline-zinc-400"
+    >
       <table className="min-w-[48rem] w-full border-collapse text-left text-sm">
         <caption className="mb-2 text-left text-sm text-zinc-600">
           Game log for the {season} season.
