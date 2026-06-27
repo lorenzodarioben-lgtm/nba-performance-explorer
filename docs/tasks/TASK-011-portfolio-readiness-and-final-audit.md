@@ -1,8 +1,8 @@
 # TASK-011 - Portfolio Readiness and Final Production Audit
 
 - **Milestone:** Portfolio Readiness
-- **Status:** Stages A and B merged on `main` (Stage B in PR #17 at `fc83a78`), Stage C deployed; Stage D implemented and validated on `chore/task-011-stage-d-finalization`, pending merge
-- **Current branch:** `chore/task-011-stage-d-finalization`
+- **Status:** Complete. Stages A, B, C, and D delivered; Stage B merged in PR #17 at `fc83a78`, Stage D merged in PR #18 at `e01f9f8`
+- **Current branch:** `main`
 - **Baseline main:** `fc83a78` (PR #17, Stage B accessible error recovery and game-log scroll region)
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
@@ -322,9 +322,10 @@ README structure, screenshot assets, portfolio assets, or live-network tests wer
 
 ## Stage D Implementation Status
 
-Stage D is implemented and validated on `chore/task-011-stage-d-finalization`, branched
-from `main` at `fc83a78` (the Stage B merge). Stage D changed only documentation, five
-screenshot assets under `docs/assets/`, and the README visual section. No frontend or
+Stage D was implemented on `chore/task-011-stage-d-finalization` (branched from `main` at
+`fc83a78`, the Stage B merge) and merged to `main` in PR #18 at `e01f9f8`. Stage D changed
+only documentation, five screenshot assets under `docs/assets/`, and the README visual
+section. No frontend or
 backend application code, shared contracts, dependencies, lockfiles, provider logic, cache
 behavior, diagnostics, environment parsing, `render.yaml`, or Render settings were changed.
 
@@ -471,8 +472,7 @@ separation between automated/source checks and Stage D manual browser verificati
 
 ### Stage D - Final Audit And Portfolio Assets
 
-Implemented and validated on `chore/task-011-stage-d-finalization`; see "Stage D
-Implementation Status" above.
+Merged to `main` in PR #18 at `e01f9f8`; see "Stage D Implementation Status" above.
 
 Delivered: a bounded live production smoke test, real-browser desktop and mobile
 screenshots, a source/CSS and deterministic-test accessibility/responsive audit, five
@@ -497,7 +497,6 @@ After editing:
 
 ## Current Stop Condition
 
-Stage D is implemented, validated, documented, and committed on
-`chore/task-011-stage-d-finalization`. Stop before merging the Stage D pull request; merge
-only after CI is green and with explicit approval. Formal post-merge project closure is a
-separate step and must not start without separate approval.
+TASK-011 is complete. All four stages are merged to `main` (Stage B in PR #17 at `fc83a78`,
+Stage D in PR #18 at `e01f9f8`), local and production state are verified, and no required
+work remains. Any further enhancement is optional and out of scope for this task.
