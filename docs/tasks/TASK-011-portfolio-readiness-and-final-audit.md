@@ -1,9 +1,9 @@
 # TASK-011 - Portfolio Readiness and Final Production Audit
 
 - **Milestone:** Portfolio Readiness
-- **Status:** Stage A merged on `main` at `56a740e`; Stage B implemented and validated locally on `fix/task-011-stage-b-accessibility-responsive`; Stage D pending
-- **Current branch:** `fix/task-011-stage-b-accessibility-responsive`
-- **Baseline main:** `56a740e` (PR #16, Stage A README and repository presentation)
+- **Status:** Stages A and B merged on `main` (Stage B in PR #17 at `fc83a78`), Stage C deployed; Stage D implemented and validated on `chore/task-011-stage-d-finalization`, pending merge
+- **Current branch:** `chore/task-011-stage-d-finalization`
+- **Baseline main:** `fc83a78` (PR #17, Stage B accessible error recovery and game-log scroll region)
 
 > Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before any work. TASK-001
@@ -319,6 +319,89 @@ Stage B review search classification:
 No backend source, shared contracts, provider logic, cache behavior, diagnostics,
 dependencies, lockfiles, `render.yaml`, Render settings, production provider mode,
 README structure, screenshot assets, portfolio assets, or live-network tests were changed.
+
+## Stage D Implementation Status
+
+Stage D is implemented and validated on `chore/task-011-stage-d-finalization`, branched
+from `main` at `fc83a78` (the Stage B merge). Stage D changed only documentation, five
+screenshot assets under `docs/assets/`, and the README visual section. No frontend or
+backend application code, shared contracts, dependencies, lockfiles, provider logic, cache
+behavior, diagnostics, environment parsing, `render.yaml`, or Render settings were changed.
+
+### Audit Method
+
+- Bounded live production smoke test against the deployed application's own public `/api`
+  routes (no direct NBA.com requests, no aggressive retries), recording only sanitized
+  summaries (status, counts, public player names).
+- Real-browser production screenshots captured by the project owner at desktop and narrow
+  mobile sizes.
+- Source/CSS review of every route and shared component against the representative widths.
+- The existing 398 deterministic automated tests (154 frontend, 244 backend).
+
+### Production Smoke Results (live data)
+
+- `/api/health` succeeded when warm; the first cold-start request timed out once, then the
+  service responded normally.
+- Player search returned results including Stephen Curry (`201939`).
+- Profile, available seasons (17, newest `2025-26`), selected-season statistics, game log,
+  and career trends (17 seasons) all loaded for `201939`.
+- A two-player comparison loaded for Stephen Curry (`201939`) and Kevin Durant (`201142`),
+  16 common seasons; the `2025-26` comparison returned `200`/`200`.
+- Direct `/players/201939` and `/compare` refreshes returned the SPA shell (not a server
+  404); an unknown route returned the SPA catch-all.
+- Player ID `2544` still returned zero career seasons (HTTP 200, empty), re-confirming the
+  documented upstream empty-data limitation (not an application defect). A non-existent
+  numeric id (`999999999`) returned a sanitized `502 PROVIDER_INVALID_RESPONSE`, which the
+  frontend renders as a sanitized "profile unavailable" state; this is backend/provider
+  behavior and out of Stage D frontend scope.
+
+### Viewports And Accessibility Checked
+
+- Live-production screenshots were captured at approximately `1359x904` (desktop) and
+  `348x800` (mobile). The capture pipeline downscaled them from the nominal `1440x900` and
+  ~`390px` targets; the intermediate widths (`414`, `768`, `1024`) were not separately
+  captured.
+- The desktop and mobile captures, with the source/CSS review, confirm: no page-level
+  horizontal overflow on the captured pages; correct single-column collapse on mobile;
+  correct hero, heading, and long-content wrapping; the profile, season statistics,
+  career-trend chart with its equivalent table, and the two-player comparison table render
+  with live data and no loading/empty/error state; the game-log horizontal scroll region is
+  present; and the chart legend distinguishes series by shape (triangle, circle, square)
+  and dash pattern, not colour alone.
+- Keyboard interaction, focus-ring visibility, and colour contrast are supported by the
+  source review and the deterministic tests (accessible combobox keyboard handling, route
+  heading focus, visible focus styles, sanitized live-region states), not by separate
+  browser-tool measurements in this pass. No WCAG-compliance claim is made.
+
+### Confirmed Defects And Fixes
+
+| Finding | Severity | Evidence | Fix | Coverage |
+| --- | --- | --- | --- | --- |
+| README "Quality And Testing" still reported the pre-Stage-B counts (147 frontend / 391 total). | Low | `README.md` versus the verified 154/244/398 validate output. | Updated the counts to 154 frontend / 244 backend / 398 total. | `npm run validate` output. |
+
+No frontend visual, responsive, or accessibility defect was confirmed, so no application
+code was changed and no new application test was required.
+
+### Deliverables
+
+- Five live-production screenshots under `docs/assets/`: `home-desktop.png`,
+  `player-profile-desktop.png`, `career-trends-desktop.png`,
+  `player-comparison-desktop.png`, and `home-mobile.png`.
+- A README "Screenshots" section that links the hero image to the live demo and presents
+  the feature and mobile images in an accessible grid with descriptive alt text.
+- `docs/PORTFOLIO.md` with a project summary, three resume bullets, interview talking
+  points, and clearly separated optional future enhancements.
+- Updated `docs/PROJECT_STATE.md` and this task file.
+
+### Validation
+
+- `npm run format` reported no changes; `npm run validate` passed.
+- Frontend tests: 154. Backend tests: 244. Total: 398.
+- Shared contracts, frontend, and backend production builds passed; the known Vite/Recharts
+  chunk-size warning remained non-blocking.
+- `git diff --check` passed, and the five README image paths resolve to tracked files.
+- Automated tests remained offline; no live NBA.com requests were made by the test suite.
+
 ## Stage D Screenshot And Asset Plan
 
 Recommended image directory: `docs/assets/`
@@ -380,7 +463,7 @@ until they are performed in a browser against the built or deployed application.
 
 ### Stage B - Accessibility And Responsive Polish
 
-Implemented and validated locally on `fix/task-011-stage-b-accessibility-responsive`.
+Merged to `main` in PR #17 at `fc83a78`.
 
 Delivered: top-level error boundary, evidence-backed accessibility/responsive audit,
 confirmed game-log scroll-region fix, deterministic tests for changed behavior, and clear
@@ -388,12 +471,15 @@ separation between automated/source checks and Stage D manual browser verificati
 
 ### Stage D - Final Audit And Portfolio Assets
 
-Pending. Do not start during Stage A.
+Implemented and validated on `chore/task-011-stage-d-finalization`; see "Stage D
+Implementation Status" above.
 
-Expected scope: final validation, manual viewport/keyboard/contrast checks, production
-smoke test, screenshots/portfolio assets, project summary, resume bullets, interview
-talking points, and final documentation updates that distinguish automated checks from
-manual verification.
+Delivered: a bounded live production smoke test, real-browser desktop and mobile
+screenshots, a source/CSS and deterministic-test accessibility/responsive audit, five
+`docs/assets/` screenshots integrated into the README, `docs/PORTFOLIO.md` (summary, resume
+bullets, interview talking points), corrected README test counts, and an honest record of
+the viewport-emulation and keyboard/contrast verification limitations. No application code
+changed. Formal post-merge project closure is handled separately.
 
 ## Historical Stage A Validation Requirements
 
@@ -411,6 +497,7 @@ After editing:
 
 ## Current Stop Condition
 
-Stop after Stage B is audited, implemented, tested, documented, and committed locally.
-Do not push without explicit approval. Do not proceed to Stage D without explicit
-approval.
+Stage D is implemented, validated, documented, and committed on
+`chore/task-011-stage-d-finalization`. Stop before merging the Stage D pull request; merge
+only after CI is green and with explicit approval. Formal post-merge project closure is a
+separate step and must not start without separate approval.
