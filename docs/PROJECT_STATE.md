@@ -8,19 +8,17 @@ _Last updated: 2026-06-27_
 ## Current State
 
 - **Current milestone:** Portfolio Readiness
-- **Current task:** TASK-011 - Stage D: Final Audit and Portfolio Assets
-- **Current branch:** `chore/task-011-stage-d-finalization`
-- **Current status:** TASK-011 Stages A, B, and C are merged on `main`; Stage B merged in
-  PR #17 at `fc83a78`. Stage D is implemented and validated: a bounded live production
-  smoke test plus a real-browser desktop/mobile screenshot pass verified the core flows,
-  five live-production screenshots were added under `docs/assets/` and integrated into the
-  README, portfolio materials were written in `docs/PORTFOLIO.md`, and the stale README
-  test counts were corrected (147/391 to 154/398). The audit confirmed no frontend code
-  defect, so no application code changed. Production remains live-backed with
-  `NBA_DATA_PROVIDER=nba-stats`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`,
-  `NBA_STATS_TIMEOUT_MS=10000`, and the normal Render start command
-  `node backend/dist/server.js`; `render.yaml` and Render settings are unchanged. Final
-  formal project closure is handled separately.
+- **Current task:** TASK-011 - Portfolio Readiness and Final Audit (complete)
+- **Current branch:** `main`
+- **Current status:** TASK-011 is complete. Stages A, B, C, and D are merged on `main`:
+  Stage B in PR #17 at `fc83a78` and Stage D in PR #18 at `e01f9f8`. Stage D delivered the
+  evidence-backed final audit, five live-production screenshots under `docs/assets/` (linked
+  from the README), portfolio materials in `docs/PORTFOLIO.md`, and corrected README test
+  counts (154 frontend, 244 backend, 398 total). A final independent closure audit then
+  confirmed a clean working tree, passing validation, healthy production, and resolving
+  links and images. Production remains live-backed with `NBA_DATA_PROVIDER=nba-stats`,
+  `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`, `NBA_STATS_TIMEOUT_MS=10000`, and the start
+  command `node backend/dist/server.js`; `render.yaml` and Render settings are unchanged.
 
 ## Summary
 
@@ -162,9 +160,10 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-Merge the Stage D pull request after CI is green. Final formal project closure — an
-independent end-to-end production and repository verification — is handled separately and
-must not start without separate approval.
+None required. TASK-011 and the Portfolio Readiness milestone are complete, and `main` is
+deployed and verified in production. Any further work — for example the optional
+bundle-splitting enhancement for the known Recharts/Vite chunk-size warning — is optional
+and not required for portfolio readiness.
 
 ## How To Update This File
 
