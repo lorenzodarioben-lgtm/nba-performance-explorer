@@ -10,6 +10,37 @@ project's backend provider.
 The Render free service may need roughly 50 seconds to wake after inactivity. NBA.com
 is an external dependency, so live data availability is not guaranteed continuously.
 
+## Screenshots
+
+Captured from the live production app (Stephen Curry and Kevin Durant, 2025-26 season).
+
+<a href="https://nba-performance-explorer.onrender.com">
+  <img src="docs/assets/home-desktop.png" alt="NBA Performance Explorer home page: a product hero with the player search and a live-data status indicator." width="100%" />
+</a>
+
+<table role="presentation">
+  <tr>
+    <td width="50%">
+      <img src="docs/assets/player-profile-desktop.png" alt="Stephen Curry profile with bio details, a season selector, and selected-season statistics." width="100%" />
+      <br /><sub>Player profile and selected-season statistics</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/assets/career-trends-desktop.png" alt="Career-trend line chart with a matching data table; series are distinguished by dash pattern and legend shape, not colour alone." width="100%" />
+      <br /><sub>Career-trend chart with an equivalent data table</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="docs/assets/player-comparison-desktop.png" alt="Two-player regular-season comparison table: Stephen Curry versus Kevin Durant for the 2025-26 season." width="100%" />
+      <br /><sub>Two-player season comparison</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/assets/home-mobile.png" alt="NBA Performance Explorer home page on a narrow mobile viewport, with controls stacked in a single column." width="100%" />
+      <br /><sub>Responsive mobile home page</sub>
+    </td>
+  </tr>
+</table>
+
 ## Project Highlights
 
 - Live NBA player search and profile pages.
@@ -81,9 +112,9 @@ tests, and production builds for the contracts, frontend, and backend workspaces
 
 Current verified baseline:
 
-- Frontend tests: 147
+- Frontend tests: 154
 - Backend tests: 244
-- Total tests: 391
+- Total tests: 398
 - GitHub Actions runs `npm run validate`
 - Automated tests do not make live NBA.com requests
 

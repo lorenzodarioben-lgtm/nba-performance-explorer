@@ -3,22 +3,24 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Coding agents read this to understand where things stand before starting work.
 
-_Last updated: 2026-06-26_
+_Last updated: 2026-06-27_
 
 ## Current State
 
 - **Current milestone:** Portfolio Readiness
-- **Current task:** TASK-011 - Stage B: Accessibility and Responsive Polish
-- **Current branch:** `fix/task-011-stage-b-accessibility-responsive`
-- **Current status:** TASK-011 Stage A is merged on `main` at `56a740e`, and Stage C is
-  already deployed. Stage B is implemented and validated locally on this branch: a
-  top-level React error boundary was added, the frontend accessibility/responsive source
-  audit was completed, the confirmed game-log scroll-region accessibility issue was fixed,
-  and deterministic tests were added. Production remains live-backed with
+- **Current task:** TASK-011 - Stage D: Final Audit and Portfolio Assets
+- **Current branch:** `chore/task-011-stage-d-finalization`
+- **Current status:** TASK-011 Stages A, B, and C are merged on `main`; Stage B merged in
+  PR #17 at `fc83a78`. Stage D is implemented and validated: a bounded live production
+  smoke test plus a real-browser desktop/mobile screenshot pass verified the core flows,
+  five live-production screenshots were added under `docs/assets/` and integrated into the
+  README, portfolio materials were written in `docs/PORTFOLIO.md`, and the stale README
+  test counts were corrected (147/391 to 154/398). The audit confirmed no frontend code
+  defect, so no application code changed. Production remains live-backed with
   `NBA_DATA_PROVIDER=nba-stats`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`,
   `NBA_STATS_TIMEOUT_MS=10000`, and the normal Render start command
-  `node backend/dist/server.js`. Render and `render.yaml` were untouched. Stage D remains
-  pending, and TASK-011 is not complete.
+  `node backend/dist/server.js`; `render.yaml` and Render settings are unchanged. Final
+  formal project closure is handled separately.
 
 ## Summary
 
@@ -49,11 +51,12 @@ documentation. It did not change backend code, shared contracts, dependencies,
 that the homepage and a player profile route load in production.
 
 TASK-011 Stage A rewrote the public README for recruiter-facing presentation and was
-merged to `main` at `56a740e`. Stage B changed only frontend root/error-recovery code,
-the game-log table scroll container, frontend tests, and task/state documentation. It did
-not change backend code, shared contracts, dependencies, provider logic, cache behavior,
-diagnostics, `render.yaml`, Render settings, README structure, or production
-configuration.
+merged to `main` at `56a740e`. Stage B was merged to `main` in PR #17 at `fc83a78`; it
+changed only frontend root/error-recovery code, the game-log table scroll container,
+frontend tests, and task/state documentation. Stage D changed only documentation, five
+screenshot assets under `docs/assets/`, and the README visual section; it did not change
+frontend or backend application code, shared contracts, dependencies, provider logic,
+cache behavior, diagnostics, `render.yaml`, Render settings, or production configuration.
 
 Stage B audit summary:
 
@@ -67,6 +70,39 @@ Stage B audit summary:
 - Attempted browser viewport tooling, but it did not initialize before navigation. Stage B
   therefore used static source/CSS inspection plus deterministic tests; visual viewport,
   keyboard, and contrast checks remain Stage D manual work.
+
+Stage D audit summary:
+
+- Verified the live production deployment through the application's own public `/api`
+  routes (bounded, no direct NBA.com calls): health, player search, profile, available
+  seasons, selected-season statistics, game log, career trends, and a two-player
+  comparison (Stephen Curry `201939` and Kevin Durant `201142`, common season `2025-26`)
+  all returned live data; direct profile and `/compare` refreshes returned the SPA shell;
+  the unknown-route catch-all returned the SPA. Player ID `2544` still returned zero career
+  seasons, re-confirming the documented upstream empty-data limitation (not an application
+  defect).
+- Captured five live-production screenshots in a real browser (home, profile, career
+  trends, comparison, and a narrow mobile home) and integrated them into the README under
+  `docs/assets/`.
+- With a source/CSS review of every route and the 398 deterministic tests, the audit
+  confirmed no page-level horizontal overflow on the captured desktop and mobile layouts,
+  correct mobile single-column collapse, semantic tables with captions and scoped headers,
+  the chart's equivalent table and non-colour-only series, route heading focus, the
+  accessible search combobox, and the keyboard-focusable named table scroll regions. No
+  frontend visual or accessibility defect was confirmed, so no application code changed;
+  the only correction was the stale README test counts (147/391 to 154/398).
+
+Stage D verification scope and honest limitations:
+
+- Screenshots were captured at approximately `1359x904` (desktop) and `348x800` (mobile);
+  the capture pipeline downscaled them from the nominal `1440x900` and ~`390px` targets,
+  and the intermediate widths (`414`, `768`, `1024`) were not separately captured.
+  Responsive behavior at those widths is supported by the source/CSS review and the
+  desktop and mobile captures, not by per-width browser captures.
+- Keyboard interaction, focus-ring visibility, and colour-contrast values are supported by
+  the source review and the deterministic tests (accessible combobox keyboard handling,
+  heading focus, visible focus styles, sanitized states), not by separate browser-tool
+  measurements in this pass. No WCAG-compliance claim is made.
 
 The same Stage C smoke check discovered a player-specific upstream empty-career response.
 A bounded local diagnostic used the production NBA.com HTTP client, production timeout,
@@ -110,10 +146,25 @@ After the Stage B implementation, validation passed locally with:
 - The known Vite/Recharts chunk-size warning remaining non-blocking.
 - Automated tests remaining offline and not contacting NBA.com.
 
+Stage D changed documentation, five `docs/assets/` screenshots, and the README visual
+section only; no application code changed, so the test counts are unchanged. Validation on
+the Stage D branch passed with:
+
+- `npm run format` reporting no changes and `npm run validate` passing.
+- Frontend tests: 154 passing.
+- Backend tests: 244 passing.
+- Total tests: 398 passing.
+- Shared contracts, frontend, and backend production builds passing.
+- The known Vite/Recharts chunk-size warning remaining non-blocking.
+- `git diff --check` passing.
+- The five README screenshots resolving to tracked files under `docs/assets/`.
+- Automated tests remaining offline and not contacting NBA.com.
+
 ## Immediate Next Action
 
-Review the local Stage B commits and push or open a pull request only with explicit
-approval. Stage D remains pending and must not start without separate approval.
+Merge the Stage D pull request after CI is green. Final formal project closure — an
+independent end-to-end production and repository verification — is handled separately and
+must not start without separate approval.
 
 ## How To Update This File
 
