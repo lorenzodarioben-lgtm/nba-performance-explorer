@@ -1,18 +1,74 @@
 @import 'tailwindcss';
 
+/*
+ * Stage 1 design tokens — a precise sports-reference / data-terminal visual system.
+ *
+ * Colours use Tailwind v4's `--color-*` convention so they generate matching utilities
+ * (bg-surface, text-ink, border-edge, text-accent, ...) and are also exposed as plain custom
+ * properties for the base styles below. One UI accent (red); blue is reserved for the keyboard
+ * focus ring and green for the live-data status. Near-black ink on a warm off-white page.
+ */
+@theme {
+  --color-bg: #f7f6f4;
+  --color-surface: #ffffff;
+  --color-surface-sunken: #f1f0ed;
+
+  --color-ink: #18181b;
+  --color-ink-2: #52525b;
+  --color-ink-3: #6e6e76;
+
+  --color-accent: #b91c1c;
+  --color-accent-strong: #991b1b;
+  --color-accent-quiet: #fef2f2;
+
+  --color-edge: #e4e4e7;
+  --color-edge-strong: #d4d4d8;
+
+  --color-ok: #15803d;
+  --color-danger: #991b1b;
+  --color-focus: #1d4ed8;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  /* The single subtle elevation allowed in Stage 1: the search-results popover. */
+  --shadow-popover:
+    0 1px 2px rgb(24 24 27 / 0.06), 0 12px 28px -14px rgb(24 24 27 / 0.22);
+}
+
 @layer base {
+  html {
+    background-color: var(--color-bg);
+  }
+
   body {
     margin: 0;
     min-width: 320px;
-    min-height: 100vh;
-    background: #fafafa;
+    background-color: var(--color-bg);
+    color: var(--color-ink);
     font-family:
-      Inter,
-      ui-sans-serif,
       system-ui,
       -apple-system,
-      BlinkMacSystemFont,
       'Segoe UI',
+      Roboto,
+      Helvetica,
+      Arial,
       sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Numeric data should read as data: even-width, aligned figures in tabular contexts. */
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /*
+   * One consistent, high-contrast keyboard focus indicator (blue, never the brand red) for
+   * interactive elements that do not define their own focus treatment. The low-specificity
+   * :where() wrapper lets component-level focus utilities override this where needed.
+   */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
   }
 }

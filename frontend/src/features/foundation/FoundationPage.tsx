@@ -3,7 +3,8 @@ import { Link } from 'react-router';
 import { PlayerSearch } from '../player-search/PlayerSearch';
 import { useHealthQuery } from './useHealthQuery';
 
-// The public landing page: a concise product hero with the player search as the primary action.
+// The public landing page: a product hero with the player search as the primary action, paired
+// with a concise overview of what the app does. Built only from existing content and links.
 const capabilities = [
   'Player profiles with bio and team details',
   'Regular-season statistics for any season',
@@ -21,7 +22,7 @@ function ServiceStatus() {
 
   if (healthQuery.isPending) {
     return (
-      <p role="status" aria-live="polite" className="text-sm text-zinc-600">
+      <p role="status" aria-live="polite" className="text-sm text-ink-2">
         Connecting to live data…
       </p>
     );
@@ -29,7 +30,7 @@ function ServiceStatus() {
 
   if (healthQuery.isError) {
     return (
-      <p role="status" aria-live="polite" className="text-sm text-zinc-600">
+      <p role="status" aria-live="polite" className="text-sm text-ink-2">
         Live data service temporarily unavailable. You can still try a search.
       </p>
     );
@@ -39,12 +40,9 @@ function ServiceStatus() {
     <p
       role="status"
       aria-live="polite"
-      className="flex items-center gap-2 text-sm text-zinc-600"
+      className="flex items-center gap-2 text-sm text-ink-2"
     >
-      <span
-        aria-hidden="true"
-        className="inline-block h-2 w-2 rounded-full bg-green-600"
-      />
+      <span aria-hidden="true" className="inline-block h-2 w-2 rounded-full bg-ok" />
       Live data service available
     </p>
   );
@@ -52,56 +50,51 @@ function ServiceStatus() {
 
 export function FoundationPage() {
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-6 py-16">
-      <section
-        aria-labelledby="project-title"
-        className="w-full border-l-4 border-red-600 pl-6"
-      >
-        <p className="text-sm font-semibold uppercase tracking-wide text-red-700">
-          Live NBA player stats
-        </p>
-        <h1
-          id="project-title"
-          className="mt-2 text-4xl font-bold text-zinc-950 sm:text-5xl"
-        >
-          NBA Performance Explorer
-        </h1>
-        <p className="mt-4 max-w-2xl text-lg text-zinc-700">
-          Search any NBA player and explore their profile, season statistics, career
-          trends, game logs, and head-to-head comparisons — using live data from
-          NBA.com.
-        </p>
-
-        <PlayerSearch />
-
-        <div className="mt-8">
-          <h2 className="text-sm font-semibold uppercase text-zinc-500">
-            What you can explore
-          </h2>
-          <ul className="mt-3 grid grid-cols-1 gap-x-8 gap-y-1 text-zinc-700 sm:grid-cols-2">
-            {capabilities.map((capability) => (
-              <li key={capability}>{capability}</li>
-            ))}
-          </ul>
-        </div>
-
-        <p className="mt-6 text-sm">
-          <Link
-            to="/compare"
-            className="font-semibold text-red-700 underline underline-offset-4"
-          >
-            Compare two players
-          </Link>
-        </p>
-
-        <div className="mt-10 border-t border-zinc-200 pt-4">
-          <ServiceStatus />
-          <p className="mt-2 text-xs text-zinc-500">
-            Unofficial project, not affiliated with the NBA. Statistics sourced from
-            NBA.com.
+    <main className="mx-auto max-w-[72rem] px-4 py-12 sm:px-8 sm:py-16 lg:py-20">
+      <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+        <section aria-labelledby="project-title" className="lg:col-span-7">
+          {/* The single intentional red identity moment on the page. */}
+          <span aria-hidden="true" className="block h-1 w-12 bg-accent" />
+          <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-ink-2">
+            Live NBA player stats
           </p>
+          <h1
+            id="project-title"
+            className="mt-3 text-4xl font-bold tracking-tight text-ink sm:text-5xl"
+          >
+            NBA Performance Explorer
+          </h1>
+          <p className="mt-4 max-w-prose text-lg text-ink-2">
+            Search any NBA player and explore their profile, season statistics, career
+            trends, game logs, and head-to-head comparisons, all from live NBA.com data.
+          </p>
+
+          <PlayerSearch />
+
+          <div className="mt-6">
+            <ServiceStatus />
+          </div>
+        </section>
+
+        <div className="lg:col-span-5">
+          <div className="rounded-md border border-edge bg-surface p-6">
+            <h2 className="text-sm font-semibold text-ink">What you can explore</h2>
+            <ul className="mt-4 space-y-2.5 text-ink-2">
+              {capabilities.map((capability) => (
+                <li key={capability}>{capability}</li>
+              ))}
+            </ul>
+            <p className="mt-6 border-t border-edge pt-4">
+              <Link
+                to="/compare"
+                className="font-semibold text-accent underline underline-offset-4 transition-colors hover:text-accent-strong"
+              >
+                Compare two players
+              </Link>
+            </p>
+          </div>
         </div>
-      </section>
+      </div>
     </main>
   );
 }
