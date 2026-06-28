@@ -6,65 +6,91 @@ import { formatGameDate, formatMatchup } from './game-format';
 import { PlayerSeasonError } from './season-api';
 import { usePlayerGameLogQuery } from './usePlayerGameLogQuery';
 
+const columns = [
+  { label: 'Date', numeric: false },
+  { label: 'Team', numeric: false },
+  { label: 'Matchup', numeric: false },
+  { label: 'Result', numeric: false },
+  { label: 'Minutes', numeric: true },
+  { label: 'Points', numeric: true },
+  { label: 'Rebounds', numeric: true },
+  { label: 'Assists', numeric: true },
+] as const;
+
+// The win/loss marker is distinguished by fill versus outline (and the letter itself), never by
+// colour alone; the accessible Win/Loss label is preserved on the <abbr>.
+function ResultBadge({ result }: { result: PlayerGame['result'] }) {
+  const isWin = result === 'W';
+  return (
+    <abbr
+      aria-label={isWin ? 'Win' : 'Loss'}
+      className={`inline-flex h-5 w-5 items-center justify-center rounded-sm text-xs font-semibold no-underline ${
+        isWin ? 'bg-ink text-surface' : 'border border-edge-strong text-ink-2'
+      }`}
+    >
+      {result}
+    </abbr>
+  );
+}
+
 function GameLogTable({ games, season }: { games: PlayerGame[]; season: string }) {
   return (
     <div
       role="group"
       aria-label={`Game log table for the ${season} season`}
       tabIndex={0}
-      className="mt-4 max-w-full overflow-x-auto focus:outline-2 focus:outline-offset-2 focus:outline-zinc-400"
+      className="mt-5 max-w-full overflow-x-auto rounded-md border border-edge"
     >
       <table className="min-w-[48rem] w-full border-collapse text-left text-sm">
-        <caption className="mb-2 text-left text-sm text-zinc-600">
+        <caption className="px-4 pt-3 text-left text-sm text-ink-2">
           Game log for the {season} season.
         </caption>
         <thead>
-          <tr className="border-b border-zinc-300">
-            {[
-              'Date',
-              'Team',
-              'Matchup',
-              'Result',
-              'Minutes',
-              'Points',
-              'Rebounds',
-              'Assists',
-            ].map((heading) => (
+          <tr className="border-b border-edge-strong bg-surface-sunken">
+            {columns.map((column) => (
               <th
-                key={heading}
+                key={column.label}
                 scope="col"
-                className="whitespace-nowrap py-2 pr-4 font-semibold text-zinc-700 last:pr-0"
+                className={`whitespace-nowrap px-4 py-2 font-semibold text-ink-2 ${
+                  column.numeric ? 'text-right' : 'text-left'
+                }`}
               >
-                {heading}
+                {column.label}
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
           {games.map((game) => (
-            <tr key={game.id} className="border-b border-zinc-200">
+            <tr
+              key={game.id}
+              className="border-b border-edge last:border-b-0 hover:bg-surface-sunken"
+            >
               <th
                 scope="row"
-                className="whitespace-nowrap py-2 pr-4 font-medium text-zinc-950"
+                className="whitespace-nowrap px-4 py-2 font-medium tabular-nums text-ink"
               >
                 {formatGameDate(game.date)}
               </th>
-              <td className="py-2 pr-4 text-zinc-800">{game.team.abbreviation}</td>
-              <td className="whitespace-nowrap py-2 pr-4 text-zinc-800">
+              <td className="px-4 py-2 text-ink-2">{game.team.abbreviation}</td>
+              <td className="whitespace-nowrap px-4 py-2 text-ink-2">
                 {formatMatchup(game.location, game.opponent.abbreviation)}
               </td>
-              <td className="py-2 pr-4 text-zinc-800">
-                <abbr
-                  aria-label={game.result === 'W' ? 'Win' : 'Loss'}
-                  className="no-underline"
-                >
-                  {game.result}
-                </abbr>
+              <td className="px-4 py-2">
+                <ResultBadge result={game.result} />
               </td>
-              <td className="py-2 pr-4 text-zinc-800">{game.minutes}</td>
-              <td className="py-2 pr-4 text-zinc-800">{game.points}</td>
-              <td className="py-2 pr-4 text-zinc-800">{game.rebounds}</td>
-              <td className="py-2 text-zinc-800">{game.assists}</td>
+              <td className="px-4 py-2 text-right tabular-nums text-ink">
+                {game.minutes}
+              </td>
+              <td className="px-4 py-2 text-right tabular-nums text-ink">
+                {game.points}
+              </td>
+              <td className="px-4 py-2 text-right tabular-nums text-ink">
+                {game.rebounds}
+              </td>
+              <td className="px-4 py-2 text-right tabular-nums text-ink">
+                {game.assists}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -87,7 +113,7 @@ export function PlayerGameLog({
 
   if (gameLogQuery.isPending) {
     content = (
-      <p role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
+      <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
         Loading game log...
       </p>
     );
@@ -100,7 +126,7 @@ export function PlayerGameLog({
     content = (
       <p
         role="alert"
-        className="mt-3 border-l-4 border-red-600 pl-3 text-sm text-red-800"
+        className="mt-3 rounded-sm border border-edge bg-accent-quiet px-3 py-2 text-sm text-danger"
       >
         {kind === 'season-not-found'
           ? 'The game log for that season is unavailable.'
@@ -109,13 +135,13 @@ export function PlayerGameLog({
     );
   } else if (gameLogQuery.data.season !== season) {
     content = (
-      <p role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
+      <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
         Loading game log...
       </p>
     );
   } else if (gameLogQuery.data.games.length === 0) {
     content = (
-      <p role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
+      <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
         No games are available for the {season} season.
       </p>
     );
@@ -124,8 +150,8 @@ export function PlayerGameLog({
   }
 
   return (
-    <section aria-labelledby={headingId} className="mt-8">
-      <h3 id={headingId} className="text-xl font-bold text-zinc-950">
+    <section aria-labelledby={headingId} className="mt-10">
+      <h3 id={headingId} className="text-xl font-bold tracking-tight text-ink">
         Game log
       </h3>
       {content}
