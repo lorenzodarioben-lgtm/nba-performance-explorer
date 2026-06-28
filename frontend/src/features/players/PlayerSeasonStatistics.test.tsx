@@ -345,6 +345,41 @@ describe('player season statistics', () => {
     });
   });
 
+  it('keeps the full statistic set available across the headline and secondary groups', async () => {
+    server.use(
+      http.get(seasonsUrl, () => HttpResponse.json(threeSeasons)),
+      http.get(statsUrl, ({ params }) =>
+        HttpResponse.json(statsResponse(String(params.season))),
+      ),
+    );
+
+    renderApp('/players/2544');
+
+    await screen.findByLabelText('Season');
+    // Promoting points/rebounds/assists into headline tiles must not hide any value: every
+    // statistic remains a <dt>/<dd> pair inside the section.
+    const labels = [
+      'Season',
+      'Team',
+      'Points per game',
+      'Rebounds per game',
+      'Assists per game',
+      'Games played',
+      'Minutes per game',
+      'Steals per game',
+      'Blocks per game',
+      'Turnovers per game',
+      'Field-goal percentage',
+      'Three-point percentage',
+      'Free-throw percentage',
+    ];
+    await waitFor(() => {
+      for (const label of labels) {
+        expect(statValue(label)).not.toBe('');
+      }
+    });
+  });
+
   it('passes an abort signal to the seasons request', async () => {
     let hadSignal = false;
     server.use(
