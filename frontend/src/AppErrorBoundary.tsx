@@ -21,26 +21,27 @@ function AppErrorFallback({ onReload }: { onReload: () => void }) {
   }, []);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-xl items-center px-6 py-16">
+    <main className="mx-auto flex min-h-[100dvh] max-w-xl items-center px-6 py-16">
       <section aria-labelledby="application-error-heading" className="w-full">
-        <p className="text-sm font-semibold uppercase text-red-700">
-          Application error
-        </p>
+        <p className="text-sm font-semibold uppercase text-accent">Application error</p>
         <h1
           id="application-error-heading"
           ref={headingRef}
           tabIndex={-1}
-          className="mt-2 text-3xl font-bold text-zinc-950 outline-none"
+          className="mt-2 text-3xl font-bold text-ink outline-none"
         >
           We could not display this page
         </h1>
-        <p role="alert" className="mt-4 border-l-4 border-red-600 pl-4 text-zinc-700">
+        <p
+          role="alert"
+          className="mt-4 rounded-sm border border-edge bg-accent-quiet px-4 py-3 text-ink-2"
+        >
           The page could not be displayed. Reload the application to try again.
         </p>
         <button
           type="button"
           onClick={onReload}
-          className="mt-6 inline-flex min-h-11 items-center border border-zinc-950 bg-zinc-950 px-4 py-2 font-semibold text-white focus:outline-2 focus:outline-offset-2 focus:outline-zinc-500"
+          className="mt-6 inline-flex min-h-11 items-center rounded-sm border border-accent bg-accent px-4 py-2 font-semibold text-surface transition-colors hover:border-accent-strong hover:bg-accent-strong"
         >
           Reload application
         </button>

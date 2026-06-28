@@ -330,7 +330,7 @@ export function PlayerComparisonPage() {
   }
 
   return (
-    <main className="mx-auto min-h-screen max-w-4xl px-6 py-16">
+    <main className="mx-auto max-w-4xl px-6 py-16">
       <p className="text-sm font-semibold uppercase text-zinc-600">Compare</p>
       <h1
         ref={headingRef}

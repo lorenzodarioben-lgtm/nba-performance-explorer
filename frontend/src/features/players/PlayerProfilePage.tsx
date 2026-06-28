@@ -36,7 +36,7 @@ function BackToSearchLink() {
 
 function ProfileShell({ children }: { children: ReactNode }) {
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl items-center px-6 py-16">
+    <main className="mx-auto max-w-3xl px-6 py-16">
       <section aria-labelledby="player-profile-heading" className="w-full">
         {children}
       </section>
