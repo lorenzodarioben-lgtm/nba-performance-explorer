@@ -137,7 +137,7 @@ export function PlayerCombobox({
 
   return (
     <div className={className}>
-      <label htmlFor={inputId} className="block text-sm font-semibold text-zinc-900">
+      <label htmlFor={inputId} className="block text-sm font-semibold text-ink">
         {label}
       </label>
       <input
@@ -154,7 +154,7 @@ export function PlayerCombobox({
             ? `${listboxId}-option-${highlightedPlayer.id}`
             : undefined
         }
-        className="mt-2 w-full border border-zinc-400 bg-white px-3 py-2 text-base text-zinc-950 outline-none focus:border-zinc-950 focus:ring-2 focus:ring-zinc-300"
+        className="mt-2 w-full rounded-sm border border-edge-strong bg-surface px-4 py-3 text-base text-ink placeholder:text-ink-3 focus-visible:border-ink"
         placeholder="Enter at least 2 characters"
         onBlur={() => {
           setIsOpen(false);
@@ -174,7 +174,7 @@ export function PlayerCombobox({
       />
 
       {isOpen && isLoading ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
+        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
           Searching players...
         </p>
       ) : null}
@@ -182,20 +182,20 @@ export function PlayerCombobox({
       {isOpen && isError ? (
         <p
           role="alert"
-          className="mt-3 border-l-4 border-red-600 pl-3 text-sm text-red-800"
+          className="mt-3 rounded-sm border border-edge bg-accent-quiet px-3 py-2 text-sm text-danger"
         >
           Player search is unavailable. Please try again.
         </p>
       ) : null}
 
       {isOpen && isEmpty ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
+        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
           No players found.
         </p>
       ) : null}
 
       {isOpen && isAlreadySelected ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
+        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
           That player is already selected.
         </p>
       ) : null}
@@ -205,7 +205,7 @@ export function PlayerCombobox({
           id={listboxId}
           role="listbox"
           aria-label="Player search results"
-          className="mt-3 max-h-80 overflow-y-auto border border-zinc-300 bg-white"
+          className="mt-2 max-h-80 overflow-y-auto rounded-sm border border-edge bg-surface shadow-popover"
         >
           {players.map((player) => {
             const isHighlighted = player.id === highlightedPlayer?.id;
@@ -222,20 +222,18 @@ export function PlayerCombobox({
                   player.position ? `, ${player.position}` : ''
                 }`}
                 aria-selected={isHighlighted}
-                className={`cursor-pointer border-b border-zinc-200 px-3 py-3 last:border-b-0 ${
+                className={`cursor-pointer border-b border-edge px-3.5 py-2.5 last:border-b-0 ${
                   isHighlighted
-                    ? 'outline-2 outline-offset-[-3px] outline-zinc-950'
-                    : 'hover:bg-zinc-100'
+                    ? 'bg-accent-quiet outline-2 outline-offset-[-2px] outline-accent'
+                    : 'hover:bg-surface-sunken'
                 }`}
                 onClick={() => {
                   selectPlayer(player);
                 }}
                 onPointerDown={keepInputFocus}
               >
-                <span className="block font-semibold text-zinc-950">
-                  {player.fullName}
-                </span>
-                <span className="mt-1 block text-sm text-zinc-600">
+                <span className="block font-semibold text-ink">{player.fullName}</span>
+                <span className="mt-0.5 block text-sm text-ink-2">
                   {teamLabel}
                   {player.position ? ` | ${player.position}` : ''}
                 </span>
