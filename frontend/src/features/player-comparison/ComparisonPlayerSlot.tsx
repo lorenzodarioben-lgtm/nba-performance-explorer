@@ -11,9 +11,10 @@ import type { PlayerSlotUrlState } from './comparison-state';
 type SlotKind = 'empty' | 'invalid' | 'loading' | 'known' | 'unknown' | 'duplicate';
 
 const linkButtonClass =
-  'font-semibold text-red-700 underline underline-offset-4 focus:outline-2 focus:outline-offset-2 focus:outline-zinc-400';
+  'font-semibold text-accent underline underline-offset-4 transition-colors hover:text-accent-strong';
 
-const messageClass = 'mt-3 border-l-4 border-red-600 pl-3 text-sm text-red-800';
+const messageClass =
+  'mt-3 rounded-sm border border-edge bg-accent-quiet px-3 py-2 text-sm text-danger';
 
 export interface ComparisonPlayerSlotProps {
   slotName: string;
@@ -64,6 +65,9 @@ export function ComparisonPlayerSlot({
 
   const showIdentity = kind === 'known' && !isActive;
   const canClear = slot.status !== 'empty';
+  // A confirmed player gets a solid panel; an empty or unresolved slot gets a dashed panel, so
+  // selected and awaiting slots are distinguished by border style rather than colour alone.
+  const hasPlayer = kind === 'known';
 
   const notFound =
     profileQuery.error instanceof PlayerProfileError &&
@@ -79,14 +83,16 @@ export function ComparisonPlayerSlot({
   return (
     <section
       aria-labelledby={headingId}
-      className="border-t-4 border-zinc-900 pt-4 sm:border-t-0 sm:border-l-4 sm:pt-0 sm:pl-6"
+      className={`rounded-md border bg-surface p-5 ${
+        hasPlayer ? 'border-edge' : 'border-dashed border-edge-strong'
+      }`}
     >
-      <h2 id={headingId} className="text-xl font-bold text-zinc-950">
+      <h2 id={headingId} className="text-sm font-semibold text-ink-2">
         {slotName}
       </h2>
 
       {kind === 'loading' ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
+        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
           Loading {slotName}...
         </p>
       ) : null}
@@ -106,11 +112,10 @@ export function ComparisonPlayerSlot({
       ) : null}
 
       {showIdentity && profileQuery.isSuccess ? (
-        <div className="mt-3">
-          <p className="text-sm uppercase text-zinc-500">Selected</p>
+        <div className="mt-2">
           <Link
             to={`/players/${encodeURIComponent(profileQuery.data.id)}`}
-            className={`mt-1 inline-block text-lg ${linkButtonClass}`}
+            className={`inline-block text-lg ${linkButtonClass}`}
           >
             {profileQuery.data.fullName}
           </Link>
