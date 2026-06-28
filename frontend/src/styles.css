@@ -72,3 +72,20 @@
     outline-offset: 2px;
   }
 }
+
+@layer components {
+  /*
+   * Shared native form-control surface for the season selectors in the data views. The native
+   * <select> and its built-in caret are preserved; only the box is styled so it matches the
+   * Stage 1 search field. Keyboard focus comes from the base :focus-visible ring above.
+   */
+  .field {
+    border: 1px solid var(--color-edge-strong);
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+}

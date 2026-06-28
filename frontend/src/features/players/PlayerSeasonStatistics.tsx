@@ -13,15 +13,28 @@ interface StatRow {
   value: string;
 }
 
-function buildStatRows(stats: PlayerSeasonStats): StatRow[] {
+// Season and team are contextual; points/rebounds/assists are the headline; the rest form a
+// dense secondary grid. Every value still renders as a <dt>/<dd> pair inside the section, so
+// the full statistic set stays available and scannable.
+function buildContextRows(stats: PlayerSeasonStats): StatRow[] {
   return [
     { label: 'Season', value: stats.season },
     { label: 'Team', value: stats.team ? stats.team.abbreviation : 'Multiple teams' },
-    { label: 'Games played', value: String(stats.gamesPlayed) },
-    { label: 'Minutes per game', value: formatPerGame(stats.minutesPerGame) },
+  ];
+}
+
+function buildHeadlineRows(stats: PlayerSeasonStats): StatRow[] {
+  return [
     { label: 'Points per game', value: formatPerGame(stats.pointsPerGame) },
     { label: 'Rebounds per game', value: formatPerGame(stats.reboundsPerGame) },
     { label: 'Assists per game', value: formatPerGame(stats.assistsPerGame) },
+  ];
+}
+
+function buildSecondaryRows(stats: PlayerSeasonStats): StatRow[] {
+  return [
+    { label: 'Games played', value: String(stats.gamesPlayed) },
+    { label: 'Minutes per game', value: formatPerGame(stats.minutesPerGame) },
     { label: 'Steals per game', value: formatPerGame(stats.stealsPerGame) },
     { label: 'Blocks per game', value: formatPerGame(stats.blocksPerGame) },
     { label: 'Turnovers per game', value: formatPerGame(stats.turnoversPerGame) },
@@ -42,14 +55,38 @@ function buildStatRows(stats: PlayerSeasonStats): StatRow[] {
 
 function StatList({ stats }: { stats: PlayerSeasonStats }) {
   return (
-    <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
-      {buildStatRows(stats).map((row) => (
-        <div key={row.label} className="border-t border-zinc-200 pt-2">
-          <dt className="text-sm text-zinc-600">{row.label}</dt>
-          <dd className="mt-0.5 text-lg font-semibold text-zinc-950">{row.value}</dd>
-        </div>
-      ))}
-    </dl>
+    <div className="mt-5">
+      <dl className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
+        {buildContextRows(stats).map((row) => (
+          <div key={row.label} className="flex gap-1.5">
+            <dt className="text-ink-3">{row.label}</dt>
+            <dd className="font-medium tabular-nums text-ink">{row.value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <dl className="mt-4 grid grid-cols-3 divide-x divide-edge overflow-hidden rounded-md border border-edge bg-surface">
+        {buildHeadlineRows(stats).map((row) => (
+          <div key={row.label} className="px-4 py-4">
+            <dt className="text-xs font-medium text-ink-2">{row.label}</dt>
+            <dd className="mt-1 text-3xl font-semibold tabular-nums text-ink">
+              {row.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+
+      <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-4">
+        {buildSecondaryRows(stats).map((row) => (
+          <div key={row.label}>
+            <dt className="text-xs font-medium text-ink-3">{row.label}</dt>
+            <dd className="mt-0.5 text-lg font-semibold tabular-nums text-ink">
+              {row.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
   );
 }
 
@@ -62,7 +99,7 @@ function StatsRegion({
 }) {
   if (statsQuery.isPending) {
     return (
-      <p role="status" aria-live="polite" className="mt-4 text-sm text-zinc-700">
+      <p role="status" aria-live="polite" className="mt-5 text-sm text-ink-2">
         Loading season statistics...
       </p>
     );
@@ -75,7 +112,7 @@ function StatsRegion({
     return (
       <p
         role="alert"
-        className="mt-4 border-l-4 border-red-600 pl-3 text-sm text-red-800"
+        className="mt-5 rounded-sm border border-edge bg-accent-quiet px-3 py-2 text-sm text-danger"
       >
         {kind === 'season-not-found'
           ? 'That season is unavailable.'
@@ -88,7 +125,7 @@ function StatsRegion({
   // selected season is loading the query is re-keyed, so this never shows stale numbers.
   if (statsQuery.data.season !== selectedSeason) {
     return (
-      <p role="status" aria-live="polite" className="mt-4 text-sm text-zinc-700">
+      <p role="status" aria-live="polite" className="mt-5 text-sm text-ink-2">
         Loading season statistics...
       </p>
     );
@@ -117,16 +154,13 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
   const selectId = useId();
 
   return (
-    <section
-      aria-labelledby={headingId}
-      className="mt-10 border-t border-zinc-200 pt-6"
-    >
-      <h2 id={headingId} className="text-2xl font-bold text-zinc-950">
+    <section aria-labelledby={headingId} className="mt-10 border-t border-edge pt-8">
+      <h2 id={headingId} className="text-2xl font-bold tracking-tight text-ink">
         Season statistics
       </h2>
 
       {seasonsQuery.isPending ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
+        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
           Loading seasons...
         </p>
       ) : null}
@@ -134,24 +168,21 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
       {seasonsQuery.isError ? (
         <p
           role="alert"
-          className="mt-3 border-l-4 border-red-600 pl-3 text-sm text-red-800"
+          className="mt-3 rounded-sm border border-edge bg-accent-quiet px-3 py-2 text-sm text-danger"
         >
           Season statistics are unavailable. Please try again.
         </p>
       ) : null}
 
       {seasonsQuery.isSuccess && seasons.length === 0 ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
+        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
           No season statistics are available for this player.
         </p>
       ) : null}
 
       {seasonsQuery.isSuccess && seasons.length > 0 && effectiveSeason !== null ? (
-        <div className="mt-4">
-          <label
-            htmlFor={selectId}
-            className="block text-sm font-semibold text-zinc-900"
-          >
+        <div className="mt-5">
+          <label htmlFor={selectId} className="block text-sm font-semibold text-ink">
             Season
           </label>
           <select
@@ -160,7 +191,7 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
             onChange={(event) => {
               setChosenSeason(event.target.value);
             }}
-            className="mt-2 w-full max-w-xs border border-zinc-400 bg-white px-3 py-2 text-base text-zinc-950 focus:border-zinc-950 focus:ring-2 focus:ring-zinc-300 sm:w-auto"
+            className="field mt-2 w-full max-w-xs sm:w-auto"
           >
             {seasons.map((entry) => (
               <option key={entry.season} value={entry.season}>
