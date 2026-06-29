@@ -27,7 +27,7 @@ function BackToSearchLink() {
   return (
     <Link
       to="/"
-      className="mt-8 inline-block font-semibold text-red-700 underline underline-offset-4"
+      className="font-semibold text-accent underline underline-offset-4 transition-colors hover:text-accent-strong"
     >
       Back to search
     </Link>
@@ -36,7 +36,7 @@ function BackToSearchLink() {
 
 function ProfileShell({ children }: { children: ReactNode }) {
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
+    <main className="mx-auto max-w-[72rem] px-4 py-10 sm:px-8 sm:py-12">
       <section aria-labelledby="player-profile-heading" className="w-full">
         {children}
       </section>
@@ -61,14 +61,21 @@ function ProfileStatus({
         id="player-profile-heading"
         ref={headingRef}
         tabIndex={-1}
-        className="text-3xl font-bold text-zinc-950 outline-none"
+        className="text-3xl font-bold tracking-tight text-ink outline-none"
       >
         {heading}
       </h1>
-      <p role={role} className="mt-4 border-l-4 border-red-600 pl-4 text-zinc-700">
+      <p
+        role={role}
+        className={`mt-4 max-w-prose rounded-sm border border-edge px-4 py-3 text-ink-2 ${
+          role === 'alert' ? 'bg-accent-quiet' : 'bg-surface'
+        }`}
+      >
         {message}
       </p>
-      <BackToSearchLink />
+      <div className="mt-8">
+        <BackToSearchLink />
+      </div>
     </ProfileShell>
   );
 }
@@ -76,10 +83,13 @@ function ProfileStatus({
 function ProfileLoading() {
   return (
     <ProfileShell>
-      <h1 id="player-profile-heading" className="text-3xl font-bold text-zinc-950">
+      <h1
+        id="player-profile-heading"
+        className="text-3xl font-bold tracking-tight text-ink"
+      >
         Player profile
       </h1>
-      <p role="status" aria-live="polite" className="mt-4 text-zinc-700">
+      <p role="status" aria-live="polite" className="mt-4 text-ink-2">
         Loading player profile...
       </p>
     </ProfileShell>
@@ -126,36 +136,39 @@ function ProfileView({ profile }: { profile: PlayerProfile }) {
 
   return (
     <ProfileShell>
-      <p className="text-sm font-semibold uppercase text-zinc-600">Player profile</p>
+      {/* Player record: name as the route heading, with the bio metadata grouped beneath it
+          in a single restrained surface. The semantic description list is preserved. */}
       <h1
         id="player-profile-heading"
         ref={headingRef}
         tabIndex={-1}
-        className="mt-2 text-4xl font-bold text-zinc-950 outline-none"
+        className="text-4xl font-bold tracking-tight text-ink outline-none sm:text-5xl"
       >
         {profile.fullName}
       </h1>
-      <dl className="mt-8 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+      <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-5 rounded-md border border-edge bg-surface p-5 sm:grid-cols-3 sm:p-6 lg:grid-cols-4">
         {buildProfileRows(profile).map((row) => (
-          <div key={row.label} className="border-t border-zinc-200 pt-3">
-            <dt className="text-sm font-semibold uppercase text-zinc-500">
-              {row.label}
-            </dt>
-            <dd className="mt-1 text-lg text-zinc-950">{row.value}</dd>
+          <div key={row.label}>
+            <dt className="text-xs font-medium text-ink-3">{row.label}</dt>
+            <dd className="mt-1 text-base font-semibold tabular-nums text-ink">
+              {row.value}
+            </dd>
           </div>
         ))}
       </dl>
+
       <PlayerSeasonStatistics playerId={profile.id} />
       <PlayerCareerTrends playerId={profile.id} />
-      <p className="mt-8">
+
+      <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-edge pt-6">
         <Link
           to={`/compare?player1=${encodeURIComponent(profile.id)}`}
-          className="font-semibold text-red-700 underline underline-offset-4"
+          className="font-semibold text-accent underline underline-offset-4 transition-colors hover:text-accent-strong"
         >
           Compare {profile.fullName} with another player
         </Link>
-      </p>
-      <BackToSearchLink />
+        <BackToSearchLink />
+      </div>
     </ProfileShell>
   );
 }

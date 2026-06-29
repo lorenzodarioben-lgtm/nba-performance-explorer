@@ -51,7 +51,7 @@ function nextActiveSlot(selection: ComparisonSelection): ActiveSlot {
 
 function StatusMessage({ children }: { children: string }) {
   return (
-    <p role="status" aria-live="polite" className="mt-6 text-sm text-zinc-700">
+    <p role="status" aria-live="polite" className="mt-6 text-sm text-ink-2">
       {children}
     </p>
   );
@@ -61,7 +61,7 @@ function AlertMessage({ children }: { children: string }) {
   return (
     <p
       role="alert"
-      className="mt-6 border-l-4 border-red-600 pl-3 text-sm text-red-800"
+      className="mt-6 rounded-sm border border-edge bg-accent-quiet px-3 py-2 text-sm text-danger"
     >
       {children}
     </p>
@@ -272,7 +272,7 @@ export function PlayerComparisonPage() {
       !isCommonSeason(state.season.season, seasonIds1, seasonIds2);
 
     return (
-      <div className="mt-6 border-t border-zinc-200 pt-6">
+      <div className="mt-8 border-t border-edge pt-6">
         {state.season.status === 'invalid' ? (
           <AlertMessage>
             That season link is not valid. Choose a comparison season below.
@@ -330,16 +330,15 @@ export function PlayerComparisonPage() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl px-6 py-16">
-      <p className="text-sm font-semibold uppercase text-zinc-600">Compare</p>
+    <main className="mx-auto max-w-[72rem] px-4 py-10 sm:px-8 sm:py-12">
       <h1
         ref={headingRef}
         tabIndex={-1}
-        className="mt-2 text-4xl font-bold text-zinc-950 outline-none"
+        className="text-4xl font-bold tracking-tight text-ink outline-none sm:text-5xl"
       >
         Compare players
       </h1>
-      <p className="mt-3 max-w-2xl text-zinc-700">
+      <p className="mt-3 max-w-prose text-ink-2">
         Choose two players to compare their regular-season statistics for a season they
         both played.
       </p>
@@ -385,7 +384,7 @@ export function PlayerComparisonPage() {
 
       <Link
         to="/"
-        className="mt-10 inline-block font-semibold text-red-700 underline underline-offset-4"
+        className="mt-10 inline-block font-semibold text-accent underline underline-offset-4 transition-colors hover:text-accent-strong"
       >
         Back to search
       </Link>

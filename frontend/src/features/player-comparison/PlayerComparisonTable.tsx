@@ -46,10 +46,10 @@ function ColumnHeading({ column }: { column: ComparisonColumn }) {
   return (
     <th
       scope="col"
-      className="whitespace-nowrap py-2 pl-4 align-bottom font-semibold text-zinc-950"
+      className="whitespace-nowrap px-4 py-2 text-right align-bottom font-semibold text-ink"
     >
       <span className="block">{column.fullName}</span>
-      <span className="block text-sm font-normal text-zinc-600">
+      <span className="block text-sm font-normal text-ink-2">
         {column.stats.team ? column.stats.team.abbreviation : 'Multiple teams'}
       </span>
     </th>
@@ -58,7 +58,8 @@ function ColumnHeading({ column }: { column: ComparisonColumn }) {
 
 // The authoritative, accessible comparison representation: a semantic table with the season in
 // the caption, statistic names as row headers, and player identities (with their season team)
-// as column headers. No "better player" semantics or colour-coded verdict is applied.
+// as column headers. No "better player" semantics or colour-coded verdict is applied; the two
+// player columns are styled identically and read by numeric alignment alone.
 export function PlayerComparisonTable({
   season,
   playerA,
@@ -73,15 +74,15 @@ export function PlayerComparisonTable({
       role="group"
       aria-label={`Comparison statistics for the ${season} season`}
       tabIndex={0}
-      className="mt-4 max-w-full overflow-x-auto focus:outline-2 focus:outline-offset-2 focus:outline-zinc-400"
+      className="mt-4 max-w-full overflow-x-auto rounded-md border border-edge"
     >
       <table className="w-full min-w-[32rem] border-collapse text-left text-sm">
-        <caption className="mb-2 text-left text-sm text-zinc-600">
+        <caption className="px-4 pt-3 text-left text-sm text-ink-2">
           Regular-season comparison for the {season} season.
         </caption>
         <thead>
-          <tr className="border-b border-zinc-300">
-            <th scope="col" className="py-2 pr-4 font-semibold text-zinc-700">
+          <tr className="border-b border-edge-strong bg-surface-sunken">
+            <th scope="col" className="px-4 py-2 font-semibold text-ink-2">
               Statistic
             </th>
             <ColumnHeading column={playerA} />
@@ -90,17 +91,17 @@ export function PlayerComparisonTable({
         </thead>
         <tbody>
           {statDefinitions.map((definition) => (
-            <tr key={definition.label} className="border-b border-zinc-200">
+            <tr key={definition.label} className="border-b border-edge last:border-b-0">
               <th
                 scope="row"
-                className="whitespace-nowrap py-2 pr-4 font-medium text-zinc-950"
+                className="whitespace-nowrap px-4 py-2 font-medium text-ink"
               >
                 {definition.label}
               </th>
-              <td className="py-2 pl-4 text-zinc-800">
+              <td className="px-4 py-2 text-right tabular-nums text-ink">
                 {definition.get(playerA.stats)}
               </td>
-              <td className="py-2 pl-4 text-zinc-800">
+              <td className="px-4 py-2 text-right tabular-nums text-ink">
                 {definition.get(playerB.stats)}
               </td>
             </tr>
