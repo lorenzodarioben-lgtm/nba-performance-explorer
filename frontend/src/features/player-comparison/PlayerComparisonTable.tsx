@@ -74,7 +74,7 @@ export function PlayerComparisonTable({
       role="group"
       aria-label={`Comparison statistics for the ${season} season`}
       tabIndex={0}
-      className="mt-4 max-w-full overflow-x-auto rounded-md border border-edge"
+      className="mt-4 max-w-full overflow-x-auto scroll-x rounded-md border border-edge"
     >
       <table className="w-full min-w-[32rem] border-collapse text-left text-sm">
         <caption className="px-4 pt-3 text-left text-sm text-ink-2">
