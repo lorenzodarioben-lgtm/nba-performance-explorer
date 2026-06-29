@@ -12,7 +12,8 @@ is an external dependency, so live data availability is not guaranteed continuou
 
 ## Screenshots
 
-Captured from the live production app (Stephen Curry and Kevin Durant, 2025-26 season).
+Captured from the final redesigned app with deterministic fixture data (Stephen Curry and
+LeBron James, 2023-24 season).
 
 <a href="https://nba-performance-explorer.onrender.com">
   <img src="docs/assets/home-desktop.png" alt="NBA Performance Explorer home page: a product hero with the player search and a live-data status indicator." width="100%" />
@@ -31,7 +32,7 @@ Captured from the live production app (Stephen Curry and Kevin Durant, 2025-26 s
   </tr>
   <tr>
     <td width="50%">
-      <img src="docs/assets/player-comparison-desktop.png" alt="Two-player regular-season comparison table: Stephen Curry versus Kevin Durant for the 2025-26 season." width="100%" />
+      <img src="docs/assets/player-comparison-desktop.png" alt="Two-player regular-season comparison table: Stephen Curry versus LeBron James for the 2023-24 season." width="100%" />
       <br /><sub>Two-player season comparison</sub>
     </td>
     <td width="50%">

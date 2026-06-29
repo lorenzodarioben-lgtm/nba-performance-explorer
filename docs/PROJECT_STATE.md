@@ -40,9 +40,9 @@ shared contracts, the provider, query/cache behaviour, dependencies, or Render c
   chart-axis clarity, and documentation/test-total updates (160 frontend, 244 backend, 404
   total).
 
-The portfolio screenshots under `docs/assets/` still show the pre-redesign visual system and
-require a manual recapture from the final application; the README screenshot descriptions
-remain accurate as feature descriptions in the meantime.
+The five portfolio screenshots under `docs/assets/` have been refreshed from the final
+redesigned application using deterministic local fixture data. The README screenshot captions
+now describe the refreshed Stephen Curry and LeBron James `2023-24` fixture comparison.
 
 ## Summary
 
