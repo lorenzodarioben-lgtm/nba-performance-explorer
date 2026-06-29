@@ -3,22 +3,46 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Coding agents read this to understand where things stand before starting work.
 
-_Last updated: 2026-06-27_
+_Last updated: 2026-06-29_
 
 ## Current State
 
-- **Current milestone:** Portfolio Readiness
-- **Current task:** TASK-011 - Portfolio Readiness and Final Audit (complete)
-- **Current branch:** `main`
-- **Current status:** TASK-011 is complete. Stages A, B, C, and D are merged on `main`:
-  Stage B in PR #17 at `fc83a78` and Stage D in PR #18 at `e01f9f8`. Stage D delivered the
-  evidence-backed final audit, five live-production screenshots under `docs/assets/` (linked
-  from the README), portfolio materials in `docs/PORTFOLIO.md`, and corrected README test
-  counts (154 frontend, 244 backend, 398 total). A final independent closure audit then
-  confirmed a clean working tree, passing validation, healthy production, and resolving
-  links and images. Production remains live-backed with `NBA_DATA_PROVIDER=nba-stats`,
-  `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`, `NBA_STATS_TIMEOUT_MS=10000`, and the start
-  command `node backend/dist/server.js`; `render.yaml` and Render settings are unchanged.
+- **Current milestone:** Visual Redesign
+- **Current task:** Visual Redesign Stage 3 - final polish and portfolio presentation (implemented, in review)
+- **Current branch:** `feature/visual-redesign-stage-3-final-polish`
+- **Current status:** The three-stage visual redesign is complete in implementation. Stage 1
+  (global visual system and application shell) merged in PR #20 at `8f35d42`; Stage 2 (player
+  data and comparison views) merged in PR #21 at `5926f6c`; both are deployed and verified in
+  production. Stage 3 (responsive and state-presentation consistency, horizontal-scroll
+  affordance and reduced-motion polish, and documentation) is implemented on
+  `feature/visual-redesign-stage-3-final-polish` and is in review. Validation passes with 160
+  frontend tests, 244 backend tests, and 404 total. TASK-011 (Portfolio Readiness) remains
+  complete and is recorded below. Production remains live-backed with
+  `NBA_DATA_PROVIDER=nba-stats`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`,
+  `NBA_STATS_TIMEOUT_MS=10000`, and the start command `node backend/dist/server.js`;
+  `render.yaml` and Render settings are unchanged.
+
+## Visual Redesign (Stages 1-3)
+
+A three-stage visual redesign moved the app from a default-Tailwind appearance to a precise
+sports-reference / data-terminal visual system, with no change to routes, APIs, the backend,
+shared contracts, the provider, query/cache behaviour, dependencies, or Render configuration:
+
+- **Stage 1 (PR #20, `8f35d42`):** a CSS design-token layer, deliberate system typography (the
+  unshipped Inter declaration removed), a shared application header and footer, the homepage
+  recomposition and search presentation, and the error-boundary alignment.
+- **Stage 2 (PR #21, `5926f6c`):** the data surfaces - player profile and metadata, season
+  selector and statistics hierarchy (headline stat tiles plus a dense secondary grid), the
+  framed career chart and its equivalent table, the game-log table, and the neutral two-player
+  comparison - all restyled to the Stage 1 system with every value and semantic preserved.
+- **Stage 3 (this branch):** responsive and state-presentation consistency, a thin on-brand
+  horizontal-scroll affordance for the dense tables, an explicit reduced-motion guard, mobile
+  chart-axis clarity, and documentation/test-total updates (160 frontend, 244 backend, 404
+  total).
+
+The portfolio screenshots under `docs/assets/` still show the pre-redesign visual system and
+require a manual recapture from the final application; the README screenshot descriptions
+remain accurate as feature descriptions in the meantime.
 
 ## Summary
 

@@ -112,9 +112,9 @@ tests, and production builds for the contracts, frontend, and backend workspaces
 
 Current verified baseline:
 
-- Frontend tests: 154
+- Frontend tests: 160
 - Backend tests: 244
-- Total tests: 398
+- Total tests: 404
 - GitHub Actions runs `npm run validate`
 - Automated tests do not make live NBA.com requests
 

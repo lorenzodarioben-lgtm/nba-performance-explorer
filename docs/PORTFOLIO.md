@@ -74,7 +74,7 @@ Browser (React SPA) ──/api──▶ Express API ──▶ PlayerProvider ─
 
 ## Quality, Testing, And Accessibility
 
-- **Deterministic tests:** 398 automated tests (154 frontend, 244 backend) run entirely
+- **Deterministic tests:** 404 automated tests (160 frontend, 244 backend) run entirely
   offline and never contact NBA.com. The frontend uses Vitest + Testing Library with Mock
   Service Worker; the backend uses Vitest + Supertest against the Express app.
 - **Validation gate:** `npm run validate` runs Prettier format checking, ESLint, strict
