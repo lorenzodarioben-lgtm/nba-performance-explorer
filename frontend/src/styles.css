@@ -88,4 +88,43 @@
     font-size: 1rem;
     line-height: 1.5;
   }
+
+  /*
+   * A consistent, on-brand thin scrollbar for the named horizontal scroll regions (game log,
+   * comparison table, career-trends table). It makes "there is more to scroll" legible across
+   * platforms without adding any decorative cue. Applied alongside overflow-x-auto, not instead.
+   */
+  .scroll-x {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-edge-strong) transparent;
+  }
+
+  .scroll-x::-webkit-scrollbar {
+    height: 0.5rem;
+  }
+
+  .scroll-x::-webkit-scrollbar-thumb {
+    background-color: var(--color-edge-strong);
+    border-radius: 999px;
+  }
+
+  .scroll-x::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/*
+ * Reduced-motion guard. The interface only uses brief colour-hover transitions, but honouring
+ * prefers-reduced-motion explicitly is the correct default: it neutralises every transition and
+ * animation for users who request reduced motion. Unlayered + !important so it always wins.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

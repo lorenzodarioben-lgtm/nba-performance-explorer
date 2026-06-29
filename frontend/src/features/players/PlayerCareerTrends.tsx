@@ -46,7 +46,7 @@ function buildTrendRows(seasons: PlayerSeasonStats[]): TrendRow[] {
 
 function TrendTable({ rows }: { rows: TrendRow[] }) {
   return (
-    <div className="mt-5 overflow-x-auto rounded-md border border-edge bg-surface">
+    <div className="mt-5 overflow-x-auto scroll-x rounded-md border border-edge bg-surface">
       <table className="w-full border-collapse text-left text-sm">
         <caption className="px-4 pt-3 text-left text-sm text-ink-2">
           Points, rebounds, and assists per game by season.
@@ -100,6 +100,8 @@ function TrendChart({ rows }: { rows: TrendRow[] }) {
           tick={AXIS_TICK}
           tickLine={false}
           axisLine={{ stroke: '#d4d4d8' }}
+          interval="preserveStartEnd"
+          minTickGap={24}
         />
         <YAxis tick={AXIS_TICK} width={36} tickLine={false} axisLine={false} />
         <Tooltip

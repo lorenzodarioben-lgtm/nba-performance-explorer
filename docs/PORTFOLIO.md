@@ -74,7 +74,7 @@ Browser (React SPA) ──/api──▶ Express API ──▶ PlayerProvider ─
 
 ## Quality, Testing, And Accessibility
 
-- **Deterministic tests:** 398 automated tests (154 frontend, 244 backend) run entirely
+- **Deterministic tests:** 404 automated tests (160 frontend, 244 backend) run entirely
   offline and never contact NBA.com. The frontend uses Vitest + Testing Library with Mock
   Service Worker; the backend uses Vitest + Supertest against the Express app.
 - **Validation gate:** `npm run validate` runs Prettier format checking, ESLint, strict
@@ -110,7 +110,7 @@ statistics, or silently substitutes fixture data.
   contracts, deployed as a single same-origin service on Render with GitHub Actions CI.
 - Integrated a live NBA.com Stats provider behind a backend-only boundary with strict runtime
   validation, sanitized error states, and no silent fixture fallback, while keeping fixtures as
-  the deterministic default for 398 offline automated tests (154 frontend, 244 backend).
+  the deterministic default for 404 offline automated tests (160 frontend, 244 backend).
 - Implemented accessibility-focused data interaction: a keyboard-navigable search combobox, a
   career chart paired with an equivalent semantic table (non-colour-only series), route-level
   focus management, and a top-level React error boundary with a sanitized recovery screen.
@@ -130,7 +130,7 @@ interface. Fixtures keep local development, tests, and CI deterministic and offl
 backend-private live provider serves production. Swapping sources is configuration, not a
 rewrite.
 
-**Testing strategy.** 398 deterministic tests run offline — MSW mocks the network on the
+**Testing strategy.** 404 deterministic tests run offline — MSW mocks the network on the
 frontend, Supertest exercises the Express app on the backend. Tests assert observable behavior
 (roles, sanitized text, focus) rather than implementation details.
 

@@ -39,7 +39,7 @@ function GameLogTable({ games, season }: { games: PlayerGame[]; season: string }
       role="group"
       aria-label={`Game log table for the ${season} season`}
       tabIndex={0}
-      className="mt-5 max-w-full overflow-x-auto rounded-md border border-edge"
+      className="mt-5 max-w-full overflow-x-auto scroll-x rounded-md border border-edge"
     >
       <table className="min-w-[48rem] w-full border-collapse text-left text-sm">
         <caption className="px-4 pt-3 text-left text-sm text-ink-2">
