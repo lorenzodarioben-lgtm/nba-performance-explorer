@@ -7,16 +7,16 @@ _Last updated: 2026-06-29_
 
 ## Current State
 
-- **Current milestone:** Visual Redesign
-- **Current task:** Visual Redesign Stage 3 - final polish and portfolio presentation (implemented, in review)
-- **Current branch:** `feature/visual-redesign-stage-3-final-polish`
-- **Current status:** The three-stage visual redesign is complete in implementation. Stage 1
+- **Current milestone:** Visual Redesign (complete)
+- **Current task:** None - the visual redesign is complete, merged, and deployed
+- **Current branch:** `main`
+- **Current status:** The three-stage visual redesign is complete and merged on `main`. Stage 1
   (global visual system and application shell) merged in PR #20 at `8f35d42`; Stage 2 (player
-  data and comparison views) merged in PR #21 at `5926f6c`; both are deployed and verified in
-  production. Stage 3 (responsive and state-presentation consistency, horizontal-scroll
-  affordance and reduced-motion polish, and documentation) is implemented on
-  `feature/visual-redesign-stage-3-final-polish` and is in review. Validation passes with 160
-  frontend tests, 244 backend tests, and 404 total. TASK-011 (Portfolio Readiness) remains
+  data and comparison views) merged in PR #21 at `5926f6c`; Stage 3 (responsive and
+  state-presentation consistency, horizontal-scroll affordance and reduced-motion polish, the
+  documentation updates, and the five refreshed portfolio screenshots) merged in PR #22 at
+  `f19f70d`. All three stages are deployed and verified in production. Validation passes with 160
+  frontend tests, 244 backend tests, and 404 total. TASK-011 (Portfolio Readiness) also remains
   complete and is recorded below. Production remains live-backed with
   `NBA_DATA_PROVIDER=nba-stats`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`,
   `NBA_STATS_TIMEOUT_MS=10000`, and the start command `node backend/dist/server.js`;
@@ -35,10 +35,10 @@ shared contracts, the provider, query/cache behaviour, dependencies, or Render c
   selector and statistics hierarchy (headline stat tiles plus a dense secondary grid), the
   framed career chart and its equivalent table, the game-log table, and the neutral two-player
   comparison - all restyled to the Stage 1 system with every value and semantic preserved.
-- **Stage 3 (this branch):** responsive and state-presentation consistency, a thin on-brand
-  horizontal-scroll affordance for the dense tables, an explicit reduced-motion guard, mobile
-  chart-axis clarity, and documentation/test-total updates (160 frontend, 244 backend, 404
-  total).
+- **Stage 3 (PR #22, `f19f70d`):** responsive and state-presentation consistency, a thin
+  on-brand horizontal-scroll affordance for the dense tables, an explicit reduced-motion guard,
+  mobile chart-axis clarity, the five refreshed portfolio screenshots, and documentation/test-
+  total updates (160 frontend, 244 backend, 404 total).
 
 The five portfolio screenshots under `docs/assets/` have been refreshed from the final
 redesigned application using deterministic local fixture data. The README screenshot captions
@@ -184,10 +184,11 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-None required. TASK-011 and the Portfolio Readiness milestone are complete, and `main` is
-deployed and verified in production. Any further work — for example the optional
-bundle-splitting enhancement for the known Recharts/Vite chunk-size warning — is optional
-and not required for portfolio readiness.
+None. The visual redesign (Stages 1-3) and TASK-011 (Portfolio Readiness) are all complete,
+merged, and deployed at `https://nba-performance-explorer.onrender.com`, and validation passes
+(160 frontend, 244 backend, 404 total). Any further work, such as the optional bundle-splitting
+enhancement for the known non-blocking Recharts/Vite chunk-size warning, is optional and not
+required.
 
 ## How To Update This File
 
