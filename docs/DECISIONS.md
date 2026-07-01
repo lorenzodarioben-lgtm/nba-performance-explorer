@@ -412,3 +412,39 @@ attribution remain present and readable.
 photo-free editorial treatment, is a drop-in change under `frontend/public/images/`. This decision
 covers imagery only and does not change the ADR-013 data-source posture, the non-affiliation notice,
 or the data attribution.
+
+---
+
+## ADR-018 - Dark player-profile identity and scoreboard statistics with strict id-keyed imagery
+
+- **Status:** Accepted
+- **Date:** 2026-07-02
+
+**Context.** The second stage of the dark redesign (ADR-015) covers the player profile, a data-heavy
+identity surface. It must continue the dark, broadcast-editorial direction and keep the statistics
+highly legible, and it must never show the wrong player's photograph.
+
+**Decision.** Redesign the profile identity hero, biography, season selector, headline statistics, and
+supporting statistics as fully dark surfaces (night / coal / chalk backgrounds, red accent, condensed
+display type, scoreboard numerals, thin rules, and restrained court-line detail). Points, rebounds,
+and assists render as oversized scoreboard figures; the remaining statistics form a calm dark stat
+sheet with hairline separators rather than white cards. The non-success states (loading, invalid link,
+not found, error) are rebuilt dark.
+
+Map editorial player photography strictly by NBA person id
+(`frontend/src/features/players/playerImages.ts`). A mapped player gets a full-bleed, masked hero
+composition; a player without a mapping gets an intentional photo-free dark composition (condensed
+typography, the jersey-number scoreboard graphic, a red broadcast glow, a team-neutral court-line
+motif, and the real returned data). The wrong player's photograph is never shown.
+
+The career trend chart, its accessible equivalent table, and the game log are **not** redesigned in
+this stage. They remain in their existing light styling inside a temporary, deliberate light contrast
+band, and are scheduled for a combined dark stage next. All statistic values, numeric formatting,
+season-selection ownership, query keys, description-list semantics, the accessible "Season" select,
+the section region and its states, heading focus, the semantic chart-equivalent table, and the
+non-colour-only chart encoding are preserved unchanged.
+
+**Consequences.** The profile continues the dark experience for identity and primary statistics while
+the light chart / game-log band is explicitly temporary. Adding or replacing imagery is a drop-in
+change to the id-keyed map, consistent with ADR-017. No routes, shared contracts, backend behaviour,
+data logic, or Render configuration changed.

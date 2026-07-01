@@ -153,6 +153,20 @@
   }
 
   /*
+   * Dark variant of the native select surface, for the dark profile season selector. The light
+   * `.field` (comparison view) is unchanged; keyboard focus still comes from the base ring above.
+   */
+  .field-dark {
+    border: 1px solid rgb(255 255 255 / 0.22);
+    background-color: var(--color-coal);
+    color: var(--color-chalk);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /*
    * A consistent, on-brand thin scrollbar for the named horizontal scroll regions (game log,
    * comparison table, career-trends table). It makes "there is more to scroll" legible across
    * platforms without adding any decorative cue. Applied alongside overflow-x-auto, not instead.
