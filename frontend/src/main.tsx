@@ -4,6 +4,11 @@ import { createRoot } from 'react-dom/client';
 import { AppRoot } from './AppRoot';
 import './styles.css';
 
+// Enable the JS-gated motion system (scroll reveals, hero load animation). Set before first render
+// so the pre-reveal hidden states apply on the first paint. A no-JS or reduced-motion visitor never
+// receives these classes, so the final layout is always shown statically.
+document.documentElement.classList.add('js');
+
 const queryClient = new QueryClient();
 const rootElement = document.getElementById('root');
 

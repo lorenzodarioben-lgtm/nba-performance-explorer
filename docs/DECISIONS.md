@@ -331,3 +331,84 @@ elected to keep production live-backed; `render.yaml` is updated to `NBA_DATA_PR
 The ADR-013 accepted risks remain; the documented rollback is `NBA_DATA_PROVIDER=fixture` with
 `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`. No silent runtime fallback and no blocking-evasion technique
 were introduced.
+
+---
+
+## ADR-015 - Adopt a dark broadcast-editorial direction for identity surfaces
+
+- **Status:** Accepted
+- **Date:** 2026-07-01
+
+**Context.** The first visual redesign (Stages 1-3, recorded in `PROJECT_STATE.md`) established a
+restrained light "sports-reference / data-terminal" system. The project owner asked for a
+dramatically more expressive, premium basketball **editorial and sports-broadcast** experience for
+the public-facing surfaces, closer in ambition to supplied design references, while keeping the
+data-heavy views highly legible.
+
+**Decision.** Adopt a dark, broadcast-editorial visual direction for the landing page and the shared
+application shell: near-black `night`/`coal` backgrounds, a near-white `chalk` for large type, red
+`#b91c1c` retained as the single interface accent, full-colour basketball photography, oversized
+condensed display type, and a purposeful motion system. The light data-terminal system is retained
+for the data views (player profile, selected-season statistics, career chart, game log, and
+comparison) until each is redesigned in its own later stage. Routes, shared contracts, backend
+behaviour, and all data/query/season/comparison/chart logic are unchanged.
+
+**Consequences.** During the multi-stage rollout the application presents two coherent modes: an
+expressive dark landing and shell that frame the calm, light data views. One accent (red) and the
+sharp corner treatment are preserved; the blue keyboard focus ring and the green live-status
+semantics are unchanged. Motion is implemented with CSS and IntersectionObserver only, gated on
+`prefers-reduced-motion`; no animation dependency is added.
+
+---
+
+## ADR-016 - Self-host the condensed display and mono fonts (SIL Open Font License 1.1)
+
+- **Status:** Accepted
+- **Date:** 2026-07-01
+
+**Context.** The broadcast-editorial direction (ADR-015) needs oversized condensed sports typography
+and small technical mono labels; the system font stack cannot express that voice. Loading fonts from
+a third-party CDN at runtime would add an external dependency and a privacy and performance cost.
+
+**Decision.** Self-host two families as latin-subset `woff2` files under `frontend/public/fonts/`,
+declared with `@font-face` and `font-display: swap`, preloading only the two above-the-fold hero
+display weights:
+
+- **Saira Condensed** (display; weights 600/700/800) - by Omnibus-Type.
+- **JetBrains Mono** (technical labels; weights 500/700) - by JetBrains.
+
+Both families are licensed under the **SIL Open Font License 1.1**, which permits self-hosting,
+bundling, and redistribution of the font files. The `woff2` files were obtained from Google Fonts
+(which distributes them under the OFL). No npm font dependency and no runtime CDN request are
+introduced. Body copy stays on the fast system sans; the display face is reserved for identity and
+structure and is never used for body text or data.
+
+**Consequences.** About 100 KB of self-hosted font assets ship with the application, with no external
+font request at runtime. The OFL applies to the shipped files; a font provenance and licence note
+accompanies them at `frontend/public/fonts/README.md`.
+
+---
+
+## ADR-017 - Use supplied editorial photography as isolated, replaceable project imagery
+
+- **Status:** Accepted
+- **Date:** 2026-07-01
+
+**Context.** The redesigned landing, and the forthcoming player-profile pages, use supplied editorial
+basketball photography (Victor Wembanyama, Stephen Curry, and LeBron James) for the hero and
+editorial compositions. The project needs a clear, neutral record of how this imagery is handled.
+
+**Decision.** The supplied editorial photographs are used as project imagery for this portfolio
+application. Image provenance and any production licensing remain the project owner's responsibility.
+Only the images actually used are committed, under `frontend/public/images/`, with descriptive
+filenames and accurate alternative text; the supplied sports-centre reference screenshot (private
+design inspiration only) and the low-resolution stray image are not shipped and are kept out of the
+repository via a git-ignored local `Images/` inbox. The imagery is isolated behind stable asset paths
+and dark scrims so it can be replaced later with licensed, owned, or generated images without
+touching layout or logic. The unofficial, non-affiliation disclaimer and the NBA.com data
+attribution remain present and readable.
+
+**Consequences.** Imagery is centralized and replaceable: swapping in different photographs, or a
+photo-free editorial treatment, is a drop-in change under `frontend/public/images/`. This decision
+covers imagery only and does not change the ADR-013 data-source posture, the non-affiliation notice,
+or the data attribution.

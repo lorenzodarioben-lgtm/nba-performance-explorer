@@ -3,24 +3,53 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Coding agents read this to understand where things stand before starting work.
 
-_Last updated: 2026-06-29_
+_Last updated: 2026-07-01_
 
 ## Current State
 
-- **Current milestone:** Visual Redesign
-- **Current task:** Visual Redesign Stage 3 - final polish and portfolio presentation (implemented, in review)
-- **Current branch:** `feature/visual-redesign-stage-3-final-polish`
-- **Current status:** The three-stage visual redesign is complete in implementation. Stage 1
-  (global visual system and application shell) merged in PR #20 at `8f35d42`; Stage 2 (player
-  data and comparison views) merged in PR #21 at `5926f6c`; both are deployed and verified in
-  production. Stage 3 (responsive and state-presentation consistency, horizontal-scroll
-  affordance and reduced-motion polish, and documentation) is implemented on
-  `feature/visual-redesign-stage-3-final-polish` and is in review. Validation passes with 160
-  frontend tests, 244 backend tests, and 404 total. TASK-011 (Portfolio Readiness) remains
-  complete and is recorded below. Production remains live-backed with
-  `NBA_DATA_PROVIDER=nba-stats`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`,
-  `NBA_STATS_TIMEOUT_MS=10000`, and the start command `node backend/dist/server.js`;
-  `render.yaml` and Render settings are unchanged.
+- **Current milestone:** Visual Redesign 2 - Broadcast Editorial
+- **Current task:** Landing-page redesign (complete; checkpoint committed, not pushed)
+- **Current branch:** `feature/visual-redesign-2-foundation`
+- **Current status:** A second, approved visual redesign is under way. It evolves the merged
+  Stage 1-3 light "data-terminal" system into a dark, premium basketball editorial and broadcast
+  experience. The first stage - a complete dark landing-page redesign, the global dark shell
+  (fixed masthead and editorial footer), and a self-hosted condensed type system - is implemented
+  and committed on `feature/visual-redesign-2-foundation`; it is **not pushed** and no PR is open.
+  The data views (player profile, selected-season statistics, career chart, game log, and
+  comparison) still use the light Stage 1-3 system and are scheduled for their own later stages.
+  Validation passes with 160 frontend tests, 244 backend tests, and 404 total. Backend, shared
+  contracts, routes, `render.yaml`, and all data/query/season/comparison/chart logic are unchanged,
+  and production configuration is untouched. The prior redesign and TASK-011 remain recorded below.
+
+## Visual Redesign 2 (Broadcast Editorial)
+
+An approved second redesign evolves the identity surfaces into a dark, broadcast-editorial
+basketball experience while the data views stay legible and are redesigned later. The direction is
+recorded in ADR-015 (dark direction), ADR-016 (self-hosted Saira Condensed + JetBrains Mono under the
+SIL Open Font License 1.1), and ADR-017 (supplied editorial photography used as isolated, replaceable
+project imagery).
+
+Landing stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
+
+- A dark token layer (`night`, `coal`, `chalk`) added alongside the existing light tokens; red
+  `#b91c1c` remains the single accent, and the blue focus ring and green live-status are unchanged.
+- A self-hosted condensed display face (Saira Condensed) and a technical mono (JetBrains Mono),
+  declared with `font-display: swap`, with the two hero display weights preloaded.
+- A fixed dark masthead with a full-screen mobile menu, and a dark editorial footer that keeps the
+  non-affiliation notice present and readable.
+- A full-screen hero built around a player photograph (masked so it dissolves into the page), a
+  giant layered condensed headline, the integrated dark-tone player search, and the live-data
+  status; followed by a broadcast ticker, a profiles section, a light career-trends contrast band,
+  a two-player "VS" teaser, and a closing call to action - every section maps to a real feature.
+- A CSS + IntersectionObserver motion system (hero line and image reveals, scroll reveals, one
+  ticker, court-line draw-in), fully gated on `prefers-reduced-motion` with the global guard as a
+  backstop; no animation dependency was added.
+
+All existing accessibility contracts are preserved: the accessible search combobox and its keyboard
+behaviour, route heading focus, the semantic chart-equivalent table and non-colour-only series,
+sanitized loading/empty/error states, and the single visible focus ring. The landing `<h1>` text,
+the search's accessible name, the capabilities copy, and the "Compare two players" link are
+unchanged, so the frontend test suite passes without modification.
 
 ## Visual Redesign (Stages 1-3)
 
@@ -184,10 +213,12 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-None required. TASK-011 and the Portfolio Readiness milestone are complete, and `main` is
-deployed and verified in production. Any further work — for example the optional
-bundle-splitting enhancement for the known Recharts/Vite chunk-size warning — is optional
-and not required for portfolio readiness.
+Begin the player-profile redesign stage on `feature/visual-redesign-2-foundation` (or a dedicated
+stage branch): restyle the player-profile header into a broadcast "player card" and align the
+selected-season statistics presentation to the new editorial system, without changing any profile,
+season, statistic, chart, or query logic. The landing checkpoint is committed but not pushed;
+pushing and opening a pull request are deferred until the redesign stages are further along or
+explicitly requested.
 
 ## How To Update This File
 

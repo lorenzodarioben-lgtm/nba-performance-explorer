@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router';
+import { Route, Routes, useLocation } from 'react-router';
 
 import { AppFooter } from './AppFooter';
 import { AppHeader } from './AppHeader';
@@ -7,10 +7,19 @@ import { PlayerComparisonPage } from './features/player-comparison/PlayerCompari
 import { PlayerProfilePage } from './features/players/PlayerProfilePage';
 
 export function App() {
+  const { pathname } = useLocation();
+  // The masthead is fixed and overlays the top of the page. The landing (and the catch-all that
+  // renders it) is a dark, full-bleed experience that intentionally bleeds under the header, so it
+  // gets no top padding and a night background. The data routes keep the light surface and are
+  // pushed clear of the fixed header.
+  const isDataRoute = pathname.startsWith('/players/') || pathname === '/compare';
+
   return (
-    <div className="flex min-h-[100dvh] flex-col">
+    <div
+      className={`flex min-h-[100dvh] flex-col ${isDataRoute ? 'bg-bg' : 'bg-night'}`}
+    >
       <AppHeader />
-      <div className="flex-1">
+      <div className={`flex-1 ${isDataRoute ? 'pt-16' : ''}`}>
         <Routes>
           <Route path="/players/:playerId" element={<PlayerProfilePage />} />
           <Route path="/compare" element={<PlayerComparisonPage />} />
