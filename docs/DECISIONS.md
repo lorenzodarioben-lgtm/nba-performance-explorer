@@ -448,3 +448,40 @@ non-colour-only chart encoding are preserved unchanged.
 the light chart / game-log band is explicitly temporary. Adding or replacing imagery is a drop-in
 change to the id-keyed map, consistent with ADR-017. No routes, shared contracts, backend behaviour,
 data logic, or Render configuration changed.
+
+---
+
+## ADR-019 - Dark career trends and game log; data-visualisation chart palette
+
+- **Status:** Accepted
+- **Date:** 2026-07-02
+
+**Context.** The final data surfaces of the dark player profile (ADR-018) - the career trend chart
+and its surrounding section, the accessible chart-equivalent table, and the game log and its
+scrollable table - were left in a temporary light contrast band. They must be integrated into the
+predominantly dark profile without losing legibility, the non-colour-only chart encoding, or the
+scroll-region accessibility. The chart-series colours were originally the interface tokens (brand
+red, focus blue, status green), which are too dark on a near-black panel and overload the UI accents.
+
+**Decision.** Redesign the career-trends section, the Recharts chart, the equivalent table, and the
+game log and its scrollable table as dark surfaces, and remove the temporary light band so the
+profile is dark end to end. Treat the three chart-series colours as **data-visualisation colours**,
+separate from the single red UI accent: lighten them for legibility on the near-black chart panel and
+keep them distinct from the grid, the blue focus ring, and the green live-status - points bright red
+`#f87171`, rebounds light blue `#60a5fa`, assists warm amber `#fbbf24`. (Recharts SVG cannot resolve
+CSS custom properties, so these are literal hex values.) The grid, axes, tooltip, and legend are
+restyled for dark. Red remains the single UI accent everywhere outside the chart.
+
+Preserve, unchanged, the three-way series encoding (line dash patterns `solid` / `6 3` / `2 4`, the
+legend marker shapes circle / square / triangle, and the equivalent table), the W/L fill-versus-
+outline badge, tabular numerals, the table captions / scoped headers / semantic structure, the chart
+`aria-hidden` plus equivalent-table accessibility pattern, the named keyboard-focusable horizontal
+scroll region, the loading / empty / error / unavailable messages and roles, and reduced-motion
+behaviour. Chart data and transforms, metric definitions, game-log data and formatting, the numeric
+formatters, query ownership and keys, and season selection are not touched.
+
+**Consequences.** The player profile is now a single continuous dark experience. Chart colours are
+documented data-visualisation tokens verified for contrast on the coal panel (roughly 6.5-11:1) and
+for distinctness from the interface accent, focus, status, and grid colours; the chart still
+communicates without colour through dash patterns and marker shapes. No backend, contracts, routes,
+data logic, or Render configuration changed.

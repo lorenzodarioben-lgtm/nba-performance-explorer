@@ -189,6 +189,25 @@
     background: transparent;
   }
 
+  /* Dark variant of the on-brand thin scrollbar, for the dark profile data tables. */
+  .scroll-x-dark {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 255 255 / 0.25) transparent;
+  }
+
+  .scroll-x-dark::-webkit-scrollbar {
+    height: 0.5rem;
+  }
+
+  .scroll-x-dark::-webkit-scrollbar-thumb {
+    background-color: rgb(255 255 255 / 0.25);
+    border-radius: 999px;
+  }
+
+  .scroll-x-dark::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
   /*
    * Small technical label (kicker / eyebrow): the broadcast "lower-third" micro-type. Mono,
    * uppercase, wide-tracked. Rationed in the markup (at most one per few sections) so it never

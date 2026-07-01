@@ -114,16 +114,11 @@ function ProfileView({ profile }: { profile: PlayerProfile }) {
       <PlayerProfileHero profile={profile} headingRef={headingRef} />
 
       <div className="mx-auto max-w-[72rem] px-4 sm:px-8">
-        {/* Dark scoreboard statistics (redesigned). Its own game log stays in the light contrast
-            band below, per this stage's scope. */}
+        {/* All profile data surfaces are now dark: scoreboard statistics and game log, then the
+            career-trend chart and its equivalent table. No light band remains. */}
         <PlayerSeasonStatistics playerId={profile.id} />
 
-        {/* The career trend chart and its equivalent table are not redesigned in this stage; they
-            live inside the one deliberate light contrast band, so their existing light styling reads
-            as an intentional data appendix rather than a stray white card on the dark page. */}
-        <div className="mt-4 rounded-md bg-bg p-4 text-ink [&>section]:mt-0 [&>section]:border-t-0 [&>section]:pt-0 sm:p-6">
-          <PlayerCareerTrends playerId={profile.id} />
-        </div>
+        <PlayerCareerTrends playerId={profile.id} />
 
         <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/10 pb-20 pt-6">
           <Link

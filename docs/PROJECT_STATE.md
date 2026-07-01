@@ -8,20 +8,21 @@ _Last updated: 2026-07-02_
 ## Current State
 
 - **Current milestone:** Visual Redesign 2 - Broadcast Editorial
-- **Current task:** Player-profile redesign (complete; checkpoint committed, not pushed)
+- **Current task:** Player-profile data surfaces (career trends + game log) redesign (complete; checkpoint committed, not pushed)
 - **Current branch:** `feature/visual-redesign-2-foundation`
 - **Current status:** A second, approved visual redesign is under way, evolving the merged Stage 1-3
   light "data-terminal" system into a dark, premium basketball editorial and broadcast experience.
-  Two stages are complete and committed on `feature/visual-redesign-2-foundation` (not pushed, no PR):
-  the dark landing plus the global dark shell and self-hosted type system, and now the fully dark
-  player profile - identity hero, biography, dark season selector, scoreboard statistics, and the
-  supporting dark stat sheet. The player profile's career trend chart, its equivalent table, and the
-  game log are **not** yet redesigned; they remain in a temporary, deliberate light contrast band and
-  are scheduled for a combined dark stage next. The comparison route also still uses the light Stage
-  1-3 system. Validation passes with 160 frontend tests, 244 backend tests, and 404 total. Backend,
-  shared contracts, routes, `render.yaml`, all data/query/season/comparison logic, and the chart and
-  game-log implementations are unchanged, and production configuration is untouched. The prior
-  redesign and TASK-011 remain recorded below.
+  Three stages are complete and committed on `feature/visual-redesign-2-foundation` (not pushed, no
+  PR): the dark landing plus the global dark shell and self-hosted type system; the fully dark player
+  profile (identity hero, biography, dark season selector, scoreboard statistics, and supporting dark
+  stat sheet); and now the profile's remaining data surfaces - the career trend chart and its
+  equivalent table, and the game log and its scrollable table - all redesigned dark, removing the
+  temporary light contrast band. The player profile is now dark end to end. Only the two-player
+  comparison route still uses the light Stage 1-3 system and is the next stage. Validation passes with
+  160 frontend tests, 244 backend tests, and 404 total. Backend, shared contracts, routes,
+  `render.yaml`, all data/query/season/comparison logic, the chart and game-log data and metric
+  definitions, and the numeric formatters are unchanged, and production configuration is untouched.
+  The prior redesign and TASK-011 remain recorded below.
 
 ## Visual Redesign 2 (Broadcast Editorial)
 
@@ -29,8 +30,8 @@ An approved second redesign evolves the identity surfaces into a dark, broadcast
 basketball experience while the data views stay legible and are redesigned later. The direction is
 recorded in ADR-015 (dark direction), ADR-016 (self-hosted Saira Condensed + JetBrains Mono under the
 SIL Open Font License 1.1), ADR-017 (supplied editorial photography used as isolated, replaceable
-project imagery), and ADR-018 (dark player profile with strict id-keyed imagery and a photo-free
-fallback).
+project imagery), ADR-018 (dark player profile with strict id-keyed imagery and a photo-free
+fallback), and ADR-019 (dark career trends and game log with a data-visualisation chart palette).
 
 Landing stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
 
@@ -65,12 +66,29 @@ Player-profile stage (this checkpoint, on `feature/visual-redesign-2-foundation`
   player without a mapping gets an intentional photo-free dark composition (typography, the
   jersey-number scoreboard graphic, a red broadcast glow, a court-line motif, and the real data). The
   wrong player's photograph is never shown.
-- The career trend chart, its accessible equivalent table, and the game log are **not** redesigned in
-  this stage. They remain in their existing light styling inside a temporary, deliberate light
-  contrast band, pending a combined dark stage. Every statistic value, number format,
-  season-selection ownership, query keys, `<dl>`/`<dt>`/`<dd>` semantics, the accessible "Season"
-  select, the region and its states, and heading focus are preserved, so the frontend test suite
-  passes without modification. Recorded in ADR-018.
+- At that checkpoint the career trend chart, its equivalent table, and the game log were deferred
+  inside a temporary light contrast band; they are now redesigned dark in the following stage. Every
+  statistic value, number format, season-selection ownership, query keys, `<dl>`/`<dt>`/`<dd>`
+  semantics, the accessible "Season" select, the region and its states, and heading focus are
+  preserved, so the frontend test suite passes without modification. Recorded in ADR-018.
+
+Career-trends and game-log stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
+
+- The career-trends section, its Recharts chart, and the accessible chart-equivalent table are
+  redesigned dark, and the temporary light contrast band is removed, so the profile is dark end to
+  end. The game-log section and its horizontally scrollable table are redesigned dark, with their
+  loading, empty, error, and unavailable states.
+- The three chart series are lightened as data-visualisation colours - points bright red (`#f87171`),
+  rebounds light blue (`#60a5fa`), assists warm amber (`#fbbf24`) - chosen to read clearly on the
+  near-black chart panel and to stay distinct from the single red UI accent, the blue focus ring, the
+  green live-status, and the grid. The three-way series encoding is preserved: the dash patterns
+  (solid, `6 3`, `2 4`), the legend marker shapes (circle, square, triangle), and the equivalent
+  table. Red remains the single UI accent outside the chart.
+- All protected behaviour is preserved: chart data and transforms, metric definitions, game-log data
+  and formatting, the numeric formatters, query ownership and keys, season selection, table captions
+  and scoped headers, the chart `aria-hidden` plus equivalent-table pattern, the W/L fill-versus-
+  outline badge, tabular numerals, the named keyboard-focusable horizontal scroll region, the state
+  messages and roles, and reduced-motion behaviour. Recorded in ADR-019.
 
 ## Visual Redesign (Stages 1-3)
 
@@ -234,15 +252,16 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-Begin the combined dark redesign of the profile's remaining data surfaces on
-`feature/visual-redesign-2-foundation`: the career trend chart and its surrounding section, the
-accessible chart-equivalent table, and the game log and its scrollable table, together with their
-loading, empty, error, and unavailable states. The stage must remove the temporary light contrast
-band and integrate these surfaces into the predominantly dark profile, while preserving all data,
-numeric formatting, `<table>`/caption/scope semantics, the responsive horizontal-scroll behaviour,
-the non-colour-only chart encoding and the chart-equivalent table, and every accessibility contract.
-The landing and profile checkpoints are committed but not pushed; pushing and opening a pull request
-are deferred until explicitly requested.
+Begin the fully dark redesign of the two-player comparison route (`/compare`) on
+`feature/visual-redesign-2-foundation`: a broadcast-style "VS" composition, distinct dark player
+identity panels with id-mapped photography and deliberate photo-free fallbacks, the two season
+selectors integrated into the composition, and a dark, neutral comparison table with no misleading
+"winner" colouring. The stage must preserve the duplicate-player handling, the common-season logic,
+the shareable comparison URL state, query ownership and keys, and the comparison table's captions,
+scope, and semantics, along with every accessibility contract (the accessible search combobox, route
+heading focus, sanitized states, and the single visible focus ring). The landing, profile, and
+profile-data-surface checkpoints are committed but not pushed; pushing and opening a pull request are
+deferred until explicitly requested.
 
 ## How To Update This File
 

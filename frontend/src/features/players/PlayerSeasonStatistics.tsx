@@ -221,11 +221,7 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
 
           <StatsRegion statsQuery={statsQuery} selectedSeason={effectiveSeason} />
 
-          {/* The game log is not redesigned in this stage; it sits in the light contrast band so
-              its existing light styling reads as intentional. Its season is still owned here. */}
-          <div className="mt-10 rounded-md bg-bg p-4 text-ink [&>section]:mt-0 sm:p-6">
-            <PlayerGameLog playerId={playerId} season={effectiveSeason} />
-          </div>
+          <PlayerGameLog playerId={playerId} season={effectiveSeason} />
         </div>
       ) : null}
     </section>
