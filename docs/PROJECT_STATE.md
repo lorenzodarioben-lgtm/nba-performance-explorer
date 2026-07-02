@@ -7,32 +7,36 @@ _Last updated: 2026-07-03_
 
 ## Current State
 
-- **Current milestone:** Visual Redesign 2 - Broadcast Editorial (implemented; PR #24 open, awaiting merge)
-- **Current task:** None in progress - the dark redesign is complete and under review in PR #24
-- **Current branch:** `feature/visual-redesign-2-foundation`
-- **Current status:** A second, approved visual redesign has redesigned every route into a dark,
-  premium basketball editorial and broadcast experience, evolving the first, merged Stage 1-3 light
-  "data-terminal" system that currently runs on `main`. Five stages are complete, committed on
-  `feature/visual-redesign-2-foundation`, and pushed: the dark landing plus the global dark shell and
-  self-hosted type system; the fully dark player profile (identity hero, biography, dark season
-  selector, scoreboard statistics, and supporting dark stat sheet); the profile's remaining data
-  surfaces - the career trend chart and its equivalent table, and the game log and its scrollable
-  table - redesigned dark with the temporary light contrast band removed; the two-player comparison
-  route (`/compare`), redesigned as a dark cinematic head-to-head with equally prominent id-mapped
-  player panels and a neutral, accessible comparison table; and a final release-polish stage from a
-  whole-application adversarial audit (the landing Career Trends band is now dark, so the app is dark
-  from beginning to end; landing heading focus on entry, mobile-menu keyboard focus containment, a
-  named career-trends scroll region, larger comparison touch targets, a brighter display-red for large
-  scoreboard figures while the single UI accent is unchanged, and em-dash and eyebrow cleanup). The
-  five portfolio screenshots under `docs/assets/` have been refreshed to the dark UI. Validation
-  passes with 166 frontend tests, 244 backend tests, and 410 total. Backend, shared contracts, routes,
-  `render.yaml`, all data/query/season/comparison logic, the chart and game-log data and metric
-  definitions, and the numeric formatters are unchanged. The branch is pushed and open as PR #24 into
-  `main`, awaiting its CI check and a merge; the dark redesign is not yet deployed. `main` currently
-  runs the first (Stages 1-3) redesign, deployed and verified in production and live-backed with
-  `NBA_DATA_PROVIDER=nba-stats`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`, `NBA_STATS_TIMEOUT_MS=10000`,
-  and the start command `node backend/dist/server.js`; `render.yaml` and Render settings are unchanged.
-  The first redesign and TASK-011 remain recorded below.
+- **Current milestone:** Visual Redesign 2 - Broadcast Editorial (complete, merged, and deployed)
+- **Current task:** None - the dark redesign is merged to `main` and live in production
+- **Current branch:** `main`
+- **Current status:** The second, approved visual redesign is complete and shipped. It was developed
+  across five stages on `feature/visual-redesign-2-foundation`: the dark landing plus the global dark
+  shell and self-hosted type system; the fully dark player profile (identity hero, biography, dark
+  season selector, scoreboard statistics, and supporting dark stat sheet); the profile's data surfaces
+  (the career trend chart and its equivalent table, and the game log and its scrollable table)
+  redesigned dark; the two-player comparison route (`/compare`) as a dark cinematic head-to-head with a
+  neutral, accessible comparison table; and a final release-polish stage from a whole-application
+  adversarial audit (the landing Career Trends band converted to dark so the app is dark end to end,
+  landing heading focus on entry, mobile-menu keyboard focus containment, a named career-trends scroll
+  region, larger comparison touch targets, a brighter display-red for large scoreboard figures with the
+  single UI accent unchanged, and em-dash and eyebrow cleanup). It was opened as PR #24 and **merged
+  into `main` using a merge commit (`a0ce49f228f564910ccc253a48215f481fb18485`)**; the six redesign
+  commits are preserved in history. Render auto-deployed the merged `main`, and production health and
+  HTTP/API smoke checks passed at `https://nba-performance-explorer.onrender.com` (the deployed build
+  serves the dark redesign over live NBA.com data). The refreshed dark README screenshots are on
+  `main`. The feature branch has been deleted locally and remotely, local `main` matches `origin/main`,
+  and the working tree is clean. Validation passes with 166 frontend tests, 244 backend tests, and 410
+  total. Backend, shared contracts, routes, `render.yaml`, all data/query/season/comparison logic, the
+  chart and game-log data and metric definitions, and the numeric formatters are unchanged; production
+  remains live-backed with `NBA_DATA_PROVIDER=nba-stats`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`,
+  `NBA_STATS_TIMEOUT_MS=10000`, and the start command `node backend/dist/server.js`. The known
+  Recharts/Vite chunk-size warning remains non-blocking, and the documented live-data limitation for
+  LeBron James's career seasons remains (NBA.com returns zero career rows for that player, so his career
+  chart and any comparison relying on it show the empty / no-common-season states in production; not a
+  defect, per ADR-013). Production visual interaction was verified locally on the identical merged
+  build, while production HTTP/API and deployment evidence were verified live. The first redesign and
+  TASK-011 remain recorded below.
 
 ## Visual Redesign 2 (Broadcast Editorial)
 
@@ -315,13 +319,11 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-PR #24 (`feature/visual-redesign-2-foundation` into `main`) is open with the completed dark redesign
-and awaits its required CI check and a merge. Once CI passes, merge PR #24 using "Create a merge
-commit" (preserving the six redesign commits), then confirm the Render production deployment of the
-merged `main`, run the production smoke test across the routes, and delete the merged feature branch.
-Until then, `main` continues to run the first (Stages 1-3) redesign in production. No further code
-change is required; the optional bundle-splitting enhancement for the known non-blocking
-Recharts/Vite chunk-size warning remains optional.
+The dark broadcast-editorial redesign is merged to `main` (merge commit
+`a0ce49f228f564910ccc253a48215f481fb18485`), deployed to Render, and verified in production, and the
+feature branch has been cleaned up locally and remotely. No required redesign work remains. Future
+work should be handled as a new, separately scoped enhancement or maintenance task (for example, the
+optional bundle-splitting enhancement for the known non-blocking Recharts/Vite chunk-size warning).
 
 ## How To Update This File
 
