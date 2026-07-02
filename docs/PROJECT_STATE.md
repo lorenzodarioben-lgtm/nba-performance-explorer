@@ -3,36 +3,36 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Coding agents read this to understand where things stand before starting work.
 
-_Last updated: 2026-07-02_
+_Last updated: 2026-07-03_
 
 ## Current State
 
-- **Current milestone:** Visual Redesign 2 - Broadcast Editorial
-- **Current task:** Whole-application audit fixes and release polish (complete; checkpoint committed, not pushed)
+- **Current milestone:** Visual Redesign 2 - Broadcast Editorial (implemented; PR #24 open, awaiting merge)
+- **Current task:** None in progress - the dark redesign is complete and under review in PR #24
 - **Current branch:** `feature/visual-redesign-2-foundation`
-- **Current status:** A second, approved visual redesign has now redesigned every route into a dark,
-  premium basketball editorial and broadcast experience, evolving the merged Stage 1-3 light
-  "data-terminal" system. Four stages are complete and committed on
-  `feature/visual-redesign-2-foundation` (not pushed, no PR): the dark landing plus the global dark
-  shell and self-hosted type system; the fully dark player profile (identity hero, biography, dark
-  season selector, scoreboard statistics, and supporting dark stat sheet); the profile's remaining
-  data surfaces - the career trend chart and its equivalent table, and the game log and its scrollable
-  table - redesigned dark with the temporary light contrast band removed; and the two-player
-  comparison route (`/compare`), redesigned as a dark cinematic head-to-head with equally prominent
-  id-mapped player panels and a neutral, accessible comparison table. A whole-application adversarial
-  audit then ran across every route, and its approved findings were fixed in a final release-polish
-  stage: the landing's Career Trends section (the last light band) is now dark, so the app is dark
-  from beginning to end; the landing heading now takes focus on entry like the other routes; the
-  mobile menu traps keyboard focus; large red display figures (jersey numbers, the "VS") use a
-  brighter display-red for contrast while the single UI accent is unchanged; the comparison
-  Replace/Clear/Cancel actions have larger touch targets; the career-trends equivalent table is a
-  named focusable scroll region; and visible em-dashes and repeated landing eyebrows were cleaned up.
-  Validation passes with 166 frontend tests, 244 backend tests, and 410 total. Backend, shared
-  contracts, routes, `render.yaml`, all data/query/season/comparison logic, the chart and game-log
-  data and metric definitions, and the numeric formatters are unchanged, and production configuration
-  is untouched. The branch has not been pushed; the portfolio screenshots under `docs/assets/` still
-  show the previous light design and must be refreshed to the dark UI before release. The prior
-  redesign and TASK-011 remain recorded below.
+- **Current status:** A second, approved visual redesign has redesigned every route into a dark,
+  premium basketball editorial and broadcast experience, evolving the first, merged Stage 1-3 light
+  "data-terminal" system that currently runs on `main`. Five stages are complete, committed on
+  `feature/visual-redesign-2-foundation`, and pushed: the dark landing plus the global dark shell and
+  self-hosted type system; the fully dark player profile (identity hero, biography, dark season
+  selector, scoreboard statistics, and supporting dark stat sheet); the profile's remaining data
+  surfaces - the career trend chart and its equivalent table, and the game log and its scrollable
+  table - redesigned dark with the temporary light contrast band removed; the two-player comparison
+  route (`/compare`), redesigned as a dark cinematic head-to-head with equally prominent id-mapped
+  player panels and a neutral, accessible comparison table; and a final release-polish stage from a
+  whole-application adversarial audit (the landing Career Trends band is now dark, so the app is dark
+  from beginning to end; landing heading focus on entry, mobile-menu keyboard focus containment, a
+  named career-trends scroll region, larger comparison touch targets, a brighter display-red for large
+  scoreboard figures while the single UI accent is unchanged, and em-dash and eyebrow cleanup). The
+  five portfolio screenshots under `docs/assets/` have been refreshed to the dark UI. Validation
+  passes with 166 frontend tests, 244 backend tests, and 410 total. Backend, shared contracts, routes,
+  `render.yaml`, all data/query/season/comparison logic, the chart and game-log data and metric
+  definitions, and the numeric formatters are unchanged. The branch is pushed and open as PR #24 into
+  `main`, awaiting its CI check and a merge; the dark redesign is not yet deployed. `main` currently
+  runs the first (Stages 1-3) redesign, deployed and verified in production and live-backed with
+  `NBA_DATA_PROVIDER=nba-stats`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`, `NBA_STATS_TIMEOUT_MS=10000`,
+  and the start command `node backend/dist/server.js`; `render.yaml` and Render settings are unchanged.
+  The first redesign and TASK-011 remain recorded below.
 
 ## Visual Redesign 2 (Broadcast Editorial)
 
@@ -150,8 +150,8 @@ Final release-polish stage (this checkpoint, on `feature/visual-redesign-2-found
   `hero-title` class removed.
 - Focused tests were added for the landing heading focus, the mobile-menu focus containment and
   restoration, and the named career-trends scroll region (166 frontend, 244 backend, 410 total).
-  Recorded in ADR-021. The `docs/assets/` portfolio screenshots still show the previous light design
-  and remain to be refreshed to the dark UI before release.
+  Recorded in ADR-021. The `docs/assets/` portfolio screenshots have since been refreshed to the dark
+  UI.
 
 ## Visual Redesign (Stages 1-3)
 
@@ -166,14 +166,14 @@ shared contracts, the provider, query/cache behaviour, dependencies, or Render c
   selector and statistics hierarchy (headline stat tiles plus a dense secondary grid), the
   framed career chart and its equivalent table, the game-log table, and the neutral two-player
   comparison - all restyled to the Stage 1 system with every value and semantic preserved.
-- **Stage 3 (this branch):** responsive and state-presentation consistency, a thin on-brand
-  horizontal-scroll affordance for the dense tables, an explicit reduced-motion guard, mobile
-  chart-axis clarity, and documentation/test-total updates (160 frontend, 244 backend, 404
-  total).
+- **Stage 3 (PR #22, `f19f70d`):** responsive and state-presentation consistency, a thin
+  on-brand horizontal-scroll affordance for the dense tables, an explicit reduced-motion guard,
+  mobile chart-axis clarity, the five refreshed portfolio screenshots, and documentation/test-
+  total updates (160 frontend, 244 backend, 404 total).
 
-The five portfolio screenshots under `docs/assets/` have been refreshed from the final
-redesigned application using deterministic local fixture data. The README screenshot captions
-now describe the refreshed Stephen Curry and LeBron James `2023-24` fixture comparison.
+The five portfolio screenshots under `docs/assets/` have since been re-captured from the completed
+dark redesign (see the Visual Redesign 2 section) using deterministic local fixture data; the README
+screenshot captions describe the Stephen Curry and LeBron James `2023-24` fixture views.
 
 ## Summary
 
@@ -315,16 +315,13 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-Refresh the five portfolio screenshots under `docs/assets/` (landing desktop, player profile, career
-trends, player comparison, landing mobile) to the completed dark UI using deterministic fixture data,
-then update the README alt text if needed. This is the one remaining item before release: the dark
-redesign and the audit-driven release polish are implemented, validated (166 frontend, 244 backend,
-410 total; all builds passing; the known Recharts/Vite chunk-size warning is non-blocking), and
-committed on `feature/visual-redesign-2-foundation`, but the branch is still local-only and the
-tracked screenshots still show the previous light design. After the screenshots are refreshed, and
-only when explicitly instructed, push the branch, open a pull request, verify CI, merge to `main`, and
-verify the Render deployment (Stage D). Pushing, opening a pull request, merging, and deploying remain
-deferred until explicitly requested.
+PR #24 (`feature/visual-redesign-2-foundation` into `main`) is open with the completed dark redesign
+and awaits its required CI check and a merge. Once CI passes, merge PR #24 using "Create a merge
+commit" (preserving the six redesign commits), then confirm the Render production deployment of the
+merged `main`, run the production smoke test across the routes, and delete the merged feature branch.
+Until then, `main` continues to run the first (Stages 1-3) redesign in production. No further code
+change is required; the optional bundle-splitting enhancement for the known non-blocking
+Recharts/Vite chunk-size warning remains optional.
 
 ## How To Update This File
 
