@@ -331,3 +331,263 @@ elected to keep production live-backed; `render.yaml` is updated to `NBA_DATA_PR
 The ADR-013 accepted risks remain; the documented rollback is `NBA_DATA_PROVIDER=fixture` with
 `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`. No silent runtime fallback and no blocking-evasion technique
 were introduced.
+
+---
+
+## ADR-015 - Adopt a dark broadcast-editorial direction for identity surfaces
+
+- **Status:** Accepted
+- **Date:** 2026-07-01
+
+**Context.** The first visual redesign (Stages 1-3, recorded in `PROJECT_STATE.md`) established a
+restrained light "sports-reference / data-terminal" system. The project owner asked for a
+dramatically more expressive, premium basketball **editorial and sports-broadcast** experience for
+the public-facing surfaces, closer in ambition to supplied design references, while keeping the
+data-heavy views highly legible.
+
+**Decision.** Adopt a dark, broadcast-editorial visual direction for the landing page and the shared
+application shell: near-black `night`/`coal` backgrounds, a near-white `chalk` for large type, red
+`#b91c1c` retained as the single interface accent, full-colour basketball photography, oversized
+condensed display type, and a purposeful motion system. The light data-terminal system is retained
+for the data views (player profile, selected-season statistics, career chart, game log, and
+comparison) until each is redesigned in its own later stage. Routes, shared contracts, backend
+behaviour, and all data/query/season/comparison/chart logic are unchanged.
+
+**Consequences.** During the multi-stage rollout the application presents two coherent modes: an
+expressive dark landing and shell that frame the calm, light data views. One accent (red) and the
+sharp corner treatment are preserved; the blue keyboard focus ring and the green live-status
+semantics are unchanged. Motion is implemented with CSS and IntersectionObserver only, gated on
+`prefers-reduced-motion`; no animation dependency is added.
+
+---
+
+## ADR-016 - Self-host the condensed display and mono fonts (SIL Open Font License 1.1)
+
+- **Status:** Accepted
+- **Date:** 2026-07-01
+
+**Context.** The broadcast-editorial direction (ADR-015) needs oversized condensed sports typography
+and small technical mono labels; the system font stack cannot express that voice. Loading fonts from
+a third-party CDN at runtime would add an external dependency and a privacy and performance cost.
+
+**Decision.** Self-host two families as latin-subset `woff2` files under `frontend/public/fonts/`,
+declared with `@font-face` and `font-display: swap`, preloading only the two above-the-fold hero
+display weights:
+
+- **Saira Condensed** (display; weights 600/700/800) - by Omnibus-Type.
+- **JetBrains Mono** (technical labels; weights 500/700) - by JetBrains.
+
+Both families are licensed under the **SIL Open Font License 1.1**, which permits self-hosting,
+bundling, and redistribution of the font files. The `woff2` files were obtained from Google Fonts
+(which distributes them under the OFL). No npm font dependency and no runtime CDN request are
+introduced. Body copy stays on the fast system sans; the display face is reserved for identity and
+structure and is never used for body text or data.
+
+**Consequences.** About 100 KB of self-hosted font assets ship with the application, with no external
+font request at runtime. The OFL applies to the shipped files; a font provenance and licence note
+accompanies them at `frontend/public/fonts/README.md`.
+
+---
+
+## ADR-017 - Use supplied editorial photography as isolated, replaceable project imagery
+
+- **Status:** Accepted
+- **Date:** 2026-07-01
+
+**Context.** The redesigned landing, and the forthcoming player-profile pages, use supplied editorial
+basketball photography (Victor Wembanyama, Stephen Curry, and LeBron James) for the hero and
+editorial compositions. The project needs a clear, neutral record of how this imagery is handled.
+
+**Decision.** The supplied editorial photographs are used as project imagery for this portfolio
+application. Image provenance and any production licensing remain the project owner's responsibility.
+Only the images actually used are committed, under `frontend/public/images/`, with descriptive
+filenames and accurate alternative text; the supplied sports-centre reference screenshot (private
+design inspiration only) and the low-resolution stray image are not shipped and are kept out of the
+repository via a git-ignored local `Images/` inbox. The imagery is isolated behind stable asset paths
+and dark scrims so it can be replaced later with licensed, owned, or generated images without
+touching layout or logic. The unofficial, non-affiliation disclaimer and the NBA.com data
+attribution remain present and readable.
+
+**Consequences.** Imagery is centralized and replaceable: swapping in different photographs, or a
+photo-free editorial treatment, is a drop-in change under `frontend/public/images/`. This decision
+covers imagery only and does not change the ADR-013 data-source posture, the non-affiliation notice,
+or the data attribution.
+
+---
+
+## ADR-018 - Dark player-profile identity and scoreboard statistics with strict id-keyed imagery
+
+- **Status:** Accepted
+- **Date:** 2026-07-02
+
+**Context.** The second stage of the dark redesign (ADR-015) covers the player profile, a data-heavy
+identity surface. It must continue the dark, broadcast-editorial direction and keep the statistics
+highly legible, and it must never show the wrong player's photograph.
+
+**Decision.** Redesign the profile identity hero, biography, season selector, headline statistics, and
+supporting statistics as fully dark surfaces (night / coal / chalk backgrounds, red accent, condensed
+display type, scoreboard numerals, thin rules, and restrained court-line detail). Points, rebounds,
+and assists render as oversized scoreboard figures; the remaining statistics form a calm dark stat
+sheet with hairline separators rather than white cards. The non-success states (loading, invalid link,
+not found, error) are rebuilt dark.
+
+Map editorial player photography strictly by NBA person id
+(`frontend/src/features/players/playerImages.ts`). A mapped player gets a full-bleed, masked hero
+composition; a player without a mapping gets an intentional photo-free dark composition (condensed
+typography, the jersey-number scoreboard graphic, a red broadcast glow, a team-neutral court-line
+motif, and the real returned data). The wrong player's photograph is never shown.
+
+The career trend chart, its accessible equivalent table, and the game log are **not** redesigned in
+this stage. They remain in their existing light styling inside a temporary, deliberate light contrast
+band, and are scheduled for a combined dark stage next. All statistic values, numeric formatting,
+season-selection ownership, query keys, description-list semantics, the accessible "Season" select,
+the section region and its states, heading focus, the semantic chart-equivalent table, and the
+non-colour-only chart encoding are preserved unchanged.
+
+**Consequences.** The profile continues the dark experience for identity and primary statistics while
+the light chart / game-log band is explicitly temporary. Adding or replacing imagery is a drop-in
+change to the id-keyed map, consistent with ADR-017. No routes, shared contracts, backend behaviour,
+data logic, or Render configuration changed.
+
+---
+
+## ADR-019 - Dark career trends and game log; data-visualisation chart palette
+
+- **Status:** Accepted
+- **Date:** 2026-07-02
+
+**Context.** The final data surfaces of the dark player profile (ADR-018) - the career trend chart
+and its surrounding section, the accessible chart-equivalent table, and the game log and its
+scrollable table - were left in a temporary light contrast band. They must be integrated into the
+predominantly dark profile without losing legibility, the non-colour-only chart encoding, or the
+scroll-region accessibility. The chart-series colours were originally the interface tokens (brand
+red, focus blue, status green), which are too dark on a near-black panel and overload the UI accents.
+
+**Decision.** Redesign the career-trends section, the Recharts chart, the equivalent table, and the
+game log and its scrollable table as dark surfaces, and remove the temporary light band so the
+profile is dark end to end. Treat the three chart-series colours as **data-visualisation colours**,
+separate from the single red UI accent: lighten them for legibility on the near-black chart panel and
+keep them distinct from the grid, the blue focus ring, and the green live-status - points bright red
+`#f87171`, rebounds light blue `#60a5fa`, assists warm amber `#fbbf24`. (Recharts SVG cannot resolve
+CSS custom properties, so these are literal hex values.) The grid, axes, tooltip, and legend are
+restyled for dark. Red remains the single UI accent everywhere outside the chart.
+
+Preserve, unchanged, the three-way series encoding (line dash patterns `solid` / `6 3` / `2 4`, the
+legend marker shapes circle / square / triangle, and the equivalent table), the W/L fill-versus-
+outline badge, tabular numerals, the table captions / scoped headers / semantic structure, the chart
+`aria-hidden` plus equivalent-table accessibility pattern, the named keyboard-focusable horizontal
+scroll region, the loading / empty / error / unavailable messages and roles, and reduced-motion
+behaviour. Chart data and transforms, metric definitions, game-log data and formatting, the numeric
+formatters, query ownership and keys, and season selection are not touched.
+
+**Consequences.** The player profile is now a single continuous dark experience. Chart colours are
+documented data-visualisation tokens verified for contrast on the coal panel (roughly 6.5-11:1) and
+for distinctness from the interface accent, focus, status, and grid colours; the chart still
+communicates without colour through dash patterns and marker shapes. No backend, contracts, routes,
+data logic, or Render configuration changed.
+
+---
+
+## ADR-020 - Dark cinematic player comparison with a neutral accessible table
+
+- **Status:** Accepted
+- **Date:** 2026-07-02
+
+**Context.** The two-player comparison route (`/compare`) was the last surface still using the light
+Stage 1-3 "data-terminal" system, after the dark landing (ADR-015), the dark player profile
+(ADR-018), and the dark career-trends and game-log stage (ADR-019). It must join the dark
+broadcast-editorial direction while keeping the head-to-head unmistakably neutral: a comparison must
+never imply a "winner", and every piece of comparison logic, URL state, and accessibility must be
+preserved exactly.
+
+**Decision.** Redesign `/compare` as a fully dark broadcast head-to-head. Every route now renders on
+the dark `night` canvas - the previous per-route light exception for `/compare` is removed - and the
+comparison page bleeds under the fixed masthead and owns its top spacing.
+
+The composition is a player-versus-player hero: two equally prominent identity panels flanking an
+oversized red "VS". The panels share identical dimensions, structure, and treatment (a shared minimum
+height and `items-stretch`); neither is visually favoured. A confirmed panel is a masked, scrimmed
+player photograph with a red jersey-number scoreboard figure, the player name as a condensed link to
+the profile, and team / position / season technical labels, alongside the existing Replace and Clear
+actions. Player photography is mapped strictly by NBA person id
+(`frontend/src/features/players/playerImages.ts`, ADR-017); a player without a mapping gets an
+intentional photo-free dark composition (a red broadcast glow and a court-line motif over the real
+data), so the wrong player's photograph is never shown. Panel photography is decorative
+(`aria-hidden`, empty `alt`) and the name link conveys identity. The player-search comboboxes use the
+existing dark tone and the season selector uses the dark field styling.
+
+The comparison table remains the authoritative, neutral representation. Both player columns receive
+identical typography, colour, weight, and spacing; the only structural aid is a single thin neutral
+divider between the two player columns. There is no winner colouring, arrow, badge, bolding, or
+better/worse implication - the columns are read by numeric alignment alone. The selected season is
+added to each column header beside the season team and remains in the caption.
+
+Preserve, unchanged: the duplicate-player handling, the common-season intersection logic, and the
+shareable comparison URL state (all owned by `comparison-state.ts`); query ownership and keys; the
+player-search combobox keyboard and ARIA model (only its `tone` is set); season reconciliation;
+comparison metrics and number formatting; route definitions and behaviour; and the table's caption,
+scope, semantic structure, and the named keyboard-focusable horizontal scroll region (`role="group"`,
+`aria-label`, `tabindex=0`, `max-w-full`, `overflow-x-auto`). Route heading focus, the accessible
+combobox names (`Search for Player A` / `Search for Player B`), the single blue `:focus-visible`
+ring, and all duplicate / loading / unavailable / no-common-season / invalid-season / empty / error
+messages and their `status` / `alert` roles are preserved. Motion - the VS pop, the staggered panel
+rise, and the image settle - is CSS-only and gated behind `prefers-reduced-motion` with the global
+guard and the `.js` flag; controls and data are never gated behind motion.
+
+**Consequences.** The application is now dark across all three routes - landing, player profile, and
+comparison - with one red interface accent throughout. The comparison stays a serious, neutral
+analytics surface: the cinematic framing is purely presentational, and the accessible semantic table
+carries the actual comparison without implying a verdict. Adding or replacing panel imagery is a
+drop-in change to the id-keyed map (ADR-017). No backend, shared contracts, routes, `render.yaml`,
+comparison / URL / duplicate / common-season logic, query keys, statistical calculations, number
+formatting, or the profile / chart / game-log implementations changed.
+
+---
+
+## ADR-021 - Final release polish: dark landing end to end, a display-red token, and accessibility parity
+
+- **Status:** Accepted
+- **Date:** 2026-07-02
+
+**Context.** A whole-application adversarial audit after the dark redesign (ADR-015 through ADR-020)
+confirmed the product was functionally sound but surfaced finishing items: the landing's Career Trends
+section was still a light band (the last light surface in an otherwise fully dark application); the
+landing heading did not take focus on navigation as the profile and comparison routes do; the mobile
+navigation dialog did not trap keyboard focus; the large red display figures (jersey numbers and the
+"VS") fell below the 3:1 large-text contrast floor on the dark surfaces; and several smaller items
+(comparison action touch targets, the player-name link affordance, the career-trends table
+scroll-region parity, visible em-dashes, and eyebrow over-use on the landing).
+
+**Decision.** Complete the dark direction and close the audit's approved accessibility and polish
+findings, without changing any data, logic, contracts, or routes:
+
+- Convert the landing Career Trends section to the dark system (a charcoal surface, warm-white type,
+  the red accent, the dark court-line motif, and a restrained red glow for cinematic depth). No light
+  band remains anywhere; the application is dark from beginning to end. This completes the intent of
+  ADR-015, retiring the earlier "one deliberate light band" now that every data surface is dark.
+- Introduce a display-only red token, `--color-accent-bright` (#ef4444), used ONLY for large
+  decorative scoreboard figures (jersey numbers and the "VS") on dark surfaces, where it reaches about
+  5:1. The deeper `--color-accent` (#b91c1c) remains the single UI accent for links, controls, and
+  interface emphasis. This is the same brand hue brightened for legibility, not a second accent.
+- Make route-heading focus consistent across all routes: the landing `<h1>` receives focus on entry
+  (matching the profile, comparison, and error boundary), remaining a `tabIndex={-1}` non-tab-stop
+  with no permanent outline.
+- Contain the mobile navigation dialog (`aria-modal`): Tab and Shift+Tab now cycle within the open
+  panel, and focus is still restored to the toggle on close.
+- Give the comparison Replace/Clear/Cancel actions real touch-target padding; give the comparison
+  player-name link a persistent resting underline; and make the career-trends equivalent table a
+  named, keyboard-focusable scroll region (`role="group"`, `aria-label`, `tabindex=0`) consistent with
+  the game-log and comparison tables.
+- Remove visible em-dashes from the page title and landing copy, reduce the landing section eyebrows
+  to two, remove the redundant rotated hero label, and remove the dead `hero-title` class.
+
+Focused tests cover the landing heading focus, the mobile-menu Tab containment and focus restoration,
+and the named career-trends scroll region.
+
+**Consequences.** The application presents one continuous dark broadcast-editorial experience across
+every route, with consistent route-heading focus and a contained modal menu. Large red display figures
+clear the 3:1 large-text contrast floor while the single UI accent is unchanged. No backend, shared
+contracts, routes, Render configuration, query ownership, statistics, number formatting, chart or
+game-log data, or comparison logic changed. The Recharts/Vite chunk-size warning remains a known,
+non-blocking build note, and the portfolio screenshots under `docs/assets/` are still to be refreshed
+to the dark UI before release.

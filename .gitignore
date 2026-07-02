@@ -53,3 +53,8 @@ desktop.ini
 /playwright-report/
 /playwright/.cache/
 /blob-report/
+
+# Local image inbox: design inspiration and source photos kept on disk only. The sports-centre
+# reference screenshot must never ship; production-shipped player imagery is copied into
+# frontend/public/ and tracked there instead.
+/Images/

@@ -4,15 +4,19 @@ import { Link, useParams } from 'react-router';
 import type { PlayerProfile } from '@nba-performance-explorer/contracts';
 
 import { PlayerProfileError } from './api';
-import { formatDraft, formatHeight, formatTeamName, formatWeight } from './format';
 import { PlayerCareerTrends } from './PlayerCareerTrends';
+import { PlayerProfileHero } from './PlayerProfileHero';
 import { PlayerSeasonStatistics } from './PlayerSeasonStatistics';
 import { isValidPlayerId, usePlayerProfileQuery } from './usePlayerProfileQuery';
 
-// Focus the page heading once the terminal route state mounts so keyboard and screen-reader
-// users land on the profile (or its message) after client-side navigation. The empty
-// dependency list means it runs on mount only and never steals focus on a background
-// rerender.
+// A shared dark link treatment for the profile's navigation links: white text with a red underline
+// keeps strong contrast on the near-black surfaces (the brand red alone is too dark for text here).
+const darkLinkClass =
+  'font-semibold text-chalk underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:decoration-accent-strong';
+
+// Focus the page heading once the terminal route state mounts so keyboard and screen-reader users
+// land on the profile (or its message) after client-side navigation. The empty dependency list means
+// it runs on mount only and never steals focus on a background rerender.
 function useHeadingFocus() {
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -25,19 +29,21 @@ function useHeadingFocus() {
 
 function BackToSearchLink() {
   return (
-    <Link
-      to="/"
-      className="font-semibold text-accent underline underline-offset-4 transition-colors hover:text-accent-strong"
-    >
+    <Link to="/" className={darkLinkClass}>
       Back to search
     </Link>
   );
 }
 
-function ProfileShell({ children }: { children: ReactNode }) {
+// A dark, padded shell for the non-success states (loading, invalid, not found, error). It clears the
+// fixed masthead and keeps a single <main> and route heading.
+function StateShell({ children }: { children: ReactNode }) {
   return (
-    <main className="mx-auto max-w-[72rem] px-4 py-10 sm:px-8 sm:py-12">
-      <section aria-labelledby="player-profile-heading" className="w-full">
+    <main className="bg-night text-chalk">
+      <section
+        aria-labelledby="player-profile-heading"
+        className="mx-auto min-h-[60svh] max-w-[72rem] px-4 pb-16 pt-28 sm:px-8 sm:pt-32"
+      >
         {children}
       </section>
     </main>
@@ -56,19 +62,22 @@ function ProfileStatus({
   const headingRef = useHeadingFocus();
 
   return (
-    <ProfileShell>
+    <StateShell>
+      <p className="eyebrow text-accent">Player profile</p>
       <h1
         id="player-profile-heading"
         ref={headingRef}
         tabIndex={-1}
-        className="text-3xl font-bold tracking-tight text-ink outline-none"
+        className="display mt-3 text-4xl font-extrabold uppercase leading-[0.9] text-chalk outline-none sm:text-6xl"
       >
         {heading}
       </h1>
       <p
         role={role}
-        className={`mt-4 max-w-prose rounded-sm border border-edge px-4 py-3 text-ink-2 ${
-          role === 'alert' ? 'bg-accent-quiet' : 'bg-surface'
+        className={`mt-6 max-w-prose rounded-sm border px-4 py-3 ${
+          role === 'alert'
+            ? 'border-white/10 bg-accent/15 text-red-100'
+            : 'border-white/10 bg-coal text-white/80'
         }`}
       >
         {message}
@@ -76,100 +85,52 @@ function ProfileStatus({
       <div className="mt-8">
         <BackToSearchLink />
       </div>
-    </ProfileShell>
+    </StateShell>
   );
 }
 
 function ProfileLoading() {
   return (
-    <ProfileShell>
+    <StateShell>
+      <p className="eyebrow text-accent">Player profile</p>
       <h1
         id="player-profile-heading"
-        className="text-3xl font-bold tracking-tight text-ink"
+        className="display mt-3 text-4xl font-extrabold uppercase leading-[0.9] text-chalk sm:text-6xl"
       >
         Player profile
       </h1>
-      <p role="status" aria-live="polite" className="mt-4 text-ink-2">
+      <p role="status" aria-live="polite" className="mt-6 text-white/70">
         Loading player profile...
       </p>
-    </ProfileShell>
+    </StateShell>
   );
-}
-
-interface ProfileRow {
-  label: string;
-  value: string;
-}
-
-function buildProfileRows(profile: PlayerProfile): ProfileRow[] {
-  const rows: ProfileRow[] = profile.team
-    ? [
-        { label: 'Team', value: formatTeamName(profile.team) },
-        { label: 'Abbreviation', value: profile.team.abbreviation },
-      ]
-    : [{ label: 'Team', value: 'No current team' }];
-
-  if (profile.position !== undefined) {
-    rows.push({ label: 'Position', value: profile.position });
-  }
-  if (profile.jerseyNumber !== undefined) {
-    rows.push({ label: 'Jersey number', value: profile.jerseyNumber });
-  }
-  if (profile.heightInches !== undefined) {
-    rows.push({ label: 'Height', value: formatHeight(profile.heightInches) });
-  }
-  if (profile.weightPounds !== undefined) {
-    rows.push({ label: 'Weight', value: formatWeight(profile.weightPounds) });
-  }
-  if (profile.country !== undefined) {
-    rows.push({ label: 'Country', value: profile.country });
-  }
-  if (profile.draft !== undefined) {
-    rows.push({ label: 'Draft', value: formatDraft(profile.draft) });
-  }
-
-  return rows;
 }
 
 function ProfileView({ profile }: { profile: PlayerProfile }) {
   const headingRef = useHeadingFocus();
 
   return (
-    <ProfileShell>
-      {/* Player record: name as the route heading, with the bio metadata grouped beneath it
-          in a single restrained surface. The semantic description list is preserved. */}
-      <h1
-        id="player-profile-heading"
-        ref={headingRef}
-        tabIndex={-1}
-        className="text-4xl font-bold tracking-tight text-ink outline-none sm:text-5xl"
-      >
-        {profile.fullName}
-      </h1>
-      <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-5 rounded-md border border-edge bg-surface p-5 sm:grid-cols-3 sm:p-6 lg:grid-cols-4">
-        {buildProfileRows(profile).map((row) => (
-          <div key={row.label}>
-            <dt className="text-xs font-medium text-ink-3">{row.label}</dt>
-            <dd className="mt-1 text-base font-semibold tabular-nums text-ink">
-              {row.value}
-            </dd>
-          </div>
-        ))}
-      </dl>
+    <main className="bg-night text-chalk">
+      <PlayerProfileHero profile={profile} headingRef={headingRef} />
 
-      <PlayerSeasonStatistics playerId={profile.id} />
-      <PlayerCareerTrends playerId={profile.id} />
+      <div className="mx-auto max-w-[72rem] px-4 sm:px-8">
+        {/* All profile data surfaces are now dark: scoreboard statistics and game log, then the
+            career-trend chart and its equivalent table. No light band remains. */}
+        <PlayerSeasonStatistics playerId={profile.id} />
 
-      <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-edge pt-6">
-        <Link
-          to={`/compare?player1=${encodeURIComponent(profile.id)}`}
-          className="font-semibold text-accent underline underline-offset-4 transition-colors hover:text-accent-strong"
-        >
-          Compare {profile.fullName} with another player
-        </Link>
-        <BackToSearchLink />
+        <PlayerCareerTrends playerId={profile.id} />
+
+        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/10 pb-20 pt-6">
+          <Link
+            to={`/compare?player1=${encodeURIComponent(profile.id)}`}
+            className={darkLinkClass}
+          >
+            Compare {profile.fullName} with another player
+          </Link>
+          <BackToSearchLink />
+        </div>
       </div>
-    </ProfileShell>
+    </main>
   );
 }
 

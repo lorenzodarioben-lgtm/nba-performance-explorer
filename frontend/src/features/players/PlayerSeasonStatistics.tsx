@@ -2,6 +2,7 @@ import { useId, useState } from 'react';
 
 import type { PlayerSeasonStats } from '@nba-performance-explorer/contracts';
 
+import { Reveal } from '../foundation/Reveal';
 import { formatPercentage, formatPerGame } from './format';
 import { PlayerGameLog } from './PlayerGameLog';
 import { PlayerSeasonError } from './season-api';
@@ -55,37 +56,48 @@ function buildSecondaryRows(stats: PlayerSeasonStats): StatRow[] {
 
 function StatList({ stats }: { stats: PlayerSeasonStats }) {
   return (
-    <div className="mt-5">
-      <dl className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
+    <div className="mt-6">
+      <dl className="flex flex-wrap gap-x-8 gap-y-2">
         {buildContextRows(stats).map((row) => (
-          <div key={row.label} className="flex gap-1.5">
-            <dt className="text-ink-3">{row.label}</dt>
-            <dd className="font-medium tabular-nums text-ink">{row.value}</dd>
-          </div>
-        ))}
-      </dl>
-
-      <dl className="mt-4 grid grid-cols-3 divide-x divide-edge overflow-hidden rounded-md border border-edge bg-surface">
-        {buildHeadlineRows(stats).map((row) => (
-          <div key={row.label} className="px-4 py-4">
-            <dt className="text-xs font-medium text-ink-2">{row.label}</dt>
-            <dd className="mt-1 text-3xl font-semibold tabular-nums text-ink">
+          <div key={row.label} className="flex items-baseline gap-2">
+            <dt className="eyebrow text-white/55">{row.label}</dt>
+            <dd className="text-sm font-semibold tabular-nums text-chalk">
               {row.value}
             </dd>
           </div>
         ))}
       </dl>
 
-      <dl className="mt-6 grid grid-cols-2 gap-x-8 gap-y-4 sm:grid-cols-3 lg:grid-cols-4">
-        {buildSecondaryRows(stats).map((row) => (
-          <div key={row.label}>
-            <dt className="text-xs font-medium text-ink-3">{row.label}</dt>
-            <dd className="mt-0.5 text-lg font-semibold tabular-nums text-ink">
-              {row.value}
-            </dd>
-          </div>
-        ))}
-      </dl>
+      {/* Headline scoreboard: points, rebounds, and assists as oversized figures. */}
+      <Reveal>
+        <dl className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
+          {buildHeadlineRows(stats).map((row) => (
+            <div
+              key={row.label}
+              className="border border-white/10 bg-coal px-4 py-5 sm:px-6 sm:py-7"
+            >
+              <dt className="eyebrow text-white/55">{row.label}</dt>
+              <dd className="display mt-2 text-4xl font-extrabold leading-none tabular-nums text-chalk sm:text-7xl">
+                {row.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </Reveal>
+
+      {/* Supporting statistics: a calm dark stat-sheet with hairline separators, not cards. */}
+      <Reveal delayMs={100}>
+        <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-3 lg:grid-cols-4">
+          {buildSecondaryRows(stats).map((row) => (
+            <div key={row.label} className="bg-coal px-4 py-4">
+              <dt className="eyebrow text-white/55">{row.label}</dt>
+              <dd className="mt-1.5 text-xl font-semibold tabular-nums text-chalk">
+                {row.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </Reveal>
     </div>
   );
 }
@@ -99,7 +111,7 @@ function StatsRegion({
 }) {
   if (statsQuery.isPending) {
     return (
-      <p role="status" aria-live="polite" className="mt-5 text-sm text-ink-2">
+      <p role="status" aria-live="polite" className="mt-6 text-sm text-white/70">
         Loading season statistics...
       </p>
     );
@@ -112,7 +124,7 @@ function StatsRegion({
     return (
       <p
         role="alert"
-        className="mt-5 rounded-sm border border-edge bg-accent-quiet px-3 py-2 text-sm text-danger"
+        className="mt-6 rounded-sm border border-white/10 bg-accent/15 px-3 py-2 text-sm text-red-100"
       >
         {kind === 'season-not-found'
           ? 'That season is unavailable.'
@@ -125,7 +137,7 @@ function StatsRegion({
   // selected season is loading the query is re-keyed, so this never shows stale numbers.
   if (statsQuery.data.season !== selectedSeason) {
     return (
-      <p role="status" aria-live="polite" className="mt-5 text-sm text-ink-2">
+      <p role="status" aria-live="polite" className="mt-6 text-sm text-white/70">
         Loading season statistics...
       </p>
     );
@@ -154,13 +166,19 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
   const selectId = useId();
 
   return (
-    <section aria-labelledby={headingId} className="mt-10 border-t border-edge pt-8">
-      <h2 id={headingId} className="text-2xl font-bold tracking-tight text-ink">
+    <section
+      aria-labelledby={headingId}
+      className="mt-12 border-t border-white/10 pt-10"
+    >
+      <h2
+        id={headingId}
+        className="display text-3xl font-extrabold uppercase text-chalk sm:text-4xl"
+      >
         Season statistics
       </h2>
 
       {seasonsQuery.isPending ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
+        <p role="status" aria-live="polite" className="mt-3 text-sm text-white/70">
           Loading seasons...
         </p>
       ) : null}
@@ -168,21 +186,21 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
       {seasonsQuery.isError ? (
         <p
           role="alert"
-          className="mt-3 rounded-sm border border-edge bg-accent-quiet px-3 py-2 text-sm text-danger"
+          className="mt-3 rounded-sm border border-white/10 bg-accent/15 px-3 py-2 text-sm text-red-100"
         >
           Season statistics are unavailable. Please try again.
         </p>
       ) : null}
 
       {seasonsQuery.isSuccess && seasons.length === 0 ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
+        <p role="status" aria-live="polite" className="mt-3 text-sm text-white/70">
           No season statistics are available for this player.
         </p>
       ) : null}
 
       {seasonsQuery.isSuccess && seasons.length > 0 && effectiveSeason !== null ? (
-        <div className="mt-5">
-          <label htmlFor={selectId} className="block text-sm font-semibold text-ink">
+        <div className="mt-6">
+          <label htmlFor={selectId} className="block text-sm font-semibold text-chalk">
             Season
           </label>
           <select
@@ -191,7 +209,7 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
             onChange={(event) => {
               setChosenSeason(event.target.value);
             }}
-            className="field mt-2 w-full max-w-xs sm:w-auto"
+            className="field-dark mt-2 w-full max-w-xs sm:w-auto"
           >
             {seasons.map((entry) => (
               <option key={entry.season} value={entry.season}>
@@ -202,6 +220,7 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
           </select>
 
           <StatsRegion statsQuery={statsQuery} selectedSeason={effectiveSeason} />
+
           <PlayerGameLog playerId={playerId} season={effectiveSeason} />
         </div>
       ) : null}

@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { delay, http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
@@ -46,6 +46,19 @@ describe('landing page', () => {
     expect(
       screen.getByRole('combobox', { name: 'Search NBA players' }),
     ).toBeInTheDocument();
+  });
+
+  it('moves focus to the page heading on entry', async () => {
+    mockHealthPending();
+    renderApp();
+
+    const heading = screen.getByRole('heading', {
+      level: 1,
+      name: 'NBA Performance Explorer',
+    });
+    await waitFor(() => expect(heading).toHaveFocus());
+    // The heading is programmatically focusable but must not be a permanent tab stop.
+    expect(heading).toHaveAttribute('tabindex', '-1');
   });
 
   it('links to the two-player comparison page', () => {

@@ -7,8 +7,10 @@ import { PlayerComparisonPage } from './features/player-comparison/PlayerCompari
 import { PlayerProfilePage } from './features/players/PlayerProfilePage';
 
 export function App() {
+  // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
+  // fixed and each page bleeds under it, handling its own top spacing.
   return (
-    <div className="flex min-h-[100dvh] flex-col">
+    <div className="flex min-h-[100dvh] flex-col bg-night">
       <AppHeader />
       <div className="flex-1">
         <Routes>

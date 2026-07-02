@@ -3,13 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NBA Performance Explorer — Live NBA Player Stats</title>
+    <title>NBA Performance Explorer: Live NBA Player Stats</title>
     <meta
       name="description"
       content="Search any NBA player and explore live profiles, season statistics, career trends, game logs, and head-to-head comparisons. Statistics sourced from NBA.com."
     />
-    <meta name="theme-color" content="#dc2626" />
+    <meta name="theme-color" content="#b91c1c" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Preload only the two above-the-fold display weights; the rest load on demand with swap. -->
+    <link
+      rel="preload"
+      href="/fonts/saira-condensed-800.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/saira-condensed-700.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nba-performance-explorer.onrender.com" />

@@ -1,7 +1,50 @@
 @import 'tailwindcss';
 
 /*
- * Stage 1 design tokens — a precise sports-reference / data-terminal visual system.
+ * Self-hosted web fonts (latin subset, woff2). The condensed grotesque (Saira Condensed) is the
+ * editorial / broadcast display voice for headlines, player names, and scoreboard figures; the
+ * mono (JetBrains Mono) carries small technical labels. `font-display: swap` paints immediately in
+ * the fallback so type never blocks render, and only the two hero display weights are preloaded
+ * (see index.html). Files live in frontend/public/fonts and ship as static assets.
+ */
+@font-face {
+  font-family: 'Saira Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/saira-condensed-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Saira Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/saira-condensed-700.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Saira Condensed';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/saira-condensed-800.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-700.woff2') format('woff2');
+}
+
+/*
+ * Design tokens — a sports-reference data system evolving into a broadcast-editorial voice.
  *
  * Colours use Tailwind v4's `--color-*` convention so they generate matching utilities
  * (bg-surface, text-ink, border-edge, text-accent, ...) and are also exposed as plain custom
@@ -16,10 +59,29 @@
   --color-ink: #18181b;
   --color-ink-2: #52525b;
   --color-ink-3: #6e6e76;
+  /* Broadcast black for scoreboard blocks and the masthead chip — deeper than ink for weight. */
+  --color-ink-strong: #0d0d0f;
+
+  /*
+   * Dark editorial surfaces for the landing and shell: an off-black page, a charcoal band, and a
+   * near-white "chalk" for large type on dark (softer than pure #fff for depth). Data views keep
+   * the light tokens above until their own redesign stage.
+   */
+  --color-night: #0a0a0b;
+  --color-coal: #131317;
+  --color-chalk: #f4f3f1;
 
   --color-accent: #b91c1c;
   --color-accent-strong: #991b1b;
   --color-accent-quiet: #fef2f2;
+  /*
+   * A brighter red reserved ONLY for large, decorative display figures on dark surfaces (jersey
+   * scoreboard numbers, the "VS" mark), where the deeper `accent` drops below the 3:1 large-text
+   * contrast floor. It is the same brand hue, brightened for legibility — not a second accent. The
+   * deeper `accent` remains the one UI accent for links, controls, and interface emphasis. On the
+   * near-black surfaces this reaches ~5:1, comfortably clearing the 3:1 large-text minimum.
+   */
+  --color-accent-bright: #ef4444;
 
   --color-edge: #e4e4e7;
   --color-edge-strong: #d4d4d8;
@@ -34,6 +96,15 @@
   /* The single subtle elevation allowed in Stage 1: the search-results popover. */
   --shadow-popover:
     0 1px 2px rgb(24 24 27 / 0.06), 0 12px 28px -14px rgb(24 24 27 / 0.22);
+
+  /*
+   * Type families. Body stays on the fast system sans; the condensed grotesque is the display
+   * voice and the mono carries technical labels. These generate the `font-display` / `font-mono`
+   * utilities used across the editorial surfaces. Body legibility is never traded for display.
+   */
+  --font-display: 'Saira Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 }
 
 @layer base {
@@ -90,6 +161,20 @@
   }
 
   /*
+   * Dark variant of the native select surface, for the dark profile season selector. The light
+   * `.field` (comparison view) is unchanged; keyboard focus still comes from the base ring above.
+   */
+  .field-dark {
+    border: 1px solid rgb(255 255 255 / 0.22);
+    background-color: var(--color-coal);
+    color: var(--color-chalk);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /*
    * A consistent, on-brand thin scrollbar for the named horizontal scroll regions (game log,
    * comparison table, career-trends table). It makes "there is more to scroll" legible across
    * platforms without adding any decorative cue. Applied alongside overflow-x-auto, not instead.
@@ -111,6 +196,240 @@
   .scroll-x::-webkit-scrollbar-track {
     background: transparent;
   }
+
+  /* Dark variant of the on-brand thin scrollbar, for the dark profile data tables. */
+  .scroll-x-dark {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 255 255 / 0.25) transparent;
+  }
+
+  .scroll-x-dark::-webkit-scrollbar {
+    height: 0.5rem;
+  }
+
+  .scroll-x-dark::-webkit-scrollbar-thumb {
+    background-color: rgb(255 255 255 / 0.25);
+    border-radius: 999px;
+  }
+
+  .scroll-x-dark::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /*
+   * Small technical label (kicker / eyebrow): the broadcast "lower-third" micro-type. Mono,
+   * uppercase, wide-tracked. Rationed in the markup (at most one per few sections) so it never
+   * templates every heading. The uppercasing is presentational only — the DOM text keeps its real
+   * casing so assistive tech reads it normally.
+   */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-3);
+  }
+
+  /*
+   * Display headings: the condensed grotesque, tightened. Used for the masthead, page titles,
+   * player names, and section headings. Body copy and data never use this — only identity and
+   * structure. Numerals stay tabular so scoreboard figures align.
+   */
+  .display {
+    font-family: var(--font-display);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+}
+
+/*
+ * ============================================================================
+ * Editorial / broadcast motion + surface system (landing + shell).
+ *
+ * Every animation is gated behind `prefers-reduced-motion: no-preference` AND a `.js` class set on
+ * <html> before first paint. So a no-JS or reduced-motion visitor always sees the final, static
+ * layout — nothing is ever stranded invisible. The global reduced-motion guard below is a second
+ * backstop. Only `transform`/`opacity` are animated (compositor-friendly).
+ * ============================================================================
+ */
+
+/* Scroll-reveal: content lifts in as it enters the viewport (class toggled by an IntersectionObserver). */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero headline: each line rises out of a clipped mask on load. */
+.hero-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+.hero-line > span {
+  display: inline-block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js .hero-line > span {
+    transform: translateY(110%);
+    animation: line-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  html.js .hero-line:nth-child(2) > span {
+    animation-delay: 0.1s;
+  }
+  html.js .hero-line:nth-child(3) > span {
+    animation-delay: 0.2s;
+  }
+}
+@keyframes line-rise {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Hero photo: a left-edge mask dissolves the rectangular photo into the night so the athlete reads
+ * as a cut-out floating in black, plus a slow settle on load. */
+.hero-photo {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 40%, #000 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 40%, #000 100%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js .hero-photo {
+    animation: hero-settle 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+@keyframes hero-settle {
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Comparison hero: the "VS" pops in and the two player panels rise (staggered via inline delay). */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .vs-in {
+    animation: vs-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  }
+  html.js .panel-rise {
+    animation: panel-rise 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+@keyframes vs-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes panel-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Broadcast ticker (a single marquee per page; the duplicated track loops seamlessly at -50%). */
+.marquee {
+  overflow: hidden;
+}
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-track {
+    animation: marquee 40s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Court-line SVG draws itself in when its section reveals; visible by default without JS/motion. */
+.court-line {
+  stroke-dasharray: var(--len, 1400);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] .court-line {
+    stroke-dashoffset: var(--len, 1400);
+  }
+  html.js [data-reveal].is-visible .court-line {
+    animation: court-draw 1.8s ease-out forwards;
+  }
+}
+@keyframes court-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Scroll cue dot. */
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-cue-dot {
+    animation: cue 1.8s ease-in-out infinite;
+  }
+}
+@keyframes cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(7px);
+    opacity: 1;
+  }
+}
+
+/* Editorial link: an underline wipes in from the left on hover/focus. */
+.link-slide {
+  position: relative;
+}
+.link-slide::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-slide:hover::after,
+.link-slide:focus-visible::after {
+  transform: scaleX(1);
 }
 
 /*

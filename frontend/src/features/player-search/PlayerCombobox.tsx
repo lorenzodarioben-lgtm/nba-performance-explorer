@@ -11,6 +11,54 @@ interface HighlightedOption {
   searchTerm: string;
 }
 
+type ComboboxTone = 'light' | 'dark';
+
+// Presentational class sets only. The two tones differ purely in colour so the same accessible
+// combobox can sit on the light data views (default) or the dark editorial hero (`dark`). No markup,
+// role, ARIA, keyboard, or query behaviour changes between tones.
+const TONES: Record<
+  ComboboxTone,
+  {
+    label: string;
+    input: string;
+    hint: string;
+    alert: string;
+    listbox: string;
+    option: string;
+    optionActive: string;
+    optionIdle: string;
+    optionName: string;
+    optionMeta: string;
+  }
+> = {
+  light: {
+    label: 'text-ink',
+    input:
+      'border-edge-strong bg-surface text-ink placeholder:text-ink-3 focus-visible:border-ink',
+    hint: 'text-ink-2',
+    alert: 'border-edge bg-accent-quiet text-danger',
+    listbox: 'border-edge bg-surface shadow-popover',
+    option: 'border-edge',
+    optionActive: 'bg-accent-quiet outline-2 outline-offset-[-2px] outline-accent',
+    optionIdle: 'hover:bg-surface-sunken',
+    optionName: 'text-ink',
+    optionMeta: 'text-ink-2',
+  },
+  dark: {
+    label: 'text-white/70',
+    input:
+      'border-white/25 bg-white/[0.06] text-chalk placeholder:text-white/45 focus-visible:border-white',
+    hint: 'text-white/70',
+    alert: 'border-white/10 bg-accent/20 text-red-200',
+    listbox: 'border-white/15 bg-coal shadow-popover',
+    option: 'border-white/10',
+    optionActive: 'bg-accent/25 outline-2 outline-offset-[-2px] outline-accent',
+    optionIdle: 'hover:bg-white/[0.06]',
+    optionName: 'text-chalk',
+    optionMeta: 'text-white/60',
+  },
+};
+
 interface PlayerComboboxProps {
   // Visible label and accessible name for the input. Distinct per usage (home search,
   // comparison Player A, comparison Player B) so each combobox is individually identifiable.
@@ -23,6 +71,8 @@ interface PlayerComboboxProps {
   // player already chosen in the other comparison slot). If the excluded player is the only
   // match, an accessible "already selected" message is announced.
   excludePlayerId?: string | undefined;
+  // Colour tone only. Defaults to the light data-view styling; the dark hero passes `dark`.
+  tone?: ComboboxTone;
 }
 
 // The accessible, debounced search combobox shared by the home page and the comparison page.
@@ -33,7 +83,9 @@ export function PlayerCombobox({
   onSelect,
   className,
   excludePlayerId,
+  tone = 'light',
 }: PlayerComboboxProps) {
+  const t = TONES[tone];
   const generatedId = useId().replaceAll(':', '');
   const inputId = `player-search-${generatedId}`;
   const listboxId = `${inputId}-results`;
@@ -137,7 +189,7 @@ export function PlayerCombobox({
 
   return (
     <div className={className}>
-      <label htmlFor={inputId} className="block text-sm font-semibold text-ink">
+      <label htmlFor={inputId} className={`block text-sm font-semibold ${t.label}`}>
         {label}
       </label>
       <input
@@ -154,7 +206,7 @@ export function PlayerCombobox({
             ? `${listboxId}-option-${highlightedPlayer.id}`
             : undefined
         }
-        className="mt-2 w-full rounded-sm border border-edge-strong bg-surface px-4 py-3 text-base text-ink placeholder:text-ink-3 focus-visible:border-ink"
+        className={`mt-2 w-full rounded-sm border px-4 py-3 text-base ${t.input}`}
         placeholder="Enter at least 2 characters"
         onBlur={() => {
           setIsOpen(false);
@@ -174,7 +226,7 @@ export function PlayerCombobox({
       />
 
       {isOpen && isLoading ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
+        <p role="status" aria-live="polite" className={`mt-3 text-sm ${t.hint}`}>
           Searching players...
         </p>
       ) : null}
@@ -182,20 +234,20 @@ export function PlayerCombobox({
       {isOpen && isError ? (
         <p
           role="alert"
-          className="mt-3 rounded-sm border border-edge bg-accent-quiet px-3 py-2 text-sm text-danger"
+          className={`mt-3 rounded-sm border px-3 py-2 text-sm ${t.alert}`}
         >
           Player search is unavailable. Please try again.
         </p>
       ) : null}
 
       {isOpen && isEmpty ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
+        <p role="status" aria-live="polite" className={`mt-3 text-sm ${t.hint}`}>
           No players found.
         </p>
       ) : null}
 
       {isOpen && isAlreadySelected ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-ink-2">
+        <p role="status" aria-live="polite" className={`mt-3 text-sm ${t.hint}`}>
           That player is already selected.
         </p>
       ) : null}
@@ -205,7 +257,7 @@ export function PlayerCombobox({
           id={listboxId}
           role="listbox"
           aria-label="Player search results"
-          className="mt-2 max-h-80 overflow-y-auto rounded-sm border border-edge bg-surface shadow-popover"
+          className={`mt-2 max-h-80 overflow-y-auto rounded-sm border ${t.listbox}`}
         >
           {players.map((player) => {
             const isHighlighted = player.id === highlightedPlayer?.id;
@@ -222,18 +274,18 @@ export function PlayerCombobox({
                   player.position ? `, ${player.position}` : ''
                 }`}
                 aria-selected={isHighlighted}
-                className={`cursor-pointer border-b border-edge px-3.5 py-2.5 last:border-b-0 ${
-                  isHighlighted
-                    ? 'bg-accent-quiet outline-2 outline-offset-[-2px] outline-accent'
-                    : 'hover:bg-surface-sunken'
+                className={`cursor-pointer border-b px-3.5 py-2.5 last:border-b-0 ${t.option} ${
+                  isHighlighted ? t.optionActive : t.optionIdle
                 }`}
                 onClick={() => {
                   selectPlayer(player);
                 }}
                 onPointerDown={keepInputFocus}
               >
-                <span className="block font-semibold text-ink">{player.fullName}</span>
-                <span className="mt-0.5 block text-sm text-ink-2">
+                <span className={`block font-semibold ${t.optionName}`}>
+                  {player.fullName}
+                </span>
+                <span className={`mt-0.5 block text-sm ${t.optionMeta}`}>
                   {teamLabel}
                   {player.position ? ` | ${player.position}` : ''}
                 </span>

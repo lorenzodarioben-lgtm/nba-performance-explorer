@@ -3,24 +3,155 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Coding agents read this to understand where things stand before starting work.
 
-_Last updated: 2026-06-29_
+_Last updated: 2026-07-03_
 
 ## Current State
 
-- **Current milestone:** Visual Redesign (complete)
-- **Current task:** None - the visual redesign is complete, merged, and deployed
-- **Current branch:** `main`
-- **Current status:** The three-stage visual redesign is complete and merged on `main`. Stage 1
-  (global visual system and application shell) merged in PR #20 at `8f35d42`; Stage 2 (player
-  data and comparison views) merged in PR #21 at `5926f6c`; Stage 3 (responsive and
-  state-presentation consistency, horizontal-scroll affordance and reduced-motion polish, the
-  documentation updates, and the five refreshed portfolio screenshots) merged in PR #22 at
-  `f19f70d`. All three stages are deployed and verified in production. Validation passes with 160
-  frontend tests, 244 backend tests, and 404 total. TASK-011 (Portfolio Readiness) also remains
-  complete and is recorded below. Production remains live-backed with
-  `NBA_DATA_PROVIDER=nba-stats`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`,
-  `NBA_STATS_TIMEOUT_MS=10000`, and the start command `node backend/dist/server.js`;
-  `render.yaml` and Render settings are unchanged.
+- **Current milestone:** Visual Redesign 2 - Broadcast Editorial (implemented; PR #24 open, awaiting merge)
+- **Current task:** None in progress - the dark redesign is complete and under review in PR #24
+- **Current branch:** `feature/visual-redesign-2-foundation`
+- **Current status:** A second, approved visual redesign has redesigned every route into a dark,
+  premium basketball editorial and broadcast experience, evolving the first, merged Stage 1-3 light
+  "data-terminal" system that currently runs on `main`. Five stages are complete, committed on
+  `feature/visual-redesign-2-foundation`, and pushed: the dark landing plus the global dark shell and
+  self-hosted type system; the fully dark player profile (identity hero, biography, dark season
+  selector, scoreboard statistics, and supporting dark stat sheet); the profile's remaining data
+  surfaces - the career trend chart and its equivalent table, and the game log and its scrollable
+  table - redesigned dark with the temporary light contrast band removed; the two-player comparison
+  route (`/compare`), redesigned as a dark cinematic head-to-head with equally prominent id-mapped
+  player panels and a neutral, accessible comparison table; and a final release-polish stage from a
+  whole-application adversarial audit (the landing Career Trends band is now dark, so the app is dark
+  from beginning to end; landing heading focus on entry, mobile-menu keyboard focus containment, a
+  named career-trends scroll region, larger comparison touch targets, a brighter display-red for large
+  scoreboard figures while the single UI accent is unchanged, and em-dash and eyebrow cleanup). The
+  five portfolio screenshots under `docs/assets/` have been refreshed to the dark UI. Validation
+  passes with 166 frontend tests, 244 backend tests, and 410 total. Backend, shared contracts, routes,
+  `render.yaml`, all data/query/season/comparison logic, the chart and game-log data and metric
+  definitions, and the numeric formatters are unchanged. The branch is pushed and open as PR #24 into
+  `main`, awaiting its CI check and a merge; the dark redesign is not yet deployed. `main` currently
+  runs the first (Stages 1-3) redesign, deployed and verified in production and live-backed with
+  `NBA_DATA_PROVIDER=nba-stats`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`, `NBA_STATS_TIMEOUT_MS=10000`,
+  and the start command `node backend/dist/server.js`; `render.yaml` and Render settings are unchanged.
+  The first redesign and TASK-011 remain recorded below.
+
+## Visual Redesign 2 (Broadcast Editorial)
+
+An approved second redesign evolves the identity surfaces into a dark, broadcast-editorial
+basketball experience while the data views stay legible and are redesigned later. The direction is
+recorded in ADR-015 (dark direction), ADR-016 (self-hosted Saira Condensed + JetBrains Mono under the
+SIL Open Font License 1.1), ADR-017 (supplied editorial photography used as isolated, replaceable
+project imagery), ADR-018 (dark player profile with strict id-keyed imagery and a photo-free
+fallback), ADR-019 (dark career trends and game log with a data-visualisation chart palette), and
+ADR-020 (dark cinematic comparison route with equally prominent id-mapped player panels and a
+neutral, accessible comparison table), and ADR-021 (final release polish: dark landing end to end, a
+display-only brighter-red token, and accessibility parity fixes).
+
+Landing stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
+
+- A dark token layer (`night`, `coal`, `chalk`) added alongside the existing light tokens; red
+  `#b91c1c` remains the single accent, and the blue focus ring and green live-status are unchanged.
+- A self-hosted condensed display face (Saira Condensed) and a technical mono (JetBrains Mono),
+  declared with `font-display: swap`, with the two hero display weights preloaded.
+- A fixed dark masthead with a full-screen mobile menu, and a dark editorial footer that keeps the
+  non-affiliation notice present and readable.
+- A full-screen hero built around a player photograph (masked so it dissolves into the page), a
+  giant layered condensed headline, the integrated dark-tone player search, and the live-data
+  status; followed by a broadcast ticker, a profiles section, a light career-trends contrast band,
+  a two-player "VS" teaser, and a closing call to action - every section maps to a real feature.
+- A CSS + IntersectionObserver motion system (hero line and image reveals, scroll reveals, one
+  ticker, court-line draw-in), fully gated on `prefers-reduced-motion` with the global guard as a
+  backstop; no animation dependency was added.
+
+All existing accessibility contracts are preserved: the accessible search combobox and its keyboard
+behaviour, route heading focus, the semantic chart-equivalent table and non-colour-only series,
+sanitized loading/empty/error states, and the single visible focus ring. The landing `<h1>` text,
+the search's accessible name, the capabilities copy, and the "Compare two players" link are
+unchanged, so the frontend test suite passes without modification.
+
+Player-profile stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
+
+- The player profile now continues the dark experience: a full-bleed identity hero, the biography as
+  broadcast technical labels, a dark season selector, points/rebounds/assists as oversized scoreboard
+  figures, and the supporting statistics as a calm dark stat sheet with hairline separators (no white
+  cards). The non-success states (loading, invalid link, not found, error) are rebuilt dark.
+- Editorial player photography is mapped strictly by NBA person id
+  (`frontend/src/features/players/playerImages.ts`). A mapped player gets a masked full-bleed hero; a
+  player without a mapping gets an intentional photo-free dark composition (typography, the
+  jersey-number scoreboard graphic, a red broadcast glow, a court-line motif, and the real data). The
+  wrong player's photograph is never shown.
+- At that checkpoint the career trend chart, its equivalent table, and the game log were deferred
+  inside a temporary light contrast band; they are now redesigned dark in the following stage. Every
+  statistic value, number format, season-selection ownership, query keys, `<dl>`/`<dt>`/`<dd>`
+  semantics, the accessible "Season" select, the region and its states, and heading focus are
+  preserved, so the frontend test suite passes without modification. Recorded in ADR-018.
+
+Career-trends and game-log stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
+
+- The career-trends section, its Recharts chart, and the accessible chart-equivalent table are
+  redesigned dark, and the temporary light contrast band is removed, so the profile is dark end to
+  end. The game-log section and its horizontally scrollable table are redesigned dark, with their
+  loading, empty, error, and unavailable states.
+- The three chart series are lightened as data-visualisation colours - points bright red (`#f87171`),
+  rebounds light blue (`#60a5fa`), assists warm amber (`#fbbf24`) - chosen to read clearly on the
+  near-black chart panel and to stay distinct from the single red UI accent, the blue focus ring, the
+  green live-status, and the grid. The three-way series encoding is preserved: the dash patterns
+  (solid, `6 3`, `2 4`), the legend marker shapes (circle, square, triangle), and the equivalent
+  table. Red remains the single UI accent outside the chart.
+- All protected behaviour is preserved: chart data and transforms, metric definitions, game-log data
+  and formatting, the numeric formatters, query ownership and keys, season selection, table captions
+  and scoped headers, the chart `aria-hidden` plus equivalent-table pattern, the W/L fill-versus-
+  outline badge, tabular numerals, the named keyboard-focusable horizontal scroll region, the state
+  messages and roles, and reduced-motion behaviour. Recorded in ADR-019.
+
+Comparison stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
+
+- The two-player comparison route (`/compare`) is redesigned as a dark cinematic head-to-head, the
+  last route to leave the light Stage 1-3 system. Every route now renders on the dark `night` canvas
+  (the per-route light exception is removed), and the comparison page bleeds under the fixed masthead.
+- The composition is a player-versus-player hero: two equally prominent, identically treated identity
+  panels flanking an oversized red "VS". A confirmed panel is a masked, scrimmed player photograph
+  with a red jersey-number scoreboard figure, the player name as a condensed link to the profile, and
+  team / position / season technical labels; a player without an id-mapped photograph gets an
+  intentional photo-free dark composition, so the wrong player's photograph is never shown. The
+  player-search comboboxes use the existing dark tone and the season selector uses the dark field
+  styling.
+- The comparison table stays neutral and authoritative: both player columns receive identical
+  typography, colour, weight, and spacing, with only a single thin neutral divider between them and no
+  winner colouring, arrows, or better/worse implication. The selected season is added to each column
+  header and remains in the caption.
+- All protected behaviour is preserved: the duplicate-player handling, the common-season intersection
+  logic, and the shareable comparison URL state (`comparison-state.ts`); query ownership and keys; the
+  combobox keyboard and ARIA model (only its tone changes); season reconciliation; comparison metrics
+  and number formatting; route definitions; the table caption, scope, and semantics; the named
+  keyboard-focusable horizontal scroll region; route heading focus; the accessible combobox names; the
+  single blue focus ring; and all duplicate, loading, unavailable, no-common-season, invalid, empty,
+  and error messages and roles. Motion (the VS pop, the staggered panel rise, and the image settle) is
+  CSS-only and gated on `prefers-reduced-motion`. Recorded in ADR-020.
+
+Final release-polish stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
+
+- After the four dark stages, a whole-application adversarial audit reviewed every route by source,
+  the test suite, and a live fixture-backed preview. Its approved findings were then fixed here; no
+  data, logic, contracts, or routes changed.
+- The landing Career Trends section, the last light band, is converted to the dark system (a charcoal
+  surface, warm-white type, red accent, dark court-line motif, and a restrained red glow for depth).
+  The application is now dark from beginning to end.
+- Accessibility parity: the landing `<h1>` now receives focus on entry like the profile and
+  comparison routes; the mobile navigation dialog traps Tab and Shift+Tab and restores focus to the
+  toggle on close; the career-trends equivalent table is a named, keyboard-focusable scroll region
+  (`role="group"`, `aria-label`, `tabindex=0`) consistent with the game-log and comparison tables; the
+  comparison Replace/Clear/Cancel actions get practical touch targets; and the comparison player-name
+  link gets a persistent resting underline.
+- A display-only brighter-red token (`--color-accent-bright`, #ef4444) is introduced for large
+  scoreboard figures (jersey numbers and the "VS") on dark surfaces, reaching about 5:1; the deeper
+  `--color-accent` remains the single UI accent for links and controls.
+- Copy and rhythm cleanup: visible em-dashes removed from the page title and landing copy, the
+  landing section eyebrows reduced to two, the redundant rotated hero label removed, and the dead
+  `hero-title` class removed.
+- Focused tests were added for the landing heading focus, the mobile-menu focus containment and
+  restoration, and the named career-trends scroll region (166 frontend, 244 backend, 410 total).
+  Recorded in ADR-021. The `docs/assets/` portfolio screenshots have since been refreshed to the dark
+  UI.
 
 ## Visual Redesign (Stages 1-3)
 
@@ -40,9 +171,9 @@ shared contracts, the provider, query/cache behaviour, dependencies, or Render c
   mobile chart-axis clarity, the five refreshed portfolio screenshots, and documentation/test-
   total updates (160 frontend, 244 backend, 404 total).
 
-The five portfolio screenshots under `docs/assets/` have been refreshed from the final
-redesigned application using deterministic local fixture data. The README screenshot captions
-now describe the refreshed Stephen Curry and LeBron James `2023-24` fixture comparison.
+The five portfolio screenshots under `docs/assets/` have since been re-captured from the completed
+dark redesign (see the Visual Redesign 2 section) using deterministic local fixture data; the README
+screenshot captions describe the Stephen Curry and LeBron James `2023-24` fixture views.
 
 ## Summary
 
@@ -184,11 +315,13 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-None. The visual redesign (Stages 1-3) and TASK-011 (Portfolio Readiness) are all complete,
-merged, and deployed at `https://nba-performance-explorer.onrender.com`, and validation passes
-(160 frontend, 244 backend, 404 total). Any further work, such as the optional bundle-splitting
-enhancement for the known non-blocking Recharts/Vite chunk-size warning, is optional and not
-required.
+PR #24 (`feature/visual-redesign-2-foundation` into `main`) is open with the completed dark redesign
+and awaits its required CI check and a merge. Once CI passes, merge PR #24 using "Create a merge
+commit" (preserving the six redesign commits), then confirm the Render production deployment of the
+merged `main`, run the production smoke test across the routes, and delete the merged feature branch.
+Until then, `main` continues to run the first (Stages 1-3) redesign in production. No further code
+change is required; the optional bundle-splitting enhancement for the known non-blocking
+Recharts/Vite chunk-size warning remains optional.
 
 ## How To Update This File
 

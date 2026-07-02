@@ -16,8 +16,8 @@ export function ComparisonSeasonSelector({
   const needsPlaceholder = value === null;
 
   return (
-    <div className="mt-6">
-      <label htmlFor={selectId} className="block text-sm font-semibold text-ink">
+    <div className="mt-8">
+      <label htmlFor={selectId} className="block text-sm font-semibold text-chalk">
         Comparison season
       </label>
       <select
@@ -26,7 +26,7 @@ export function ComparisonSeasonSelector({
         onChange={(event) => {
           onSeasonChange(event.target.value);
         }}
-        className="field mt-2 w-full max-w-xs sm:w-auto"
+        className="field-dark mt-2 w-full max-w-xs sm:w-auto"
       >
         {needsPlaceholder ? (
           <option value="" disabled>
