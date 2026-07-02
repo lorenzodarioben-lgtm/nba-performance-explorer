@@ -312,6 +312,36 @@ html.js [data-reveal].is-visible {
   }
 }
 
+/* Comparison hero: the "VS" pops in and the two player panels rise (staggered via inline delay). */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .vs-in {
+    animation: vs-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  }
+  html.js .panel-rise {
+    animation: panel-rise 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+@keyframes vs-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes panel-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Broadcast ticker (a single marquee per page; the duplicated track loops seamlessly at -50%). */
 .marquee {
   overflow: hidden;

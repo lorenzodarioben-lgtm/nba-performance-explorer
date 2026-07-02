@@ -8,21 +8,24 @@ _Last updated: 2026-07-02_
 ## Current State
 
 - **Current milestone:** Visual Redesign 2 - Broadcast Editorial
-- **Current task:** Player-profile data surfaces (career trends + game log) redesign (complete; checkpoint committed, not pushed)
+- **Current task:** Two-player comparison route (`/compare`) redesign (complete; checkpoint committed, not pushed)
 - **Current branch:** `feature/visual-redesign-2-foundation`
-- **Current status:** A second, approved visual redesign is under way, evolving the merged Stage 1-3
-  light "data-terminal" system into a dark, premium basketball editorial and broadcast experience.
-  Three stages are complete and committed on `feature/visual-redesign-2-foundation` (not pushed, no
-  PR): the dark landing plus the global dark shell and self-hosted type system; the fully dark player
-  profile (identity hero, biography, dark season selector, scoreboard statistics, and supporting dark
-  stat sheet); and now the profile's remaining data surfaces - the career trend chart and its
-  equivalent table, and the game log and its scrollable table - all redesigned dark, removing the
-  temporary light contrast band. The player profile is now dark end to end. Only the two-player
-  comparison route still uses the light Stage 1-3 system and is the next stage. Validation passes with
-  160 frontend tests, 244 backend tests, and 404 total. Backend, shared contracts, routes,
+- **Current status:** A second, approved visual redesign has now redesigned every route into a dark,
+  premium basketball editorial and broadcast experience, evolving the merged Stage 1-3 light
+  "data-terminal" system. Four stages are complete and committed on
+  `feature/visual-redesign-2-foundation` (not pushed, no PR): the dark landing plus the global dark
+  shell and self-hosted type system; the fully dark player profile (identity hero, biography, dark
+  season selector, scoreboard statistics, and supporting dark stat sheet); the profile's remaining
+  data surfaces - the career trend chart and its equivalent table, and the game log and its scrollable
+  table - redesigned dark with the temporary light contrast band removed; and the two-player
+  comparison route (`/compare`), redesigned as a dark cinematic head-to-head with equally prominent
+  id-mapped player panels and a neutral, accessible comparison table. The landing, player profile, and
+  comparison are dark end to end; no route uses the light Stage 1-3 system any longer. Validation
+  passes with 160 frontend tests, 244 backend tests, and 404 total. Backend, shared contracts, routes,
   `render.yaml`, all data/query/season/comparison logic, the chart and game-log data and metric
   definitions, and the numeric formatters are unchanged, and production configuration is untouched.
-  The prior redesign and TASK-011 remain recorded below.
+  The branch has not been pushed and is not yet audited for release. The prior redesign and TASK-011
+  remain recorded below.
 
 ## Visual Redesign 2 (Broadcast Editorial)
 
@@ -31,7 +34,9 @@ basketball experience while the data views stay legible and are redesigned later
 recorded in ADR-015 (dark direction), ADR-016 (self-hosted Saira Condensed + JetBrains Mono under the
 SIL Open Font License 1.1), ADR-017 (supplied editorial photography used as isolated, replaceable
 project imagery), ADR-018 (dark player profile with strict id-keyed imagery and a photo-free
-fallback), and ADR-019 (dark career trends and game log with a data-visualisation chart palette).
+fallback), ADR-019 (dark career trends and game log with a data-visualisation chart palette), and
+ADR-020 (dark cinematic comparison route with equally prominent id-mapped player panels and a
+neutral, accessible comparison table).
 
 Landing stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
 
@@ -89,6 +94,31 @@ Career-trends and game-log stage (this checkpoint, on `feature/visual-redesign-2
   and scoped headers, the chart `aria-hidden` plus equivalent-table pattern, the W/L fill-versus-
   outline badge, tabular numerals, the named keyboard-focusable horizontal scroll region, the state
   messages and roles, and reduced-motion behaviour. Recorded in ADR-019.
+
+Comparison stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
+
+- The two-player comparison route (`/compare`) is redesigned as a dark cinematic head-to-head, the
+  last route to leave the light Stage 1-3 system. Every route now renders on the dark `night` canvas
+  (the per-route light exception is removed), and the comparison page bleeds under the fixed masthead.
+- The composition is a player-versus-player hero: two equally prominent, identically treated identity
+  panels flanking an oversized red "VS". A confirmed panel is a masked, scrimmed player photograph
+  with a red jersey-number scoreboard figure, the player name as a condensed link to the profile, and
+  team / position / season technical labels; a player without an id-mapped photograph gets an
+  intentional photo-free dark composition, so the wrong player's photograph is never shown. The
+  player-search comboboxes use the existing dark tone and the season selector uses the dark field
+  styling.
+- The comparison table stays neutral and authoritative: both player columns receive identical
+  typography, colour, weight, and spacing, with only a single thin neutral divider between them and no
+  winner colouring, arrows, or better/worse implication. The selected season is added to each column
+  header and remains in the caption.
+- All protected behaviour is preserved: the duplicate-player handling, the common-season intersection
+  logic, and the shareable comparison URL state (`comparison-state.ts`); query ownership and keys; the
+  combobox keyboard and ARIA model (only its tone changes); season reconciliation; comparison metrics
+  and number formatting; route definitions; the table caption, scope, and semantics; the named
+  keyboard-focusable horizontal scroll region; route heading focus; the accessible combobox names; the
+  single blue focus ring; and all duplicate, loading, unavailable, no-common-season, invalid, empty,
+  and error messages and roles. Motion (the VS pop, the staggered panel rise, and the image settle) is
+  CSS-only and gated on `prefers-reduced-motion`. Recorded in ADR-020.
 
 ## Visual Redesign (Stages 1-3)
 
@@ -252,16 +282,17 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-Begin the fully dark redesign of the two-player comparison route (`/compare`) on
-`feature/visual-redesign-2-foundation`: a broadcast-style "VS" composition, distinct dark player
-identity panels with id-mapped photography and deliberate photo-free fallbacks, the two season
-selectors integrated into the composition, and a dark, neutral comparison table with no misleading
-"winner" colouring. The stage must preserve the duplicate-player handling, the common-season logic,
-the shareable comparison URL state, query ownership and keys, and the comparison table's captions,
-scope, and semantics, along with every accessibility contract (the accessible search combobox, route
-heading focus, sanitized states, and the single visible focus ring). The landing, profile, and
-profile-data-surface checkpoints are committed but not pushed; pushing and opening a pull request are
-deferred until explicitly requested.
+Whole-application adversarial visual, accessibility, responsive, functional, and repository audit
+before release. Review every route end to end and cross-route - landing, header/nav, footer, player
+profile, season statistics, career chart and its equivalent table, game log, and the comparison,
+including all loading, empty, unavailable, and error states - at desktop, 768px tablet, mobile, and
+200% zoom. Exercise long player names, mapped and unmapped players, motion and reduced motion,
+keyboard navigation, focus visibility, contrast, console errors, performance, image loading, layout
+shift, and cross-route visual consistency, and include a repository-hygiene pass. Produce a findings
+list without fixing during the audit. All four dark redesign checkpoints (landing, player profile,
+profile data surfaces, and comparison) are committed on `feature/visual-redesign-2-foundation` but
+not pushed; the branch is not yet audited and is not production-ready, and pushing, opening a pull
+request, merging, and deploying remain deferred until explicitly requested.
 
 ## How To Update This File
 

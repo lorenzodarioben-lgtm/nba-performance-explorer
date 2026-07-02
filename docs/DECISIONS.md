@@ -485,3 +485,59 @@ documented data-visualisation tokens verified for contrast on the coal panel (ro
 for distinctness from the interface accent, focus, status, and grid colours; the chart still
 communicates without colour through dash patterns and marker shapes. No backend, contracts, routes,
 data logic, or Render configuration changed.
+
+---
+
+## ADR-020 - Dark cinematic player comparison with a neutral accessible table
+
+- **Status:** Accepted
+- **Date:** 2026-07-02
+
+**Context.** The two-player comparison route (`/compare`) was the last surface still using the light
+Stage 1-3 "data-terminal" system, after the dark landing (ADR-015), the dark player profile
+(ADR-018), and the dark career-trends and game-log stage (ADR-019). It must join the dark
+broadcast-editorial direction while keeping the head-to-head unmistakably neutral: a comparison must
+never imply a "winner", and every piece of comparison logic, URL state, and accessibility must be
+preserved exactly.
+
+**Decision.** Redesign `/compare` as a fully dark broadcast head-to-head. Every route now renders on
+the dark `night` canvas - the previous per-route light exception for `/compare` is removed - and the
+comparison page bleeds under the fixed masthead and owns its top spacing.
+
+The composition is a player-versus-player hero: two equally prominent identity panels flanking an
+oversized red "VS". The panels share identical dimensions, structure, and treatment (a shared minimum
+height and `items-stretch`); neither is visually favoured. A confirmed panel is a masked, scrimmed
+player photograph with a red jersey-number scoreboard figure, the player name as a condensed link to
+the profile, and team / position / season technical labels, alongside the existing Replace and Clear
+actions. Player photography is mapped strictly by NBA person id
+(`frontend/src/features/players/playerImages.ts`, ADR-017); a player without a mapping gets an
+intentional photo-free dark composition (a red broadcast glow and a court-line motif over the real
+data), so the wrong player's photograph is never shown. Panel photography is decorative
+(`aria-hidden`, empty `alt`) and the name link conveys identity. The player-search comboboxes use the
+existing dark tone and the season selector uses the dark field styling.
+
+The comparison table remains the authoritative, neutral representation. Both player columns receive
+identical typography, colour, weight, and spacing; the only structural aid is a single thin neutral
+divider between the two player columns. There is no winner colouring, arrow, badge, bolding, or
+better/worse implication - the columns are read by numeric alignment alone. The selected season is
+added to each column header beside the season team and remains in the caption.
+
+Preserve, unchanged: the duplicate-player handling, the common-season intersection logic, and the
+shareable comparison URL state (all owned by `comparison-state.ts`); query ownership and keys; the
+player-search combobox keyboard and ARIA model (only its `tone` is set); season reconciliation;
+comparison metrics and number formatting; route definitions and behaviour; and the table's caption,
+scope, semantic structure, and the named keyboard-focusable horizontal scroll region (`role="group"`,
+`aria-label`, `tabindex=0`, `max-w-full`, `overflow-x-auto`). Route heading focus, the accessible
+combobox names (`Search for Player A` / `Search for Player B`), the single blue `:focus-visible`
+ring, and all duplicate / loading / unavailable / no-common-season / invalid-season / empty / error
+messages and their `status` / `alert` roles are preserved. Motion - the VS pop, the staggered panel
+rise, and the image settle - is CSS-only and gated behind `prefers-reduced-motion` with the global
+guard and the `.js` flag; controls and data are never gated behind motion.
+
+**Consequences.** The application is now dark across all three routes - landing, player profile, and
+comparison - with one red interface accent throughout. The comparison stays a serious, neutral
+analytics surface: the cinematic framing is purely presentational, and the accessible semantic table
+carries the actual comparison without implying a verdict. Adding or replacing panel imagery is a
+drop-in change to the id-keyed map (ADR-017). No backend, shared contracts, routes, `render.yaml`,
+comparison / URL / duplicate / common-season logic, query keys, statistical calculations, number
+formatting, or the profile / chart / game-log implementations changed.

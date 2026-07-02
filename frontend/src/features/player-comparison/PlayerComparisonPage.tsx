@@ -51,7 +51,7 @@ function nextActiveSlot(selection: ComparisonSelection): ActiveSlot {
 
 function StatusMessage({ children }: { children: string }) {
   return (
-    <p role="status" aria-live="polite" className="mt-6 text-sm text-ink-2">
+    <p role="status" aria-live="polite" className="mt-6 text-sm text-white/70">
       {children}
     </p>
   );
@@ -61,7 +61,7 @@ function AlertMessage({ children }: { children: string }) {
   return (
     <p
       role="alert"
-      className="mt-6 rounded-sm border border-edge bg-accent-quiet px-3 py-2 text-sm text-danger"
+      className="mt-6 rounded-sm border border-white/10 bg-accent/15 px-3 py-2 text-sm text-red-100"
     >
       {children}
     </p>
@@ -272,7 +272,7 @@ export function PlayerComparisonPage() {
       !isCommonSeason(state.season.season, seasonIds1, seasonIds2);
 
     return (
-      <div className="mt-8 border-t border-edge pt-6">
+      <div className="mt-10 border-t border-white/10 pt-8">
         {state.season.status === 'invalid' ? (
           <AlertMessage>
             That season link is not valid. Choose a comparison season below.
@@ -330,64 +330,78 @@ export function PlayerComparisonPage() {
   }
 
   return (
-    <main className="mx-auto max-w-[72rem] px-4 py-10 sm:px-8 sm:py-12">
-      <h1
-        ref={headingRef}
-        tabIndex={-1}
-        className="text-4xl font-bold tracking-tight text-ink outline-none sm:text-5xl"
-      >
-        Compare players
-      </h1>
-      <p className="mt-3 max-w-prose text-ink-2">
-        Choose two players to compare their regular-season statistics for a season they
-        both played.
-      </p>
+    <main className="bg-night text-chalk">
+      <div className="mx-auto max-w-[72rem] px-4 pb-20 pt-28 sm:px-8 sm:pt-32">
+        <p className="eyebrow text-accent">Head to head</p>
+        <h1
+          ref={headingRef}
+          tabIndex={-1}
+          className="display mt-3 text-5xl font-extrabold uppercase leading-[0.9] text-chalk outline-none sm:text-7xl"
+        >
+          Compare players
+        </h1>
+        <p className="mt-4 max-w-prose text-white/70">
+          Choose two players to compare their regular-season statistics for a season
+          they both played.
+        </p>
 
-      <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <ComparisonPlayerSlot
-          slotName="Player A"
-          comboboxLabel="Search for Player A"
-          slot={state.player1}
-          isDuplicate={false}
-          profileQuery={profile1}
-          isActive={activeSlot === 'player1'}
-          excludePlayerId={base.player2 ?? undefined}
-          onActivate={() => {
-            setActiveSlot('player1');
-          }}
-          onCancel={() => {
-            setActiveSlot(null);
-          }}
-          onSelect={handleSelectPlayer1}
-          onClear={handleClearPlayer1}
-        />
-        <ComparisonPlayerSlot
-          slotName="Player B"
-          comboboxLabel="Search for Player B"
-          slot={state.player2}
-          isDuplicate={state.duplicate}
-          profileQuery={profile2}
-          isActive={activeSlot === 'player2'}
-          excludePlayerId={base.player1 ?? undefined}
-          onActivate={() => {
-            setActiveSlot('player2');
-          }}
-          onCancel={() => {
-            setActiveSlot(null);
-          }}
-          onSelect={handleSelectPlayer2}
-          onClear={handleClearPlayer2}
-        />
+        {/* Player-versus-player hero: two equally prominent identity panels flanking the VS. */}
+        <div className="mt-10 grid grid-cols-1 items-stretch gap-5 md:grid-cols-[1fr_auto_1fr] md:gap-5">
+          <ComparisonPlayerSlot
+            slotName="Player A"
+            comboboxLabel="Search for Player A"
+            slot={state.player1}
+            isDuplicate={false}
+            profileQuery={profile1}
+            isActive={activeSlot === 'player1'}
+            excludePlayerId={base.player2 ?? undefined}
+            season={effectiveSeason}
+            onActivate={() => {
+              setActiveSlot('player1');
+            }}
+            onCancel={() => {
+              setActiveSlot(null);
+            }}
+            onSelect={handleSelectPlayer1}
+            onClear={handleClearPlayer1}
+          />
+
+          <div className="flex items-center justify-center py-2 md:py-0">
+            <span className="vs-in display text-6xl font-extrabold leading-none text-accent sm:text-7xl">
+              VS
+            </span>
+          </div>
+
+          <ComparisonPlayerSlot
+            slotName="Player B"
+            comboboxLabel="Search for Player B"
+            slot={state.player2}
+            isDuplicate={state.duplicate}
+            profileQuery={profile2}
+            isActive={activeSlot === 'player2'}
+            excludePlayerId={base.player1 ?? undefined}
+            season={effectiveSeason}
+            revealDelayMs={120}
+            onActivate={() => {
+              setActiveSlot('player2');
+            }}
+            onCancel={() => {
+              setActiveSlot(null);
+            }}
+            onSelect={handleSelectPlayer2}
+            onClear={handleClearPlayer2}
+          />
+        </div>
+
+        {renderComparisonBody()}
+
+        <Link
+          to="/"
+          className="mt-12 inline-block font-semibold text-chalk underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:decoration-accent-strong"
+        >
+          Back to search
+        </Link>
       </div>
-
-      {renderComparisonBody()}
-
-      <Link
-        to="/"
-        className="mt-10 inline-block font-semibold text-accent underline underline-offset-4 transition-colors hover:text-accent-strong"
-      >
-        Back to search
-      </Link>
     </main>
   );
 }
