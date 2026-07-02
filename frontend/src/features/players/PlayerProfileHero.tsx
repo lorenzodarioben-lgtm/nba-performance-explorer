@@ -100,7 +100,7 @@ export function PlayerProfileHero({
           {jersey !== undefined ? (
             <span className="leading-none">
               <span className="eyebrow block text-white/55">No.</span>
-              <span className="display mt-1 block text-6xl font-extrabold leading-[0.8] text-accent sm:text-8xl">
+              <span className="display mt-1 block text-6xl font-extrabold leading-[0.8] text-accent-bright sm:text-8xl">
                 {jersey}
               </span>
             </span>
@@ -109,7 +109,7 @@ export function PlayerProfileHero({
             id="player-profile-heading"
             ref={headingRef}
             tabIndex={-1}
-            className="hero-title display max-w-full text-[clamp(2.5rem,7.5vw,6.5rem)] font-extrabold break-words uppercase leading-[0.86] text-chalk outline-none"
+            className="display max-w-full text-[clamp(2.5rem,7.5vw,6.5rem)] font-extrabold break-words uppercase leading-[0.86] text-chalk outline-none"
           >
             <span className="hero-line">
               <span>{profile.fullName}</span>

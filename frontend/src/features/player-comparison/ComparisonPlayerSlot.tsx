@@ -13,9 +13,10 @@ import type { PlayerSlotUrlState } from './comparison-state';
 type SlotKind = 'empty' | 'invalid' | 'loading' | 'known' | 'unknown' | 'duplicate';
 
 // A text button/link action on the dark panels: white text with a red underline keeps strong
-// contrast over the scrimmed photography (the brand red alone is too dark for text here).
+// contrast over the scrimmed photography (the brand red alone is too dark for text here). Vertical
+// padding gives a practical mobile touch target without changing the visual weight of the label.
 const actionClass =
-  'eyebrow text-white/75 underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-white';
+  'eyebrow inline-flex items-center py-2 text-white/75 underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-white';
 
 const messageClass =
   'mt-3 rounded-sm border border-white/10 bg-accent/15 px-3 py-2 text-sm text-red-100';
@@ -171,13 +172,13 @@ export function ComparisonPlayerSlot({
         {profile ? (
           <div className="mt-auto pt-8">
             {profile.jerseyNumber !== undefined ? (
-              <span className="display block text-5xl font-extrabold leading-none text-accent sm:text-6xl">
+              <span className="display block text-5xl font-extrabold leading-none text-accent-bright sm:text-6xl">
                 {profile.jerseyNumber}
               </span>
             ) : null}
             <Link
               to={`/players/${encodeURIComponent(profile.id)}`}
-              className="display mt-2 block text-3xl font-extrabold uppercase leading-[0.9] text-chalk underline decoration-transparent decoration-2 underline-offset-4 transition-colors hover:decoration-accent sm:text-4xl"
+              className="display mt-2 block text-3xl font-extrabold uppercase leading-[0.9] text-chalk underline decoration-white/30 decoration-2 underline-offset-4 transition-colors hover:decoration-accent sm:text-4xl"
             >
               {profile.fullName}
             </Link>

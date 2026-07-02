@@ -1,3 +1,4 @@
+import { useEffect, useRef, type RefObject } from 'react';
 import { Link } from 'react-router';
 
 import { PlayerSearch } from '../player-search/PlayerSearch';
@@ -53,7 +54,7 @@ function ServiceStatus() {
   );
 }
 
-function Hero() {
+function Hero({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null> }) {
   return (
     <section
       id="top"
@@ -76,18 +77,14 @@ function Hero() {
         <div className="absolute inset-0 bg-[radial-gradient(58%_48%_at_74%_36%,rgba(185,28,28,0.30),transparent_62%)]" />
       </div>
 
-      {/* Vertical broadcast label on the right edge (desktop). */}
-      <span
-        aria-hidden="true"
-        className="eyebrow absolute right-3 top-1/2 hidden -translate-y-1/2 rotate-90 text-white/35 lg:block"
-      >
-        NBA.com · Live statistics
-      </span>
-
       <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[80rem] flex-col justify-center px-6 pb-24 pt-28 sm:px-8">
         <p className="eyebrow text-white/60">Live NBA.com data / 2025-26 season</p>
 
-        <h1 className="hero-title display mt-5 text-[clamp(2.75rem,11vw,9rem)] font-extrabold uppercase leading-[0.84] text-chalk">
+        <h1
+          ref={headingRef}
+          tabIndex={-1}
+          className="display mt-5 text-[clamp(2.75rem,11vw,9rem)] font-extrabold uppercase leading-[0.84] text-chalk outline-none"
+        >
           <span className="hero-line">
             <span>NBA</span>
           </span>{' '}
@@ -135,8 +132,7 @@ function ExploreSection() {
     >
       <div className="mx-auto max-w-[80rem]">
         <Reveal>
-          <p className="eyebrow text-accent">Every player, every season</p>
-          <h2 className="display mt-4 text-5xl font-extrabold uppercase leading-[0.9] sm:text-7xl">
+          <h2 className="display text-5xl font-extrabold uppercase leading-[0.9] sm:text-7xl">
             Profiles built
             <br />
             like a box score
@@ -146,8 +142,8 @@ function ExploreSection() {
         <div className="mt-14 grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <Reveal>
             <p className="max-w-xl text-lg text-white/70">
-              Open any player to read their bio, team, and a full season line — points,
-              rebounds, assists, and the complete shooting splits — then move season by
+              Open any player to read their bio, team, and a full season line: points,
+              rebounds, assists, and the complete shooting splits. Then move season by
               season through their career.
             </p>
             <ul className="mt-8 border-y border-white/10">
@@ -177,9 +173,6 @@ function ExploreSection() {
                 alt="Stephen Curry of the Golden State Warriors during a game"
                 className="aspect-[4/5] w-full rounded-sm object-cover object-top grayscale-[0.15] sm:aspect-[4/3]"
               />
-              <figcaption className="eyebrow mt-3 text-white/40">
-                Profiles · Season statistics · Game logs
-              </figcaption>
             </figure>
           </Reveal>
         </div>
@@ -192,9 +185,16 @@ function TrendsSection() {
   return (
     <section
       id="trends"
-      className="relative overflow-hidden bg-bg px-6 py-24 text-ink sm:px-8 sm:py-32"
+      className="relative overflow-hidden bg-coal px-6 py-24 text-chalk sm:px-8 sm:py-32"
     >
-      <Reveal className="pointer-events-none absolute -right-16 top-1/2 hidden h-[560px] -translate-y-1/2 text-ink/10 lg:block">
+      {/* Cinematic depth on the dark surface: a restrained red broadcast glow plus the court-line
+          motif, both decorative. The section is charcoal (coal) so it reads as its own beat between
+          the near-black sections without leaving the dark theme. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_18%_30%,rgba(185,28,28,0.14),transparent_62%)]"
+      />
+      <Reveal className="pointer-events-none absolute -right-16 top-1/2 hidden h-[560px] -translate-y-1/2 text-white/[0.06] lg:block">
         <CourtLines className="h-full w-auto" />
       </Reveal>
 
@@ -215,18 +215,17 @@ function TrendsSection() {
           </Reveal>
 
           <Reveal delayMs={120}>
-            <p className="eyebrow text-accent">Career trends</p>
-            <h2 className="display mt-4 text-5xl font-extrabold uppercase leading-[0.9] text-ink sm:text-7xl">
+            <h2 className="display text-5xl font-extrabold uppercase leading-[0.9] text-chalk sm:text-7xl">
               Watch a career
               <br />
               take shape
             </h2>
-            <p className="mt-6 max-w-lg text-lg text-ink-2">
+            <p className="mt-6 max-w-lg text-lg text-white/70">
               Points, rebounds, and assists per game across every season, drawn as an
               interactive chart and mirrored in a full data table so the same numbers
               are available to screen readers and keyboards.
             </p>
-            <p className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.14em] text-ink-3">
+            <p className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.14em] text-white/55">
               <span>Points per game</span>
               <span>Rebounds per game</span>
               <span>Assists per game</span>
@@ -257,7 +256,7 @@ function CompareSection() {
                 className="h-full w-full object-cover object-top"
               />
             </figure>
-            <span className="display text-6xl font-extrabold uppercase leading-none text-accent sm:text-8xl">
+            <span className="display text-6xl font-extrabold uppercase leading-none text-accent-bright sm:text-8xl">
               VS
             </span>
             <figure className="h-36 w-32 overflow-hidden rounded-sm border border-white/10 sm:h-56 sm:w-48">
@@ -300,8 +299,7 @@ function ClosingSection() {
     <section className="relative overflow-hidden border-t border-white/10 bg-night px-6 py-28 text-chalk sm:px-8">
       <div className="mx-auto max-w-[80rem] text-center">
         <Reveal>
-          <p className="eyebrow text-white/60">Start exploring</p>
-          <p className="display mt-6 text-[clamp(3rem,14vw,10rem)] font-extrabold uppercase leading-[0.82]">
+          <p className="display text-[clamp(3rem,14vw,10rem)] font-extrabold uppercase leading-[0.82]">
             Tip
             <br />
             off
@@ -320,9 +318,17 @@ function ClosingSection() {
 }
 
 export function FoundationPage() {
+  // Move focus to the page heading on entry, matching the profile and comparison routes, so keyboard
+  // and screen-reader users land on the <h1> after client-side navigation to the landing. Runs on
+  // mount only, so it never steals focus during a search or on a background rerender.
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, []);
+
   return (
     <main className="bg-night">
-      <Hero />
+      <Hero headingRef={headingRef} />
       <LandingMarquee />
       <ExploreSection />
       <TrendsSection />

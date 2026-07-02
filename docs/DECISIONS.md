@@ -541,3 +541,53 @@ carries the actual comparison without implying a verdict. Adding or replacing pa
 drop-in change to the id-keyed map (ADR-017). No backend, shared contracts, routes, `render.yaml`,
 comparison / URL / duplicate / common-season logic, query keys, statistical calculations, number
 formatting, or the profile / chart / game-log implementations changed.
+
+---
+
+## ADR-021 - Final release polish: dark landing end to end, a display-red token, and accessibility parity
+
+- **Status:** Accepted
+- **Date:** 2026-07-02
+
+**Context.** A whole-application adversarial audit after the dark redesign (ADR-015 through ADR-020)
+confirmed the product was functionally sound but surfaced finishing items: the landing's Career Trends
+section was still a light band (the last light surface in an otherwise fully dark application); the
+landing heading did not take focus on navigation as the profile and comparison routes do; the mobile
+navigation dialog did not trap keyboard focus; the large red display figures (jersey numbers and the
+"VS") fell below the 3:1 large-text contrast floor on the dark surfaces; and several smaller items
+(comparison action touch targets, the player-name link affordance, the career-trends table
+scroll-region parity, visible em-dashes, and eyebrow over-use on the landing).
+
+**Decision.** Complete the dark direction and close the audit's approved accessibility and polish
+findings, without changing any data, logic, contracts, or routes:
+
+- Convert the landing Career Trends section to the dark system (a charcoal surface, warm-white type,
+  the red accent, the dark court-line motif, and a restrained red glow for cinematic depth). No light
+  band remains anywhere; the application is dark from beginning to end. This completes the intent of
+  ADR-015, retiring the earlier "one deliberate light band" now that every data surface is dark.
+- Introduce a display-only red token, `--color-accent-bright` (#ef4444), used ONLY for large
+  decorative scoreboard figures (jersey numbers and the "VS") on dark surfaces, where it reaches about
+  5:1. The deeper `--color-accent` (#b91c1c) remains the single UI accent for links, controls, and
+  interface emphasis. This is the same brand hue brightened for legibility, not a second accent.
+- Make route-heading focus consistent across all routes: the landing `<h1>` receives focus on entry
+  (matching the profile, comparison, and error boundary), remaining a `tabIndex={-1}` non-tab-stop
+  with no permanent outline.
+- Contain the mobile navigation dialog (`aria-modal`): Tab and Shift+Tab now cycle within the open
+  panel, and focus is still restored to the toggle on close.
+- Give the comparison Replace/Clear/Cancel actions real touch-target padding; give the comparison
+  player-name link a persistent resting underline; and make the career-trends equivalent table a
+  named, keyboard-focusable scroll region (`role="group"`, `aria-label`, `tabindex=0`) consistent with
+  the game-log and comparison tables.
+- Remove visible em-dashes from the page title and landing copy, reduce the landing section eyebrows
+  to two, remove the redundant rotated hero label, and remove the dead `hero-title` class.
+
+Focused tests cover the landing heading focus, the mobile-menu Tab containment and focus restoration,
+and the named career-trends scroll region.
+
+**Consequences.** The application presents one continuous dark broadcast-editorial experience across
+every route, with consistent route-heading focus and a contained modal menu. Large red display figures
+clear the 3:1 large-text contrast floor while the single UI accent is unchanged. No backend, shared
+contracts, routes, Render configuration, query ownership, statistics, number formatting, chart or
+game-log data, or comparison logic changed. The Recharts/Vite chunk-size warning remains a known,
+non-blocking build note, and the portfolio screenshots under `docs/assets/` are still to be refreshed
+to the dark UI before release.

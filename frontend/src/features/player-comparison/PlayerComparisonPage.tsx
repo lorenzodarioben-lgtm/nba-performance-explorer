@@ -367,7 +367,7 @@ export function PlayerComparisonPage() {
           />
 
           <div className="flex items-center justify-center py-2 md:py-0">
-            <span className="vs-in display text-6xl font-extrabold leading-none text-accent sm:text-7xl">
+            <span className="vs-in display text-6xl font-extrabold leading-none text-accent-bright sm:text-7xl">
               VS
             </span>
           </div>

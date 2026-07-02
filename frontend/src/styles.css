@@ -74,6 +74,14 @@
   --color-accent: #b91c1c;
   --color-accent-strong: #991b1b;
   --color-accent-quiet: #fef2f2;
+  /*
+   * A brighter red reserved ONLY for large, decorative display figures on dark surfaces (jersey
+   * scoreboard numbers, the "VS" mark), where the deeper `accent` drops below the 3:1 large-text
+   * contrast floor. It is the same brand hue, brightened for legibility — not a second accent. The
+   * deeper `accent` remains the one UI accent for links, controls, and interface emphasis. On the
+   * near-black surfaces this reaches ~5:1, comfortably clearing the 3:1 large-text minimum.
+   */
+  --color-accent-bright: #ef4444;
 
   --color-edge: #e4e4e7;
   --color-edge-strong: #d4d4d8;

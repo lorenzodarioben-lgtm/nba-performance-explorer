@@ -50,7 +50,12 @@ function buildTrendRows(seasons: PlayerSeasonStats[]): TrendRow[] {
 
 function TrendTable({ rows }: { rows: TrendRow[] }) {
   return (
-    <div className="scroll-x-dark mt-5 overflow-x-auto rounded-md border border-white/10 bg-coal">
+    <div
+      role="group"
+      aria-label="Career averages by season"
+      tabIndex={0}
+      className="scroll-x-dark mt-5 max-w-full overflow-x-auto rounded-md border border-white/10 bg-coal"
+    >
       <table className="w-full border-collapse text-left text-sm">
         <caption className="px-4 pt-3 text-left text-sm text-white/70">
           Points, rebounds, and assists per game by season.

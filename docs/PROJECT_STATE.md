@@ -8,7 +8,7 @@ _Last updated: 2026-07-02_
 ## Current State
 
 - **Current milestone:** Visual Redesign 2 - Broadcast Editorial
-- **Current task:** Two-player comparison route (`/compare`) redesign (complete; checkpoint committed, not pushed)
+- **Current task:** Whole-application audit fixes and release polish (complete; checkpoint committed, not pushed)
 - **Current branch:** `feature/visual-redesign-2-foundation`
 - **Current status:** A second, approved visual redesign has now redesigned every route into a dark,
   premium basketball editorial and broadcast experience, evolving the merged Stage 1-3 light
@@ -19,13 +19,20 @@ _Last updated: 2026-07-02_
   data surfaces - the career trend chart and its equivalent table, and the game log and its scrollable
   table - redesigned dark with the temporary light contrast band removed; and the two-player
   comparison route (`/compare`), redesigned as a dark cinematic head-to-head with equally prominent
-  id-mapped player panels and a neutral, accessible comparison table. The landing, player profile, and
-  comparison are dark end to end; no route uses the light Stage 1-3 system any longer. Validation
-  passes with 160 frontend tests, 244 backend tests, and 404 total. Backend, shared contracts, routes,
-  `render.yaml`, all data/query/season/comparison logic, the chart and game-log data and metric
-  definitions, and the numeric formatters are unchanged, and production configuration is untouched.
-  The branch has not been pushed and is not yet audited for release. The prior redesign and TASK-011
-  remain recorded below.
+  id-mapped player panels and a neutral, accessible comparison table. A whole-application adversarial
+  audit then ran across every route, and its approved findings were fixed in a final release-polish
+  stage: the landing's Career Trends section (the last light band) is now dark, so the app is dark
+  from beginning to end; the landing heading now takes focus on entry like the other routes; the
+  mobile menu traps keyboard focus; large red display figures (jersey numbers, the "VS") use a
+  brighter display-red for contrast while the single UI accent is unchanged; the comparison
+  Replace/Clear/Cancel actions have larger touch targets; the career-trends equivalent table is a
+  named focusable scroll region; and visible em-dashes and repeated landing eyebrows were cleaned up.
+  Validation passes with 166 frontend tests, 244 backend tests, and 410 total. Backend, shared
+  contracts, routes, `render.yaml`, all data/query/season/comparison logic, the chart and game-log
+  data and metric definitions, and the numeric formatters are unchanged, and production configuration
+  is untouched. The branch has not been pushed; the portfolio screenshots under `docs/assets/` still
+  show the previous light design and must be refreshed to the dark UI before release. The prior
+  redesign and TASK-011 remain recorded below.
 
 ## Visual Redesign 2 (Broadcast Editorial)
 
@@ -36,7 +43,8 @@ SIL Open Font License 1.1), ADR-017 (supplied editorial photography used as isol
 project imagery), ADR-018 (dark player profile with strict id-keyed imagery and a photo-free
 fallback), ADR-019 (dark career trends and game log with a data-visualisation chart palette), and
 ADR-020 (dark cinematic comparison route with equally prominent id-mapped player panels and a
-neutral, accessible comparison table).
+neutral, accessible comparison table), and ADR-021 (final release polish: dark landing end to end, a
+display-only brighter-red token, and accessibility parity fixes).
 
 Landing stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
 
@@ -119,6 +127,31 @@ Comparison stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
   single blue focus ring; and all duplicate, loading, unavailable, no-common-season, invalid, empty,
   and error messages and roles. Motion (the VS pop, the staggered panel rise, and the image settle) is
   CSS-only and gated on `prefers-reduced-motion`. Recorded in ADR-020.
+
+Final release-polish stage (this checkpoint, on `feature/visual-redesign-2-foundation`):
+
+- After the four dark stages, a whole-application adversarial audit reviewed every route by source,
+  the test suite, and a live fixture-backed preview. Its approved findings were then fixed here; no
+  data, logic, contracts, or routes changed.
+- The landing Career Trends section, the last light band, is converted to the dark system (a charcoal
+  surface, warm-white type, red accent, dark court-line motif, and a restrained red glow for depth).
+  The application is now dark from beginning to end.
+- Accessibility parity: the landing `<h1>` now receives focus on entry like the profile and
+  comparison routes; the mobile navigation dialog traps Tab and Shift+Tab and restores focus to the
+  toggle on close; the career-trends equivalent table is a named, keyboard-focusable scroll region
+  (`role="group"`, `aria-label`, `tabindex=0`) consistent with the game-log and comparison tables; the
+  comparison Replace/Clear/Cancel actions get practical touch targets; and the comparison player-name
+  link gets a persistent resting underline.
+- A display-only brighter-red token (`--color-accent-bright`, #ef4444) is introduced for large
+  scoreboard figures (jersey numbers and the "VS") on dark surfaces, reaching about 5:1; the deeper
+  `--color-accent` remains the single UI accent for links and controls.
+- Copy and rhythm cleanup: visible em-dashes removed from the page title and landing copy, the
+  landing section eyebrows reduced to two, the redundant rotated hero label removed, and the dead
+  `hero-title` class removed.
+- Focused tests were added for the landing heading focus, the mobile-menu focus containment and
+  restoration, and the named career-trends scroll region (166 frontend, 244 backend, 410 total).
+  Recorded in ADR-021. The `docs/assets/` portfolio screenshots still show the previous light design
+  and remain to be refreshed to the dark UI before release.
 
 ## Visual Redesign (Stages 1-3)
 
@@ -282,17 +315,16 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-Whole-application adversarial visual, accessibility, responsive, functional, and repository audit
-before release. Review every route end to end and cross-route - landing, header/nav, footer, player
-profile, season statistics, career chart and its equivalent table, game log, and the comparison,
-including all loading, empty, unavailable, and error states - at desktop, 768px tablet, mobile, and
-200% zoom. Exercise long player names, mapped and unmapped players, motion and reduced motion,
-keyboard navigation, focus visibility, contrast, console errors, performance, image loading, layout
-shift, and cross-route visual consistency, and include a repository-hygiene pass. Produce a findings
-list without fixing during the audit. All four dark redesign checkpoints (landing, player profile,
-profile data surfaces, and comparison) are committed on `feature/visual-redesign-2-foundation` but
-not pushed; the branch is not yet audited and is not production-ready, and pushing, opening a pull
-request, merging, and deploying remain deferred until explicitly requested.
+Refresh the five portfolio screenshots under `docs/assets/` (landing desktop, player profile, career
+trends, player comparison, landing mobile) to the completed dark UI using deterministic fixture data,
+then update the README alt text if needed. This is the one remaining item before release: the dark
+redesign and the audit-driven release polish are implemented, validated (166 frontend, 244 backend,
+410 total; all builds passing; the known Recharts/Vite chunk-size warning is non-blocking), and
+committed on `feature/visual-redesign-2-foundation`, but the branch is still local-only and the
+tracked screenshots still show the previous light design. After the screenshots are refreshed, and
+only when explicitly instructed, push the branch, open a pull request, verify CI, merge to `main`, and
+verify the Render deployment (Stage D). Pushing, opening a pull request, merging, and deploying remain
+deferred until explicitly requested.
 
 ## How To Update This File
 

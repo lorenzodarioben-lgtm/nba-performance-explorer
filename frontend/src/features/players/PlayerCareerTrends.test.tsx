@@ -158,6 +158,23 @@ describe('player career trends', () => {
     ).toBeGreaterThan(0);
   });
 
+  it('exposes the equivalent table as a named, focusable scroll region', async () => {
+    server.use(http.get(trendsUrl, () => HttpResponse.json(threeTrendSeasons)));
+
+    renderApp('/players/2544');
+
+    const region = await screen.findByRole('group', {
+      name: 'Career averages by season',
+    });
+    expect(region).toHaveAttribute('tabindex', '0');
+    // The equivalent data table lives inside the focusable scroll region.
+    expect(
+      within(region).getByRole('table', {
+        name: /points, rebounds, and assists per game by season/i,
+      }),
+    ).toBeInTheDocument();
+  });
+
   it('configures non-colour line patterns for the series', async () => {
     server.use(http.get(trendsUrl, () => HttpResponse.json(threeTrendSeasons)));
 

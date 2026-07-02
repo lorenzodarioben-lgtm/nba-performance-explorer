@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 
-// The application masthead: a fixed, dark broadcast bar shared by every route. It overlays the top
-// of the dark landing hero and sits above the light data views. It is a <header> banner landmark and
-// deliberately contains no heading element, so each route's own <h1> stays the page heading and the
-// focus target after client-side navigation. The identity link keeps the stable accessible name
+// The application masthead: a fixed, dark broadcast bar shared by every route. It overlays the top of
+// the dark landing hero and the dark data views. It is a <header> banner landmark and deliberately
+// contains no heading element, so each route's own <h1> stays the page heading and the focus target
+// after client-side navigation. The identity link keeps the stable accessible name
 // "NBA Performance Explorer".
 function Brand({ onNavigate }: { onNavigate?: () => void }) {
   return (
@@ -31,8 +31,9 @@ export function AppHeader() {
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // While the full-screen menu is open: move focus into the panel, lock background scroll, and let
-  // Escape close it and restore focus to the toggle.
+  // While the full-screen menu is open: move focus into the panel, lock background scroll, keep Tab
+  // focus contained within the dialog (it is aria-modal and covers the page), and let Escape close it
+  // and restore focus to the toggle.
   useEffect(() => {
     if (!menuOpen) {
       return;
@@ -46,6 +47,36 @@ export function AppHeader() {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         setMenuOpen(false);
+        return;
+      }
+
+      // Trap Tab within the open dialog: cycle from the last focusable back to the first (and the
+      // reverse for Shift+Tab). Focusables are re-read on each Tab, so this stays correct if the menu
+      // contents change, and focus is pulled back inside if it has somehow escaped the panel.
+      if (event.key === 'Tab') {
+        const panel = panelRef.current;
+        if (!panel) {
+          return;
+        }
+        const focusables = panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled])',
+        );
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (!first || !last) {
+          event.preventDefault();
+          return;
+        }
+        const active = document.activeElement;
+        if (event.shiftKey) {
+          if (active === first || !panel.contains(active)) {
+            event.preventDefault();
+            last.focus();
+          }
+        } else if (active === last || !panel.contains(active)) {
+          event.preventDefault();
+          first.focus();
+        }
       }
     }
 
