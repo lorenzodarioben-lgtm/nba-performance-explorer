@@ -12,13 +12,27 @@ function Brand({ onNavigate }: { onNavigate?: () => void }) {
       to="/"
       aria-label="NBA Performance Explorer"
       onClick={onNavigate}
-      className="flex items-center gap-2"
+      className="flex items-center gap-2.5"
     >
-      <span className="display bg-accent px-1.5 py-1 text-base font-extrabold uppercase leading-none text-white">
-        NBA
-      </span>
-      <span className="display text-lg font-bold uppercase leading-none text-chalk sm:text-xl">
-        Performance Explorer
+      {/* The NBA mark is supplied editorial brand imagery (ADR-022). An empty alt keeps it decorative
+          (the link's accessible name carries the full application name) without an aria-hidden
+          attribute, which the career-trends test relies on being the chart's alone. The "Unofficial"
+          label and the footer non-affiliation notice keep the project clearly unaffiliated. */}
+      <img
+        src="/images/nba-logo.png"
+        width={180}
+        height={386}
+        alt=""
+        decoding="async"
+        className="h-8 w-auto"
+      />
+      <span className="flex flex-col leading-none">
+        <span className="display text-lg font-bold uppercase leading-none text-chalk sm:text-xl">
+          Performance Explorer
+        </span>
+        <span className="mt-1 hidden font-mono text-[0.5rem] uppercase tracking-[0.16em] text-white/45 sm:block">
+          Unofficial player analytics
+        </span>
       </span>
     </Link>
   );

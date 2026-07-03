@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { delay, http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
@@ -90,5 +90,37 @@ describe('app header mobile menu', () => {
       expect(screen.queryByRole('dialog', { name: 'Menu' })).not.toBeInTheDocument(),
     );
     expect(toggle).toHaveFocus();
+  });
+});
+
+describe('app header branding', () => {
+  it('renders the NBA logo mark in the masthead and keeps the application name', () => {
+    mockHealthPending();
+    renderApp();
+
+    const banner = screen.getByRole('banner');
+    const logo = banner.querySelector('img[src="/images/nba-logo.png"]');
+    expect(logo).not.toBeNull();
+    // The mark is decorative (empty alt), so the identity link carries the full accessible name.
+    expect(logo).toHaveAttribute('alt', '');
+    expect(within(banner).getAllByText('Performance Explorer').length).toBeGreaterThan(
+      0,
+    );
+    expect(
+      within(banner).getByRole('link', { name: 'NBA Performance Explorer' }),
+    ).toBeInTheDocument();
+    expect(
+      within(banner).getByText(/Unofficial player analytics/i),
+    ).toBeInTheDocument();
+  });
+
+  it('keeps the non-affiliation notice and the NBA.com data attribution present', () => {
+    mockHealthPending();
+    renderApp();
+
+    expect(
+      screen.getByText(/Unofficial project, not affiliated with the NBA/),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Statistics sourced from\s+NBA\.com/)).toBeInTheDocument();
   });
 });
