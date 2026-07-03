@@ -7,15 +7,18 @@ _Last updated: 2026-07-03_
 
 ## Current State
 
-- **Current milestone:** Post-release visual enhancement: NBA branding, player imagery, and comparison graph
-- **Current task:** NBA logo, expanded player-image registry, landing image diversity, and a neutral comparison graph (implemented on a branch, local only, not pushed)
-- **Current branch:** `feature/nba-branding-player-images-comparison-visual`
+- **Current milestone:** Post-release visual enhancement: NBA branding, player imagery, and comparison graph (complete, merged, and deployed)
+- **Current task:** None - the branding, player-imagery, and comparison-graph enhancement is merged to `main` and live in production
+- **Current branch:** `main`
 - **Current status:** The dark broadcast-editorial redesign (Visual Redesign 2) is complete, merged to
   `main` (merge commit `a0ce49f228f564910ccc253a48215f481fb18485`), and deployed and verified in
   production at `https://nba-performance-explorer.onrender.com` over the live NBA.com provider; that
-  work is recorded below. A separately scoped visual enhancement is now implemented on
-  `feature/nba-branding-player-images-comparison-visual` (branched from `main` at `427f63b`, local
-  only, not pushed): the supplied NBA logo is integrated once in the masthead beside the wordmark with
+  work is recorded below. A separately scoped visual enhancement is now merged to `main` and deployed to
+  production. It was developed on `feature/nba-branding-player-images-comparison-visual` (branched from
+  `main` at `427f63b`) and merged via PR #25 using a merge commit
+  (`0fde038072aae9e75074d79fe26a06e5b2e73ebb`) that preserves the three enhancement commits (`f824511`,
+  `e247c98`, `32c5e4d`) in history, not squashed or rebased. The supplied NBA logo is integrated once in
+  the masthead beside the wordmark with
   an "Unofficial player analytics" label (a decorative empty-alt image; the non-affiliation notice and
   NBA.com attribution are unchanged); the strict id-keyed player-image registry grows from three to
   fourteen verified players (every id checked against the fixtures and the live search directory,
@@ -31,9 +34,21 @@ _Last updated: 2026-07-03_
   244 backend tests, and 426 total. No backend, shared contracts, `render.yaml`, route,
   query-ownership, statistics, number-formatting, chart or game-log data, comparison URL / duplicate /
   common-season logic, or existing profile-fallback behaviour changed; the direction is recorded in
-  ADR-022. The branch is not pushed; pushing, opening a pull request, merging, and deploying are
-  deferred until explicitly requested. The completed dark redesign (still live on `main`) and TASK-011
-  remain recorded below.
+  ADR-022. Render auto-deployed the merged `main`, and production was verified at
+  `https://nba-performance-explorer.onrender.com` over the live NBA.com provider through the public
+  HTTP/API surface and deployed-asset and bundle inspection: `/api/health` is healthy; the NBA logo and
+  all eleven new player images are served with their exact byte sizes; the deployed JS and CSS bundles
+  contain the graph, branding, and expanded-registry code and the reveal styles; every mapped player id
+  resolves to the correct player through the live API while an unmapped id (Kyrie Irving, `202681`) falls
+  through to the photo-free composition; the comparison stats path returns live data; and every route,
+  including direct refresh of a mapped profile and a populated comparison URL, returns the SPA. The known
+  non-blocking Recharts/Vite chunk-size warning remains. Live-browser pixel and runtime-console checks
+  were not part of this pass (no connected browser was available); the refreshed README screenshots,
+  captured from the app, visually show the masthead logo and the rendered comparison graph. Trademark,
+  copyright, and photography provenance for the supplied NBA logo and player imagery remain the project
+  owner's responsibility. The remote feature branch was deleted when PR #25 merged and the local feature
+  branch is removed in the concluding cleanup step, leaving `main` as the working branch. The completed
+  dark redesign (still live on `main`) and TASK-011 remain recorded below.
 
 ## Visual Redesign 2 (Broadcast Editorial)
 
@@ -316,13 +331,8 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-The post-release visual enhancement (NBA branding, the expanded player-image registry, landing image
-diversity, and the neutral comparison graph, ADR-022) is implemented, validated (182 frontend, 244
-backend, 426 total; all builds passing; the known non-blocking Recharts/Vite chunk-size warning
-remains), and committed on `feature/nba-branding-player-images-comparison-visual`, which is local only.
-Awaiting review of the visual result. Pushing the branch, opening a pull request, merging to `main`,
-and the Render deployment are deferred until explicitly requested; the dark redesign on `main` remains
-live in production.
+No required work remains for this enhancement. Future changes should be handled as a new, separately
+scoped maintenance or feature task.
 
 ## How To Update This File
 
