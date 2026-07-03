@@ -244,6 +244,60 @@ describe('player comparison page', () => {
     expect(statCells('Games played')).toEqual(['71', '74']);
   });
 
+  it('renders the visual stat matchup graph alongside the table for a valid comparison', async () => {
+    renderApp('/compare?player1=2544&player2=201939&season=2023-24');
+
+    await screen.findByRole('table');
+    const graphHeading = screen.getByRole('heading', { name: 'Statistical matchup' });
+    expect(graphHeading).toBeInTheDocument();
+    expect(screen.getByText(/Each metric uses its own scale/)).toBeInTheDocument();
+
+    // The graph shows the same raw values as the table (LeBron 25.7 and Curry 26.4 points).
+    const graphSection = graphHeading.closest('section') as HTMLElement;
+    expect(within(graphSection).getByText('25.7')).toBeInTheDocument();
+    expect(within(graphSection).getByText('26.4')).toBeInTheDocument();
+
+    // Neutral: no winner labelling anywhere on the page.
+    expect(screen.queryByText(/winner|leads|wins/i)).not.toBeInTheDocument();
+  });
+
+  it('does not render the stat graph before two players are compared', async () => {
+    renderApp('/compare');
+
+    expect(await screen.findByText(/Select two distinct players/)).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'Statistical matchup' }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('does not render the stat graph when the players share no season', async () => {
+    renderApp('/compare?player1=1641705&player2=201142');
+
+    expect(
+      await screen.findByText(/have no regular-season in common/),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'Statistical matchup' }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('table')).not.toBeInTheDocument();
+  });
+
+  it('does not render the stat graph when comparison statistics fail to load', async () => {
+    server.use(
+      http.get('http://localhost/api/players/:playerId/seasons/:season/stats', () =>
+        errorJson(500, 'INTERNAL_SERVER_ERROR'),
+      ),
+    );
+    renderApp('/compare?player1=2544&player2=201939&season=2023-24');
+
+    expect(
+      await screen.findByText(/could not load the comparison statistics/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'Statistical matchup' }),
+    ).not.toBeInTheDocument();
+  });
+
   it('renders all eleven statistic rows', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
