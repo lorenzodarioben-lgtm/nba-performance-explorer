@@ -165,13 +165,13 @@ function ExploreSection() {
             <figure className="relative">
               <div className="absolute -left-3 -top-3 h-16 w-16 border-l-2 border-t-2 border-accent" />
               <img
-                src="/images/curry-action.avif"
-                width={2400}
-                height={1422}
+                src="/images/luka-doncic.jpg"
+                width={1200}
+                height={915}
                 loading="lazy"
                 decoding="async"
-                alt="Stephen Curry of the Golden State Warriors during a game"
-                className="aspect-[4/5] w-full rounded-sm object-cover object-top grayscale-[0.15] sm:aspect-[4/3]"
+                alt="Luka Doncic during an NBA game"
+                className="aspect-[4/5] w-full rounded-sm object-cover object-[center_25%] grayscale-[0.15] sm:aspect-[4/3]"
               />
             </figure>
           </Reveal>
@@ -203,13 +203,13 @@ function TrendsSection() {
           <Reveal>
             <figure className="relative">
               <img
-                src="/images/lebron-dunk.avif"
-                width={1200}
-                height={1200}
+                src="/images/giannis.avif"
+                width={1920}
+                height={1080}
                 loading="lazy"
                 decoding="async"
-                alt="LeBron James rising toward the rim for a dunk"
-                className="aspect-square w-full rounded-sm object-cover"
+                alt="Giannis Antetokounmpo during an NBA game"
+                className="aspect-square w-full rounded-sm object-cover object-[center_25%]"
               />
             </figure>
           </Reveal>
@@ -247,12 +247,12 @@ function CompareSection() {
           <div className="mt-10 flex items-center justify-center gap-5 sm:gap-10">
             <figure className="h-36 w-32 overflow-hidden rounded-sm border border-white/10 sm:h-56 sm:w-48">
               <img
-                src="/images/curry-action.avif"
-                width={2400}
-                height={1422}
+                src="/images/shai-gilgeous-alexander.webp"
+                width={1067}
+                height={1600}
                 loading="lazy"
                 decoding="async"
-                alt="Stephen Curry"
+                alt="Shai Gilgeous-Alexander"
                 className="h-full w-full object-cover object-top"
               />
             </figure>
@@ -261,13 +261,13 @@ function CompareSection() {
             </span>
             <figure className="h-36 w-32 overflow-hidden rounded-sm border border-white/10 sm:h-56 sm:w-48">
               <img
-                src="/images/lebron-dunk.avif"
-                width={1200}
-                height={1200}
+                src="/images/harden.avif"
+                width={980}
+                height={1174}
                 loading="lazy"
                 decoding="async"
-                alt="LeBron James"
-                className="h-full w-full object-cover"
+                alt="James Harden"
+                className="h-full w-full object-cover object-top"
               />
             </figure>
           </div>

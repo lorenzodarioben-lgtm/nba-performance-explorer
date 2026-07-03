@@ -591,3 +591,61 @@ contracts, routes, Render configuration, query ownership, statistics, number for
 game-log data, or comparison logic changed. The Recharts/Vite chunk-size warning remains a known,
 non-blocking build note, and the portfolio screenshots under `docs/assets/` are still to be refreshed
 to the dark UI before release.
+
+---
+
+## ADR-022 - NBA logo, expanded player-image registry, and a neutral comparison graph
+
+- **Status:** Accepted
+- **Date:** 2026-07-03
+
+**Context.** A separately scoped visual enhancement follows the completed dark redesign: integrate the
+supplied NBA logo, broaden the player photography (the landing over-used two players), and add a
+visually impressive but honest statistical graphic to the comparison page. It must extend the approved
+dark broadcast-editorial system without becoming an official-NBA claim, showing a wrong player's photo,
+or implying a comparison winner.
+
+**Decision.**
+
+- **NBA logo.** The supplied NBA mark ships as `frontend/public/images/nba-logo.png` (cropped to the
+  glyph, transparent) and appears once, in the masthead, replacing the text "NBA" chip beside the
+  "Performance Explorer" wordmark. It is decorative (empty `alt`; the identity link keeps the
+  accessible name "NBA Performance Explorer"), sized for the dark header, and is not a giant
+  background, a repeated motif, or the favicon. A small "Unofficial player analytics" label sits with
+  the wordmark, and the footer non-affiliation notice and NBA.com attribution are unchanged, so the
+  project stays clearly unaffiliated. The logo is supplied editorial imagery; provenance and any
+  production licensing remain the project owner's responsibility (consistent with ADR-017); this
+  records no legal conclusion.
+- **Expanded strict image registry.** `playerImages.ts` grows from three to fourteen players. Every id
+  is a real NBA person id verified against the application's own data (the fixtures and the live search
+  directory), never inferred from a face; ambiguous or unlabelled source files are left unmapped.
+  Mapping stays strictly id-keyed and presentational, no two players share a photo file, and a player
+  without a mapping still gets the intentional photo-free composition (never a stand-in or the wrong
+  player). Alt text and per-image focal positions are recorded; no image-processing dependency was
+  added.
+- **Landing image diversity.** The landing shows a different player in each editorial slot (Wembanyama
+  hero, then Luka Doncic, Giannis Antetokounmpo, and a Shai Gilgeous-Alexander versus James Harden
+  teaser); no photo repeats on the page, and the previously over-used Curry and LeBron images no longer
+  appear on the landing.
+- **Comparison stat graph.** A supplementary "statistical matchup" graphic sits above the neutral
+  comparison table when a valid common-season comparison is available. It is a mirrored, per-metric
+  dual-bar "tale of the tape": each of the same eleven metrics is one row with both raw values always
+  printed, scaled independently within its own row (never on a shared cross-metric scale), with a
+  visible note that says so and safe handling of equal, zero, and unavailable values. The two series
+  use the data-visualisation blue and amber (never the red UI accent or team colours), distinguished by
+  colour, side, a hatch pattern, and persistent labels, with no winner colouring, arrows, ranking, or
+  aggregate score. The graphic is `aria-hidden` and the comparison table remains the authoritative,
+  screen-reader-accessible representation; the graph's heading and scale note stay outside the
+  aria-hidden graphic, and the reveal motion is CSS-only, gated on `prefers-reduced-motion`, leaving
+  every bar at its final width otherwise. The logo uses a decorative empty `alt` rather than an
+  `aria-hidden` attribute so the career-trends test's "first aria-hidden element is the chart"
+  assumption stays intact.
+
+**Consequences.** The interface carries basketball brand context and a broader, correctly-mapped player
+roster, and the comparison page gains an impressive yet neutral and accessible visual, without changing
+any data, logic, contracts, routes, or the authoritative table. No backend, shared contracts,
+`render.yaml`, query ownership, statistics, number formatting, chart or game-log data, comparison URL /
+duplicate / common-season logic, or the existing profile fallback changed. Provenance and any
+production licensing of the supplied NBA logo and player photography remain the project owner's
+responsibility; the non-affiliation notice and NBA.com attribution remain present. The known
+Recharts/Vite chunk-size warning remains non-blocking.

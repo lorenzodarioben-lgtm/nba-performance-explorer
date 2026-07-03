@@ -23,6 +23,7 @@ import {
 } from './comparison-state';
 import { ComparisonPlayerSlot } from './ComparisonPlayerSlot';
 import { ComparisonSeasonSelector } from './ComparisonSeasonSelector';
+import { ComparisonStatGraph } from './ComparisonStatGraph';
 import { PlayerComparisonTable } from './PlayerComparisonTable';
 
 type ActiveSlot = 'player1' | 'player2' | null;
@@ -318,11 +319,18 @@ export function PlayerComparisonPage() {
       player2QueryId !== undefined
     ) {
       return (
-        <PlayerComparisonTable
-          season={effectiveSeason}
-          playerA={{ playerId: player1QueryId, fullName: name1, stats: stats1.data }}
-          playerB={{ playerId: player2QueryId, fullName: name2, stats: stats2.data }}
-        />
+        <>
+          <ComparisonStatGraph
+            season={effectiveSeason}
+            playerA={{ fullName: name1, stats: stats1.data }}
+            playerB={{ fullName: name2, stats: stats2.data }}
+          />
+          <PlayerComparisonTable
+            season={effectiveSeason}
+            playerA={{ playerId: player1QueryId, fullName: name1, stats: stats1.data }}
+            playerB={{ playerId: player2QueryId, fullName: name2, stats: stats2.data }}
+          />
+        </>
       );
     }
 

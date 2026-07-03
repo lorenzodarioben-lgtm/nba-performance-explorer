@@ -350,6 +350,34 @@ html.js [data-reveal].is-visible {
   }
 }
 
+/* Comparison "tale of the tape" bars: each fill grows out from the central axis on mount. The width
+ * per bar is set inline from the data; this only animates the reveal (compositor-friendly scaleX), so
+ * under reduced motion or without JS every bar is shown at its final width immediately. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .stat-bar-in {
+    animation: stat-bar-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+@keyframes stat-bar-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Player B's bars carry a diagonal hatch so the two series are distinguished by more than colour. */
+.stat-bar-hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgb(0 0 0 / 0.24) 0,
+    rgb(0 0 0 / 0.24) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}
+
 /* Broadcast ticker (a single marquee per page; the duplicated track loops seamlessly at -50%). */
 .marquee {
   overflow: hidden;

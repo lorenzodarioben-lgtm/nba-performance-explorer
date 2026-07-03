@@ -16,14 +16,14 @@ Captured from the final redesigned app with deterministic fixture data (Stephen 
 LeBron James, 2023-24 season).
 
 <a href="https://nba-performance-explorer.onrender.com">
-  <img src="docs/assets/home-desktop.png" alt="NBA Performance Explorer home page: a product hero with the player search and a live-data status indicator." width="100%" />
+  <img src="docs/assets/home-desktop.png" alt="NBA Performance Explorer home page: an NBA-branded masthead over a full-bleed hero with the player search and a live-data status indicator." width="100%" />
 </a>
 
 <table role="presentation">
   <tr>
     <td width="50%">
-      <img src="docs/assets/player-profile-desktop.png" alt="Stephen Curry profile with bio details, a season selector, and selected-season statistics." width="100%" />
-      <br /><sub>Player profile and selected-season statistics</sub>
+      <img src="docs/assets/player-profile-desktop.png" alt="Stephen Curry profile under the NBA-branded masthead, with the jersey-number scoreboard identity, bio details, and a season selector." width="100%" />
+      <br /><sub>Player profile identity and bio</sub>
     </td>
     <td width="50%">
       <img src="docs/assets/career-trends-desktop.png" alt="Career-trend line chart with a matching data table; series are distinguished by dash pattern and legend shape, not colour alone." width="100%" />
@@ -32,11 +32,11 @@ LeBron James, 2023-24 season).
   </tr>
   <tr>
     <td width="50%">
-      <img src="docs/assets/player-comparison-desktop.png" alt="Two-player regular-season comparison table: Stephen Curry versus LeBron James for the 2023-24 season." width="100%" />
-      <br /><sub>Two-player season comparison</sub>
+      <img src="docs/assets/player-comparison-desktop.png" alt="Two-player head-to-head, LeBron James versus Stephen Curry for the 2023-24 season: the VS identity panels above a mirrored, per-metric statistical matchup graph." width="100%" />
+      <br /><sub>Two-player comparison with a statistical matchup graph</sub>
     </td>
     <td width="50%">
-      <img src="docs/assets/home-mobile.png" alt="NBA Performance Explorer home page on a narrow mobile viewport, with controls stacked in a single column." width="100%" />
+      <img src="docs/assets/home-mobile.png" alt="NBA Performance Explorer home page on a narrow mobile viewport: the NBA-branded masthead and a single-column hero." width="100%" />
       <br /><sub>Responsive mobile home page</sub>
     </td>
   </tr>
