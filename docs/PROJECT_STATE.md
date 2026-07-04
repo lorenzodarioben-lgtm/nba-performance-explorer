@@ -3,14 +3,35 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Coding agents read this to understand where things stand before starting work.
 
-_Last updated: 2026-07-03_
+_Last updated: 2026-07-04_
 
 ## Current State
 
-- **Current milestone:** Post-release visual enhancement: NBA branding, player imagery, and comparison graph (complete, merged, and deployed)
-- **Current task:** None - the branding, player-imagery, and comparison-graph enhancement is merged to `main` and live in production
-- **Current branch:** `main`
-- **Current status:** The dark broadcast-editorial redesign (Visual Redesign 2) is complete, merged to
+- **Current milestone:** Comparison-page polish: detailed-table disclosure and career-arc trend chart (implemented on a branch, local only)
+- **Current task:** Reduce comparison-page visual redundancy (collapse the detailed table into a disclosure; group and refine the statistical-matchup graph) and add a season-by-season career-arc trend chart (ADR-023) - implemented, validated, and committed on the branch, not pushed
+- **Current branch:** `feature/comparison-graph-polish-career-arc`
+- **Current status:** A final, separately scoped comparison-page polish is now implemented on
+  `feature/comparison-graph-polish-career-arc` (branched from `main` at `b4781e1`, local only, not
+  pushed). It reduces the visual redundancy between the statistical-matchup graph and the detailed table
+  by collapsing the exact-value table into an accessible button disclosure below the visuals (the table
+  keeps its caption, row and column headers, scope attributes, selected-season context, and named
+  keyboard-focusable scroll region, and the matchup graph stays visible by default); refines the matchup
+  graph with four labelled metric groups (Availability, Scoring, Playmaking, Defense), more spacing, and a
+  faint half-court motif, with the eleven values, formatters, independent per-row scaling, blue and amber
+  non-colour-only series, and no-winner neutrality all unchanged; and adds a supplementary "Career arc"
+  chart that plots one selected metric season-by-season for both players as two equal-weight blue and amber
+  lines, reusing the existing career-trends query for both players (no new endpoint, contract, or
+  dependency), omitting missing seasons without bridging gaps, with a compact keyboard-accessible metric
+  selector in local UI state (the shareable comparison URL is untouched), an aria-hidden chart plus an
+  accessible summary, and no winner, ranking, or aggregate. The README comparison screenshot is refreshed
+  to show the grouped matchup and the career-arc chart. Validation passes with 190 frontend tests, 244
+  backend tests, and 434 total; the known non-blocking Recharts/Vite chunk-size warning remains. No
+  backend, shared contracts, `render.yaml`, environment behaviour, routes, search or combobox behaviour,
+  season selection or reconciliation, comparison URL / duplicate / common-season logic, statistics, number
+  formatters, game-log data, existing career-chart logic, or the player-image registry changed; the
+  direction is recorded in ADR-023. This branch is not pushed; pushing, a pull request, merging, and
+  deployment are deferred until explicitly requested. The two prior enhancements remain live on `main`:
+  the dark broadcast-editorial redesign (Visual Redesign 2) is complete, merged to
   `main` (merge commit `a0ce49f228f564910ccc253a48215f481fb18485`), and deployed and verified in
   production at `https://nba-performance-explorer.onrender.com` over the live NBA.com provider; that
   work is recorded below. A separately scoped visual enhancement is now merged to `main` and deployed to
@@ -331,8 +352,12 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-No required work remains for this enhancement. Future changes should be handled as a new, separately
-scoped maintenance or feature task.
+The comparison-page polish (detailed-table disclosure, grouped and refined statistical-matchup graph, and
+the new career-arc trend chart, ADR-023) is implemented, validated (190 frontend, 244 backend, 434 total;
+all builds passing; the known non-blocking Recharts/Vite chunk-size warning remains), and committed on
+`feature/comparison-graph-polish-career-arc`, which is local only. Awaiting review of the visual result.
+Pushing the branch, opening a pull request, merging to `main`, and the Render deployment are deferred until
+explicitly requested; the prior branding enhancement and dark redesign on `main` remain live in production.
 
 ## How To Update This File
 
