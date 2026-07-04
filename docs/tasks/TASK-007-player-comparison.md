@@ -4,7 +4,7 @@
 - **Status:** Completed and merged
 - **Branch:** `feature/player-comparison`
 
-> Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before starting. TASK-001 through
 > TASK-006 are completed and merged. Stay strictly within this task and preserve search,
 > profile, season-statistics, career-trends, game-log, and health behaviour.

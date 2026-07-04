@@ -4,8 +4,6 @@ coverage/
 package-lock.json
 
 # Preserve source-of-truth planning documents unless a task explicitly updates them.
-AGENTS.md
-CLAUDE.md
 docs/ARCHITECTURE.md
 docs/PROJECT_SPEC.md
 docs/tasks/

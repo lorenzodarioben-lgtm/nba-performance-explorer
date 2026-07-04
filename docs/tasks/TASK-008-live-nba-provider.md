@@ -6,7 +6,7 @@
 - **Selected provider:** Direct NBA.com Stats access through `NbaStatsPlayerProvider`
 - **Risk posture:** Accepted product-owner legal, stability, and deployment-connectivity risks
 
-> Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before implementation. TASK-001
 > through TASK-007 are completed and merged. This document is the final TASK-008
 > implementation specification. The planning decisions below are implemented and merged into

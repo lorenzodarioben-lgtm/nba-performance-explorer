@@ -5,7 +5,7 @@
 - **Current branch:** `main`
 - **Baseline main:** `fc83a78` (PR #17, Stage B accessible error recovery and game-log scroll region)
 
-> Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before any work. TASK-001
 > through TASK-010 are complete and merged. Production runs the live NBA.com provider.
 > This task is a portfolio-readiness task only; it is not a feature expansion, provider

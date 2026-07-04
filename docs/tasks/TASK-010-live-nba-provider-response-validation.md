@@ -5,7 +5,7 @@
 - **Branch:** Stages A & D merged via pull request #12 (`71b61e9`); Stage C via pull request #13 (`5518234`); live-config finalization on `chore/enable-live-nba-provider-production`
 - **Provider under investigation:** `NbaStatsPlayerProvider` (direct NBA.com Stats access, ADR-013)
 
-> Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_STATE.md`, and
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_STATE.md`, and
 > `docs/DECISIONS.md` before any work. TASK-001 through TASK-009 are completed and merged. This
 > document defines scope and a staged, evidence-driven approach only. It changes no production
 > code. The committed repository, Git history, source, and tests are authoritative wherever this

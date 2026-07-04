@@ -4,7 +4,7 @@
 - **Status:** Completed and merged (commit `0f60737`, merged into `main` via pull request #2 in merge commit `5c3fe2e`)
 - **Branch:** `feature/player-search`
 
-> Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before starting. Stay strictly within
 > this task.
 

@@ -9,7 +9,7 @@ Final verification recorded 83 frontend tests and 75 backend tests (158 total). 
 production frontend bundle was 700.51 KB JavaScript (209.35 KB gzip) and 12.42 KB CSS
 (3.30 KB gzip). The existing Vite chunk-size warning remained known and non-blocking.
 
-> Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before starting. Stay strictly within this
 > task. TASK-001 through TASK-005 are completed and merged; build on them without regressing
 > search, profile, season statistics, career trends, or health behaviour.

@@ -1,7 +1,7 @@
 # Architecture — NBA Performance Explorer
 
 > Status: Initial development. This describes the intended architecture. Most of it is not
-> implemented yet. Coding agents must read this before making structural changes and must
+> implemented yet. Contributors must read this before making structural changes and must
 > not violate the boundaries described here.
 
 ## Overview

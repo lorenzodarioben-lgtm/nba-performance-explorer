@@ -4,7 +4,7 @@
 - **Status:** Planning complete; implementation not started
 - **Branch:** merged into `main` through pull request #10 (`9c27e3c`)
 
-> Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_STATE.md`,
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_STATE.md`,
 > and `docs/DECISIONS.md` before any work. TASK-001 through TASK-008 are completed and merged.
 > This document defines scope only; it selects no hosting provider and changes no application
 > code or configuration. A separate planning-only turn must browse current hosting and provider

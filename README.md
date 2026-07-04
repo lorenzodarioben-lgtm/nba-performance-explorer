@@ -228,4 +228,3 @@ render.yaml           Render Blueprint for the single production web service
 - [Current project state](docs/PROJECT_STATE.md)
 - [TASK-010 live provider validation](docs/tasks/TASK-010-live-nba-provider-response-validation.md)
 - [TASK-011 portfolio readiness](docs/tasks/TASK-011-portfolio-readiness-and-final-audit.md)
-- [Repository working agreement](AGENTS.md)

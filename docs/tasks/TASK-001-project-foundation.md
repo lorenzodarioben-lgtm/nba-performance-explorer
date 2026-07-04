@@ -4,8 +4,8 @@
 - **Status:** Completed
 - **Branch:** `chore/project-foundation` (merged into `main` in merge commit `8bfdab2`)
 
-> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`, `docs/PROJECT_STATE.md`, and
-> `AGENTS.md` before starting. Stay strictly within this task.
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`, and `docs/PROJECT_STATE.md`
+> before starting. Stay strictly within this task.
 
 ## Goal
 

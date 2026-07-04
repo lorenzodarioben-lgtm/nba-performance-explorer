@@ -4,7 +4,7 @@
 - **Status:** Completed and merged (commit `c4c25c6`, merged into `main` via pull request #3 in merge commit `dc7af98`)
 - **Branch:** `feature/player-profile`
 
-> Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before starting. Stay strictly within
 > this task. TASK-002 (player search) is completed and merged; build on it without
 > regressing it.

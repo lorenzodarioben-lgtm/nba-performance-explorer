@@ -1,7 +1,7 @@
 # Project State - NBA Performance Explorer
 
 > This file is the live status of the project. It must be updated after every completed
-> task. Coding agents read this to understand where things stand before starting work.
+> task. Contributors read this to understand where things stand before starting work.
 
 _Last updated: 2026-07-04_
 
