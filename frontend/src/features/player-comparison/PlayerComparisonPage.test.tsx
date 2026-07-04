@@ -176,6 +176,18 @@ beforeEach(() => {
         return HttpResponse.json({ stats });
       },
     ),
+    http.get('http://localhost/api/players/:playerId/season-trends', ({ params }) => {
+      const player = players[String(params.playerId)];
+      if (!player) {
+        return errorJson(404, 'PLAYER_NOT_FOUND');
+      }
+      // The career arc reuses the same per-season stats fixtures, ordered oldest-first as the
+      // season-trends contract requires.
+      const seasons = Object.entries(player.stats)
+        .sort(([a], [b]) => Number(a.slice(0, 4)) - Number(b.slice(0, 4)))
+        .map(([, stats]) => stats);
+      return HttpResponse.json({ seasons });
+    }),
   );
 });
 
@@ -192,6 +204,15 @@ function statCells(label: string): string[] {
   return within(row)
     .getAllByRole('cell')
     .map((cell) => cell.textContent ?? '');
+}
+
+// The detailed statistics table is collapsed by default; open the disclosure and return the table.
+async function revealTable(): Promise<HTMLElement> {
+  const toggle = await screen.findByRole('button', {
+    name: /detailed statistics table/i,
+  });
+  fireEvent.click(toggle);
+  return screen.findByRole('table');
 }
 
 async function typeDebounced(input: HTMLElement, value: string) {
@@ -230,7 +251,7 @@ describe('player comparison page', () => {
   it('restores a full comparison from a direct URL', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    expect(await screen.findByRole('table')).toBeInTheDocument();
+    expect(await revealTable()).toBeInTheDocument();
     expect(
       screen.getByRole('columnheader', { name: /LeBron James/ }),
     ).toBeInTheDocument();
@@ -247,7 +268,7 @@ describe('player comparison page', () => {
   it('renders the visual stat matchup graph alongside the table for a valid comparison', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     const graphHeading = screen.getByRole('heading', { name: 'Statistical matchup' });
     expect(graphHeading).toBeInTheDocument();
     expect(screen.getByText(/Each metric uses its own scale/)).toBeInTheDocument();
@@ -301,7 +322,7 @@ describe('player comparison page', () => {
   it('renders all eleven statistic rows', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     const labels = [
       'Games played',
       'Minutes per game',
@@ -323,7 +344,7 @@ describe('player comparison page', () => {
   it('shows the season team abbreviation in the column heading', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2017-18');
 
-    await screen.findByRole('table');
+    await revealTable();
     // 2017-18 is a season both share but on different teams; LeBron was on CLE that year.
     expect(
       screen.getByRole('columnheader', { name: /LeBron James/ }),
@@ -343,7 +364,7 @@ describe('player comparison page', () => {
     );
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     expect(statCells('Blocks per game')).toEqual(['0.5', '0.0']);
   });
 
@@ -370,7 +391,7 @@ describe('player comparison page', () => {
     );
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     expect(
       screen.getByRole('columnheader', { name: /LeBron James/ }),
     ).toHaveTextContent('Multiple teams');
@@ -379,7 +400,7 @@ describe('player comparison page', () => {
   it('wraps the table in a keyboard-reachable scroll region', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    const table = await screen.findByRole('table');
+    const table = await revealTable();
     const region = screen.getByRole('group', { name: /Comparison statistics/ });
     expect(region).toContainElement(table);
     expect(region).toHaveAttribute('tabindex', '0');
@@ -388,7 +409,7 @@ describe('player comparison page', () => {
   it('auto-selects the newest common season when the URL omits it', async () => {
     renderApp('/compare?player1=2544&player2=201939');
 
-    await screen.findByRole('table');
+    await revealTable();
     expect(
       screen.getByText(/Regular-season comparison for the 2023-24 season/),
     ).toBeInTheDocument();
@@ -397,7 +418,7 @@ describe('player comparison page', () => {
   it('offers only the seasons both players share', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     const selector = screen.getByRole('combobox', { name: 'Comparison season' });
     const optionValues = within(selector)
       .getAllByRole('option')
@@ -408,7 +429,7 @@ describe('player comparison page', () => {
   it('updates both players when the season changes', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     expect(statCells('Points per game')).toEqual(['25.7', '26.4']);
 
     fireEvent.change(screen.getByRole('combobox', { name: 'Comparison season' }), {
@@ -420,6 +441,8 @@ describe('player comparison page', () => {
         screen.getByText(/Regular-season comparison for the 2017-18 season/),
       ).toBeInTheDocument();
     });
+    // Changing the season reloads the stats and re-collapses the detailed table; reopen it.
+    await revealTable();
     expect(statCells('Points per game')).toEqual(['27.5', '26.4']);
   });
 
@@ -544,7 +567,7 @@ describe('player comparison page', () => {
   it('replaces Player A in place', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     fireEvent.click(screen.getByRole('button', { name: 'Replace Player A' }));
 
     expect(
@@ -555,7 +578,7 @@ describe('player comparison page', () => {
   it('clears Player B while preserving Player A and dropping the season', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     fireEvent.click(screen.getByRole('button', { name: 'Clear Player B' }));
 
     await waitFor(() => {
@@ -607,7 +630,7 @@ describe('player comparison page', () => {
     );
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     fireEvent.change(screen.getByRole('combobox', { name: 'Comparison season' }), {
       target: { value: '2017-18' },
     });
@@ -616,7 +639,7 @@ describe('player comparison page', () => {
     await screen.findByText('Loading comparison statistics...');
     expect(screen.queryByRole('table')).not.toBeInTheDocument();
 
-    await screen.findByRole('table');
+    await revealTable();
     expect(statCells('Points per game')).toEqual(['27.5', '26.4']);
   });
 
@@ -630,14 +653,14 @@ describe('player comparison page', () => {
     );
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     expect(hadSignal).toBe(true);
   });
 
   it('links each selected player to their profile and back to search', async () => {
     renderApp('/compare?player1=2544&player2=201939&season=2023-24');
 
-    await screen.findByRole('table');
+    await revealTable();
     expect(screen.getByRole('link', { name: 'LeBron James' })).toHaveAttribute(
       'href',
       '/players/2544',
@@ -646,5 +669,114 @@ describe('player comparison page', () => {
       'href',
       '/',
     );
+  });
+
+  it('keeps the detailed statistics table collapsed until the disclosure is opened', async () => {
+    renderApp('/compare?player1=2544&player2=201939&season=2023-24');
+
+    const toggle = await screen.findByRole('button', {
+      name: /view detailed statistics table/i,
+    });
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    // The matchup graph is visible by default; the exact-value table is not.
+    expect(
+      screen.getByRole('heading', { name: 'Statistical matchup' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('table', { name: /Regular-season comparison/ }),
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(toggle);
+
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    const table = await screen.findByRole('table', {
+      name: /Regular-season comparison/,
+    });
+    // Table semantics and exact values are intact once revealed.
+    expect(
+      within(table).getByRole('rowheader', { name: 'Points per game' }),
+    ).toBeInTheDocument();
+    expect(statCells('Points per game')).toEqual(['25.7', '26.4']);
+  });
+
+  it('shows no graph, career arc, or table scaffolding in the empty comparison state', async () => {
+    renderApp('/compare');
+
+    await screen.findByText(/Select two distinct players/);
+    expect(
+      screen.queryByRole('heading', { name: 'Statistical matchup' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'Career arc' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /detailed statistics table/i }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('table')).not.toBeInTheDocument();
+  });
+
+  it('renders the career arc with points per game selected by default', async () => {
+    renderApp('/compare?player1=2544&player2=201939&season=2023-24');
+
+    // The metric options appear once both players' career data has loaded.
+    const points = await screen.findByRole('radio', { name: 'Points per game' });
+    expect(points).toBeChecked();
+    expect(screen.getByRole('heading', { name: 'Career arc' })).toBeInTheDocument();
+    expect(screen.getByText(/Missing seasons are omitted/)).toBeInTheDocument();
+  });
+
+  it('changes the career arc metric when another option is chosen', async () => {
+    renderApp('/compare?player1=2544&player2=201939&season=2023-24');
+
+    const rebounds = await screen.findByRole('radio', {
+      name: 'Rebounds per game',
+    });
+    fireEvent.click(rebounds);
+
+    expect(rebounds).toBeChecked();
+    expect(screen.getByRole('radio', { name: 'Points per game' })).not.toBeChecked();
+  });
+
+  it('includes both players in the career arc with no winner labelling', async () => {
+    renderApp('/compare?player1=2544&player2=201939&season=2023-24');
+
+    const heading = await screen.findByRole('heading', { name: 'Career arc' });
+    const section = heading.closest('section') as HTMLElement;
+    // Wait for the arc to finish loading (its metric options and summary render together).
+    await within(section).findByRole('radio', { name: 'Points per game' });
+    expect(within(section).getAllByText(/LeBron James/).length).toBeGreaterThan(0);
+    expect(within(section).getAllByText(/Stephen Curry/).length).toBeGreaterThan(0);
+    expect(
+      within(section).queryByText(/winner|ranking|better|worse|leads|wins/i),
+    ).not.toBeInTheDocument();
+  });
+
+  it('shows a restrained empty state when career data is insufficient for the arc', async () => {
+    server.use(
+      http.get('http://localhost/api/players/:playerId/season-trends', () =>
+        HttpResponse.json({ seasons: [] }),
+      ),
+    );
+    renderApp('/compare?player1=2544&player2=201939&season=2023-24');
+
+    await screen.findByRole('heading', { name: 'Statistical matchup' });
+    expect(
+      await screen.findByText(/Career arc is unavailable for this matchup/),
+    ).toBeInTheDocument();
+    // The matchup graph and the detailed-table disclosure still work.
+    expect(
+      screen.getByRole('button', { name: /detailed statistics table/i }),
+    ).toBeInTheDocument();
+  });
+
+  it('does not render the career arc when players share no common season', async () => {
+    renderApp('/compare?player1=201142&player2=1641705');
+
+    expect(
+      await screen.findByText(/have no regular-season in common/),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'Career arc' }),
+    ).not.toBeInTheDocument();
   });
 });

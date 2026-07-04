@@ -46,6 +46,16 @@ describe('comparison stat graph', () => {
     expect(screen.getByText('Stephen Curry')).toBeInTheDocument();
   });
 
+  it('organises the metrics into labelled thematic groups', () => {
+    render(
+      <ComparisonStatGraph season="2023-24" playerA={playerA} playerB={playerB} />,
+    );
+
+    for (const group of ['Availability', 'Scoring', 'Playmaking', 'Defense']) {
+      expect(screen.getByText(group)).toBeInTheDocument();
+    }
+  });
+
   it('prints the same formatted values the comparison table uses', () => {
     render(
       <ComparisonStatGraph season="2023-24" playerA={playerA} playerB={playerB} />,
