@@ -4,7 +4,7 @@
 - **Status:** Completed and merged (commit `144a81b`, merged into `main` via pull request #5 in merge commit `5ef4efa`)
 - **Branch:** `feature/career-trends-chart`
 
-> Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before starting. Stay strictly within this
 > task. TASK-001 through TASK-004 are completed and merged; build on them without regressing
 > search, profile, season statistics, or health behaviour.

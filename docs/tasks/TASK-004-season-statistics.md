@@ -4,7 +4,7 @@
 - **Status:** Completed and merged (commit `8ce4fa5`, merged into `main` via pull request #4 in merge commit `1c08394`)
 - **Branch:** `feature/season-statistics`
 
-> Read `AGENTS.md`, `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
+> Read `docs/PROJECT_SPEC.md`, `docs/ARCHITECTURE.md`,
 > `docs/PROJECT_STATE.md`, and `docs/DECISIONS.md` before starting. Stay strictly within
 > this task. TASK-001, TASK-002, and TASK-003 are completed and merged; build on them
 > without regressing search, profile, or health behaviour.
