@@ -699,5 +699,7 @@ selection or reconciliation, comparison URL / duplicate / common-season logic, s
 formatters, game-log data, existing career-chart logic, or the player-image registry changed; the career
 data is read through the existing frontend query only, and no dependency was added. Validation covers the
 work with 190 frontend and 244 backend tests (434 total). The known Recharts/Vite chunk-size warning
-remains non-blocking. This branch is local only; pushing, a pull request, merging, and deployment are
-deferred until explicitly requested.
+remains non-blocking. Merged to `main` via PR #26 (merge commit
+`7f2e7e69d469cad5e3ee18b070ae365f25d72be7`, a true merge preserving both commits) and auto-deployed to
+production, where the deployed bundle carries the disclosure, grouped-matchup, and career-arc code and the
+public HTTP/API surface verified healthy.

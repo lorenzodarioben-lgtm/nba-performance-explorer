@@ -7,12 +7,15 @@ _Last updated: 2026-07-04_
 
 ## Current State
 
-- **Current milestone:** Comparison-page polish: detailed-table disclosure and career-arc trend chart (implemented on a branch, local only)
-- **Current task:** Reduce comparison-page visual redundancy (collapse the detailed table into a disclosure; group and refine the statistical-matchup graph) and add a season-by-season career-arc trend chart (ADR-023) - implemented, validated, and committed on the branch, not pushed
-- **Current branch:** `feature/comparison-graph-polish-career-arc`
-- **Current status:** A final, separately scoped comparison-page polish is now implemented on
-  `feature/comparison-graph-polish-career-arc` (branched from `main` at `b4781e1`, local only, not
-  pushed). It reduces the visual redundancy between the statistical-matchup graph and the detailed table
+- **Current milestone:** Comparison-page polish: detailed-table disclosure and career-arc trend chart (complete, merged, and deployed)
+- **Current task:** None - the comparison-page polish (detailed-table disclosure, grouped and refined statistical-matchup graph, and the career-arc trend chart, ADR-023) is merged to `main` and live in production
+- **Current branch:** `main`
+- **Current status:** A final, separately scoped comparison-page polish is now merged to `main` and
+  deployed to production. It was developed on `feature/comparison-graph-polish-career-arc` (branched from
+  `main` at `b4781e1`) and merged via PR #26 using a merge commit
+  (`7f2e7e69d469cad5e3ee18b070ae365f25d72be7`) that preserves the two commits (`bc99e05`, `7e07559`) in
+  history, not squashed or rebased. It reduces the visual redundancy between the statistical-matchup graph
+  and the detailed table
   by collapsing the exact-value table into an accessible button disclosure below the visuals (the table
   keeps its caption, row and column headers, scope attributes, selected-season context, and named
   keyboard-focusable scroll region, and the matchup graph stays visible by default); refines the matchup
@@ -29,8 +32,16 @@ _Last updated: 2026-07-04_
   backend, shared contracts, `render.yaml`, environment behaviour, routes, search or combobox behaviour,
   season selection or reconciliation, comparison URL / duplicate / common-season logic, statistics, number
   formatters, game-log data, existing career-chart logic, or the player-image registry changed; the
-  direction is recorded in ADR-023. This branch is not pushed; pushing, a pull request, merging, and
-  deployment are deferred until explicitly requested. The two prior enhancements remain live on `main`:
+  direction is recorded in ADR-023. Render auto-deployed the merged `main`, and production was verified at
+  `https://nba-performance-explorer.onrender.com` over the live NBA.com provider through the public
+  HTTP/API surface and deployed-bundle inspection: `/api/health` is healthy; the deployed JS and CSS
+  bundles carry the career-arc, table-disclosure, grouped-matchup, and reduced-motion code; a
+  Curry-versus-Durant comparison has full career-trends data for the arc while a matchup involving LeBron
+  James (zero upstream career seasons) shows the polished unavailable state; and every route, including
+  direct refresh of the populated comparison URL and player profiles, returns the SPA. Live-browser pixel
+  and console checks were not part of this pass (no connected browser was available); the refreshed README
+  screenshot, captured from the app, visually shows the grouped matchup and the career-arc chart. The two
+  prior enhancements remain live on `main`:
   the dark broadcast-editorial redesign (Visual Redesign 2) is complete, merged to
   `main` (merge commit `a0ce49f228f564910ccc253a48215f481fb18485`), and deployed and verified in
   production at `https://nba-performance-explorer.onrender.com` over the live NBA.com provider; that
@@ -352,12 +363,8 @@ the Stage D branch passed with:
 
 ## Immediate Next Action
 
-The comparison-page polish (detailed-table disclosure, grouped and refined statistical-matchup graph, and
-the new career-arc trend chart, ADR-023) is implemented, validated (190 frontend, 244 backend, 434 total;
-all builds passing; the known non-blocking Recharts/Vite chunk-size warning remains), and committed on
-`feature/comparison-graph-polish-career-arc`, which is local only. Awaiting review of the visual result.
-Pushing the branch, opening a pull request, merging to `main`, and the Render deployment are deferred until
-explicitly requested; the prior branding enhancement and dark redesign on `main` remain live in production.
+No required work remains for this comparison-polish enhancement. Future changes should be handled as a new,
+separately scoped maintenance or feature task.
 
 ## How To Update This File
 
