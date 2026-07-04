@@ -32,8 +32,8 @@ LeBron James, 2023-24 season).
   </tr>
   <tr>
     <td width="50%">
-      <img src="docs/assets/player-comparison-desktop.png" alt="Two-player head-to-head, LeBron James versus Stephen Curry for the 2023-24 season: the VS identity panels above a mirrored, per-metric statistical matchup graph." width="100%" />
-      <br /><sub>Two-player comparison with a statistical matchup graph</sub>
+      <img src="docs/assets/player-comparison-desktop.png" alt="Two-player comparison of LeBron James and Stephen Curry: a grouped, mirrored statistical matchup graph above a season-by-season career-arc trend chart, with the exact-value table kept in a disclosure below." width="100%" />
+      <br /><sub>Comparison: grouped statistical matchup and career-arc trend</sub>
     </td>
     <td width="50%">
       <img src="docs/assets/home-mobile.png" alt="NBA Performance Explorer home page on a narrow mobile viewport: the NBA-branded masthead and a single-column hero." width="100%" />

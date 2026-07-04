@@ -649,3 +649,55 @@ duplicate / common-season logic, or the existing profile fallback changed. Prove
 production licensing of the supplied NBA logo and player photography remain the project owner's
 responsibility; the non-affiliation notice and NBA.com attribution remain present. The known
 Recharts/Vite chunk-size warning remains non-blocking.
+
+---
+
+## ADR-023 - Comparison-page polish: detailed-table disclosure and a career-arc trend chart
+
+- **Status:** Accepted
+- **Date:** 2026-07-04
+
+**Context.** After the neutral statistical-matchup graph shipped (ADR-022), the comparison page repeated
+itself for sighted users: the detailed statistics table restated the same selected-season numbers the
+graph already showed, and there was no way to compare the two players over time. This is a final,
+separately scoped polish of the comparison page only; it does not redesign the page or add a second
+matchup summary.
+
+**Decision.**
+
+- **Detailed table moved into a disclosure.** The authoritative, exact-value comparison table is kept
+  unchanged (caption, row and column headers, scope attributes, selected-season context, and its named
+  keyboard-focusable horizontal scroll region) but is collapsed by default behind a button-controlled
+  disclosure (`aria-expanded` plus `aria-controls`, a `hidden`-toggled region) rendered below the graph
+  and the new chart. The statistical-matchup graph stays visible by default, so the page leads with the
+  visual and offers the exact numbers on demand. A button disclosure was chosen over native
+  `<details>/<summary>` because it exposes state cleanly and behaves deterministically in tests.
+- **Statistical-matchup graph refined.** The eleven metrics are unchanged in value, label, and formatter
+  but are organised into four labelled groups (Availability, Scoring, Playmaking, Defense) with more row
+  spacing, and a faint half-court motif sits behind the central axis. The independent per-row scaling, the
+  blue and amber data-visualisation series distinguished by side and hatch, the always-printed raw values,
+  the visible independent-scale note, the aria-hidden graphic, and the absence of any winner, ranking, or
+  aggregate are all preserved. The motif is decorative and static (so it needs no reduced-motion handling)
+  and never reduces bar or value legibility.
+- **Career-arc trend chart added.** A supplementary "Career arc" section plots one selected metric
+  season-by-season for both players as two equal-weight data-visualisation lines (blue and amber, never a
+  team colour and never the red UI accent), distinguished beyond colour by dash pattern and legend marker.
+  It reuses the existing player career-trends query (`usePlayerSeasonTrendsQuery`) for both players with no
+  new endpoint, contract, or dependency; merges the union of their seasons chronologically; omits seasons a
+  player has no data for and never bridges a gap; and offers a compact keyboard-accessible metric selector
+  (defaulting to points per game) held in local UI state so the shareable comparison URL is untouched. It
+  answers a different question from the selected-season matchup (trend over time, not a single season side
+  by side), renders only in the valid comparison success state with enough loaded career data, shows a
+  polished loading state, and otherwise shows a restrained unavailable message. The chart is decorative
+  (aria-hidden) with a concise accessible textual summary as its equivalent, and carries no winner,
+  ranking, or composite score.
+
+**Consequences.** The comparison page is less visually repetitive, leads with two complementary neutral
+visuals, and still exposes the exact authoritative table on demand with its semantics intact. No backend,
+shared contracts, `render.yaml`, environment behaviour, routes, search or combobox behaviour, season
+selection or reconciliation, comparison URL / duplicate / common-season logic, statistics, number
+formatters, game-log data, existing career-chart logic, or the player-image registry changed; the career
+data is read through the existing frontend query only, and no dependency was added. Validation covers the
+work with 190 frontend and 244 backend tests (434 total). The known Recharts/Vite chunk-size warning
+remains non-blocking. This branch is local only; pushing, a pull request, merging, and deployment are
+deferred until explicitly requested.
