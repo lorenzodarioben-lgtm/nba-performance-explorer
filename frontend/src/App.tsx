@@ -66,6 +66,11 @@ const GamesArchivePage = lazy(() =>
     default: m.GamesArchivePage,
   })),
 );
+const DiscoverPage = lazy(() =>
+  import('./features/discovery/DiscoverPage').then((m) => ({
+    default: m.DiscoverPage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -75,6 +80,20 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/discover"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading discovery…
+                  </p>
+                }
+              >
+                <DiscoverPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/standings"
             element={

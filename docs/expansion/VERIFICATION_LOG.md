@@ -141,3 +141,9 @@ LIVE_WIKI_ARCHIVE_ACCEPTANCE.json PASS at2026-10-13T21:34:23.264Z:10 bounded loc
 Team-source investigation: one normal public API read of2023–24 Los Angeles Lakers season (revision1358934092,287k response) exposes18 historical roster rows, regular schedule and scoped summary tables. One exact-article CC0 P3647 query mapped17/18 player identities; missing mapping must remain unavailable. Candidate not yet integrated at this checkpoint. No inferred medical injury, raw totals or current roster.
 
 Browser QA: genuine scoreboard date2024-04-21 showed4 finals and actual game-ID navigation; game detail displayed venue/timezone warning,4 reconciled quarters and published tied leaders. Phone390x844 standings table stayed within335px container (600px content), keyboard ArrowRight scrolled it; no page overflow. Screenshot emitted in chat; viewport reset. No saved pixel-comparison claim.
+
+## Selected-season discovery checkpoint
+
+Full634 gate PASS:277 frontend/32files +357 backend/28files; format/lint/types/build pass. Six new tests cover distance decomposition, ties, constant metrics, missing/excluded targets, unsafe/duplicate state, source failures, shared filters and random known targets. LIVE_DISCOVERY_ACCEPTANCE.json PASS:2 local genuine API/SPA reads,3 qualifying2023-24 seasons, finite peer distances and direct route refresh. No league-wide similarity/era claim. Source/provider/frozen visual paths unchanged.
+
+Browser genuine discovery confirmed3 qualifying seasons, source/evidence links, explicit selected-pool limits, target state and two finite candidate distances matching smoke output.

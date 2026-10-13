@@ -112,6 +112,9 @@ export function AnalyticsLabPage() {
       <Link to={`/lab/compare${base.size ? `?${base}` : ''}`}>
         Choose or edit player-season cohort
       </Link>
+      <Link to={`/discover${base.size ? `?${base}` : ''}`}>
+        Discover similar selected seasons
+      </Link>
       {!valid && (
         <p role="status">
           Choose 2–4 distinct players and a season for each in the comparison lab, then

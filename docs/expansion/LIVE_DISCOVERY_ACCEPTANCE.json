@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-13T21:42:52.676Z",
+  "status": "PASS",
+  "environment": "local-genuine-nba-source",
+  "productionHostTested": false,
+  "requests": 2,
+  "qualifyingSeasons": 3,
+  "peerDistances": [
+    {
+      "playerId": "201939",
+      "distance": 1.166887,
+      "rank": 1
+    },
+    {
+      "playerId": "1641705",
+      "distance": 2.352833,
+      "rank": 2
+    }
+  ],
+  "sourceEvidenceAvailable": true,
+  "directSpaRefresh": true
+}

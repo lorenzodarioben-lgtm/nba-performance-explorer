@@ -81,3 +81,7 @@ Age = seasonStartYear - birthYear - 1 when birthday is after October1; sourced c
 ## Historical tables and recorded team scoring (2026-10-14)
 
 Standing GP must equal W+L. Win ratio = W/GP, reconciled to source percentage within0.00051 rounding tolerance. Conference ranks and GB come from source cells; no tiebreak algorithm invented. Published leader values preserve units (FG72.5 means72.5%, not0.725); signed team+/− accepted, ties retained, source-defined efficiency not recomputed. Game final scores equal summed Q/OT scores; period order, team identities and recap game ID must agree. Team results/form/point averages use only filtered recorded playoff finals; home/away filters precede summaries, no regular/playoff mixing, zero games yields unavailable averages. UTC-noon calendar-day arithmetic avoids DST shifts; unknown game timezone cannot yield fabricated UTC/local tipoffs.
+
+## Selected-season similarity
+
+Distance = sqrt((candidate zX-target zX)^2+(candidate zY-target zY)^2). Existing qualified selected-cohort population standard deviations provide z-values. Equal axes; identical metrics rejected to avoid double counting; constant axes contribute0. Missing target/inputs yield no matches; excluded players never imputed. Six-decimal distances define tied competition ranks; deterministic ID ordering within ties. Changing the pool changes standardization. Random target is chosen only among already loaded qualifying rows, no arbitrary source IDs or hidden requests.

@@ -59,3 +59,5 @@ Verified sourced age/trade metadata and opt-in recent history; full614 gate pass
 ## Historical league/game source
 
 Licensed Wikipedia snapshots add historical standings, published leaders, date/team playoff scoreboard, actual source-ID game details, validated quarter/overtime scoring and optional team historical results. Regular standings and recorded playoffs remain separate. User-facing credit/licence/modification notices included. No original website redesign, NBA provider change, mandatory cost or deployment. Current feeds, full box scores and rosters remain incomplete.
+
+Selected-season discovery adds transparent standardized distance, ties, source evidence, random qualifying target and saved/shareable filters. Existing NBA endpoint families only; no paid service or league-wide cohort claim.

@@ -70,3 +70,7 @@ Career responses add nullable sourced birthDate/retrievedAt, age reference Octob
 GET `/api/standings` and `/api/leaders` return the same bounded2023-24 regular-season snapshot with30 standings, published category winners, revision/contributor/licence attribution and nonlive provenance. Optional season must be2023-24; unknown/duplicate query values400. GET `/api/games?season=2023-24&date=YYYY-MM-DD&team=nba:...` filters recorded2024 playoff finals; metadata counts/date coverage refer to the full source. GET `/api/games/nba:00423xxxxx` resolves only a recorded source ID,404 if absent. Period sums/identities validated; tipoffUtc null, source time unconverted. Disabled503; malformed source502, timeout504, rate-limit/unavailable503;405 unsupported methods. No source details leaked or fixtures substituted.
 
 SPA `/games`, `/games/:gameId`, `/standings`, `/leaders` and opt-in `/teams/:teamId?archive=2023-24&side=home|away`. URL filters/search/sort, saved state, exact game links and explicit source coverage; attribution shown on every adapted data view.
+
+## Selected-season discovery
+
+SPA `/discover` reuses `/api/analytics/cohort` for2–4 selected regular-season player-seasons. players/seasons/x/y/minGames shareable, optional target must belong to pool. Target is stripped before API request; unsupported weight controls and duplicate/identical metric state rejected. Saved URLs freeze resolved target. Formula/contributions, source-season links and exact analytics evidence shown.

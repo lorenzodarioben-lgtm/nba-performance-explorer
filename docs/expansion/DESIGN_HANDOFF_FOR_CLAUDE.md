@@ -70,3 +70,5 @@ Review career comparison axis=age and Luka career trade rows. Age reference is O
 ## Historical routes added
 
 Plain research shell now hosts `/games`, `/games/:gameId`, `/standings`, `/leaders` and an optional historical team panel. Keep contributor/revision/licence notices, explicit historical scope, unavailable current feed/timezone and keyboard-scrollable tables intact. Styling uses only existing scoped research module; protected original pages/header/footer/global styling stay frozen. Full-platform design readiness remains NO.
+
+`/discover` is a plain selected-pool similarity tool. Keep sample limits, equal-axis formula, exclusions and source evidence visible; random action operates only on loaded qualifying records. Original design unchanged.
