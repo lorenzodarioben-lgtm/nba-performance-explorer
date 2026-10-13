@@ -26,12 +26,15 @@ than the brief's hints; PROJECT_STATE records 190 frontend and 244 backend tests
 
 ## Completed commits and shipped-on-branch vertical slices
 
-None yet. Safe branch created; source review completed.
+`5886ea0`: baseline/source-rights/handoff documentation. Player insights and the
+comparison lab now exist with deterministic tests; coherent code checkpoint pending.
 
 ## Current milestone and exact in-progress task
 
-Milestone 0/1: restore locked dependencies, run baseline, establish provenance and
-capability contracts, then implement existing-provider analytical slices.
+Milestones 1/4/5: provenance/capability contracts, `/explore`, observed-game insights
+and independent-season 2–4 player comparison implemented. Full insight gate
+passed 480 tests. Comparison-focused gate passed 17 tests. Combined gate running.
+Next independent slice: versioned local favorites and saved research.
 
 ## Feature ledger summary (counts by status)
 
@@ -43,7 +46,11 @@ Source-dependent items will be downgraded explicitly where terms/access block th
 Existing NBA Stats provider retained under accepted ADR-013. New ESPN extraction is
 rejected by published Disney terms. Broader NBA/CDN republication and play-by-play
 require rights review; not enabled. Third-party code licenses do not automatically
-license underlying NBA/ESPN data. No new live source claimed verified.
+license underlying NBA/ESPN data. No new live feed enabled.
+`npm run smoke:free-sources` passed all 12 checks locally, 288–1,932 ms.
+Curry search 7, profile 1, career 17 seasons, 2023-24 game log 74. LeBron profile 1
+and career 23 seasons; Wembanyama career 3, Jordan 15, Dončić 8. The previously
+missing LeBron career response was nonempty on this check. Render was not tested.
 
 ## Architecture and important decisions (with file pointers)
 
@@ -53,7 +60,9 @@ Derived analysis uses observed games only, with missingness and fixture provenan
 
 ## Files changed in current work session
 
-Root handoff and `docs/expansion/*`. Check Git for authoritative current paths.
+Additive contracts/research API, source probe, explorer/insights/comparison
+features and tests, lazy App.tsx routes, server source metadata plumbing,
+package scripts and docs. No dependency additions or protected style edits.
 
 ## Tests and exact commands/results
 
@@ -61,7 +70,8 @@ Root handoff and `docs/expansion/*`. Check Git for authoritative current paths.
 
 ## Known bugs, security concerns and reliability limitations
 
-Known upstream valid empty career data for NBA player 2544. Free Render access to
+Previously documented empty career data for NBA player 2544 was nonempty in this
+session; empty-data handling remains necessary. Free Render access to
 new feeds is untested. Current terms prevent assuming publicly reachable data may
 be redistributed. Avoid added feed integration until suitable rights are established.
 
@@ -81,7 +91,7 @@ No new screenshot comparison performed yet.
 
 ## Single NEXT ACTION (one exact command or file/task to open)
 
-`npm run validate` after dependency installation finishes.
+Finish running combined validation, then implement `frontend/src/features/my-nba/`.
 
 ## Continuation prompt for a new Codex session
 

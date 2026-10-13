@@ -27,7 +27,7 @@ function loadConfig(): PlayerProviderConfig {
 }
 
 const config = loadConfig();
-const app = createApp(createPlayerProvider(config));
+const app = createApp(createPlayerProvider(config), { playerSource: config.mode });
 
 app.listen(port, () => {
   console.log(

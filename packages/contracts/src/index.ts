@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+export * from './research.js';
+
 export {
   PlayerSearchResponseSchema,
   PlayerSummarySchema,

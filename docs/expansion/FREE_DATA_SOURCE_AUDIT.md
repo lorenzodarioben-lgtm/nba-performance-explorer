@@ -30,3 +30,7 @@ latency and schema evidence will be recorded after actual probes.
 Existing cache: 500-entry process LRU, in-flight deduplication, 5-minute current
 game logs, 7-day historical game logs, 1-minute empty results, zero automatic retries.
 No paid services, database or durable Render filesystem are required.
+
+## Executed existing-source evidence
+
+Bounded opt-in local Node probe at 2026-10-13T16:24:14.079Z (2026-10-14 Sydney): all 12 checks returned HTTP 2xx JSON and passed the actual provider mappers. Four existing endpoint families only. No retries; 5-second timeout; stop after two consecutive failures. Latencies 288–1,932 ms. Curry search 7; profiles 1 each; career seasons Curry 17, LeBron 23, Wembanyama 3, Jordan 15, Doncic 8; Curry 2023-24 game records 74. No raw traffic or dataset republished. Existing integration is technically VERIFIED_AVAILABLE locally with ADR-013 usage caveats; Render untested. Previously empty LeBron response was nonempty now. Reproduce with npm run smoke:free-sources; not part of CI.
