@@ -63,3 +63,5 @@ Licensed Wikipedia snapshots add historical standings, published leaders, date/t
 Selected-season discovery adds transparent standardized distance, ties, source evidence, random qualifying target and saved/shareable filters. Existing NBA endpoint families only; no paid service or league-wide cohort claim.
 
 Historical team source adds source-listed rosters,82 reconciled regular results per team, participant summaries/raw totals where explicit, and exact Wiki/Wikidata ID evidence. Thirty fixed source pages verified without costs or NBA endpoint expansion. Unknown scope and missing IDs remain unavailable rather than guessed.
+
+Raw shooting-type page adds attempt qualification, weighted percentages, attempt/point shares and made-shot score reconciliation. Regular/playoff scopes separate, actual counts only. No coordinates, fake heatmaps or mandatory cost.

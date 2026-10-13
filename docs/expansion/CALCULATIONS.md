@@ -89,3 +89,7 @@ Distance = sqrt((candidate zX-target zX)^2+(candidate zY-target zY)^2). Existing
 ## Historical team participant scope
 
 Historical roster ages derive from source DOB atOctober1,2023. Position labels grouped exactly, hybrids retained. Stats are scoped by explicit source headings; missing regular/playoff heading remains source-unspecified. Percentages with an explicit% sign divide by100; decimal ratios retain source units. Raw total fields exist only for recognized explicit MIN/REB/AST/STL/BLK/PTS columns; grouped commas validated. Published per-game values must agree with raw/GP within0.051 rounding tolerance; derived values identify their raw basis and GP0 yields unavailable. Minimum GP/search precedes participant sorting/leaders; ties retained, null values last. Roster membership and statistical participants are different source sets; no transaction dates or medical absence inferred.
+
+## Raw shooting-type analysis
+
+Two-point makes/attempts = raw FGM/FGA minus3PM/3PA. Known makes cannot exceed attempts. Made-shot point contributions are2×2PM,3×3PM and FTM; their known sum must equal source PTS or breakdown is withheld. Shot-type percentages use raw makes/attempts only, qualified by explicit attempt minimum1–1000 (default20); missing/zero/low denominator yields unavailable while raw counts remain visible. Two-/three-point attempt shares divide byFGA; free throws remain separate. FTrate=FTA/FGA may exceed1. Point shares require positive knownPTS; no court-zone/coordinate inference or average-to-total multiplication.

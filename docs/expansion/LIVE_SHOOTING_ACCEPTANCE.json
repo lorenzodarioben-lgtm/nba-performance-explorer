@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-10-13T22:22:43.233Z",
+  "status": "PASS",
+  "environment": "local-genuine-nba-source",
+  "productionHostTested": false,
+  "requests": 3,
+  "results": [
+    {
+      "scope": "regular-season",
+      "season": "2022-23",
+      "games": 56,
+      "scoringReconciled": true,
+      "typeCountsAvailable": true
+    },
+    {
+      "scope": "playoffs",
+      "season": "2022-23",
+      "games": 13,
+      "scoringReconciled": true,
+      "typeCountsAvailable": true
+    }
+  ],
+  "directSpaRefresh": true,
+  "noCoordinatesInferred": true
+}

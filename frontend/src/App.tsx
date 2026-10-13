@@ -71,6 +71,11 @@ const DiscoverPage = lazy(() =>
     default: m.DiscoverPage,
   })),
 );
+const ShootingResearchPage = lazy(() =>
+  import('./features/shooting-research/ShootingResearchPage').then((m) => ({
+    default: m.ShootingResearchPage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -80,6 +85,20 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/players/:playerId/shooting"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading shooting research…
+                  </p>
+                }
+              >
+                <ShootingResearchPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/discover"
             element={
