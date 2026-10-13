@@ -703,3 +703,45 @@ remains non-blocking. Merged to `main` via PR #26 (merge commit
 `7f2e7e69d469cad5e3ee18b070ae365f25d72be7`, a true merge preserving both commits) and auto-deployed to
 production, where the deployed bundle carries the disclosure, grouped-matchup, and career-arc code and the
 public HTTP/API surface verified healthy.
+
+---
+
+## ADR-024 - Shot 1 additive research, source gates and local preferences
+
+- **Status:** Accepted for the unmerged engine branch
+- **Date:** 2026-10-14
+
+**Context.** The human authorized a 2.0 functional expansion with an absolute
+visual freeze, zero mandatory costs, genuine data and no main merge/deployment.
+MVP non-goals remain historical scope decisions; broader fan/game/league research
+is now desired, conditional on source rights and verified inputs. ESPN extraction
+terms and broader NBA/archive use prevent assuming every public JSON feed is usable.
+
+**Decision.** Preserve existing PlayerProvider, original contracts/visual components
+and Render configuration. Add isolated lazy research routes and scoped plain CSS;
+separate typed raw season totals and static team-directory capabilities. Reuse only
+the existing four NBA endpoint families; independently validate Totals-mode career
+fields before derived TS/eFG/AST-TO/per36. Select unique traded aggregate rows,
+preserve nulls and reject mismatched identity/scope. Legacy source timestamps remain
+unknown; never substitute servedAt as upstream freshness or call cached stats live.
+
+Bound research to 2–4 explicitly selected player-seasons, disclose sample and formula,
+keep custom z-score rankings distinct from official league ranks/percentiles or era
+models. Same-source GP conflicts exclude raw derived values. Three shared source
+jobs, sequential slots, capped rows/cache, no retry storms or silent fixtures.
+League/game/shot/lineup/archive integrations stay gated until usage and access pass.
+MIT-licensed current identity facts are text only, with notice and no historic aliases.
+
+Use versioned bounded local JSON preferences, safe internal links, import merge and
+explicit clear confirmation; no accounts/cloud telemetry or new paid dependencies.
+Math and qualification remain backend functions/shared contracts, not design widgets.
+Retain unknown-route FoundationPage fallback for original compatibility. New routes
+use local navigation; masthead/footer integration and full visual choices await the
+human-supervised Claude pass. Production rollout/asset cache behavior needs Shot 3;
+no merge, force push, remote backup push or deployment is implied by this decision.
+
+**Consequences.** Player analysis, comparison, selected-cohort analytics and local
+research work with honest data/unavailable states. Teams currently expose identities,
+not season rosters/results. Large league modules remain incomplete and must be tracked
+as such. Source use stays conditional under ADR-013; this does not grant new publisher
+permission or make the comprehensive platform production-ready.

@@ -1,32 +1,48 @@
 # Expansion API catalog
 
-Static directory additions:
+All browser calls use same-origin `/api`. New schemas are exported from
+`packages/contracts/src/`; upstream envelopes remain backend-private. Original
+player routes and response contracts are unchanged.
 
-- `GET /api/teams?search=`: optional 80-character search, alphabetic results,
-  at most 30; TeamDirectoryResponse with static provenance.
-- `GET /api/teams/:teamId`: `nba:` numeric namespace; TeamDetailResponse with
-  explicit false roster/schedule/statistics capability flags.
-- Invalid/repeated/unknown directory query or namespace 400; missing ID 404;
-  unsupported methods 405. No upstream/statistical fallback.
+| GET route                         | Query / identity                                                                                                                                                                                                                                                                                     | Response / scope                                                                                                                                                                                      |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/api/data-sources/status`        | None                                                                                                                                                                                                                                                                                                 | CapabilityResponse: configured source and available/conditional/blocked capabilities. checkedAt is configuration report time; hostVerified is false, not a health/freshness claim.                    |
+| `/api/players/:playerId/insights` | NBA decimal ID max 12; season optional (newest observed default); window 1–20 default 5; inclusive real from/to dates; opponent uppercase three-letter abbreviation; location home/away; result W/L; sort date/points/rebounds/assists/minutes; order asc/desc; page 1–100; pageSize 1–50 default 20 | PlayerInsightsResponse: player, seasons, nullable season summary, paginated games, full-filtered cohort/recent averages, splits, rolling series and tied extrema. Observed regular-season scope only. |
+| `/api/players/:playerId/totals`   | Same NBA ID; required valid season                                                                                                                                                                                                                                                                   | SeasonTotalsResponse: available/season-unavailable/unsupported, nullable raw totals/derived metrics, actual response retrieval timestamp when enabled. Fixture runtime has no invented raw totals.    |
+| `/api/analytics/compare`          | players: 2–4 distinct comma-separated NBA IDs; aligned comma-separated seasons                                                                                                                                                                                                                       | ComparisonResponse: one row per selected player-season, nullable values and available/player-not-found/season-unavailable/source-unavailable statuses. Equal sourced units; no era adjustment.        |
+| `/api/analytics/cohort`           | Same players/seasons; x/y supported metric enums; weightX/weightY -5..5 (up to 2 decimals), default 1; minGames 0..82 default 10 (zero played games always excluded)                                                                                                                                 | CohortResponse: selected rows, eligible exact x/y values, population z-scores, custom scores/ranks, exclusion reasons and nullable descriptive correlation. Max four, never a league population.      |
+| `/api/teams`                      | optional search max 80 characters                                                                                                                                                                                                                                                                    | TeamDirectoryResponse: alphabetic search results, max 30 static sourced identities.                                                                                                                   |
+| `/api/teams/:teamId`              | `nba:` namespaced numeric identity                                                                                                                                                                                                                                                                   | TeamDetailResponse: sourced identity and explicit false roster/schedule/statistics availability, not empty mock season tables.                                                                        |
 
-My NBA has no backend mutations. Storage key `nba-explorer.research.v1`;
-version 1, at most 100 bookmarks / 100,000 JSON characters, safe internal routes.
-Import merges and preserves existing entries. Corrupt/blocked/quota-limited
-storage has session recovery. Export is selectable JSON to copy to a file;
-no statistical bulk export, accounts or telemetry.
+Errors: 400 invalid/unknown/repeated query or namespace; 404 missing player/current
+team; 405 unsupported methods; 502 invalid/mismatched upstream; 503 unavailable or
+RESEARCH_BUSY; 504 upstream timeout. Missing selected seasons return explicit
+nullable research states. Comparison/cohort outages are per-player missing rows.
+No raw URLs, cookies, headers, provider bodies or private messages reach React.
 
-Existing `/api/players` behavior stays intact. New strict shared schemas:
-`packages/contracts/src/research.ts`. Browser requests remain same-origin.
+Three shared simultaneous research source jobs maximum; no queue or automatic
+retry. Each comparison/cohort has 2–4 sequential slots. Source work remains bounded
+until settlement even if the browser disconnects. Original provider/cache untouched:
+500-entry LRU with in-flight dedup; current logs 5 minutes, historic 7 days, empty
+1 minute. Separate 100-entry raw career cache: 6 hours, empty 1 minute, exact Totals
+mode and unique traded aggregate. Providers issue no retries.
 
-| GET endpoint                      | Parameters / bounds                                                                                                                                                                                                                              | Response / errors                                                                                                                                                                                                                                                                          |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `/api/data-sources/status`        | None                                                                                                                                                                                                                                             | Configured source, conditional/blocked capabilities. Configuration only, not live health; production host unverified.                                                                                                                                                                      |
-| `/api/players/:playerId/insights` | NBA decimal ID max 12; optional season (newest observed default); window 1–20 (5 default); inclusive from/to; three-letter opponent; home/away; W/L; sort date/points/rebounds/assists/minutes; asc/desc; page 1–100; pageSize 1–50 (20 default) | PlayerInsightsResponse with profile/seasons, nullable summary, paginated games, full-filtered averages/splits/rolling/extrema/provenance. 400 invalid/repeated/unknown filters; 404 player missing; absent season summary is nullable; 502 malformed source; 503 unavailable; 504 timeout. |
-| `/api/analytics/compare`          | 2–4 distinct comma-separated NBA IDs; aligned valid comma-separated seasons                                                                                                                                                                      | ComparisonResponse with nullable per-player values and available/player-not-found/season-unavailable/source-unavailable statuses. 400 invalid, duplicate, repeated or unknown query. Sequential slots bound concurrency.                                                                   |
+New browser queries have 1-minute staleTime (raw totals 5 minutes, static directory
+24 hours), no retries/focus refetch, and fetch cancellation on navigation. Legacy
+profile/seasons hooks retain their existing settings. Legacy retrieval/as-of times
+are unknown/null; servedAt is response time. Raw provider retrieval time is actual
+fetch time, asOf remains unknown, isLive always false.
 
-No fixture fallback. Local defaults explicitly labeled. Existing 500-entry LRU
-deduplicates source requests: current logs 5 minutes; historical logs 7 days; empty
-1 minute. Client staleTime 1 minute, no retries/focus refetch, navigation cancellation.
-Legacy source timestamps are unknown: retrievedAt/asOf null, isLive false.
-servedAt is response generation, never a claim of upstream freshness.
-No bulk statistics export until redistribution rights are established.
+My NBA has no backend writes or telemetry. Storage key `nba-explorer.research.v1`;
+version 1, max 100 bookmarks AND 100,000 serialized JSON characters, label max 100,
+path max 1500. Only implemented internal routes, no fragments/backslashes/control
+characters/protocol-relative/external URLs. Invalid/prototype-related JSON keys
+rejected, import merges preserving existing entries, blocked/quota storage retains
+session data. Export is selectable preference JSON to copy to a file; NBA bulk
+statistics/PNG export is not enabled without redistribution rights review.
+
+Opt-in source checks (not CI): `npm run smoke:free-sources`,
+`npx tsx backend/src/scripts/probe-season-totals.ts`, `npm run smoke:engine`.
+The last requires a genuine locally running server at 127.0.0.1:3002 (optional
+NBA_ENGINE_SMOKE_ORIGIN is restricted to a local HTTP origin). Fixed 16 public API
+and SPA checks, sequential and timeout-bounded; no raw response dump.

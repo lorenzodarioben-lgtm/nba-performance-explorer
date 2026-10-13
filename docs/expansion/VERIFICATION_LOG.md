@@ -45,3 +45,69 @@
   `npm ci --no-audit --no-fund` passed (461 packages). Baseline `npm run validate` passed outside sandbox: 190 frontend + 244 backend = 434 tests, all gates and builds. Initial sandbox run failed before test collection due to EPERM temp-file rename. Baseline frontend JS 753.12 kB / 222.69 kB gzip; known chunk warning.
 
 Combined insight/comparison milestone: npm run validate passed, 214 frontend + 283 backend = 497 tests. No lint warnings; known Vite chunk warning. git diff --check passed. No browser/pixel verification claimed yet.
+
+## Genuine local engine acceptance and browser QA
+
+`npm run smoke:engine` PASS at 2026-10-13T17:21:54.742Z (2026-10-14 Sydney).
+Sixteen sequential public API/SPA checks: 74 observed Curry 2023-24 games,
+latest sample 10, two BOS matches, raw TS/eFG exact-input reconciliation, three
+available compare slots and three eligible raw TS/AST-TO slots, reversed weights
+changed results, all 30 current identities, six direct SPA refresh routes.
+Report: LIVE_ENGINE_ACCEPTANCE.json. No Render/deployment-host execution.
+Subsequent small-sample/saved-season/identity hardening changed no metric inputs
+or math and was covered with deterministic regression tests/typechecking.
+
+Codex in-app browser, genuine local NBA mode, source and client reads same-origin:
+
+- Explorer search Stephen Curry → real insights; selected 2023-24, window 10,
+  opponent BOS. URL restored values, 2 matching of 74 observed, six tables, no alerts.
+- Direct 3-player comparison Curry/LeBron/Wembanyama 2023-24 restored all picks;
+  points metric changed table and share URL. Individual missingness also fixture-tested.
+- Comparison → analytics; selected TS/AST-TO and negative X weight; actual 3 points
+  and 3 table rows, 3 qualifying / 0 excluded, visible formula, no alerts.
+- Save analysis → My NBA reload/export; added two real player favorites and a
+  current team; reloaded, all 4 saved items persisted. Invalid version import
+  rejected with all 4 preserved; valid export import merged without duplication.
+  Team favorite linked to sourced identity and explicit absent season capabilities.
+- Original home search → Curry original profile → season change; original compare
+  direct URL and refresh retained players/year. Native home/compare screenshots.
+- 664x704: new insights and old home/compare had no page-level overflow in DOM checks.
+  390x844: analytics page no outer overflow; table region 335px client / 1245px
+  scroll width; ArrowRight moved scrollLeft 39.5px. Three plotted/table rows.
+  Viewport override reset. Screenshots emitted natively in chat, no image files saved.
+- During a production rebuild with the browser open, old AnalyticsLabPage-Da4EycGU.js
+  hash disappeared and the existing error boundary appeared. Console confirmed lazy
+  import failure, not NBA data failure. Reload recovered all real data and controls.
+  Record cache/asset rollover as a Shot 3 operational test, not a clean pixel baseline.
+- Initial exact-label Season locator missed labels containing option text; semantic
+  combobox locator successfully switched the same actual select. No UI code suppressed.
+
+Journeys: 1 exercised legacy search/profile/season and compare URL refresh with
+source diff/tests (no matched-fixture pixel test); 5 real three-player comparison;
+6 real raw-metric custom cohort; 9 local favorites/reload/import/export completed.
+Journeys 2/3/4/7/8 need absent game/roster/league/shot/history prerequisites;
+10 source/timeout/403/invalid/missingness behavior tested deterministically.
+
+Complete raw/analytics gate passed 246 frontend + 318 backend = 564. After filtered
+window, saved resolved season and custom-window fixes: full gate 247 + 319 = 566.
+Final identity guards: `npm run typecheck` and backend research-focused suite
+66 passed. Final full source/docs gate follows; do not invent that result beforehand.
+Original protected-file diff command returned no paths; git diff --check passed.
+No new dependency or production configuration change. Four QA bookmarks exist
+only at local browser origin localhost:3002; no server/cloud writes or telemetry.
+
+## Final combined source and documentation gate
+
+`npm run validate` PASS: 25 frontend files / 247 tests, 23 backend files / 320 tests,
+567 total. Formatting, lint (no warnings), strict typechecks and all production
+builds passed. Original 190+244 retained; 133 added tests. Source/doc changes
+included final identity guards. Known Vite/Recharts chunk-size warning only.
+Final JS entry 636.79kB / 187.65kB gzip plus shared contracts chunk 125.93kB /
+38.22kB gzip; new route chunks 1.5–11.26kB. These are artifact sizes, not a measured
+speed improvement over the baseline. No dependencies or lockfile change.
+
+`git diff --check` PASS; protected frontend/backend player trees, styles/assets,
+metadata, render.yaml and lockfile returned no paths in baseline diff. Feature
+ledger actual grouped counts: verified 28, partial 7, data blocked 83, deferred 16
+(134 total). Source implementation committed at a20fcf23ec81f59ef758ec91e131f99f07d71dc0;
+final docs-only checkpoint follows. Not deployed, merged or pushed.

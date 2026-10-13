@@ -1,15 +1,52 @@
 # Design handoff for Claude — Shot 2
 
-Shot 1 freezes the original site. Preserve `docs/assets/*` as the original visual
-reference and leave the legacy masthead, footer, type, colors, imagery, layout
-and animation untouched. New functional pages will have local plain navigation,
-labeled controls, semantic tables and explicit loading/missing/error/source states.
+The engine branch is working but incomplete. Original home/profile/compare render
+sources, header/footer, global CSS, fonts/images and baseline screenshot assets
+are unchanged. Only App.tsx registers additive lazy routes. Full platform design
+integration is NOT ready while games, rosters, standings and league sources remain
+blocked; targeted design of the verified tools below is reviewable.
 
-No expansion page is yet claimed complete. Route inventory and interaction
-evidence will be updated at implementation milestones. Run with `npm run dev`.
-The future portal is `/explore`; legacy routes remain directly addressable.
+| Page / route              | Functional state                          | Interactions and required data states                                                                                                                                                                                                                                                                |
+| ------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| /explore                  | Working hub                               | Existing accessible player search to insights, local module nav, configured fixture/source label, available/conditional/blocked capabilities; no fake live status                                                                                                                                    |
+| /players/:NBA_ID/insights | Working observed-game + raw-stat analysis | Available season selector; rolling 5/10/20 and valid custom windows; inclusive dates/opponent/home-away/W-L; ledger sort/pagination; samples, rolling/split tables, tied extrema; raw totals/TS/eFG/AST-TO/per36; source/empty/unsupported/error; save resolved season/filter URL                    |
+| /lab/compare              | Working 2–4 player lab                    | Search/add/remove distinct NBA IDs; independent season picks; metric switch; raw equal-unit table and per-player missing values; share URL; save; link to analytics and original profile/insights                                                                                                    |
+| /lab/analytics            | Working bounded selected-cohort lab       | Cohort edited via comparison; x/y metrics, signed weights and min games; true raw attempt requirements, matched scope; scatter with exact table, z-score formula, custom competition ranks and descriptive correlation; exclusions/tiny samples; URL and local saves. NOT league ranking/percentiles |
+| /teams                    | Working sourced identity directory only   | Text search and namespaced detail links for all 30 current teams; no logos/roster season data                                                                                                                                                                                                        |
+| /teams/:nba_ID            | Identity detail only                      | Source/mapping, favorite action, explicit unavailable roster/schedule/record capabilities; not a finished full team profile                                                                                                                                                                          |
+| /my-nba                   | Working local-first research              | Favorites/named URLs, removal, bounded versioned JSON export/import merge, invalid/corrupt/quota/blocked storage recovery, confirmed clear; no cloud account or tracking                                                                                                                             |
 
-Do not break contracts, alter statistics or move core business logic into visual
-components. No invented data in mockups that could be mistaken for working feeds.
-Visual direction, chart embellishment and masthead integration remain for Claude
-and the human owner. Current terms/access limitations are in the source audit.
+Navigation journeys actually exercised locally with genuine NBA data:
+explorer search → Curry insights → season/window/opponent controls;
+3-player direct comparison → metric selection → analytics TS/AST-TO with negative
+weight → save → My NBA reload/export; two player + team favorites → valid/invalid
+imports → current team detail. Source and exact API evidence in VERIFICATION_LOG.md.
+Native browser screenshots were emitted in this chat at 664x704 (insights and old
+home/compare) and 390x844 (analytics table/keyboard scroll). No new screenshot
+files or matched-fixture pixel-diff baselines were saved. Existing visual reference:
+`docs/assets/home-desktop.png`, `home-mobile.png`, `player-profile-desktop.png`,
+`career-trends-desktop.png`, `player-comparison-desktop.png`.
+
+Contracts: packages/contracts/src. Business rules: backend/features/research.
+Fixtures are prominently labeled and raw totals disabled in default local fixture
+runtime; all missing inputs have honest null/unavailable states. Totals actual
+retrievedAt is known, legacy timestamps/asOf unknown, all isLive false. Preserve
+source attribution and cohort/sample definitions in every visual concept.
+
+Local viewing: npm ci; npm run dev; open http://localhost:5173/explore. For genuine
+raw stats, set NBA_DATA_PROVIDER=nba-stats before npm run dev. No API key/billing.
+NBA access/terms conditional; Render not verified for this expansion. Refresh tabs
+after replacing production builds; stale lazy chunk hashes can trigger the existing
+reload boundary. See OPERATIONS.md.
+
+Claude and the human choose visual direction, typography/layout treatments, chart
+embellishment, responsive representations and masthead integration. Current plain
+scoped CSS has no design system mandate. Keep controls keyboard-operable, charts
+paired with exact tables, role/status states and visible focus. The original
+masthead/footer are frozen and their home anchors/static live branding are not
+optimized for new routes; coordinate any future change with the human.
+
+DO NOT break contracts, alter statistics, replace missing data with illustrations,
+or move core calculation/qualification/identity logic into visual components.
+No unsupported scoreboard, shot map or observed-lineup mockup may appear as a
+working data feature. Keep original screenshot assets and protect original visual DNA.

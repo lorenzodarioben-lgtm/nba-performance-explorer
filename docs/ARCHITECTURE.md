@@ -132,3 +132,23 @@ This boundary is what makes the data provider replaceable and the UI stable.
 - Public deployment is a later milestone; it is not part of the foundation task. The
   architecture is chosen so deployment does not require Kubernetes, a microservices
   topology, or any always-on cluster.
+
+## Current 2.0 engine architecture — 2026-10-14 branch snapshot
+
+The historical foundation description above predates implemented production: npm
+workspaces use a single Express service serving the Vite SPA, as render.yaml and
+ADR-014 document. Existing PlayerProvider and visual feature trees remain intact.
+
+Expansion adds seven lazy route patterns with local CSS/navigation, strict shared
+research/team/raw/cohort/preference schemas, separate SeasonTotalsProvider and
+TeamDirectoryProvider, pure backend stats/cohort math and a shared three-job source
+budget. NBA player IDs remain canonical existing decimals; team identities explicitly
+namespace NBA source IDs. Browser calls only our API. Raw Totals mode has a separate
+bounded cache and actual retrieval stamp; legacy source timestamps stay unknown.
+No new endpoint family, database, scheduler, credentials or mandatory service cost.
+
+My NBA stores versioned safe URL preferences in browser local storage with session
+fallback, bounded import/export and recovery. No server persistence/telemetry. New
+league capabilities are declared blocked rather than represented by empty routes or
+fixture substitutions. Detailed contracts, formulas, source audit and runbooks are
+in docs/expansion. This branch is not merged or deployed and remains incomplete.

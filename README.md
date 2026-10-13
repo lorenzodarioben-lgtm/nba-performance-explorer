@@ -113,9 +113,9 @@ tests, and production builds for the contracts, frontend, and backend workspaces
 
 Current verified baseline:
 
-- Frontend tests: 160
-- Backend tests: 244
-- Total tests: 404
+- Base (`cd557e4`) frontend tests: 190
+- Base backend tests: 244
+- Base total tests: 434
 - GitHub Actions runs `npm run validate`
 - Automated tests do not make live NBA.com requests
 
@@ -219,6 +219,30 @@ docs/                 Project spec, architecture, decisions, state, and task his
 render.yaml           Render Blueprint for the single production web service
 .github/workflows/    GitHub Actions CI workflow
 ```
+
+## 2.0 Engine Branch (Not Deployed)
+
+Shot 1 adds plain functional tools without changing the original home/profile/compare
+visuals. After `npm run dev`, open **http://localhost:5173/explore**. New routes:
+`/teams`, `/teams/:teamId`, `/players/:playerId/insights`, `/lab/compare`,
+`/lab/analytics`, `/my-nba`. Teams currently provide 30 sourced identities; season
+rosters/results unavailable. Analytics uses an explicit selected 2–4 player-season
+cohort, not league-wide rankings. Game/standings/shot/lineup/history feeds remain gated.
+
+Local default fixtures are prominently marked; raw shooting totals are unavailable
+in fixture runtime. Set `NBA_DATA_PROVIDER=nba-stats` before `npm run dev` to use
+verified local NBA raw inputs. No API key, billing account or new dependency required;
+source usage/access and production-host suitability remain conditional.
+
+The existing four NBA endpoint families and Totals mode passed bounded local checks.
+`npm run smoke:free-sources` and `npm run smoke:engine` are opt-in, not CI; the latter
+requires the genuine temporary local server described in the operations runbook.
+Engine branch `npm run validate` passes 247 frontend + 320 backend = **567 tests**. Current validation/evidence is in the [handoff](HANDOFF.md),
+[feature ledger](docs/expansion/FEATURE_LEDGER.md),
+[source audit](docs/expansion/FREE_DATA_SOURCE_AUDIT.md),
+[API catalog](docs/expansion/API_CATALOG.md) and
+[operations](docs/expansion/OPERATIONS.md). The expansion is working but incomplete,
+**NOT MERGED / NOT DEPLOYED**; the public demo remains the original production site.
 
 ## Further Documentation
 

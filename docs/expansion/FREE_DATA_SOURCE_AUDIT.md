@@ -49,3 +49,29 @@ No paid services, database or durable Render filesystem are required.
 ## Executed existing-source evidence
 
 Bounded opt-in local Node probe at 2026-10-13T16:24:14.079Z (2026-10-14 Sydney): all 12 checks returned HTTP 2xx JSON and passed the actual provider mappers. Four existing endpoint families only. No retries; 5-second timeout; stop after two consecutive failures. Latencies 288–1,932 ms. Curry search 7; profiles 1 each; career seasons Curry 17, LeBron 23, Wembanyama 3, Jordan 15, Doncic 8; Curry 2023-24 game records 74. No raw traffic or dataset republished. Existing integration is technically VERIFIED_AVAILABLE locally with ADR-013 usage caveats; Render untested. Previously empty LeBron response was nonempty now. Reproduce with npm run smoke:free-sources; not part of CI.
+
+## Implemented source boundaries / latest actual evidence
+
+Separate NbaSeasonTotalsProvider uses the EXISTING playercareerstats endpoint with
+PerMode=Totals, never PerGame-to-total multiplication. Required columns:
+PLAYER_ID, LEAGUE_ID, SEASON_ID, TEAM_ID, TEAM_ABBREVIATION, GP, MIN, PTS, REB,
+AST, TOV, FGM, FGA, FG3M, FG3A, FTM, FTA. Genuine engine acceptance exercised
+mapped source totals for Curry, LeBron and Wembanyama, including all required
+columns, player/scope/count matching and exact TS/eFG inputs. Unique traded
+aggregate handling, duplicate/missing/null/zero/timeout cases verified offline.
+Raw records <=150, 100-entry career LRU, 6-hour TTL (empty 1 minute), no retries,
+three simultaneous bounded research jobs; no broad league crawl or durable database.
+
+Local technical status VERIFIED_AVAILABLE for the four existing named endpoint
+families plus tested Totals parameter mode; usage remains CONDITIONAL under ADR-013.
+No new NBA endpoint family or ESPN integration enabled. Source published as-of
+unknown, legacy retrieval unknown; new raw response fetch time recorded. Runtime
+schema/HTTP failures remain sanitized/unavailable, never fixture substitution.
+Production-host reachability for expansion remains NOT_TESTED. Successful local
+requests do not establish permission, fresh publication or cloud-host availability.
+
+No approved rights-cleared league/game/shot/lineup/archive dataset was established.
+NBA broader feed integration BLOCKED pending usage review; ESPN REJECTED by its
+published extraction restriction; historical candidates CONDITIONAL, not imported.
+Code licenses do not license upstream statistics. Static MIT identities include
+notice; no imagery/statistical archive redistribution or NBA CSV export added.
