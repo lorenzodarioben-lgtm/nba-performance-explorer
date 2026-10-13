@@ -1,5 +1,20 @@
 # Expansion API catalog
 
+Static directory additions:
+
+- `GET /api/teams?search=`: optional 80-character search, alphabetic results,
+  at most 30; TeamDirectoryResponse with static provenance.
+- `GET /api/teams/:teamId`: `nba:` numeric namespace; TeamDetailResponse with
+  explicit false roster/schedule/statistics capability flags.
+- Invalid/repeated/unknown directory query or namespace 400; missing ID 404;
+  unsupported methods 405. No upstream/statistical fallback.
+
+My NBA has no backend mutations. Storage key `nba-explorer.research.v1`;
+version 1, at most 100 bookmarks / 100,000 JSON characters, safe internal routes.
+Import merges and preserves existing entries. Corrupt/blocked/quota-limited
+storage has session recovery. Export is selectable JSON to copy to a file;
+no statistical bulk export, accounts or telemetry.
+
 Existing `/api/players` behavior stays intact. New strict shared schemas:
 `packages/contracts/src/research.ts`. Browser requests remain same-origin.
 

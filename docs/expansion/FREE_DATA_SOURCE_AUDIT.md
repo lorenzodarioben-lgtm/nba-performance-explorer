@@ -1,5 +1,20 @@
 # Free data source audit
 
+## Static team identity source
+
+The 30-team directory is from [nba_api static data](https://raw.githubusercontent.com/swar/nba_api/master/src/nba_api/stats/library/data.py),
+reviewed 2026-10-14. MIT notice in `NBA_API_MIT_LICENSE.txt`
+([upstream license](https://raw.githubusercontent.com/swar/nba_api/master/LICENSE)).
+Only IDs, abbreviations and names; no statistics, imagery or historical aliases.
+All 30 unique canonical/source IDs and abbreviations pass local route tests.
+No runtime network, costs or scheduled sync. VERIFIED_AVAILABLE as static facts;
+historical mapping, conference, season roster and schedule coverage unsupported.
+
+Totals-mode `playercareerstats` fields separately passed two bounded local checks.
+Curry 17 rows; Dončić 10 rows, one 2023-24 row each, required numeric inputs
+validated. 466/327 ms, HTTP 2xx JSON. Existing endpoint family; no new permission
+or live feed assumed. Raw provider implementation follows this checkpoint.
+
 Checked 2026-10-14 Australia/Sydney from this Windows engineering environment.
 Browser research is separate from Node/provider connectivity. Render was not tested.
 

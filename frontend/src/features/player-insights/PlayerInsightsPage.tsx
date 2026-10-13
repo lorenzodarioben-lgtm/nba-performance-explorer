@@ -15,6 +15,7 @@ import {
   SourceNote,
 } from '../research/ResearchShell';
 import styles from '../research/research.module.css';
+import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 
 const value = (n: number | null) => (n === null ? 'Unavailable' : n.toFixed(1));
 
@@ -77,6 +78,11 @@ export function PlayerInsightsPage() {
       {data && (
         <>
           <Link to={`/players/${data.player.id}`}>Original player profile</Link>
+          <SaveResearchButton
+            kind="analysis"
+            label={`${data.player.fullName} insights`}
+            path={`/players/${data.player.id}/insights${params.size ? `?${params}` : ''}`}
+          />
           <SourceNote provenance={data.provenance} />
           <div className={styles.controls}>
             <label>

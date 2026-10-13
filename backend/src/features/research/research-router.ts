@@ -25,6 +25,12 @@ export function createResearchRouter(provider: PlayerProvider, source: DataSourc
         hostVerified: false,
         capabilities: [
           {
+            id: 'team-directory',
+            status: 'available',
+            reason:
+              '30 sourced static NBA identities with namespaced IDs; no season rosters/results.',
+          },
+          {
             id: 'player-insights',
             status: 'conditional',
             reason:
@@ -41,7 +47,7 @@ export function createResearchRouter(provider: PlayerProvider, source: DataSourc
             reason: 'Local-only versioned favorites and saved URLs.',
           },
           {
-            id: 'games-teams-standings-leaders',
+            id: 'games-standings-leaders',
             status: 'blocked',
             reason:
               'New live feeds require usage rights and host validation. No fabricated substitutions.',

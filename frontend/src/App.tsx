@@ -20,6 +20,15 @@ const ComparisonLabPage = lazy(() =>
     default: m.ComparisonLabPage,
   })),
 );
+const MyNbaPage = lazy(() =>
+  import('./features/my-nba/MyNbaPage').then((m) => ({ default: m.MyNbaPage })),
+);
+const TeamsPage = lazy(() =>
+  import('./features/teams/TeamsPage').then((m) => ({ default: m.TeamsPage })),
+);
+const TeamDetailPage = lazy(() =>
+  import('./features/teams/TeamsPage').then((m) => ({ default: m.TeamDetailPage })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -29,6 +38,48 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/teams"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading team directory…
+                  </p>
+                }
+              >
+                <TeamsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/teams/:teamId"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading team identity…
+                  </p>
+                }
+              >
+                <TeamDetailPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/my-nba"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading My NBA…
+                  </p>
+                }
+              >
+                <MyNbaPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/lab/compare"
             element={

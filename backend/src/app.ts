@@ -7,6 +7,7 @@ import type { DataSource } from '@nba-performance-explorer/contracts';
 import type { PlayerProvider } from './features/players/player-provider.js';
 import { fixturePlayerProvider } from './features/players/fixture-player-provider.js';
 import { createResearchRouter } from './features/research/research-router.js';
+import { createTeamsRouter } from './features/teams/teams-router.js';
 import { createPlayersRouter } from './features/players/players-router.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
 import { healthRouter } from './routes/health.js';
@@ -60,6 +61,7 @@ export function createApp(
   application.use(express.json());
   application.use('/api/health', healthRouter);
   application.use('/api/players', createPlayersRouter(playerProvider));
+  application.use('/api/teams', createTeamsRouter());
   application.use(
     '/api',
     createResearchRouter(

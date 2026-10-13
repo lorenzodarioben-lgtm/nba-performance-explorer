@@ -18,6 +18,7 @@ import {
   SourceNote,
 } from '../research/ResearchShell';
 import styles from '../research/research.module.css';
+import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { addLabPlayer, buildLabParams, readLabState, type LabSlot } from './lab-state';
 
 function PlayerSlot({
@@ -100,6 +101,11 @@ export function ComparisonLabPage() {
   );
   return (
     <ResearchShell title="Comparison lab">
+      <SaveResearchButton
+        kind="comparison"
+        label="Player season comparison"
+        path={`/lab/compare${params.size ? `?${params}` : ''}`}
+      />
       <p>
         Choose 2–4 distinct NBA players and one recorded season each. Values use equal
         units and regular-season scope. Cross-era values remain raw; no pace or

@@ -1,5 +1,19 @@
 # Verification log
 
+## Local research and static-team milestone
+
+- Focused My NBA + affected insights/lab tests: 43 passed after rejecting dangerous
+  JSON object keys found by the import test. Corrupt data is not overwritten on load.
+- Team route tests: 8 passed. Team UI tests: 3 passed after correcting the encoded
+  ID MSW handler and waiting for the loaded empty state rather than the loader.
+- Full gate caught ESLint no-control-regex; equivalent character checks replaced
+  that regex without weakening lint. `npm run validate` then passed:
+  238 frontend + 291 backend = 529 tests, all builds, no lint warnings.
+- `npx tsx backend/src/scripts/probe-season-totals.ts`: two existing career endpoint
+  requests with PerMode=Totals passed. Curry 17 rows, Dončić 10, one 2023-24 row
+  each; required numeric inputs validated, 466/327 ms. 2026-10-13T16:48:42Z,
+  local engineering host, not Render. No browser/pixel comparison claimed yet.
+
 ## Implementation milestone — insights and comparison
 
 - `npm run test --workspace backend -- src/features/research`: 37 passed.

@@ -20,7 +20,9 @@ export function ResearchShell({
       <a href="#research-content">Skip research navigation</a>
       <nav aria-label="Research sections">
         <Link to="/explore">Explorer</Link>
+        <Link to="/teams">Teams</Link>
         <Link to="/lab/compare">Comparison lab</Link>
+        <Link to="/my-nba">My NBA</Link>
         <Link to="/">Original home</Link>
       </nav>
       <h1 id="research-content" ref={heading} tabIndex={-1}>

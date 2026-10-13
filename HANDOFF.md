@@ -2,99 +2,109 @@
 
 ## Snapshot timestamp / branch / HEAD / base commit
 
-2026-10-14 (Australia/Sydney). Branch `codex/nba-explorer-2-engine`.
-Initial HEAD and base: `cd557e4d3cf75e44f930ba75de4ea149a80ccdda`.
-No deployment, merge or remote push is authorized or performed.
+2026-10-14 Australia/Sydney. Branch `codex/nba-explorer-2-engine`.
+Last implementation HEAD `361299a`; base `cd557e4d3cf75e44f930ba75de4ea149a80ccdda`.
+Verify full current HEAD with `git rev-parse HEAD`. Not deployed, merged or pushed.
 
 ## Working tree and pending changes
 
-Initial tree was clean. This checkpoint creates expansion documentation; implementation follows.
-Verify with `git status --short --branch` before resuming.
+Local research and team-directory additions have passed validation and await commit.
+Initial tree was clean; verify current Git status before resuming.
 
 ## Goal and non-negotiable constraints
 
-Execute the user's fully read 1,107-line Shot 1 specification. Preserve original visual
-design and provider, require no mandatory costs, never fabricate statistics, never merge main.
-No AGENTS.md was found in the repository or inspected parent directories.
+Execute the fully read 1,107-line Shot 1 spec. Freeze original visual surfaces,
+retain NBA provider, require no mandatory costs, fabricate no facts, never merge main.
+No applicable AGENTS.md found in repository or inspected parents.
 
 ## Verified baseline and last validation results
 
-Node v22.19.0, npm 10.9.3. First sandboxed `npm ci` failed with
-`Exit handler never called!`. Authorized retry outside sandbox is in progress.
-Baseline `npm run validate` passed outside the Windows sandbox: 190 frontend + 244 backend = 434 tests; all formatting, lint, typechecks and builds passed. Actual repository has later comparison polish
-than the brief's hints; PROJECT_STATE records 190 frontend and 244 backend tests.
+Node v22.19.0 / npm 10.9.3. Baseline 434 tests passed. Latest full gate:
+238 frontend + 291 backend = 529 passing; format, lint, strict types and builds pass.
+First sandbox npm install and Vitest temp-file operations failed; authorized
+execution outside sandbox succeeded. No dependency additions. Known Vite warning.
 
 ## Completed commits and shipped-on-branch vertical slices
 
-`5886ea0`: baseline/source-rights/handoff documentation. Player insights and the
-comparison lab now exist with deterministic tests; coherent code checkpoint pending.
+- `5886ea0`: audit, source rights and handoff.
+- `361299a`: explorer, player insights, independent-season comparison; full 497-test gate.
+- Next checkpoint: My NBA, 30-team sourced static directory; full 529-test gate.
 
 ## Current milestone and exact in-progress task
 
-Milestones 1/4/5: provenance/capability contracts, `/explore`, observed-game insights
-and independent-season 2–4 player comparison implemented. Full insight gate
-passed 480 tests. Comparison-focused gate passed 17 tests. Combined gate running.
-Next independent slice: versioned local favorites and saved research.
+My NBA and teams complete in their documented limited scope. Two-request Totals
+field probe passed; next implement separate raw player totals/derived metrics provider.
+No legacy provider file modification is required.
 
 ## Feature ledger summary (counts by status)
 
-See `docs/expansion/FEATURE_LEDGER.md`; initially all inventory items unstarted.
-Source-dependent items will be downgraded explicitly where terms/access block them.
+134 inventory IDs in `docs/expansion/FEATURE_LEDGER.md`. Local-first capabilities
+and static team identity may be DONE_VERIFIED. New player screens remain fixture
+verified pending real API/browser acceptance. League feeds stay explicitly blocked.
 
 ## Data sources (verified, conditional, blocked, rejected)
 
-Existing NBA Stats provider retained under accepted ADR-013. New ESPN extraction is
-rejected by published Disney terms. Broader NBA/CDN republication and play-by-play
-require rights review; not enabled. Third-party code licenses do not automatically
-license underlying NBA/ESPN data. No new live feed enabled.
-`npm run smoke:free-sources` passed all 12 checks locally, 288–1,932 ms.
-Curry search 7, profile 1, career 17 seasons, 2023-24 game log 74. LeBron profile 1
-and career 23 seasons; Wembanyama career 3, Jordan 15, Dončić 8. The previously
-missing LeBron career response was nonempty on this check. Render was not tested.
+Existing four NBA endpoints passed 12 bounded local checks: Curry search 7,
+career 17, 2023-24 games 74; LeBron career 23 (previously empty, now nonempty),
+Wembanyama 3, Jordan 15, Doncic 8; profiles 1 each. 288–1,932 ms, no retries.
+PerMode=Totals two-request field probe: Curry 17 rows, Doncic 10; numeric
+inputs validated, 466/327 ms. NBA usage remains conditional under ADR-013.
+MIT nba_api directory contains sourced static identities only, with full notice.
+ESPN extraction rejected by terms; broader NBA feeds/archives rights remain gated.
+Render access and deployment remain untested in this session.
 
 ## Architecture and important decisions (with file pointers)
 
-npm workspaces, React 19, Express 5, Zod, TanStack Query and existing PlayerProvider
-remain intact. Domain additions will be separate features and strict contracts.
-Derived analysis uses observed games only, with missingness and fixture provenance.
+Separate research contracts/router/math; original PlayerProvider and public
+contracts remain intact. Same-origin browser API, capped selections/page sizes,
+no automatic retries, legacy process LRU. Legacy upstream timestamps unknown:
+servedAt must never be called source freshness. New pages use scoped CSS/lazy routes.
+My NBA uses strict versioned JSON and safe local URLs, merges imports, bounds size,
+rejects unsafe keys and retains session data if storage is unavailable.
 
 ## Files changed in current work session
 
-Additive contracts/research API, source probe, explorer/insights/comparison
-features and tests, lazy App.tsx routes, server source metadata plumbing,
-package scripts and docs. No dependency additions or protected style edits.
+Contracts, new research/teams backend, optional probe scripts, explorer/insights/lab/
+My NBA/team frontend and tests, additive App.tsx routing, composition plumbing,
+package scripts, expansion docs. Check Git for authoritative file list.
 
 ## Tests and exact commands/results
 
-`npm ci --no-audit --no-fund`: passed outside sandbox, 461 packages. `npm run validate`: sandbox Vitest EPERM temp-file rename; identical elevated run passed (434 tests). Known Vite chunk warning remains.
+- `npm ci --no-audit --no-fund`: passed, 461 packages.
+- `npm run validate`: baseline 434; insight spine 480; comparison 497; current 529.
+- My NBA plus affected insight/lab focused tests: 43 passed.
+- Team route tests 8 and team UI tests 3 passed.
+- `npm run smoke:free-sources`: 12 existing-source checks passed locally.
+- `npx tsx backend/src/scripts/probe-season-totals.ts`: 2 field probes passed.
+- `git diff --check`: passed at checkpoints.
 
 ## Known bugs, security concerns and reliability limitations
 
-Previously documented empty career data for NBA player 2544 was nonempty in this
-session; empty-data handling remains necessary. Free Render access to
-new feeds is untested. Current terms prevent assuming publicly reachable data may
-be redistributed. Avoid added feed integration until suitable rights are established.
+No confirmed critical regression. Upstream can return empty data/timeouts. Current
+raw Totals provider not yet implemented. Team rosters/schedules/records absent;
+league analytics/standings/games/shots/lineups/historical database remain blocked.
+No statistical export without rights review. Current legacy footer has static live
+branding; explicit new-page provenance/fixture labels provide actual source context.
 
 ## Protected original UI baseline and visual check status
 
-Baseline screenshots in `docs/assets/`. Protect AppHeader, AppFooter, AppRoot,
-styles.css, assets and legacy feature trees. Only additive App.tsx routes planned.
-No new screenshot comparison performed yet.
+AppHeader, AppFooter, AppRoot, styles.css, legacy feature trees, metadata, images
+and screenshot assets unchanged. App.tsx additive lazy routes only. Legacy tests
+pass. No before/after browser or pixel comparison yet; diff-only preservation.
 
 ## Next task queue (ordered)
 
-1. Baseline validation and provenance/capability contracts.
-2. Explorer hub, player insights and source-aware statistical core.
-3. Multi-player comparison with per-player seasons and URL state.
-4. Local favorites, saved research, bounded import/export.
-5. Integration validation, factual ledger and design handoff.
+1. Raw totals provider, derived TS/eFG/AST-TO/per36 and strict source reconciliation.
+2. Selected-cohort analytics with explicit sample/formulas, scatter/table and weights.
+3. Real local API acceptance/browser journeys and integration safeguards.
+4. Final full gate, ledger counts, API/math/source docs and Claude handoff.
 
 ## Single NEXT ACTION (one exact command or file/task to open)
 
-Finish running combined validation, then implement `frontend/src/features/my-nba/`.
+Implement `backend/src/features/research/season-totals-provider.ts` and strict contracts/tests.
 
 ## Continuation prompt for a new Codex session
 
-CONTINUE FROM HERE: Read this handoff and expansion ledger/audit, verify branch,
-HEAD and working tree, then execute NEXT ACTION. Continue complete verified slices
-without redesigning legacy pages, fabricating data, deploying or merging.
+CONTINUE FROM HERE: Read this handoff, ledger and source audit, verify HEAD/branch/tree,
+then execute NEXT ACTION. Continue complete verified slices, preserve legacy design,
+and never merge/deploy, invent NBA facts or assume broader feed rights.
