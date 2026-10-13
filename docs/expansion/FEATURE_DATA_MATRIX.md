@@ -29,3 +29,7 @@ Deferred K02/K03/K04/K08/K09, B09/B11/B12, F05/F06/F07/F08, H08/I04 and L02/L10 
 ## Resumed supported career scope
 
 B09/F05/F07/H08 and individual historical profile navigation I04 now have verified reported-row implementations from existing playercareerstats Totals. B10 timeline and K03 milestones remain partial pending richer team history and recent records. No complete-career, transfer-date, verified experience/age, league-population or official peak claim. Coverage and null propagation are rendered. Broad league/game feed prerequisites remain separately gated.
+
+## Raw-game and postseason checkpoint (2026-10-14)
+
+Individual-player raw game analysis and postseason now supported through the already accepted playergamelog/playercareerstats endpoint families. B01/B04/B11/F08/K02/K09 have verified scoped slices; B08 remains observed-season records rather than complete-career records. K08 is a partial selected-player query/evidence tool rather than league discovery. Broader scoreboards/rosters/standings/shot/lineup source gates remain independent.

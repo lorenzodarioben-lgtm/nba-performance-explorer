@@ -41,3 +41,7 @@ Final all-work gate PASS: 567 tests, all strict checks/builds; 28 scoped verifie
 ## Resumed career checkpoint
 
 Added reported career raw totals, weighted efficiency, chronological season timeline with gap labels, milestone thresholds, explicit min-games peak with ties, and 2–4 player career curves/table with shareable state. Missing players and transient source failures remain distinct slots. Qualified peak choices update only the chosen comparison season. 577-test full gate passed and six genuine local API/refresh checks passed for active and retired players. No push, merge, deployment or new mandatory costs. Implementation continues; this checkpoint is not the end of SHOT 1.
+
+## Raw-game and postseason checkpoint (2026-10-14)
+
+Added raw shooting and defensive game logs, attempt-weighted splits/rolling, explicit unusual-game thresholds and share state; separately scoped postseason careers/games and same-season regular/playoff comparison. Old player APIs and original website remain unchanged. Full591 tests and six genuine local smoke reads pass; responsive keyboard QA passes. Work continues beyond this checkpoint.

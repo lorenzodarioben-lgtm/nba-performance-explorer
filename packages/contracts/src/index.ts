@@ -6,6 +6,7 @@ export * from './team-directory.js';
 export * from './season-totals.js';
 export * from './cohort-analytics.js';
 export * from './career-research.js';
+export * from './game-research.js';
 
 export {
   PlayerSearchResponseSchema,

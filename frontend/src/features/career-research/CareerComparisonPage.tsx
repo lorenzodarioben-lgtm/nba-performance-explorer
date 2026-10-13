@@ -121,7 +121,7 @@ export function CareerComparisonPage() {
     [...params.keys()].some(
       (k) =>
         params.getAll(k).length > 1 ||
-        !['players', 'metric', 'minGames', 'axis'].includes(k),
+        !['players', 'metric', 'minGames', 'axis', 'scope'].includes(k),
     ) ||
     !['calendar', 'reported'].includes(axis) ||
     ids.length > 4 ||
@@ -151,9 +151,9 @@ export function CareerComparisonPage() {
   return (
     <ResearchShell title="Career comparison">
       <p>
-        Compare 2–4 selected players using reported regular-season raw totals. Curves
-        break at missing seasons, unavailable inputs and unqualified samples. Values
-        remain raw across eras.
+        Compare 2–4 selected players using reported raw totals in the chosen season
+        scope. Curves break at missing seasons, unavailable inputs and unqualified
+        samples. Values remain raw across eras.
       </p>
       <PlayerCombobox
         label="Add player to career comparison"
@@ -180,6 +180,16 @@ export function CareerComparisonPage() {
         ))}
       </ul>
       <div className={styles.controls}>
+        <label>
+          Career season scope
+          <select
+            value={params.get('scope') ?? 'regular-season'}
+            onChange={(e) => update('scope', e.target.value)}
+          >
+            <option value="regular-season">Regular season</option>
+            <option value="playoffs">Playoffs</option>
+          </select>
+        </label>
         <label>
           Career comparison metric
           <select
@@ -250,7 +260,7 @@ export function CareerComparisonPage() {
                 {index + 1}. {row.data?.player.fullName ?? `NBA player ${row.playerId}`}
               </h2>
               <Link
-                to={`/players/${row.playerId}/career?metric=${metric}&minGames=${minGames}`}
+                to={`/players/${row.playerId}/career?metric=${metric}&minGames=${minGames}&scope=${parsed.success ? parsed.data.scope : 'regular-season'}`}
               >
                 Career details and peak
               </Link>

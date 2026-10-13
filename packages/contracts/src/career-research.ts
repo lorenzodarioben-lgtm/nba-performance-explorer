@@ -12,6 +12,8 @@ export const CAREER_METRICS = {
   effectiveFieldGoal: 'Effective FG %',
   pointsPer36: 'PTS per 36 minutes',
 } as const;
+export const SeasonScopeSchema = z.enum(['regular-season', 'playoffs']);
+export type SeasonScope = z.infer<typeof SeasonScopeSchema>;
 export const CareerMetricSchema = z.enum(
   Object.keys(CAREER_METRICS) as [
     keyof typeof CAREER_METRICS,
@@ -22,6 +24,7 @@ export type CareerMetric = z.infer<typeof CareerMetricSchema>;
 export const CareerQuerySchema = z
   .object({
     metric: CareerMetricSchema.default('pointsPerGame'),
+    scope: SeasonScopeSchema.default('regular-season'),
     minGames: z.coerce.number().int().min(1).max(82).default(20),
   })
   .strict();

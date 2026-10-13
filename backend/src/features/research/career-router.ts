@@ -7,6 +7,7 @@ import {
   ResearchPlayerIdSchema,
   type DataSource,
   type CareerMetric,
+  type SeasonScope,
 } from '@nba-performance-explorer/contracts';
 import type { PlayerProvider } from '../players/player-provider.js';
 import type { SeasonTotalsProvider } from './season-totals-provider.js';
@@ -23,18 +24,23 @@ export function createCareerRouter(
   budget: SourceWorkBudget,
 ) {
   const router = Router();
-  async function load(playerId: string, metric: CareerMetric, minGames: number) {
+  async function load(
+    playerId: string,
+    metric: CareerMetric,
+    minGames: number,
+    scope: SeasonScope,
+  ) {
     const player = await provider.getPlayerById(playerId);
     if (!player) return null;
     if (player.id !== playerId)
       throw providerInvalidResponse('Career player identity mismatch.');
     const loaded = totals?.getCareerTotals
-      ? await totals.getCareerTotals(playerId)
+      ? await totals.getCareerTotals(playerId, scope)
       : null;
     const analysis = analyzeCareer(loaded?.records ?? [], playerId, metric, minGames);
     const base = researchProvenance(
       source,
-      'Reported regular-season rows only; career completeness and season completion are not verified.',
+      `Reported ${scope} rows only; career completeness and season completion are not verified.`,
       [
         'Trade aggregate rows count once. Missing counts remain unavailable; no per-game averages are summed.',
         'Peak means the highest selected metric among reported seasons meeting the minimum games; all exact ties are retained.',
@@ -51,6 +57,7 @@ export function createCareerRouter(
           : 'records-unavailable',
       provenance: {
         ...base,
+        scope,
         retrievedAt: loaded?.retrievedAt ?? null,
         warnings: base.warnings.filter(
           (w) => !loaded || !w.startsWith('Upstream retrieval time'),
@@ -72,7 +79,12 @@ export function createCareerRouter(
       const rows = await Promise.all(
         query.data.players.map(async (playerId) => {
           try {
-            const data = await load(playerId, query.data.metric, query.data.minGames);
+            const data = await load(
+              playerId,
+              query.data.metric,
+              query.data.minGames,
+              query.data.scope,
+            );
             return { playerId, data, status: data?.status ?? 'player-unavailable' };
           } catch (error) {
             // A transient failure is isolated; corrupt source records still fail the response.
@@ -101,7 +113,12 @@ export function createCareerRouter(
           'INVALID_CAREER_QUERY',
           'Choose a valid NBA player, metric and minimum games (1–82).',
         );
-      const data = await load(id.data, query.data.metric, query.data.minGames);
+      const data = await load(
+        id.data,
+        query.data.metric,
+        query.data.minGames,
+        query.data.scope,
+      );
       if (!data) return sendApiError(res, 404, 'PLAYER_NOT_FOUND', 'Player not found.');
       res.json(data);
     }),

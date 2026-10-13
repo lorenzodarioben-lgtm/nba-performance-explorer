@@ -26,7 +26,7 @@ export const DataProvenanceSchema = z
     retrievedAt: z.iso.datetime().nullable(),
     asOf: z.iso.datetime().nullable(),
     isLive: z.literal(false),
-    scope: z.enum(['regular-season', 'directory']),
+    scope: z.enum(['regular-season', 'playoffs', 'directory']),
     coverage: z.string().max(500),
     warnings: z.array(z.string().max(500)).max(20),
   })

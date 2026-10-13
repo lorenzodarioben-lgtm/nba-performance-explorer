@@ -26,7 +26,8 @@ export function CareerResearchPage() {
     [...params.keys()].every((k) => params.getAll(k).length === 1);
   const metric = parsed.success ? parsed.data.metric : 'pointsPerGame';
   const minGames = parsed.success ? parsed.data.minGames : 20;
-  const query = useCareerResearch(playerId, metric, minGames, valid);
+  const scope = parsed.success ? parsed.data.scope : 'regular-season';
+  const query = useCareerResearch(playerId, metric, minGames, valid, scope);
   const data = valid ? query.data : undefined;
   return (
     <ResearchShell
@@ -46,7 +47,7 @@ export function CareerResearchPage() {
           <SaveResearchButton
             kind="analysis"
             label={`${data.player.fullName} reported career`}
-            path={`/players/${playerId}/career?metric=${metric}&minGames=${minGames}`}
+            path={`/players/${playerId}/career?metric=${metric}&minGames=${minGames}&scope=${scope}`}
           />
           <SourceNote provenance={data.provenance} />
           <form
@@ -57,10 +58,18 @@ export function CareerResearchPage() {
               setParams({
                 metric: String(form.get('metric')),
                 minGames: String(form.get('minGames')),
+                scope: String(form.get('scope')),
               });
             }}
-            key={`${metric}:${minGames}`}
+            key={`${metric}:${minGames}:${scope}`}
           >
+            <label>
+              Season scope
+              <select name="scope" defaultValue={scope}>
+                <option value="regular-season">Regular season</option>
+                <option value="playoffs">Playoffs</option>
+              </select>
+            </label>
             <label>
               Peak criterion
               <select name="metric" defaultValue={metric}>
@@ -99,7 +108,9 @@ export function CareerResearchPage() {
             <ul>
               {data.peak.seasons.map((s) => (
                 <li key={s}>
-                  <Link to={`/players/${playerId}/insights?season=${s}`}>
+                  <Link
+                    to={`/players/${playerId}/${scope === 'playoffs' ? 'games' : 'insights'}?season=${s}${scope === 'playoffs' ? '&scope=playoffs' : ''}`}
+                  >
                     {s} insights
                   </Link>
                 </li>
@@ -188,7 +199,7 @@ export function CareerResearchPage() {
           <ResearchTable label="Reported season timeline">
             <table>
               <caption>
-                Chronological reported regular seasons; gaps and missing statistics are
+                Chronological reported {scope} seasons; gaps and missing statistics are
                 retained
               </caption>
               <thead>
@@ -218,7 +229,7 @@ export function CareerResearchPage() {
                   <tr key={s.totals.season}>
                     <th scope="row">
                       <Link
-                        to={`/players/${playerId}/insights?season=${s.totals.season}`}
+                        to={`/players/${playerId}/games?season=${s.totals.season}&scope=${scope}`}
                       >
                         {s.totals.season}
                       </Link>

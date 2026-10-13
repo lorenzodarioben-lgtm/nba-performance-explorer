@@ -46,6 +46,12 @@ const CareerComparisonPage = lazy(() =>
   })),
 );
 
+const GameResearchPage = lazy(() =>
+  import('./features/game-research/GameResearchPage').then((m) => ({
+    default: m.GameResearchPage,
+  })),
+);
+
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
   // fixed and each page bleeds under it, handling its own top spacing.
@@ -54,6 +60,20 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/players/:playerId/games"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading game research…
+                  </p>
+                }
+              >
+                <GameResearchPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/lab/careers"
             element={

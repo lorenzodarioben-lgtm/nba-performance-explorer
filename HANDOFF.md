@@ -188,3 +188,15 @@ Jordan, career comparison and SPA refreshes. Career source is existing Totals
 mode only; scope remains reported regular seasons, never verified complete career.
 Checkpoint commit follows this document. Continue postseason/game/discovery/local
 history implementation; do not stop after this checkpoint.
+
+## Latest verified checkpoint — raw games and postseason
+
+Full591 tests pass; genuine six-read local acceptance and mobile keyboard QA pass.
+Source/game/career scopes explicitly separate; protected original files unchanged.
+See LIVE_GAME_RESEARCH_ACCEPTANCE.json and verification log. Checkpoint commit
+follows. Continue immediately: CC0 Wikidata historical season navigator, then
+selected-cohort similarity/discovery, opt-in recent history and hypothetical groups.
+A free Wikidata candidate passed two bounded probes (84 rows, six summer labels
+excluded, modern franchise labels and six missing champions require warnings).
+Temporary genuine server session74364 is running at localhost3002; QA tab2 exists
+in the in-app browser. Restart/reload after builds. Do not push/merge/deploy.

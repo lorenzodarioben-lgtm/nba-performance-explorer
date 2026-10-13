@@ -198,7 +198,12 @@ export function PlayerInsightsPage() {
             </p>
           )}
           {data.season && (
-            <SeasonTotalsPanel playerId={data.player.id} season={data.season} />
+            <>
+              <Link to={`/players/${data.player.id}/games?season=${data.season}`}>
+                Raw game shooting, defensive counts and playoffs
+              </Link>
+              <SeasonTotalsPanel playerId={data.player.id} season={data.season} />
+            </>
           )}
           <h2>Observed form and splits</h2>
           <ResearchTable label="Observed averages">

@@ -54,3 +54,7 @@ working data feature. Keep original screenshot assets and protect original visua
 ## Additional reviewable career tools
 
 After the resumed 577-test checkpoint, review `/players/893/career`, `/players/201939/career?metric=pointsPer36&minGames=40`, `/lab/careers?players=201939,2544&metric=pointsPerGame&minGames=20&axis=calendar`, and the demand-loaded qualified peak picker in `/lab/compare`. Career curves and tables use the same raw records; never bridge missing years or present reported season number as verified experience. Milestones mean reported rows, not first-ever achievements. Preserve source/scope/null/sample/tie labels. Original website remains frozen; no final design readiness claim for blocked modules.
+
+## Raw-game and postseason checkpoint (2026-10-14)
+
+New `/players/201939/games?season=2022-23&scope=playoffs` provides raw ledger, weighted splits, threshold controls, rolling table and exact evidence; use `/players/201939/games?season=2023-24&minPoints=40` for unusual-game queries. Career pages now offer explicit scope; peak links preserve playoffs. Separate same-season regular/playoff comparison is visible below game research. Tables keyboard-scroll on mobile. Preserve scoped labels, sample counts, missing cells and coverage.

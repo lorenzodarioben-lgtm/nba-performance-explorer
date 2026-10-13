@@ -79,3 +79,7 @@ integration; keep stable supported tools reviewable for a targeted supervised pa
 ## Career verification
 
 Run `npx tsx backend/src/scripts/smoke-career.ts` only against a local genuine-provider server; bounded six requests and assertions, no raw traffic dumps or production calls. `probe-postseason-fields.ts` is opt-in, two existing-family reads, timeout 5 seconds, no retry. Do not enable fixtures in production.
+
+## Raw-game and postseason checkpoint (2026-10-14)
+
+Opt-in `npx tsx backend/src/scripts/smoke-game-research.ts` reads six local API/SPA paths; requires genuine provider, asserts weighted attempts, filters and separate playoffs. Temporary server requires restart after backend rebuild; reload browser after frontend hash changes. No automatic production/network fallback.

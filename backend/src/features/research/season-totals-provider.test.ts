@@ -56,6 +56,26 @@ const envelope = (rows: unknown[][]) => ({
 });
 
 describe('raw totals and denominator integrity', () => {
+  it('maps postseason rows independently and does not mix regular totals', async () => {
+    const body = {
+      resultSets: [
+        {
+          name: 'SeasonTotalsRegularSeason',
+          headers,
+          rowSet: [row({ GP: 40, PTS: 1000 })],
+        },
+        { name: 'SeasonTotalsPostSeason', headers, rowSet: [row({ GP: 5, PTS: 100 })] },
+      ],
+    };
+    const client = { fetchEndpoint: vi.fn().mockResolvedValue(body) };
+    const provider = new NbaSeasonTotalsProvider(client);
+    const regular = await provider.getCareerTotals('2544');
+    const playoffs = await provider.getCareerTotals('2544', 'playoffs');
+    expect(regular.records[0]?.points).toBe(1000);
+    expect(playoffs.records[0]?.points).toBe(100);
+    await provider.getSeasonTotals('2544', '2023-24', 'playoffs');
+    expect(client.fetchEndpoint).toHaveBeenCalledTimes(2);
+  });
   it('calculates hand-checked metrics from raw counts', () => {
     const totals = mapSeasonTotals(envelope([row()]), '2544')[0]!;
     const metrics = efficiencyMetrics(totals);

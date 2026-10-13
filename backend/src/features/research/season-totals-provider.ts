@@ -2,6 +2,7 @@ import {
   SeasonIdSchema,
   SeasonTotalsSchema,
   type SeasonTotals,
+  type SeasonScope,
 } from '@nba-performance-explorer/contracts';
 
 import type { NbaStatsHttpClient } from '../players/nba-stats/nba-stats-http-client.js';
@@ -16,13 +17,17 @@ import {
 import { providerInvalidResponse } from '../players/provider-error.js';
 
 export interface SeasonTotalsProvider {
-  getCareerTotals?(playerId: string): Promise<{
+  getCareerTotals?(
+    playerId: string,
+    scope?: SeasonScope,
+  ): Promise<{
     records: SeasonTotals[];
     retrievedAt: string;
   }>;
   getSeasonTotals(
     playerId: string,
     season: string,
+    scope?: SeasonScope,
   ): Promise<{ totals: SeasonTotals | null; retrievedAt: string }>;
 }
 
@@ -49,8 +54,13 @@ const columns = [
 export function mapSeasonTotals(
   body: unknown,
   expectedPlayerId: string,
+  scope: SeasonScope = 'regular-season',
 ): SeasonTotals[] {
-  const table = selectResultSet(body, 'SeasonTotalsRegularSeason', columns);
+  const table = selectResultSet(
+    body,
+    scope === 'playoffs' ? 'SeasonTotalsPostSeason' : 'SeasonTotalsRegularSeason',
+    columns,
+  );
   if (table.rows.length > 150)
     throw providerInvalidResponse('Career totals exceed supported bounds.');
   const groups = new Map<
@@ -125,9 +135,9 @@ export class NbaSeasonTotalsProvider implements SeasonTotalsProvider {
       now: () => this.now().getTime(),
     });
   }
-  async getCareerTotals(playerId: string) {
+  async getCareerTotals(playerId: string, scope: SeasonScope = 'regular-season') {
     return this.cache.getOrLoad(
-      `totals:${playerId}`,
+      `totals:${playerId}:${scope}`,
       async () => {
         const records = mapSeasonTotals(
           await this.client.fetchEndpoint('playercareerstats', {
@@ -136,14 +146,19 @@ export class NbaSeasonTotalsProvider implements SeasonTotalsProvider {
             LeagueID: '00',
           }),
           playerId,
+          scope,
         );
         return { records, retrievedAt: this.now().toISOString() };
       },
       (value) => (value.records.length ? 6 * 60 * 60_000 : 60_000),
     );
   }
-  async getSeasonTotals(playerId: string, season: string) {
-    const data = await this.getCareerTotals(playerId);
+  async getSeasonTotals(
+    playerId: string,
+    season: string,
+    scope: SeasonScope = 'regular-season',
+  ) {
+    const data = await this.getCareerTotals(playerId, scope);
     return {
       totals: data.records.find((r) => r.season === season) ?? null,
       retrievedAt: data.retrievedAt,

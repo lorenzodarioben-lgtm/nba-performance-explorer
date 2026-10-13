@@ -30,3 +30,7 @@ integration for new routes; local new-page navigation/source labels are provided
 ## Resumed career additions
 
 Only additive lazy App routes, new research pages/components and links within expansion pages. Original header/footer/home/profile/comparison render trees, global styles/assets/metadata/provider remain unchanged. Native SVG curves are confined to the new career page with equivalent accessible tables. No original design-system replacement.
+
+## Raw-game and postseason checkpoint (2026-10-14)
+
+Postseason/raw-game slice changes only expansion components/contracts/providers and app/server composition. Protected original frontend source, assets, deployment manifest, lockfile and original backend PlayerProvider remain untouched. Mobile new-table containment verified independently; no redesign.

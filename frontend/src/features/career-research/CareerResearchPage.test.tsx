@@ -63,6 +63,26 @@ const body = {
   },
 };
 describe('career research', () => {
+  it('preserves playoff scope in career retrieval, saved state and peak evidence links', async () => {
+    let scope = '';
+    server.use(
+      http.get('http://localhost/api/players/2544/career', ({ request }) => {
+        scope = new URL(request.url).searchParams.get('scope') ?? '';
+        return HttpResponse.json({
+          ...body,
+          provenance: { ...body.provenance, scope: 'playoffs' },
+        });
+      }),
+    );
+    renderApp('/players/2544/career?scope=playoffs&minGames=20');
+    const link = await screen.findByRole('link', { name: '2023-24 insights' });
+    expect(scope).toBe('playoffs');
+    expect(link).toHaveAttribute(
+      'href',
+      '/players/2544/games?season=2023-24&scope=playoffs',
+    );
+    expect(screen.getByLabelText('Season scope')).toHaveValue('playoffs');
+  });
   it('restores multi-career selections, preserves missing slots and breaks curves across years', async () => {
     let calls = 0;
     server.use(
