@@ -58,3 +58,7 @@ After the resumed 577-test checkpoint, review `/players/893/career`, `/players/2
 ## Raw-game and postseason checkpoint (2026-10-14)
 
 New `/players/201939/games?season=2022-23&scope=playoffs` provides raw ledger, weighted splits, threshold controls, rolling table and exact evidence; use `/players/201939/games?season=2023-24&minPoints=40` for unusual-game queries. Career pages now offer explicit scope; peak links preserve playoffs. Separate same-season regular/playoff comparison is visible below game research. Tables keyboard-scroll on mobile. Preserve scoped labels, sample counts, missing cells and coverage.
+
+## CC0 history and qualification checkpoint (2026-10-14)
+
+Review `/history`, `/history/1999-00`, `/history?from=1990&to=2005` and source-entity champion filters. Keep namespaced IDs, modern-franchise label warning, missing champion state, source record-backed navigation and safe external check/report links. No official championship totals. Raw-game minSample qualifier now shows eligibility and suppresses small-cohort derived cells. Original design still frozen.

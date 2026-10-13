@@ -89,6 +89,22 @@ const envelope = (rows: unknown[][]) => ({
   resultSets: [{ name: 'PlayerGameLog', headers, rowSet: rows }],
 });
 describe('raw game analysis integrity', () => {
+  it('withholds derived small-sample values while retaining raw observations and totals', () => {
+    const result = analyzeResearchGames(
+      [game('a', '2023-12-01')],
+      '2544',
+      query({ minSample: '5' }),
+    );
+    expect(result.summary.qualified).toBe(false);
+    expect(result.summary.minSample).toBe(5);
+    expect(result.summary.perGame.points).toBeNull();
+    expect(result.summary.metrics.fieldGoalPercentage).toBeNull();
+    expect(result.summary.totals.points).toBe(20);
+    expect(result.games).toHaveLength(1);
+    expect(
+      GameResearchQuerySchema.safeParse({ season: '2023-24', minSample: '0' }).success,
+    ).toBe(false);
+  });
   it('weights shooting by raw attempts rather than averaging game percentages', () => {
     const a = game('a', '2023-12-01'),
       b = game('b', '2023-12-02');

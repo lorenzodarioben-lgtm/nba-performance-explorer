@@ -30,6 +30,7 @@ function SummaryRow({
     <tr>
       <th scope="row">{label}</th>
       <td>{s.sample}</td>
+      <td>{s.qualified ? 'Yes' : `No (minimum ${s.minSample})`}</td>
       {RAW_GAME_METRICS.map((key) => (
         <td key={key}>{format(s.perGame[key])}</td>
       ))}
@@ -142,6 +143,17 @@ export function GameResearchPage() {
               />
             </label>
             <label>
+              Minimum cohort sample
+              <input
+                name="minSample"
+                type="number"
+                min={1}
+                max={150}
+                required
+                defaultValue={params.get('minSample') ?? '1'}
+              />
+            </label>
+            <label>
               Game season scope
               <select name="scope" defaultValue={data.scope}>
                 <option value="regular-season">Regular season</option>
@@ -247,6 +259,11 @@ export function GameResearchPage() {
             </label>
           </div>
           <h2>Attempt-weighted observed splits</h2>
+          <p>
+            Derived averages and shooting ratios stay unavailable until a cohort reaches
+            the chosen minimum sample. Raw observed totals and game evidence remain
+            available.
+          </p>
           <ResearchTable label="Raw shooting and defensive splits">
             <table>
               <caption>
@@ -258,6 +275,7 @@ export function GameResearchPage() {
                   {[
                     'Cohort',
                     'Sample',
+                    'Qualified',
                     ...RAW_GAME_METRICS,
                     'FG%',
                     '3P%',

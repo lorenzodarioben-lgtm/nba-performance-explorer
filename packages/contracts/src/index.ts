@@ -7,6 +7,7 @@ export * from './season-totals.js';
 export * from './cohort-analytics.js';
 export * from './career-research.js';
 export * from './game-research.js';
+export * from './history-research.js';
 
 export {
   PlayerSearchResponseSchema,

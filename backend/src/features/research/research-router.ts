@@ -27,6 +27,7 @@ export function createResearchRouter(
   source: DataSource,
   totalsProvider?: SeasonTotalsProvider,
   budget = new SourceWorkBudget(),
+  extensions: { history?: boolean; games?: boolean } = {},
 ) {
   const router = Router();
   router.get(
@@ -102,6 +103,20 @@ export function createResearchRouter(
         hostVerified: false,
         capabilities: [
           {
+            id: 'historical-season-facts',
+            status: extensions.history ? 'conditional' : 'blocked',
+            reason: extensions.history
+              ? 'Wikidata CC0 recorded season/champion statements with missingness and modern-label warnings; not an official complete archive.'
+              : 'Historical facts provider disabled.',
+          },
+          {
+            id: 'raw-game-research',
+            status: extensions.games ? 'conditional' : 'blocked',
+            reason: extensions.games
+              ? 'Individual regular/playoff logs with raw attempts, observed-cohort qualifiers and query evidence.'
+              : 'Raw game provider disabled.',
+          },
+          {
             id: 'team-directory',
             status: 'available',
             reason:
@@ -145,7 +160,8 @@ export function createResearchRouter(
           {
             id: 'shots-lineups-history',
             status: 'blocked',
-            reason: 'No verified rights-cleared dataset for these capabilities.',
+            reason:
+              'Shots/lineups and comprehensive statistical history lack a verified rights-cleared dataset. A separate historical-facts capability reports the narrower CC0 season navigator.',
           },
           {
             id: 'league-analytics',

@@ -200,3 +200,16 @@ A free Wikidata candidate passed two bounded probes (84 rows, six summer labels
 excluded, modern franchise labels and six missing champions require warnings).
 Temporary genuine server session74364 is running at localhost3002; QA tab2 exists
 in the in-app browser. Restart/reload after builds. Do not push/merge/deploy.
+
+## Latest checkpoint — CC0 history (supersedes earlier queue)
+
+Full602 tests pass; genuine5-read local history acceptance PASS (78 season
+entities,6 missing winners). History/champion source is CC0 Wikidata, not official
+NBA archive; label/coverage/cap/rate-limit safeguards are implemented. Raw-game
+minSample qualification implemented and verified. Local server session32247 is
+running on3002; in-app QA tab2 remains. Do not merge/push/deploy.
+NEXT ACTION: implement DOB-based age-at-October1 curves and reported team stints
+using existing profile/career families (two DOB probes passed20:10:42–43Z), then
+selected-pool discovery, opt-in local recent history and hypothetical five-man
+identity groups. Continue beyond checkpoints. Broad game/league feeds remain
+rights-gated; CC0 alternative now unlocks narrow history without mandatory cost.

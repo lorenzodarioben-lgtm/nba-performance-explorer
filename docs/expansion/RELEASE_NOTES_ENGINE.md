@@ -45,3 +45,7 @@ Added reported career raw totals, weighted efficiency, chronological season time
 ## Raw-game and postseason checkpoint (2026-10-14)
 
 Added raw shooting and defensive game logs, attempt-weighted splits/rolling, explicit unusual-game thresholds and share state; separately scoped postseason careers/games and same-season regular/playoff comparison. Old player APIs and original website remain unchanged. Full591 tests and six genuine local smoke reads pass; responsive keyboard QA passes. Work continues beyond this checkpoint.
+
+## CC0 history and qualification checkpoint (2026-10-14)
+
+Added a working free CC0 historical season/champion navigator with filters, source links, missingness, record-backed navigation, bookmarks and direct routes. Adds bounded source caching and rate-limit cooldown. Game research now has explicit cohort minimum qualification. Full602 tests and five genuine local history checks pass. Continue age/team history, selected-cohort discovery and local preferences.

@@ -41,6 +41,8 @@ const game = {
   assists: 5,
 };
 const summary = {
+  qualified: true,
+  minSample: 1,
   sample: 1,
   wins: 1,
   losses: 0,

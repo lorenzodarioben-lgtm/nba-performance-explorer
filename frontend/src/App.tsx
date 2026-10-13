@@ -52,6 +52,10 @@ const GameResearchPage = lazy(() =>
   })),
 );
 
+const HistoryPage = lazy(() =>
+  import('./features/history/HistoryPage').then((m) => ({ default: m.HistoryPage })),
+);
+
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
   // fixed and each page bleeds under it, handling its own top spacing.
@@ -60,6 +64,34 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/history"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading history…
+                  </p>
+                }
+              >
+                <HistoryPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/history/:season"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading historical season…
+                  </p>
+                }
+              >
+                <HistoryPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/players/:playerId/games"
             element={

@@ -83,3 +83,7 @@ Run `npx tsx backend/src/scripts/smoke-career.ts` only against a local genuine-p
 ## Raw-game and postseason checkpoint (2026-10-14)
 
 Opt-in `npx tsx backend/src/scripts/smoke-game-research.ts` reads six local API/SPA paths; requires genuine provider, asserts weighted attempts, filters and separate playoffs. Temporary server requires restart after backend rebuild; reload browser after frontend hash changes. No automatic production/network fallback.
+
+## CC0 history and qualification checkpoint (2026-10-14)
+
+Wikidata history initializes lazily at server composition, with no key/cost. Fixed query and10s timeout;24h/one-entry cache,429 cooldown. Opt-in `smoke-history.ts` performs at most five local public API/SPA reads. Production-host access remains unverified. `probe-birthdate.ts` is two existing-family source reads,5s timeout/no retries. No deployment required.

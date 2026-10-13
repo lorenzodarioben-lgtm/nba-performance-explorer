@@ -34,3 +34,7 @@ Only additive lazy App routes, new research pages/components and links within ex
 ## Raw-game and postseason checkpoint (2026-10-14)
 
 Postseason/raw-game slice changes only expansion components/contracts/providers and app/server composition. Protected original frontend source, assets, deployment manifest, lockfile and original backend PlayerProvider remain untouched. Mobile new-table containment verified independently; no redesign.
+
+## CC0 history and qualification checkpoint (2026-10-14)
+
+History adds two lazy routes and local research navigation only. Original header/footer/home/profile/comparison/global styles/assets/providers/deploy manifest remain unchanged. CC0 source carries no borrowed NBA imagery.

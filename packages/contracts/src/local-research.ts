@@ -21,7 +21,7 @@ export const InternalResearchPathSchema = z
           url.origin === 'https://research.invalid' &&
           !url.hash &&
           url.pathname === path.split('?')[0] &&
-          /^\/(?:explore|my-nba|compare|lab\/(?:compare|analytics|careers)|teams(?:\/nba:[1-9]\d{0,11})?|players\/[1-9]\d{0,11}(?:\/(?:insights|career|games))?)?$/.test(
+          /^\/(?:explore|my-nba|compare|history(?:\/\d{4}-\d{2})?|lab\/(?:compare|analytics|careers)|teams(?:\/nba:[1-9]\d{0,11})?|players\/[1-9]\d{0,11}(?:\/(?:insights|career|games))?)?$/.test(
             url.pathname,
           )
         );

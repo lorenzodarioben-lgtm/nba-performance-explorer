@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-13T20:11:23.451Z",
+  "status": "PASS",
+  "environment": "local-genuine-wikidata-source",
+  "productionHostTested": false,
+  "requests": 5,
+  "recordedSeasons": 78,
+  "coverage": {
+    "rawRows": 84,
+    "excludedRows": 6,
+    "missingWinners": 6,
+    "capped": false
+  },
+  "centuryRolloverVerified": true,
+  "sourceEntityFilterVerified": true,
+  "directSpaRefreshes": 2
+}

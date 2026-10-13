@@ -20,6 +20,7 @@ export function rawGameSummary(
   games: RawPlayerGame[],
   playerId: string,
   season: string,
+  minSample = 1,
 ) {
   const sum = (values: (number | null)[]) =>
     !values.length || values.some((n) => n === null)
@@ -47,16 +48,22 @@ export function rawGameSummary(
     ),
   } as SeasonTotals;
   const wins = games.filter((g) => g.game.result === 'W').length;
+  const qualified = games.length >= minSample;
+  const derived = efficiencyMetrics(totals);
   return {
+    qualified,
+    minSample,
     sample: games.length,
     wins,
     losses: games.length - wins,
     totals,
-    metrics: efficiencyMetrics(totals),
+    metrics: qualified
+      ? derived
+      : Object.fromEntries(Object.keys(derived).map((key) => [key, null])),
     perGame: Object.fromEntries(
       RAW_GAME_METRICS.map((key) => {
         const total = sum(games.map((g) => metric(g, key)));
-        return [key, total === null ? null : total / games.length];
+        return [key, !qualified || total === null ? null : total / games.length];
       }),
     ),
   };
@@ -84,7 +91,7 @@ export function analyzeResearchGames(
       (query.minMinutes === undefined || g.minutes >= query.minMinutes),
   );
   const summarize = (games: RawPlayerGame[]) =>
-    rawGameSummary(games, playerId, query.season);
+    rawGameSummary(games, playerId, query.season, query.minSample);
   const chronological = [...filtered].reverse();
   const sorted = [...filtered].sort((a, b) => {
     const av = query.sort === 'date' ? a.game.date : metric(a, query.sort);

@@ -50,6 +50,7 @@ export const GameResearchQuerySchema = z
     minRebounds: z.coerce.number().int().min(0).max(100).optional(),
     minAssists: z.coerce.number().int().min(0).max(100).optional(),
     minMinutes: z.coerce.number().min(0).max(100).optional(),
+    minSample: z.coerce.number().int().min(1).max(150).default(1),
     sort: z.enum(['date', ...RAW_GAME_METRICS]).default('date'),
   })
   .strict()
@@ -60,6 +61,8 @@ export type GameResearchQuery = z.infer<typeof GameResearchQuerySchema>;
 const nullableMetric = z.number().finite().nonnegative().nullable();
 export const RawGameSummarySchema = z
   .object({
+    qualified: z.boolean(),
+    minSample: z.number().int().min(1).max(150),
     sample: z.number().int().min(0).max(150),
     wins: z.number().int().nonnegative(),
     losses: z.number().int().nonnegative(),

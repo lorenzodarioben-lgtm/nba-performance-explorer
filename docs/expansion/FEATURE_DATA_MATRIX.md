@@ -33,3 +33,7 @@ B09/F05/F07/H08 and individual historical profile navigation I04 now have verifi
 ## Raw-game and postseason checkpoint (2026-10-14)
 
 Individual-player raw game analysis and postseason now supported through the already accepted playergamelog/playercareerstats endpoint families. B01/B04/B11/F08/K02/K09 have verified scoped slices; B08 remains observed-season records rather than complete-career records. K08 is a partial selected-player query/evidence tool rather than league discovery. Broader scoreboards/rosters/standings/shot/lineup source gates remain independent.
+
+## CC0 history and qualification checkpoint (2026-10-14)
+
+I01 season navigation is verified via CC0 facts. I02/I03 season summary/team-filter archives remain partial champion-only slices; other historical statistical/draft/award goals remain separate. Historical bookmarks work (L06 partial pending exact game save). Partial recent/future winners and modern franchise labels are deliberately exposed. No all-league statistical database built.

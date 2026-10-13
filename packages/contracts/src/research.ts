@@ -14,6 +14,7 @@ export const DataSourceSchema = z.enum([
   'fixture',
   'unknown',
   'nba-api-static',
+  'wikidata',
 ]);
 export type DataSource = z.infer<typeof DataSourceSchema>;
 
@@ -26,7 +27,7 @@ export const DataProvenanceSchema = z
     retrievedAt: z.iso.datetime().nullable(),
     asOf: z.iso.datetime().nullable(),
     isLive: z.literal(false),
-    scope: z.enum(['regular-season', 'playoffs', 'directory']),
+    scope: z.enum(['regular-season', 'playoffs', 'directory', 'history']),
     coverage: z.string().max(500),
     warnings: z.array(z.string().max(500)).max(20),
   })

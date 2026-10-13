@@ -56,3 +56,7 @@ New SPA routes `/players/:id/career` and `/lab/careers`; comparison peak picker 
 ## Raw-game and postseason checkpoint (2026-10-14)
 
 GET `/api/players/:id/game-research` requires season and supports scope (regular-season/playoffs), window 1–20, date/opponent/location/result filters, minPoints 0–200, minRebounds/minAssists 0–100, minMinutes 0–100, raw sort and page bounds. Response includes raw attempts and STL/BLK/TOV, weighted cohorts/rolling, extrema with date/opponent/ID evidence, observed/summary GP and explicit missingness. GET `/api/players/:id/season-scopes?season=...` returns separately labelled raw regular/playoff rows. Career and career-comparison APIs now accept scope, default regular-season. New SPA `/players/:id/games`; old APIs remain regular-only and unchanged.
+
+## CC0 history and qualification checkpoint (2026-10-14)
+
+GET `/api/history/seasons` and `/api/history/seasons/:season` support optional integer from/to season start years (1946–2100) and champion=`wd:Q...`; strict identities/keys and bounded100 output. Record-backed previous/next navigation, per-source coverage/cap metadata, missing winners and safe Wikidata entity links. Provider disabled returns unsupported; absent detail404; source502/503/504 sanitized. Query fixed, no user SPARQL. Raw game query additionally supports minSample1–150 (default1); small cohorts retain raw data but derived values null.

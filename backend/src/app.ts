@@ -14,6 +14,8 @@ import { SourceWorkBudget } from './features/research/source-work-budget.js';
 import { createCareerRouter } from './features/research/career-router.js';
 import { createGameResearchRouter } from './features/research/game-research-router.js';
 import type { GameResearchProvider } from './features/research/game-research-provider.js';
+import { createHistoryRouter } from './features/history/history-router.js';
+import type { HistoryProvider } from './features/history/history-provider.js';
 import { createPlayersRouter } from './features/players/players-router.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
 import { healthRouter } from './routes/health.js';
@@ -63,6 +65,7 @@ export function createApp(
     playerSource?: DataSource;
     totalsProvider?: SeasonTotalsProvider;
     gamesProvider?: GameResearchProvider;
+    historyProvider?: HistoryProvider;
   } = {},
 ): Express {
   const application = express();
@@ -73,6 +76,10 @@ export function createApp(
   application.use('/api/health', healthRouter);
   application.use('/api/players', createPlayersRouter(playerProvider));
   application.use('/api/teams', createTeamsRouter());
+  application.use(
+    '/api/history',
+    createHistoryRouter(options.historyProvider, researchBudget),
+  );
   application.use(
     '/api',
     createGameResearchRouter(
@@ -108,6 +115,7 @@ export function createApp(
       options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
       options.totalsProvider,
       researchBudget,
+      { history: !!options.historyProvider, games: !!options.gamesProvider },
     ),
   );
   configureFrontend(application);

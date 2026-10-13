@@ -69,3 +69,7 @@ Milestones use chronological raw PTS/REB/AST cumulative counts and fixed visible
 ## Raw-game and postseason checkpoint (2026-10-14)
 
 Raw-game shooting ratios use total makes/attempts across the filtered cohort. TS% uses summed PTS / (2 × (FGA + 0.44 × FTA)); eFG uses (FGM + .5 × 3PM) / FGA. Missing fields propagate null; zero denominator unavailable. STL/BLK/TOV averages use actual game sample, not season GP. Filters including thresholds apply before trailing windows/splits/extrema; pages never affect cohort math. Exact ties retain all date/opponent/ID evidence. Regular and playoffs have separate cache keys/result sets/season codes and cannot mix.
+
+## CC0 history and qualification checkpoint (2026-10-14)
+
+History is a narrow source-fact projection, not an official NBA archive. Season labels must match NBA-season shape and contiguous ending year; century rollover1999–2000 becomes1999-00. Summer League/noncanonical labels excluded and counted. Source entities remain namespaced `wd:`; current labels never imply historical alias or NBA team mapping. Explicit multiple winner statements are retained; duplicates/ambiguous season mappings rejected. Navigation comes from existing filtered records. No calculated official franchise totals. Game cohort minSample suppresses derived averages/efficiency before plotting/display, while preserving raw totals/evidence.

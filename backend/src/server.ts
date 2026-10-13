@@ -8,6 +8,7 @@ import { createPlayerProvider } from './features/players/player-provider-factory
 import { createNbaStatsHttpClient } from './features/players/nba-stats/nba-stats-http-client.js';
 import { NbaSeasonTotalsProvider } from './features/research/season-totals-provider.js';
 import { NbaGameResearchProvider } from './features/research/game-research-provider.js';
+import { WikidataHistoryProvider } from './features/history/history-provider.js';
 
 const defaultPort = 3001;
 const configuredPort = Number.parseInt(process.env.PORT ?? `${defaultPort}`, 10);
@@ -32,6 +33,7 @@ function loadConfig(): PlayerProviderConfig {
 const config = loadConfig();
 const app = createApp(createPlayerProvider(config), {
   playerSource: config.mode,
+  historyProvider: new WikidataHistoryProvider(),
   ...(config.mode === 'nba-stats'
     ? {
         totalsProvider: new NbaSeasonTotalsProvider(
