@@ -19,6 +19,7 @@ import {
 } from '../research/ResearchShell';
 import styles from '../research/research.module.css';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
+import { PeakSeasonPicker } from '../career-research/PeakSeasonPicker';
 import { addLabPlayer, buildLabParams, readLabState, type LabSlot } from './lab-state';
 
 function PlayerSlot({
@@ -72,6 +73,7 @@ function PlayerSlot({
       {seasons.isSuccess && seasons.data.length === 0 && (
         <p>No recorded seasons; replace this player or remove the slot.</p>
       )}
+      <PeakSeasonPicker playerId={slot.playerId} onSeason={onSeason} />
     </fieldset>
   );
 }
@@ -101,6 +103,11 @@ export function ComparisonLabPage() {
   );
   return (
     <ResearchShell title="Comparison lab">
+      <Link
+        to={`/lab/careers${state.slots.length >= 2 ? `?players=${state.slots.map((s) => s.playerId).join(',')}` : ''}`}
+      >
+        Compare reported careers
+      </Link>
       <SaveResearchButton
         kind="comparison"
         label="Player season comparison"

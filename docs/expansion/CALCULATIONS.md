@@ -59,3 +59,9 @@ Unsupported: league percentiles/distributions, possessions/pace/per-100, usage,
 lineup/on-off/ratings, career milestone totals and official records, playoff mode,
 weighted game shooting splits and era adjustment. Some are feasible follow-ups
 within existing endpoints; others need rights-cleared league/lineup datasets.
+
+## Reported career, milestones and peak
+
+One representative raw row per season; a traded season uses its unique aggregate exactly once. Counts sum only if every reported row has that field; any missing field makes that aggregate unavailable. Career percentages use summed raw attempts, never a mean of per-season percentages. Career per-game values use raw counts / GP, with zero GP unavailable. Peak is max selected metric among reported seasons with GP >= explicit minimum (default 20); missing denominators excluded, all exact ties retained, chronological ordering. No official or era-adjusted peak claim.
+
+Milestones use chronological raw PTS/REB/AST cumulative counts and fixed visible thresholds. A crossing means reached within reported rows by that reported season, not actual first-ever career crossing or a game date. Null inputs propagate unknown cumulative coverage. Curves break across absent calendar years, null values or low-GP rows. The accessible table retains excluded rows rather than plotting zero.

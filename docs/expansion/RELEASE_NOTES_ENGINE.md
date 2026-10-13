@@ -37,3 +37,7 @@ Career milestones/peak-season selection and multi-player career trends remain
 unstarted/deferred, not falsely called data-delivered. See feature ledger and handoff.
 
 Final all-work gate PASS: 567 tests, all strict checks/builds; 28 scoped verified features, 7 partial, 83 data-blocked and 16 deferred. No full-platform completeness claimed.
+
+## Resumed career checkpoint
+
+Added reported career raw totals, weighted efficiency, chronological season timeline with gap labels, milestone thresholds, explicit min-games peak with ties, and 2–4 player career curves/table with shareable state. Missing players and transient source failures remain distinct slots. Qualified peak choices update only the chosen comparison season. 577-test full gate passed and six genuine local API/refresh checks passed for active and retired players. No push, merge, deployment or new mandatory costs. Implementation continues; this checkpoint is not the end of SHOT 1.

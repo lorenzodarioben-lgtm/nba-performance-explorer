@@ -111,3 +111,11 @@ metadata, render.yaml and lockfile returned no paths in baseline diff. Feature
 ledger actual grouped counts: verified 28, partial 7, data blocked 83, deferred 16
 (134 total). Source implementation committed at a20fcf23ec81f59ef758ec91e131f99f07d71dc0;
 final docs-only checkpoint follows. Not deployed, merged or pushed.
+
+## Resumed execution — career checkpoint
+
+Previous execution ended voluntarily after checkpoints. No recorded tool/context/execution limit or technical blocker forced that termination; independent scope remained. Continued immediately after user steering. Current full `npm run validate` passed: 251 frontend + 326 backend = 577 tests, format/lint/types/builds. New focused calculation/API tests cover raw weighted aggregation, null/zero denominators, ties, duplicate/identity rejection, min-GP boundaries, absent/error scopes, isolated transient comparison failures. UI tests cover direct URLs, save criteria, demand-loaded peak, slot preservation, and curve gaps.
+
+Genuine local smoke PASS at 2026-10-13T19:44:31.083Z: six bounded API/SPA reads; Curry 17, LeBron 23, Jordan 15 reported seasons; exact raw sums and qualified peak calculation checked independently; two-player TS career comparison, two direct refreshes. Sanitized evidence: LIVE_CAREER_ACCEPTANCE.json. Production host not tested.
+
+Two bounded existing-family postseason field probes passed at 19:40:57–58Z: Curry career SeasonTotalsPostSeason 10 rows, 2022-23 Playoffs PlayerGameLog 13 rows; numeric attempts/defensive fields validated. This is local field evidence, not yet acceptance of an implemented postseason feature. Initial new-slice checks caught a fetch-helper argument/parser error, a mistaken test expectation for the existing 503 unavailable status, and an incorrect combobox prop; all corrected before passing gate.

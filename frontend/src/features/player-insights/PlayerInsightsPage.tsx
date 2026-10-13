@@ -81,6 +81,9 @@ export function PlayerInsightsPage() {
       {data && (
         <>
           <Link to={`/players/${data.player.id}`}>Original player profile</Link>
+          <Link to={`/players/${data.player.id}/career`}>
+            Reported career and qualified peak
+          </Link>
           <SaveResearchButton
             kind="analysis"
             label={`${data.player.fullName} insights`}

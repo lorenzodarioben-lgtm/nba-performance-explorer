@@ -26,3 +26,7 @@ baseline images were not overwritten. Status: unchanged_diff_only, supported by
 source diff and legacy tests plus current manual views, not a pixel-equality claim.
 The preserved masthead's home anchors and static footer branding need Shot 2
 integration for new routes; local new-page navigation/source labels are provided.
+
+## Resumed career additions
+
+Only additive lazy App routes, new research pages/components and links within expansion pages. Original header/footer/home/profile/comparison render trees, global styles/assets/metadata/provider remain unchanged. Native SVG curves are confined to the new career page with equivalent accessible tables. No original design-system replacement.

@@ -34,6 +34,17 @@ const AnalyticsLabPage = lazy(() =>
     default: m.AnalyticsLabPage,
   })),
 );
+const CareerResearchPage = lazy(() =>
+  import('./features/career-research/CareerResearchPage').then((m) => ({
+    default: m.CareerResearchPage,
+  })),
+);
+
+const CareerComparisonPage = lazy(() =>
+  import('./features/career-research/CareerComparisonPage').then((m) => ({
+    default: m.CareerComparisonPage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -43,6 +54,34 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/lab/careers"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading career comparison…
+                  </p>
+                }
+              >
+                <CareerComparisonPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/players/:playerId/career"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading reported career…
+                  </p>
+                }
+              >
+                <CareerResearchPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/lab/analytics"
             element={

@@ -46,3 +46,9 @@ Opt-in source checks (not CI): `npm run smoke:free-sources`,
 The last requires a genuine locally running server at 127.0.0.1:3002 (optional
 NBA_ENGINE_SMOKE_ORIGIN is restricted to a local HTTP origin). Fixed 16 public API
 and SPA checks, sequential and timeout-bounded; no raw response dump.
+
+## Resumed career slice (2026-10-14)
+
+GET `/api/players/:id/career?metric=pointsPerGame&minGames=20` returns reported raw season rows, nullable count aggregates, weighted efficiency, milestone thresholds and all qualified peak ties. Metrics: pointsPerGame, reboundsPerGame, assistsPerGame, trueShooting, effectiveFieldGoal, pointsPer36; minimum games 1–82. Regular season only at this checkpoint. Strict IDs/query keys; 400 invalid, 404 absent player, 405 unsupported method; upstream 502/503/504 remain sanitized. Unsupported raw provider returns explicit unsupported, never fixture fallback. GET `/api/analytics/careers?players=id,id&metric=...&minGames=...` accepts 2–4 unique IDs, preserves absent/transient slots, rejects corrupt records. Shared source budget and raw cache apply.
+
+New SPA routes `/players/:id/career` and `/lab/careers`; comparison peak picker loads on demand. Career axis is calendar year or reported season number, explicitly not verified experience.

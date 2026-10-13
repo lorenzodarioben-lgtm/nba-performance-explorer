@@ -25,3 +25,7 @@ no ESPN ID is passed to an NBA profile. Statistics CSV/export and bulk archive
 redistribution remain gated; local preference export contains URLs, not NBA data.
 
 Deferred K02/K03/K04/K08/K09, B09/B11/B12, F05/F06/F07/F08, H08/I04 and L02/L10 are engineering/field-validation follow-ups; do not call them proved inaccessible merely because they are not implemented.
+
+## Resumed supported career scope
+
+B09/F05/F07/H08 and individual historical profile navigation I04 now have verified reported-row implementations from existing playercareerstats Totals. B10 timeline and K03 milestones remain partial pending richer team history and recent records. No complete-career, transfer-date, verified experience/age, league-population or official peak claim. Coverage and null propagation are rendered. Broad league/game feed prerequisites remain separately gated.

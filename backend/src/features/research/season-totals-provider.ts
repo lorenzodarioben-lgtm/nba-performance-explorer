@@ -16,6 +16,10 @@ import {
 import { providerInvalidResponse } from '../players/provider-error.js';
 
 export interface SeasonTotalsProvider {
+  getCareerTotals?(playerId: string): Promise<{
+    records: SeasonTotals[];
+    retrievedAt: string;
+  }>;
   getSeasonTotals(
     playerId: string,
     season: string,
@@ -121,8 +125,8 @@ export class NbaSeasonTotalsProvider implements SeasonTotalsProvider {
       now: () => this.now().getTime(),
     });
   }
-  async getSeasonTotals(playerId: string, season: string) {
-    const data = await this.cache.getOrLoad(
+  async getCareerTotals(playerId: string) {
+    return this.cache.getOrLoad(
       `totals:${playerId}`,
       async () => {
         const records = mapSeasonTotals(
@@ -137,6 +141,9 @@ export class NbaSeasonTotalsProvider implements SeasonTotalsProvider {
       },
       (value) => (value.records.length ? 6 * 60 * 60_000 : 60_000),
     );
+  }
+  async getSeasonTotals(playerId: string, season: string) {
+    const data = await this.getCareerTotals(playerId);
     return {
       totals: data.records.find((r) => r.season === season) ?? null,
       retrievedAt: data.retrievedAt,

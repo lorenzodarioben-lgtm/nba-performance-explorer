@@ -75,3 +75,7 @@ NBA broader feed integration BLOCKED pending usage review; ESPN REJECTED by its
 published extraction restriction; historical candidates CONDITIONAL, not imported.
 Code licenses do not license upstream statistics. Static MIT identities include
 notice; no imagery/statistical archive redistribution or NBA CSV export added.
+
+## Existing-family extension evidence, resumed 2026-10-14
+
+Career totals/peak/milestones/trends reuse playercareerstats Totals and the existing individual-player source policy. No new endpoint family or league database enabled. Bounded probes (`probe-postseason-fields.ts`) found numeric raw shooting/defensive fields in SeasonTotalsPostSeason (10 Curry rows) and PlayerGameLog SeasonType=Playoffs (13 Curry 2022-23 games). Timeouts 5s, no retries, abort on failure. Do not conflate this local probe with production-host verification or broader republication permission.

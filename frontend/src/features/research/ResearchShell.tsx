@@ -23,6 +23,7 @@ export function ResearchShell({
         <Link to="/teams">Teams</Link>
         <Link to="/lab/compare">Comparison lab</Link>
         <Link to="/lab/analytics">Analytics lab</Link>
+        <Link to="/lab/careers">Career comparison</Link>
         <Link to="/my-nba">My NBA</Link>
         <Link to="/">Original home</Link>
       </nav>

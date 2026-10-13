@@ -11,6 +11,7 @@ import { createTeamsRouter } from './features/teams/teams-router.js';
 import type { SeasonTotalsProvider } from './features/research/season-totals-provider.js';
 import { createCohortRouter } from './features/research/cohort-router.js';
 import { SourceWorkBudget } from './features/research/source-work-budget.js';
+import { createCareerRouter } from './features/research/career-router.js';
 import { createPlayersRouter } from './features/players/players-router.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
 import { healthRouter } from './routes/health.js';
@@ -66,6 +67,15 @@ export function createApp(
   application.use('/api/health', healthRouter);
   application.use('/api/players', createPlayersRouter(playerProvider));
   application.use('/api/teams', createTeamsRouter());
+  application.use(
+    '/api',
+    createCareerRouter(
+      playerProvider ?? fixturePlayerProvider,
+      options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
+      options.totalsProvider,
+      researchBudget,
+    ),
+  );
   application.use(
     '/api/analytics/cohort',
     createCohortRouter(

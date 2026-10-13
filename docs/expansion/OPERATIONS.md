@@ -75,3 +75,7 @@ host if authorized, current browser desktop/phone/keyboard journeys, preserved l
 visual checks. This branch is not production-ready merely because local sources pass.
 Resolve source-rights gaps and finish outstanding minimums before full platform design
 integration; keep stable supported tools reviewable for a targeted supervised pass.
+
+## Career verification
+
+Run `npx tsx backend/src/scripts/smoke-career.ts` only against a local genuine-provider server; bounded six requests and assertions, no raw traffic dumps or production calls. `probe-postseason-fields.ts` is opt-in, two existing-family reads, timeout 5 seconds, no retry. Do not enable fixtures in production.

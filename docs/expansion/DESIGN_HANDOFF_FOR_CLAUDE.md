@@ -50,3 +50,7 @@ DO NOT break contracts, alter statistics, replace missing data with illustration
 or move core calculation/qualification/identity logic into visual components.
 No unsupported scoreboard, shot map or observed-lineup mockup may appear as a
 working data feature. Keep original screenshot assets and protect original visual DNA.
+
+## Additional reviewable career tools
+
+After the resumed 577-test checkpoint, review `/players/893/career`, `/players/201939/career?metric=pointsPer36&minGames=40`, `/lab/careers?players=201939,2544&metric=pointsPerGame&minGames=20&axis=calendar`, and the demand-loaded qualified peak picker in `/lab/compare`. Career curves and tables use the same raw records; never bridge missing years or present reported season number as verified experience. Milestones mean reported rows, not first-ever achievements. Preserve source/scope/null/sample/tie labels. Original website remains frozen; no final design readiness claim for blocked modules.

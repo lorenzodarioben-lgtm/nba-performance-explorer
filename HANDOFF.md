@@ -5,17 +5,21 @@
 2026-10-14 Australia/Sydney. Branch `codex/nba-explorer-2-engine`.
 Implementation HEAD at snapshot: `a20fcf23ec81f59ef758ec91e131f99f07d71dc0`.
 Base: `cd557e4d3cf75e44f930ba75de4ea149a80ccdda`.
-This file is authored before the final documentation-only checkpoint; that commit
-advances HEAD without changing implementation. Read `git rev-parse HEAD` and
-`git status --short --branch` on resume. NOT DEPLOYED / NOT MERGED / NOT PUSHED.
+Resumed after documentation checkpoint `9746df3` on 2026-10-14. Read
+`git rev-parse HEAD` and `git status --short --branch` on resume.
+NOT DEPLOYED / NOT MERGED / NOT PUSHED.
 
 ## Working tree and pending changes
 
-All source code committed at the implementation HEAD. Current pending changes
-are documentation only: README, project/spec/architecture/ADR state, this handoff,
-expansion ledger/source/API/math/design/verification/release/operations records
-and the actual sanitized LIVE_ENGINE_ACCEPTANCE.json. Final docs checkpoint and
-full gate are the current closing actions; no unfinished source edits hidden.
+ACTIVE IMPLEMENTATION. Previous execution stopped voluntarily after checkpoints;
+there was no recorded execution limit or technical blocker requiring that stop.
+Career raw totals, qualified peak selection, milestone tracker, season timeline,
+and multi-player career curves are being implemented from the verified checkpoint.
+Career checkpoint passed full 577-test validation and six genuine local API/SPA
+reads (LIVE_CAREER_ACCEPTANCE.json). Pending checkpoint files include career
+implementation, deterministic tests, two opt-in smoke/probe scripts and docs.
+After this slice, continue raw game shooting, postseason modes, discovery and
+opt-in local recent history. Checkpoints are not stopping conditions.
 
 ## Goal and non-negotiable constraints
 
@@ -165,9 +169,9 @@ pixel diffs. ORIGINAL_VISUAL_DESIGN=unchanged_diff_only.
 
 ## Single NEXT ACTION (one exact command or file/task to open)
 
-Extend `backend/src/features/research/season-totals-provider.ts` to expose reported
-career records and an explicitly qualified peak-season calculation, then verify
-B09/F07 contracts/backend/plain controls with partial-coverage and tie tests.
+Continue separate postseason raw totals and extended individual game analysis
+from the verified 10-row/13-game local probes. Preserve regular-only legacy
+contracts. Add weighted shooting splits/rolling/thresholds with missingness tests.
 
 ## Continuation prompt for a new Codex session
 
@@ -176,3 +180,11 @@ and latest verification; inspect Git and confirm the actual branch/HEAD/tree.
 Resume NEXT ACTION, continue complete verified slices, preserve the original site,
 never fabricate or extrapolate unavailable NBA facts, incur mandatory costs,
 assume broader permissions, silently enable fixtures, merge main or deploy.
+
+## Resumed verified checkpoint (supersedes earlier snapshot)
+
+577-test full gate passed; six local genuine career reads PASS for Curry, LeBron,
+Jordan, career comparison and SPA refreshes. Career source is existing Totals
+mode only; scope remains reported regular seasons, never verified complete career.
+Checkpoint commit follows this document. Continue postseason/game/discovery/local
+history implementation; do not stop after this checkpoint.
