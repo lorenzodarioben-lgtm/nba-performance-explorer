@@ -77,3 +77,7 @@ History is a narrow source-fact projection, not an official NBA archive. Season 
 ## Age, team stints and opt-in history checkpoint (2026-10-14)
 
 Age = seasonStartYear - birthYear - 1 when birthday is after October1; sourced calendar DOB only, no draft proxy. Missing/inconsistent age input yields unavailable. Career team split rows are metadata, while the unique aggregate contributes once to totals. Abbreviation changes and missing seasons remain explicit; no transfer-date inference. Age curves break on missing age/year inputs.
+
+## Historical tables and recorded team scoring (2026-10-14)
+
+Standing GP must equal W+L. Win ratio = W/GP, reconciled to source percentage within0.00051 rounding tolerance. Conference ranks and GB come from source cells; no tiebreak algorithm invented. Published leader values preserve units (FG72.5 means72.5%, not0.725); signed team+/− accepted, ties retained, source-defined efficiency not recomputed. Game final scores equal summed Q/OT scores; period order, team identities and recap game ID must agree. Team results/form/point averages use only filtered recorded playoff finals; home/away filters precede summaries, no regular/playoff mixing, zero games yields unavailable averages. UTC-noon calendar-day arithmetic avoids DST shifts; unknown game timezone cannot yield fabricated UTC/local tipoffs.

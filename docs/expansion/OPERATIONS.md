@@ -87,3 +87,11 @@ Opt-in `npx tsx backend/src/scripts/smoke-game-research.ts` reads six local API/
 ## CC0 history and qualification checkpoint (2026-10-14)
 
 Wikidata history initializes lazily at server composition, with no key/cost. Fixed query and10s timeout;24h/one-entry cache,429 cooldown. Opt-in `smoke-history.ts` performs at most five local public API/SPA reads. Production-host access remains unverified. `probe-birthdate.ts` is two existing-family source reads,5s timeout/no retries. No deployment required.
+
+## Usage-limit resume verification (2026-10-14)
+
+Frontend maxWorkers2 bounds jsdom resource contention. Recent key nba-explorer.recent.v1 is separate from bookmark JSON. Clearing all stops recording and clears visits. Live age smoke performs3 local reads. New parser dependency parse5 is MIT/free and required in backend runtime for safe Wikimedia HTML table parsing; lockfile change is intentional, no original provider change.
+
+## Wikipedia archive operation
+
+Provider enabled independently at server composition; lazy reads, no key/cost. Fixed two page titles,24h/2-entry caches,10s/2 MB bounds, Retry-After cooldown, no retries or substitute endpoints. `npx tsx backend/src/scripts/smoke-wiki-archive.ts` performs at most10 localhost API/SPA reads; first uncached use loads only two public pages. Source revisions visible per response; host still untested. Runtime parse5 dependency/lockfile changes intentional. Regenerable `.impeccable/hook.cache.json` excluded; detector config preserves one synthetic-parser-fixture image false-positive suppression.

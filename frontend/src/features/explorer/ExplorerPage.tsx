@@ -58,9 +58,10 @@ export function ExplorerPage() {
         </>
       )}
       <p>
-        Games, standings, league leaderboards, shot maps and observed lineups remain
-        unavailable until a suitable data source passes usage-rights and connectivity
-        checks.
+        Historical standings, published category leaders and recorded playoff games are
+        available through separately attributed snapshot tools. Live/current league
+        feeds, shot coordinates and observed lineups require additional verified source
+        coverage.
       </p>
     </ResearchShell>
   );

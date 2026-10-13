@@ -42,6 +42,13 @@ export function HistoryPage() {
         modern franchise names; historical aliases and NBA team IDs are not inferred.
       </p>
       <Link to="/history">All recorded historical seasons</Link>
+      {(!season || season === '2023-24') && (
+        <p>
+          Separate licensed 2023–24 tables: <Link to="/standings">Standings</Link>{' '}
+          <Link to="/leaders">Published leaders</Link>{' '}
+          <Link to="/games">Recorded 2024 playoff games</Link>.
+        </p>
+      )}
       {!valid && (
         <p role="alert">
           Invalid historical selection.{' '}

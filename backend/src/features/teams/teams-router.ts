@@ -71,7 +71,7 @@ export function createTeamsRouter(
           schedule: false,
           statistics: false,
           reason:
-            'Season rosters, schedules and records require a verified usage-rights-cleared source. No estimates or fixtures are substituted.',
+            'This identity directory has no live season feed or roster. Optional historical tables use a separately attributed archive; no estimates or fixtures are substituted.',
         },
       }),
     );

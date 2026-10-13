@@ -51,3 +51,11 @@ Added raw shooting and defensive game logs, attempt-weighted splits/rolling, exp
 Added a working free CC0 historical season/champion navigator with filters, source links, missingness, record-backed navigation, bookmarks and direct routes. Adds bounded source caching and rate-limit cooldown. Game research now has explicit cohort minimum qualification. Full602 tests and five genuine local history checks pass. Continue age/team history, selected-cohort discovery and local preferences.
 
 History inventory precision: I01 navigator is delivered; I05 year/decade filters, I08 championship facts and I11 fact-coverage views are partial. I02 statistical leaders, I03 statistical record book, I09 record progression and I10 era normalization are not delivered by the champion source. Those gates remain unavailable.
+
+## Usage-limit resume verification (2026-10-14)
+
+Verified sourced age/trade metadata and opt-in recent history; full614 gate passes with jsdom worker cap2. All original assertions and timeouts remain. Work continues into licensed Wikimedia standings/game snapshots and selected-pool discovery.
+
+## Historical league/game source
+
+Licensed Wikipedia snapshots add historical standings, published leaders, date/team playoff scoreboard, actual source-ID game details, validated quarter/overtime scoring and optional team historical results. Regular standings and recorded playoffs remain separate. User-facing credit/licence/modification notices included. No original website redesign, NBA provider change, mandatory cost or deployment. Current feeds, full box scores and rosters remain incomplete.

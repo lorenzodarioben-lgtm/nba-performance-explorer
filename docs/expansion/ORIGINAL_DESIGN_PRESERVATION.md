@@ -38,3 +38,11 @@ Postseason/raw-game slice changes only expansion components/contracts/providers 
 ## CC0 history and qualification checkpoint (2026-10-14)
 
 History adds two lazy routes and local research navigation only. Original header/footer/home/profile/comparison/global styles/assets/providers/deploy manifest remain unchanged. CC0 source carries no borrowed NBA imagery.
+
+## Usage-limit resume verification (2026-10-14)
+
+Age/stints/recency are expansion-only. Worker scheduling changed; protected original visual source/assets/global CSS/provider remain untouched. Subsequent Wikimedia work adds a free parser runtime dependency, so the original lockfile preservation statement applies only to earlier checkpoints.
+
+## Historical archive checkpoint
+
+Only additive App routes and new/research components changed. Existing NBA PlayerProvider, home/profile/compare UI, masthead/footer, global CSS, public assets/metadata and Render configuration remain unchanged. One free runtime HTML parser adds intentional package/lockfile changes; lockfile preservation statements apply to prior checkpoints. No images or prose imported.

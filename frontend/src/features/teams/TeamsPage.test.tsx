@@ -59,7 +59,7 @@ describe('team pages', () => {
     );
     renderApp('/teams/nba:1610612744');
     await screen.findByRole('heading', { name: team.name, level: 1 });
-    expect(screen.getByText('Season data unavailable')).toBeInTheDocument();
+    expect(screen.getByText('Live season data unavailable')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Save to My NBA' })).toBeInTheDocument();
   });
   it('handles empty matches and source failures', async () => {

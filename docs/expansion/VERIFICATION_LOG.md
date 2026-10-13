@@ -127,3 +127,17 @@ Full unchanged `npm run validate` PASS: 255 frontend + 336 backend = 591. Nine r
 ## CC0 history and qualification checkpoint (2026-10-14)
 
 Full `npm run validate` PASS:258 frontend+344 backend=602. History7 source/API tests and3 UI cases cover century rollover, Summer League exclusion, missing/multiple winners, source IDs/duplicates, fixed query/cache,429 cooldown, payload cap, invalid JSON, timeout, filters/navigation and local save. Added minimum-sample qualifier calculation test. Genuine local history smoke PASS at2026-10-13T20:11:23.451Z: five reads,78 entities,84 raw rows,6 exclusions,6 missing winners, safe entity filter and two SPA refreshes. LIVE_HISTORY_ACCEPTANCE.json. Initial gate caught unsupported Testing Library role-option syntax; corrected before final pass. No production host verification.
+
+## Usage-limit resume verification (2026-10-14)
+
+The interrupted full gate62160 completedPASS:264 frontend+350 backend=614, with formatting/lint/strict types/builds. Earlier unconstrained jsdom runs produced2 then25 asynchronous failures across existing/new suites; all259 then-existing frontend tests passed unchanged with one worker. Capped jsdom workers at2; all264 tests passed in43.39s. Assertions/timeouts unchanged. Genuine age/team-stint smoke passed3 local reads at2026-10-13T21:01:35.690Z; source birth date/age boundary and Luka2024-25 DAL/LAL split GP checked. Human confirmed account usage interruption; exact pending state preserved on resume.
+
+## Licensed historical archive verified checkpoint
+
+Full `npm run validate` PASS:271 frontend tests/30files +357 backend tests/28files =628; format,lint,types and all builds pass. Fixed real Express handler arity and source signed-plus-minus parsing; strict identity/period-sum reconciliation added. Initial new synthetic UI responses had invalid abbreviation/origin expectations, corrected without loosening production schemas. Existing assertions/timeouts preserved; maxWorkers2 remains stable. Unnecessary regex escapes and formatting repaired. Nonblocking pre-existing Vite chunk warning persists.
+
+LIVE_WIKI_ARCHIVE_ACCEPTANCE.json PASS at2026-10-13T21:34:23.264Z:10 bounded local reads,30 standings,27 leader entries,82 playoff games,3 overtime, exact source IDs, all quarter sums, date/team filters and4 SPA direct refreshes. Genuine Wikipedia source/revisions verified; production host NOT_TESTED. No fixture fallback. One synthetic HTML parser media-test false positive narrowly suppressed in tracked detector config; no production image issue.
+
+Team-source investigation: one normal public API read of2023–24 Los Angeles Lakers season (revision1358934092,287k response) exposes18 historical roster rows, regular schedule and scoped summary tables. One exact-article CC0 P3647 query mapped17/18 player identities; missing mapping must remain unavailable. Candidate not yet integrated at this checkpoint. No inferred medical injury, raw totals or current roster.
+
+Browser QA: genuine scoreboard date2024-04-21 showed4 finals and actual game-ID navigation; game detail displayed venue/timezone warning,4 reconciled quarters and published tied leaders. Phone390x844 standings table stayed within335px container (600px content), keyboard ArrowRight scrolled it; no page overflow. Screenshot emitted in chat; viewport reset. No saved pixel-comparison claim.

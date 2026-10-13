@@ -34,6 +34,9 @@ export function ResearchShell({
         <Link to="/lab/analytics">Analytics lab</Link>
         <Link to="/lab/careers">Career comparison</Link>
         <Link to="/history">Historical seasons</Link>
+        <Link to="/games">Recorded games</Link>
+        <Link to="/standings">Historical standings</Link>
+        <Link to="/leaders">Published leaders</Link>
         <Link to="/my-nba">My NBA</Link>
         <Link to="/">Original home</Link>
       </nav>

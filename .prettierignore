@@ -7,3 +7,5 @@ package-lock.json
 docs/ARCHITECTURE.md
 docs/PROJECT_SPEC.md
 docs/tasks/
+
+.impeccable/hook.cache.json

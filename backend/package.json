@@ -17,6 +17,7 @@
   "dependencies": {
     "@nba-performance-explorer/contracts": "1.0.0",
     "express": "^5.2.1",
+    "parse5": "^8.0.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

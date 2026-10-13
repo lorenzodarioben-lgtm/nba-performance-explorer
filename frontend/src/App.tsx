@@ -56,6 +56,17 @@ const HistoryPage = lazy(() =>
   import('./features/history/HistoryPage').then((m) => ({ default: m.HistoryPage })),
 );
 
+const LeagueArchivePage = lazy(() =>
+  import('./features/wiki-archive/LeagueArchivePage').then((m) => ({
+    default: m.LeagueArchivePage,
+  })),
+);
+const GamesArchivePage = lazy(() =>
+  import('./features/wiki-archive/GamesArchivePage').then((m) => ({
+    default: m.GamesArchivePage,
+  })),
+);
+
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
   // fixed and each page bleeds under it, handling its own top spacing.
@@ -64,6 +75,62 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/standings"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading historical standings…
+                  </p>
+                }
+              >
+                <LeagueArchivePage mode="standings" />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/leaders"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading published leaders…
+                  </p>
+                }
+              >
+                <LeagueArchivePage mode="leaders" />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/games"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading recorded games…
+                  </p>
+                }
+              >
+                <GamesArchivePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/games/:gameId"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading recorded game…
+                  </p>
+                }
+              >
+                <GamesArchivePage />
+              </Suspense>
+            }
+          />
           <Route
             path="/history"
             element={

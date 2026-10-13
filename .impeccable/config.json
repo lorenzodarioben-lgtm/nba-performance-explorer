@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "C:/Users/lorenzodario/Documents/PersonalProjects/NBA_APP/backend/src/features/wiki-archive/archive.test.ts"
+        ],
+        "createdAt": "2026-10-13T21:22:00.441Z",
+        "reason": "Codex: literal synthetic HTML parser fixture verifies media is ignored; no image is rendered or shipped."
+      }
+    ]
+  }
+}

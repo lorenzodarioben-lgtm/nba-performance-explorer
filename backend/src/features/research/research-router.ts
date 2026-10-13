@@ -27,7 +27,7 @@ export function createResearchRouter(
   source: DataSource,
   totalsProvider?: SeasonTotalsProvider,
   budget = new SourceWorkBudget(),
-  extensions: { history?: boolean; games?: boolean } = {},
+  extensions: { history?: boolean; games?: boolean; archive?: boolean } = {},
 ) {
   const router = Router();
   router.get(
@@ -153,9 +153,10 @@ export function createResearchRouter(
           },
           {
             id: 'games-standings-leaders',
-            status: 'blocked',
-            reason:
-              'New live feeds require usage rights and host validation. No fabricated substitutions.',
+            status: extensions.archive ? 'conditional' : 'blocked',
+            reason: extensions.archive
+              ? 'Licensed Wikipedia 2023-24 historical standings/category leaders and 2024 recorded playoff games; no live/current-season feed or full player box scores.'
+              : 'Historical snapshot provider disabled; broader live feeds still require rights/access verification.',
           },
           {
             id: 'shots-lineups-history',

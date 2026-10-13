@@ -215,3 +215,27 @@ identity groups. Continue beyond checkpoints. Broad game/league feeds remain
 rights-gated; CC0 alternative now unlocks narrow history without mandatory cost.
 
 History inventory precision: I01 navigator is delivered; I05 year/decade filters, I08 championship facts and I11 fact-coverage views are partial. I02 statistical leaders, I03 statistical record book, I09 record progression and I10 era normalization are not delivered by the champion source. Those gates remain unavailable.
+
+## Exact resumed state (supersedes older NEXT ACTION entries)
+
+HEAD4135c4a verified age/stints/local consent. Full gate614 tests passed (264+350),
+all other gates/builds passed. Live age/stints3-read acceptance PASS. Human
+confirmed account usage limit, now restored; no pending source was discarded.
+Current work: licensed Wikimedia season/playoff snapshot source. Two official
+API probes passed for2023-24 season (revision1347383197,609k HTML) and2024
+playoffs (revision1376206465,753k HTML). MIT parse5@8 runtime dependency added;
+package/lockfile changes pending. Licensing requires source/contributor links,
+CC BY-SA4.0 adaptation notice and no media reuse. Original NBA provider unchanged.
+NEXT ACTION: implement bounded Wikimedia client + standings/category leaders
+then recorded-playoff scoreboard/detail/team schedule. Do not stop at checkpoints.
+Temporary local server session52234 on3002; restart after builds.
+
+## Active checkpoint: licensed historical league/game archive
+
+HEAD4135c4a; unfinished source work preserved. Historical source/parser/API/UI now implemented; focused7 backend+10 frontend tests pass, typechecks pass. New parse5@8 production dependency with lockfile is intentional. Full gate pending; first attempt stopped at formatting of existing pending docs and regenerable hook cache, now excluded. Finish full validation, genuine10-read archive smoke and browser QA; checkpoint and continue selected-pool discovery/advanced analysis and remaining team/shooting slices. Wikipedia30 standings/27 published leaders/82 playoff finals normalize successfully; no official full box score/roster/live claim. Source notices in WIKIPEDIA_DATA_NOTICE.md.
+
+## Verified archive checkpoint; continue immediately
+
+Full628 gate PASS (271 frontend+357 backend), genuine10-read LIVE_WIKI_ARCHIVE_ACCEPTANCE.json PASS. 30 standings/27 published leader entries/82 playoff finals/3OT,4SPArefreshes. New provider licensed CC BY-SA4.0, exact attribution, parse5 MIT; original NBA provider and original visual paths unchanged. Temporary genuine server session44411 localhost3002; QA tab2. Checkpoint commit follows browser QA. Do not stop: next selected-season similarity/discovery and historical team roster/schedule integration. Cached genuine Lakers candidate at OS temp nba-team-source-DrTdmP/lakers.json; exact Wiki/Wikidata roster query maps17/18 IDs, leave missing identity null. No roster/current/full-box-score claims until tested.
+
+Browser QA: genuine scoreboard date2024-04-21 showed4 finals and actual game-ID navigation; game detail displayed venue/timezone warning,4 reconciled quarters and published tied leaders. Phone390x844 standings table stayed within335px container (600px content), keyboard ArrowRight scrolled it; no page overflow. Screenshot emitted in chat; viewport reset. No saved pixel-comparison claim.

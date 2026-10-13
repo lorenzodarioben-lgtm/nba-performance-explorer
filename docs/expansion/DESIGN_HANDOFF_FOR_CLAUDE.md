@@ -62,3 +62,11 @@ New `/players/201939/games?season=2022-23&scope=playoffs` provides raw ledger, w
 ## CC0 history and qualification checkpoint (2026-10-14)
 
 Review `/history`, `/history/1999-00`, `/history?from=1990&to=2005` and source-entity champion filters. Keep namespaced IDs, modern-franchise label warning, missing champion state, source record-backed navigation and safe external check/report links. No official championship totals. Raw-game minSample qualifier now shows eligibility and suppresses small-cohort derived cells. Original design still frozen.
+
+## Usage-limit resume verification (2026-10-14)
+
+Review career comparison axis=age and Luka career trade rows. Age reference is October1 of season start year, from sourced DOB; experience is reported-season count only. MyNBA recent history is off by default; only research shell pages record after consent. Original screens excluded.
+
+## Historical routes added
+
+Plain research shell now hosts `/games`, `/games/:gameId`, `/standings`, `/leaders` and an optional historical team panel. Keep contributor/revision/licence notices, explicit historical scope, unavailable current feed/timezone and keyboard-scrollable tables intact. Styling uses only existing scoped research module; protected original pages/header/footer/global styling stay frozen. Full-platform design readiness remains NO.

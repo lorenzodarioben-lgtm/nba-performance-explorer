@@ -39,3 +39,11 @@ Individual-player raw game analysis and postseason now supported through the alr
 I01 season navigation is verified via CC0 facts. I02/I03 season summary/team-filter archives remain partial champion-only slices; other historical statistical/draft/award goals remain separate. Historical bookmarks work (L06 partial pending exact game save). Partial recent/future winners and modern franchise labels are deliberately exposed. No all-league statistical database built.
 
 History inventory precision: I01 navigator is delivered; I05 year/decade filters, I08 championship facts and I11 fact-coverage views are partial. I02 statistical leaders, I03 statistical record book, I09 record progression and I10 era normalization are not delivered by the champion source. Those gates remain unavailable.
+
+## Usage-limit resume verification (2026-10-14)
+
+B10 reported team stints and B12 sourced-DOB age curves verified; no draft-age estimate or exact transfer-date reconstruction. L02 recent research history explicitly opt-in, off by default, device-only20 URLs, corrupt consent fails closed.
+
+## Licensed historical tables (2026-10-14)
+
+Wikipedia/CC BY-SA4.0 unlocks historical games/date/team filtering, actual game IDs, finals, quarter/OT scores, source venue/time labels, game leader labels, historical East/West standings and published category winners. One2023-24 season/2024 playoffs only. Team summaries use recorded games and separately labeled regular standings. Full player/team shooting box scores, regular-season schedules, rosters, current feed, leader qualification population, shot coordinates and possession data remain unavailable. See attribution notice and live acceptance.
