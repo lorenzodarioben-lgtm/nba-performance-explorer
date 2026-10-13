@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { DataProvenanceSchema, ResearchPlayerIdSchema } from './research.js';
 import { PlayerProfileSchema } from './player-profile.js';
+import { GameDateSchema } from './player-game-log.js';
+import { CanonicalTeamIdSchema } from './team-directory.js';
 import { SeasonIdSchema } from './player-season.js';
 import { EfficiencyMetricsSchema, SeasonTotalsSchema } from './season-totals.js';
 
@@ -29,6 +31,15 @@ export const CareerQuerySchema = z
   })
   .strict();
 const value = z.number().finite().nonnegative().nullable();
+export const CareerTeamStintSchema = z
+  .object({
+    season: SeasonIdSchema,
+    teamId: CanonicalTeamIdSchema,
+    abbreviation: z.string().regex(/^[A-Z]{3}$/),
+    gamesPlayed: z.number().int().nonnegative(),
+  })
+  .strict();
+export type CareerTeamStint = z.infer<typeof CareerTeamStintSchema>;
 export const CareerSeasonSchema = z
   .object({
     totals: SeasonTotalsSchema,
@@ -36,6 +47,8 @@ export const CareerSeasonSchema = z
     pointsPerGame: value,
     reboundsPerGame: value,
     assistsPerGame: value,
+    ageOnOctober1: z.number().int().min(0).max(100).nullable().default(null),
+    teams: z.array(CareerTeamStintSchema).max(10).default([]),
   })
   .strict();
 export const CareerAggregateSchema = z
@@ -59,6 +72,11 @@ export const CareerAggregateSchema = z
 export const CareerResearchResponseSchema = z
   .object({
     player: PlayerProfileSchema,
+    birthDate: GameDateSchema.nullable().default(null),
+    birthDateRetrievedAt: z.iso.datetime().nullable().default(null),
+    ageReference: z
+      .literal('October 1 of season start year')
+      .default('October 1 of season start year'),
     status: z.enum(['available', 'records-unavailable', 'unsupported']),
     seasons: z.array(CareerSeasonSchema).max(100),
     aggregate: CareerAggregateSchema.nullable(),

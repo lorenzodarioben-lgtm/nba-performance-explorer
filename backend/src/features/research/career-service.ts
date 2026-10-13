@@ -1,6 +1,9 @@
 import {
   SeasonTotalsSchema,
   careerMetricValue,
+  GameDateSchema,
+  CareerTeamStintSchema,
+  type CareerTeamStint,
   type CareerMetric,
   type CareerSeason,
   type SeasonTotals,
@@ -13,7 +16,16 @@ export function analyzeCareer(
   playerId: string,
   metric: CareerMetric,
   minGames: number,
+  details: { birthDate?: string | null; stints?: CareerTeamStint[] } = {},
 ) {
+  const birthDate = details.birthDate ?? null;
+  if (birthDate && !GameDateSchema.safeParse(birthDate).success)
+    throw providerInvalidResponse('Invalid birth date.');
+  const stints = (details.stints ?? []).map((s) => {
+    const parsed = CareerTeamStintSchema.safeParse(s);
+    if (!parsed.success) throw providerInvalidResponse('Invalid career team stint.');
+    return parsed.data;
+  });
   const seen = new Set<string>();
   if (records.length > 100) throw providerInvalidResponse('Too many career seasons.');
   const seasons: CareerSeason[] = records
@@ -30,9 +42,24 @@ export function analyzeCareer(
         pointsPerGame: perGame(record.points),
         reboundsPerGame: perGame(record.rebounds),
         assistsPerGame: perGame(record.assists),
+        ageOnOctober1: birthDate
+          ? (() => {
+              const age =
+                Number(record.season.slice(0, 4)) -
+                Number(birthDate.slice(0, 4)) -
+                (birthDate.slice(5) > '10-01' ? 1 : 0);
+              return age >= 0 && age <= 100 ? age : null;
+            })()
+          : null,
+        teams: stints.filter((s) => s.season === record.season),
       };
     })
     .sort((a, b) => a.totals.season.localeCompare(b.totals.season));
+  if (
+    stints.some((s) => !seen.has(s.season)) ||
+    new Set(stints.map((s) => `${s.season}:${s.teamId}`)).size !== stints.length
+  )
+    throw providerInvalidResponse('Career stint scope mismatch.');
   const numberKeys = [
     'minutes',
     'points',

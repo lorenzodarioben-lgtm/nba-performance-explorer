@@ -213,3 +213,5 @@ using existing profile/career families (two DOB probes passed20:10:42–43Z), th
 selected-pool discovery, opt-in local recent history and hypothetical five-man
 identity groups. Continue beyond checkpoints. Broad game/league feeds remain
 rights-gated; CC0 alternative now unlocks narrow history without mandatory cost.
+
+History inventory precision: I01 navigator is delivered; I05 year/decade filters, I08 championship facts and I11 fact-coverage views are partial. I02 statistical leaders, I03 statistical record book, I09 record progression and I10 era normalization are not delivered by the champion source. Those gates remain unavailable.

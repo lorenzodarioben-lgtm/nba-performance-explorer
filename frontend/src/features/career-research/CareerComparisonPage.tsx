@@ -24,14 +24,19 @@ function careerCurvePoints(
   data: CareerComparisonResponse,
   metric: CareerMetric,
   minGames: number,
-  axis: 'calendar' | 'reported',
+  axis: 'calendar' | 'reported' | 'age',
 ) {
   return data.rows.map((r) => ({
     playerId: r.playerId,
     points: (r.data?.seasons ?? []).map((s, index) => ({
       season: s.totals.season,
       year: Number(s.totals.season.slice(0, 4)),
-      x: axis === 'calendar' ? Number(s.totals.season.slice(0, 4)) : index + 1,
+      x:
+        axis === 'calendar'
+          ? Number(s.totals.season.slice(0, 4))
+          : axis === 'age'
+            ? s.ageOnOctober1
+            : index + 1,
       y: s.totals.gamesPlayed >= minGames ? careerMetricValue(s, metric) : null,
     })),
   }));
@@ -45,14 +50,14 @@ function Curves({
   data: CareerComparisonResponse;
   metric: CareerMetric;
   minGames: number;
-  axis: 'calendar' | 'reported';
+  axis: 'calendar' | 'reported' | 'age';
 }) {
   const series = careerCurvePoints(data, metric, minGames, axis);
-  const points = series.flatMap((s) => s.points);
-  const visible = points.filter((p) => p.y !== null);
+  const points = series.flatMap((s) => s.points).filter((p) => p.x !== null);
+  const visible = points.filter((p) => p.y !== null && p.x !== null);
   if (!visible.length) return <p>No reported seasons qualify for the curves.</p>;
-  const minX = Math.min(...points.map((p) => p.x)),
-    maxX = Math.max(...points.map((p) => p.x));
+  const minX = Math.min(...points.map((p) => p.x!)),
+    maxX = Math.max(...points.map((p) => p.x!));
   const maxY = Math.max(...visible.map((p) => p.y!));
   const x = (v: number) =>
     60 + 460 * (maxX === minX ? 0.5 : (v - minX) / (maxX - minX));
@@ -79,24 +84,29 @@ function Curves({
       <text x="280" y="280" textAnchor="middle">
         {axis === 'calendar'
           ? 'NBA season start year'
-          : 'Reported season number (not verified experience)'}
+          : axis === 'age'
+            ? 'Age on October 1 (sourced birth date)'
+            : 'Reported season number (not verified experience)'}
       </text>
       {series.map((s, i) => (
         <g key={s.playerId} fill={['#1d4ed8', '#92400e', '#047857', '#7e22ce'][i]}>
           {s.points.map((p, index) => {
-            if (p.y === null) return null;
+            if (p.y === null || p.x === null) return null;
             const previous = s.points[index - 1];
             return (
               <g key={p.season}>
-                {previous && previous.y !== null && p.year === previous.year + 1 && (
-                  <path
-                    d={`M ${x(previous.x)} ${y(previous.y)} L ${x(p.x)} ${y(p.y)}`}
-                    stroke="currentColor"
-                    style={{ color: ['#1d4ed8', '#92400e', '#047857', '#7e22ce'][i] }}
-                    fill="none"
-                    strokeWidth="2"
-                  />
-                )}
+                {previous &&
+                  previous.y !== null &&
+                  previous.x !== null &&
+                  p.year === previous.year + 1 && (
+                    <path
+                      d={`M ${x(previous.x)} ${y(previous.y)} L ${x(p.x)} ${y(p.y)}`}
+                      stroke="currentColor"
+                      style={{ color: ['#1d4ed8', '#92400e', '#047857', '#7e22ce'][i] }}
+                      fill="none"
+                      strokeWidth="2"
+                    />
+                  )}
                 <circle cx={x(p.x)} cy={y(p.y)} r="3" />
                 <text x={x(p.x) + 5} y={y(p.y) - 5}>
                   {i + 1}
@@ -123,7 +133,7 @@ export function CareerComparisonPage() {
         params.getAll(k).length > 1 ||
         !['players', 'metric', 'minGames', 'axis', 'scope'].includes(k),
     ) ||
-    !['calendar', 'reported'].includes(axis) ||
+    !['calendar', 'reported', 'age'].includes(axis) ||
     ids.length > 4 ||
     new Set(ids).size !== ids.length;
   const ready = !invalid && parsed.success;
@@ -221,6 +231,7 @@ export function CareerComparisonPage() {
           <select value={axis} onChange={(e) => update('axis', e.target.value)}>
             <option value="calendar">Season calendar</option>
             <option value="reported">Reported season number</option>
+            <option value="age">Age on October 1 (sourced birth date)</option>
           </select>
         </label>
       </div>
@@ -247,7 +258,7 @@ export function CareerComparisonPage() {
             data={query.data}
             metric={metric}
             minGames={minGames}
-            axis={axis as 'calendar' | 'reported'}
+            axis={axis as 'calendar' | 'reported' | 'age'}
           />
           <p>
             The numbered curves correspond to the players below. The table provides the
@@ -270,6 +281,10 @@ export function CareerComparisonPage() {
                 <>
                   <SourceNote provenance={row.data.provenance} />
                   <p>
+                    Sourced birth date: {row.data.birthDate ?? 'Unavailable'}. Age
+                    reference: {row.data.ageReference}. No draft-age estimate is used.
+                  </p>
+                  <p>
                     {row.status}; {row.data.seasons.length} reported seasons; qualified
                     peak: {row.data.peak.seasons.join(', ') || 'Unavailable'}.
                   </p>
@@ -282,6 +297,7 @@ export function CareerComparisonPage() {
                         <tr>
                           <th scope="col">Season</th>
                           <th scope="col">Reported number</th>
+                          <th scope="col">Age on October 1</th>
                           <th scope="col">Games</th>
                           <th scope="col">Metric (raw ratio for %)</th>
                           <th scope="col">Qualified</th>
@@ -292,6 +308,7 @@ export function CareerComparisonPage() {
                           <tr key={s.totals.season}>
                             <th scope="row">{s.totals.season}</th>
                             <td>{i + 1}</td>
+                            <td>{s.ageOnOctober1 ?? 'Unavailable'}</td>
                             <td>{s.totals.gamesPlayed}</td>
                             <td>
                               {careerMetricValue(s, metric)?.toFixed(4) ??

@@ -37,3 +37,5 @@ Individual-player raw game analysis and postseason now supported through the alr
 ## CC0 history and qualification checkpoint (2026-10-14)
 
 I01 season navigation is verified via CC0 facts. I02/I03 season summary/team-filter archives remain partial champion-only slices; other historical statistical/draft/award goals remain separate. Historical bookmarks work (L06 partial pending exact game save). Partial recent/future winners and modern franchise labels are deliberately exposed. No all-league statistical database built.
+
+History inventory precision: I01 navigator is delivered; I05 year/decade filters, I08 championship facts and I11 fact-coverage views are partial. I02 statistical leaders, I03 statistical record book, I09 record progression and I10 era normalization are not delivered by the champion source. Those gates remain unavailable.

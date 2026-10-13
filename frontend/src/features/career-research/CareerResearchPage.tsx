@@ -50,6 +50,14 @@ export function CareerResearchPage() {
             path={`/players/${playerId}/career?metric=${metric}&minGames=${minGames}&scope=${scope}`}
           />
           <SourceNote provenance={data.provenance} />
+          <p>
+            Sourced birth date: {data.birthDate ?? 'Unavailable'}
+            {data.birthDateRetrievedAt
+              ? ` (fetched ${new Date(data.birthDateRetrievedAt).toLocaleString()})`
+              : ''}
+            . Age reference: {data.ageReference}. Missing birth dates remain
+            unavailable; experience is only the number of reported seasons.
+          </p>
           <form
             className={styles.controls}
             onSubmit={(e) => {
@@ -207,6 +215,8 @@ export function CareerResearchPage() {
                   {[
                     'Season',
                     'Team',
+                    'Reported team stints (source IDs / GP)',
+                    'Age on October 1',
                     'GP',
                     'PTS',
                     'REB',
@@ -240,6 +250,17 @@ export function CareerResearchPage() {
                         ' · preceding gap in reported seasons'}
                     </th>
                     <td>{s.totals.team?.abbreviation ?? 'Aggregate / not supplied'}</td>
+                    <td>
+                      {s.teams.length
+                        ? s.teams
+                            .map(
+                              (t) =>
+                                `${t.abbreviation} (${t.teamId}, ${t.gamesPlayed} GP)`,
+                            )
+                            .join('; ')
+                        : 'Not supplied'}
+                    </td>
+                    <td>{s.ageOnOctober1 ?? 'Unavailable'}</td>
                     <td>{s.totals.gamesPlayed}</td>
                     {[
                       s.totals.points,

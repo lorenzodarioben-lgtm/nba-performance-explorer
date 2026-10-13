@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { renderApp } from '../../test/renderApp';
 import { RESEARCH_STORAGE_KEY, researchRepository } from './local-research';
+import { RECENT_STORAGE_KEY, recentHistoryRepository } from './recent-history';
 
 beforeEach(() => {
   localStorage.clear();
@@ -10,6 +11,27 @@ beforeEach(() => {
 });
 
 describe('My NBA preferences journey', () => {
+  it('requires local history opt-in and clears all history/consent with confirmed local reset', async () => {
+    renderApp('/my-nba');
+    const toggle = await screen.findByLabelText(
+      'Record recently viewed research pages on this device',
+    );
+    expect(toggle).not.toBeChecked();
+    expect(localStorage.getItem(RECENT_STORAGE_KEY)).toBeNull();
+    fireEvent.click(toggle);
+    expect(toggle).toBeChecked();
+    recentHistoryRepository.record({
+      path: '/history/1999-00',
+      label: 'Season1999',
+      visitedAt: '2026-10-13T20:00:00.000Z',
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Clear all local research' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Confirm clear all' }));
+    expect(
+      screen.getByLabelText('Record recently viewed research pages on this device'),
+    ).not.toBeChecked();
+    expect(recentHistoryRepository.load().data.visits).toEqual([]);
+  });
   it('saves favorites, survives remount, and exports validated JSON', async () => {
     const view = renderApp('/my-nba');
     await screen.findByRole('heading', { name: 'My NBA', level: 1 });

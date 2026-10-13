@@ -1,8 +1,9 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import type { DataProvenance } from '@nba-performance-explorer/contracts';
 
 import styles from './research.module.css';
+import { recentHistoryRepository } from '../my-nba/recent-history';
 
 export function ResearchShell({
   title,
@@ -12,6 +13,14 @@ export function ResearchShell({
   children: ReactNode;
 }) {
   const heading = useRef<HTMLHeadingElement>(null);
+  const location = useLocation();
+  useEffect(() => {
+    recentHistoryRepository.record({
+      path: `${location.pathname}${location.search}`,
+      label: title.slice(0, 100),
+      visitedAt: new Date().toISOString(),
+    });
+  }, [location.pathname, location.search, title]);
   useEffect(() => {
     heading.current?.focus();
   }, [title]);

@@ -6,7 +6,11 @@ import { createApp } from '../../app.js';
 import { fixturePlayerProvider } from '../players/fixture-player-provider.js';
 import { providerUnavailable } from '../players/provider-error.js';
 import { efficiencyMetrics } from './efficiency.js';
-import { mapSeasonTotals, NbaSeasonTotalsProvider } from './season-totals-provider.js';
+import {
+  mapSeasonTotals,
+  mapCareerSource,
+  NbaSeasonTotalsProvider,
+} from './season-totals-provider.js';
 
 const headers = [
   'PLAYER_ID',
@@ -56,6 +60,23 @@ const envelope = (rows: unknown[][]) => ({
 });
 
 describe('raw totals and denominator integrity', () => {
+  it('preserves trade split metadata while retaining only one season aggregate', () => {
+    const mapped = mapCareerSource(
+      envelope([
+        row({ GP: 2 }),
+        row({ TEAM_ID: 1610612742, TEAM_ABBREVIATION: 'DAL', GP: 3 }),
+        row({ TEAM_ID: 0, TEAM_ABBREVIATION: 'TOT' }),
+      ]),
+      '2544',
+    );
+    expect(mapped.records).toHaveLength(1);
+    expect(mapped.records[0]?.gamesPlayed).toBe(5);
+    expect(mapped.stints.map((s) => [s.abbreviation, s.gamesPlayed])).toEqual([
+      ['LAL', 2],
+      ['DAL', 3],
+    ]);
+    expect(mapped.stints.every((s) => s.teamId.startsWith('nba:'))).toBe(true);
+  });
   it('maps postseason rows independently and does not mix regular totals', async () => {
     const body = {
       resultSets: [

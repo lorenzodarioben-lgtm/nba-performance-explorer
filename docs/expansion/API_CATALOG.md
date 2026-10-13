@@ -60,3 +60,7 @@ GET `/api/players/:id/game-research` requires season and supports scope (regular
 ## CC0 history and qualification checkpoint (2026-10-14)
 
 GET `/api/history/seasons` and `/api/history/seasons/:season` support optional integer from/to season start years (1946–2100) and champion=`wd:Q...`; strict identities/keys and bounded100 output. Record-backed previous/next navigation, per-source coverage/cap metadata, missing winners and safe Wikidata entity links. Provider disabled returns unsupported; absent detail404; source502/503/504 sanitized. Query fixed, no user SPARQL. Raw game query additionally supports minSample1–150 (default1); small cohorts retain raw data but derived values null.
+
+## Age, team stints and opt-in history checkpoint (2026-10-14)
+
+Career responses add nullable sourced birthDate/retrievedAt, age reference October1 of season start year, per-season completed age and raw team stint IDs/abbreviations/GP. Transient bio failure preserves raw career with null age; invalid bio identity/calendar data rejected. No legacy profile contract changed. Optional recent history uses separate version1 local storage, no API mutations.

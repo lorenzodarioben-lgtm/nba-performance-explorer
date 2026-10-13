@@ -16,6 +16,7 @@ import { createGameResearchRouter } from './features/research/game-research-rout
 import type { GameResearchProvider } from './features/research/game-research-provider.js';
 import { createHistoryRouter } from './features/history/history-router.js';
 import type { HistoryProvider } from './features/history/history-provider.js';
+import type { PlayerBioProvider } from './features/research/player-bio-provider.js';
 import { createPlayersRouter } from './features/players/players-router.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
 import { healthRouter } from './routes/health.js';
@@ -66,6 +67,7 @@ export function createApp(
     totalsProvider?: SeasonTotalsProvider;
     gamesProvider?: GameResearchProvider;
     historyProvider?: HistoryProvider;
+    bioProvider?: PlayerBioProvider;
   } = {},
 ): Express {
   const application = express();
@@ -97,6 +99,7 @@ export function createApp(
       options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
       options.totalsProvider,
       researchBudget,
+      options.bioProvider,
     ),
   );
   application.use(

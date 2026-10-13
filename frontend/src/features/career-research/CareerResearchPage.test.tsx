@@ -63,6 +63,46 @@ const body = {
   },
 };
 describe('career research', () => {
+  it('renders sourced age and team rows without duplicating aggregate values', async () => {
+    server.use(
+      http.get('http://localhost/api/players/2544/career', () =>
+        HttpResponse.json({
+          ...body,
+          birthDate: '2000-10-02',
+          birthDateRetrievedAt: '2026-10-13T19:00:00.000Z',
+          seasons: [
+            {
+              ...body.seasons[0],
+              ageOnOctober1: 22,
+              teams: [
+                {
+                  season: '2023-24',
+                  teamId: 'nba:1610612747',
+                  abbreviation: 'LAL',
+                  gamesPlayed: 20,
+                },
+                {
+                  season: '2023-24',
+                  teamId: 'nba:1610612742',
+                  abbreviation: 'DAL',
+                  gamesPlayed: 20,
+                },
+              ],
+            },
+          ],
+        }),
+      ),
+    );
+    renderApp('/players/2544/career');
+    await screen.findByRole('table', { name: /Chronological reported/ });
+    expect(screen.getByText(/Sourced birth date: 2000-10-02/)).toHaveTextContent(
+      'October 1',
+    );
+    expect(
+      screen.getByText('LAL (nba:1610612747, 20 GP); DAL (nba:1610612742, 20 GP)'),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('cell', { name: '22' })).toBeInTheDocument();
+  });
   it('preserves playoff scope in career retrieval, saved state and peak evidence links', async () => {
     let scope = '';
     server.use(

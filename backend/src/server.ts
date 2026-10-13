@@ -9,6 +9,7 @@ import { createNbaStatsHttpClient } from './features/players/nba-stats/nba-stats
 import { NbaSeasonTotalsProvider } from './features/research/season-totals-provider.js';
 import { NbaGameResearchProvider } from './features/research/game-research-provider.js';
 import { WikidataHistoryProvider } from './features/history/history-provider.js';
+import { NbaPlayerBioProvider } from './features/research/player-bio-provider.js';
 
 const defaultPort = 3001;
 const configuredPort = Number.parseInt(process.env.PORT ?? `${defaultPort}`, 10);
@@ -37,6 +38,9 @@ const app = createApp(createPlayerProvider(config), {
   ...(config.mode === 'nba-stats'
     ? {
         totalsProvider: new NbaSeasonTotalsProvider(
+          createNbaStatsHttpClient({ timeoutMs: config.timeoutMs }),
+        ),
+        bioProvider: new NbaPlayerBioProvider(
           createNbaStatsHttpClient({ timeoutMs: config.timeoutMs }),
         ),
         gamesProvider: new NbaGameResearchProvider(

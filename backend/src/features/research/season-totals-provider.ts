@@ -3,6 +3,8 @@ import {
   SeasonTotalsSchema,
   type SeasonTotals,
   type SeasonScope,
+  CareerTeamStintSchema,
+  type CareerTeamStint,
 } from '@nba-performance-explorer/contracts';
 
 import type { NbaStatsHttpClient } from '../players/nba-stats/nba-stats-http-client.js';
@@ -23,6 +25,7 @@ export interface SeasonTotalsProvider {
   ): Promise<{
     records: SeasonTotals[];
     retrievedAt: string;
+    stints?: CareerTeamStint[];
   }>;
   getSeasonTotals(
     playerId: string,
@@ -51,11 +54,11 @@ const columns = [
   'FTA',
 ];
 
-export function mapSeasonTotals(
+export function mapCareerSource(
   body: unknown,
   expectedPlayerId: string,
   scope: SeasonScope = 'regular-season',
-): SeasonTotals[] {
+) {
   const table = selectResultSet(
     body,
     scope === 'playoffs' ? 'SeasonTotalsPostSeason' : 'SeasonTotalsRegularSeason',
@@ -68,6 +71,7 @@ export function mapSeasonTotals(
     { record: SeasonTotals; teamId: number; aggregate: boolean }[]
   >();
   const seen = new Set<string>();
+  const stints: CareerTeamStint[] = [];
   for (const row of table.rows) {
     if (requireString(table, row, 'LEAGUE_ID') !== '00') continue;
     if (String(requireFiniteNumber(table, row, 'PLAYER_ID')) !== expectedPlayerId)
@@ -106,10 +110,23 @@ export function mapSeasonTotals(
       'season totals',
     );
     const group = groups.get(season) ?? [];
+    if (!aggregate)
+      stints.push(
+        validateMapped(
+          CareerTeamStintSchema,
+          {
+            season,
+            teamId: `nba:${teamId}`,
+            abbreviation,
+            gamesPlayed: record.gamesPlayed,
+          },
+          'team stint',
+        ),
+      );
     group.push({ record, teamId, aggregate });
     groups.set(season, group);
   }
-  return [...groups.values()]
+  const records = [...groups.values()]
     .map((group) => {
       const representative =
         group.length === 1
@@ -122,6 +139,14 @@ export function mapSeasonTotals(
       return representative.record;
     })
     .sort((a, b) => b.season.localeCompare(a.season));
+  return { records, stints };
+}
+export function mapSeasonTotals(
+  body: unknown,
+  expectedPlayerId: string,
+  scope: SeasonScope = 'regular-season',
+): SeasonTotals[] {
+  return mapCareerSource(body, expectedPlayerId, scope).records;
 }
 
 export class NbaSeasonTotalsProvider implements SeasonTotalsProvider {
@@ -139,7 +164,7 @@ export class NbaSeasonTotalsProvider implements SeasonTotalsProvider {
     return this.cache.getOrLoad(
       `totals:${playerId}:${scope}`,
       async () => {
-        const records = mapSeasonTotals(
+        const mapped = mapCareerSource(
           await this.client.fetchEndpoint('playercareerstats', {
             PlayerID: playerId,
             PerMode: 'Totals',
@@ -148,7 +173,7 @@ export class NbaSeasonTotalsProvider implements SeasonTotalsProvider {
           playerId,
           scope,
         );
-        return { records, retrievedAt: this.now().toISOString() };
+        return { ...mapped, retrievedAt: this.now().toISOString() };
       },
       (value) => (value.records.length ? 6 * 60 * 60_000 : 60_000),
     );

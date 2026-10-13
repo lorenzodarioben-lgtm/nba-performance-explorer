@@ -49,3 +49,5 @@ Added raw shooting and defensive game logs, attempt-weighted splits/rolling, exp
 ## CC0 history and qualification checkpoint (2026-10-14)
 
 Added a working free CC0 historical season/champion navigator with filters, source links, missingness, record-backed navigation, bookmarks and direct routes. Adds bounded source caching and rate-limit cooldown. Game research now has explicit cohort minimum qualification. Full602 tests and five genuine local history checks pass. Continue age/team history, selected-cohort discovery and local preferences.
+
+History inventory precision: I01 navigator is delivered; I05 year/decade filters, I08 championship facts and I11 fact-coverage views are partial. I02 statistical leaders, I03 statistical record book, I09 record progression and I10 era normalization are not delivered by the champion source. Those gates remain unavailable.

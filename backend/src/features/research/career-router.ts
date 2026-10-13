@@ -16,12 +16,14 @@ import { SourceWorkBudget } from './source-work-budget.js';
 import { ProviderError, providerInvalidResponse } from '../players/provider-error.js';
 import { researchProvenance } from './provenance.js';
 import { analyzeCareer } from './career-service.js';
+import type { PlayerBioProvider } from './player-bio-provider.js';
 
 export function createCareerRouter(
   provider: PlayerProvider,
   source: DataSource,
   totals: SeasonTotalsProvider | undefined,
   budget: SourceWorkBudget,
+  bio?: PlayerBioProvider,
 ) {
   const router = Router();
   async function load(
@@ -37,7 +39,26 @@ export function createCareerRouter(
     const loaded = totals?.getCareerTotals
       ? await totals.getCareerTotals(playerId, scope)
       : null;
-    const analysis = analyzeCareer(loaded?.records ?? [], playerId, metric, minGames);
+    let birth: { birthDate: string | null; retrievedAt: string } | null = null;
+    const birthWarnings: string[] = [];
+    if (bio && loaded) {
+      try {
+        birth = await bio.getBirthDate(playerId);
+      } catch (error) {
+        if (
+          !(error instanceof ProviderError) ||
+          error.code === 'PROVIDER_INVALID_RESPONSE'
+        )
+          throw error;
+        birthWarnings.push(
+          'Birth date source unavailable; age values are not inferred.',
+        );
+      }
+    }
+    const analysis = analyzeCareer(loaded?.records ?? [], playerId, metric, minGames, {
+      birthDate: birth?.birthDate ?? null,
+      stints: loaded?.stints ?? [],
+    });
     const base = researchProvenance(
       source,
       `Reported ${scope} rows only; career completeness and season completion are not verified.`,
@@ -45,10 +66,15 @@ export function createCareerRouter(
         'Trade aggregate rows count once. Missing counts remain unavailable; no per-game averages are summed.',
         'Peak means the highest selected metric among reported seasons meeting the minimum games; all exact ties are retained.',
         ...(!loaded ? ['Career raw totals provider is not enabled.'] : []),
+        ...birthWarnings,
+        'Age is completed calendar years on October 1 of the season start year, calculated from sourced birth date; not draft age or official seasonal age.',
+        'Team stint abbreviations and NBA IDs are source records, not transfer dates or reconstructed historical franchise names.',
       ],
     );
     return CareerResearchResponseSchema.parse({
       player,
+      birthDate: birth?.birthDate ?? null,
+      birthDateRetrievedAt: birth?.retrievedAt ?? null,
       ...analysis,
       status: !loaded
         ? 'unsupported'

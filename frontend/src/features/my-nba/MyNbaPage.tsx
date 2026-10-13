@@ -8,6 +8,8 @@ import {
 import { ResearchShell } from '../research/ResearchShell';
 import styles from '../research/research.module.css';
 import { mergeResearch, parseResearchJson, researchRepository } from './local-research';
+import { RecentHistoryPanel } from './RecentHistoryPanel';
+import { recentHistoryRepository } from './recent-history';
 
 export function MyNbaPage() {
   const [store, setStore] = useState(() => researchRepository.load());
@@ -15,11 +17,13 @@ export function MyNbaPage() {
   const [importText, setImportText] = useState('');
   const [exportText, setExportText] = useState('');
   const [confirmClear, setConfirmClear] = useState(false);
+  const [recentReset, setRecentReset] = useState(0);
   return (
     <ResearchShell title="My NBA">
       <p>
-        Favorites and named research links stay on this device. No accounts, tracking or
-        cloud sync. Export your JSON before changing browsers or clearing storage.
+        Favorites and named research links stay on this device. No accounts or cloud
+        sync. Optional recent research history is off by default. Export your bookmark
+        JSON before changing browsers or clearing storage.
       </p>
       {store.warning && <p role="status">{store.warning}</p>}
       {message && <p role="status">{message}</p>}
@@ -146,6 +150,7 @@ export function MyNbaPage() {
         <button type="submit">Import JSON and keep existing research</button>
       </form>
       <h2>Clear local research</h2>
+      <RecentHistoryPanel key={recentReset} />
       {confirmClear ? (
         <div role="group" aria-label="Confirm clearing local research">
           <p>
@@ -155,6 +160,8 @@ export function MyNbaPage() {
           <button
             onClick={() => {
               const result = researchRepository.clear();
+              recentHistoryRepository.clear(true);
+              setRecentReset((n) => n + 1);
               setStore(result);
               setConfirmClear(false);
               setImportText('');
