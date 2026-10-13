@@ -74,3 +74,9 @@ SPA `/games`, `/games/:gameId`, `/standings`, `/leaders` and opt-in `/teams/:tea
 ## Selected-season discovery
 
 SPA `/discover` reuses `/api/analytics/cohort` for2–4 selected regular-season player-seasons. players/seasons/x/y/minGames shareable, optional target must belong to pool. Target is stripped before API request; unsupported weight controls and duplicate/identical metric state rejected. Saved URLs freeze resolved target. Formula/contributions, source-season links and exact analytics evidence shown.
+
+## Historical team details
+
+GET `/api/teams/:teamId/archive?season=2023-24` returns source-listed historical roster, nullable exact Wiki/Wikidata NBA-ID mappings,82 source regular finals, and participant arrays in regular-season/playoffs/source-unspecified scopes. DOB ages use October1,2023; missing IDs retain only external source links. Explicit raw total columns are optional, never reconstructed from rounded averages. Wrong ID/query400, unknown team404, disabled/unavailable503, corrupt source502, timeout504, unsupported method405. Shared source-work budget applies. Temporary mapping outage preserves historical data with null NBA IDs; corrupt mappings reject.
+
+Team page `details=2023-24` loads this source on demand; participants/minGames/metric/search/side filters stay in URL and use cached validated rows. Existing optional standings/playoff panel remains separate.

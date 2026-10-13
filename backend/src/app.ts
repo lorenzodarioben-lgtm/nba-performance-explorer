@@ -19,6 +19,8 @@ import type { HistoryProvider } from './features/history/history-provider.js';
 import type { PlayerBioProvider } from './features/research/player-bio-provider.js';
 import { createArchiveRouter } from './features/wiki-archive/archive-router.js';
 import type { ArchiveProvider } from './features/wiki-archive/archive-provider.js';
+import { createTeamArchiveRouter } from './features/wiki-archive/team-archive-router.js';
+import type { TeamArchiveProvider } from './features/wiki-archive/team-archive-provider.js';
 import { createPlayersRouter } from './features/players/players-router.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
 import { healthRouter } from './routes/health.js';
@@ -71,6 +73,7 @@ export function createApp(
     historyProvider?: HistoryProvider;
     bioProvider?: PlayerBioProvider;
     archiveProvider?: ArchiveProvider;
+    teamArchiveProvider?: TeamArchiveProvider;
   } = {},
 ): Express {
   const application = express();
@@ -81,6 +84,10 @@ export function createApp(
   application.use('/api/health', healthRouter);
   application.use('/api/players', createPlayersRouter(playerProvider));
   application.use('/api/teams', createTeamsRouter());
+  application.use(
+    '/api/teams',
+    createTeamArchiveRouter(options.teamArchiveProvider, researchBudget),
+  );
   application.use('/api', createArchiveRouter(options.archiveProvider, researchBudget));
   application.use(
     '/api/history',
@@ -126,6 +133,7 @@ export function createApp(
         history: !!options.historyProvider,
         games: !!options.gamesProvider,
         archive: !!options.archiveProvider,
+        teamArchive: !!options.teamArchiveProvider,
       },
     ),
   );

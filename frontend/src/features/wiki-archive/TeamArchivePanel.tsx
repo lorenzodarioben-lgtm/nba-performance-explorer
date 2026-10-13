@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
-import { z } from 'zod';
 import {
   ArchiveGamesResponseSchema,
   ArchiveLeagueResponseSchema,
@@ -9,18 +8,11 @@ import {
 import { fetchResearch } from '../research/api';
 import { QueryFeedback, ResearchTable, SourceNote } from '../research/ResearchShell';
 import { WikiAttribution } from './WikiAttribution';
-const schema = z
-  .object({
-    archive: z.literal('2023-24').optional(),
-    side: z.enum(['home', 'away']).optional(),
-  })
-  .strict();
+import { readTeamArchiveState } from './team-archive-state';
 export function TeamArchivePanel({ team }: { team: DirectoryTeam }) {
   const [params, setParams] = useSearchParams();
-  const parsed = schema.safeParse(Object.fromEntries(params));
-  const valid =
-    parsed.success && [...params.keys()].every((k) => params.getAll(k).length === 1);
-  const enabled = valid && parsed.data.archive === '2023-24';
+  const { parsed, valid } = readTeamArchiveState(params);
+  const enabled = valid && parsed.data?.archive === '2023-24';
   const league = useQuery({
     queryKey: ['research', 'league-archive'],
     queryFn: ({ signal }) =>
@@ -75,8 +67,8 @@ export function TeamArchivePanel({ team }: { team: DirectoryTeam }) {
       <h2>Historical team results</h2>
       <p>
         Optional licensed 2023–24 regular-season standings and recorded 2024 playoff
-        results. Season rosters, full regular-season schedules and live team data remain
-        unavailable.
+        results. Roster and regular-season results use the separate optional team-page
+        snapshot below. Live team data remains unavailable.
       </p>
       {!valid ? (
         <p role="alert">
@@ -121,7 +113,7 @@ export function TeamArchivePanel({ team }: { team: DirectoryTeam }) {
               <label>
                 Recorded venue filter
                 <select
-                  value={parsed.data.side ?? ''}
+                  value={parsed.data?.side ?? ''}
                   onChange={(e) => {
                     const copy = new URLSearchParams(params);
                     if (e.target.value) copy.set('side', e.target.value);

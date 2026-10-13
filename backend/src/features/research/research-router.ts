@@ -27,7 +27,12 @@ export function createResearchRouter(
   source: DataSource,
   totalsProvider?: SeasonTotalsProvider,
   budget = new SourceWorkBudget(),
-  extensions: { history?: boolean; games?: boolean; archive?: boolean } = {},
+  extensions: {
+    history?: boolean;
+    games?: boolean;
+    archive?: boolean;
+    teamArchive?: boolean;
+  } = {},
 ) {
   const router = Router();
   router.get(
@@ -102,6 +107,13 @@ export function createResearchRouter(
         checkedAt: new Date().toISOString(),
         hostVerified: false,
         capabilities: [
+          {
+            id: 'historical-team-roster-results',
+            status: extensions.teamArchive ? 'conditional' : 'blocked',
+            reason: extensions.teamArchive
+              ? 'Licensed2023-24 team snapshots: source-listed roster, regular finals and separate participant summaries; exact CC0 external-ID joins. Per-team source validation required; no current roster or live schedule.'
+              : 'Historical team snapshot provider disabled.',
+          },
           {
             id: 'historical-season-facts',
             status: extensions.history ? 'conditional' : 'blocked',

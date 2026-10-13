@@ -30,3 +30,5 @@ are supplied. Runtime failures never substitute the explicitly synthetic test da
 Safe HTML parsing requires the free MIT-licensed parse5 runtime dependency.
 Its package includes its [MIT licence](https://github.com/inikulin/parse5/blob/master/LICENSE).
 The package and lockfile changes are intentional and leave the existing NBA provider intact.
+
+The team extension also adapts the30 fixed2023–24 NBA team-season pages. Every view/response credits its exact revision and Wikipedia contributors under the same CC BY-SA4.0 terms. Thirty-title whitelist replaces the initial two-title-only scope; same timeout/body/cache/cooldown protections apply. Extracted roster DOB/positions, regular results and participant tables carry adaptation notice. Exact article-to-NBA-ID joins separately use Wikidata CC0 facts and entity evidence; source names never guess NBA identifiers. Chicago participant scope remains unspecified.

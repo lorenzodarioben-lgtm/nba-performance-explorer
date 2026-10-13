@@ -16,6 +16,7 @@ import {
 import styles from '../research/research.module.css';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { TeamArchivePanel } from '../wiki-archive/TeamArchivePanel';
+import { TeamSeasonArchivePanel } from '../wiki-archive/TeamSeasonArchivePanel';
 
 export function TeamsPage() {
   const [params, setParams] = useSearchParams();
@@ -141,6 +142,7 @@ export function TeamDetailPage() {
           <h2>Live season data unavailable</h2>
           <p>{query.data.availability.reason}</p>
           <TeamArchivePanel team={query.data.team} />
+          <TeamSeasonArchivePanel team={query.data.team} />
         </>
       )}
     </ResearchShell>

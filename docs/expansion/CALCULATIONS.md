@@ -85,3 +85,7 @@ Standing GP must equal W+L. Win ratio = W/GP, reconciled to source percentage wi
 ## Selected-season similarity
 
 Distance = sqrt((candidate zX-target zX)^2+(candidate zY-target zY)^2). Existing qualified selected-cohort population standard deviations provide z-values. Equal axes; identical metrics rejected to avoid double counting; constant axes contribute0. Missing target/inputs yield no matches; excluded players never imputed. Six-decimal distances define tied competition ranks; deterministic ID ordering within ties. Changing the pool changes standardization. Random target is chosen only among already loaded qualifying rows, no arbitrary source IDs or hidden requests.
+
+## Historical team participant scope
+
+Historical roster ages derive from source DOB atOctober1,2023. Position labels grouped exactly, hybrids retained. Stats are scoped by explicit source headings; missing regular/playoff heading remains source-unspecified. Percentages with an explicit% sign divide by100; decimal ratios retain source units. Raw total fields exist only for recognized explicit MIN/REB/AST/STL/BLK/PTS columns; grouped commas validated. Published per-game values must agree with raw/GP within0.051 rounding tolerance; derived values identify their raw basis and GP0 yields unavailable. Minimum GP/search precedes participant sorting/leaders; ties retained, null values last. Roster membership and statistical participants are different source sets; no transaction dates or medical absence inferred.

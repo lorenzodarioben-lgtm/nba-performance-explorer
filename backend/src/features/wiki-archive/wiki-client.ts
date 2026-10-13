@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { NbaStatsCache } from '../players/nba-stats/nba-stats-cache.js';
+import { staticTeamDirectoryProvider } from '../teams/team-directory-provider.js';
 export class ArchiveSourceError extends Error {
   constructor(readonly kind: 'invalid' | 'unavailable' | 'timeout') {
     super('Archive source unavailable.');
@@ -25,12 +26,22 @@ export class WikiArchiveClient {
     private readonly fetcher: typeof fetch = fetch,
     private readonly now = () => new Date(),
   ) {
-    this.cache = new NbaStatsCache({ maxEntries: 2, now: () => this.now().getTime() });
+    this.cache = new NbaStatsCache({ maxEntries: 32, now: () => this.now().getTime() });
   }
-  getPage(title: '2023–24 NBA season' | '2024 NBA playoffs'): Promise<WikiPage> {
+  getPage(
+    title: '2023–24 NBA season' | '2024 NBA playoffs' | `2023–24 ${string} season`,
+  ): Promise<WikiPage> {
     return this.cache.getOrLoad(
       title,
       async () => {
+        const allowed = [
+          '2023–24 NBA season',
+          '2024 NBA playoffs',
+          ...(await staticTeamDirectoryProvider.listTeams()).map(
+            (t) => `2023–24 ${t.name} season`,
+          ),
+        ];
+        if (!allowed.includes(title)) throw new ArchiveSourceError('invalid');
         if (this.now().getTime() < this.blockedUntil)
           throw new ArchiveSourceError('unavailable');
         const url = new URL('https://en.wikipedia.org/w/api.php');
