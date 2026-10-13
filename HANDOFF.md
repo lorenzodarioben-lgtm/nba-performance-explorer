@@ -108,3 +108,17 @@ Implement `backend/src/features/research/season-totals-provider.ts` and strict c
 CONTINUE FROM HERE: Read this handoff, ledger and source audit, verify HEAD/branch/tree,
 then execute NEXT ACTION. Continue complete verified slices, preserve legacy design,
 and never merge/deploy, invent NBA facts or assume broader feed rights.
+
+## Raw totals / selected-cohort checkpoint — 2026-10-14
+
+New raw totals provider and analytics lab implemented. Full gate before final
+identity guards: 247 frontend + 319 backend = 566 tests passed. Identity guards
+now have focused validation. Live `npm run smoke:engine` passed 16 public API/SPA
+checks locally: 74 games, 10-game window, 2 BOS games, verified raw formulas,
+3 available comparison/analytics slots, 30 teams, 6 direct refresh routes. Render
+untested. Browser verified search, filters, 3-player compare, signed TS/AST-TO
+weights, saved analytics, two player favorites and a team, reload and valid/invalid
+JSON import/export. Phone 390x844: no page overflow; table keyboard scroll 39.5px.
+One stale lazy chunk after rebuilding assets recovered on reload; record in Shot 3.
+No protected visual-file diff. Next immediate action: finalize expansion docs and
+commit the verified raw-stat/analytics checkpoint. Full platform remains incomplete.

@@ -8,6 +8,9 @@ import type { PlayerProvider } from './features/players/player-provider.js';
 import { fixturePlayerProvider } from './features/players/fixture-player-provider.js';
 import { createResearchRouter } from './features/research/research-router.js';
 import { createTeamsRouter } from './features/teams/teams-router.js';
+import type { SeasonTotalsProvider } from './features/research/season-totals-provider.js';
+import { createCohortRouter } from './features/research/cohort-router.js';
+import { SourceWorkBudget } from './features/research/source-work-budget.js';
 import { createPlayersRouter } from './features/players/players-router.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
 import { healthRouter } from './routes/health.js';
@@ -53,9 +56,10 @@ function configureFrontend(application: Express): void {
 // falls back to the fixture provider, which keeps the exported test `app` deterministic.
 export function createApp(
   playerProvider?: PlayerProvider,
-  options: { playerSource?: DataSource } = {},
+  options: { playerSource?: DataSource; totalsProvider?: SeasonTotalsProvider } = {},
 ): Express {
   const application = express();
+  const researchBudget = new SourceWorkBudget();
 
   application.disable('x-powered-by');
   application.use(express.json());
@@ -63,10 +67,21 @@ export function createApp(
   application.use('/api/players', createPlayersRouter(playerProvider));
   application.use('/api/teams', createTeamsRouter());
   application.use(
+    '/api/analytics/cohort',
+    createCohortRouter(
+      playerProvider ?? fixturePlayerProvider,
+      options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
+      options.totalsProvider,
+      researchBudget,
+    ),
+  );
+  application.use(
     '/api',
     createResearchRouter(
       playerProvider ?? fixturePlayerProvider,
       options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
+      options.totalsProvider,
+      researchBudget,
     ),
   );
   configureFrontend(application);

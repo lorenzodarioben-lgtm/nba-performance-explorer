@@ -16,6 +16,7 @@ import {
 } from '../research/ResearchShell';
 import styles from '../research/research.module.css';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
+import { SeasonTotalsPanel } from './SeasonTotalsPanel';
 
 const value = (n: number | null) => (n === null ? 'Unavailable' : n.toFixed(1));
 
@@ -63,6 +64,8 @@ export function PlayerInsightsPage() {
     setParams(copy);
   }
   const data = query.data;
+  const savedParams = new URLSearchParams(params);
+  if (data?.season) savedParams.set('season', data.season);
   return (
     <ResearchShell
       title={data ? `${data.player.fullName}: player insights` : 'Player insights'}
@@ -81,7 +84,7 @@ export function PlayerInsightsPage() {
           <SaveResearchButton
             kind="analysis"
             label={`${data.player.fullName} insights`}
-            path={`/players/${data.player.id}/insights${params.size ? `?${params}` : ''}`}
+            path={`/players/${data.player.id}/insights${savedParams.size ? `?${savedParams}` : ''}`}
           />
           <SourceNote provenance={data.provenance} />
           <div className={styles.controls}>
@@ -106,14 +109,16 @@ export function PlayerInsightsPage() {
             <label>
               Rolling window
               <select
-                value={params.get('window') ?? '5'}
+                value={data.window}
                 onChange={(e) => update('window', e.target.value)}
               >
-                {[5, 10, 20].map((n) => (
-                  <option key={n} value={n}>
-                    {n} games
-                  </option>
-                ))}
+                {[...new Set([5, 10, 20, data.window])]
+                  .sort((a, b) => a - b)
+                  .map((n) => (
+                    <option key={n} value={n}>
+                      {n} games
+                    </option>
+                  ))}
               </select>
             </label>
           </div>
@@ -188,6 +193,9 @@ export function PlayerInsightsPage() {
             <p role="status">
               No recorded statistics for this season. Choose another recorded season.
             </p>
+          )}
+          {data.season && (
+            <SeasonTotalsPanel playerId={data.player.id} season={data.season} />
           )}
           <h2>Observed form and splits</h2>
           <ResearchTable label="Observed averages">

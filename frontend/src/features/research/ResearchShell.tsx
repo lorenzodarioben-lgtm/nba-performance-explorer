@@ -22,6 +22,7 @@ export function ResearchShell({
         <Link to="/explore">Explorer</Link>
         <Link to="/teams">Teams</Link>
         <Link to="/lab/compare">Comparison lab</Link>
+        <Link to="/lab/analytics">Analytics lab</Link>
         <Link to="/my-nba">My NBA</Link>
         <Link to="/">Original home</Link>
       </nav>
@@ -48,6 +49,12 @@ export function SourceNote({ provenance }: { provenance: DataProvenance }) {
         Response served {new Date(provenance.servedAt).toLocaleString()}. This is not a
         live feed.
       </p>
+      {provenance.retrievedAt && (
+        <p>
+          Upstream response fetched {new Date(provenance.retrievedAt).toLocaleString()};
+          published as-of time is unknown.
+        </p>
+      )}
       <ul>
         {provenance.warnings.map((warning) => (
           <li key={warning}>{warning}</li>

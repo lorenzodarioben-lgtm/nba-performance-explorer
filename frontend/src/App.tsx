@@ -29,6 +29,11 @@ const TeamsPage = lazy(() =>
 const TeamDetailPage = lazy(() =>
   import('./features/teams/TeamsPage').then((m) => ({ default: m.TeamDetailPage })),
 );
+const AnalyticsLabPage = lazy(() =>
+  import('./features/analytics-lab/AnalyticsLabPage').then((m) => ({
+    default: m.AnalyticsLabPage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -38,6 +43,20 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/lab/analytics"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading analytics lab…
+                  </p>
+                }
+              >
+                <AnalyticsLabPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/teams"
             element={

@@ -8,6 +8,7 @@
     "start": "node dist/server.js",
     "connectivity-gate": "node dist/scripts/nba-connectivity-gate.js",
     "smoke:free-sources": "tsx src/scripts/probe-free-sources.ts",
+    "smoke:engine": "tsx src/scripts/smoke-engine.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\"",
     "build": "npm run clean && tsc --project tsconfig.json",
     "typecheck": "tsc --project tsconfig.json --noEmit",

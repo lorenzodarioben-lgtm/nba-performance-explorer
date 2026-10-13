@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { delay, http, HttpResponse } from 'msw';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { type PlayerInsightsResponse } from '@nba-performance-explorer/contracts';
 
 import { renderApp } from '../../test/renderApp';
@@ -80,6 +80,34 @@ const fixture: PlayerInsightsResponse = {
 };
 
 describe('player insights page', () => {
+  it('restores custom valid windows and saves the resolved season in research URLs', async () => {
+    server.use(
+      http.get('http://localhost/api/players/2544/insights', () =>
+        HttpResponse.json({ ...fixture, window: 7 }),
+      ),
+    );
+    const view = renderApp('/players/2544/insights?window=7');
+    await screen.findByRole('heading', { name: 'LeBron James: player insights' });
+    expect(screen.getByLabelText('Rolling window')).toHaveValue('7');
+    fireEvent.click(screen.getByRole('button', { name: 'Save to My NBA' }));
+    view.unmount();
+    renderApp('/my-nba');
+    expect(
+      await screen.findByRole('link', { name: 'LeBron James insights' }),
+    ).toHaveAttribute('href', '/players/2544/insights?window=7&season=2023-24');
+  });
+  beforeEach(() => {
+    server.use(
+      http.get('http://localhost/api/players/2544/totals', () =>
+        HttpResponse.json({
+          status: 'unsupported',
+          totals: null,
+          metrics: null,
+          provenance: fixture.provenance,
+        }),
+      ),
+    );
+  });
   it('renders source, sample labels, tables, profile link and heading focus', async () => {
     server.use(
       http.get('http://localhost/api/players/2544/insights', () =>

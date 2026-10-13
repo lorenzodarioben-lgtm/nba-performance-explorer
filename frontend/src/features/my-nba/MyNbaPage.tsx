@@ -72,6 +72,7 @@ export function MyNbaPage() {
         <button type="submit">Save bookmark</button>
       </form>
       <h2>Saved research ({store.data.bookmarks.length}/100)</h2>
+      <p>Maximum 100 bookmarks and 100,000 serialized JSON characters.</p>
       {store.data.bookmarks.length === 0 ? (
         <p>No saved research yet.</p>
       ) : (
@@ -153,9 +154,12 @@ export function MyNbaPage() {
           </p>
           <button
             onClick={() => {
-              setStore(researchRepository.clear());
+              const result = researchRepository.clear();
+              setStore(result);
               setConfirmClear(false);
-              setMessage('Local research cleared.');
+              setImportText('');
+              setExportText('');
+              setMessage(result.warning ?? 'Local research cleared.');
             }}
           >
             Confirm clear all

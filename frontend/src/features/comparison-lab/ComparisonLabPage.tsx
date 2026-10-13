@@ -201,6 +201,7 @@ export function ComparisonLabPage() {
           {ready && <QueryFeedback pending={query.isPending} failed={query.isError} />}
           {ready && query.data && (
             <>
+              <Link to={`/lab/analytics?${apiParams}`}>Analyze selected cohort</Link>
               <SourceNote provenance={query.data.provenance} />
               <ResearchTable label="Multi-player season comparison">
                 <table>

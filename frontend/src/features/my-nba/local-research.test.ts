@@ -119,4 +119,17 @@ describe('local research integrity', () => {
     expect(storage.getItem(RESEARCH_STORAGE_KEY)).toBeNull();
     expect(storage.getItem('other-app')).toBe('keep');
   });
+  it('keeps export size within the import limit, without losing earlier bookmarks', () => {
+    const storage = memoryStorage();
+    const repository = new ResearchRepository(() => storage);
+    repository.add(item);
+    const oversized = Array.from({ length: 100 }, (_, i) => ({
+      ...item,
+      path: `/players/${i + 1}?filter=${'a'.repeat(1300)}`,
+    }));
+    expect(() => repository.save({ version: 1, bookmarks: oversized })).toThrow(
+      'exceeds',
+    );
+    expect(repository.load().data.bookmarks).toEqual([item]);
+  });
 });

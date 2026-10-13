@@ -11,6 +11,39 @@ import { fixturePlayerProvider } from '../players/fixture-player-provider.js';
 import { providerTimeout, providerUnavailable } from '../players/provider-error.js';
 
 describe('research endpoints', () => {
+  it('rejects mismatched player and season scope before displaying another record', async () => {
+    const provider = Object.create(
+      fixturePlayerProvider,
+    ) as typeof fixturePlayerProvider;
+    provider.getPlayerById = vi
+      .fn()
+      .mockResolvedValue({ id: '201939', fullName: 'Wrong source profile' });
+    expect(
+      (await request(createApp(provider)).get('/api/players/2544/insights')).status,
+    ).toBe(502);
+    provider.getPlayerById =
+      fixturePlayerProvider.getPlayerById.bind(fixturePlayerProvider);
+    const stats = await fixturePlayerProvider.getPlayerSeasonStats('2544', '2023-24');
+    provider.getPlayerSeasonStats = vi
+      .fn()
+      .mockResolvedValue({ ...stats, season: '2022-23' });
+    expect(
+      (
+        await request(createApp(provider)).get(
+          '/api/players/2544/insights?season=2023-24',
+        )
+      ).status,
+    ).toBe(502);
+  });
+  it('warns when the filtered rolling cohort is smaller than its window', async () => {
+    const response = await request(createApp()).get(
+      '/api/players/2544/insights?season=2023-24&window=20&opponent=BOS',
+    );
+    expect(response.body.recent.sample).toBeLessThan(20);
+    expect(response.body.provenance.warnings.join(' ')).toContain(
+      'Fewer matching games',
+    );
+  });
   it('returns bounded typed insights and explicit demo/coverage warnings', async () => {
     const response = await request(createApp()).get(
       '/api/players/2544/insights?season=2023-24&window=5&pageSize=2',

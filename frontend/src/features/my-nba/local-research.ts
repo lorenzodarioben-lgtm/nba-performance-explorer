@@ -79,11 +79,14 @@ export class ResearchRepository {
 
   save(data: LocalResearch): { data: LocalResearch; warning: string | null } {
     const valid = LocalResearchSchema.parse(data);
+    const serialized = JSON.stringify(valid);
+    if (serialized.length > MAX_RESEARCH_JSON_CHARS)
+      throw new Error('Research JSON exceeds 100,000 characters.');
     this.session = valid;
     try {
       const storage = this.storage();
       if (!storage) throw new Error('Storage unavailable');
-      storage.setItem(RESEARCH_STORAGE_KEY, JSON.stringify(valid));
+      storage.setItem(RESEARCH_STORAGE_KEY, serialized);
       this.dirty = false;
       return { data: valid, warning: null };
     } catch {
