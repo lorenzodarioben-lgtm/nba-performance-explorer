@@ -108,14 +108,16 @@ function HubBar({
   return (
     <nav className="hubbar" aria-label="Player sections">
       <div className="wrap hubbar__inner">
-        <AnimatePresence initial={false}>
+        {/* The bug fades and slides with transforms only; popLayout takes a leaving bug out of
+            the flow at once so the tabs can slide back (a transform layout animation). */}
+        <AnimatePresence initial={false} mode="popLayout">
           {showBug && identity ? (
             <motion.div
               key="bug"
               className="scorebug"
-              initial={allowed ? { opacity: 0, x: -18, width: 0 } : { opacity: 0 }}
-              animate={{ opacity: 1, x: 0, width: 'auto' }}
-              exit={allowed ? { opacity: 0, x: -12, width: 0 } : { opacity: 0 }}
+              initial={allowed ? { opacity: 0, x: -18 } : { opacity: 0 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={allowed ? { opacity: 0, x: -12 } : { opacity: 0 }}
               transition={transitions.filmSlow}
             >
               <span className="scorebug__num" aria-hidden="true">
@@ -131,7 +133,11 @@ function HubBar({
           ) : null}
         </AnimatePresence>
         <LayoutGroup id="hub-tabs">
-          <div className="hubbar__tabs">
+          <motion.div
+            className="hubbar__tabs"
+            layout={allowed ? 'position' : false}
+            transition={transitions.filmSlow}
+          >
             {ROOMS.map((room) => {
               const on = current === room.key;
               return (
@@ -163,7 +169,7 @@ function HubBar({
                 <Icon name="arrowUpRight" size={13} />
               </Link>
             ) : null}
-          </div>
+          </motion.div>
         </LayoutGroup>
       </div>
     </nav>

@@ -152,10 +152,11 @@ body {
   color: var(--night);
   font: 600 14px/1 var(--ui);
   border-radius: 2px;
-  transition: top var(--dur-quick) var(--ease-film);
+  transform: translateY(0);
+  transition: transform var(--dur-quick) var(--ease-film);
 }
 .skip-link:focus {
-  top: 12px;
+  transform: translateY(72px);
 }
 
 /* ---------------------------------------------------------------- type */

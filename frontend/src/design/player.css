@@ -12,6 +12,7 @@
   border-bottom: 1px solid var(--line);
 }
 .hubbar__inner {
+  position: relative;
   display: flex;
   align-items: stretch;
   gap: 8px;

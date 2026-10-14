@@ -3,7 +3,7 @@ import { useId, useMemo, useState, type KeyboardEvent, type ReactNode } from 're
 
 import { useSeen } from '../motion/choreography';
 import { useMotionAllowed } from '../motion/MotionPreference';
-import { easings, springs } from '../motion/tokens';
+import { easings } from '../motion/tokens';
 import { ChartTip, TipRow } from './ChartTip';
 import { linear, niceDomain, niceTicks } from './scale';
 import { useChartWidth } from './useChartWidth';
@@ -157,27 +157,31 @@ export function BarChart({
             }
             const top = Math.min(y(datum.value), y(0));
             const h = Math.abs(y(0) - y(datum.value));
+            // Animated bars span the whole domain on their side of the baseline and show their
+            // value as a scale, so entering and changing values move on the compositor only.
+            const negative = datum.value < 0;
+            const spanTop = negative ? y(0) : y(hi);
+            const spanH = Math.max(1e-6, negative ? y(lo) - y(0) : y(0) - y(hi));
+            const ratio = Math.max(0, h / spanH);
             return allowed ? (
               <motion.rect
                 key={datum.key}
                 className={`bchart__bar ${isOn ? 'is-on' : ''}`}
                 x={x}
+                y={spanTop}
                 width={barW}
-                rx={1.5}
+                height={spanH}
                 style={{
-                  originY: 1,
+                  originY: negative ? 0 : 1,
                   transformBox: 'fill-box',
                   fill: isOn ? accent : fill,
                 }}
-                initial={{ scaleY: 0, y: top, height: h }}
-                animate={{ scaleY: seen ? 1 : 0, y: top, height: h }}
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: seen ? ratio : 0 }}
                 transition={{
-                  scaleY: {
-                    duration: 0.7,
-                    ease: easings.arena,
-                    delay: Math.min(0.5, index * 0.012),
-                  },
-                  default: springs.data,
+                  duration: 0.7,
+                  ease: easings.arena,
+                  delay: Math.min(0.5, index * 0.012),
                 }}
               />
             ) : (
