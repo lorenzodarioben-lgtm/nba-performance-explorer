@@ -13,6 +13,7 @@ import { NbaPlayerBioProvider } from './features/research/player-bio-provider.js
 import { WikipediaArchiveProvider } from './features/wiki-archive/archive-provider.js';
 import { WikipediaTeamArchiveProvider } from './features/wiki-archive/team-archive-provider.js';
 import { WikiArchiveClient } from './features/wiki-archive/wiki-client.js';
+import { RecordedArchiveProvider } from './features/recorded-archive/recorded-provider.js';
 
 const defaultPort = 3001;
 const configuredPort = Number.parseInt(process.env.PORT ?? `${defaultPort}`, 10);
@@ -41,6 +42,7 @@ const app = createApp(createPlayerProvider(config), {
   historyProvider: new WikidataHistoryProvider(),
   archiveProvider: new WikipediaArchiveProvider(wikiClient),
   teamArchiveProvider: new WikipediaTeamArchiveProvider(wikiClient),
+  recordedArchiveProvider: new RecordedArchiveProvider(),
   ...(config.mode === 'nba-stats'
     ? {
         totalsProvider: new NbaSeasonTotalsProvider(

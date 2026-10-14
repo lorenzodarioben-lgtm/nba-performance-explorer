@@ -76,3 +76,5 @@ Plain research shell now hosts `/games`, `/games/:gameId`, `/standings`, `/leade
 Historical team page adds a separate opt-in roster/regular-results section with scoped participant sort/search/GP controls, preserved missingness/identity links and source notices. Keep raw-vs-published basis, unknown statistical scope and neutral-site home/away semantics clear. Original pages/styles/assets remain frozen.
 
 `/players/:id/shooting` is a plain raw-count table. Preserve attempt qualification/missingness, source scope, genuine totals and explicit unavailable shot-map statement. Keep any future court-map design dependent on verified coordinate data.
+
+New `/leaders/recorded` and `/history/records` use plain scoped research tables/forms. Keep static historical source dates, limited population, qualification/trade exclusions, cohort-percentile definition, source licences and quarantined IDs visible. Current/official/all-time distinctions remain essential. Large source-credit lists use native details disclosure; original design remains frozen.

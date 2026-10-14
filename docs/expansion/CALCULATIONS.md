@@ -93,3 +93,9 @@ Historical roster ages derive from source DOB atOctober1,2023. Position labels g
 ## Raw shooting-type analysis
 
 Two-point makes/attempts = raw FGM/FGA minus3PM/3PA. Known makes cannot exceed attempts. Made-shot point contributions are2×2PM,3×3PM and FTM; their known sum must equal source PTS or breakdown is withheld. Shot-type percentages use raw makes/attempts only, qualified by explicit attempt minimum1–1000 (default20); missing/zero/low denominator yields unavailable while raw counts remain visible. Two-/three-point attempt shares divide byFGA; free throws remain separate. FTrate=FTA/FGA may exceed1. Point shares require positive knownPTS; no court-zone/coordinate inference or average-to-total multiplication.
+
+## Recorded historical cohort
+
+Group scoped participant rows by explicit sourced NBA ID. GP sums actual source counts. A single source row retains its published numeric value; multiple-team per-game values derive only from summed explicit raw counts/GP, never rounded-average multiplication. Multiple-team percentages lack attempt denominators and remain unavailable. Custom minGP precedes ranking; absent IDs/scope/metric excluded and counted. Values descend numerically, exact ties use competition ranks; percentile=100×(lower+0.5×equal)/qualified cohort size. Search/team/page do not change that population. This is not league-wide/official eligibility.
+
+Record maxima use only game IDs agreed by exactly two source team pages in opponent IDs, date, final scores and complementary home/away designation.9 conflicting and2 unpaired IDs quarantined;1219 source-agreed games. Metrics: highest team final score, absolute final-score margin, combined points. All ties retained; no in-game largest-lead, PBP or all-time claim.

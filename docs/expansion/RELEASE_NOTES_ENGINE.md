@@ -65,3 +65,5 @@ Selected-season discovery adds transparent standardized distance, ties, source e
 Historical team source adds source-listed rosters,82 reconciled regular results per team, participant summaries/raw totals where explicit, and exact Wiki/Wikidata ID evidence. Thirty fixed source pages verified without costs or NBA endpoint expansion. Unknown scope and missing IDs remain unavailable rather than guessed.
 
 Raw shooting-type page adds attempt qualification, weighted percentages, attempt/point shares and made-shot score reconciliation. Regular/playoff scopes separate, actual counts only. No coordinates, fake heatmaps or mandatory cost.
+
+Recorded2023–24 source-cohort leaderboard and game-extrema pages add qualification/search/team/scope/page controls, exact source evidence, missingness/trade exclusions, cohort percentile formula and bounded licensed CSV. Genuine static data is explicitly labeled;9 conflicting/2 unpaired games quarantined. Full658 tests and six genuine local recorded API/SPA reads pass. No current/official/all-time claim or original design/provider change.

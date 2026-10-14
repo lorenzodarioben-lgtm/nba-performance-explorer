@@ -10,6 +10,7 @@ export * from './game-research.js';
 export * from './history-research.js';
 export * from './wiki-archive.js';
 export * from './team-archive.js';
+export * from './recorded-archive.js';
 
 export {
   PlayerSearchResponseSchema,

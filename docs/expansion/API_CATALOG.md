@@ -82,3 +82,7 @@ GET `/api/teams/:teamId/archive?season=2023-24` returns source-listed historical
 Team page `details=2023-24` loads this source on demand; participants/minGames/metric/search/side filters stay in URL and use cached validated rows. Existing optional standings/playoff panel remains separate.
 
 SPA `/players/:id/shooting` reuses scoped career raw totals. season/scope/minAttempts shareable, strict duplicate-safe state; latest reported source season selected when omitted and frozen in saved URL. Unknown season stays unavailable. Two-point/three-point/free-throw counts and contributions are distinct from shot-event maps. No new NBA family or runtime data fallback.
+
+## Recorded historical cohort/records
+
+GET `/api/recorded/leaders`: fixed2023-24 season, regular-season/playoffs scope, supported numeric metric, minGames1–150/default20, optional team/search, page1–99/pageSize1–50. Qualify identified source rows first; traded metrics combine only explicit raw counts, otherwise excluded. Search/team/page retain qualifying rank/percentile population. Missing-ID, low-GP, metric and unknown-scope exclusions reported. GET `/api/recorded/records` supports team and teamPoints/finalMargin/combinedPoints; only paired-source-agreed regular finals enter extrema, all ties retained, conflict/unpaired IDs disclosed. Strict malformed queries400, unknown team404, disabled503, methods405. No runtime upstream calls or fixture fallback. SPA `/leaders/recorded` and `/history/records`, safe saved/shareable filters, bounded licensed CSV on current ranking page.
