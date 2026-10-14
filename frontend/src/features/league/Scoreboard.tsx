@@ -146,10 +146,12 @@ export function LineScore({ game }: { game: ArchiveGame }) {
  */
 export function MarginFlow({ game }: { game: ArchiveGame }) {
   const allowed = useMotionAllowed();
-  let running = 0;
-  const points = game.quarters.map((q) => {
-    running += q.home - q.away;
-    return { period: q.period, margin: running, swing: q.home - q.away };
+  // Running home lead after each period, from the published period scores.
+  const points = game.quarters.map((q, index) => {
+    const margin = game.quarters
+      .slice(0, index + 1)
+      .reduce((sum, period) => sum + period.home - period.away, 0);
+    return { period: q.period, margin, swing: q.home - q.away };
   });
   const max = Math.max(4, ...points.map((p) => Math.abs(p.margin)));
   return (
