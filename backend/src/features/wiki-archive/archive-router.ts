@@ -7,7 +7,11 @@ import {
   ArchiveSeasonSchema,
   CanonicalTeamIdSchema,
   GameDateSchema,
+  PlayoffBracketQuerySchema,
+  PlayoffBracketResponseSchema,
 } from '@nba-performance-explorer/contracts';
+import { recordedConferences } from '../recorded-archive/recorded-team-rankings.js';
+import { buildPlayoffBracket } from './playoff-series.js';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import { SourceWorkBudget } from '../research/source-work-budget.js';
 import { staticTeamDirectoryProvider } from '../teams/team-directory-provider.js';
@@ -132,6 +136,47 @@ export function createArchiveRouter(
       }),
     );
   });
+  const bracket = wrap(async (req, res) => {
+    const query = PlayoffBracketQuerySchema.safeParse(req.query);
+    if (!query.success)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_PLAYOFF_BRACKET',
+        'The playoff bracket supports the recorded 2023-24 season only.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'ARCHIVE_DISABLED',
+        'Historical snapshot provider is disabled.',
+      );
+    const data = await provider.getGames();
+    const provenance = archiveProvenance(data.page, 'playoffs', provider.source);
+    res.json(
+      PlayoffBracketResponseSchema.parse({
+        season: query.data.season,
+        scope: 'playoffs',
+        ...buildPlayoffBracket(data.games),
+        recordedGames: data.games.length,
+        attribution: attribution(data.page),
+        conferenceSource: recordedConferences.source,
+        provenance: {
+          ...provenance,
+          coverage:
+            'Series and bracket derived from the recorded 2024 playoff finals (2023-24 season). Historical; play-in games are outside this source table.',
+          warnings: [
+            ...provenance.warnings,
+            'A series is every recorded game between two teams; a winner is named only when the recorded games end with a fourth win. Rounds come from each team’s own order of series and are cross-checked against the round digit in NBA game IDs.',
+            'Seeds and home-court order are not in this source slice and are not shown. Conference alignment uses the sourced 2023-24 facts.',
+          ],
+        },
+      }),
+    );
+  });
+  router.get('/games/bracket', bracket);
+  router.all('/games/bracket', methodNotAllowedHandler);
   router.get('/games', games);
   router.get('/games/:gameId', games);
   router.all('/games', methodNotAllowedHandler);

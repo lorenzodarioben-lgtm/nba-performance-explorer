@@ -50,6 +50,12 @@ export const SECTIONS: readonly Section[] = [
         match: (pathname) => pathname === '/games' || /^\/games\/nba:/.test(pathname),
       },
       {
+        to: '/games/bracket',
+        label: 'Playoff bracket',
+        blurb: 'The 2024 playoffs as series and a bracket, built from recorded games.',
+        match: exact('/games/bracket'),
+      },
+      {
         to: '/history/calendar',
         label: 'Game calendar',
         blurb: 'Every recorded game on a date, from the season archive.',

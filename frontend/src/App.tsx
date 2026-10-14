@@ -153,6 +153,11 @@ const TeamSeasonPage = lazy(() =>
     default: m.TeamSeasonPage,
   })),
 );
+const PlayoffBracketPage = lazy(() =>
+  import('./features/playoffs/PlayoffBracketPage').then((m) => ({
+    default: m.PlayoffBracketPage,
+  })),
+);
 const StandingsRacePage = lazy(() =>
   import('./features/team-season/StandingsRacePage').then((m) => ({
     default: m.StandingsRacePage,
@@ -228,6 +233,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/games/:gameId',
     element: lazyRoute('Loading recorded game…', <GamesArchivePage />),
+  },
+  {
+    path: '/games/bracket',
+    element: lazyRoute('Loading playoff bracket…', <PlayoffBracketPage />),
   },
   {
     path: '/games/shooting',

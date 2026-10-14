@@ -161,7 +161,20 @@ export function GamesArchivePage() {
               </button>
             </div>
           )}
-          {gameId && games[0] ? <GameHero game={games[0]} /> : null}
+          {gameId && games[0] ? (
+            <>
+              <GameHero game={games[0]} />
+              <nav className="intel-links" aria-label="This game in context">
+                <Link to={`/games/bracket?game=${games[0].id}`}>Open this series</Link>
+                <Link to={`/teams/${games[0].away.id}/season`}>
+                  {games[0].away.abbreviation} regular season
+                </Link>
+                <Link to={`/teams/${games[0].home.id}/season`}>
+                  {games[0].home.abbreviation} regular season
+                </Link>
+              </nav>
+            </>
+          ) : null}
           {!gameId && date ? (
             <nav className="datestrip" aria-label="Recorded game dates">
               {[...new Set(data.games.map((g) => g.date))].sort().map((day) => (
