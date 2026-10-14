@@ -148,6 +148,17 @@ const HistoricalDraftPage = lazy(() =>
   })),
 );
 
+const TeamSeasonPage = lazy(() =>
+  import('./features/team-season/TeamSeasonPage').then((m) => ({
+    default: m.TeamSeasonPage,
+  })),
+);
+const StandingsRacePage = lazy(() =>
+  import('./features/team-season/StandingsRacePage').then((m) => ({
+    default: m.StandingsRacePage,
+  })),
+);
+
 const PlayersLanding = lazy(() =>
   import('./pages/PlayersLanding').then((m) => ({ default: m.PlayersLanding })),
 );
@@ -205,6 +216,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
     path: '/teams/:teamId',
     element: lazyRoute('Loading team identity…', <TeamDetailPage />),
   },
+  {
+    path: '/teams/:teamId/season',
+    element: lazyRoute('Loading team season…', <TeamSeasonPage />),
+  },
   // Games
   {
     path: '/games',
@@ -238,6 +253,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/standings/recorded',
     element: lazyRoute('Loading team rankings…', <RecordedTeamRankingsPage />),
+  },
+  {
+    path: '/standings/race',
+    element: lazyRoute('Loading standings race…', <StandingsRacePage />),
   },
   {
     path: '/leaders',

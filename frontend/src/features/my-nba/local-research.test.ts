@@ -99,6 +99,20 @@ describe('local research integrity', () => {
   ])('rejects unsafe or unavailable path %s', (path) => {
     expect(InternalResearchPathSchema.safeParse(path).success).toBe(false);
   });
+  it.each([
+    '/teams/nba:1610612747/season',
+    '/teams/nba:1610612747/season?focus=close&game=3',
+    '/standings/race?conference=West&team=nba:1610612743',
+    '/games/bracket',
+  ])('accepts the implemented research route %s', (path) => {
+    expect(InternalResearchPathSchema.safeParse(path).success).toBe(true);
+  });
+  it.each(['/teams/nba:1610612747/schedule', '/standings/races', '/teams/season'])(
+    'rejects a near-miss route %s',
+    (path) => {
+      expect(InternalResearchPathSchema.safeParse(path).success).toBe(false);
+    },
+  );
   it('enforces the 100-bookmark limit atomically', () => {
     const repository = new ResearchRepository(() => memoryStorage());
     const full = Array.from({ length: 100 }, (_, i) => ({

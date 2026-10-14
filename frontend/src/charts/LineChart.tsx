@@ -118,6 +118,8 @@ export function LineChart({
   const y = linear([lo, hi], [PAD.top + plotH, PAD.top]);
   const ticks = niceTicks(lo, hi, height > 240 ? 5 : 3);
   const xs = categories.map((_, index) => xAt(index));
+  // Long sequences (an 82-game season) shrink their markers so they never bury the line.
+  const dense = count > 1 && plotW / (count - 1) < 12;
   const maxLabels = Math.max(2, Math.floor(plotW / 62));
   const labelEvery = Math.max(1, Math.ceil(count / maxLabels));
 
@@ -354,11 +356,11 @@ export function LineChart({
                         entry.shape ?? 'circle',
                         xAt(index),
                         y(value),
-                        active === index ? 5 : 3.4,
+                        active === index ? 5 : dense ? 1.6 : 3.4,
                       )}
                       fill={entry.color}
                       stroke="#111114"
-                      strokeWidth={1.5}
+                      strokeWidth={dense && active !== index ? 0 : 1.5}
                     />
                   ),
                 )}

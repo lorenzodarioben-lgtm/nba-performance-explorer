@@ -10,6 +10,8 @@ import {
   RecordedProgressionQuerySchema,
   RecordedProfilesQuerySchema,
   RecordedTeamRankingsQuerySchema,
+  RecordedTeamSeasonQuerySchema,
+  RecordedStandingsRaceQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
@@ -274,5 +276,51 @@ export function createRecordedRouter(provider: RecordedArchiveProvider | undefin
     return res.json(provider.progression(q.data));
   });
   router.all('/progression', methodNotAllowedHandler);
+  router.get('/team-season', (req, res) => {
+    const q = RecordedTeamSeasonQuerySchema.safeParse(req.query);
+    if (!q.success || Object.values(req.query).some(Array.isArray))
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_TEAM_SEASON',
+        'Choose one namespaced team ID for the recorded 2023-24 season.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    const season = provider.teamSeason(q.data);
+    if (!season)
+      return sendApiError(
+        res,
+        404,
+        'TEAM_NOT_FOUND',
+        'Team not found in recorded source.',
+      );
+    return res.json(season);
+  });
+  router.all('/team-season', methodNotAllowedHandler);
+  router.get('/standings-race', (req, res) => {
+    const q = RecordedStandingsRaceQuerySchema.safeParse(req.query);
+    if (!q.success || Object.values(req.query).some(Array.isArray))
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_STANDINGS_RACE',
+        'Choose the recorded 2023-24 season and optionally one conference (East or West).',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    return res.json(provider.standingsRace(q.data));
+  });
+  router.all('/standings-race', methodNotAllowedHandler);
   return router;
 }

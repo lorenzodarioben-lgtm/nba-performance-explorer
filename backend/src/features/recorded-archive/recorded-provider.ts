@@ -24,7 +24,12 @@ import {
   RecordedProfilesResponseSchema,
   type RecordedTeamRankingsQuery,
   RecordedTeamRankingsResponseSchema,
+  RecordedTeamSeasonResponseSchema,
+  RecordedStandingsRaceResponseSchema,
+  type RecordedTeamSeasonQuery,
+  type RecordedStandingsRaceQuery,
 } from '@nba-performance-explorer/contracts';
+import { buildStandingsRace, buildTeamSeason } from './recorded-team-season.js';
 import { discoverRecorded } from './recorded-discovery.js';
 import { observedProgression } from './recorded-progression.js';
 import data from './recorded-snapshot.json' with { type: 'json' };
@@ -243,6 +248,65 @@ export class RecordedArchiveProvider {
           'Source calendar dates must be unique per team to compute last-ten/streak order. No unknown within-day order is inferred.',
           'Competition ranks use the selected metric, GP, coverage and conference cohort. Search retains ranks and denominator. No official tiebreak rules or games-behind from incomplete samples.',
           'Points allowed is not defensive rating; final margin per game is not net rating. Possessions, pace and current availability are unavailable.',
+        ],
+      },
+    });
+  }
+  teamSeason(q: RecordedTeamSeasonQuery) {
+    const { verified } = this.reconcileGames();
+    const source = this.dataset.snapshots.find((s) => s.team.id === q.team);
+    if (!source) return null;
+    return RecordedTeamSeasonResponseSchema.parse({
+      season: q.season,
+      scope: 'regular-season',
+      officialStandings: false,
+      ...buildTeamSeason(source, verified),
+      snapshotCreatedAt: this.dataset.createdAt,
+      conferenceSource: recordedConferences.source,
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'regular-season',
+        coverage:
+          "One team's recorded 2023-24 regular-season schedule from its own source page, joined to final scores both team pages agree on. Historical; not official standings.",
+        warnings: [
+          'Unverified games (a conflicting or one-sided source score) keep their schedule slot and date but have no score, result or margin, and never enter splits, streaks or the rolling margin.',
+          'Rest days count calendar days between source-listed dates; tipoff times and travel are unknown. Back-to-back means 0 rest days.',
+          'Close and decisive games use the final margin, overtime included, not the largest in-game lead. Margin per game is not net rating: possessions are unavailable.',
+          'Splits under five verified games are flagged as small samples. Monthly splits use source calendar dates.',
+        ],
+      },
+    });
+  }
+  standingsRace(q: RecordedStandingsRaceQuery) {
+    const { verified, conflictingGameIds, unpairedGameIds } = this.reconcileGames();
+    return RecordedStandingsRaceResponseSchema.parse({
+      season: q.season,
+      scope: 'regular-season',
+      officialStandings: false,
+      conference: q.conference ?? null,
+      ...buildStandingsRace(this.dataset.snapshots, verified, q.conference),
+      reconciledGames: verified.length,
+      quarantinedGameIds: [...conflictingGameIds, ...unpairedGameIds],
+      snapshotCreatedAt: this.dataset.createdAt,
+      attributions: this.dataset.snapshots.map((s) => s.attribution),
+      conferenceSource: recordedConferences.source,
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'regular-season',
+        coverage:
+          'Observed 2023-24 regular-season records through each calendar date, counted from source-agreed final scores only. A reconstruction of the race, not official day-by-day standings.',
+        warnings: [
+          'Quarantined games (conflicting or one-sided source scores) never count, so a team can show fewer games than it had played; scheduled-through-date counts stay visible.',
+          'Ordering is by observed win percentage and wins, with no official tiebreakers. Games behind is computed from observed records and is not the published figure.',
+          'A date includes every verified game listed on it; within-day tipoff order is unknown.',
         ],
       },
     });

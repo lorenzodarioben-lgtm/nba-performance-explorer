@@ -22,6 +22,7 @@ export * from './shot-box.js';
 export * from './history-draft.js';
 export * from './recorded-profiles.js';
 export * from './recorded-team-rankings.js';
+export * from './recorded-team-season.js';
 
 export {
   PlayerSearchResponseSchema,

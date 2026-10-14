@@ -91,6 +91,12 @@ export const SECTIONS: readonly Section[] = [
         match: exact('/standings/recorded'),
       },
       {
+        to: '/standings/race',
+        label: 'Standings race',
+        blurb: 'Replay the 2023-24 season date by date as the ladder reorders.',
+        match: exact('/standings/race'),
+      },
+      {
         to: '/leaders',
         label: 'Leaders',
         blurb: 'Published statistical category leaders.',

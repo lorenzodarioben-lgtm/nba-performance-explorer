@@ -17,6 +17,8 @@ export interface BarDatum {
   /** Extra readout lines for the tooltip. */
   detail?: readonly { label: string; value: string }[];
   tone?: 'default' | 'accent' | 'muted';
+  /** Drawn faintly: outside a reader's current focus, but still part of the sequence. */
+  dimmed?: boolean;
 }
 
 /**
@@ -175,6 +177,7 @@ export function BarChart({
                   originY: negative ? 0 : 1,
                   transformBox: 'fill-box',
                   fill: isOn ? accent : fill,
+                  opacity: datum.dimmed && !isOn ? 0.22 : 1,
                 }}
                 initial={{ scaleY: 0 }}
                 animate={{ scaleY: seen ? ratio : 0 }}
@@ -193,7 +196,10 @@ export function BarChart({
                 width={barW}
                 height={h}
                 rx={1.5}
-                style={{ fill: isOn ? accent : fill }}
+                style={{
+                  fill: isOn ? accent : fill,
+                  opacity: datum.dimmed && !isOn ? 0.22 : 1,
+                }}
               />
             );
           })}

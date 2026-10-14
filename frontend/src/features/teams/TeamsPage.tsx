@@ -167,6 +167,14 @@ export function TeamDetailPage() {
             <span>Live season data unavailable</span>
             {query.data.availability.reason}
           </p>
+          <Link to={`/teams/${query.data.team.id}/season`} className="intel-cta">
+            <span className="intel-cta__kicker">Recorded 2023–24 season</span>
+            <b>Season intelligence</b>
+            <span className="intel-cta__blurb">
+              All 82 games, streaks, rest and margin splits, and the season series
+              against every opponent.
+            </span>
+          </Link>
           <TeamArchivePanel team={query.data.team} />
           <TeamSeasonArchivePanel team={query.data.team} />
         </>
