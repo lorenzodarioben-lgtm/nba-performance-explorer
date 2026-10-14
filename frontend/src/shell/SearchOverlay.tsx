@@ -133,14 +133,16 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
     refetchOnWindowFocus: false,
   });
 
-  // Focus the field on open and give focus back to whatever opened the overlay on close.
+  // Focus the field on open. Closing without a choice gives focus back to whatever opened the
+  // overlay; choosing a result leaves focus to the destination page (its heading takes it).
+  const leaving = useRef(false);
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
     inputRef.current?.focus();
     document.documentElement.style.overflow = 'hidden';
     return () => {
       document.documentElement.style.overflow = '';
-      previous?.focus?.();
+      if (!leaving.current) previous?.focus?.();
     };
   }, []);
 
@@ -204,6 +206,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
 
   const go = (option: Option | undefined) => {
     if (!option) return;
+    leaving.current = true;
     onClose();
     void navigate(option.to);
   };

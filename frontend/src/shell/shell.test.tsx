@@ -82,6 +82,8 @@ describe('masthead', () => {
     );
     renderApp('/');
 
+    // A keyboard reader who has tabbed to the masthead trigger presses the shortcut there.
+    screen.getByRole('button', { name: /Search players, teams, tools/ }).focus();
     fireEvent.keyDown(document.body, { key: '/' });
     const dialog = await screen.findByRole('dialog', { name: 'Search' });
     const input = within(dialog).getByRole('combobox', {
@@ -99,9 +101,12 @@ describe('masthead', () => {
     await waitFor(() =>
       expect(screen.queryByRole('dialog', { name: 'Search' })).not.toBeInTheDocument(),
     );
-    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(
-      'Team identity',
-    );
+    const heading = await screen.findByRole('heading', { level: 1 });
+    expect(heading).toHaveTextContent('Team identity');
+    // Choosing a result hands focus to the destination's heading, not back to the trigger.
+    // (Tests skip the overlay's exit animation; the browser ordering, where the restore ran
+    // after the new heading took focus, is checked in Chromium per the verification log.)
+    await waitFor(() => expect(heading).toHaveFocus());
   });
 
   it('lists sections and tools before anything is typed and closes on Escape', async () => {
@@ -113,9 +118,11 @@ describe('masthead', () => {
       }),
     );
     renderApp('/');
-    fireEvent.click(
-      screen.getByRole('button', { name: /Search players, teams, tools/ }),
-    );
+    const trigger = screen.getByRole('button', {
+      name: /Search players, teams, tools/,
+    });
+    trigger.focus();
+    fireEvent.click(trigger);
     const dialog = await screen.findByRole('dialog', { name: 'Search' });
     expect(
       within(dialog).getByRole('option', { name: /Shot Studio|Labs/ }),
@@ -124,6 +131,8 @@ describe('masthead', () => {
     await waitFor(() =>
       expect(screen.queryByRole('dialog', { name: 'Search' })).not.toBeInTheDocument(),
     );
+    // Dismissing without a choice gives focus back to the trigger.
+    expect(trigger).toHaveFocus();
   });
 });
 
