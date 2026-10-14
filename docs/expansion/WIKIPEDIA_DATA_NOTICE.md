@@ -45,3 +45,10 @@ roster or final transaction ownership. Every response links its exact revision,
 contributors and licence. Optional exact-article Wikidata P3647 mappings remain
 CC0 with entity evidence; unavailable mappings retain source articles. This adds
 one fixed page title to the existing whitelist with the same bounded protections.
+
+Recorded percentile profiles adapt the existing attributed snapshot, not a new
+source fetch. All selected categories share the same GP-qualified, identifiable,
+supported-value intersection. Raw values, competition ranks, midrank percentiles
+and population z-scores are displayed together. Comparison selection never changes
+the denominator. Missing targets are withheld, and a constant category has z=0
+and percentile=50. Every view preserves the 30 source revision/licence links.

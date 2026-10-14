@@ -43,6 +43,7 @@ export function ResearchShell({
         <Link to="/lab/teams">Team comparison</Link>
         <Link to="/lab/groups">Hypothetical groups</Link>
         <Link to="/lab/recorded">Recorded cohort analytics</Link>
+        <Link to="/lab/profiles">Percentile profiles</Link>
         <Link to="/lab/shots">Recorded shot studio</Link>
         <Link to="/discover/recorded">Recorded cohort discovery</Link>
         <Link to="/history/calendar">Calendar game archive</Link>

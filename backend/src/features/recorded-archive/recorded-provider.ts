@@ -20,11 +20,14 @@ import {
   type RecordedTeamComparison,
   RecordedAnalyticsResponseSchema,
   type RecordedAnalyticsQuery,
+  type RecordedProfilesQuery,
+  RecordedProfilesResponseSchema,
 } from '@nba-performance-explorer/contracts';
 import { discoverRecorded } from './recorded-discovery.js';
 import { observedProgression } from './recorded-progression.js';
 import data from './recorded-snapshot.json' with { type: 'json' };
 import { analyzeRecordedPairs } from './recorded-statistics.js';
+import { normalizeRecordedProfiles } from './recorded-profiles.js';
 type Participant = TeamArchiveResponse['statistics']['regular-season'][number];
 function metricValue(
   rows: readonly Participant[],
@@ -157,6 +160,46 @@ export class RecordedArchiveProvider {
   readonly dataset = RecordedDatasetSchema.parse(data);
   rank(q: ArchiveRankingQuery) {
     return rankRecordedDataset(this.dataset, q);
+  }
+  profiles(q: RecordedProfilesQuery) {
+    const columns = q.metrics.map((metric) => {
+      const base = {
+        season: q.season,
+        scope: q.scope,
+        minGames: q.minGames,
+        metric,
+        page: 1,
+        pageSize: 50,
+      };
+      const first = this.rank(base),
+        rows = [...first.rows];
+      for (let page = 2; (page - 1) * 50 < first.total; page++)
+        rows.push(...this.rank({ ...base, page }).rows);
+      return { metric, rows, first };
+    });
+    const first = columns[0]!.first;
+    return RecordedProfilesResponseSchema.parse({
+      season: q.season,
+      scope: q.scope,
+      minGames: q.minGames,
+      metrics: q.metrics,
+      ...normalizeRecordedProfiles(columns, q.players),
+      sourceRows: first.sourceRows,
+      unknownScopeRows: first.unknownScopeRows,
+      snapshotCreatedAt: this.dataset.createdAt,
+      attributions: first.attributions,
+      provenance: {
+        ...first.provenance,
+        coverage:
+          'Recorded 2023-24 common supported-metric cohort; every category uses the same GP-qualified identity intersection. Incomplete historical source coverage.',
+        warnings: [
+          'Midrank percentile = 100 × (strictly lower values + half tied values) / common population. Competition rank counts strictly higher values plus one.',
+          'Population z-scores use the same common cohort and population SD; constant categories have z=0 and percentile=50. Missing or excluded players have no categories or plotted zeros.',
+          'Higher means numerically higher, not better. Steals/blocks are reported event counts, not defensive quality; radar area is not a player quality score.',
+          'Changing selected players does not change the cohort. Changing GP, scope or categories can change eligibility. No complete league, era-adjusted or official qualification claim.',
+        ],
+      },
+    });
   }
   analytics(q: RecordedAnalyticsQuery) {
     const collect = (metric: RecordedAnalyticsQuery['x']) => {

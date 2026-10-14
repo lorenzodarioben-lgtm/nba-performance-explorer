@@ -8,11 +8,31 @@ import {
   RecordedDiscoveryQuerySchema,
   RecordedCalendarQuerySchema,
   RecordedProgressionQuerySchema,
+  RecordedProfilesQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
 export function createRecordedRouter(provider: RecordedArchiveProvider | undefined) {
   const router = Router();
+  router.get('/profiles', (req, res) => {
+    const q = RecordedProfilesQuerySchema.safeParse(req.query);
+    if (!q.success)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_PROFILES',
+        'Choose one to four unique player IDs, three to six unique supported categories and a GP minimum.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    return res.json(provider.profiles(q.data));
+  });
+  router.all('/profiles', methodNotAllowedHandler);
   router.get('/leaders', (req, res) => {
     const query = ArchiveRankingQuerySchema.safeParse(req.query);
     if (!query.success)
