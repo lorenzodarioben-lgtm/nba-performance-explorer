@@ -22,6 +22,7 @@ import {
 import { WikiAttribution } from '../wiki-archive/WikiAttribution';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
+import { TeamSeasonDuel } from '../team-season/TeamSeasonDuel';
 const ids = (kind: 'groups' | 'teams') =>
   z
     .string()
@@ -384,6 +385,9 @@ export function RecordedLabsPage({ mode }: { mode: 'groups' | 'teams' }) {
           {mode === 'teams' && teams.data && (
             <>
               <TeamTape data={teams.data} />
+              <TeamSeasonDuel
+                teams={[teams.data.rows[0]!.team.id, teams.data.rows[1]!.team.id]}
+              />
               <ResearchTable label="Equal-scope recorded team comparison">
                 <table>
                   <caption>
