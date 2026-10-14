@@ -1,3 +1,61 @@
+# NBA Performance Explorer 3.0 — expansion handoff (live)
+
+> The live handoff for the 3.0 expansion. The 2.0 redesign handoff and the original Codex
+> engineering handoff follow below unchanged and stay authoritative for their scope.
+
+- **Branch:** `claude/nba-explorer-3-expansion`, cut from the approved 2.0 checkpoint `0aa2717`.
+  Never commit to `main`, `codex/nba-explorer-2-engine` or `claude/nba-explorer-design`; no
+  merge, PR to `main` or deploy.
+- **HEAD:** see `git log -1`; the last verified feature commit is listed in the log below.
+- **Evidence:** `docs/expansion3/VERIFICATION_LOG.md` (per-stage results) and
+  `docs/expansion3/FEATURE_INVENTORY.md` (inventory and backlog).
+- **Design:** the Arena & Film Room system is final. New modules reuse its tokens, slates,
+  tapes, scoreboard/statgrid/ladder modules and motion primitives; new CSS lives in
+  `frontend/src/design/intel.css` and `playoffs.css`.
+
+## Completed in 3.0
+
+| Stage | Scope                                                                       | Commit    |
+| ----- | --------------------------------------------------------------------------- | --------- |
+| 0     | 16 → 0 npm audit findings (in-range updates); Windows module-case self-test | `fd2d2c0` |
+| 1     | Team season intelligence (`/teams/:id/season`) and standings race           | `a9c6d0b` |
+| 2     | 2024 playoff bracket and series explorer (`/games/bracket`)                 | `7e8e2cb` |
+
+New APIs: `GET /api/recorded/team-season?team=`, `GET /api/recorded/standings-race?conference=`,
+`GET /api/games/bracket`. All derivations live in backend domain modules with unit tests; the UI
+only presents them.
+
+## Verified state
+
+- `npm run validate` exit 0 at `7e8e2cb`: 367 frontend and 427 backend tests, lint 0 errors
+  (13 pre-existing react-refresh warnings), typecheck and builds pass, module-case check passes.
+- `npm audit`: 0 vulnerabilities.
+- Visual checks at 1280 and 390 px for every new page (see the log). The Playwright e2e
+  smoke/axe suites have not yet been extended to the new routes or re-run on this branch.
+
+## Constraints and data notes
+
+- NBA Stats timed out from the development machine; new work uses the committed recorded
+  archives and the Wikipedia playoff snapshot. Quarantined games keep their slot but never get
+  a score. Rest, streaks and rolling margins are withheld when chronology is unknown.
+- Bracket winners require a fourth win in the series' last recorded game; rounds are derived
+  from team series order and cross-checked against NBA game-ID round digits. No seeds.
+- Commits carry no AI co-author trailer (owner preference).
+
+## Next actions (in order)
+
+1. Shot Studio: clickable zones linked to the event table, distance histogram, zone comparison
+   strip, saved local workspaces.
+2. Recorded player-season research card with cohort percentiles and transparent similarity.
+3. My NBA collections and notes; command search for teams and the new rooms.
+4. Extend `e2e/` route examples to the new pages; run smoke and axe; record results.
+
+Continuation: `git checkout claude/nba-explorer-3-expansion && npm ci && npm run validate`.
+For live checks run the backend on 3001 (`PORT=3001 npm run dev:backend`) and the frontend with
+`npm run dev:frontend`.
+
+---
+
 # Shot 2 — Arena & Film Room redesign (Claude design branch)
 
 > This section is the live handoff for the redesign. The engineering handoff below it is the
