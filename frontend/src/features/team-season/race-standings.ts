@@ -64,3 +64,21 @@ export function dateIndex(dates: readonly string[], date: string) {
   for (let i = 0; i < dates.length; i++) if (dates[i]! <= date) found = i;
   return found;
 }
+
+export type RaceView = 'above' | 'gb' | 'rank';
+
+/**
+ * The y value of every team on every race date for a chosen view: wins minus losses, games behind
+ * the observed leader, or the observed ladder position. Keyed by canonical team ID.
+ */
+export function raceSeries(teams: readonly RaceTeam[], view: RaceView, dates: number) {
+  const out = new Map<string, number[]>(teams.map((t) => [t.team.id, []]));
+  if (view === 'above') {
+    for (const t of teams) out.set(t.team.id, aboveFiveHundred(t));
+    return out;
+  }
+  for (let i = 0; i < dates; i++)
+    for (const row of standingsAt(teams, i))
+      out.get(row.team.id)!.push(view === 'gb' ? row.gamesBehind : row.rank);
+  return out;
+}

@@ -21,10 +21,11 @@ import { linear, niceTicks } from '../../charts/scale';
 import { useChartWidth } from '../../charts/useChartWidth';
 import { Segmented } from '../../ui/Segmented';
 import {
-  aboveFiveHundred,
   dateIndex,
+  raceSeries,
   standingsAt,
   type RaceRow,
+  type RaceView,
 } from './race-standings';
 import { signed } from './team-season-format';
 
@@ -33,6 +34,7 @@ const StateSchema = z
     conference: z.enum(['East', 'West']).optional(),
     team: CanonicalTeamIdSchema.optional(),
     date: GameDateSchema.optional(),
+    view: z.enum(['gb', 'rank']).optional(),
   })
   .strict();
 
@@ -96,6 +98,8 @@ export function StandingsRacePage() {
           conference={conference}
           team={state.data.team ?? null}
           date={state.data.date ?? null}
+          view={state.data.view ?? 'above'}
+          onView={(value) => update({ view: value === 'above' ? null : value }, true)}
           onConference={(value) =>
             update({ conference: value === 'East' ? null : value, team: null })
           }
@@ -113,6 +117,8 @@ function Race({
   conference,
   team,
   date,
+  view,
+  onView,
   onConference,
   onTeam,
   onDate,
@@ -122,6 +128,8 @@ function Race({
   conference: 'East' | 'West';
   team: string | null;
   date: string | null;
+  view: RaceView;
+  onView: (value: RaceView) => void;
   onConference: (value: 'East' | 'West') => void;
   onTeam: (value: string | null) => void;
   onDate: (value: string | null) => void;
@@ -169,6 +177,16 @@ function Race({
           value={conference}
           onChange={onConference}
         />
+        <Segmented
+          label="Race view"
+          options={[
+            { value: 'above', label: 'Above .500' },
+            { value: 'gb', label: 'Games behind' },
+            { value: 'rank', label: 'Ladder rank' },
+          ]}
+          value={view}
+          onChange={onView}
+        />
         <button
           type="button"
           className="btn btn--sm btn--primary"
@@ -206,6 +224,7 @@ function Race({
         <RaceChart
           data={data}
           index={index}
+          view={view}
           highlighted={highlighted}
           onTeam={onTeam}
           animate={allowed}
@@ -221,10 +240,15 @@ function Race({
       </div>
 
       <p className="lchart__note">
-        Lines plot wins minus losses after each date with a verified game. Order uses
-        observed win percentage, then wins; there are no official tiebreakers, and games
-        behind is computed from the observed records. A dagger marks a team with
-        quarantined games already on its schedule, which are not counted.
+        {view === 'above'
+          ? 'Lines plot wins minus losses after each date with a verified game.'
+          : view === 'gb'
+            ? 'Lines plot games behind the observed leader on each date; the leader sits on the top line.'
+            : 'Lines plot ladder position on each date; the solid rules mark 6th and 10th, the 2023–24 playoff and play-in cut-offs.'}{' '}
+        Order uses observed win percentage, then wins; there are no official
+        tiebreakers, and games behind is computed from the observed records. A dagger
+        marks a team with quarantined games already on its schedule, which are not
+        counted.
       </p>
       <SaveResearchButton
         kind="analysis"
@@ -251,12 +275,14 @@ const PAD = { top: 16, right: 44, bottom: 28, left: 40 };
 function RaceChart({
   data,
   index,
+  view,
   highlighted,
   onTeam,
   animate,
 }: {
   data: RecordedStandingsRaceResponse;
   index: number;
+  view: RaceView;
   highlighted: string | null;
   onTeam: (team: string | null) => void;
   animate: boolean;
@@ -265,19 +291,36 @@ function RaceChart({
   const [seenRef, seen] = useSeen<HTMLDivElement>();
   const [hover, setHover] = useState<string | null>(null);
   const height = width < 560 ? 320 : 520;
-  const series = useMemo(
-    () => data.teams.map((t) => ({ team: t.team, values: aboveFiveHundred(t) })),
-    [data.teams],
-  );
+  const series = useMemo(() => {
+    const values = raceSeries(data.teams, view, data.dates.length);
+    return data.teams.map((t) => ({ team: t.team, values: values.get(t.team.id)! }));
+  }, [data.teams, data.dates.length, view]);
   const all = series.flatMap((s) => s.values);
-  const lo = Math.min(-5, ...all);
-  const hi = Math.max(5, ...all);
+  // Above .500 rises upwards; games behind and rank put the leader at the top.
+  const inverted = view !== 'above';
+  const lo = view === 'above' ? Math.min(-5, ...all) : view === 'rank' ? 1 : 0;
+  const hi =
+    view === 'above' ? Math.max(5, ...all) : Math.max(view === 'rank' ? 2 : 1, ...all);
   const plotW = Math.max(60, width - PAD.left - PAD.right);
   const plotH = height - PAD.top - PAD.bottom;
   const count = data.dates.length;
   const x = (i: number) => PAD.left + (count <= 1 ? 0 : (i / (count - 1)) * plotW);
-  const y = linear([lo, hi], [PAD.top + plotH, PAD.top]);
-  const ticks = niceTicks(lo, hi, 5);
+  const y = linear(
+    [lo, hi],
+    inverted ? [PAD.top, PAD.top + plotH] : [PAD.top + plotH, PAD.top],
+  );
+  const ticks =
+    view === 'rank'
+      ? [1, 6, 10, data.teams.length].filter((t, i, a) => t <= hi && a.indexOf(t) === i)
+      : niceTicks(lo, hi, 5);
+  const fmt = (v: number) =>
+    view === 'above'
+      ? signed(v, 0)
+      : view === 'gb'
+        ? v === 0
+          ? '0'
+          : v.toFixed(1)
+        : `#${v}`;
   const focus = hover ?? highlighted;
   // One label per month, skipping a month whose first date would crowd the previous label.
   const months: { i: number; d: string }[] = [];
@@ -308,7 +351,12 @@ function RaceChart({
           {ticks.map((tick) => (
             <g key={tick}>
               <line
-                className={tick === 0 ? 'racechart__zero' : 'ch-grid'}
+                className={
+                  (view === 'above' && tick === 0) ||
+                  (view === 'rank' && (tick === 6 || tick === 10))
+                    ? 'racechart__zero'
+                    : 'ch-grid'
+                }
                 x1={PAD.left}
                 x2={PAD.left + plotW}
                 y1={y(tick)}
@@ -320,7 +368,7 @@ function RaceChart({
                 y={y(tick) + 3.5}
                 textAnchor="end"
               >
-                {signed(tick, 0)}
+                {fmt(tick)}
               </text>
             </g>
           ))}
@@ -369,7 +417,7 @@ function RaceChart({
                     x={x(index) + 8}
                     y={y(values[index] ?? 0) + 4}
                   >
-                    {team.abbreviation} {signed(values[index] ?? 0, 0)}
+                    {team.abbreviation} {fmt(values[index] ?? 0)}
                   </text>
                 ) : null}
               </g>

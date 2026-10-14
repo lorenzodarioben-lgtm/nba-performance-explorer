@@ -180,3 +180,33 @@ describe('standings race', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Invalid race view');
   });
 });
+
+describe('standings race views', () => {
+  it('derives games behind and ladder rank for every date from the same observed table', async () => {
+    const { raceSeries } = await import('./race-standings');
+    const { teams } = raceFixture();
+    const gb = raceSeries(teams, 'gb', 3);
+    const rank = raceSeries(teams, 'rank', 3);
+    // Date 1: DEN 1-0 leads LAL 0-1 by one game; date 2 tied 1-1; date 3 DEN 3-1, LAL 1-2.
+    expect(gb.get('nba:1610612743')).toEqual([0, 0, 0]);
+    expect(gb.get('nba:1610612747')).toEqual([1, 0, 1.5]);
+    expect(rank.get('nba:1610612743')).toEqual([1, 1, 1]);
+    expect(rank.get('nba:1610612747')).toEqual([2, 1, 2]);
+    expect(raceSeries(teams, 'above', 3).get('nba:1610612743')).toEqual([1, 0, 2]);
+  });
+
+  it('switches the race view through the URL', async () => {
+    server.use(http.get(RACE_URL, () => HttpResponse.json(raceFixture())));
+    renderApp('/standings/race?conference=West&view=rank');
+    const views = await screen.findByRole('group', { name: 'Race view' });
+    expect(within(views).getByRole('button', { name: 'Ladder rank' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    expect(screen.getByText(/the solid rules mark 6th and 10th/)).toBeInTheDocument();
+    fireEvent.click(within(views).getByRole('button', { name: 'Games behind' }));
+    expect(
+      await screen.findByText(/games behind the observed leader on each date/),
+    ).toBeInTheDocument();
+  });
+});
