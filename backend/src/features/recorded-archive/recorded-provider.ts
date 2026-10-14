@@ -27,9 +27,13 @@ import {
   RecordedTeamSeasonResponseSchema,
   RecordedStandingsRaceResponseSchema,
   type RecordedTeamSeasonQuery,
+  type RecordedPlayerSeasonQuery,
+  RecordedPlayerSeasonResponseSchema,
+  ProfileMetricSchema,
   type RecordedStandingsRaceQuery,
 } from '@nba-performance-explorer/contracts';
 import { buildStandingsRace, buildTeamSeason } from './recorded-team-season.js';
+import { buildPlayerSeason } from './recorded-player-season.js';
 import { discoverRecorded } from './recorded-discovery.js';
 import { observedProgression } from './recorded-progression.js';
 import data from './recorded-snapshot.json' with { type: 'json' };
@@ -173,8 +177,11 @@ export class RecordedArchiveProvider {
   rank(q: ArchiveRankingQuery) {
     return rankRecordedDataset(this.dataset, q);
   }
-  profiles(q: RecordedProfilesQuery) {
-    const columns = q.metrics.map((metric) => {
+  /** Every qualified row for each metric, read page by page from the ranking. */
+  private profileColumns(
+    q: Pick<RecordedProfilesQuery, 'season' | 'scope' | 'minGames' | 'metrics'>,
+  ) {
+    return q.metrics.map((metric) => {
       const base = {
         season: q.season,
         scope: q.scope,
@@ -189,6 +196,42 @@ export class RecordedArchiveProvider {
         rows.push(...this.rank({ ...base, page }).rows);
       return { metric, rows, first };
     });
+  }
+  playerSeason(q: RecordedPlayerSeasonQuery) {
+    const metrics = ProfileMetricSchema.options;
+    const columns = this.profileColumns({
+      season: q.season,
+      scope: 'regular-season',
+      minGames: q.minGames,
+      metrics: [...metrics],
+    });
+    return RecordedPlayerSeasonResponseSchema.parse({
+      season: q.season,
+      scope: 'regular-season',
+      playerId: q.player,
+      ...buildPlayerSeason(this.dataset, columns, q.player, q.minGames),
+      minGames: q.minGames,
+      metrics,
+      snapshotCreatedAt: this.dataset.createdAt,
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'regular-season',
+        coverage:
+          'One player in the recorded 2023-24 team-page cohort: published per-game rows, percentiles and nearest seasons within the same GP-qualified common cohort. Not a complete league or official qualification.',
+        warnings: [
+          'Percentile = 100 × (strictly lower + half of ties) / cohort size; rank counts strictly higher values plus one. Higher means numerically higher, not better.',
+          'Similar seasons: Euclidean distance between population z-scores on the six per-game categories, all weighted equally, inside the same cohort. A descriptive resemblance, not a quality or role judgement.',
+          'Traded players are combined only from raw totals; without them a category is unavailable and the player sits outside the cohort. Rows are never rebuilt from rounded averages.',
+        ],
+      },
+    });
+  }
+  profiles(q: RecordedProfilesQuery) {
+    const columns = this.profileColumns(q);
     const first = columns[0]!.first;
     return RecordedProfilesResponseSchema.parse({
       season: q.season,

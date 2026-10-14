@@ -61,6 +61,7 @@ const ROOMS = [
   { key: 'games', label: 'Game research', suffix: '/games' },
   { key: 'career', label: 'Career', suffix: '/career' },
   { key: 'shooting', label: 'Shooting', suffix: '/shooting' },
+  { key: 'archive', label: '2023–24', suffix: '/archive' },
 ] as const;
 
 function useShotArchivePlayers() {

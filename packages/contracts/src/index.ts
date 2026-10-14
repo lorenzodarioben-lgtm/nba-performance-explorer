@@ -24,6 +24,7 @@ export * from './recorded-profiles.js';
 export * from './recorded-team-rankings.js';
 export * from './recorded-team-season.js';
 export * from './playoff-bracket.js';
+export * from './recorded-player-season.js';
 
 export {
   PlayerSearchResponseSchema,

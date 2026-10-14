@@ -486,3 +486,186 @@
     flex-basis: 100%;
   }
 }
+
+/* ------------------------------------------------------------ player 2023-24 room */
+
+.pseason {
+  padding-bottom: 48px;
+}
+.fr .pseason__lede {
+  max-width: 70ch;
+  margin: 0 0 16px;
+  color: var(--chalk-2);
+}
+.pseason__board {
+  margin-top: 4px;
+}
+@media (max-width: 760px) {
+  .pseason__board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.fr .pseason__credits {
+  font-size: 13px;
+  color: var(--chalk-3);
+}
+.pctboard {
+  display: grid;
+  gap: 2px;
+}
+.pctboard__row {
+  display: grid;
+  grid-template-columns: 3rem 3.5rem minmax(0, 1fr) 3.5rem minmax(9rem, 13rem);
+  align-items: center;
+  gap: 14px;
+  min-height: 44px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--line);
+  transition: background-color var(--dur-quick) var(--ease-film);
+}
+.pctboard__row:hover {
+  background: var(--film);
+}
+.pctboard__label {
+  font: 800 1.25rem/1 var(--display);
+}
+.pctboard__value {
+  font: 700 1.25rem/1 var(--display);
+  text-align: right;
+}
+.pctboard__track {
+  position: relative;
+  height: 10px;
+  background: rgb(255 255 255 / 0.05);
+}
+.pctboard__track i {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--red), var(--red-hi));
+}
+.pctboard__mid {
+  position: absolute;
+  left: 50%;
+  top: -4px;
+  bottom: -4px;
+  z-index: 1;
+  width: 1px;
+  background: var(--chalk-3);
+}
+.pctboard__pct {
+  font: 700 1.125rem/1 var(--display);
+  color: var(--red-hi);
+}
+.pctboard__meta {
+  font: 500 11px/1.3 var(--mono);
+  color: var(--chalk-3);
+}
+@media (max-width: 760px) {
+  .pctboard__row {
+    grid-template-columns: 2.6rem 3rem minmax(0, 1fr) 3rem;
+    padding: 6px 4px;
+  }
+  .pctboard__meta {
+    grid-column: 2 / -1;
+  }
+}
+
+.simgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fr .simgrid > li {
+  padding: 0;
+}
+.simgrid > li::before {
+  content: none !important;
+}
+.simcard {
+  display: grid;
+  gap: 8px;
+  height: 100%;
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: var(--coal);
+  transition:
+    border-color var(--dur-quick) var(--ease-film),
+    transform var(--dur-quick) var(--ease-snap);
+}
+.simcard:hover {
+  border-color: var(--line-3);
+  transform: translateY(-2px);
+}
+.simcard__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.fr .simcard__name {
+  font: 800 1.35rem/1 var(--display);
+  color: var(--chalk);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.fr .simcard__name:hover {
+  color: var(--red-hi);
+}
+.simcard__dist {
+  font: 600 12px/1 var(--mono);
+  color: var(--chalk-2);
+}
+.simcard__teams {
+  font: 500 11px/1 var(--mono);
+  color: var(--chalk-3);
+}
+.simcard__diffs {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
+}
+.simcard__diff {
+  position: relative;
+  display: block;
+  height: 54px;
+  border-top: 1px solid transparent;
+}
+.simcard__diff::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--line-3);
+}
+.simcard__diff b {
+  position: absolute;
+  bottom: -14px;
+  left: 0;
+  right: 0;
+  font: 500 9px/1 var(--mono);
+  text-align: center;
+  color: var(--chalk-3);
+}
+.simcard__diff i {
+  position: absolute;
+  left: 25%;
+  right: 25%;
+}
+.simcard__diff i.is-up {
+  bottom: 50%;
+  background: var(--red-hi);
+}
+.simcard__diff i.is-down {
+  top: 50%;
+  background: var(--chalk-3);
+}
+.fr .simcard__go {
+  margin-top: 12px;
+  font-size: 13px;
+}

@@ -15,7 +15,7 @@ import { bracketColumns, playoffRecord, seriesForGame } from './bracket-layout';
 // Compile the subject before assertion timers; the app still renders its actual lazy route.
 import './PlayoffBracketPage';
 
-const URL = 'http://localhost/api/games/bracket';
+const API = 'http://localhost/api/games/bracket';
 // Sixteen synthetic identities: E0–E7 East, W0–W7 West. Not NBA teams or results.
 const team = (conf: 'E' | 'W', i: number) => ({
   id: `nba:${conf === 'E' ? 1610612700 + i : 1610612710 + i}`,
@@ -156,7 +156,7 @@ describe('playoff bracket layout', () => {
 
 describe('playoff bracket page', () => {
   it('shows the champion and opens a series story from the bracket and the URL', async () => {
-    server.use(http.get(URL, () => HttpResponse.json(bracket())));
+    server.use(http.get(API, () => HttpResponse.json(bracket())));
     renderApp('/games/bracket');
     expect(
       await screen.findByText('2024 NBA champion · from recorded games'),
@@ -181,7 +181,7 @@ describe('playoff bracket page', () => {
   it('resolves a linked game to its series', async () => {
     const data = bracket();
     const target = data.series[0]!;
-    server.use(http.get(URL, () => HttpResponse.json(data)));
+    server.use(http.get(API, () => HttpResponse.json(data)));
     renderApp(`/games/bracket?game=${target.games[1]!.game.id}`);
     expect(
       await screen.findByRole('heading', {
@@ -201,7 +201,7 @@ describe('playoff bracket page', () => {
         'The recorded games do not form a complete four-round bracket (series per round: 8/4/2/0).',
       ],
     };
-    server.use(http.get(URL, () => HttpResponse.json(partial)));
+    server.use(http.get(API, () => HttpResponse.json(partial)));
     renderApp('/games/bracket');
     expect(await screen.findByText('Partial bracket')).toBeInTheDocument();
     expect(screen.getByText(/series per round: 8\/4\/2\/0/)).toBeInTheDocument();

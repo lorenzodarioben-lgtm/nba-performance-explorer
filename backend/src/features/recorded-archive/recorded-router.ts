@@ -12,6 +12,7 @@ import {
   RecordedTeamRankingsQuerySchema,
   RecordedTeamSeasonQuerySchema,
   RecordedStandingsRaceQuerySchema,
+  RecordedPlayerSeasonQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
@@ -322,5 +323,24 @@ export function createRecordedRouter(provider: RecordedArchiveProvider | undefin
     return res.json(provider.standingsRace(q.data));
   });
   router.all('/standings-race', methodNotAllowedHandler);
+  router.get('/player-season', (req, res) => {
+    const q = RecordedPlayerSeasonQuerySchema.safeParse(req.query);
+    if (!q.success || Object.values(req.query).some(Array.isArray))
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_PLAYER_SEASON',
+        'Choose one NBA player ID and a minimum of 1 to 82 games for the recorded 2023-24 season.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    return res.json(provider.playerSeason(q.data));
+  });
+  router.all('/player-season', methodNotAllowedHandler);
   return router;
 }

@@ -153,6 +153,11 @@ const TeamSeasonPage = lazy(() =>
     default: m.TeamSeasonPage,
   })),
 );
+const RecordedSeasonRoom = lazy(() =>
+  import('./features/player-season/RecordedSeasonRoom').then((m) => ({
+    default: m.RecordedSeasonRoom,
+  })),
+);
 const PlayoffBracketPage = lazy(() =>
   import('./features/playoffs/PlayoffBracketPage').then((m) => ({
     default: m.PlayoffBracketPage,
@@ -205,6 +210,10 @@ const PLAYER_HUB_ROOMS: readonly { path: string; element: ReactNode }[] = [
   {
     path: 'shooting',
     element: lazyRoute('Loading shooting research…', <ShootingResearchPage />),
+  },
+  {
+    path: 'archive',
+    element: lazyRoute('Loading recorded season…', <RecordedSeasonRoom />),
   },
 ];
 
