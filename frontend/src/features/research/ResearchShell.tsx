@@ -40,6 +40,8 @@ export function ResearchShell({
         <Link to="/discover">Discovery</Link>
         <Link to="/leaders/recorded">Recorded cohort leaders</Link>
         <Link to="/history/records">Recorded game extrema</Link>
+        <Link to="/lab/teams">Team comparison</Link>
+        <Link to="/lab/groups">Hypothetical groups</Link>
         <Link to="/my-nba">My NBA</Link>
         <Link to="/">Original home</Link>
       </nav>

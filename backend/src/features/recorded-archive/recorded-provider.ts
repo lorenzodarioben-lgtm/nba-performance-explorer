@@ -8,6 +8,11 @@ import {
   RecordedRecordsResponseSchema,
   type VerifiedRecordedGame,
   type RecordedRecordsResponse,
+  RecordedDirectorySchema,
+  HypotheticalGroupSchema,
+  RecordedTeamComparisonSchema,
+  type HypotheticalGroup,
+  type RecordedTeamComparison,
 } from '@nba-performance-explorer/contracts';
 import data from './recorded-snapshot.json' with { type: 'json' };
 type Participant = TeamArchiveResponse['statistics']['regular-season'][number];
@@ -140,10 +145,163 @@ export class RecordedArchiveProvider {
   rank(q: ArchiveRankingQuery) {
     return rankRecordedDataset(this.dataset, q);
   }
-  records(query: {
-    team?: string | undefined;
-    metric: RecordedRecordsResponse['metric'];
-  }): RecordedRecordsResponse {
+  directory() {
+    const players = new Map<
+      string,
+      {
+        playerId: string;
+        name: string;
+        teams: RecordedDataset['snapshots'][number]['team'][];
+      }
+    >();
+    for (const t of this.dataset.snapshots)
+      for (const p of [
+        ...t.roster,
+        ...t.statistics['regular-season'],
+        ...t.statistics.playoffs,
+        ...t.statistics['source-unspecified'],
+      ]) {
+        if (!p.nbaPlayerId) continue;
+        const item = players.get(p.nbaPlayerId) ?? {
+          playerId: p.nbaPlayerId,
+          name: p.name,
+          teams: [],
+        };
+        if (!item.teams.some((team) => team.id === t.team.id)) item.teams.push(t.team);
+        players.set(p.nbaPlayerId, item);
+      }
+    return RecordedDirectorySchema.parse({
+      season: '2023-24',
+      teams: this.dataset.snapshots.map((s) => s.team),
+      players: [...players.values()].sort(
+        (a, b) => a.name.localeCompare(b.name) || a.playerId.localeCompare(b.playerId),
+      ),
+      attributions: this.dataset.snapshots.map((s) => s.attribution),
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'directory',
+        coverage:
+          'Recorded2023-24 identities with explicit CC0 NBA ID facts; source-listed team membership only, not a current roster.',
+        warnings: [
+          'Community-maintained recorded source; exact IDs rather than name guesses. No observed lineup possessions or current availability metadata.',
+        ],
+      },
+    });
+  }
+  hypothetical(
+    ids: readonly string[],
+    scope: 'regular-season' | 'playoffs',
+  ): HypotheticalGroup {
+    const directory = this.directory();
+    const members = ids.map((playerId) => {
+      const identity = directory.players.find((p) => p.playerId === playerId);
+      const entries = this.dataset.snapshots.flatMap((t) =>
+        t.statistics[scope]
+          .filter((p) => p.nbaPlayerId === playerId)
+          .map((p) => ({ p, team: t.team, credit: t.attribution })),
+      );
+      const rows = entries.map((e) => e.p);
+      return {
+        playerId,
+        name: identity?.name ?? null,
+        status: !identity
+          ? ('identity-unavailable' as const)
+          : rows.length
+            ? ('available' as const)
+            : ('scope-records-unavailable' as const),
+        teams: identity?.teams ?? [],
+        gamesPlayed: rows.length ? rows.reduce((s, r) => s + r.gamesPlayed, 0) : null,
+        pointsPerGame: rows.length ? metricValue(rows, 'pointsPerGame') : null,
+        reboundsPerGame: rows.length ? metricValue(rows, 'reboundsPerGame') : null,
+        assistsPerGame: rows.length ? metricValue(rows, 'assistsPerGame') : null,
+        individualRecordedPoints: rows.length ? metricValue(rows, 'points') : null,
+        sources: entries.map((e) => e.credit),
+      };
+    });
+    return HypotheticalGroupSchema.parse({
+      kind: 'hypothetical',
+      season: '2023-24',
+      scope,
+      observedLineup: false,
+      jointPerformance: null,
+      members,
+      availableMembers: members.filter((m) => m.status === 'available').length,
+      sumOfIndividualRecordedPoints: members.every(
+        (m) => m.individualRecordedPoints !== null,
+      )
+        ? members.reduce((s, m) => s + m.individualRecordedPoints!, 0)
+        : null,
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope,
+        coverage:
+          'Hypothetical five identities; independent recorded2023-24 individual summaries only.',
+        warnings: [
+          'No joint games/minutes/possessions/on-off/ratings supplied or inferred, even if members share a source-listed team.',
+          'Any sum is a sum of independent individual season counts across separate games, not performance together. Missing raw counts remain unavailable.',
+          'Unknown scope/missing identities/unsupported trade metrics remain unavailable; no average-to-total multiplication.',
+        ],
+      },
+    });
+  }
+  compareTeams(ids: readonly string[]): RecordedTeamComparison {
+    const { verified, conflictingGameIds, unpairedGameIds } = this.reconcileGames();
+    const rows = ids.map((id) => {
+      const source = this.dataset.snapshots.find((t) => t.team.id === id)!;
+      const games = verified.filter((g) => g.home.id === id || g.away.id === id);
+      const own = (g: VerifiedRecordedGame) =>
+          g.home.id === id ? g.homeScore : g.awayScore,
+        opp = (g: VerifiedRecordedGame) =>
+          g.home.id === id ? g.awayScore : g.homeScore;
+      const wins = games.filter((g) => own(g) > opp(g)).length;
+      const avg = (fn: (g: VerifiedRecordedGame) => number) =>
+        games.length ? games.reduce((s, g) => s + fn(g), 0) / games.length : null;
+      return {
+        team: source.team,
+        observedGames: games.length,
+        wins,
+        losses: games.length - wins,
+        winPercentage: games.length ? wins / games.length : null,
+        pointsPerGame: avg(own),
+        opponentPointsPerGame: avg(opp),
+        finalMarginPerGame: avg((g) => own(g) - opp(g)),
+        source: source.attribution,
+      };
+    });
+    return RecordedTeamComparisonSchema.parse({
+      season: '2023-24',
+      scope: 'regular-season',
+      rows,
+      headToHead: verified
+        .filter((g) => ids.includes(g.home.id) && ids.includes(g.away.id))
+        .sort((a, b) => a.date.localeCompare(b.date)),
+      quarantinedGameIds: [...conflictingGameIds, ...unpairedGameIds],
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'regular-season',
+        coverage:
+          'Equal2023-24 regular-season definitions; both-source-agreed game cohorts only. Observed GP can differ after quarantine.',
+        warnings: [
+          'W/L and scoring averages refer only to observed source-agreed games, not official complete-season standings. Sample counts retained.',
+          'Final margin is not net rating; possession, shooting-attempt and in-game event metrics absent.',
+          'Head-to-head games use actual source IDs and agreement on teams/date/final scores; conflicts are not corrected by guessing.',
+        ],
+      },
+    });
+  }
+  private reconcileGames() {
     const pairs = new Map<
       string,
       {
@@ -191,6 +349,13 @@ export class RecordedArchiveProvider {
         sources: [home.credit, away.credit],
       });
     }
+    return { verified, conflictingGameIds, unpairedGameIds };
+  }
+  records(query: {
+    team?: string | undefined;
+    metric: RecordedRecordsResponse['metric'];
+  }): RecordedRecordsResponse {
+    const { verified, conflictingGameIds, unpairedGameIds } = this.reconcileGames();
     const filtered = verified.filter(
       (g) => !query.team || g.home.id === query.team || g.away.id === query.team,
     );

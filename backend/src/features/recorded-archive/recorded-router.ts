@@ -2,6 +2,8 @@ import { Router } from 'express';
 import {
   ArchiveRankingQuerySchema,
   RecordedRecordsQuerySchema,
+  HypotheticalQuerySchema,
+  RecordedTeamComparisonQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
@@ -65,5 +67,72 @@ export function createRecordedRouter(provider: RecordedArchiveProvider | undefin
     return res.json(provider.records(query.data));
   });
   router.all('/records', methodNotAllowedHandler);
+  router.get('/directory', (req, res) => {
+    if (Object.keys(req.query).length)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_DIRECTORY',
+        'This recorded directory has no query parameters.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    return res.json(provider.directory());
+  });
+  router.all('/directory', methodNotAllowedHandler);
+  router.get('/hypothetical', (req, res) => {
+    const q = HypotheticalQuerySchema.safeParse(req.query);
+    if (!q.success)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_HYPOTHETICAL_GROUP',
+        'Choose exactly five different recorded NBA identities and supported scope.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    return res.json(provider.hypothetical(q.data.players, q.data.scope));
+  });
+  router.all('/hypothetical', methodNotAllowedHandler);
+  router.get('/team-comparison', (req, res) => {
+    const q = RecordedTeamComparisonQuerySchema.safeParse(req.query);
+    if (!q.success)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_TEAM_COMPARISON',
+        'Choose two different source team IDs.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    if (
+      q.data.teams.some(
+        (id) => !provider.dataset.snapshots.some((t) => t.team.id === id),
+      )
+    )
+      return sendApiError(
+        res,
+        404,
+        'TEAM_NOT_FOUND',
+        'Team not found in recorded data.',
+      );
+    return res.json(provider.compareTeams(q.data.teams));
+  });
+  router.all('/team-comparison', methodNotAllowedHandler);
   return router;
 }

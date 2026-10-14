@@ -53,3 +53,5 @@ Historical team dataset:30/30 source-listed rosters and regular-result tables st
 Shooting-count page expands B01/H02 using already sourced raw totals. G remains DATA_BLOCKED for authentic shot-event coordinates/zones/maps; aggregate shot types are not geographic zones and are not promoted as a completed G vertical.
 
 Recorded historical source now supports pageable qualified cohort rankings, numeric metric selection, declared-scope filters, bounded licensed CSV, source-cohort midrank percentiles and2023–24 source-agreed game extrema. Unknown Chicago statistical scope, missing identifiers, unavailable attempts and unsupported trade values are excluded explicitly. Current/live league data, complete official qualification/population and broad all-time archives remain incomplete.
+
+Recorded labs add source-agreed team/head-to-head comparison and strictly hypothetical5-identity groups. No actual shared minutes, possessions, ratings, substitutions or on/off observations exist. J02–J07 remain DATA_BLOCKED; no joint metrics are inferred.

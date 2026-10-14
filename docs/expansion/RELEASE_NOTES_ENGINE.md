@@ -67,3 +67,5 @@ Historical team source adds source-listed rosters,82 reconciled regular results 
 Raw shooting-type page adds attempt qualification, weighted percentages, attempt/point shares and made-shot score reconciliation. Regular/playoff scopes separate, actual counts only. No coordinates, fake heatmaps or mandatory cost.
 
 Recorded2023–24 source-cohort leaderboard and game-extrema pages add qualification/search/team/scope/page controls, exact source evidence, missingness/trade exclusions, cohort percentile formula and bounded licensed CSV. Genuine static data is explicitly labeled;9 conflicting/2 unpaired games quarantined. Full658 tests and six genuine local recorded API/SPA reads pass. No current/official/all-time claim or original design/provider change.
+
+Source-agreed historical team comparison/head-to-head and explicitly hypothetical5-player identities added. Missing raw counts remain unavailable; joint statistics always unavailable. Full665 tests and5 local genuine API/SPA acceptance reads pass; no upstream fanout or costs.
