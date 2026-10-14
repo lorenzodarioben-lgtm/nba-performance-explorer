@@ -207,7 +207,7 @@ export const FORMULAS: readonly Formula[] = [
     area: 'Playoffs',
     formula: 'A team’s fourth win in the series’ final recorded game',
     definition:
-      'A series is every recorded game between two teams. Rounds come from each team’s own order of series and are cross-checked against the round digit in NBA game IDs.',
+      'A series is every recorded game between two teams. Rounds come from each team’s own order of series and are cross-checked against the round digit in NBA game IDs. Seeds are read from the source page’s series headings only when every team keeps one seed and seeds are unique within a conference.',
     missing:
       'A series that does not end on a fourth win is incomplete and names no winner; the bracket then shows series by round without a tree.',
     example: 'Games won A, B, A, A, A → A wins 4–1 in five.',

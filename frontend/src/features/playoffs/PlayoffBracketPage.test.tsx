@@ -88,6 +88,7 @@ function series(
     totalPoints: aFirst ? [416, 392] : [392, 416],
     overtimeGames: 0,
     homeWins: 4,
+    seeds: null,
   };
 }
 function bracket(): PlayoffBracketResponse {
@@ -119,6 +120,7 @@ function bracket(): PlayoffBracketResponse {
     champion: team('E', 0),
     recordedGames: 60,
     issues: [],
+    seedsPublished: false,
     attribution: leagueFixture.attribution,
     conferenceSource: leagueFixture.attribution,
     provenance: { ...leagueFixture.provenance, scope: 'playoffs' },
@@ -249,5 +251,27 @@ describe('series context on game pages', () => {
     second.unmount();
     view(finals.games[3]!.game.id);
     expect(await screen.findByText('EAX wins the series 4–0')).toBeInTheDocument();
+  });
+});
+
+describe('seeded bracket layout', () => {
+  it('orders each column like the official bracket when seeds are published', () => {
+    const data = bracket();
+    // Synthetic seeds: team letter A–H is seed 1–8 in its conference.
+    const seedOf = (abbr: string) => abbr.charCodeAt(1) - 64;
+    const seeded = data.series.map((s) => ({
+      ...s,
+      seeds: [seedOf(s.teams[0].abbreviation), seedOf(s.teams[1].abbreviation)] as [
+        number,
+        number,
+      ],
+    }));
+    const east = bracketColumns(seeded).find((c) => c.key === 'east-1')!;
+    expect(east.pairs.flat().map((s) => [...s.seeds!].sort((a, b) => a - b))).toEqual([
+      [1, 8],
+      [4, 5],
+      [2, 7],
+      [3, 6],
+    ]);
   });
 });

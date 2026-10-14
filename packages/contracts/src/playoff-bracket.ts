@@ -48,6 +48,10 @@ export const PlayoffSeriesSchema = z
     ]),
     overtimeGames: z.number().int().min(0).max(7),
     homeWins: z.number().int().min(0).max(7),
+    /** Conference seeds for [teams[0], teams[1]] as published in the source's series headings. */
+    seeds: z
+      .tuple([z.number().int().min(1).max(10), z.number().int().min(1).max(10)])
+      .nullable(),
   })
   .strict();
 export type PlayoffSeries = z.infer<typeof PlayoffSeriesSchema>;
@@ -62,6 +66,8 @@ export const PlayoffBracketResponseSchema = z
     champion: DirectoryTeamSchema.nullable(),
     recordedGames: z.number().int().min(0).max(150),
     issues: z.array(z.string().max(300)).max(30),
+    /** Seeds come only from the source page's series headings and pass consistency checks. */
+    seedsPublished: z.boolean(),
     attribution: WikiAttributionSchema,
     conferenceSource: WikiAttributionSchema,
     provenance: DataProvenanceSchema,

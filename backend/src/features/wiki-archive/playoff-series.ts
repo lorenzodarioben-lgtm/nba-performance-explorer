@@ -1,4 +1,9 @@
-import type { ArchiveGame, PlayoffSeries } from '@nba-performance-explorer/contracts';
+import type {
+  ArchiveGame,
+  DirectoryTeam,
+  PlayoffSeries,
+} from '@nba-performance-explorer/contracts';
+import { isElement, parsePage, text, walk } from './html-tables.js';
 import { recordedConferences } from '../recorded-archive/recorded-team-rankings.js';
 
 type Team = ArchiveGame['home'];
@@ -11,13 +16,63 @@ const conferenceOf = (id: string) =>
 /** NBA playoff game IDs encode the round in their eighth digit (0042300401: round 4). */
 export const sourceIdRound = (game: ArchiveGame) => Number(game.sourceId[7]);
 
+const SEED_HEADING = /^\((\d{1,2})\)\s+(.+?)\s+vs\.\s+\((\d{1,2})\)\s+(.+)$/;
+
+/**
+ * Conference seeds as the source page publishes them in its series headings, e.g.
+ * "(1) Boston Celtics vs. (8) Miami Heat". Accepted only when every team keeps one seed, each
+ * named team is an exact directory name, and seeds are unique within each conference;
+ * otherwise no seeds are returned and the reason is reported.
+ */
+export function parsePublishedSeeds(
+  html: string,
+  teams: readonly DirectoryTeam[],
+): { seeds: Map<string, number> | null; issue: string | null } {
+  const byName = new Map(teams.map((t) => [t.name, t]));
+  const seeds = new Map<string, number>();
+  for (const node of parsePage(html).flatMap((root) => walk(root))) {
+    if (!isElement(node) || !/^h[2-6]$/.test(node.tagName)) continue;
+    const match = SEED_HEADING.exec(text(node).replace(/\s+/g, ' ').trim());
+    if (!match) continue;
+    for (const [seedText, name] of [
+      [match[1]!, match[2]!],
+      [match[3]!, match[4]!],
+    ] as const) {
+      const team = byName.get(name);
+      if (!team)
+        return { seeds: null, issue: `Seed heading names an unknown team: ${name}.` };
+      const seed = Number(seedText);
+      const known = seeds.get(team.id);
+      if (known !== undefined && known !== seed)
+        return {
+          seeds: null,
+          issue: `${team.abbreviation} carries two different seeds.`,
+        };
+      seeds.set(team.id, seed);
+    }
+  }
+  if (!seeds.size)
+    return { seeds: null, issue: 'The source page publishes no series seeds.' };
+  for (const conference of ['East', 'West'] as const) {
+    const list = [...seeds]
+      .filter(([id]) => conferenceOf(id) === conference)
+      .map(([, s]) => s);
+    if (new Set(list).size !== list.length)
+      return { seeds: null, issue: `Two ${conference} teams share a published seed.` };
+  }
+  return { seeds, issue: null };
+}
+
 /**
  * Groups recorded playoff games into series (one per team pair), counts wins in date order and
  * names a winner only when a team reaches four wins in the series' final recorded game. Rounds
  * come from each team's own sequence of series; the two teams must agree. Nothing is inferred
  * for a series the recorded games do not finish.
  */
-export function buildPlayoffBracket(games: readonly ArchiveGame[]) {
+export function buildPlayoffBracket(
+  games: readonly ArchiveGame[],
+  seeds: ReadonlyMap<string, number> | null = null,
+) {
   const issues: string[] = [];
   const pairs = new Map<string, ArchiveGame[]>();
   for (const game of games) {
@@ -117,6 +172,10 @@ export function buildPlayoffBracket(games: readonly ArchiveGame[]) {
       totalPoints: [points(d.teams[0]), points(d.teams[1])],
       overtimeGames: d.games.filter((g) => g.quarters.length > 4).length,
       homeWins: d.games.filter((g) => winnerOf(g).id === g.home.id).length,
+      seeds:
+        seeds && seeds.has(d.teams[0].id) && seeds.has(d.teams[1].id)
+          ? [seeds.get(d.teams[0].id)!, seeds.get(d.teams[1].id)!]
+          : null,
     };
   });
 

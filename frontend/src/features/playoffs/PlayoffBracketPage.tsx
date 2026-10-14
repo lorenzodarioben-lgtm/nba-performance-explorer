@@ -177,7 +177,13 @@ function Bracket({
         id="bracket-title"
         title="The bracket"
         tapes={TAPES}
-        meta={['15 series', 'West · Finals · East']}
+        meta={[
+          '15 series',
+          'West · Finals · East',
+          data.seedsPublished
+            ? 'Seeds as published by the source'
+            : 'Seeds not published',
+        ]}
       />
       <div className="bracket">
         {columns.map((column) => (
@@ -205,6 +211,10 @@ function Bracket({
           </div>
         ))}
       </div>
+      <p className="lchart__note">
+        Each card lists the better seed first when the source publishes seeds. Pips run
+        in game order and are filled when the upper team won.
+      </p>
     </section>
   );
 }
@@ -262,8 +272,17 @@ function SeriesCard({
   on: boolean;
   onSelect: (series: PlayoffSeries) => void;
 }) {
-  const [a, b] = series.teams;
-  const label = `${a.name} ${series.wins[0]}, ${b.name} ${series.wins[1]}${series.winner ? `, ${series.winner.name} won in ${series.games.length}` : ', undecided'}`;
+  // The better published seed is listed first, as on a broadcast bracket; otherwise the order
+  // is the series' own (by abbreviation).
+  const order: [0 | 1, 0 | 1] =
+    series.seeds && series.seeds[1] < series.seeds[0] ? [1, 0] : [0, 1];
+  const top = series.teams[order[0]];
+  const seed = (i: 0 | 1) => (series.seeds ? `seed ${series.seeds[i]} ` : '');
+  const label = `${order
+    .map((i) => `${seed(i)}${series.teams[i].name} ${series.wins[i]}`)
+    .join(
+      ', ',
+    )}${series.winner ? `, ${series.winner.name} won in ${series.games.length}` : ', undecided'}`;
   return (
     <button
       type="button"
@@ -272,14 +291,20 @@ function SeriesCard({
       aria-label={label}
       onClick={() => onSelect(series)}
     >
-      {series.teams.map((team, i) => {
+      {order.map((i) => {
+        const team = series.teams[i];
         const won = series.winner?.id === team.id;
         return (
           <span
             key={team.id}
             className={`seriescard__team ${won ? 'is-won' : series.winner ? 'is-out' : ''}`}
           >
-            <b>{team.abbreviation}</b>
+            <b>
+              {series.seeds ? (
+                <span className="seriescard__seed">{series.seeds[i]}</span>
+              ) : null}
+              {team.abbreviation}
+            </b>
             <em className="num">{series.wins[i]}</em>
           </span>
         );
@@ -288,7 +313,7 @@ function SeriesCard({
         {series.games.map((g) => (
           <i
             key={g.game.id}
-            className={g.winner.id === a.id ? 'pip pip--w' : 'pip'}
+            className={g.winner.id === top.id ? 'pip pip--w' : 'pip'}
             title={`Game ${g.number}: ${g.winner.abbreviation}`}
           />
         ))}
@@ -310,7 +335,9 @@ function SeriesPanel({
     const bScore = g.game.home.id === a.id ? g.game.awayScore : g.game.homeScore;
     return aScore - bScore;
   });
-  const title = `${a.abbreviation} vs ${b.abbreviation}`;
+  const title = series.seeds
+    ? `(${series.seeds[0]}) ${a.abbreviation} vs (${series.seeds[1]}) ${b.abbreviation}`
+    : `${a.abbreviation} vs ${b.abbreviation}`;
   return (
     <section className="pmod seriespanel" aria-labelledby="series-title">
       <Slate

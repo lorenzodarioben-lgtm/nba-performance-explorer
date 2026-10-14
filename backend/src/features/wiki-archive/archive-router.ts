@@ -11,7 +11,7 @@ import {
   PlayoffBracketResponseSchema,
 } from '@nba-performance-explorer/contracts';
 import { recordedConferences } from '../recorded-archive/recorded-team-rankings.js';
-import { buildPlayoffBracket } from './playoff-series.js';
+import { buildPlayoffBracket, parsePublishedSeeds } from './playoff-series.js';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import { SourceWorkBudget } from '../research/source-work-budget.js';
 import { staticTeamDirectoryProvider } from '../teams/team-directory-provider.js';
@@ -154,11 +154,18 @@ export function createArchiveRouter(
       );
     const data = await provider.getGames();
     const provenance = archiveProvenance(data.page, 'playoffs', provider.source);
+    const published = parsePublishedSeeds(
+      data.page.html,
+      await staticTeamDirectoryProvider.listTeams(),
+    );
+    const derived = buildPlayoffBracket(data.games, published.seeds);
     res.json(
       PlayoffBracketResponseSchema.parse({
         season: query.data.season,
         scope: 'playoffs',
-        ...buildPlayoffBracket(data.games),
+        ...derived,
+        issues: published.issue ? [...derived.issues, published.issue] : derived.issues,
+        seedsPublished: published.seeds !== null,
         recordedGames: data.games.length,
         attribution: attribution(data.page),
         conferenceSource: recordedConferences.source,
@@ -169,7 +176,7 @@ export function createArchiveRouter(
           warnings: [
             ...provenance.warnings,
             'A series is every recorded game between two teams; a winner is named only when the recorded games end with a fourth win. Rounds come from each team’s own order of series and are cross-checked against the round digit in NBA game IDs.',
-            'Seeds and home-court order are not in this source slice and are not shown. Conference alignment uses the sourced 2023-24 facts.',
+            'Seeds are read only from the source page’s series headings and must be consistent (one seed per team, unique within a conference); otherwise none are shown. Conference alignment uses the sourced 2023-24 facts.',
           ],
         },
       }),

@@ -28,12 +28,17 @@ export function bracketColumns(series: readonly PlayoffSeries[]): BracketColumn[
     finals
       .feeders!.map((id) => (id ? byId.get(id) : undefined))
       .find((s) => s?.conference === conference);
+  // With published seeds, each pair follows the official layout: the series holding the better
+  // seed on top (1 v 8 above 4 v 5). Without seeds the feeder order is kept as derived.
+  const bestSeed = (x: PlayoffSeries) => (x.seeds ? Math.min(...x.seeds) : 99);
   const expand = (list: readonly PlayoffSeries[]) =>
     list.flatMap((s) =>
-      (s.feeders ?? []).flatMap((id) => {
-        const feeder = id ? byId.get(id) : undefined;
-        return feeder ? [feeder] : [];
-      }),
+      (s.feeders ?? [])
+        .flatMap((id) => {
+          const feeder = id ? byId.get(id) : undefined;
+          return feeder ? [feeder] : [];
+        })
+        .sort((x, y) => bestSeed(x) - bestSeed(y)),
     );
   const sideColumns = (conference: 'East' | 'West') => {
     const r3 = conferenceFinal(conference);

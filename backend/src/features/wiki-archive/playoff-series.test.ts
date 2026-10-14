@@ -206,3 +206,53 @@ describe('playoff series and bracket derivation', () => {
     expect((await request(createApp()).get('/api/games/bracket')).status).toBe(503);
   });
 });
+
+describe('published series seeds', () => {
+  const heading = (a: number, an: string, b: number, bn: string) =>
+    `<div class="mw-heading"><h4 id="x">(${a}) ${an} vs. (${b}) ${bn}</h4></div>`;
+  const page = (...headings: string[]) => `<div>${headings.join('<p>Text</p>')}</div>`;
+  const B = team('BOS'),
+    M = team('MIA'),
+    C = team('CLE'),
+    D = team('DEN');
+
+  it('reads seeds from series headings, consistently across rounds', async () => {
+    const { parsePublishedSeeds } = await import('./playoff-series.js');
+    const html = page(
+      heading(1, B.name, 8, M.name),
+      heading(1, B.name, 4, C.name),
+      '<h4>Notable occurrences</h4>',
+    );
+    const { seeds, issue } = parsePublishedSeeds(html, teams);
+    expect(issue).toBeNull();
+    expect(Object.fromEntries(seeds!)).toEqual({ [B.id]: 1, [M.id]: 8, [C.id]: 4 });
+    const result = buildPlayoffBracket(series(1, 0, B, M), seeds);
+    expect(result.series[0]!.seeds).toEqual(
+      result.series[0]!.teams[0].id === B.id ? [1, 8] : [8, 1],
+    );
+    expect(buildPlayoffBracket(series(1, 0, B, D), seeds).series[0]!.seeds).toBeNull();
+  });
+
+  it('withholds every seed when the headings disagree, name unknown teams or collide', async () => {
+    const { parsePublishedSeeds } = await import('./playoff-series.js');
+    expect(
+      parsePublishedSeeds(
+        page(heading(1, B.name, 8, M.name), heading(2, B.name, 4, C.name)),
+        teams,
+      ),
+    ).toEqual({ seeds: null, issue: 'BOS carries two different seeds.' });
+    expect(
+      parsePublishedSeeds(page(heading(1, 'Boston', 8, M.name)), teams).issue,
+    ).toMatch(/unknown team: Boston/);
+    expect(
+      parsePublishedSeeds(
+        page(heading(1, B.name, 8, M.name), heading(1, C.name, 4, team('NYK').name)),
+        teams,
+      ),
+    ).toEqual({ seeds: null, issue: 'Two East teams share a published seed.' });
+    expect(parsePublishedSeeds('<p>No headings</p>', teams)).toEqual({
+      seeds: null,
+      issue: 'The source page publishes no series seeds.',
+    });
+  });
+});

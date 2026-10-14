@@ -361,3 +361,12 @@
   margin-left: auto;
   font-size: 14px;
 }
+
+.seriescard__seed {
+  display: inline-block;
+  min-width: 1.1em;
+  margin-right: 6px;
+  font: 600 10px/1 var(--mono);
+  color: var(--chalk-3);
+  vertical-align: 3px;
+}
