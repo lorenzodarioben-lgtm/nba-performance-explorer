@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
 import {
   MAX_RESEARCH_JSON_CHARS,
   type ResearchBookmark,
@@ -10,6 +9,7 @@ import styles from '../research/research.module.css';
 import { mergeResearch, parseResearchJson, researchRepository } from './local-research';
 import { MotionSettingPanel } from './MotionSettingPanel';
 import { RecentHistoryPanel } from './RecentHistoryPanel';
+import { SavedResearchBoard } from './SavedResearchBoard';
 import { recentHistoryRepository } from './recent-history';
 
 export function MyNbaPage() {
@@ -79,32 +79,13 @@ export function MyNbaPage() {
       </form>
       <h2>Saved research ({store.data.bookmarks.length}/100)</h2>
       <p>Maximum 100 bookmarks and 100,000 serialized JSON characters.</p>
-      {store.data.bookmarks.length === 0 ? (
-        <p>No saved research yet.</p>
-      ) : (
-        <ul>
-          {store.data.bookmarks.map((item) => (
-            <li key={`${item.kind}:${item.path}`}>
-              <Link to={item.path}>{item.label}</Link> ({item.kind}){' '}
-              <button
-                onClick={() => {
-                  setStore(
-                    researchRepository.save({
-                      version: 1,
-                      bookmarks: store.data.bookmarks.filter(
-                        (b) => b.kind !== item.kind || b.path !== item.path,
-                      ),
-                    }),
-                  );
-                  setMessage('Bookmark removed.');
-                }}
-              >
-                Remove {item.label}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      <SavedResearchBoard
+        data={store.data}
+        onSave={(next, note) => {
+          setStore(researchRepository.save(next));
+          setMessage(note);
+        }}
+      />
       <h2>Import and export</h2>
       <button
         onClick={() => {

@@ -38,6 +38,8 @@ export const ResearchBookmarkSchema = z
     label: z.string().trim().min(1).max(100),
     path: InternalResearchPathSchema,
     createdAt: z.iso.datetime(),
+    /** The reader's own annotation; optional, so earlier version-1 files stay valid. */
+    note: z.string().trim().max(500).optional(),
   })
   .strict();
 export type ResearchBookmark = z.infer<typeof ResearchBookmarkSchema>;

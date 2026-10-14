@@ -1,4 +1,4 @@
-import { fireEvent, screen, within } from '@testing-library/react';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { renderApp } from '../../test/renderApp';
@@ -158,5 +158,103 @@ describe('My NBA preferences journey', () => {
     fireEvent.click(within(group).getByRole('button', { name: 'Full' }));
     expect(document.documentElement.dataset.motion).toBe('full');
     window.localStorage.removeItem('npe.motion-preference.v1');
+  });
+});
+
+describe('My NBA research board', () => {
+  const seed = (bookmarks: object[]) =>
+    localStorage.setItem(
+      RESEARCH_STORAGE_KEY,
+      JSON.stringify({ version: 1, bookmarks }),
+    );
+  const at = (day: number) => `2026-10-${String(day).padStart(2, '0')}T10:00:00.000Z`;
+
+  it('searches by name, note and destination, filters by kind and sorts', async () => {
+    localStorage.clear();
+    seed([
+      {
+        kind: 'team',
+        label: 'Celtics season',
+        path: '/teams/nba:1610612738/season',
+        createdAt: at(1),
+      },
+      {
+        kind: 'analysis',
+        label: 'Corner threes',
+        path: '/lab/shots?zone=Left+Corner+3',
+        createdAt: at(3),
+        note: 'Check against Houston',
+      },
+      {
+        kind: 'player',
+        label: 'Jokic 2023-24',
+        path: '/players/203999/archive',
+        createdAt: at(2),
+      },
+    ]);
+    renderApp('/my-nba');
+    const search = await screen.findByLabelText('Search saved research');
+    const labels = () =>
+      screen.getAllByRole('listitem').flatMap((li) => {
+        const link = li.querySelector('.savedcard__label');
+        return link ? [link.textContent] : [];
+      });
+    expect(labels()).toEqual(['Corner threes', 'Jokic 2023-24', 'Celtics season']);
+    expect(screen.getByText('Players · 2023–24 recorded season')).toBeInTheDocument();
+    expect(screen.getByText('Teams · 2023–24 season')).toBeInTheDocument();
+    fireEvent.change(search, { target: { value: 'houston' } });
+    expect(labels()).toEqual(['Corner threes']);
+    fireEvent.change(search, { target: { value: 'shot studio' } });
+    expect(labels()).toEqual(['Corner threes']);
+    fireEvent.change(search, { target: { value: '' } });
+    fireEvent.change(screen.getByLabelText('Order saved research'), {
+      target: { value: 'name' },
+    });
+    expect(labels()).toEqual(['Celtics season', 'Corner threes', 'Jokic 2023-24']);
+    fireEvent.click(screen.getByRole('button', { name: 'Teams 1' }));
+    expect(labels()).toEqual(['Celtics season']);
+  });
+
+  it('renames and annotates an item and keeps the note through export', async () => {
+    localStorage.clear();
+    seed([
+      {
+        kind: 'team',
+        label: 'Celtics',
+        path: '/teams/nba:1610612738/season',
+        createdAt: at(1),
+      },
+    ]);
+    renderApp('/my-nba');
+    fireEvent.click(await screen.findByRole('button', { name: 'Edit Celtics' }));
+    fireEvent.change(screen.getByLabelText('Name'), {
+      target: { value: 'Celtics 64-win season' },
+    });
+    fireEvent.change(screen.getByLabelText('Note'), {
+      target: { value: 'Look at the February streak.' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Save changes' }));
+    expect(
+      await screen.findByRole('link', { name: 'Celtics 64-win season' }),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Look at the February streak.')).toBeInTheDocument();
+    const stored = JSON.parse(localStorage.getItem(RESEARCH_STORAGE_KEY)!);
+    expect(stored.bookmarks[0]).toMatchObject({
+      label: 'Celtics 64-win season',
+      note: 'Look at the February streak.',
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Export preferences JSON' }));
+    expect(
+      (screen.getByLabelText('Exported preferences JSON') as HTMLTextAreaElement).value,
+    ).toContain('Look at the February streak.');
+    // Clearing the note removes the field rather than storing an empty string.
+    fireEvent.click(screen.getByRole('button', { name: 'Edit Celtics 64-win season' }));
+    fireEvent.change(screen.getByLabelText('Note'), { target: { value: '  ' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Save changes' }));
+    await waitFor(() =>
+      expect(
+        JSON.parse(localStorage.getItem(RESEARCH_STORAGE_KEY)!).bookmarks[0],
+      ).not.toHaveProperty('note'),
+    );
   });
 });

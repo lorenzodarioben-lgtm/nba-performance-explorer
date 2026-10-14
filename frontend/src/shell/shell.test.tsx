@@ -92,10 +92,16 @@ describe('masthead', () => {
     await waitFor(() => expect(input).toHaveFocus());
 
     fireEvent.change(input, { target: { value: 'warriors' } });
+    // The hub is the first team result; the season room follows it as its own option.
     const option = await within(dialog).findByRole('option', {
-      name: /Golden State Warriors/,
+      name: /Golden State Warriors.*Team hub/,
     });
     expect(option).toHaveAttribute('aria-selected', 'true');
+    expect(
+      within(dialog).getByRole('option', {
+        name: /Golden State Warriors · 2023–24 season/,
+      }),
+    ).toBeInTheDocument();
     fireEvent.keyDown(input, { key: 'Enter' });
 
     await waitFor(() =>
@@ -177,5 +183,93 @@ describe('landings and fallbacks', () => {
         within(main).getByRole('link', { name: new RegExp(name) }),
       ).toBeInTheDocument();
     }
+  });
+});
+
+describe('search reach (3.0)', () => {
+  it('folds case and accents', async () => {
+    const { fold } = await import('./fold');
+    expect(fold('Luka Dončić')).toBe('luka doncic');
+    expect(fold('Nikola Jokić').includes(fold('JOKIC'))).toBe(true);
+    expect(fold('Alperen Şengün')).toBe('alperen sengun');
+  });
+
+  it('finds recorded archive players by accent-free name and opens their 2023–24 room', async () => {
+    server.use(
+      http.get('http://localhost/api/recorded/directory', () =>
+        HttpResponse.json({
+          season: '2023-24',
+          teams: Array.from({ length: 30 }, (_, i) => ({
+            id: `nba:${1610612737 + i}`,
+            sourceId: `${1610612737 + i}`,
+            abbreviation: `T${String.fromCharCode(65 + Math.floor(i / 26))}${String.fromCharCode(65 + (i % 26))}`,
+            name: `Team ${i}`,
+          })),
+          players: [
+            {
+              playerId: '1629029',
+              name: 'Luka Dončić',
+              teams: [
+                {
+                  id: 'nba:1610612742',
+                  sourceId: '1610612742',
+                  abbreviation: 'DAL',
+                  name: 'Dallas Mavericks',
+                },
+              ],
+            },
+          ],
+          attributions: Array.from({ length: 30 }, () => ({
+            title: '2023–24 Dallas Mavericks season',
+            revision: 1,
+            url: 'https://en.wikipedia.org/w/index.php?oldid=1',
+            license: 'CC BY-SA 4.0',
+            licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+            adapted: true,
+          })),
+          provenance: {
+            source: 'wikipedia',
+            servedAt: '2026-10-13T16:00:00.000Z',
+            retrievedAt: null,
+            asOf: null,
+            isLive: false,
+            scope: 'regular-season',
+            coverage: 'Recorded directory.',
+            warnings: [],
+          },
+        }),
+      ),
+    );
+    renderApp('/');
+    fireEvent.keyDown(document.body, { key: '/' });
+    const dialog = await screen.findByRole('dialog', { name: 'Search' });
+    fireEvent.change(within(dialog).getByRole('combobox'), {
+      target: { value: 'doncic' },
+    });
+    const option = await within(dialog).findByRole('option', {
+      name: /Luka Dončić.*DAL · 2023–24 recorded season/,
+    });
+    fireEvent.click(option);
+    await waitFor(() =>
+      expect(screen.queryByRole('dialog', { name: 'Search' })).not.toBeInTheDocument(),
+    );
+    expect(
+      await screen.findByRole('heading', { name: '2023–24 recorded season' }),
+    ).toBeInTheDocument();
+  });
+
+  it('matches tools by the words people use for them', async () => {
+    renderApp('/');
+    fireEvent.keyDown(document.body, { key: '/' });
+    const dialog = await screen.findByRole('dialog', { name: 'Search' });
+    const input = within(dialog).getByRole('combobox');
+    fireEvent.change(input, { target: { value: 'postseason' } });
+    expect(
+      await within(dialog).findByRole('option', { name: /Playoff bracket/ }),
+    ).toBeInTheDocument();
+    fireEvent.change(input, { target: { value: 'heatmap' } });
+    expect(
+      await within(dialog).findByRole('option', { name: /Shot Studio/ }),
+    ).toBeInTheDocument();
   });
 });
