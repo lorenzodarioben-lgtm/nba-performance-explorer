@@ -54,3 +54,5 @@ Shot milestone: protected original frontend components/styles/assets/legacy prov
 Discovery/calendar checkpoint adds lazyplainroutes and scopedfunctionalforms/tables. Protected originalpaths/assets/provider/render remain empty diff vs cd557e4. No original style/interaction redesign or production deployment.
 
 Historical awards/progression adds only lazy research routes/forms/scoped SVG tables and independent providers. Protected original frontend paths/assets, existing NBA provider and render configuration remain unchanged versus baseline cd557e4. No image or media reuse, global styling redesign, push or deployment.
+
+Research-lineup checkpoint preserves protected original components/global CSS/assets/provider/render files versus cd557e4. New plain route uses existing scoped research styles; native members/source links/quantities and mobile containment verified. Byte-copy build change affects only new recorded assets; no original image or branding replacement. No pixel-comparison or production deployment claim.

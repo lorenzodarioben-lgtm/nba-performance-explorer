@@ -9,3 +9,6 @@ docs/PROJECT_SPEC.md
 docs/tasks/
 
 .impeccable/hook.cache.json
+
+# Immutable compact recorded research data; preserve source import checksum.
+backend/src/features/lineup-study/lineup-study-snapshot.json

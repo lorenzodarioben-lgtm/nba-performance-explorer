@@ -17,6 +17,7 @@ export const DataSourceSchema = z.enum([
   'wikidata',
   'wikipedia',
   'kaggle-cc0',
+  'open-research',
 ]);
 export type DataSource = z.infer<typeof DataSourceSchema>;
 

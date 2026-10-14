@@ -16,6 +16,7 @@ import { WikiArchiveClient } from './features/wiki-archive/wiki-client.js';
 import { RecordedArchiveProvider } from './features/recorded-archive/recorded-provider.js';
 import { createShotArchiveProvider } from './features/shot-archive/shot-provider.js';
 import { WikipediaAwardsProvider } from './features/history/history-awards-provider.js';
+import { createLineupStudyProvider } from './features/lineup-study/lineup-study-provider.js';
 
 const defaultPort = 3001;
 const configuredPort = Number.parseInt(process.env.PORT ?? `${defaultPort}`, 10);
@@ -47,6 +48,7 @@ const app = createApp(createPlayerProvider(config), {
   recordedArchiveProvider: new RecordedArchiveProvider(),
   shotArchiveProvider: await createShotArchiveProvider(),
   awardsProvider: new WikipediaAwardsProvider(wikiClient),
+  lineupStudyProvider: await createLineupStudyProvider(),
   ...(config.mode === 'nba-stats'
     ? {
         totalsProvider: new NbaSeasonTotalsProvider(

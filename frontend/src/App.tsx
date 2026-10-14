@@ -116,6 +116,11 @@ const RecordedProgressionPage = lazy(() =>
     default: m.RecordedProgressionPage,
   })),
 );
+const LineupStudyPage = lazy(() =>
+  import('./features/lineup-study/LineupStudyPage').then((m) => ({
+    default: m.LineupStudyPage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -125,6 +130,20 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/lab/lineups"
+            element={
+              <Suspense
+                fallback={
+                  <p role="status" className="pt-24 text-white">
+                    Loading research lineups…
+                  </p>
+                }
+              >
+                <LineupStudyPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/history/progression"
             element={

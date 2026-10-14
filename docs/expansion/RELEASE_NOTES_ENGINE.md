@@ -77,3 +77,5 @@ Recorded shot studio `/lab/shots` now supports authentic partial2018 playoff fie
 Added recorded cohort similarity, auditable threshold-category queries/random qualified targets and source-agreed calendar games with leap-day/team filters. Existing recorded source only; no new networksource/dependency/mandatorycost. Histories/bookmarks/sharedURLs preserve queryfilters.
 
 Added separate historicalyearlyaward source preservingmissingrecipients/coaches/finalist distinction; source-agreedobserved record-through-date progression anddailytrend/gapchart withexacttable. Single2023-24historicalscope, transparentwindows/quarantine/samplethresholds; noalltime/within-day/possession claims.
+
+Added plain research-lineup browser/member lookup/shared-minute qualification/signed PM sorting, two-group comparison and source game evidence with saved URLs. Source is explicitly researcher-reconstructed2017-18 data, with one incomplete overtime game quarantined. Unknown NBA IDs/possession ratings remain unavailable. Exact-byte packaging/runtime source checks and709-test gate pass; no original design/provider/cost/deployment change.

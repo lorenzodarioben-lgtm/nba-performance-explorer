@@ -28,6 +28,8 @@ import type { ShotArchiveProvider } from './features/shot-archive/shot-provider.
 import { createShotRouter } from './features/shot-archive/shot-router.js';
 import { createAwardsRouter } from './features/history/history-awards-router.js';
 import type { HistoricalAwardsProvider } from './features/history/history-awards-provider.js';
+import type { LineupStudyProvider } from './features/lineup-study/lineup-study-provider.js';
+import { createLineupStudyRouter } from './features/lineup-study/lineup-study-router.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
 import { healthRouter } from './routes/health.js';
 
@@ -83,6 +85,7 @@ export function createApp(
     recordedArchiveProvider?: RecordedArchiveProvider;
     shotArchiveProvider?: ShotArchiveProvider;
     awardsProvider?: HistoricalAwardsProvider;
+    lineupStudyProvider?: LineupStudyProvider;
   } = {},
 ): Express {
   const application = express();
@@ -92,6 +95,10 @@ export function createApp(
   application.use(express.json());
   application.use('/api/health', healthRouter);
   application.use('/api/shots', createShotRouter(options.shotArchiveProvider));
+  application.use(
+    '/api/research-lineups',
+    createLineupStudyRouter(options.lineupStudyProvider),
+  );
   application.use(
     '/api/history',
     createAwardsRouter(options.awardsProvider, researchBudget),
