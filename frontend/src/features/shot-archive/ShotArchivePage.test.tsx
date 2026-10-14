@@ -175,6 +175,9 @@ describe('recorded shot studio', () => {
     expect(exported).toContain('dots only this exact page');
     expect(exported).not.toContain('aria-hidden');
     expect(exported).toContain('viewBox="-270 -900 540 990"');
+    const reopened = new DOMParser().parseFromString(exported, 'image/svg+xml');
+    expect(reopened.querySelector('parsererror')).toBeNull();
+    expect(reopened.documentElement.namespaceURI).toBe('http://www.w3.org/2000/svg');
     expect(svg).toHaveAttribute('aria-hidden', 'true');
   });
   it('renders observed make/miss marks with exact table parity and source/coverage evidence', async () => {

@@ -78,7 +78,12 @@ export function shotPageCsv(data: ShotResponse) {
 }
 export function shotSvgExport(svg: SVGSVGElement, data: ShotResponse, label: string) {
   const copy = svg.cloneNode(true) as SVGSVGElement;
-  copy.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  copy.removeAttribute('xmlns');
+  copy.setAttributeNS(
+    'http://www.w3.org/2000/xmlns/',
+    'xmlns',
+    'http://www.w3.org/2000/svg',
+  );
   copy.removeAttribute('aria-hidden');
   copy.setAttribute('role', 'img');
   const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');

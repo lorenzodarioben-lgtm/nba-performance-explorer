@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-10-14T13:11:40.743478+00:00",
+  "status": "PASS",
+  "environment": "local-genuine-CC0-shot-response-and-existing-jsdom",
+  "shotPlayerId": "201939",
+  "filteredAttempts": 261,
+  "sourceHashIncluded": true,
+  "sourceLicenceIncluded": true,
+  "exportReopensAsValidXML": true,
+  "browserDownloadWaitUsed": false,
+  "fix": "Namespace-aware xmlns declaration avoids duplicate attributes."
+}
