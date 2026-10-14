@@ -3,7 +3,7 @@ import { useEffect, useRef, type ReactNode, type RefObject } from 'react';
 
 import type { PlayerProfile } from '@nba-performance-explorer/contracts';
 
-import { Court } from '../../charts/Court';
+import { BasketballCourt } from '../../charts/BasketballCourt';
 import { KineticHeadline, Reveal, usePointerDepth } from '../../motion/choreography';
 import { useMotionAllowed } from '../../motion/MotionPreference';
 import { easings } from '../../motion/tokens';
@@ -154,7 +154,7 @@ export function PlayerProfileHero({
             className="phero__court"
             style={allowed ? { y: scrollPhotoY, opacity: scrollFade } : {}}
           >
-            <Court side="bottom" depth={300} floor={false} />
+            <BasketballCourt side="bottom" depth={300} floor={false} />
           </motion.div>
         )}
         <span className="phero__glow" aria-hidden="true" />

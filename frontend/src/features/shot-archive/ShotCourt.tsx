@@ -1,7 +1,7 @@
 import type { ShotAttempt, ShotResponse } from '@nba-performance-explorer/contracts';
 import type { Ref } from 'react';
 
-import { Court } from '../../charts/Court';
+import { BasketballCourt } from '../../charts/BasketballCourt';
 import { COURT, zoneAreas, type SourceZone } from '../../charts/court';
 
 export type ShotView = 'dots' | 'density' | 'zones';
@@ -53,7 +53,7 @@ export function ShotCourt({
   const located = shots.filter((shot) => shot.x !== null && shot.y !== null);
   const zoneTotal = group.zones.reduce((sum, zone) => sum + zone.attempts, 0);
   return (
-    <Court
+    <BasketballCourt
       side="bottom"
       depth={CROP}
       svgRef={svgRef}
@@ -205,6 +205,6 @@ export function ShotCourt({
           </g>
         );
       }}
-    </Court>
+    </BasketballCourt>
   );
 }

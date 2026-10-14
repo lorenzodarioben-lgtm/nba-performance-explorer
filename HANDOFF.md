@@ -51,12 +51,16 @@ Final verified state:
    verification log.
    - Re-express colour or geometry assertions as `data-*` hooks rather than deleting them.
    - Never add URL params outside the backend contracts.
-4. Run Prettier from the repository root (`npx prettier --write <paths>`). Run from a
+4. Module names must not differ only by case. `court.ts` (geometry) and
+   `BasketballCourt.tsx` (component) once shared the stem `Court`/`court`, and that blanked
+   the app on Windows. `npm run check:module-case`, part of `validate`, fails on any such
+   collision and on any import that resolves differently on a case-insensitive filesystem.
+5. Run Prettier from the repository root (`npx prettier --write <paths>`). Run from a
    workspace folder, it misses `.prettierignore` and reformats the immutable
    `lineup-study-snapshot.json`.
-5. Animate only `transform` and `opacity`, and never set React state per frame. Use motion
+6. Animate only `transform` and `opacity`, and never set React state per frame. Use motion
    values for scroll and pointer effects.
-6. After each change, append its results to the verification log. Commit with the session
+7. After each change, append its results to the verification log. Commit with the session
    trailers and push with `git push -u origin claude/nba-explorer-design`.
 
 ## Known limitations and open items
@@ -78,6 +82,12 @@ Final verified state:
   alongside components. There are no errors.
 - **Production checks.** Production-host reachability and deployment are not verified, and are
   not authorized on this branch.
+- **Fixed: Windows startup failure.** The app was blank on Windows at `436cb60`, caused by
+  `charts/Court.tsx` sitting beside `charts/court.ts`. It is fixed by renaming the
+  component to `BasketballCourt` and is guarded by `check:module-case`. Details are in the
+  verification log's hotfix entry.
+- **Cold-start preview race.** Opening the homepage before the backend listens can leave the
+  game preview saying its archive is unreachable until a reload. The page itself renders.
 - The motion preference, item L10 in the Codex ledger, is now delivered on My NBA.
 
 ---

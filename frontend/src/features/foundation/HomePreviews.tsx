@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
 
-import { Court } from '../../charts/Court';
+import { BasketballCourt } from '../../charts/BasketballCourt';
 import { Reveal } from '../../motion/choreography';
 import { Icon } from '../../ui/Icon';
 import { Tape, type TapeSpec } from '../../ui/Tape';
@@ -94,7 +94,7 @@ function ShotPreview() {
         <Unavailable />
       ) : (
         <>
-          <Court side="bottom" className="preview__court">
+          <BasketballCourt side="bottom" className="preview__court">
             {(projection) =>
               shots.map((shot) => {
                 const [x, y] = projection.point(shot.x as number, shot.y as number);
@@ -120,7 +120,7 @@ function ShotPreview() {
                 );
               })
             }
-          </Court>
+          </BasketballCourt>
           {group ? (
             <p className="preview__fact">
               <b>{group.attempts}</b> recorded attempts ·{' '}

@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { useEffect, useRef, type RefObject } from 'react';
 import { Link } from 'react-router';
 
-import { Court } from '../../charts/Court';
+import { BasketballCourt } from '../../charts/BasketballCourt';
 import {
   Reveal,
   Stagger,
@@ -88,7 +88,7 @@ function Hero({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null>
         <span className="homehero__glow" aria-hidden="true" />
         <span className="homehero__shade" aria-hidden="true" />
         <span className="homehero__lines" aria-hidden="true">
-          <Court side="bottom" depth={300} floor={false} />
+          <BasketballCourt side="bottom" depth={300} floor={false} />
         </span>
       </div>
 

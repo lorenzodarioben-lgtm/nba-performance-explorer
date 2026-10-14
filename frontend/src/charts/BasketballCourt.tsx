@@ -29,7 +29,7 @@ const safeId = (id: string) => id.replace(/[^a-zA-Z0-9_-]/g, '');
  * `court.ts`; children receive the projection so marks are placed from raw recorded coordinates.
  * When it first comes into view the lines draw in, as if being taped onto the floor.
  */
-export function Court({
+export function BasketballCourt({
   side = 'top',
   depth,
   children,

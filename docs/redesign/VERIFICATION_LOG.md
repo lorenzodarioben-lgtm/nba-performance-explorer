@@ -386,3 +386,59 @@ licence and React-native layout/presence primitives; no second animation library
   - Playwright: **117/117**, i.e. smoke 78/78 (desktop and phone) and axe 39/39 routes with
     zero serious/critical violations. Axe scans once at desktop width; its 39 phone entries
     are skipped by design.
+
+## Hotfix — blank page on Windows (case-only module names)
+
+- **Defect (release-blocking, reported on Windows at `436cb60`):** after `npm ci` and
+  `npm run dev`, both servers started but `http://localhost:5173` stayed black. Chrome showed
+  `Uncaught SyntaxError: The requested module '/src/charts/Court.ts' does not provide an export
+named 'Court'` (from `HomePreviews.tsx:10`).
+- **Root cause:** `frontend/src/charts/` held two modules whose names differ only by case:
+  `Court.tsx` (the court component, added in Stage 1) and `court.ts` (court geometry). Four
+  files imported the component without an extension (`'../../charts/Court'`). Vite tries
+  `.ts` before `.tsx`, so on a case-insensitive filesystem (Windows, default macOS) the lookup
+  `Court.ts` matched `court.ts`, which has no `Court` export, and the app failed to start. On
+  Linux `Court.ts` does not exist, so resolution fell through to `Court.tsx`. Every check ran
+  on Linux, so typecheck, unit tests, build and the Playwright suites all passed.
+- **Reproduced on Linux before the fix:**
+  - A case-insensitive mount was not possible here: the kernel lacks Unicode case folding
+    and vfat is unavailable.
+  - Instead, a shadow copy of `frontend/` was built showing what a case-insensitive
+    filesystem shows: wherever two stems differ only by case, each spelling answers for
+    each extension, so `charts/Court.ts` exists with `court.ts`'s contents.
+  - On that view, `vite build` failed with `"Court" is not exported by
+"src/charts/Court.ts"` (four errors, one per importer).
+  - The dev server in Chromium threw the reported error verbatim. The homepage and Shot
+    Studio rendered nothing (no h1, zero text) under both full and reduced motion.
+- **Fix:**
+  - The component module is now `charts/BasketballCourt.tsx`, exporting `BasketballCourt`
+    (`git mv`, so history follows). The geometry module stays `charts/court.ts`.
+  - All four importers are updated: `FoundationPage`, `HomePreviews`, `PlayerProfileHero`
+    and `ShotCourt`.
+  - Repository audit: this was the only case-only collision. No other file names, module
+    stems or folder names in the repository differ only by case.
+- **Regression check (`npm run check:module-case`, now part of `npm run validate`):**
+  - `scripts/check-module-case.mjs` is dependency-free. It fails when two entries in a
+    folder differ only by case, or when two modules (or a module and a folder) share an
+    import stem ignoring case.
+  - It also resolves every relative import case-sensitively and with case-insensitive
+    lookups, in both Vite's and TypeScript's extension order, and fails if the two disagree
+    or a specifier only matches when case is ignored.
+  - Its `--self-test` recreates this defect and the fixed layout, plus a mis-cased
+    specifier and a module-versus-folder clash.
+  - On the unmodified `436cb60` tree it fails with the collision and all four importers in
+    both orders. On the fixed tree it passes, scanning 61 folders, 364 source files and
+    1,086 relative imports.
+- **Verification after the fix:**
+  - **Fresh `npm run dev`, Chromium, Full and Reduced motion:** home, Shot Studio
+    (`/lab/shots?players=201939`) and a no-photo player hub (`/players/1628973`, whose hero
+    draws the court) each load with no page errors, console errors or failed responses.
+    Each renders its h1 and body text and draws its courts: home 2 courts and 100 shot
+    marks, Shot Studio 1 court and 100 shot marks, player hub 1 court.
+  - **Case-folded view of the fixed tree:** no aliases arise, `vite build` passes, and the
+    same six browser runs pass.
+  - `npm run validate`, Playwright and the commit are recorded in the entry below.
+- **Separate observation, not fixed here:** if the page is opened before the backend is
+  listening (cold `npm run dev`), the homepage's game preview can get one 503 from the dev
+  proxy and say its archive is unreachable until a reload. The page itself renders; once
+  the backend is up there are no failed responses.
