@@ -41,6 +41,24 @@ export function summarizeShots(shots: readonly ShotAttempt[], minAttempts: numbe
       attempts >= minAttempts ? (2 * makes + threeMakes) / attempts : null,
   };
 }
+/** Distance bins in whole source feet: [0, 2], [3, 5] … [27, 29], then 30 and beyond. */
+export const SHOT_DISTANCE_BIN_FEET = 3;
+export function distanceProfile(shots: readonly ShotAttempt[], minAttempts: number) {
+  return Array.from({ length: 11 }, (_, i) => {
+    const fromFeet = i * SHOT_DISTANCE_BIN_FEET;
+    const toFeet = i === 10 ? null : fromFeet + SHOT_DISTANCE_BIN_FEET - 1;
+    const rows = shots.filter(
+      (r) =>
+        r.distanceFeet >= fromFeet && (toFeet === null || r.distanceFeet <= toFeet),
+    );
+    return {
+      fromFeet,
+      toFeet,
+      ...summarizeShots(rows, minAttempts),
+      threePointAttempts: rows.filter((r) => r.type === '3PT').length,
+    };
+  });
+}
 export class ShotArchiveProvider {
   readonly directory: ShotDirectory;
   constructor(
@@ -149,6 +167,10 @@ export class ShotArchiveProvider {
             q.minAttempts,
           ),
         })),
+        meanDistanceFeet: rows.length
+          ? rows.reduce((sum, r) => sum + r.distanceFeet, 0) / rows.length
+          : null,
+        distances: distanceProfile(rows, q.minAttempts),
         cells: [...cells.values()].map((c) => ({
           ...c,
           fgPercentage: c.attempts >= q.minAttempts ? c.makes / c.attempts : null,

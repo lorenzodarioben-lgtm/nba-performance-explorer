@@ -1,5 +1,5 @@
 import { useRef, useState, useSyncExternalStore } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
 import {
   ShotQuerySchema,
@@ -17,6 +17,9 @@ import {
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
 import { shotPageCsv, shotSvgExport, downloadShotFile } from './shot-export';
+import { ShotDistanceProfile } from './ShotDistanceProfile';
+import { StudioViews } from './StudioViews';
+import { ZoneStrip } from './ZoneStrip';
 import { ShotCourt, type ShotView } from './ShotCourt';
 import { Segmented } from '../../ui/Segmented';
 import { Slate } from '../../ui/Slate';
@@ -79,6 +82,8 @@ export function ShotArchivePage() {
     queryFn: ({ signal }) =>
       fetchResearch(`/api/shots?${apiParams}`, signal, ShotResponseSchema.parse),
     enabled: valid,
+    // Filters refine in place: the previous result stays on court until the new one lands.
+    placeholderData: keepPreviousData,
     retry: false,
     staleTime: 3600_000,
     refetchOnWindowFocus: false,
@@ -110,6 +115,13 @@ export function ShotArchivePage() {
       []),
   );
   const active = data?.shots.find((shot) => shot.id === activeShot) ?? null;
+  const zone = params.get('zone');
+  const toggleZone = (next: string) => update('zone', zone === next ? '' : next);
+  const maxDistanceBin = Math.max(
+    1,
+    ...(data?.groups.flatMap((group) => group.distances.map((bin) => bin.attempts)) ??
+      []),
+  );
   return (
     <ResearchShell title="Recorded shot studio">
       <p>
@@ -306,6 +318,9 @@ export function ShotArchivePage() {
         </details>
         <div className="studio__canvas">
           <div className="studio__bar">
+            <span className="studio__updating" role="status" aria-live="polite">
+              {query.isPlaceholderData ? 'Updating shots…' : ''}
+            </span>
             <Segmented
               label="Shot visualization"
               options={VIEWS}
@@ -341,6 +356,33 @@ export function ShotArchivePage() {
                     : 'Dots show only the exact table page: filled chalk circles are makes; red crosses are misses. Hover a shot or a table row to link them.'}{' '}
                 Identical basket-relative axes for every panel.
               </p>
+              {mode === 'zones' ? (
+                <div
+                  className="zonechips"
+                  role="group"
+                  aria-label="Filter by source zone"
+                >
+                  <button
+                    type="button"
+                    className="chip"
+                    aria-pressed={!zone}
+                    onClick={() => update('zone', '')}
+                  >
+                    All zones
+                  </button>
+                  {ShotZoneSchema.options.map((z) => (
+                    <button
+                      key={z}
+                      type="button"
+                      className="chip"
+                      aria-pressed={zone === z}
+                      onClick={() => toggleZone(z)}
+                    >
+                      {z}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
               <div className="studio__panels" data-panels={data.groups.length}>
                 {data.groups.map((g) => {
                   const key = g.playerId ?? 'all';
@@ -386,6 +428,8 @@ export function ShotArchivePage() {
                           activeShot={activeShot}
                           onActiveShot={setActiveShot}
                           title={g.label}
+                          selectedZone={zone}
+                          onZone={toggleZone}
                           svgRef={(node) => {
                             if (node) courts.current.set(key, node);
                             else courts.current.delete(key);
@@ -406,6 +450,11 @@ export function ShotArchivePage() {
                         missing coordinates. Ratios use at least {data.minAttempts}{' '}
                         attempts.
                       </p>
+                      <ShotDistanceProfile
+                        group={g}
+                        maxAttempts={maxDistanceBin}
+                        minAttempts={data.minAttempts}
+                      />
                       <button
                         type="button"
                         className="btn btn--sm btn--quiet"
@@ -500,6 +549,9 @@ export function ShotArchivePage() {
                   );
                 })}
               </div>
+              {data.groups.length === 2 ? (
+                <ZoneStrip a={data.groups[0]!} b={data.groups[1]!} />
+              ) : null}
               <div
                 className={`studio__readout ${active ? 'is-active' : ''}`}
                 aria-live="polite"
@@ -555,6 +607,7 @@ export function ShotArchivePage() {
             label="Recorded 2018 playoff shot investigation"
             path={`/lab/shots?${share}`}
           />
+          <StudioViews path={`/lab/shots?${share}`} />
           <p>
             {data.coordinateSystem}. {data.coordinateEvidence} Reference court 50×94
             feet; baseline 5.25 feet behind basket; source coordinates divided by 10 for

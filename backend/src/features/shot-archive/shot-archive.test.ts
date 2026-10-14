@@ -10,6 +10,7 @@ import { staticTeamDirectoryProvider } from '../teams/team-directory-provider.js
 import { parseShotCsv } from './shot-parser.js';
 import {
   createShotArchiveProvider,
+  distanceProfile,
   summarizeShots,
   ShotArchiveProvider,
 } from './shot-provider.js';
@@ -127,6 +128,48 @@ describe('genuine recorded CC0 shot archive', () => {
     expect(d.pointsPerAttempt).toBe(points / rows.length);
     expect(d.efgPercentage).toBe(points / (2 * rows.length));
     expect(summarizeShots(rows, 1000).pointsPerAttempt).toBeNull();
+  });
+  it('profiles every filtered attempt by source distance without dropping or double-counting', () => {
+    const rows = provider.shots.filter((r) => r.playerId === '201939');
+    const bins = distanceProfile(rows, 10);
+    expect(bins.map((b) => [b.fromFeet, b.toFeet])).toEqual([
+      [0, 2],
+      [3, 5],
+      [6, 8],
+      [9, 11],
+      [12, 14],
+      [15, 17],
+      [18, 20],
+      [21, 23],
+      [24, 26],
+      [27, 29],
+      [30, null],
+    ]);
+    expect(bins.reduce((s, b) => s + b.attempts, 0)).toBe(rows.length);
+    expect(bins.reduce((s, b) => s + b.makes, 0)).toBe(
+      rows.filter((r) => r.made).length,
+    );
+    expect(bins.reduce((s, b) => s + b.threePointAttempts, 0)).toBe(
+      rows.filter((r) => r.type === '3PT').length,
+    );
+    // The same minimum-attempts rule as zones: thin bins keep counts but withhold ratios.
+    for (const b of bins) expect(b.fgPercentage === null).toBe(b.attempts < 10);
+    const edge = rows.filter((r) => r.distanceFeet === 3).length;
+    expect(
+      distanceProfile(
+        rows.filter((r) => r.distanceFeet === 3),
+        1,
+      )[1]!.attempts,
+    ).toBe(edge);
+    const group = provider.analyze(ShotQuerySchema.parse({ players: '201939' }))
+      .groups[0]!;
+    expect(group.distances).toEqual(bins);
+    expect(group.meanDistanceFeet).toBeCloseTo(
+      rows.reduce((s, r) => s + r.distanceFeet, 0) / rows.length,
+    );
+    expect(
+      provider.analyze(ShotQuerySchema.parse({ game: 'nba:0041700999' })).groups[0],
+    ).toMatchObject({ attempts: 0, meanDistanceFeet: null });
   });
   it('exposes strict archive routes without fallback or repeated/unsupported state', async () => {
     const app = createApp(undefined, { shotArchiveProvider: provider });

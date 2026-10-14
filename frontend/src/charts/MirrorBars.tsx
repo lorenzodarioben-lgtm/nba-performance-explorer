@@ -23,12 +23,15 @@ export function MirrorBars({
   nameB,
   colorA = '#3b82f6',
   colorB = '#bd8008',
+  sharedMax,
 }: {
   rows: readonly MirrorRow[];
   nameA: string;
   nameB: string;
   colorA?: string;
   colorB?: string;
+  /** One scale for every row (rows in the same unit, e.g. shares); default: each row its own. */
+  sharedMax?: number;
 }) {
   const allowed = useMotionAllowed();
   const [ref, seen] = useSeen<HTMLDivElement>();
@@ -45,7 +48,7 @@ export function MirrorBars({
         </span>
       </div>
       {rows.map((row, index) => {
-        const max = Math.max(Math.abs(row.a ?? 0), Math.abs(row.b ?? 0));
+        const max = sharedMax ?? Math.max(Math.abs(row.a ?? 0), Math.abs(row.b ?? 0));
         const ratio = (value: number | null) =>
           value === null || max <= 0 ? 0 : Math.max(0, value) / max;
         return (

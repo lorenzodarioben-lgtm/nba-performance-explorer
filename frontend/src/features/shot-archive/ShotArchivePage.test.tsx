@@ -112,6 +112,18 @@ const data: ShotResponse = {
               pointsPerAttempt: null,
             }),
       })),
+      meanDistanceFeet: 12.5,
+      // Synthetic: one 0-foot miss and one 25-foot three-point make.
+      distances: Array.from({ length: 11 }, (_, i) => ({
+        fromFeet: i * 3,
+        toFeet: i === 10 ? null : i * 3 + 2,
+        attempts: i === 0 || i === 8 ? 1 : 0,
+        makes: i === 8 ? 1 : 0,
+        fgPercentage: i === 0 ? 0 : i === 8 ? 1 : null,
+        efgPercentage: i === 0 ? 0 : i === 8 ? 1.5 : null,
+        pointsPerAttempt: i === 0 ? 0 : i === 8 ? 3 : null,
+        threePointAttempts: i === 8 ? 1 : 0,
+      })),
       cells: [
         { x: -20, y: 20, attempts: 1, makes: 1, fgPercentage: 1 },
         { x: 0, y: -5, attempts: 1, makes: 0, fgPercentage: 0 },
@@ -140,7 +152,7 @@ const directory: ShotDirectory = {
   ],
   source,
 };
-function routes(read = () => HttpResponse.json(data)) {
+function routes(read: Parameters<typeof http.get>[1] = () => HttpResponse.json(data)) {
   server.use(
     http.get('http://localhost/api/shots/directory', () =>
       HttpResponse.json(directory),
@@ -219,7 +231,8 @@ describe('recorded shot studio', () => {
       name: 'Shot event exact values',
     });
     expect(within(table).getAllByRole('row')).toHaveLength(3);
-    expect(view.container.querySelectorAll('svg title')).toHaveLength(2);
+    // One readable mark per shot on the court (the distance profile has its own bin titles).
+    expect(view.container.querySelectorAll('svg.shotcourt title')).toHaveLength(2);
     // Marks carry their outcome and the raw recorded coordinates as semantic hooks (the colour
     // is a design decision; the data is what is asserted).
     expect(
@@ -300,5 +313,89 @@ describe('recorded shot studio', () => {
     view.unmount();
     renderApp('/lab/shots');
     expect(await screen.findByRole('alert')).toHaveTextContent('unavailable');
+  });
+});
+
+describe('shot studio 3.0 tools', () => {
+  it('filters by zone from the zone buttons and sends the zone to the API', async () => {
+    const seen: string[] = [];
+    routes(({ request }) => {
+      seen.push(new URL(request.url).searchParams.get('zone') ?? '');
+      return HttpResponse.json(data);
+    });
+    renderApp('/lab/shots?view=zones&minAttempts=1');
+    const zones = await screen.findByRole('group', { name: 'Filter by source zone' });
+    const corner = within(zones).getByRole('button', { name: 'Left Corner 3' });
+    fireEvent.click(corner);
+    await waitFor(() => expect(seen).toContain('Left Corner 3'));
+    expect(corner).toHaveAttribute('aria-pressed', 'true');
+    // Choosing the active zone again clears it.
+    fireEvent.click(corner);
+    await waitFor(() => expect(corner).toHaveAttribute('aria-pressed', 'false'));
+    expect(within(zones).getByRole('button', { name: 'All zones' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+  });
+
+  it('shows the distance profile with exact values for every filtered attempt', async () => {
+    routes();
+    renderApp('/lab/shots?minAttempts=1');
+    const table = await screen.findByRole('group', {
+      name: 'All filtered source events shot distance profile',
+    });
+    const rows = within(table).getAllByRole('row');
+    expect(rows).toHaveLength(12);
+    expect(rows[1]).toHaveTextContent('0–2');
+    expect(rows[9]).toHaveTextContent('24–26');
+    expect(rows[9]).toHaveTextContent('100.0%');
+    expect(rows[11]).toHaveTextContent('30+');
+    expect(screen.getByText('Mean source distance 12.5 ft')).toBeInTheDocument();
+  });
+
+  it('compares two players zone by zone as shares of their own attempts', async () => {
+    const peer = {
+      ...data.groups[0]!,
+      playerId: '201939',
+      label: 'Fixture Peer',
+      attempts: 4,
+      zones: data.groups[0]!.zones.map((z, i) => ({ ...z, attempts: i === 5 ? 4 : 0 })),
+    };
+    routes(() =>
+      HttpResponse.json({
+        ...data,
+        groups: [{ ...data.groups[0]!, playerId: '2544', label: 'Fixture Main' }, peer],
+      }),
+    );
+    renderApp('/lab/shots?players=2544,201939&minAttempts=1');
+    const table = await screen.findByRole('group', { name: 'Zone share comparison' });
+    const rows = within(table).getAllByRole('row');
+    // Only zones with any attempt are listed; the fixture has one.
+    expect(rows).toHaveLength(2);
+    expect(rows[1]).toHaveTextContent(ShotZoneSchema.options[5]!);
+    expect(rows[1]).toHaveTextContent('100.0%');
+  });
+
+  it('saves, lists and deletes named studio views in local research storage', async () => {
+    localStorage.clear();
+    routes();
+    renderApp('/lab/shots?type=3PT&minAttempts=1');
+    fireEvent.change(await screen.findByLabelText('Name this view'), {
+      target: { value: 'Threes only' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Save view' }));
+    const link = await screen.findByRole('link', { name: 'Threes only' });
+    expect(link.getAttribute('href')).toMatch(/^\/lab\/shots\?.*type=3PT/);
+    expect(localStorage.getItem('nba-explorer.research.v1')).toContain('Threes only');
+    expect(screen.getByRole('button', { name: 'Already saved' })).toBeDisabled();
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Delete saved view Threes only' }),
+    );
+    await waitFor(() =>
+      expect(screen.queryByRole('link', { name: 'Threes only' })).toBeNull(),
+    );
+    expect(localStorage.getItem('nba-explorer.research.v1')).not.toContain(
+      'Threes only',
+    );
   });
 });

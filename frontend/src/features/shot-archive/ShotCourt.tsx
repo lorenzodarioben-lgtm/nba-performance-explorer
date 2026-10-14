@@ -39,6 +39,8 @@ export function ShotCourt({
   onActiveShot,
   svgRef,
   title,
+  selectedZone = null,
+  onZone,
 }: {
   view: ShotView;
   shots: readonly ShotAttempt[];
@@ -49,6 +51,10 @@ export function ShotCourt({
   onActiveShot: (id: string | null) => void;
   svgRef: Ref<SVGSVGElement>;
   title: string;
+  /** The zone filter in force, outlined on the zone view. */
+  selectedZone?: string | null;
+  /** Pointer shortcut for the zone filter; the page offers the same choice as buttons. */
+  onZone?: (zone: string) => void;
 }) {
   const located = shots.filter((shot) => shot.x !== null && shot.y !== null);
   const zoneTotal = group.zones.reduce((sum, zone) => sum + zone.attempts, 0);
@@ -107,8 +113,14 @@ export function ShotCourt({
                     data-attempts={zone.attempts}
                     fill={`rgba(${HEAT},${(0.06 + share * 0.7).toFixed(3)})`}
                     fillRule="evenodd"
-                    stroke="rgba(10,10,11,0.85)"
-                    strokeWidth={1.5}
+                    stroke={
+                      selectedZone === zone.zone
+                        ? 'var(--red-hi)'
+                        : 'rgba(10,10,11,0.85)'
+                    }
+                    strokeWidth={selectedZone === zone.zone ? 3 : 1.5}
+                    className={onZone ? 'shotcourt__zone' : undefined}
+                    onClick={onZone ? () => onZone(zone.zone) : undefined}
                   >
                     <title>
                       {zone.zone}: {zone.attempts} attempts, {zone.makes} makes

@@ -124,6 +124,18 @@ export const ShotGroupSchema = SummarySchema.extend({
   label: z.string(),
   missingCoordinates: count,
   zones: z.array(SummarySchema.extend({ zone: ShotZoneSchema })).max(7),
+  /** Mean of the source distance field over every filtered attempt; null with no attempts. */
+  meanDistanceFeet: z.number().min(0).max(90).nullable(),
+  /** Source distance in 3-foot bins (0–2, 3–5 … 27–29) and a final 30-foot-and-beyond bin. */
+  distances: z
+    .array(
+      SummarySchema.extend({
+        fromFeet: z.number().int().min(0).max(90),
+        toFeet: z.number().int().min(0).max(90).nullable(),
+        threePointAttempts: count,
+      }),
+    )
+    .length(11),
   cells: z
     .array(
       z
