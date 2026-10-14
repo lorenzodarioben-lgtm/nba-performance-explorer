@@ -215,6 +215,13 @@ export const SECTIONS: readonly Section[] = [
         match: exact('/lab/recorded'),
       },
       {
+        to: '/lab/formulas',
+        label: 'Formula lab',
+        blurb:
+          'Every derived number written out: formula, missing-data rule and an example.',
+        match: exact('/lab/formulas'),
+      },
+      {
         to: '/discover',
         label: 'Discover',
         blurb: 'Find player-seasons that match your filters.',

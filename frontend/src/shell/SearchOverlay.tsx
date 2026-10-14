@@ -42,6 +42,8 @@ const KEYWORDS: Record<string, string> = {
   '/standings/recorded': 'rankings splits home away streak last ten',
   '/discover/recorded': 'similar players discover filter outliers',
   '/my-nba': 'saved bookmarks favourites favorites notes collections',
+  '/lab/formulas':
+    'glossary formula definition how calculated methodology percentile efg ts',
 };
 
 const TOOLS: Option[] = [

@@ -57,5 +57,7 @@ export const routeExamples: readonly RouteExample[] = [
   { name: 'playoff-bracket', path: '/games/bracket?series=r2-DEN-MIN' },
   { name: 'player-archive', path: '/players/203999/archive' },
   { name: 'lab-shots-zones', path: '/lab/shots?players=201939,2544&view=zones' },
+  { name: 'lab-formulas', path: '/lab/formulas' },
+  { name: 'lab-teams-duel', path: '/lab/teams?teams=nba:1610612738,nba:1610612743' },
   { name: 'not-found', path: '/this-route-does-not-exist' },
 ];

@@ -158,6 +158,11 @@ const RecordedSeasonRoom = lazy(() =>
     default: m.RecordedSeasonRoom,
   })),
 );
+const FormulaLabPage = lazy(() =>
+  import('./features/formulas/FormulaLabPage').then((m) => ({
+    default: m.FormulaLabPage,
+  })),
+);
 const PlayoffBracketPage = lazy(() =>
   import('./features/playoffs/PlayoffBracketPage').then((m) => ({
     default: m.PlayoffBracketPage,
@@ -332,6 +337,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/lab/shots',
     element: lazyRoute('Loading recorded shots…', <ShotArchivePage />),
+  },
+  {
+    path: '/lab/formulas',
+    element: lazyRoute('Loading formula lab…', <FormulaLabPage />),
   },
   {
     path: '/lab/lineups',
