@@ -11,6 +11,7 @@ for (const route of routeExamples) {
     const errors: string[] = [];
     page.on('pageerror', (error) => errors.push(error.message));
 
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(route.path);
     await expect(page.locator('h1').first()).toBeVisible();
     await page.waitForLoadState('networkidle');

@@ -962,6 +962,10 @@ body {
 .fr :where(a:not(.btn, .link-arrow, .tape, .chip)):hover {
   text-decoration-color: var(--red-hi);
 }
+/* Adjacent inline links in research copy never run together. */
+.fr :where(p > a + a) {
+  margin-left: 1.1em;
+}
 .fr :where(label) {
   display: flex;
   flex-direction: column;

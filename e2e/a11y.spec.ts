@@ -10,6 +10,7 @@ for (const route of routeExamples) {
     page,
   }, info) => {
     test.skip(info.project.name !== 'desktop', 'scanned once, at desktop width');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(route.path);
     await expect(page.locator('h1').first()).toBeVisible();
     await page.waitForLoadState('networkidle');

@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 
@@ -41,9 +41,11 @@ describe('explorer portal', () => {
     );
     renderApp('/explore');
     expect(await screen.findByRole('alert')).toHaveTextContent('unavailable');
-    expect(screen.getByRole('link', { name: 'Original home' })).toHaveAttribute(
-      'href',
-      '/',
-    );
+    // The masthead replaces the old per-page link list; home stays one link away.
+    expect(
+      within(screen.getByRole('banner')).getByRole('link', {
+        name: 'NBA Performance Explorer',
+      }),
+    ).toHaveAttribute('href', '/');
   });
 });

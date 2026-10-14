@@ -1,0 +1,253 @@
+/* Landing pages (Players, Labs) and shared Arena landing anatomy. */
+
+.landing {
+  padding-bottom: 24px;
+}
+.landing__hero {
+  position: relative;
+  padding-top: clamp(40px, 8vw, 96px);
+  padding-bottom: clamp(32px, 5vw, 56px);
+}
+.landing__title {
+  margin: 14px 0 0;
+  font: 800 clamp(3.5rem, 11vw, 9.5rem) / 0.8 var(--display);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--chalk);
+  outline: none;
+}
+.landing__title .kinetic-line:last-child {
+  color: var(--red-hi);
+}
+.landing__lede {
+  max-width: 60ch;
+  margin-top: 24px;
+  font-size: 1.125rem;
+  line-height: 1.55;
+  color: var(--chalk-2);
+}
+.landing__search {
+  max-width: 560px;
+  margin-top: 28px;
+}
+.landing__section {
+  padding-top: 48px;
+}
+.landing__sechead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ------------------------------------------------------------ photo board */
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.board__card {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 3px;
+  background:
+    radial-gradient(80% 60% at 70% 20%, rgb(185 28 28 / 0.22), transparent 70%),
+    var(--film);
+  isolation: isolate;
+}
+.board__card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.35) contrast(1.05);
+  transform: scale(1.02);
+  transition:
+    transform 700ms var(--ease-arena),
+    filter 400ms var(--ease-film);
+}
+.board__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgb(10 10 11 / 0.92));
+}
+.board__name {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 34px;
+  font: 800 1.75rem/0.9 var(--display);
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.board__go {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 500 10.5px/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+  transition:
+    color var(--dur-quick) var(--ease-film),
+    gap var(--dur-base) var(--ease-snap);
+}
+.board__card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--red-hi);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-slow) var(--ease-arena);
+}
+.board__card:hover img,
+.board__card:focus-visible img {
+  transform: scale(1.07);
+  filter: none;
+}
+.board__card:hover .board__go,
+.board__card:focus-visible .board__go {
+  color: var(--chalk);
+  gap: 10px;
+}
+.board__card:hover::after,
+.board__card:focus-visible::after {
+  transform: scaleX(1);
+}
+@media (max-width: 520px) {
+  .board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .board__name {
+    font-size: 1.25rem;
+    bottom: 30px;
+  }
+}
+
+/* ------------------------------------------------------------- hub rooms */
+
+.rooms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.rooms__item {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 20px;
+  background: var(--night);
+}
+.rooms__num {
+  font: 800 2.5rem/0.8 var(--display);
+  color: var(--red-hi);
+}
+.rooms__item p {
+  margin: 0;
+  color: var(--chalk-2);
+  font-size: 15px;
+}
+.rooms__tapes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ------------------------------------------------------------- tool cards */
+
+.tools {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tool {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  min-height: 190px;
+  padding: 20px 20px 18px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--coal);
+  overflow: hidden;
+  transition:
+    border-color var(--dur-base) var(--ease-film),
+    background-color var(--dur-base) var(--ease-film),
+    transform var(--dur-base) var(--ease-snap);
+}
+.tool::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--red-hi);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--dur-slow) var(--ease-arena);
+}
+.tool:hover,
+.tool:focus-visible {
+  border-color: var(--line-2);
+  background: var(--film);
+  transform: translateY(-2px);
+}
+.tool:hover::before,
+.tool:focus-visible::before {
+  transform: scaleY(1);
+}
+.tool__tapes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tool__name {
+  font: 800 2rem/0.9 var(--display);
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.tool__blurb {
+  color: var(--chalk-2);
+  font-size: 15px;
+}
+.tool__go {
+  display: inline-flex;
+  align-items: center;
+  align-self: end;
+  gap: 6px;
+  font: 500 10.5px/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.tool:hover .tool__go {
+  color: var(--chalk);
+}

@@ -239,7 +239,7 @@ function TrendsBody({ rows }: { rows: TrendRow[] }) {
         listed in the table below.
       </figcaption>
       <div className="mt-3 rounded-md border border-white/10 bg-coal p-4">
-        <div aria-hidden="true">
+        <div aria-hidden="true" data-chart="career-trends">
           <TrendChart rows={rows} />
         </div>
       </div>

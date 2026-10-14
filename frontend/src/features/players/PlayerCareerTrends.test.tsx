@@ -150,7 +150,9 @@ describe('player career trends', () => {
     ).toEqual(['27.5', '8.6', '9.1']);
 
     // The chart renders inside an assistive-tech-hidden wrapper, using the same seasons.
-    const chart = container.querySelector('[aria-hidden="true"]');
+    const chart = container.querySelector(
+      '[data-chart="career-trends"][aria-hidden="true"]',
+    );
     expect(chart).not.toBeNull();
     expect(chart?.querySelector('svg')).not.toBeNull();
     expect(
@@ -183,7 +185,11 @@ describe('player career trends', () => {
       name: /points, rebounds, and assists per game by season/i,
     });
 
-    const dashPatterns = [...container.querySelectorAll('[aria-hidden="true"] path')]
+    const dashPatterns = [
+      ...container.querySelectorAll(
+        '[data-chart="career-trends"][aria-hidden="true"] path',
+      ),
+    ]
       .map((node) => node.getAttribute('stroke-dasharray'))
       .filter((value): value is string => value !== null);
     expect(dashPatterns).toContain('6 3');
@@ -223,7 +229,7 @@ describe('player career trends', () => {
       ),
     ).toBeInTheDocument();
     // No chart for one season, but the value remains available in the table.
-    expect(container.querySelector('[aria-hidden="true"] svg')).toBeNull();
+    expect(container.querySelector('[data-chart="career-trends"] svg')).toBeNull();
     expect(within(trendTable()).getByText('25.7')).toBeInTheDocument();
   });
 

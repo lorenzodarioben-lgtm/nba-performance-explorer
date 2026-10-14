@@ -14,7 +14,7 @@ interface HighlightedOption {
 type ComboboxTone = 'light' | 'dark';
 
 // Presentational class sets only. The two tones differ purely in colour so the same accessible
-// combobox can sit on the light data views (default) or the dark editorial hero (`dark`). No markup,
+// combobox can sit on Film Room research surfaces (default) or the Arena hero (`dark`). No markup,
 // role, ARIA, keyboard, or query behaviour changes between tones.
 const TONES: Record<
   ComboboxTone,
@@ -31,18 +31,19 @@ const TONES: Record<
     optionMeta: string;
   }
 > = {
+  // Film Room: the default on every research surface (dark coal panels).
   light: {
-    label: 'text-ink',
+    label: 'field-label',
     input:
-      'border-edge-strong bg-surface text-ink placeholder:text-ink-3 focus-visible:border-ink',
-    hint: 'text-ink-2',
-    alert: 'border-edge bg-accent-quiet text-danger',
-    listbox: 'border-edge bg-surface shadow-popover',
-    option: 'border-edge',
-    optionActive: 'bg-accent-quiet outline-2 outline-offset-[-2px] outline-accent',
-    optionIdle: 'hover:bg-surface-sunken',
-    optionName: 'text-ink',
-    optionMeta: 'text-ink-2',
+      'border-[var(--line-2)] bg-[var(--night)] text-chalk placeholder:text-[var(--chalk-4)] hover:border-[var(--line-3)] focus-visible:border-[var(--chalk-3)]',
+    hint: 'text-[var(--chalk-3)]',
+    alert: 'border-[var(--line)] bg-[rgb(185_28_28/0.16)] text-red-200',
+    listbox: 'border-[var(--line-2)] bg-[var(--film)] shadow-popover',
+    option: 'border-[var(--line)]',
+    optionActive: 'bg-[var(--film-3)] shadow-[inset_3px_0_0_var(--red-hi)]',
+    optionIdle: 'hover:bg-[var(--film-2)]',
+    optionName: 'text-chalk',
+    optionMeta: 'text-[var(--chalk-3)]',
   },
   dark: {
     label: 'text-white/70',

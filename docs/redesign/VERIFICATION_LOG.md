@@ -55,3 +55,41 @@ licence and React-native layout/presence primitives; no second animation library
   react-refresh warnings only), Prettier check pass.
 - Build: main chunk **777.18 kB (232.75 kB gzip)** — +131 kB / +43.7 kB gzip for Motion while
   Recharts is still eagerly loaded. Recharts removal (Stage 3) is expected to offset this.
+
+## Stage 2 — global shell and Film Room frame
+
+- Masthead rebuilt (sticky, scroll-firmed backdrop): six sections (Players, Teams, Games,
+  Seasons, Compare, Labs) with a sliding red active bar (shared layout), My NBA, a search
+  trigger (`/`, Ctrl/Cmd+K) and the phone Menu dialog (clip-path wipe, staggered sections,
+  same focus trap / Escape / focus-restore behaviour). Section sub-navigation strip for
+  Games, Seasons, Compare and Labs (`src/shell/sections.ts` maps all 35 routes; no URL
+  changed). Removed the dead `#explore` / `#trends` anchors.
+- Search overlay (`src/shell/SearchOverlay.tsx`, lazy, preloaded on idle): one combobox over
+  players (existing player search API), teams (directory API) and every section/tool.
+- Footer: sections, sources, accurate notice ("Statistics sourced from NBA.com on request,
+  plus labelled historical archives … Nothing on this site is a live feed"). "Live NBA.com
+  data" removed. `index.html` title/description no longer claim live data; Barlow preloaded.
+- `ResearchShell` is now the Film Room frame (breadcrumbs, kinetic page title, `.fr` scope);
+  the 27-link research nav is replaced by the masthead. `SourceNote` shows its source tape and
+  keeps every string; fixture provenance switches on the global demonstration band.
+  `QueryFeedback` uses the loading line / error notice with the same text and roles.
+- New routes: `/players` (search, photo board, hub rooms), `/labs` (research benches with
+  tapes), `*` → "Off the court." 404 (previously fell through to the home page). Route
+  fallbacks share one loading frame placed under the masthead. Skip link, route entrance
+  keyed by place (player hub routes share one key), scroll-to-top on navigation.
+- Test re-expressions (no assertion removed):
+  - `ExplorerPage.test.tsx` "keeps navigation available during source outage": the "Original
+    home" link lived in the removed research nav; the test now asserts the masthead home link
+    (`NBA Performance Explorer` → `/`) is present during the outage.
+  - `PlayerCareerTrends.test.tsx`: the chart wrapper is found by `[data-chart="career-trends"]
+[aria-hidden="true"]` instead of "the first aria-hidden element on the page" (the new
+    masthead has decorative aria-hidden layers). Same svg / series-name / dash assertions.
+- New tests: `src/shell/shell.test.tsx` (7) — route→section map, active section + subnav,
+  slash-key search to a team hub, Escape, 404, both landings.
+- Results: frontend **338/338** (49 files); format, lint (0 errors), typecheck pass. Browser
+  smoke **78/78** (desktop + phone). axe (desktop): **35/39 routes clean** (baseline 0/39).
+  Remaining serious nodes are inside pages still to be rebuilt: Recharts `aria-hidden-focus`
+  and an 11px `#b91c1c` label on `/players/:id` and `/compare` (Stages 3, 5), a `#1d4ed8`
+  series label on `/lab/profiles` (Stage 5). The 404 failure was a spec issue (reduced motion
+  not emulated during the scan); both specs now call `emulateMedia({ reducedMotion })`.
+- Build: main chunk **755.21 kB (220.72 kB gzip)**, CSS 83.25 kB (16.72 kB gzip).

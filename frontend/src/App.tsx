@@ -1,13 +1,15 @@
-import { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router';
+import { lazy, Suspense, useEffect, type ReactNode } from 'react';
+import { Route, Routes, useLocation } from 'react-router';
 
 import { AppFooter } from './AppFooter';
 import { AppHeader } from './AppHeader';
 import { FoundationPage } from './features/foundation/FoundationPage';
 import { PlayerComparisonPage } from './features/player-comparison/PlayerComparisonPage';
 import { PlayerProfilePage } from './features/players/PlayerProfilePage';
+import { RouteEntrance } from './motion/choreography';
 import { MotionPreferenceProvider } from './motion/MotionPreference';
 import { DemoBand } from './ui/DataMode';
+import { LoadingLine } from './ui/DataState';
 import { ToastProvider } from './ui/Toast';
 
 const ExplorerPage = lazy(() =>
@@ -145,9 +147,195 @@ const HistoricalDraftPage = lazy(() =>
   })),
 );
 
+const PlayersLanding = lazy(() =>
+  import('./pages/PlayersLanding').then((m) => ({ default: m.PlayersLanding })),
+);
+const LabsLanding = lazy(() =>
+  import('./pages/LabsLanding').then((m) => ({ default: m.LabsLanding })),
+);
+const NotFoundPage = lazy(() =>
+  import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })),
+);
+
+/** The loading frame for a lazily loaded route: placed under the masthead, never hidden by it. */
+function RouteFallback({ label }: { label: string }) {
+  return (
+    <div className="wrap route-fallback">
+      <LoadingLine>{label}</LoadingLine>
+    </div>
+  );
+}
+
+function lazyRoute(label: string, element: ReactNode) {
+  return <Suspense fallback={<RouteFallback label={label} />}>{element}</Suspense>;
+}
+
+// Every URL the platform has published keeps working. Order does not matter to React Router;
+// it is grouped here by section for reading.
+const ROUTES: readonly { path: string; element: ReactNode }[] = [
+  { path: '/', element: <FoundationPage /> },
+  // Players
+  { path: '/players', element: lazyRoute('Loading players…', <PlayersLanding />) },
+  { path: '/players/:playerId', element: <PlayerProfilePage /> },
+  {
+    path: '/players/:playerId/insights',
+    element: lazyRoute('Loading insights…', <PlayerInsightsPage />),
+  },
+  {
+    path: '/players/:playerId/games',
+    element: lazyRoute('Loading game research…', <GameResearchPage />),
+  },
+  {
+    path: '/players/:playerId/career',
+    element: lazyRoute('Loading reported career…', <CareerResearchPage />),
+  },
+  {
+    path: '/players/:playerId/shooting',
+    element: lazyRoute('Loading shooting research…', <ShootingResearchPage />),
+  },
+  { path: '/explore', element: lazyRoute('Loading explorer…', <ExplorerPage />) },
+  // Teams
+  { path: '/teams', element: lazyRoute('Loading team directory…', <TeamsPage />) },
+  {
+    path: '/teams/:teamId',
+    element: lazyRoute('Loading team identity…', <TeamDetailPage />),
+  },
+  // Games
+  {
+    path: '/games',
+    element: lazyRoute('Loading recorded games…', <GamesArchivePage />),
+  },
+  {
+    path: '/games/:gameId',
+    element: lazyRoute('Loading recorded game…', <GamesArchivePage />),
+  },
+  {
+    path: '/games/shooting',
+    element: lazyRoute('Loading game shooting…', <ShotBoxPage />),
+  },
+  {
+    path: '/history/calendar',
+    element: lazyRoute('Loading calendar games…', <RecordedCalendarPage />),
+  },
+  // Seasons
+  { path: '/history', element: lazyRoute('Loading history…', <HistoryPage />) },
+  {
+    path: '/history/:season',
+    element: lazyRoute('Loading historical season…', <HistoryPage />),
+  },
+  {
+    path: '/standings',
+    element: lazyRoute(
+      'Loading historical standings…',
+      <LeagueArchivePage mode="standings" />,
+    ),
+  },
+  {
+    path: '/standings/recorded',
+    element: lazyRoute('Loading team rankings…', <RecordedTeamRankingsPage />),
+  },
+  {
+    path: '/leaders',
+    element: lazyRoute(
+      'Loading published leaders…',
+      <LeagueArchivePage mode="leaders" />,
+    ),
+  },
+  {
+    path: '/leaders/recorded',
+    element: lazyRoute(
+      'Loading recorded ranking…',
+      <RecordedArchivePage mode="leaders" />,
+    ),
+  },
+  {
+    path: '/history/records',
+    element: lazyRoute(
+      'Loading recorded records…',
+      <RecordedArchivePage mode="records" />,
+    ),
+  },
+  {
+    path: '/history/progression',
+    element: lazyRoute('Loading record progression…', <RecordedProgressionPage />),
+  },
+  {
+    path: '/history/awards',
+    element: lazyRoute('Loading historical awards…', <HistoricalAwardsPage />),
+  },
+  {
+    path: '/history/draft',
+    element: lazyRoute('Loading historical draft…', <HistoricalDraftPage />),
+  },
+  // Compare
+  { path: '/compare', element: <PlayerComparisonPage /> },
+  {
+    path: '/lab/compare',
+    element: lazyRoute('Loading comparison lab…', <ComparisonLabPage />),
+  },
+  {
+    path: '/lab/careers',
+    element: lazyRoute('Loading career comparison…', <CareerComparisonPage />),
+  },
+  {
+    path: '/lab/profiles',
+    element: lazyRoute('Loading percentile profiles…', <RecordedProfilesPage />),
+  },
+  {
+    path: '/lab/teams',
+    element: lazyRoute('Loading team comparison…', <RecordedLabsPage mode="teams" />),
+  },
+  // Labs
+  { path: '/labs', element: lazyRoute('Loading labs…', <LabsLanding />) },
+  {
+    path: '/lab/shots',
+    element: lazyRoute('Loading recorded shots…', <ShotArchivePage />),
+  },
+  {
+    path: '/lab/lineups',
+    element: lazyRoute('Loading research lineups…', <LineupStudyPage />),
+  },
+  {
+    path: '/lab/analytics',
+    element: lazyRoute('Loading analytics lab…', <AnalyticsLabPage />),
+  },
+  {
+    path: '/lab/recorded',
+    element: lazyRoute('Loading recorded analytics…', <RecordedAnalyticsPage />),
+  },
+  { path: '/discover', element: lazyRoute('Loading discovery…', <DiscoverPage />) },
+  {
+    path: '/discover/recorded',
+    element: lazyRoute('Loading recorded discovery…', <RecordedDiscoveryPage />),
+  },
+  {
+    path: '/lab/groups',
+    element: lazyRoute(
+      'Loading hypothetical identities…',
+      <RecordedLabsPage mode="groups" />,
+    ),
+  },
+  // Personal
+  { path: '/my-nba', element: lazyRoute('Loading My NBA…', <MyNbaPage />) },
+  { path: '*', element: lazyRoute('Loading…', <NotFoundPage />) },
+];
+
+/** Routes that share a persistent frame animate as one place (a player's hub keeps its hero). */
+function routeGroup(pathname: string) {
+  const hub = /^\/players\/[^/]+/.exec(pathname);
+  return hub ? hub[0] : pathname;
+}
+
+/** New places start at the top; query changes within a page keep the reader where they are. */
+function useScrollToTopOnNavigate(group: string) {
+  useEffect(() => {
+    if (window.location.hash) return;
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [group]);
+}
+
 export function App() {
-  // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
-  // fixed and each page bleeds under it, handling its own top spacing.
   return (
     <MotionPreferenceProvider>
       <ToastProvider>
@@ -158,466 +346,24 @@ export function App() {
 }
 
 function AppLayout() {
+  const { pathname } = useLocation();
+  const group = routeGroup(pathname);
+  useScrollToTopOnNavigate(group);
   return (
     <div className="flex min-h-[100dvh] flex-col bg-night">
+      <a className="skip-link" href="#content">
+        Skip to content
+      </a>
       <AppHeader />
       <DemoBand />
-      <div className="flex-1">
-        <Routes>
-          <Route
-            path="/history/draft"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading historical draft…
-                  </p>
-                }
-              >
-                <HistoricalDraftPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/games/shooting"
-            element={
-              <Suspense
-                fallback={
-                  <p role="status" className="pt-24 text-white">
-                    Loading game shooting…
-                  </p>
-                }
-              >
-                <ShotBoxPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/lab/lineups"
-            element={
-              <Suspense
-                fallback={
-                  <p role="status" className="pt-24 text-white">
-                    Loading research lineups…
-                  </p>
-                }
-              >
-                <LineupStudyPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/history/progression"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading record progression…
-                  </p>
-                }
-              >
-                <RecordedProgressionPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/history/awards"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading historical awards…
-                  </p>
-                }
-              >
-                <HistoricalAwardsPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/discover/recorded"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading recorded discovery…
-                  </p>
-                }
-              >
-                <RecordedDiscoveryPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/history/calendar"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading calendar games…
-                  </p>
-                }
-              >
-                <RecordedCalendarPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/lab/shots"
-            element={
-              <Suspense
-                fallback={
-                  <p role="status" className="pt-24 text-white">
-                    Loading recorded shots…
-                  </p>
-                }
-              >
-                <ShotArchivePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/lab/recorded"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading recorded analytics…
-                  </p>
-                }
-              >
-                <RecordedAnalyticsPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/lab/groups"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading hypothetical identities…
-                  </p>
-                }
-              >
-                <RecordedLabsPage mode="groups" />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/lab/teams"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading team comparison…
-                  </p>
-                }
-              >
-                <RecordedLabsPage mode="teams" />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/leaders/recorded"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading recorded ranking…
-                  </p>
-                }
-              >
-                <RecordedArchivePage mode="leaders" />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/history/records"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading recorded records…
-                  </p>
-                }
-              >
-                <RecordedArchivePage mode="records" />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/players/:playerId/shooting"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading shooting research…
-                  </p>
-                }
-              >
-                <ShootingResearchPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/discover"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading discovery…
-                  </p>
-                }
-              >
-                <DiscoverPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/standings"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading historical standings…
-                  </p>
-                }
-              >
-                <LeagueArchivePage mode="standings" />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/leaders"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading published leaders…
-                  </p>
-                }
-              >
-                <LeagueArchivePage mode="leaders" />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/games"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading recorded games…
-                  </p>
-                }
-              >
-                <GamesArchivePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/games/:gameId"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading recorded game…
-                  </p>
-                }
-              >
-                <GamesArchivePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/history"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading history…
-                  </p>
-                }
-              >
-                <HistoryPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/history/:season"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading historical season…
-                  </p>
-                }
-              >
-                <HistoryPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/players/:playerId/games"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading game research…
-                  </p>
-                }
-              >
-                <GameResearchPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/lab/careers"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading career comparison…
-                  </p>
-                }
-              >
-                <CareerComparisonPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/players/:playerId/career"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading reported career…
-                  </p>
-                }
-              >
-                <CareerResearchPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/lab/analytics"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading analytics lab…
-                  </p>
-                }
-              >
-                <AnalyticsLabPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/teams"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading team directory…
-                  </p>
-                }
-              >
-                <TeamsPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/teams/:teamId"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading team identity…
-                  </p>
-                }
-              >
-                <TeamDetailPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/my-nba"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading My NBA…
-                  </p>
-                }
-              >
-                <MyNbaPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/lab/compare"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading comparison lab…
-                  </p>
-                }
-              >
-                <ComparisonLabPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/explore"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading explorer…
-                  </p>
-                }
-              >
-                <ExplorerPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/players/:playerId/insights"
-            element={
-              <Suspense
-                fallback={
-                  <p className="pt-24 text-white" role="status">
-                    Loading insights…
-                  </p>
-                }
-              >
-                <PlayerInsightsPage />
-              </Suspense>
-            }
-          />
-          <Route path="/players/:playerId" element={<PlayerProfilePage />} />
-          <Route
-            path="/standings/recorded"
-            element={
-              <Suspense fallback={<p role="status">Loading team rankings…</p>}>
-                <RecordedTeamRankingsPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/lab/profiles"
-            element={
-              <Suspense fallback={<p role="status">Loading percentile profiles…</p>}>
-                <RecordedProfilesPage />
-              </Suspense>
-            }
-          />
-          <Route path="/compare" element={<PlayerComparisonPage />} />
-          <Route path="*" element={<FoundationPage />} />
-        </Routes>
+      <div id="content" tabIndex={-1} className="flex-1 outline-none">
+        <RouteEntrance routeKey={group}>
+          <Routes>
+            {ROUTES.map((route) => (
+              <Route key={route.path} path={route.path} element={route.element} />
+            ))}
+          </Routes>
+        </RouteEntrance>
       </div>
       <AppFooter />
     </div>

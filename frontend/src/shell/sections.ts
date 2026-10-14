@@ -1,0 +1,250 @@
+// The platform's information architecture: six sections plus My NBA. Every existing URL keeps
+// working; this only decides which section a route belongs to and what its sub-navigation is.
+
+export type SectionId = 'players' | 'teams' | 'games' | 'seasons' | 'compare' | 'labs';
+
+export interface SectionPage {
+  to: string;
+  label: string;
+  /** Plain description used by the menu, search and landing pages. */
+  blurb: string;
+  match: (pathname: string) => boolean;
+}
+
+export interface Section {
+  id: SectionId;
+  label: string;
+  to: string;
+  blurb: string;
+  pages: readonly SectionPage[];
+}
+
+const exact = (path: string) => (pathname: string) => pathname === path;
+const SEASON_BOOK = new Set(['records', 'progression', 'awards', 'draft', 'calendar']);
+
+export const SECTIONS: readonly Section[] = [
+  {
+    id: 'players',
+    label: 'Players',
+    to: '/players',
+    blurb: 'Profiles, form, game logs, careers and shooting for any player.',
+    pages: [],
+  },
+  {
+    id: 'teams',
+    label: 'Teams',
+    to: '/teams',
+    blurb: 'Franchise directory and team hubs with recorded seasons.',
+    pages: [],
+  },
+  {
+    id: 'games',
+    label: 'Games',
+    to: '/games',
+    blurb: 'Recorded playoff games, the game calendar and game shooting.',
+    pages: [
+      {
+        to: '/games',
+        label: 'Playoff games',
+        blurb: 'Recorded 2023-24 playoff results by date, with quarter line scores.',
+        match: (pathname) => pathname === '/games' || /^\/games\/nba:/.test(pathname),
+      },
+      {
+        to: '/history/calendar',
+        label: 'Game calendar',
+        blurb: 'Every recorded game on a date, from the season archive.',
+        match: exact('/history/calendar'),
+      },
+      {
+        to: '/games/shooting',
+        label: 'Game shooting',
+        blurb: 'Team shooting splits from the archived 2018 playoff shot events.',
+        match: exact('/games/shooting'),
+      },
+    ],
+  },
+  {
+    id: 'seasons',
+    label: 'Seasons',
+    to: '/history',
+    blurb: 'The season archive: standings, leaders, records, awards and drafts.',
+    pages: [
+      {
+        to: '/history',
+        label: 'Seasons',
+        blurb: 'Every season in the archive, with champions and facts.',
+        match: (pathname) =>
+          pathname === '/history' ||
+          (pathname.startsWith('/history/') &&
+            !SEASON_BOOK.has(pathname.slice('/history/'.length))),
+      },
+      {
+        to: '/standings',
+        label: 'Standings',
+        blurb: 'Published final standings by conference.',
+        match: exact('/standings'),
+      },
+      {
+        to: '/standings/recorded',
+        label: 'Team rankings',
+        blurb: 'Team records, splits and rankings calculated from recorded games.',
+        match: exact('/standings/recorded'),
+      },
+      {
+        to: '/leaders',
+        label: 'Leaders',
+        blurb: 'Published statistical category leaders.',
+        match: exact('/leaders'),
+      },
+      {
+        to: '/leaders/recorded',
+        label: 'Recorded leaders',
+        blurb: 'Leaderboards ranked within a recorded group of players.',
+        match: exact('/leaders/recorded'),
+      },
+      {
+        to: '/history/records',
+        label: 'Single-game records',
+        blurb: 'The highest and lowest recorded single-game performances.',
+        match: exact('/history/records'),
+      },
+      {
+        to: '/history/progression',
+        label: 'Record progression',
+        blurb: 'How recorded season records and league trends moved over time.',
+        match: exact('/history/progression'),
+      },
+      {
+        to: '/history/awards',
+        label: 'Awards',
+        blurb: 'Yearly award winners from the archive.',
+        match: exact('/history/awards'),
+      },
+      {
+        to: '/history/draft',
+        label: 'Draft',
+        blurb: 'Historical draft classes, pick by pick.',
+        match: exact('/history/draft'),
+      },
+    ],
+  },
+  {
+    id: 'compare',
+    label: 'Compare',
+    to: '/compare',
+    blurb: 'Head-to-head, multi-player, career-curve and team comparisons.',
+    pages: [
+      {
+        to: '/compare',
+        label: 'Head to head',
+        blurb: 'Two players, one season, side by side.',
+        match: exact('/compare'),
+      },
+      {
+        to: '/lab/compare',
+        label: 'Player lab',
+        blurb: 'Up to four player-seasons on shared scales.',
+        match: exact('/lab/compare'),
+      },
+      {
+        to: '/lab/careers',
+        label: 'Career curves',
+        blurb: 'Careers aligned by season, age or experience.',
+        match: exact('/lab/careers'),
+      },
+      {
+        to: '/lab/profiles',
+        label: 'Percentile profiles',
+        blurb: 'Players placed within a recorded group, stat by stat.',
+        match: exact('/lab/profiles'),
+      },
+      {
+        to: '/lab/teams',
+        label: 'Team vs team',
+        blurb: 'Two recorded team seasons compared.',
+        match: exact('/lab/teams'),
+      },
+    ],
+  },
+  {
+    id: 'labs',
+    label: 'Labs',
+    to: '/labs',
+    blurb: 'Shot Studio, lineups, group analytics and discovery tools.',
+    pages: [
+      {
+        to: '/labs',
+        label: 'All labs',
+        blurb: 'Every research tool in one place.',
+        match: exact('/labs'),
+      },
+      {
+        to: '/lab/shots',
+        label: 'Shot Studio',
+        blurb: 'Archived 2018 playoff shot charts: dots, density and zones.',
+        match: exact('/lab/shots'),
+      },
+      {
+        to: '/lab/lineups',
+        label: 'Lineups',
+        blurb: 'Researcher-derived five-player units: minutes and plus-minus.',
+        match: exact('/lab/lineups'),
+      },
+      {
+        to: '/lab/analytics',
+        label: 'Analytics',
+        blurb: 'Player-season distributions and relationships.',
+        match: exact('/lab/analytics'),
+      },
+      {
+        to: '/lab/recorded',
+        label: 'Group analytics',
+        blurb: 'Distributions and correlations within a recorded group.',
+        match: exact('/lab/recorded'),
+      },
+      {
+        to: '/discover',
+        label: 'Discover',
+        blurb: 'Find player-seasons that match your filters.',
+        match: exact('/discover'),
+      },
+      {
+        to: '/discover/recorded',
+        label: 'Group discovery',
+        blurb: 'Filter a recorded group of players by any statistic.',
+        match: exact('/discover/recorded'),
+      },
+      {
+        to: '/lab/groups',
+        label: 'Hypothetical five',
+        blurb: 'Build a hypothetical group from recorded player seasons.',
+        match: exact('/lab/groups'),
+      },
+    ],
+  },
+];
+
+export function sectionForPath(pathname: string): Section | null {
+  if (pathname === '/players' || pathname.startsWith('/players/'))
+    return SECTIONS[0] ?? null;
+  for (const section of SECTIONS) {
+    if (section.pages.some((page) => page.match(pathname))) return section;
+    if (pathname === section.to || pathname.startsWith(`${section.to}/`))
+      return section;
+  }
+  return null;
+}
+
+export function pageForPath(pathname: string): SectionPage | null {
+  for (const section of SECTIONS) {
+    const page = section.pages.find((candidate) => candidate.match(pathname));
+    if (page) return page;
+  }
+  return null;
+}
+
+/** Whether a route shows the section sub-navigation strip under the masthead. */
+export function hasSubnav(pathname: string) {
+  const section = sectionForPath(pathname);
+  return Boolean(section && section.pages.length > 1 && pageForPath(pathname));
+}

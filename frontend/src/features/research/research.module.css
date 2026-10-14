@@ -1,118 +1,33 @@
+/* Film Room page frame for every research route. Most of the look comes from the global `.fr`
+   scope (design/system.css); this module keeps the class names the research pages share. */
+
 .page {
-  max-width: 76rem;
-  margin: 0 auto;
-  padding: 6rem 1.25rem 3rem;
-  background: #fff;
-  color: #18181b;
-  font-family: system-ui, sans-serif;
-  line-height: 1.6;
-  min-height: 80vh;
+  min-height: 70vh;
   overflow-wrap: anywhere;
 }
 
-.page h1 {
-  font-family: inherit;
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 1rem 0;
-}
-
-.page h2 {
-  font-family: inherit;
-  font-size: 1.35rem;
-  font-weight: 700;
-  margin: 1.5rem 0 0.75rem;
-}
-
-.page p {
-  margin: 0.75rem 0;
-}
-
-.page a {
-  color: #1d4ed8;
-  text-decoration: underline;
-}
-
-.page nav,
 .controls {
   display: flex;
   flex-wrap: wrap;
   align-items: end;
-  gap: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-}
-
-.page label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  min-width: 0;
-  max-width: 100%;
-}
-
-.page input,
-.page select,
-.page textarea,
-.page button {
-  border: 1px solid #71717a;
+  gap: 14px 18px;
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid var(--line);
   border-radius: 3px;
-  padding: 0.5rem 0.75rem;
-  min-height: 44px;
-  max-width: 100%;
-  background: #fff;
-  color: #18181b;
-  font: inherit;
+  background: var(--coal);
 }
 
-.page button {
-  cursor: pointer;
-}
-
-.page button:disabled {
-  cursor: default;
-  color: #52525b;
-  background: #f4f4f5;
-}
-
-.page ul {
-  list-style: disc;
-  padding-left: 1.5rem;
-}
-
-.page th,
-.page td {
-  border-bottom: 1px solid #d4d4d8;
-  padding: 0.5rem 0.75rem;
-  text-align: left;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-}
-
-.page caption {
-  text-align: left;
-  font-weight: 600;
+.controls > :where(button) {
+  align-self: end;
 }
 
 .scroll {
   max-width: 100%;
   overflow-x: auto;
-  margin: 1rem 0;
+  margin: 16px 0;
 }
 
 .note {
-  border: 1px solid #71717a;
-  background: #f4f4f5;
-  padding: 1rem;
-  margin: 1rem 0;
-}
-
-.page fieldset {
-  border: 1px solid #a1a1aa;
-  padding: 1rem;
-  margin: 1rem 0;
-}
-
-.page textarea {
-  width: 100%;
-  min-height: 10rem;
+  margin: 20px 0;
 }
