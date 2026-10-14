@@ -22,12 +22,19 @@ import {
   type RecordedAnalyticsQuery,
   type RecordedProfilesQuery,
   RecordedProfilesResponseSchema,
+  type RecordedTeamRankingsQuery,
+  RecordedTeamRankingsResponseSchema,
 } from '@nba-performance-explorer/contracts';
 import { discoverRecorded } from './recorded-discovery.js';
 import { observedProgression } from './recorded-progression.js';
 import data from './recorded-snapshot.json' with { type: 'json' };
 import { analyzeRecordedPairs } from './recorded-statistics.js';
 import { normalizeRecordedProfiles } from './recorded-profiles.js';
+import {
+  summarizeRecordedTeam,
+  rankRecordedTeams,
+  recordedConferences,
+} from './recorded-team-rankings.js';
 type Participant = TeamArchiveResponse['statistics']['regular-season'][number];
 function metricValue(
   rows: readonly Participant[],
@@ -197,6 +204,45 @@ export class RecordedArchiveProvider {
           'Population z-scores use the same common cohort and population SD; constant categories have z=0 and percentile=50. Missing or excluded players have no categories or plotted zeros.',
           'Higher means numerically higher, not better. Steals/blocks are reported event counts, not defensive quality; radar area is not a player quality score.',
           'Changing selected players does not change the cohort. Changing GP, scope or categories can change eligibility. No complete league, era-adjusted or official qualification claim.',
+        ],
+      },
+    });
+  }
+  teamRankings(q: RecordedTeamRankingsQuery) {
+    const { verified, conflictingGameIds, unpairedGameIds } = this.reconcileGames();
+    return RecordedTeamRankingsResponseSchema.parse({
+      season: q.season,
+      scope: 'regular-season',
+      officialStandings: false,
+      conferenceSource: recordedConferences.source,
+      metric: q.metric,
+      order: q.order,
+      minGames: q.minGames,
+      completeOnly: q.completeOnly === 'true',
+      conference: q.conference ?? null,
+      ...rankRecordedTeams(
+        this.dataset.snapshots.map((s) => summarizeRecordedTeam(s, verified)),
+        q,
+      ),
+      reconciledGames: verified.length,
+      quarantinedGameIds: [...conflictingGameIds, ...unpairedGameIds],
+      snapshotCreatedAt: this.dataset.createdAt,
+      attributions: this.dataset.snapshots.map((s) => s.attribution),
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'regular-season',
+        coverage:
+          'Recorded 2023-24 source-agreed team samples and historical splits. These rankings are not official complete-season standings.',
+        warnings: [
+          'Conflicting or unpaired final scores are excluded globally. Observed GP and missing source game IDs are explicit; home/away splits use only the same verified games.',
+          'Last-ten W/L requires all ten most recent source-schedule games to agree. Terminal streak requires the complete source-ordered suffix through its opposite-result boundary; missing boundaries withhold it.',
+          'Source calendar dates must be unique per team to compute last-ten/streak order. No unknown within-day order is inferred.',
+          'Competition ranks use the selected metric, GP, coverage and conference cohort. Search retains ranks and denominator. No official tiebreak rules or games-behind from incomplete samples.',
+          'Points allowed is not defensive rating; final margin per game is not net rating. Possessions, pace and current availability are unavailable.',
         ],
       },
     });

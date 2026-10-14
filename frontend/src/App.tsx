@@ -96,6 +96,11 @@ const RecordedProfilesPage = lazy(() =>
     default: m.RecordedProfilesPage,
   })),
 );
+const RecordedTeamRankingsPage = lazy(() =>
+  import('./features/recorded-analytics/RecordedTeamRankingsPage').then((m) => ({
+    default: m.RecordedTeamRankingsPage,
+  })),
+);
 const ShotArchivePage = lazy(() =>
   import('./features/shot-archive/ShotArchivePage').then((m) => ({
     default: m.ShotArchivePage,
@@ -580,6 +585,14 @@ export function App() {
             }
           />
           <Route path="/players/:playerId" element={<PlayerProfilePage />} />
+          <Route
+            path="/standings/recorded"
+            element={
+              <Suspense fallback={<p role="status">Loading team rankings…</p>}>
+                <RecordedTeamRankingsPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/lab/profiles"
             element={

@@ -9,8 +9,28 @@ import {
 import { createApp } from '../../app.js';
 import { fixturePlayerProvider } from '../players/fixture-player-provider.js';
 import { providerTimeout, providerUnavailable } from '../players/provider-error.js';
+import { RecordedArchiveProvider } from '../recorded-archive/recorded-provider.js';
+import { createLineupStudyProvider } from '../lineup-study/lineup-study-provider.js';
 
 describe('research endpoints', () => {
+  it('reports configured genuine recorded and research lineup capabilities separately from unsupported official feeds', async () => {
+    const app = createApp(undefined, {
+      recordedArchiveProvider: new RecordedArchiveProvider(),
+      lineupStudyProvider: await createLineupStudyProvider(),
+    });
+    const response = await request(app).get('/api/data-sources/status');
+    const data = CapabilityResponseSchema.parse(response.body);
+    expect(data.hostVerified).toBe(false);
+    expect(
+      data.capabilities.find((c) => c.id === 'recorded-historical-research')?.status,
+    ).toBe('available');
+    expect(
+      data.capabilities.find((c) => c.id === 'research-lineup-reports')?.reason,
+    ).toContain('researcher-reconstructed');
+    expect(data.capabilities.find((c) => c.id === 'league-analytics')?.status).toBe(
+      'blocked',
+    );
+  });
   it('rejects mismatched player and season scope before displaying another record', async () => {
     const provider = Object.create(
       fixturePlayerProvider,

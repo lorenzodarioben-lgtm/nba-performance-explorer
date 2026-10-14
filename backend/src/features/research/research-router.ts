@@ -33,6 +33,8 @@ export function createResearchRouter(
     archive?: boolean;
     teamArchive?: boolean;
     shots?: boolean;
+    recorded?: boolean;
+    lineupStudy?: boolean;
   } = {},
 ) {
   const router = Router();
@@ -109,6 +111,20 @@ export function createResearchRouter(
         hostVerified: false,
         capabilities: [
           {
+            id: 'recorded-historical-research',
+            status: extensions.recorded ? 'available' : 'blocked',
+            reason: extensions.recorded
+              ? 'Genuine recorded 2023-24 cohort leaders, profiles, distributions, discovery, team samples and records. Incomplete historical coverage; no runtime upstream calls, official league rankings or current feed.'
+              : 'Recorded historical dataset disabled.',
+          },
+          {
+            id: 'research-lineup-reports',
+            status: extensions.lineupStudy ? 'available' : 'blocked',
+            reason: extensions.lineupStudy
+              ? 'Licensed researcher-reconstructed 2017-18 five-player groups with shared time and signed plus/minus. Source-native identities, one game quarantined; possessions, official event replay and on/off ratings unavailable.'
+              : 'Research lineup dataset disabled.',
+          },
+          {
             id: 'historical-team-roster-results',
             status: extensions.teamArchive ? 'conditional' : 'blocked',
             reason: extensions.teamArchive
@@ -175,8 +191,8 @@ export function createResearchRouter(
             id: 'shots-lineups-history',
             status: extensions.shots ? 'conditional' : 'blocked',
             reason: extensions.shots
-              ? 'CC0 recorded partial2018 playoff shot events with verified IDs/coordinate reconciliation; real lineups and comprehensive history remain unavailable.'
-              : 'Shot provider disabled; real lineups and comprehensive history remain unavailable.',
+              ? 'CC0 recorded partial 2018 playoff shot events with verified IDs and coordinate reconciliation. Research lineup reports are a separate capability; comprehensive history remains unavailable.'
+              : 'Shot provider disabled; research lineups are reported separately and comprehensive history remains unavailable.',
           },
           {
             id: 'league-analytics',

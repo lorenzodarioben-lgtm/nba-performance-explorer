@@ -1,0 +1,625 @@
+{
+  "checkedAt": "2026-10-14T12:49:55.031Z",
+  "status": "PASS",
+  "failure": null,
+  "environment": "local-production-mode-genuine-providers",
+  "productionHostTested": false,
+  "deployed": false,
+  "requests": 87,
+  "contractApiChecks": 46,
+  "spaDirectRefreshChecks": 36,
+  "byteIdenticalRecordedAssets": true,
+  "genuineCsvContentVerified": true,
+  "durationMilliseconds": 1346,
+  "results": [
+    {
+      "path": "/api/health",
+      "status": 200,
+      "milliseconds": 67,
+      "bytes": 95,
+      "ok": true
+    },
+    {
+      "path": "/api/data-sources/status",
+      "status": 200,
+      "milliseconds": 6,
+      "bytes": 2821,
+      "ok": true
+    },
+    {
+      "path": "/api/players?search=Stephen",
+      "status": 200,
+      "milliseconds": 22,
+      "bytes": 424,
+      "ok": true
+    },
+    {
+      "path": "/api/players/201939",
+      "status": 200,
+      "milliseconds": 4,
+      "bytes": 256,
+      "ok": true
+    },
+    {
+      "path": "/api/players/201939/seasons",
+      "status": 200,
+      "milliseconds": 5,
+      "bytes": 880,
+      "ok": true
+    },
+    {
+      "path": "/api/players/201939/seasons/2023-24/stats",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 310,
+      "ok": true
+    },
+    {
+      "path": "/api/players/201939/season-trends",
+      "status": 200,
+      "milliseconds": 7,
+      "bytes": 5116,
+      "ok": true
+    },
+    {
+      "path": "/api/players/201939/seasons/2023-24/games",
+      "status": 200,
+      "milliseconds": 10,
+      "bytes": 13723,
+      "ok": true
+    },
+    {
+      "path": "/api/players/201939/insights?season=2023-24",
+      "status": 200,
+      "milliseconds": 9,
+      "bytes": 23706,
+      "ok": true
+    },
+    {
+      "path": "/api/players/201939/totals?season=2023-24",
+      "status": 200,
+      "milliseconds": 14,
+      "bytes": 1001,
+      "ok": true
+    },
+    {
+      "path": "/api/players/201939/career?minGames=20",
+      "status": 200,
+      "milliseconds": 8,
+      "bytes": 17304,
+      "ok": true
+    },
+    {
+      "path": "/api/players/201939/game-research?season=2023-24",
+      "status": 200,
+      "milliseconds": 485,
+      "bytes": 111032,
+      "ok": true
+    },
+    {
+      "path": "/api/players/201939/season-scopes?season=2023-24",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 1793,
+      "ok": true
+    },
+    {
+      "path": "/api/analytics/compare?players=201939,2544&seasons=2023-24,2023-24",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1615,
+      "ok": true
+    },
+    {
+      "path": "/api/analytics/cohort?players=201939,2544&seasons=2023-24,2023-24",
+      "status": 200,
+      "milliseconds": 5,
+      "bytes": 2244,
+      "ok": true
+    },
+    {
+      "path": "/api/analytics/careers?players=201939,2544",
+      "status": 200,
+      "milliseconds": 7,
+      "bytes": 39627,
+      "ok": true
+    },
+    {
+      "path": "/api/teams",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 3262,
+      "ok": true
+    },
+    {
+      "path": "/api/teams/nba:1610612747",
+      "status": 200,
+      "milliseconds": 1,
+      "bytes": 748,
+      "ok": true
+    },
+    {
+      "path": "/api/teams/nba:1610612747/archive?season=2023-24",
+      "status": 200,
+      "milliseconds": 5,
+      "bytes": 46301,
+      "ok": true
+    },
+    {
+      "path": "/api/standings",
+      "status": 200,
+      "milliseconds": 7,
+      "bytes": 13059,
+      "ok": true
+    },
+    {
+      "path": "/api/leaders",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 13059,
+      "ok": true
+    },
+    {
+      "path": "/api/games",
+      "status": 200,
+      "milliseconds": 5,
+      "bytes": 75169,
+      "ok": true
+    },
+    {
+      "path": "/api/games/nba:0042300405",
+      "status": 200,
+      "milliseconds": 5,
+      "bytes": 1907,
+      "ok": true
+    },
+    {
+      "path": "/api/history/seasons",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 19147,
+      "ok": true
+    },
+    {
+      "path": "/api/history/seasons/1999-00",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1179,
+      "ok": true
+    },
+    {
+      "path": "/api/history/awards",
+      "status": 200,
+      "milliseconds": 164,
+      "bytes": 4323,
+      "ok": true
+    },
+    {
+      "path": "/api/history/draft?pageSize=30",
+      "status": 200,
+      "milliseconds": 7,
+      "bytes": 16140,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/directory",
+      "status": 200,
+      "milliseconds": 8,
+      "bytes": 103727,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/leaders",
+      "status": 200,
+      "milliseconds": 5,
+      "bytes": 19929,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/records",
+      "status": 200,
+      "milliseconds": 4,
+      "bytes": 9644,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/team-comparison?teams=nba:1610612747,nba:1610612738",
+      "status": 200,
+      "milliseconds": 8,
+      "bytes": 3620,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/hypothetical?players=2544,201939,203076,1629029,1626157",
+      "status": 200,
+      "milliseconds": 6,
+      "bytes": 3500,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/analytics?target=201939",
+      "status": 200,
+      "milliseconds": 42,
+      "bytes": 90336,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/profiles?players=201939,2544,999",
+      "status": 200,
+      "milliseconds": 65,
+      "bytes": 10190,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/team-rankings",
+      "status": 200,
+      "milliseconds": 9,
+      "bytes": 36103,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/discovery?target=201939",
+      "status": 200,
+      "milliseconds": 44,
+      "bytes": 31420,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/calendar?day=02-29",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 13566,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/progression",
+      "status": 200,
+      "milliseconds": 5,
+      "bytes": 25156,
+      "ok": true
+    },
+    {
+      "path": "/api/shots/directory",
+      "status": 200,
+      "milliseconds": 1,
+      "bytes": 33944,
+      "ok": true
+    },
+    {
+      "path": "/api/shots?players=201939",
+      "status": 200,
+      "milliseconds": 6,
+      "bytes": 73004,
+      "ok": true
+    },
+    {
+      "path": "/api/shots/box?game=nba:0041700402",
+      "status": 200,
+      "milliseconds": 4,
+      "bytes": 12409,
+      "ok": true
+    },
+    {
+      "path": "/api/research-lineups/directory",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 28846,
+      "ok": true
+    },
+    {
+      "path": "/api/research-lineups?members=br:curryst01",
+      "status": 200,
+      "milliseconds": 4,
+      "bytes": 18926,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/team-rankings?conference=West&search=LAL",
+      "status": 200,
+      "milliseconds": 4,
+      "bytes": 9824,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/team-rankings?completeOnly=true",
+      "status": 200,
+      "milliseconds": 8,
+      "bytes": 23331,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/team-rankings?metric=lastTenWins",
+      "status": 200,
+      "milliseconds": 6,
+      "bytes": 35639,
+      "ok": true
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/history/draft",
+      "status": 200,
+      "milliseconds": 5,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/games/shooting",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/lab/lineups",
+      "status": 200,
+      "milliseconds": 1,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/history/progression",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/history/awards",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/discover/recorded",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/history/calendar",
+      "status": 200,
+      "milliseconds": 1,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/lab/shots",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/lab/recorded",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/lab/groups",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/lab/teams",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/leaders/recorded",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/history/records",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/players/201939/shooting",
+      "status": 200,
+      "milliseconds": 1,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/discover",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/standings",
+      "status": 200,
+      "milliseconds": 4,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/leaders",
+      "status": 200,
+      "milliseconds": 6,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/games",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/games/nba:0042300405",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/history",
+      "status": 200,
+      "milliseconds": 1,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/history/1999-00",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/players/201939/games",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/lab/careers",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/players/201939/career",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/lab/analytics",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/teams",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/teams/nba:1610612747",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/my-nba",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/lab/compare",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/explore",
+      "status": 200,
+      "milliseconds": 4,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/players/201939/insights",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/players/201939",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/standings/recorded",
+      "status": 200,
+      "milliseconds": 3,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/lab/profiles",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/compare",
+      "status": 200,
+      "milliseconds": 2,
+      "bytes": 1927,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/team-rankings?metric=netRating",
+      "status": 400,
+      "milliseconds": 1,
+      "bytes": 154,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/profiles?players=1,1",
+      "status": 400,
+      "milliseconds": 2,
+      "bytes": 168,
+      "ok": true
+    },
+    {
+      "path": "/api/shots?players=999",
+      "status": 404,
+      "milliseconds": 2,
+      "bytes": 129,
+      "ok": true
+    },
+    {
+      "path": "/api/history/draft?year=2026",
+      "status": 400,
+      "milliseconds": 1,
+      "bytes": 133,
+      "ok": true
+    },
+    {
+      "path": "/api/recorded/team-rankings",
+      "status": 405,
+      "milliseconds": 1,
+      "bytes": 84,
+      "ok": true
+    }
+  ]
+}

@@ -9,11 +9,31 @@ import {
   RecordedCalendarQuerySchema,
   RecordedProgressionQuerySchema,
   RecordedProfilesQuerySchema,
+  RecordedTeamRankingsQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
 export function createRecordedRouter(provider: RecordedArchiveProvider | undefined) {
   const router = Router();
+  router.get('/team-rankings', (req, res) => {
+    const q = RecordedTeamRankingsQuerySchema.safeParse(req.query);
+    if (!q.success)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_TEAM_RANKINGS',
+        'Choose a recorded team metric, qualification, conference and coverage filter.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    return res.json(provider.teamRankings(q.data));
+  });
+  router.all('/team-rankings', methodNotAllowedHandler);
   router.get('/profiles', (req, res) => {
     const q = RecordedProfilesQuerySchema.safeParse(req.query);
     if (!q.success)

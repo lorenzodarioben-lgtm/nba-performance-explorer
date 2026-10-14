@@ -167,6 +167,8 @@ export function createApp(
         archive: !!options.archiveProvider,
         teamArchive: !!options.teamArchiveProvider,
         shots: !!options.shotArchiveProvider,
+        recorded: !!options.recordedArchiveProvider,
+        lineupStudy: !!options.lineupStudyProvider,
       },
     ),
   );
