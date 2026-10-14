@@ -121,8 +121,9 @@ describe('AppRoot', () => {
 
     render(<AppRoot queryClient={createTestQueryClient()} />);
 
+    // The home h1 carries the product name alongside the "Read the game." headline.
     expect(
-      screen.getByRole('heading', { level: 1, name: 'NBA Performance Explorer' }),
+      screen.getByRole('heading', { level: 1, name: /NBA Performance Explorer/ }),
     ).toBeInTheDocument();
   });
 

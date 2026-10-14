@@ -275,3 +275,31 @@ licence and React-native layout/presence primitives; no second animation library
   per point.
 - Results: frontend **343/343**; lint 0 errors; typecheck pass. Browser check on the genuine
   archive: group scatter hover, lineup cards, hypothetical frame, season timeline.
+
+## Stage 9 (part 1) — homepage and scroll-triggered motion fix
+
+- Home (`/`): Arena hero — Wembanyama photograph with clip reveal, pointer depth and scroll
+  parallax; court lines in depth; eyebrow "NBA.com player data · historical archives ·
+  nothing live"; h1 = "NBA Performance Explorer" + kinetic "READ / THE GAME." (no blocking
+  splash; the page is usable while the type rises). Player search and a plain-language
+  service status ("Connecting to the data service…", "Data service available") replace the
+  "live data" wording. The rundown: six numbered section rows with a red sweep on hover.
+  "On tape now": three previews of genuine archives (Curry's 2018 playoff shots on the
+  court, 2023–24 conference leaders, the last recorded playoff final) that share query keys
+  with their destination pages. Head-to-head call to action. The capability marquee and
+  the "Tip off" block are retired.
+- **Motion fix (browser-found):** a fully clipped reveal never intersects in Chromium, and a
+  zero-size mark (scale 0) has nothing to observe, so some `whileInView` animations never
+  fired under full motion (screenshots taken with reduced motion hid this). Clip reveals now
+  observe an unclipped wrapper; every zero-start chart mark (slate tick, bars, ladders,
+  margin flow, unit bars, mirror bars, rank bars, line-chart draw, scatter and strip marks)
+  animates from its container's visibility via `useSeen()`. Verified in Chromium with full
+  motion: every probed mark reaches its true end state.
+- Test re-expressions: the home h1 name is matched with `/NBA Performance Explorer/` (the
+  heading now also carries "Read the game."); the three service-status strings follow the
+  plain-language copy ("data service", never "live data"). Test server defaults: the
+  shot, standings and playoff-game archives answer 503 unless a test overrides them (the home
+  previews read them).
+- Results: frontend **343/343**; lint 0 errors; typecheck pass. Browser: smoke **78/78**
+  (desktop + phone) and axe **39/39 routes with zero serious/critical violations** (Stage 0
+  baseline: 0/39).

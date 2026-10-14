@@ -2,6 +2,7 @@ import {
   AnimatePresence,
   motion,
   MotionGlobalConfig,
+  useInView,
   useIsPresent,
   useMotionValue,
   useSpring,
@@ -11,6 +12,7 @@ import {
 import {
   Fragment,
   useEffect,
+  useRef,
   useSyncExternalStore,
   type ElementType,
   type ReactNode,
@@ -125,6 +127,27 @@ export function Reveal({
     const Plain = as as ElementType;
     return <Plain className={className}>{children}</Plain>;
   }
+  const transition = {
+    duration: duration ?? (variant === 'wipe' || variant === 'mask' ? 0.9 : 0.7),
+    ease: easings.arena,
+    delay,
+  };
+  // A fully clipped element never intersects (Chromium applies clip-path to intersection), so
+  // clip reveals observe an unclipped wrapper and clip an inner layer through variants.
+  if (variant === 'mask' || variant === 'wipe') {
+    return (
+      <Component
+        className={className}
+        initial="hidden"
+        whileInView="shown"
+        viewport={{ once: true, amount, margin: '0px 0px -6% 0px' }}
+      >
+        <motion.div variants={revealVariants[variant]} transition={transition}>
+          {children}
+        </motion.div>
+      </Component>
+    );
+  }
   return (
     <Component
       className={className}
@@ -132,11 +155,7 @@ export function Reveal({
       initial="hidden"
       whileInView="shown"
       viewport={{ once: true, amount, margin: '0px 0px -6% 0px' }}
-      transition={{
-        duration: duration ?? (variant === 'wipe' || variant === 'mask' ? 0.9 : 0.7),
-        ease: easings.arena,
-        delay,
-      }}
+      transition={transition}
     >
       {children}
     </Component>
@@ -335,4 +354,17 @@ export function RouteEntrance({
       {children}
     </motion.div>
   );
+}
+
+// ------------------------------------------------------------------ in view once
+
+/**
+ * Whether a container has scrolled into view (once). Chart marks that start at zero size (a bar
+ * at scaleX 0, a fully clipped layer) cannot be observed themselves — an empty box never
+ * intersects — so they animate from their container's visibility instead.
+ */
+export function useSeen<T extends Element = HTMLDivElement>(amount = 0.15) {
+  const ref = useRef<T>(null);
+  const seen = useInView(ref, { once: true, amount });
+  return [ref, seen] as const;
 }

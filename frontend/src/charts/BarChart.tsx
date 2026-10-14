@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { useId, useMemo, useState, type KeyboardEvent, type ReactNode } from 'react';
 
+import { useSeen } from '../motion/choreography';
 import { useMotionAllowed } from '../motion/MotionPreference';
 import { easings, springs } from '../motion/tokens';
 import { ChartTip, TipRow } from './ChartTip';
@@ -50,6 +51,7 @@ export function BarChart({
 }) {
   const [measure, width] = useChartWidth();
   const allowed = useMotionAllowed();
+  const [seenRef, seen] = useSeen<HTMLDivElement>();
   const readoutId = useId();
   const [active, setActive] = useState<number | null>(null);
 
@@ -103,6 +105,7 @@ export function BarChart({
   return (
     <div className="bchart" ref={measure}>
       <div
+        ref={seenRef}
         className="lchart__surface"
         role="group"
         tabIndex={0}
@@ -167,9 +170,7 @@ export function BarChart({
                   fill: isOn ? accent : fill,
                 }}
                 initial={{ scaleY: 0, y: top, height: h }}
-                whileInView={{ scaleY: 1 }}
-                animate={{ y: top, height: h }}
-                viewport={{ once: true, amount: 0.2 }}
+                animate={{ scaleY: seen ? 1 : 0, y: top, height: h }}
                 transition={{
                   scaleY: {
                     duration: 0.7,

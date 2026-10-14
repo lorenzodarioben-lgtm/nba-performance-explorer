@@ -8,6 +8,7 @@ import {
   type PointerEvent,
 } from 'react';
 
+import { useSeen } from '../motion/choreography';
 import { useMotionAllowed } from '../motion/MotionPreference';
 import { easings } from '../motion/tokens';
 import { ChartTip, TipRow } from './ChartTip';
@@ -55,6 +56,7 @@ export function ScatterPlot({
 }) {
   const [measure, width] = useChartWidth();
   const allowed = useMotionAllowed();
+  const [seenRef, seen] = useSeen<HTMLDivElement>();
   const readoutId = useId();
   const [active, setActive] = useState<string | null>(null);
   const brushRect = useRef<SVGRectElement>(null);
@@ -180,6 +182,7 @@ export function ScatterPlot({
   return (
     <div className="scatter" ref={measure}>
       <div
+        ref={seenRef}
         className="lchart__surface"
         role="group"
         tabIndex={0}
@@ -274,8 +277,7 @@ export function ScatterPlot({
                   strokeWidth={isOn ? 2 : 1.5}
                   style={{ transformBox: 'fill-box', originX: 0.5, originY: 0.5 }}
                   initial={allowed ? { scale: 0, opacity: 0 } : false}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
+                  animate={seen ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
                   transition={{
                     duration: 0.4,
                     ease: easings.arena,

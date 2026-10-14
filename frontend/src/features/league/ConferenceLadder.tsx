@@ -2,6 +2,7 @@ import type { ArchiveLeagueResponse } from '@nba-performance-explorer/contracts'
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
 
+import { useSeen } from '../../motion/choreography';
 import { useMotionAllowed } from '../../motion/MotionPreference';
 import { easings, springs } from '../../motion/tokens';
 
@@ -69,8 +70,9 @@ function Ladder({
   showCuts: boolean;
 }) {
   const allowed = useMotionAllowed();
+  const [ref, seen] = useSeen<HTMLElement>();
   return (
-    <section className="ladder" aria-label={`${name}ern Conference ladder`}>
+    <section ref={ref} className="ladder" aria-label={`${name}ern Conference ladder`}>
       <h2 className="ladder__title">
         {name}
         <span>Conference</span>
@@ -102,8 +104,7 @@ function Ladder({
               <motion.i
                 style={{ originX: 0 }}
                 initial={allowed ? { scaleX: 0 } : false}
-                whileInView={{ scaleX: (row.gamesBehind ?? 0) / maxGb }}
-                viewport={{ once: true }}
+                animate={{ scaleX: seen ? (row.gamesBehind ?? 0) / maxGb : 0 }}
                 transition={{ duration: 0.8, ease: easings.arena, delay: index * 0.03 }}
               />
             </span>

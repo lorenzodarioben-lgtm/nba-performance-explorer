@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import type { ReactNode } from 'react';
 
+import { useSeen } from '../motion/choreography';
 import { useMotionAllowed } from '../motion/MotionPreference';
 import { easings } from '../motion/tokens';
 import { Tape, type TapeSpec } from './Tape';
@@ -27,9 +28,10 @@ export function Slate({
   actions?: ReactNode;
 }) {
   const allowed = useMotionAllowed();
+  const [ref, seen] = useSeen<HTMLDivElement>();
   const Heading = as;
   return (
-    <div className={`slate ${compact ? 'slate--compact' : ''}`}>
+    <div ref={ref} className={`slate ${compact ? 'slate--compact' : ''}`}>
       <span className="slate__clap" aria-hidden="true" />
       <Heading className="slate__title" id={id}>
         {title}
@@ -56,8 +58,7 @@ export function Slate({
           aria-hidden="true"
           className="slate__tick"
           initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true }}
+          animate={{ scaleX: seen ? 1 : 0 }}
           transition={{ duration: 0.9, ease: easings.arena, delay: 0.1 }}
         />
       ) : (

@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from 'react';
 
+import { useSeen } from '../motion/choreography';
 import { useMotionAllowed } from '../motion/MotionPreference';
 import { easings, springs } from '../motion/tokens';
 import { ChartTip, TipRow } from './ChartTip';
@@ -97,6 +98,7 @@ export function LineChart({
 }) {
   const [measure, width] = useChartWidth();
   const allowed = useMotionAllowed();
+  const [seenRef, seen] = useSeen<HTMLDivElement>();
   const clipId = useId();
   const readoutId = useId();
   const [active, setActive] = useState<number | null>(null);
@@ -232,6 +234,7 @@ export function LineChart({
   return (
     <div className="lchart" ref={measure}>
       <div
+        ref={seenRef}
         className="lchart__surface"
         role="group"
         aria-label={`${label}. Use the arrow keys to read each point${brushable ? '; hold Shift to select a range' : ''}.`}
@@ -251,8 +254,7 @@ export function LineChart({
                   height={height}
                   style={{ originX: 0, transformBox: 'fill-box' }}
                   initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true, amount: 0.3 }}
+                  animate={{ scaleX: seen ? 1 : 0 }}
                   transition={{ duration: 1.25, ease: easings.arena }}
                 />
               ) : (

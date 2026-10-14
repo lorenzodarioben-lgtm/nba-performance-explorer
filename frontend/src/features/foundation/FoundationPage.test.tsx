@@ -22,7 +22,8 @@ describe('landing page', () => {
     renderApp();
 
     expect(
-      screen.getByRole('heading', { level: 1, name: 'NBA Performance Explorer' }),
+      // The h1 carries the product name with the "Read the game." headline.
+      screen.getByRole('heading', { level: 1, name: /NBA Performance Explorer/ }),
     ).toBeInTheDocument();
     expect(screen.getByText(/Search any NBA player and explore/i)).toBeInTheDocument();
     // The supported capabilities are listed.
@@ -54,7 +55,7 @@ describe('landing page', () => {
 
     const heading = screen.getByRole('heading', {
       level: 1,
-      name: 'NBA Performance Explorer',
+      name: /NBA Performance Explorer/,
     });
     await waitFor(() => expect(heading).toHaveFocus());
     // The heading is programmatically focusable but must not be a permanent tab stop.
@@ -76,7 +77,8 @@ describe('landing page', () => {
     renderApp();
 
     const status = screen.getByRole('status');
-    expect(status).toHaveTextContent('Connecting to live data');
+    // Plain-language status: the data service, never "live data".
+    expect(status).toHaveTextContent('Connecting to the data service');
     expect(status).toHaveAttribute('aria-live', 'polite');
   });
 
@@ -93,7 +95,7 @@ describe('landing page', () => {
 
     renderApp();
 
-    expect(await screen.findByText('Live data service available')).toBeInTheDocument();
+    expect(await screen.findByText('Data service available')).toBeInTheDocument();
     // The raw service identifier is never rendered, even though the response contains it.
     expect(screen.queryByText(/nba-performance-explorer-api/)).not.toBeInTheDocument();
   });
@@ -117,7 +119,7 @@ describe('landing page', () => {
     renderApp();
 
     expect(
-      await screen.findByText(/Live data service temporarily unavailable/),
+      await screen.findByText(/Data service temporarily unavailable/),
     ).toBeInTheDocument();
     // A failed health check must not block or disable the player search.
     expect(

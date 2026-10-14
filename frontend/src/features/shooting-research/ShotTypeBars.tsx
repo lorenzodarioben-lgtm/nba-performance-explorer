@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 
+import { useSeen } from '../../motion/choreography';
 import { useMotionAllowed } from '../../motion/MotionPreference';
 import { easings } from '../../motion/tokens';
 
@@ -17,9 +18,10 @@ interface Row {
  */
 export function ShotTypeBars({ rows }: { rows: readonly Row[] }) {
   const allowed = useMotionAllowed();
+  const [ref, seen] = useSeen<HTMLDivElement>();
   const maxAttempts = Math.max(1, ...rows.map((row) => row.attempted ?? 0));
   return (
-    <div className="shotbars" data-chart="shot-types" aria-hidden="true">
+    <div ref={ref} className="shotbars" data-chart="shot-types" aria-hidden="true">
       {rows.map((row, index) => {
         const track = row.attempted === null ? 0 : row.attempted / maxAttempts;
         const made =
@@ -34,18 +36,14 @@ export function ShotTypeBars({ rows }: { rows: readonly Row[] }) {
                 className="shotbars__att"
                 style={{ originX: 0 }}
                 initial={allowed ? { scaleX: 0 } : false}
-                whileInView={{ scaleX: track }}
-                animate={{ scaleX: track }}
-                viewport={{ once: true }}
+                animate={{ scaleX: seen ? track : 0 }}
                 transition={{ duration: 0.8, ease: easings.arena, delay: index * 0.08 }}
               >
                 <motion.span
                   className="shotbars__made"
                   style={{ originX: 0 }}
                   initial={allowed ? { scaleX: 0 } : false}
-                  whileInView={{ scaleX: made }}
-                  animate={{ scaleX: made }}
-                  viewport={{ once: true }}
+                  animate={{ scaleX: seen ? made : 0 }}
                   transition={{
                     duration: 0.8,
                     ease: easings.arena,

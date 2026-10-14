@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import type { ReactNode } from 'react';
 
+import { useSeen } from '../motion/choreography';
 import { useMotionAllowed } from '../motion/MotionPreference';
 import { easings, springs } from '../motion/tokens';
 
@@ -30,6 +31,7 @@ export function RankBars({
   color?: string;
 }) {
   const allowed = useMotionAllowed();
+  const [ref, seen] = useSeen<HTMLOListElement>();
   // Signed values (e.g. a margin) diverge from a centre line instead of a left edge.
   const diverging = rows.some((row) => row.value !== null && row.value < 0);
   const maxAbs = Math.max(
@@ -45,7 +47,7 @@ export function RankBars({
         .filter((value): value is number => value !== null),
     );
   return (
-    <ol className="rankbars" aria-label={label}>
+    <ol ref={ref} className="rankbars" aria-label={label}>
       {rows.map((row, index) => {
         const ratio = diverging
           ? row.value === null || maxAbs <= 0
@@ -79,9 +81,7 @@ export function RankBars({
                     originX: negative ? 1 : 0,
                   }}
                   initial={allowed ? { scaleX: 0 } : false}
-                  whileInView={{ scaleX: ratio }}
-                  animate={{ scaleX: ratio }}
-                  viewport={{ once: true }}
+                  animate={{ scaleX: seen ? ratio : 0 }}
                   transition={{
                     duration: 0.8,
                     ease: easings.arena,

@@ -2,7 +2,7 @@ import type { ArchiveGame } from '@nba-performance-explorer/contracts';
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
 
-import { Stagger, StaggerItem } from '../../motion/choreography';
+import { Stagger, StaggerItem, useSeen } from '../../motion/choreography';
 import { useMotionAllowed } from '../../motion/MotionPreference';
 import { easings } from '../../motion/tokens';
 import { Tape } from '../../ui/Tape';
@@ -146,6 +146,7 @@ export function LineScore({ game }: { game: ArchiveGame }) {
  */
 export function MarginFlow({ game }: { game: ArchiveGame }) {
   const allowed = useMotionAllowed();
+  const [ref, seen] = useSeen<HTMLDivElement>();
   // Running home lead after each period, from the published period scores.
   const points = game.quarters.map((q, index) => {
     const margin = game.quarters
@@ -155,7 +156,7 @@ export function MarginFlow({ game }: { game: ArchiveGame }) {
   });
   const max = Math.max(4, ...points.map((p) => Math.abs(p.margin)));
   return (
-    <div className="marginflow" aria-hidden="true">
+    <div ref={ref} className="marginflow" aria-hidden="true">
       <div className="marginflow__labels">
         <span>{game.home.abbreviation} ahead</span>
         <span>{game.away.abbreviation} ahead</span>
@@ -171,8 +172,7 @@ export function MarginFlow({ game }: { game: ArchiveGame }) {
                   <motion.i
                     style={{ originY: 1 }}
                     initial={allowed ? { scaleY: 0 } : false}
-                    whileInView={{ scaleY: share }}
-                    viewport={{ once: true }}
+                    animate={{ scaleY: seen ? share : 0 }}
                     transition={{
                       duration: 0.6,
                       ease: easings.arena,
@@ -187,8 +187,7 @@ export function MarginFlow({ game }: { game: ArchiveGame }) {
                     className="is-away"
                     style={{ originY: 0 }}
                     initial={allowed ? { scaleY: 0 } : false}
-                    whileInView={{ scaleY: share }}
-                    viewport={{ once: true }}
+                    animate={{ scaleY: seen ? share : 0 }}
                     transition={{
                       duration: 0.6,
                       ease: easings.arena,

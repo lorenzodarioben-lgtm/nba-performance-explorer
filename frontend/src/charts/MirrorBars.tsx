@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 
+import { useSeen } from '../motion/choreography';
 import { useMotionAllowed } from '../motion/MotionPreference';
 import { easings } from '../motion/tokens';
 
@@ -30,8 +31,9 @@ export function MirrorBars({
   colorB?: string;
 }) {
   const allowed = useMotionAllowed();
+  const [ref, seen] = useSeen<HTMLDivElement>();
   return (
-    <div className="mirror" aria-hidden="true">
+    <div ref={ref} className="mirror" aria-hidden="true">
       <div className="mirror__head">
         <span>
           <i style={{ background: colorA }} />
@@ -53,9 +55,7 @@ export function MirrorBars({
               <motion.i
                 style={{ background: colorA, originX: 1 }}
                 initial={allowed ? { scaleX: 0 } : false}
-                whileInView={{ scaleX: ratio(row.a) }}
-                animate={{ scaleX: ratio(row.a) }}
-                viewport={{ once: true }}
+                animate={{ scaleX: seen ? ratio(row.a) : 0 }}
                 transition={{ duration: 0.7, ease: easings.arena, delay: index * 0.05 }}
               />
             </span>
@@ -65,9 +65,7 @@ export function MirrorBars({
                 className="is-hatch"
                 style={{ background: colorB, originX: 0 }}
                 initial={allowed ? { scaleX: 0 } : false}
-                whileInView={{ scaleX: ratio(row.b) }}
-                animate={{ scaleX: ratio(row.b) }}
-                viewport={{ once: true }}
+                animate={{ scaleX: seen ? ratio(row.b) : 0 }}
                 transition={{ duration: 0.7, ease: easings.arena, delay: index * 0.05 }}
               />
             </span>
