@@ -160,9 +160,12 @@ export function BarChart({
                 className={`bchart__bar ${isOn ? 'is-on' : ''}`}
                 x={x}
                 width={barW}
-                fill={isOn ? accent : fill}
                 rx={1.5}
-                style={{ originY: 1, transformBox: 'fill-box' }}
+                style={{
+                  originY: 1,
+                  transformBox: 'fill-box',
+                  fill: isOn ? accent : fill,
+                }}
                 initial={{ scaleY: 0, y: top, height: h }}
                 whileInView={{ scaleY: 1 }}
                 animate={{ y: top, height: h }}
@@ -185,7 +188,7 @@ export function BarChart({
                 width={barW}
                 height={h}
                 rx={1.5}
-                fill={isOn ? accent : fill}
+                style={{ fill: isOn ? accent : fill }}
               />
             );
           })}

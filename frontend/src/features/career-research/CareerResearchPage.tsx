@@ -13,6 +13,14 @@ import {
 } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
+import { useHubIdentity } from '../player-hub/hub-context';
+import { CareerArc } from './CareerVisuals';
+import { Slate } from '../../ui/Slate';
+import { FlipValue } from '../../motion/choreography';
+import type { TapeSpec } from '../../ui/Tape';
+
+const QUERIED: TapeSpec = { code: 'NBA.com', source: 'Queried', variant: 'queried' };
+const DERIVED: TapeSpec = { code: 'Calculated', variant: 'derived' };
 
 const format = (n: number | null, ratio = false) =>
   n === null ? 'Unavailable' : ratio ? `${(n * 100).toFixed(2)}%` : n.toFixed(2);
@@ -29,11 +37,11 @@ export function CareerResearchPage() {
   const scope = parsed.success ? parsed.data.scope : 'regular-season';
   const query = useCareerResearch(playerId, metric, minGames, valid, scope);
   const data = valid ? query.data : undefined;
+  useHubIdentity(data ? { playerId, name: data.player.fullName } : null);
   return (
     <ResearchShell
       title={data ? `${data.player.fullName} · reported career` : 'Reported career'}
     >
-      <Link to={`/players/${playerId}/insights`}>Player insights</Link>
       {!valid ? (
         <p role="alert">
           Invalid career URL.{' '}
@@ -101,7 +109,34 @@ export function CareerResearchPage() {
             </label>
             <button>Apply peak criterion</button>
           </form>
-          <h2>Qualified peak</h2>
+          {data.seasons.length > 1 ? (
+            <section className="frmod" aria-labelledby="career-arc-title">
+              <Slate
+                id="career-arc-title"
+                title="Career arc"
+                tapes={[QUERIED]}
+                meta={[`${data.seasons.length} reported seasons`, scope]}
+              />
+              <CareerArc seasons={data.seasons} scope={scope} />
+            </section>
+          ) : null}
+          <Slate title="Qualified peak" tapes={[QUERIED, DERIVED]} />
+          <div className="peakboard">
+            <span className="peakboard__label">Highest {CAREER_METRICS[metric]}</span>
+            <span className="peakboard__value">
+              <FlipValue
+                value={format(
+                  data.peak.value,
+                  metric === 'trueShooting' || metric === 'effectiveFieldGoal',
+                )}
+              />
+            </span>
+            <span className="peakboard__meta">
+              {data.peak.seasons.length
+                ? data.peak.seasons.join(' · ')
+                : 'No qualifying season'}
+            </span>
+          </div>
           <p>
             {data.peak.qualifiedSeasons} qualified seasons; {data.peak.excludedSeasons}{' '}
             excluded for insufficient games or unavailable inputs. Highest{' '}
@@ -129,7 +164,10 @@ export function CareerResearchPage() {
           )}
           {data.aggregate ? (
             <>
-              <h2>Totals across reported seasons</h2>
+              <Slate
+                title="Totals across reported seasons"
+                tapes={[QUERIED, DERIVED]}
+              />
               <ResearchTable label="Reported career aggregate">
                 <table>
                   <caption>
@@ -166,7 +204,7 @@ export function CareerResearchPage() {
               Career records are {data.status}. No synthetic totals are shown.
             </p>
           )}
-          <h2>Reported milestone tracker</h2>
+          <Slate title="Reported milestone tracker" tapes={[QUERIED, DERIVED]} />
           <p>
             Thresholds cover reported rows only. A crossing identifies a reported
             season, not the actual first career crossing or an exact game date.
@@ -203,7 +241,7 @@ export function CareerResearchPage() {
               </tbody>
             </table>
           </ResearchTable>
-          <h2>Season timeline</h2>
+          <Slate title="Season timeline" tapes={[QUERIED]} />
           <ResearchTable label="Reported season timeline">
             <table>
               <caption>

@@ -64,6 +64,7 @@ function Curves({
   const y = (v: number) => 220 - 180 * (maxY === 0 ? 0 : v / maxY);
   return (
     <svg
+      data-chart="career-curves"
       viewBox="0 0 600 290"
       aria-hidden="true"
       style={{ width: '100%', maxWidth: 800 }}

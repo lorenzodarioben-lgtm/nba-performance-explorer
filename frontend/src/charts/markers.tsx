@@ -58,8 +58,8 @@ export function ChartLegend({
     id: string;
     label: string;
     color: string;
-    dash?: string;
-    shape?: MarkerShape;
+    dash?: string | undefined;
+    shape?: MarkerShape | undefined;
   }[];
 }) {
   return (

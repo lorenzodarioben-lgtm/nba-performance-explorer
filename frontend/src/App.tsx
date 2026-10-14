@@ -5,6 +5,7 @@ import { AppFooter } from './AppFooter';
 import { AppHeader } from './AppHeader';
 import { FoundationPage } from './features/foundation/FoundationPage';
 import { PlayerComparisonPage } from './features/player-comparison/PlayerComparisonPage';
+import { PlayerHubLayout } from './features/player-hub/PlayerHubLayout';
 import { PlayerProfilePage } from './features/players/PlayerProfilePage';
 import { RouteEntrance } from './motion/choreography';
 import { MotionPreferenceProvider } from './motion/MotionPreference';
@@ -170,29 +171,33 @@ function lazyRoute(label: string, element: ReactNode) {
   return <Suspense fallback={<RouteFallback label={label} />}>{element}</Suspense>;
 }
 
+// The player hub is a layout route: the tab bar persists while its rooms change. Its URLs are
+// unchanged (/players/:playerId, /insights, /games, /career, /shooting).
+const PLAYER_HUB_ROOMS: readonly { path: string; element: ReactNode }[] = [
+  {
+    path: 'insights',
+    element: lazyRoute('Loading insights…', <PlayerInsightsPage />),
+  },
+  {
+    path: 'games',
+    element: lazyRoute('Loading game research…', <GameResearchPage />),
+  },
+  {
+    path: 'career',
+    element: lazyRoute('Loading reported career…', <CareerResearchPage />),
+  },
+  {
+    path: 'shooting',
+    element: lazyRoute('Loading shooting research…', <ShootingResearchPage />),
+  },
+];
+
 // Every URL the platform has published keeps working. Order does not matter to React Router;
 // it is grouped here by section for reading.
 const ROUTES: readonly { path: string; element: ReactNode }[] = [
   { path: '/', element: <FoundationPage /> },
   // Players
   { path: '/players', element: lazyRoute('Loading players…', <PlayersLanding />) },
-  { path: '/players/:playerId', element: <PlayerProfilePage /> },
-  {
-    path: '/players/:playerId/insights',
-    element: lazyRoute('Loading insights…', <PlayerInsightsPage />),
-  },
-  {
-    path: '/players/:playerId/games',
-    element: lazyRoute('Loading game research…', <GameResearchPage />),
-  },
-  {
-    path: '/players/:playerId/career',
-    element: lazyRoute('Loading reported career…', <CareerResearchPage />),
-  },
-  {
-    path: '/players/:playerId/shooting',
-    element: lazyRoute('Loading shooting research…', <ShootingResearchPage />),
-  },
   { path: '/explore', element: lazyRoute('Loading explorer…', <ExplorerPage />) },
   // Teams
   { path: '/teams', element: lazyRoute('Loading team directory…', <TeamsPage />) },
@@ -362,6 +367,12 @@ function AppLayout() {
             {ROUTES.map((route) => (
               <Route key={route.path} path={route.path} element={route.element} />
             ))}
+            <Route path="/players/:playerId" element={<PlayerHubLayout />}>
+              <Route index element={<PlayerProfilePage />} />
+              {PLAYER_HUB_ROOMS.map((room) => (
+                <Route key={room.path} path={room.path} element={room.element} />
+              ))}
+            </Route>
           </Routes>
         </RouteEntrance>
       </div>

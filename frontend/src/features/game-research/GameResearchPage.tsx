@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Link, useParams, useSearchParams } from 'react-router';
+import { useParams, useSearchParams } from 'react-router';
 import {
   GameResearchQuerySchema,
   GameResearchResponseSchema,
@@ -16,6 +16,13 @@ import {
 } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { SeasonScopeComparison } from './SeasonScopeComparison';
+import { LedgerBars, RollingEfficiency } from './GameVisuals';
+import { useHubIdentity } from '../player-hub/hub-context';
+import { Slate } from '../../ui/Slate';
+import type { TapeSpec } from '../../ui/Tape';
+
+const QUERIED: TapeSpec = { code: 'NBA.com', source: 'Queried', variant: 'queried' };
+const DERIVED: TapeSpec = { code: 'Calculated', variant: 'derived' };
 import styles from '../research/research.module.css';
 const format = (n: number | null, ratio = false) =>
   n === null ? 'Unavailable' : ratio ? `${(n * 100).toFixed(2)}%` : n.toFixed(2);
@@ -67,6 +74,7 @@ export function GameResearchPage() {
     refetchOnWindowFocus: false,
   });
   const data = valid ? query.data : undefined;
+  useHubIdentity(data ? { playerId, name: data.player.fullName } : null);
   const update = (key: string, value: string) => {
     const copy = new URLSearchParams(params);
     copy.set(key, value);
@@ -77,9 +85,8 @@ export function GameResearchPage() {
     <ResearchShell
       title={data ? `${data.player.fullName} · game research` : 'Game research'}
     >
-      <Link to={`/players/${playerId}/career`}>Reported career</Link>
       {!valid ? (
-        <section role="alert">
+        <section role="alert" className="notice notice--warn">
           Choose a valid recorded season and filters.{' '}
           <form
             onSubmit={(e) => {
@@ -258,7 +265,18 @@ export function GameResearchPage() {
               </select>
             </label>
           </div>
-          <h2>Attempt-weighted observed splits</h2>
+          {data.rolling.length > 1 ? (
+            <section className="frmod" aria-labelledby="rolling-eff-title">
+              <Slate
+                id="rolling-eff-title"
+                title={`Rolling ${data.window}-game efficiency`}
+                tapes={[QUERIED, DERIVED]}
+                meta={[`${data.rolling.length} games`, data.scope]}
+              />
+              <RollingEfficiency rolling={data.rolling} window={data.window} />
+            </section>
+          ) : null}
+          <Slate title="Attempt-weighted observed splits" tapes={[QUERIED, DERIVED]} />
           <p>
             Derived averages and shooting ratios stay unavailable until a cohort reaches
             the chosen minimum sample. Raw observed totals and game evidence remain
@@ -299,7 +317,12 @@ export function GameResearchPage() {
               </tbody>
             </table>
           </ResearchTable>
-          <h2>Observed raw game ledger</h2>
+          <Slate
+            title="Observed raw game ledger"
+            tapes={[QUERIED]}
+            meta={[`Page ${data.page}`, `${data.filteredGames} matching`]}
+          />
+          {data.games.length > 1 ? <LedgerBars games={data.games} /> : null}
           <ResearchTable label="Raw game ledger">
             <table>
               <caption>
@@ -382,7 +405,7 @@ export function GameResearchPage() {
               Next raw page
             </button>
           </div>
-          <h2>Observed records with evidence</h2>
+          <Slate title="Observed records with evidence" tapes={[QUERIED]} />
           <ResearchTable label="Raw game extrema">
             <table>
               <caption>
@@ -420,7 +443,7 @@ export function GameResearchPage() {
               </tbody>
             </table>
           </ResearchTable>
-          <h2>Raw rolling series</h2>
+          <Slate title="Raw rolling series" tapes={[QUERIED, DERIVED]} />
           <ResearchTable label="Raw rolling shooting">
             <table>
               <caption>

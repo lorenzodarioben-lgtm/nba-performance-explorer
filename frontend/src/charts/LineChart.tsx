@@ -20,8 +20,8 @@ export interface LineSeries {
   id: string;
   label: string;
   color: string;
-  dash?: string;
-  shape?: MarkerShape;
+  dash?: string | undefined;
+  shape?: MarkerShape | undefined;
   /** One value per category; null is a gap in the record and is never bridged. */
   values: readonly (number | null)[];
 }

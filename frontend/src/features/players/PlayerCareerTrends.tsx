@@ -1,16 +1,12 @@
-import { useId } from 'react';
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { useId, useMemo } from 'react';
 
 import type { PlayerSeasonStats } from '@nba-performance-explorer/contracts';
+
+import { LineChart } from '../../charts/LineChart';
+import { ChartLegend } from '../../charts/markers';
+import { LoadingLine, Notice } from '../../ui/DataState';
+import { Slate } from '../../ui/Slate';
+import { alignToSeasons, fillSeasonGaps, shortSeason } from '../player-hub/seasons';
 
 import { formatPerGame } from './format';
 import { usePlayerSeasonTrendsQuery } from './usePlayerSeasonTrendsQuery';
@@ -23,19 +19,13 @@ interface TrendRow {
 }
 
 // Series identity is encoded three ways so colour is never the only distinction: a line dash
-// pattern, a legend marker shape, and a colour. The colours are data-visualisation colours (not UI
-// accents) chosen to read clearly on the near-black chart panel and to stay distinct from the grid,
-// the blue focus ring, and the green live-status: points = bright red, rebounds = light blue,
-// assists = warm amber. (SVG presentation attributes do not resolve CSS var(), so they are literal.)
+// pattern, a marker shape and a colour. Chart colours are the system's categorical series
+// (never the interface red) and are literal because SVG attributes do not resolve CSS var().
 const SERIES = {
-  points: '#f87171', // bright red, solid line, circle marker
-  rebounds: '#60a5fa', // light blue, dashed line (6 3), square marker
-  assists: '#fbbf24', // warm amber, dotted line (2 4), triangle marker
+  points: { color: '#3b82f6', dash: undefined, shape: 'circle' },
+  rebounds: { color: '#bd8008', dash: '6 3', shape: 'square' },
+  assists: { color: '#0ea594', dash: '2 4', shape: 'triangle' },
 } as const;
-
-const AXIS_TICK = { fontSize: 12, fill: '#a1a1aa' } as const;
-const GRID_STROKE = 'rgb(255 255 255 / 0.08)';
-const AXIS_LINE_STROKE = 'rgb(255 255 255 / 0.15)';
 
 // One transformation, consumed by both the chart and the table. Exact numeric values and the
 // backend's oldest-first order are preserved; formatting happens only at render time.
@@ -54,52 +44,33 @@ function TrendTable({ rows }: { rows: TrendRow[] }) {
       role="group"
       aria-label="Career averages by season"
       tabIndex={0}
-      className="scroll-x-dark mt-5 max-w-full overflow-x-auto rounded-md border border-white/10 bg-coal"
+      className="scroll-region"
     >
-      <table className="w-full border-collapse text-left text-sm">
-        <caption className="px-4 pt-3 text-left text-sm text-white/70">
-          Points, rebounds, and assists per game by season.
-        </caption>
+      <table className="dtable">
+        <caption>Points, rebounds, and assists per game by season.</caption>
         <thead>
-          <tr className="border-b border-white/15 bg-white/5">
-            <th scope="col" className="px-4 py-2 font-semibold text-white/60">
-              Season
-            </th>
-            <th
-              scope="col"
-              className="px-4 py-2 text-right font-semibold text-white/60"
-            >
+          <tr>
+            <th scope="col">Season</th>
+            <th scope="col" className="r">
               Points per game
             </th>
-            <th
-              scope="col"
-              className="px-4 py-2 text-right font-semibold text-white/60"
-            >
+            <th scope="col" className="r">
               Rebounds per game
             </th>
-            <th
-              scope="col"
-              className="px-4 py-2 text-right font-semibold text-white/60"
-            >
+            <th scope="col" className="r">
               Assists per game
             </th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.season} className="border-b border-white/10 last:border-b-0">
-              <th scope="row" className="px-4 py-2 font-medium tabular-nums text-chalk">
+            <tr key={row.season}>
+              <th scope="row" className="num">
                 {row.season}
               </th>
-              <td className="px-4 py-2 text-right tabular-nums text-chalk">
-                {formatPerGame(row.points)}
-              </td>
-              <td className="px-4 py-2 text-right tabular-nums text-chalk">
-                {formatPerGame(row.rebounds)}
-              </td>
-              <td className="px-4 py-2 text-right tabular-nums text-chalk">
-                {formatPerGame(row.assists)}
-              </td>
+              <td className="num">{formatPerGame(row.points)}</td>
+              <td className="num">{formatPerGame(row.rebounds)}</td>
+              <td className="num">{formatPerGame(row.assists)}</td>
             </tr>
           ))}
         </tbody>
@@ -109,72 +80,47 @@ function TrendTable({ rows }: { rows: TrendRow[] }) {
 }
 
 function TrendChart({ rows }: { rows: TrendRow[] }) {
+  // A calendar axis: seasons the record skips become gaps, never bridged by a line.
+  const axis = useMemo(() => fillSeasonGaps(rows.map((row) => row.season)), [rows]);
+  const series = useMemo(
+    () =>
+      (
+        [
+          ['points', 'Points per game'],
+          ['rebounds', 'Rebounds per game'],
+          ['assists', 'Assists per game'],
+        ] as const
+      ).map(([key, label]) => ({
+        id: key,
+        label,
+        ...SERIES[key],
+        values: alignToSeasons(
+          axis,
+          rows,
+          (row) => row.season,
+          (row) => row[key],
+        ),
+      })),
+    [axis, rows],
+  );
+  const gaps = axis.length - rows.length;
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={rows} margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
-        <CartesianGrid vertical={false} stroke={GRID_STROKE} strokeDasharray="3 3" />
-        <XAxis
-          dataKey="season"
-          tick={AXIS_TICK}
-          tickLine={false}
-          axisLine={{ stroke: AXIS_LINE_STROKE }}
-          interval="preserveStartEnd"
-          minTickGap={24}
-        />
-        <YAxis tick={AXIS_TICK} width={36} tickLine={false} axisLine={false} />
-        <Tooltip
-          formatter={(value) => formatPerGame(Number(value))}
-          cursor={{ stroke: 'rgb(255 255 255 / 0.25)' }}
-          contentStyle={{
-            backgroundColor: '#0a0a0b',
-            borderColor: 'rgb(255 255 255 / 0.15)',
-            borderRadius: 4,
-            fontSize: 13,
-            color: '#f4f3f1',
-          }}
-          labelStyle={{ color: '#a1a1aa', fontWeight: 600 }}
-        />
-        <Legend wrapperStyle={{ fontSize: 13 }} />
-        <Line
-          type="linear"
-          dataKey="points"
-          name="Points per game"
-          stroke={SERIES.points}
-          strokeWidth={2.5}
-          legendType="circle"
-          dot={{ r: 3, fill: SERIES.points }}
-          activeDot={{ r: 5 }}
-          isAnimationActive={false}
-          connectNulls={false}
-        />
-        <Line
-          type="linear"
-          dataKey="rebounds"
-          name="Rebounds per game"
-          stroke={SERIES.rebounds}
-          strokeWidth={2.5}
-          strokeDasharray="6 3"
-          legendType="square"
-          dot={{ r: 3, fill: SERIES.rebounds }}
-          activeDot={{ r: 5 }}
-          isAnimationActive={false}
-          connectNulls={false}
-        />
-        <Line
-          type="linear"
-          dataKey="assists"
-          name="Assists per game"
-          stroke={SERIES.assists}
-          strokeWidth={2.5}
-          strokeDasharray="2 4"
-          legendType="triangle"
-          dot={{ r: 3, fill: SERIES.assists }}
-          activeDot={{ r: 5 }}
-          isAnimationActive={false}
-          connectNulls={false}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <>
+      <ChartLegend items={series} />
+      <LineChart
+        label="Career trends: points, rebounds and assists per game by season"
+        categories={axis}
+        series={series}
+        height={300}
+        format={formatPerGame}
+        formatCategory={shortSeason}
+        footnote={
+          gaps > 0
+            ? `${gaps} season${gaps === 1 ? '' : 's'} not reported; the lines break there.`
+            : undefined
+        }
+      />
+    </>
   );
 }
 
@@ -183,28 +129,20 @@ export function PlayerCareerTrends({ playerId }: { playerId: string }) {
   const headingId = useId();
 
   return (
-    <section
-      aria-labelledby={headingId}
-      className="mt-12 border-t border-white/10 pt-10"
-    >
-      <h2
+    <section aria-labelledby={headingId} className="pmod">
+      <Slate
+        title="Career trends"
         id={headingId}
-        className="display text-3xl font-extrabold uppercase text-chalk sm:text-4xl"
-      >
-        Career trends
-      </h2>
+        tapes={[{ code: 'NBA.com', source: 'Queried', variant: 'queried' }]}
+        meta={['Per game', 'By season']}
+      />
 
       {trendsQuery.isPending ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-white/70">
-          Loading career trends...
-        </p>
+        <LoadingLine>Loading career trends...</LoadingLine>
       ) : trendsQuery.isError ? (
-        <p
-          role="alert"
-          className="mt-3 rounded-sm border border-white/10 bg-accent/15 px-3 py-2 text-sm text-red-100"
-        >
+        <Notice tone="error" role="alert">
           Career trends are unavailable. Please try again.
-        </p>
+        </Notice>
       ) : (
         <TrendsBody rows={buildTrendRows(trendsQuery.data)} />
       )}
@@ -215,7 +153,7 @@ export function PlayerCareerTrends({ playerId }: { playerId: string }) {
 function TrendsBody({ rows }: { rows: TrendRow[] }) {
   if (rows.length === 0) {
     return (
-      <p role="status" aria-live="polite" className="mt-3 text-sm text-white/70">
+      <p role="status" aria-live="polite" className="pmod__empty">
         No season data is available to chart for this player.
       </p>
     );
@@ -224,7 +162,7 @@ function TrendsBody({ rows }: { rows: TrendRow[] }) {
   if (rows.length === 1) {
     return (
       <>
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-white/70">
+        <p role="status" aria-live="polite" className="pmod__empty">
           At least two seasons are needed to show a career trend.
         </p>
         <TrendTable rows={rows} />
@@ -233,15 +171,13 @@ function TrendsBody({ rows }: { rows: TrendRow[] }) {
   }
 
   return (
-    <figure className="mt-5">
-      <figcaption className="max-w-prose text-sm text-white/70">
+    <figure className="pmod__figure">
+      <figcaption className="pmod__caption">
         Points, rebounds, and assists per game across seasons. The complete values are
         listed in the table below.
       </figcaption>
-      <div className="mt-3 rounded-md border border-white/10 bg-coal p-4">
-        <div aria-hidden="true" data-chart="career-trends">
-          <TrendChart rows={rows} />
-        </div>
+      <div className="panel pmod__chart" data-chart="career-trends">
+        <TrendChart rows={rows} />
       </div>
       <TrendTable rows={rows} />
     </figure>

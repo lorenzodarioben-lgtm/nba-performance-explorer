@@ -15,6 +15,9 @@ import {
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { shootingProfile } from './shooting-core';
 import styles from '../research/research.module.css';
+import { useHubIdentity } from '../player-hub/hub-context';
+import { Slate } from '../../ui/Slate';
+import { ShotTypeBars } from './ShotTypeBars';
 const schema = z
   .object({
     season: SeasonIdSchema.optional(),
@@ -46,6 +49,7 @@ export function ShootingResearchPage() {
     scope,
   );
   const data = valid ? query.data : undefined;
+  useHubIdentity(playerId && data ? { playerId, name: data.player.fullName } : null);
   const season = parsed.success
     ? (parsed.data.season ?? data?.seasons.at(-1)?.totals.season)
     : undefined;
@@ -75,20 +79,17 @@ export function ShootingResearchPage() {
         Shot locations, distances, court zones, shot-to-game events and league zone
         baselines are unavailable; no court dots or inferred shot coordinates are shown.
       </p>
-      {playerId && (
-        <>
-          <Link to={`/players/${playerId}`}>Original player profile</Link>{' '}
-          <Link
-            to={`/players/${playerId}/games${season ? `?season=${season}&scope=${scope}` : ''}`}
-          >
-            Date/opponent shooting splits and rolling games
+      {playerId && season ? (
+        <p>
+          <Link to={`/players/${playerId}/games?season=${season}&scope=${scope}`}>
+            Date and opponent shooting splits for {season}
           </Link>
-        </>
-      )}
+        </p>
+      ) : null}
       {!valid ? (
         <p role="alert">
-          Invalid shooting URL. Use a recorded season/scope and an attempt minimum from1
-          to1000.
+          Invalid shooting URL. Use a recorded season/scope and an attempt minimum from
+          1 to 1000.
         </p>
       ) : (
         <QueryFeedback pending={query.isPending} failed={query.isError} />
@@ -162,6 +163,12 @@ export function ShootingResearchPage() {
                 denominators are unavailable. Counts remain visible below the attempt
                 threshold. A traded season uses its unique aggregate once.
               </p>
+              <Slate
+                title="Makes and attempts by shot type"
+                tapes={[{ code: 'NBA.com', source: 'Queried', variant: 'queried' }]}
+                meta={[season ?? '', scope]}
+              />
+              <ShotTypeBars rows={profile.rows} />
               <ResearchTable label="Sourced shooting breakdown">
                 <table>
                   <caption>
@@ -212,15 +219,15 @@ export function ShootingResearchPage() {
                   ? 'Unavailable'
                   : profile.freeThrowRate.toFixed(4)}
                 . Free throws are separate from field-goal attempt shares; this ratio
-                may exceed1.
+                may exceed 1.
               </p>
               <p>
                 Raw-total efficiency: TS% estimate{' '}
                 {percent(selected.metrics.trueShooting)}; eFG%{' '}
-                {percent(selected.metrics.effectiveFieldGoal)}. TS uses the
-                conventional0.44 free-throw multiplier; these efficiency values use the
-                full sourced season and are independent of the display qualification for
-                each shot type.
+                {percent(selected.metrics.effectiveFieldGoal)}. TS uses the conventional
+                0.44 free-throw multiplier; these efficiency values use the full sourced
+                season and are independent of the display qualification for each shot
+                type.
               </p>
             </>
           )}

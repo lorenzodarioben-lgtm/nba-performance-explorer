@@ -301,7 +301,7 @@ body {
   position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: end;
+  align-items: center;
   gap: 8px 14px;
   padding-bottom: 12px;
   margin-bottom: 18px;
@@ -328,7 +328,7 @@ body {
     transparent 4px 9px
   );
 }
-.slate__title {
+.slate .slate__title {
   margin: 0;
   font: 700 1.5rem/1 var(--display);
   text-transform: uppercase;
@@ -714,9 +714,8 @@ body {
 /* -------------------------------------------------------- state panels */
 
 .notice {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
+  display: block;
+  margin: 16px 0;
   padding: 14px 16px;
   border: 1px solid var(--line-2);
   border-left: 3px solid var(--chalk-3);
@@ -1097,4 +1096,22 @@ html[data-motion='reduced'] *::after {
 }
 .flip__face {
   display: inline-block;
+}
+
+/* ------------------------------------------------------- save to My NBA */
+
+.save-research {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.save-research [data-saved] svg {
+  color: var(--amber);
+}
+.save-research__msg {
+  margin: 0 !important;
+  font: 500 11px/1.3 var(--mono);
+  letter-spacing: 0.04em;
+  color: var(--chalk-3);
 }

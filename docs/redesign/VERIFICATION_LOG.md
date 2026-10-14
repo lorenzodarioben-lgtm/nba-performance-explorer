@@ -93,3 +93,47 @@ licence and React-native layout/presence primitives; no second animation library
   series label on `/lab/profiles` (Stage 5). The 404 failure was a spec issue (reduced motion
   not emulated during the scan); both specs now call `emulateMedia({ reducedMotion })`.
 - Build: main chunk **755.21 kB (220.72 kB gzip)**, CSS 83.25 kB (16.72 kB gzip).
+
+## Stage 3 — player hub
+
+- `/players/:playerId` is now a layout route (`PlayerHubLayout`) with the same URLs as
+  before: Overview (index), Form (`/insights`), Game research (`/games`), Career
+  (`/career`), Shooting (`/shooting`). A sticky hub bar keeps the tabs mounted (sliding active
+  marker), carries the current `season` into season-scoped rooms, adds a "Shot map · 2018 PO"
+  link only when the player is in the archived shot directory, and shows the score bug
+  (jersey/initials, name, team) once the overview hero leaves view or on any deeper room.
+  The hub never requests the profile itself: rooms report the player's name from their own
+  data (`useHubIdentity`) and a cached profile is read without fetching.
+- Overview: Arena hero (photo with pointer depth + scroll parallax and a clip reveal, or a
+  photo-free court composition; outlined jersey/initials in depth; kinetic name — h1 still
+  reads exactly the player's name; bio as a broadcast strip with every original label);
+  Compare + Save actions. Season statistics: slate + tape, flip transitions between loaded
+  seasons (no intermediate values; loading never shows stale figures), percentage meters.
+  Game log: points-by-game bars (win/loss tone, keyboard readable) linked to the table.
+  Career trends: in-house `LineChart` replaces Recharts here, on a calendar axis where
+  unreported seasons are gaps (footnote counts them).
+- Form: summary scoreboards (all matching / last N), rolling-form line chart, slates.
+  Game research: rolling TS%/eFG% chart and ledger bars (shown only when raw data exists).
+  Career: career-arc chart with gaps, qualified-peak scoreboard. Shooting: makes-inside-
+  attempts bars per shot type; copy defects fixed ("from 1 to 1000", "exceed 1",
+  "conventional 0.44").
+- Shared: `Notice` puts its role on the element holding the message; `SaveResearchButton`
+  gains a star confirmation and a "Saved to My NBA" toast (the inline status text is kept).
+- Test re-expressions (no assertion removed):
+  - `PlayerInsightsPage.test.tsx`: "Original player profile" link → the hub's Overview tab
+    (same href `/players/2544`).
+  - `PlayerCareerTrends.test.tsx`: the chart surface is `[data-chart="career-trends"]` and
+    its SVG is `aria-hidden` (the table is the equivalent); same series-name and dash
+    assertions.
+  - `CareerResearchPage.test.tsx` (career comparison): the "no fabricated line" path counts
+    are scoped to `svg[data-chart="career-curves"]` instead of every SVG in `main` (the Save
+    button now has a star icon).
+  - Test server default: `/api/shots/directory` answers 503 unless a test overrides it (the
+    hub asks for the directory to decide on the Shot map link).
+- New tests: `features/player-hub/seasons.test.ts` (2) — calendar gap filling and season
+  display forms.
+- Results: frontend **340/340** (50 files); lint 0 errors; typecheck, Prettier pass. Browser
+  smoke 78/78; axe desktop: `/players/:id` now clean. Remaining serious nodes: `/compare`
+  (Recharts, Stage 5), `/lab/profiles` (Stage 5); home legacy label contrast fixed.
+- Build: main chunk 776.15 kB (229.36 kB gzip) — Recharts is still eagerly loaded by the
+  comparison page until Stage 5.

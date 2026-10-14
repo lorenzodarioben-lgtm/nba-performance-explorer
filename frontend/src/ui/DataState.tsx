@@ -67,13 +67,13 @@ export function Notice({
   role?: 'alert' | 'status';
   action?: ReactNode;
 }) {
+  // The role sits on the element that holds the message text, so the announced element and
+  // the visible message are the same node.
   return (
     <div className={`notice notice--${tone}`} role={role}>
-      <div>
-        {title ? <strong className="notice__title">{title}</strong> : null}
-        {children}
-        {action ? <div className="notice__action">{action}</div> : null}
-      </div>
+      {title ? <strong className="notice__title">{title}</strong> : null}
+      {children}
+      {action ? <div className="notice__action">{action}</div> : null}
     </div>
   );
 }

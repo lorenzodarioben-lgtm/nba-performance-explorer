@@ -1,7 +1,10 @@
-import { useId } from 'react';
+import { useId, useState } from 'react';
 
 import type { PlayerGame } from '@nba-performance-explorer/contracts';
 
+import { BarChart } from '../../charts/BarChart';
+import { ChartLegend } from '../../charts/markers';
+import { LoadingLine, Notice } from '../../ui/DataState';
 import { formatGameDate, formatMatchup } from './game-format';
 import { PlayerSeasonError } from './season-api';
 import { usePlayerGameLogQuery } from './usePlayerGameLogQuery';
@@ -25,36 +28,38 @@ function ResultBadge({ result }: { result: PlayerGame['result'] }) {
   return (
     <abbr
       aria-label={isWin ? 'Win' : 'Loss'}
-      className={`inline-flex h-5 w-5 items-center justify-center rounded-sm text-xs font-semibold no-underline ${
-        isWin ? 'bg-chalk text-night' : 'border border-white/25 text-white/70'
-      }`}
+      className={`result-badge ${isWin ? 'result-badge--w' : 'result-badge--l'}`}
     >
       {result}
     </abbr>
   );
 }
 
-function GameLogTable({ games, season }: { games: PlayerGame[]; season: string }) {
+function GameLogTable({
+  games,
+  season,
+  highlight,
+}: {
+  games: PlayerGame[];
+  season: string;
+  highlight: string | null;
+}) {
   return (
     <div
       role="group"
       aria-label={`Game log table for the ${season} season`}
       tabIndex={0}
-      className="scroll-x-dark mt-5 max-w-full overflow-x-auto rounded-md border border-white/10"
+      className="scroll-region max-w-full overflow-x-auto"
     >
-      <table className="w-full min-w-[48rem] border-collapse text-left text-sm">
-        <caption className="px-4 pt-3 text-left text-sm text-white/70">
-          Game log for the {season} season.
-        </caption>
+      <table className="dtable gamelog">
+        <caption>Game log for the {season} season.</caption>
         <thead>
-          <tr className="border-b border-white/15 bg-white/5">
+          <tr>
             {columns.map((column) => (
               <th
                 key={column.label}
                 scope="col"
-                className={`whitespace-nowrap px-4 py-2 font-semibold text-white/60 ${
-                  column.numeric ? 'text-right' : 'text-left'
-                }`}
+                className={column.numeric ? 'r' : undefined}
               >
                 {column.label}
               </th>
@@ -63,39 +68,75 @@ function GameLogTable({ games, season }: { games: PlayerGame[]; season: string }
         </thead>
         <tbody>
           {games.map((game) => (
-            <tr
-              key={game.id}
-              className="border-b border-white/10 last:border-b-0 hover:bg-white/5"
-            >
-              <th
-                scope="row"
-                className="whitespace-nowrap px-4 py-2 font-medium tabular-nums text-chalk"
-              >
+            <tr key={game.id} className={highlight === game.id ? 'is-hl' : undefined}>
+              <th scope="row" className="num">
                 {formatGameDate(game.date)}
               </th>
-              <td className="px-4 py-2 text-white/70">{game.team.abbreviation}</td>
-              <td className="whitespace-nowrap px-4 py-2 text-white/70">
+              <td>{game.team.abbreviation}</td>
+              <td className="gamelog__matchup">
                 {formatMatchup(game.location, game.opponent.abbreviation)}
               </td>
-              <td className="px-4 py-2">
+              <td>
                 <ResultBadge result={game.result} />
               </td>
-              <td className="px-4 py-2 text-right tabular-nums text-chalk">
-                {game.minutes}
-              </td>
-              <td className="px-4 py-2 text-right tabular-nums text-chalk">
-                {game.points}
-              </td>
-              <td className="px-4 py-2 text-right tabular-nums text-chalk">
-                {game.rebounds}
-              </td>
-              <td className="px-4 py-2 text-right tabular-nums text-chalk">
-                {game.assists}
-              </td>
+              <td className="num">{game.minutes}</td>
+              <td className="num gamelog__pts">{game.points}</td>
+              <td className="num">{game.rebounds}</td>
+              <td className="num">{game.assists}</td>
             </tr>
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+/** Points in every game of the season, oldest to newest; a loss is drawn in the muted tone. */
+function GameLogChart({
+  games,
+  season,
+  onHighlight,
+}: {
+  games: PlayerGame[];
+  season: string;
+  onHighlight: (gameId: string | null) => void;
+}) {
+  const chronological = [...games].reverse();
+  const [selected, setSelected] = useState<number | null>(null);
+  return (
+    <div className="gamelog-chart" onPointerLeave={() => onHighlight(null)}>
+      <ChartLegend
+        items={[
+          { id: 'w', label: 'Points in a win', color: '#cfcdc9' },
+          { id: 'l', label: 'Points in a loss', color: '#6c6b69' },
+        ]}
+      />
+      <BarChart
+        label={`Points in each ${season} game, oldest to newest`}
+        format={(value) => String(Math.round(value))}
+        height={200}
+        color="#cfcdc9"
+        accent="#ef4444"
+        selected={selected}
+        onSelect={(index) => {
+          const game = chronological[index];
+          setSelected(index);
+          onHighlight(game?.id ?? null);
+        }}
+        data={chronological.map((game) => ({
+          key: game.id,
+          label: `${formatGameDate(game.date)} ${formatMatchup(game.location, game.opponent.abbreviation)}`,
+          value: game.points,
+          tone: game.result === 'W' ? 'default' : 'muted',
+          detail: [
+            { label: 'Result', value: game.result === 'W' ? 'Win' : 'Loss' },
+            { label: 'Minutes', value: String(game.minutes) },
+            { label: 'Rebounds', value: String(game.rebounds) },
+            { label: 'Assists', value: String(game.assists) },
+          ],
+        }))}
+        tickLabel={(datum) => datum.label.split(' ').slice(0, 2).join(' ')}
+      />
     </div>
   );
 }
@@ -109,15 +150,12 @@ export function PlayerGameLog({
 }) {
   const headingId = useId();
   const gameLogQuery = usePlayerGameLogQuery(playerId, season);
+  const [highlight, setHighlight] = useState<string | null>(null);
 
   let content;
 
   if (gameLogQuery.isPending) {
-    content = (
-      <p role="status" aria-live="polite" className="mt-3 text-sm text-white/70">
-        Loading game log...
-      </p>
-    );
+    content = <LoadingLine>Loading game log...</LoadingLine>;
   } else if (gameLogQuery.isError) {
     const kind =
       gameLogQuery.error instanceof PlayerSeasonError
@@ -125,37 +163,42 @@ export function PlayerGameLog({
         : 'error';
 
     content = (
-      <p
-        role="alert"
-        className="mt-3 rounded-sm border border-white/10 bg-accent/15 px-3 py-2 text-sm text-red-100"
-      >
+      <Notice tone="error" role="alert">
         {kind === 'season-not-found'
           ? 'The game log for that season is unavailable.'
           : 'The game log is unavailable. Please try again.'}
-      </p>
+      </Notice>
     );
   } else if (gameLogQuery.data.season !== season) {
-    content = (
-      <p role="status" aria-live="polite" className="mt-3 text-sm text-white/70">
-        Loading game log...
-      </p>
-    );
+    content = <LoadingLine>Loading game log...</LoadingLine>;
   } else if (gameLogQuery.data.games.length === 0) {
     content = (
-      <p role="status" aria-live="polite" className="mt-3 text-sm text-white/70">
+      <p role="status" aria-live="polite" className="pmod__empty">
         No games are available for the {season} season.
       </p>
     );
   } else {
-    content = <GameLogTable games={gameLogQuery.data.games} season={season} />;
+    content = (
+      <>
+        {gameLogQuery.data.games.length > 1 ? (
+          <GameLogChart
+            games={gameLogQuery.data.games}
+            season={season}
+            onHighlight={setHighlight}
+          />
+        ) : null}
+        <GameLogTable
+          games={gameLogQuery.data.games}
+          season={season}
+          highlight={highlight}
+        />
+      </>
+    );
   }
 
   return (
-    <section aria-labelledby={headingId} className="mt-10">
-      <h3
-        id={headingId}
-        className="display text-2xl font-extrabold uppercase text-chalk"
-      >
+    <section aria-labelledby={headingId} className="gamelog-section">
+      <h3 id={headingId} className="t-module">
         Game log
       </h3>
       {content}

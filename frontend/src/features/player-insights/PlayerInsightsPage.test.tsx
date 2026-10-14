@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { delay, http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { type PlayerInsightsResponse } from '@nba-performance-explorer/contracts';
@@ -123,8 +123,12 @@ describe('player insights page', () => {
       screen.getByText('DEMO FIXTURES — not real NBA results'),
     ).toBeInTheDocument();
     expect(screen.getByText(/1 matching games of 1 observed/)).toBeInTheDocument();
+    // The hub's Overview tab replaced the separate "Original player profile" link.
     expect(
-      screen.getByRole('link', { name: 'Original player profile' }),
+      within(screen.getByRole('navigation', { name: 'Player sections' })).getByRole(
+        'link',
+        { name: 'Overview' },
+      ),
     ).toHaveAttribute('href', '/players/2544');
     expect(screen.getAllByRole('table')).toHaveLength(4);
     await waitFor(() => expect(heading).toHaveFocus());

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Link, useParams, useSearchParams } from 'react-router';
+import { useParams, useSearchParams } from 'react-router';
 import {
   InsightQuerySchema,
   PlayerInsightsResponseSchema,
@@ -16,7 +16,14 @@ import {
 } from '../research/ResearchShell';
 import styles from '../research/research.module.css';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
+import { useHubIdentity } from '../player-hub/hub-context';
 import { SeasonTotalsPanel } from './SeasonTotalsPanel';
+import { FormChart, FormScoreboard } from './FormVisuals';
+import { Slate } from '../../ui/Slate';
+import type { TapeSpec } from '../../ui/Tape';
+
+const QUERIED: TapeSpec = { code: 'NBA.com', source: 'Queried', variant: 'queried' };
+const DERIVED: TapeSpec = { code: 'Calculated', variant: 'derived' };
 
 const value = (n: number | null) => (n === null ? 'Unavailable' : n.toFixed(1));
 
@@ -64,6 +71,9 @@ export function PlayerInsightsPage() {
     setParams(copy);
   }
   const data = query.data;
+  useHubIdentity(
+    data ? { playerId: data.player.id, name: data.player.fullName } : null,
+  );
   const savedParams = new URLSearchParams(params);
   if (data?.season) savedParams.set('season', data.season);
   return (
@@ -80,13 +90,6 @@ export function PlayerInsightsPage() {
       )}
       {data && (
         <>
-          <Link to={`/players/${data.player.id}`}>Original player profile</Link>
-          <Link to={`/players/${data.player.id}/career`}>
-            Reported career and qualified peak
-          </Link>
-          <Link to={`/players/${data.player.id}/shooting`}>
-            Sourced shooting counts and attempt mix
-          </Link>
           <SaveResearchButton
             kind="analysis"
             label={`${data.player.fullName} insights`}
@@ -200,15 +203,26 @@ export function PlayerInsightsPage() {
               No recorded statistics for this season. Choose another recorded season.
             </p>
           )}
+          <FormScoreboard
+            summary={data.summary}
+            recent={data.recent}
+            window={data.window}
+          />
+          {data.rolling.length > 1 ? (
+            <section className="frmod" aria-labelledby="form-chart-title">
+              <Slate
+                id="form-chart-title"
+                title={`Rolling ${data.window}-game form`}
+                tapes={[QUERIED, DERIVED]}
+                meta={[`${data.rolling.length} games`, 'Trailing average']}
+              />
+              <FormChart rolling={data.rolling} window={data.window} />
+            </section>
+          ) : null}
           {data.season && (
-            <>
-              <Link to={`/players/${data.player.id}/games?season=${data.season}`}>
-                Raw game shooting, defensive counts and playoffs
-              </Link>
-              <SeasonTotalsPanel playerId={data.player.id} season={data.season} />
-            </>
+            <SeasonTotalsPanel playerId={data.player.id} season={data.season} />
           )}
-          <h2>Observed form and splits</h2>
+          <Slate title="Observed form and splits" tapes={[QUERIED]} />
           <ResearchTable label="Observed averages">
             <table>
               <caption>Per-game averages with actual sample counts</caption>
@@ -235,7 +249,7 @@ export function PlayerInsightsPage() {
               </tbody>
             </table>
           </ResearchTable>
-          <h2>Observed highs and lows</h2>
+          <Slate title="Observed highs and lows" tapes={[QUERIED]} />
           {data.extrema.length ? (
             <ResearchTable label="Observed extrema">
               <table>
@@ -265,7 +279,7 @@ export function PlayerInsightsPage() {
           ) : (
             <p>No observed games match these filters.</p>
           )}
-          <h2>Game ledger</h2>
+          <Slate title="Game ledger" tapes={[QUERIED]} meta={[`Page ${data.page}`]} />
           <div className={styles.controls}>
             <label>
               Sort games
@@ -344,7 +358,7 @@ export function PlayerInsightsPage() {
               Next page
             </button>
           </div>
-          <h2>Rolling series</h2>
+          <Slate title="Rolling series" tapes={[QUERIED, DERIVED]} />
           <ResearchTable label="Rolling game series">
             <table>
               <caption>

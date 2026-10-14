@@ -149,12 +149,11 @@ describe('player career trends', () => {
         .map((cell) => cell.textContent),
     ).toEqual(['27.5', '8.6', '9.1']);
 
-    // The chart renders inside an assistive-tech-hidden wrapper, using the same seasons.
-    const chart = container.querySelector(
-      '[data-chart="career-trends"][aria-hidden="true"]',
-    );
+    // The chart draws an assistive-tech-hidden SVG (the table is the equivalent) inside a
+    // keyboard-readable chart surface, using the same seasons.
+    const chart = container.querySelector('[data-chart="career-trends"]');
     expect(chart).not.toBeNull();
-    expect(chart?.querySelector('svg')).not.toBeNull();
+    expect(chart?.querySelector('svg[aria-hidden="true"]')).not.toBeNull();
     expect(
       within(chart as HTMLElement).getAllByText('Points per game').length,
     ).toBeGreaterThan(0);
@@ -186,9 +185,7 @@ describe('player career trends', () => {
     });
 
     const dashPatterns = [
-      ...container.querySelectorAll(
-        '[data-chart="career-trends"][aria-hidden="true"] path',
-      ),
+      ...container.querySelectorAll('[data-chart="career-trends"] path'),
     ]
       .map((node) => node.getAttribute('stroke-dasharray'))
       .filter((value): value is string => value !== null);

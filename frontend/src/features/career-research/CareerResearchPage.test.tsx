@@ -153,7 +153,9 @@ describe('career research', () => {
       await screen.findByRole('table', { name: /Fixture career player/ }),
     ).toBeInTheDocument();
     expect(screen.getByText('Unavailable (source-unavailable)')).toBeInTheDocument();
-    expect(document.querySelectorAll('main svg path')).toHaveLength(1); // Only axes: no fabricated line across missing 2022-23.
+    expect(
+      document.querySelectorAll('svg[data-chart="career-curves"] path'),
+    ).toHaveLength(1); // Only axes: no fabricated line across missing 2022-23.
     expect(screen.getByLabelText('Shareable career URL')).toHaveValue(
       'http://localhost:3000/lab/careers?players=2544%2C201939&metric=pointsPerGame&minGames=20&axis=calendar',
     );
@@ -166,7 +168,9 @@ describe('career research', () => {
       ).toContain('axis=reported'),
     );
     expect(calls).toBe(1);
-    expect(document.querySelectorAll('main svg path')).toHaveLength(1);
+    expect(
+      document.querySelectorAll('svg[data-chart="career-curves"] path'),
+    ).toHaveLength(1);
   });
   it('restores criteria, shows raw/weighted values and saves the explicit criterion', async () => {
     server.use(

@@ -152,7 +152,7 @@ function ExploreSection() {
                   key={capability}
                   className="flex items-baseline gap-4 border-b border-white/10 py-3 last:border-b-0"
                 >
-                  <span className="font-mono text-xs text-white/35">
+                  <span className="font-mono text-xs text-white/60">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <span className="text-base text-chalk">{capability}</span>

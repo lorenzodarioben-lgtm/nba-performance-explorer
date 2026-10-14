@@ -1,9 +1,14 @@
-import type { RefObject } from 'react';
+import { motion, useInView, useScroll, useTransform } from 'motion/react';
+import { useEffect, useRef, type ReactNode, type RefObject } from 'react';
 
 import type { PlayerProfile } from '@nba-performance-explorer/contracts';
 
-import { CourtLines } from '../foundation/CourtLines';
-import { Reveal } from '../foundation/Reveal';
+import { Court } from '../../charts/Court';
+import { KineticHeadline, Reveal, usePointerDepth } from '../../motion/choreography';
+import { useMotionAllowed } from '../../motion/MotionPreference';
+import { easings } from '../../motion/tokens';
+import { Tape } from '../../ui/Tape';
+import { useHubHero } from '../player-hub/hub-context';
 import { formatDraft, formatHeight, formatTeamName, formatWeight } from './format';
 import { getPlayerImage } from './playerImages';
 
@@ -13,8 +18,8 @@ interface ProfileRow {
 }
 
 // Bio metadata as label/value pairs. The shared contracts store raw/structured values; the
-// formatters turn them into display strings. Only fields the provider returned are included, so no
-// player fact is invented and no "undefined" can render.
+// formatters turn them into display strings. Only fields the provider returned are included,
+// so no player fact is invented and no "undefined" can render.
 function buildProfileRows(profile: PlayerProfile): ProfileRow[] {
   const rows: ProfileRow[] = profile.team
     ? [
@@ -45,88 +50,157 @@ function buildProfileRows(profile: PlayerProfile): ProfileRow[] {
   return rows;
 }
 
-// The dramatic, player-specific profile hero: a full-bleed dark composition with the mapped player
-// photograph (or an intentional photo-free fallback), an oversized jersey-number scoreboard graphic,
-// the player name as the route heading in condensed display type, and the bio as broadcast technical
-// labels in a preserved description list. The name and photo animate in on mount (reduced-motion
-// safe); the data is present regardless of motion.
+/** Split a name into display lines: given names on the first, the family name on the second. */
+function nameLines(fullName: string): string[] {
+  const parts = fullName.trim().split(/\s+/);
+  if (parts.length < 2) return [fullName];
+  return [parts.slice(0, -1).join(' '), parts[parts.length - 1] ?? ''];
+}
+
+function initials(fullName: string) {
+  return fullName
+    .split(/\s+/)
+    .map((part) => part[0] ?? '')
+    .join('')
+    .slice(0, 3)
+    .toUpperCase();
+}
+
+/**
+ * The Arena introduction of a player: a full-bleed composition with the mapped photograph (or
+ * an intentional photo-free court composition), an outlined jersey number in depth, the name as
+ * the route heading in kinetic display type and the bio as a broadcast strip. Pointer depth and
+ * scroll parallax move only transforms; the data is present whatever the motion setting.
+ */
 export function PlayerProfileHero({
   profile,
   headingRef,
+  actions,
 }: {
   profile: PlayerProfile;
   headingRef: RefObject<HTMLHeadingElement | null>;
+  actions?: ReactNode;
 }) {
   const image = getPlayerImage(profile.id);
   const rows = buildProfileRows(profile);
   const jersey = profile.jerseyNumber;
+  const allowed = useMotionAllowed();
+  const stage = useRef<HTMLElement>(null);
+  const depth = usePointerDepth(stage);
+  const { scrollYProgress } = useScroll({
+    target: stage,
+    offset: ['start start', 'end start'],
+  });
+
+  const photoX = useTransform(depth.x, [-1, 1], [14, -14]);
+  const photoY = useTransform(depth.y, [-1, 1], [10, -10]);
+  const ghostX = useTransform(depth.x, [-1, 1], [-26, 26]);
+  const scrollPhotoY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const scrollScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.1]);
+  const scrollFade = useTransform(scrollYProgress, [0, 0.85], [1, 0.25]);
+  const ghostY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+
+  // The hub's score bug appears once the hero has left the screen.
+  const setHeroInView = useHubHero();
+  const inView = useInView(stage, { margin: '-120px 0px 0px 0px' });
+  useEffect(() => {
+    setHeroInView?.(inView);
+    return () => setHeroInView?.(false);
+  }, [inView, setHeroInView]);
 
   return (
     <section
+      ref={stage}
       aria-labelledby="player-profile-heading"
-      className="relative overflow-hidden bg-night text-chalk"
+      className={`phero ${image ? 'phero--photo' : 'phero--plain'}`}
     >
-      <div className="absolute inset-0">
+      <div className="phero__stage">
+        <motion.span
+          aria-hidden="true"
+          className="phero__ghost"
+          style={allowed ? { x: ghostX, y: ghostY } : {}}
+          initial={allowed ? { opacity: 0, scale: 1.08 } : false}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.6, ease: easings.arena }}
+        >
+          {jersey ?? initials(profile.fullName)}
+        </motion.span>
         {image ? (
-          <>
-            <img
+          <motion.div
+            className="phero__photo"
+            style={allowed ? { y: scrollPhotoY, opacity: scrollFade } : {}}
+          >
+            <motion.img
               src={image.src}
               width={image.width}
               height={image.height}
               alt={image.alt}
               fetchPriority="high"
               decoding="async"
-              style={{ objectPosition: image.objectPosition }}
-              className="hero-photo absolute inset-0 h-full w-full object-cover sm:left-auto sm:right-0 sm:w-[56%]"
+              style={{
+                objectPosition: image.objectPosition,
+                ...(allowed ? { x: photoX, y: photoY, scale: scrollScale } : {}),
+              }}
+              initial={
+                allowed ? { opacity: 0, clipPath: 'inset(0% 0% 0% 100%)' } : false
+              }
+              animate={{ opacity: 1, clipPath: 'inset(0% 0% 0% 0%)' }}
+              transition={{ duration: 1.2, ease: easings.arena, delay: 0.1 }}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-night via-night/85 to-night/25" />
-            <div className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-night/55" />
-            <div className="absolute inset-0 bg-[radial-gradient(52%_46%_at_72%_40%,rgba(185,28,28,0.28),transparent_62%)]" />
-          </>
+          </motion.div>
         ) : (
-          <>
-            <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_74%_42%,rgba(185,28,28,0.16),transparent_66%)]" />
-            <Reveal className="pointer-events-none absolute -right-12 top-1/2 hidden h-[560px] -translate-y-1/2 text-white/[0.07] lg:block">
-              <CourtLines className="h-full w-auto" />
-            </Reveal>
-          </>
+          <motion.div
+            aria-hidden="true"
+            className="phero__court"
+            style={allowed ? { y: scrollPhotoY, opacity: scrollFade } : {}}
+          >
+            <Court side="bottom" depth={300} floor={false} />
+          </motion.div>
         )}
+        <span className="phero__glow" aria-hidden="true" />
+        <span className="phero__shade" aria-hidden="true" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[72rem] px-4 pb-14 pt-28 sm:px-8 sm:pb-16 sm:pt-32">
-        <p className="eyebrow text-accent">Player profile</p>
+      <div className="wrap phero__content">
+        <Reveal variant="fade" className="phero__eyebrow">
+          <span className="t-eyebrow is-red">Player profile</span>
+          <Tape code="NBA.com" source="Queried" variant="queried" />
+        </Reveal>
+        <KineticHeadline
+          lines={nameLines(profile.fullName)}
+          id="player-profile-heading"
+          headingRef={headingRef}
+          tabIndex={-1}
+          className="phero__name"
+          delay={0.15}
+        />
 
-        <div className="mt-5 flex flex-wrap items-end gap-x-6 gap-y-3">
-          {jersey !== undefined ? (
-            <span className="leading-none">
-              <span className="eyebrow block text-white/55">No.</span>
-              <span className="display mt-1 block text-6xl font-extrabold leading-[0.8] text-accent-bright sm:text-8xl">
-                {jersey}
-              </span>
-            </span>
-          ) : null}
-          <h1
-            id="player-profile-heading"
-            ref={headingRef}
-            tabIndex={-1}
-            className="display max-w-full text-[clamp(2.5rem,7.5vw,6.5rem)] font-extrabold break-words uppercase leading-[0.86] text-chalk outline-none"
-          >
-            <span className="hero-line">
-              <span>{profile.fullName}</span>
-            </span>
-          </h1>
-        </div>
-
-        <dl className="mt-8 grid max-w-3xl grid-cols-2 gap-x-8 gap-y-5 border-t border-white/10 pt-6 sm:grid-cols-3 lg:grid-cols-4">
+        <motion.dl
+          className="phero__bio"
+          initial={allowed ? 'hidden' : false}
+          animate="shown"
+          variants={{
+            hidden: {},
+            shown: { transition: { staggerChildren: 0.05, delayChildren: 0.55 } },
+          }}
+        >
           {rows.map((row) => (
-            <div key={row.label}>
-              <dt className="eyebrow text-white/55">{row.label}</dt>
-              <dd className="mt-1.5 text-base font-semibold tabular-nums text-chalk">
-                {row.value}
-              </dd>
-            </div>
+            <motion.div
+              key={row.label}
+              className="phero__fact"
+              variants={{ hidden: { opacity: 0, y: 12 }, shown: { opacity: 1, y: 0 } }}
+              transition={{ duration: 0.5, ease: easings.arena }}
+            >
+              <dt>{row.label}</dt>
+              <dd>{row.value}</dd>
+            </motion.div>
           ))}
-        </dl>
+        </motion.dl>
+        {actions ? (
+          <Reveal delay={0.8} variant="fade" className="phero__actions">
+            {actions}
+          </Reveal>
+        ) : null}
       </div>
     </section>
   );
