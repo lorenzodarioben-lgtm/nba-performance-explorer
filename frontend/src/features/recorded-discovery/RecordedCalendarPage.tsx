@@ -59,8 +59,8 @@ export function RecordedCalendarPage() {
   return (
     <ResearchShell title="Recorded games on this calendar day">
       <p>
-        Look up calendar-month/day matches inside the source-agreed2023–24
-        regular-season archive. Local today defaults to{today}; shared/saved links
+        Look up calendar-month/day matches inside the source-agreed 2023–24
+        regular-season archive. Local today defaults to {today}; shared/saved links
         freeze the resolved day. This is not an all-time archive or a live daily
         scoreboard. Game dates remain source calendar labels.
       </p>
@@ -103,9 +103,9 @@ export function RecordedCalendarPage() {
         <>
           <SourceNote provenance={data.provenance} />
           <p>
-            {data.games.length} recorded matches for{data.day}; {data.reconciledGames}{' '}
+            {data.games.length} recorded matches for {data.day}; {data.reconciledGames}{' '}
             source-agreed games in total; {data.quarantinedGameIds.length}{' '}
-            conflicting/unpaired IDs globally quarantined. Snapshot
+            conflicting/unpaired IDs globally quarantined. Snapshot{' '}
             {data.snapshotCreatedAt}.
           </p>
           <label>
@@ -126,53 +126,86 @@ export function RecordedCalendarPage() {
               historical events are inferred.
             </p>
           ) : (
-            <ResearchTable label="Recorded calendar game results">
-              <table>
-                <caption>Final scores agreed by both source team pages</caption>
-                <thead>
-                  <tr>
-                    {[
-                      'Date',
-                      'Game ID',
-                      'Away',
-                      'Away score',
-                      'Home',
-                      'Home score',
-                      'Source revisions',
-                    ].map((s) => (
-                      <th scope="col" key={s}>
-                        {s}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.games.map((g) => (
-                    <tr key={g.id}>
-                      <th scope="row">{g.date}</th>
-                      <td>
-                        <a href={g.recapUrl}>{g.id}</a>
-                      </td>
-                      <td>
-                        <Link to={`/teams/${g.away.id}`}>{g.away.name}</Link>
-                      </td>
-                      <td>{g.awayScore}</td>
-                      <td>
-                        <Link to={`/teams/${g.home.id}`}>{g.home.name}</Link>
-                      </td>
-                      <td>{g.homeScore}</td>
-                      <td>
-                        {g.sources.map((a) => (
-                          <a key={a.revision} href={a.url}>
-                            {a.revision}{' '}
-                          </a>
-                        ))}
-                      </td>
+            <>
+              <ul className="scorecards">
+                {data.games.map((g) => {
+                  const awayWon = g.awayScore > g.homeScore;
+                  return (
+                    <li key={g.id}>
+                      <a
+                        className="scorecard"
+                        href={g.recapUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${g.away.name} ${g.awayScore}, ${g.home.name} ${g.homeScore}, final, ${g.date}, recap`}
+                      >
+                        <span className="scorecard__status">
+                          Final
+                          <span>{g.date} · recap ↗</span>
+                        </span>
+                        <span className={`scorecard__team ${awayWon ? 'is-won' : ''}`}>
+                          <b>{g.away.abbreviation}</b>
+                          <span>{g.away.name}</span>
+                          <em className="num">{g.awayScore}</em>
+                        </span>
+                        <span className={`scorecard__team ${awayWon ? '' : 'is-won'}`}>
+                          <b>{g.home.abbreviation}</b>
+                          <span>{g.home.name}</span>
+                          <em className="num">{g.homeScore}</em>
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+              <ResearchTable label="Recorded calendar game results">
+                <table>
+                  <caption>Final scores agreed by both source team pages</caption>
+                  <thead>
+                    <tr>
+                      {[
+                        'Date',
+                        'Game ID',
+                        'Away',
+                        'Away score',
+                        'Home',
+                        'Home score',
+                        'Source revisions',
+                      ].map((s) => (
+                        <th scope="col" key={s}>
+                          {s}
+                        </th>
+                      ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </ResearchTable>
+                  </thead>
+                  <tbody>
+                    {data.games.map((g) => (
+                      <tr key={g.id}>
+                        <th scope="row">{g.date}</th>
+                        <td>
+                          <a href={g.recapUrl}>{g.id}</a>
+                        </td>
+                        <td>
+                          <Link to={`/teams/${g.away.id}`}>{g.away.name}</Link>
+                        </td>
+                        <td>{g.awayScore}</td>
+                        <td>
+                          <Link to={`/teams/${g.home.id}`}>{g.home.name}</Link>
+                        </td>
+                        <td>{g.homeScore}</td>
+                        <td>
+                          {g.sources.map((a) => (
+                            <a key={a.revision} href={a.url}>
+                              {a.revision}{' '}
+                            </a>
+                          ))}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </ResearchTable>
+            </>
           )}
           <details>
             <summary>Calendar source revisions and licences</summary>

@@ -201,3 +201,33 @@ licence and React-native layout/presence primitives; no second animation library
 - New tests: `src/charts/LineChart.test.tsx` (2) — gaps and explicit breaks are never
   bridged; every point can be read from the keyboard, including "not recorded".
 - Results: frontend **343/343** (51 files); lint 0 errors; typecheck pass.
+
+## Stage 6 — league: standings, leaders, games, teams
+
+- Standings (`/standings`): two conference ladders (rank, outlined-abbreviation team link,
+  W–L, games-behind bar on one shared scale). Rows reorder with a layout (FLIP) animation
+  when the sort metric changes. Cut lines (1–6 playoffs, 7–10 play-in) are drawn only on the
+  source-rank order and labelled as the 2023–24 postseason format, not source data.
+- Leaders (`/leaders`): board of published category winners; ties shown together in an amber
+  bracket with a "Tie · n" label; nothing ranked beyond what was published.
+- Games (`/games`): recorded-date strip and broadcast score cards (always "Final", OT noted,
+  winner emphasised by weight only). Game page: score-bug hero (FINAL stamp, date, venue,
+  archive tape), line score, and a margin-after-each-period flow labelled as calculated from
+  the published period scores.
+- Teams: directory wall of outlined-abbreviation plates; team hub with a decorative outlined
+  abbreviation behind the title, "Live season data unavailable" demoted from a heading to a
+  quiet label (text kept), and a results strip (final margin per game, wins up / losses down,
+  keyboard readable) once the 2023–24 details load. The on-demand load buttons and the
+  `archive=` / `details=` URLs are unchanged.
+- Recorded leaders (`/leaders/recorded`): top-three podium (page 1) and in-row value bars on
+  one scale; tied players share a "T-n" rank; percentiles shown. Team rankings
+  (`/standings/recorded`): ranked bars with W–L, last 10, streak and home/away in each row;
+  `RankBars` gains a diverging mode for signed metrics such as final margin. Calendar: score
+  cards linking to recaps. Game shooting: team mirror bars.
+- Copy fixes: "last 10", "defaults to 20 … and 5", "100 × (… + 0.5 × …) / …", "source-agreed
+  2023–24", "defaults to {today}", "for {day}", "and {n} source-listed", "require {n}",
+  "FG and 3P", "in 2023–24".
+- Test re-expression: the overtime assertion is scoped to the accessible period table
+  (`OT1` now also appears in the aria-hidden line score).
+- Results: frontend **343/343**; lint 0 errors; typecheck pass. Browser check on the genuine
+  archive: standings, leaders, games, game page, team hub with details, recorded leaders.

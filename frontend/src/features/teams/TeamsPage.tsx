@@ -17,6 +17,7 @@ import styles from '../research/research.module.css';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { TeamArchivePanel } from '../wiki-archive/TeamArchivePanel';
 import { TeamSeasonArchivePanel } from '../wiki-archive/TeamSeasonArchivePanel';
+import { Stagger, StaggerItem } from '../../motion/choreography';
 
 export function TeamsPage() {
   const [params, setParams] = useSearchParams();
@@ -75,6 +76,22 @@ export function TeamsPage() {
           {query.data.teams.length === 0 ? (
             <p role="status">No current teams match this search.</p>
           ) : (
+            <Stagger as="ul" className="teamwall" gap={0.02}>
+              {query.data.teams.map((team) => (
+                <StaggerItem as="li" key={team.id}>
+                  <Link
+                    to={`/teams/${team.id}`}
+                    className="teamwall__plate"
+                    aria-label={`${team.name} team hub`}
+                  >
+                    <b>{team.abbreviation}</b>
+                    <span>{team.name}</span>
+                  </Link>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          )}
+          {query.data.teams.length === 0 ? null : (
             <ResearchTable label="Team directory">
               <table>
                 <caption>{query.data.teams.length} matching current teams</caption>
@@ -120,7 +137,14 @@ export function TeamDetailPage() {
     refetchOnWindowFocus: false,
   });
   return (
-    <ResearchShell title={query.data?.team.name ?? 'Team identity'}>
+    <ResearchShell
+      title={query.data?.team.name ?? 'Team identity'}
+      backdrop={
+        query.data ? (
+          <span className="teamghost">{query.data.team.abbreviation}</span>
+        ) : null
+      }
+    >
       <Link to="/teams">Back to team directory</Link>
       {!valid ? (
         <p role="alert">Invalid team ID. Team routes use namespaced NBA identities.</p>
@@ -139,8 +163,10 @@ export function TeamDetailPage() {
             label={query.data.team.name}
             path={`/teams/${query.data.team.id}`}
           />
-          <h2>Live season data unavailable</h2>
-          <p>{query.data.availability.reason}</p>
+          <p className="notlive">
+            <span>Live season data unavailable</span>
+            {query.data.availability.reason}
+          </p>
           <TeamArchivePanel team={query.data.team} />
           <TeamSeasonArchivePanel team={query.data.team} />
         </>

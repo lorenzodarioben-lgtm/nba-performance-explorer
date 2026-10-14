@@ -13,6 +13,7 @@ import {
   SourceNote,
   QueryFeedback,
 } from '../research/ResearchShell';
+import { MirrorBars } from '../../charts/MirrorBars';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 const percent = (v: number | null) =>
   v === null ? 'Unavailable' : `${(100 * v).toFixed(1)}%`;
@@ -130,9 +131,9 @@ export function ShotBoxPage() {
           <SourceNote provenance={data.provenance} />
           <p>
             {data.away.name} at {data.home.name}, {data.date}, {data.gameId};{' '}
-            {data.observedAttempts} observed attempts and{data.players.length}{' '}
-            source-listed shooters. Ratios require{data.minAttempts} observed attempts,
-            independently for FG and3P.
+            {data.observedAttempts} observed attempts and {data.players.length}{' '}
+            source-listed shooters. Ratios require {data.minAttempts} observed attempts,
+            independently for FG and 3P.
           </p>
           <Link to={`/lab/shots?game=${data.gameId}`}>
             Inspect exact source shot events
@@ -149,6 +150,29 @@ export function ShotBoxPage() {
             label={`Recorded shooting ${data.gameId}`}
             path={`/games/shooting?${params}`}
           />
+          {data.teams[0] && data.teams[1] ? (
+            <MirrorBars
+              nameA={data.teams[0].team.name}
+              nameB={data.teams[1].team.name}
+              rows={(
+                [
+                  ['FGA', 'attempts'],
+                  ['FGM', 'makes'],
+                  ['2PA', 'twoAttempts'],
+                  ['2PM', 'twoMakes'],
+                  ['3PA', 'threeAttempts'],
+                  ['3PM', 'threeMakes'],
+                  ['FG points', 'fieldGoalPoints'],
+                ] as const
+              ).map(([label, key]) => ({
+                label,
+                a: data.teams[0]![key],
+                b: data.teams[1]![key],
+                displayA: String(data.teams[0]![key]),
+                displayB: String(data.teams[1]![key]),
+              }))}
+            />
+          ) : null}
           <ResearchTable label="Observed team shooting">
             <table>
               <caption>

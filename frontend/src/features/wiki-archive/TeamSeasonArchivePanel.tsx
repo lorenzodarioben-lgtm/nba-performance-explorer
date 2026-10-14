@@ -7,6 +7,8 @@ import {
 import { fetchResearch } from '../research/api';
 import { QueryFeedback, ResearchTable, SourceNote } from '../research/ResearchShell';
 import { WikiAttribution } from './WikiAttribution';
+import { BarChart } from '../../charts/BarChart';
+import { ChartLegend } from '../../charts/markers';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { readTeamArchiveState } from './team-archive-state';
 import styles from '../research/research.module.css';
@@ -371,6 +373,34 @@ export function TeamSeasonArchivePanel({ team }: { team: DirectoryTeam }) {
             {average('opponentScore')}. These are scoring summaries, not possession
             ratings.
           </p>
+          {results.length > 1 ? (
+            <div className="panel frchart" data-chart="results-strip">
+              <ChartLegend
+                items={[
+                  { id: 'w', label: 'Win margin', color: '#cfcdc9', shape: 'square' },
+                  { id: 'l', label: 'Loss margin', color: '#ef4444', shape: 'square' },
+                ]}
+              />
+              <BarChart
+                label="Final margin in each matching regular-season game, in date order"
+                format={(value) => (value > 0 ? `+${value}` : String(value))}
+                height={180}
+                color="#cfcdc9"
+                accent="#ef4444"
+                data={results.map((g) => ({
+                  key: g.sourceId,
+                  label: `${g.date} ${g.location === 'home' ? 'vs' : '@'} ${g.opponent.abbreviation}`,
+                  value: g.teamScore - g.opponentScore,
+                  tone: g.result === 'W' ? 'default' : 'accent',
+                  detail: [
+                    { label: 'Score', value: `${g.teamScore}–${g.opponentScore}` },
+                    { label: 'Result', value: g.result === 'W' ? 'Win' : 'Loss' },
+                  ],
+                }))}
+                tickLabel={(datum) => datum.label.slice(5, 10)}
+              />
+            </div>
+          ) : null}
           <ResearchTable label="Historical regular-season results">
             <table>
               <caption>

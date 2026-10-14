@@ -19,6 +19,14 @@ import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { WikiAttribution } from './WikiAttribution';
 import { shiftCalendarDate } from './calendar-date';
 import styles from '../research/research.module.css';
+import {
+  calendarLabel,
+  GameHero,
+  LineScore,
+  MarginFlow,
+  ScoreCards,
+} from '../league/Scoreboard';
+import { Slate } from '../../ui/Slate';
 const QuerySchema = z
   .object({
     season: ArchiveSeasonSchema.default('2023-24'),
@@ -153,6 +161,23 @@ export function GamesArchivePage() {
               </button>
             </div>
           )}
+          {gameId && games[0] ? <GameHero game={games[0]} /> : null}
+          {!gameId && date ? (
+            <nav className="datestrip" aria-label="Recorded game dates">
+              {[...new Set(data.games.map((g) => g.date))].sort().map((day) => (
+                <button
+                  key={day}
+                  type="button"
+                  className="datestrip__day"
+                  aria-pressed={day === date}
+                  onClick={() => update('date', day)}
+                >
+                  {calendarLabel(day).replace(/, \d{4}$/, '')}
+                </button>
+              ))}
+            </nav>
+          ) : null}
+          {!gameId && games.length ? <ScoreCards games={games} /> : null}
           {!games.length && (
             <p role="status">
               No recorded playoff games match this date/team in the snapshot. This does
@@ -208,6 +233,28 @@ export function GamesArchivePage() {
               <h2>
                 {games[0].away.name} at {games[0].home.name}
               </h2>
+              <div className="gamemods">
+                <section aria-labelledby="linescore-title">
+                  <Slate
+                    id="linescore-title"
+                    title="Line score"
+                    tapes={[
+                      { code: 'Archive', source: 'Wikipedia', variant: 'archive' },
+                    ]}
+                    compact
+                  />
+                  <LineScore game={games[0]} />
+                </section>
+                <section aria-labelledby="marginflow-title">
+                  <Slate
+                    id="marginflow-title"
+                    title="Margin after each period"
+                    tapes={[{ code: 'From period scores', variant: 'derived' }]}
+                    compact
+                  />
+                  <MarginFlow game={games[0]} />
+                </section>
+              </div>
               <p>
                 Venue: {games[0].venue ?? 'Unavailable'}. Source-reported time:{' '}
                 {games[0].reportedTime ?? 'Unavailable'} (time zone unverified). UTC

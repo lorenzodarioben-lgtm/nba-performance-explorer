@@ -15,6 +15,7 @@ import {
   QueryFeedback,
 } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
+import { RankedBoard } from '../league/RankedBoard';
 import { WikiAttribution } from '../wiki-archive/WikiAttribution';
 import styles from '../research/research.module.css';
 import { recordedRankingCsv } from './recorded-csv';
@@ -244,13 +245,21 @@ export function RecordedArchivePage({ mode }: { mode: 'leaders' | 'records' }) {
                 {leaders.data.unknownScopeRows} unspecified-scope rows withheld.
               </p>
               <p>
-                Custom minimum GP defaults20 regular and5 when switching to playoffs.
-                Official attempt/league qualification is unavailable. Trade rows combine
-                only from explicit raw counts; rounded averages are never multiplied
-                into counts. Percentiles use100×(lower values +0.5×equal
-                values)/qualified cohort size. Tied ranks use competition ranking.
-                Search/team filters keep that population fixed.
+                Custom minimum GP defaults to 20 regular-season and 5 when switching to
+                playoffs. Official attempt/league qualification is unavailable. Trade
+                rows combine only from explicit raw counts; rounded averages are never
+                multiplied into counts. Percentiles use 100 × (lower values + 0.5 ×
+                equal values) / qualified cohort size. Tied ranks use competition
+                ranking. Search/team filters keep that population fixed.
               </p>
+              <RankedBoard
+                rows={leaders.data.rows}
+                showPodium={leaders.data.query.page === 1}
+                metricLabel={leaders.data.query.metric}
+                format={(value) =>
+                  value < 1 && value > 0 ? value.toFixed(3) : value.toFixed(1)
+                }
+              />
               <ResearchTable label="Recorded qualified cohort ranking">
                 <table>
                   <caption>

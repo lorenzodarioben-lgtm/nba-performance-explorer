@@ -59,7 +59,7 @@ export function BarChart({
       .map((datum) => datum.value)
       .filter((value): value is number => value !== null && Number.isFinite(value));
     if (reference) values.push(reference.value);
-    const max = values.length ? Math.max(...values) : 1;
+    const max = values.length ? Math.max(0, ...values) : 1;
     const min = values.length ? Math.min(0, ...values) : 0;
     return niceDomain(min, max || 1, 4);
   }, [data, reference, yDomain]);

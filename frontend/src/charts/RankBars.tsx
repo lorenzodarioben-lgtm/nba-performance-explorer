@@ -30,6 +30,12 @@ export function RankBars({
   color?: string;
 }) {
   const allowed = useMotionAllowed();
+  // Signed values (e.g. a margin) diverge from a centre line instead of a left edge.
+  const diverging = rows.some((row) => row.value !== null && row.value < 0);
+  const maxAbs = Math.max(
+    0,
+    ...rows.map((row) => (row.value === null ? 0 : Math.abs(row.value))),
+  );
   const top =
     max ??
     Math.max(
@@ -41,7 +47,14 @@ export function RankBars({
   return (
     <ol className="rankbars" aria-label={label}>
       {rows.map((row, index) => {
-        const ratio = row.value === null || top <= 0 ? 0 : Math.max(0, row.value / top);
+        const ratio = diverging
+          ? row.value === null || maxAbs <= 0
+            ? 0
+            : Math.abs(row.value) / maxAbs
+          : row.value === null || top <= 0
+            ? 0
+            : Math.max(0, row.value / top);
+        const negative = diverging && row.value !== null && row.value < 0;
         return (
           <motion.li
             key={row.key}
@@ -50,12 +63,20 @@ export function RankBars({
             className={`rankbars__row ${row.highlight ? 'is-hl' : ''}`}
           >
             <span className="rankbars__label">{row.label}</span>
-            <span className="rankbars__track" aria-hidden="true">
+            <span
+              className={`rankbars__track ${diverging ? 'rankbars__track--div' : ''}`}
+              aria-hidden="true"
+            >
               {row.value === null ? null : (
                 <motion.i
+                  className={diverging ? (negative ? 'is-neg' : 'is-pos') : undefined}
                   style={{
-                    background: row.highlight ? 'var(--red-hi)' : color,
-                    originX: 0,
+                    background: negative
+                      ? 'var(--red-hi)'
+                      : row.highlight
+                        ? 'var(--red-hi)'
+                        : color,
+                    originX: negative ? 1 : 0,
                   }}
                   initial={allowed ? { scaleX: 0 } : false}
                   whileInView={{ scaleX: ratio }}

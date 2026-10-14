@@ -13,6 +13,7 @@ import {
   QueryFeedback,
 } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
+import { RankBars } from '../../charts/RankBars';
 import { WikiAttribution } from '../wiki-archive/WikiAttribution';
 import styles from '../research/research.module.css';
 export function RecordedTeamRankingsPage() {
@@ -140,6 +141,22 @@ export function RecordedTeamRankingsPage() {
             label="Historical team rankings and splits"
             path={`/standings/recorded?${params}`}
           />
+          {data.rows.length ? (
+            <div className="ranked" data-chart="team-ranking">
+              <RankBars
+                label="Team ranking on the selected metric"
+                rows={data.rows.map((r) => ({
+                  key: r.team.id,
+                  label: `${data.rows.filter((o) => o.rank === r.rank).length > 1 ? 'T-' : ''}${r.rank}  ${r.team.abbreviation} · ${r.team.name}`,
+                  value: r.value,
+                  display:
+                    Math.abs(r.value) < 1 ? r.value.toFixed(3) : r.value.toFixed(1),
+                  meta: `${r.wins}–${r.losses}${r.completeSeason ? '' : ' (partial)'} · L10 ${r.lastTen.complete ? `${r.lastTen.wins}–${r.lastTen.losses}` : '—'} · streak ${r.streak.kind ? `${r.streak.kind}${r.streak.length}` : '—'} · home ${r.home.wins}–${r.home.losses} · away ${r.away.wins}–${r.away.losses}`,
+                  highlight: r.rank === 1,
+                }))}
+              />
+            </div>
+          ) : null}
           {!data.rows.length ? (
             <p role="status">No qualified teams match these filters.</p>
           ) : (

@@ -302,3 +302,20 @@
     grid-row: 1;
   }
 }
+.rankbars__track--div::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -3px;
+  bottom: -3px;
+  width: 1px;
+  background: var(--line-3);
+}
+.rankbars__track--div i.is-pos {
+  left: 50%;
+  right: 0;
+}
+.rankbars__track--div i.is-neg {
+  left: 0;
+  right: 50%;
+}

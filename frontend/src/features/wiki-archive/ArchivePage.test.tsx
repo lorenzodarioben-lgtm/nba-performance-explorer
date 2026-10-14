@@ -86,7 +86,13 @@ describe('licensed archive views', () => {
     );
     renderApp('/games/nba:0042300101');
     await screen.findByRole('heading', { name: 'Published game category leaders' });
-    expect(screen.getByText('OT1')).toBeInTheDocument();
+    // The overtime period is a row of the accessible period table (the line score and margin
+    // flow repeat it visually, hidden from assistive tech).
+    expect(
+      within(
+        screen.getByRole('table', { name: /Published quarter and overtime scoring/ }),
+      ).getByText('OT1'),
+    ).toBeInTheDocument();
     expect(screen.getByText('Two players 8 each')).toBeInTheDocument();
     expect(screen.getByText(/Venue: Unavailable/)).toHaveTextContent(
       'Source-reported time: Unavailable',

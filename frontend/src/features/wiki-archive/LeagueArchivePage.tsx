@@ -15,6 +15,8 @@ import {
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { WikiAttribution } from './WikiAttribution';
 import styles from '../research/research.module.css';
+import { ConferenceLadders } from '../league/ConferenceLadder';
+import { LeaderBoard } from '../league/LeaderBoard';
 const querySchema = z
   .object({
     season: ArchiveSeasonSchema.default('2023-24'),
@@ -188,6 +190,16 @@ export function LeagueArchivePage({ mode }: { mode: 'standings' | 'leaders' }) {
               </>
             )}
           </div>
+          {mode === 'standings' && standings.length ? (
+            <ConferenceLadders
+              standings={standings}
+              sort={q.sort}
+              conference={q.conference}
+            />
+          ) : null}
+          {mode === 'leaders' && leaders.length ? (
+            <LeaderBoard leaders={leaders} />
+          ) : null}
           {mode === 'standings' ? (
             <ResearchTable label="Historical conference standings">
               <table>
@@ -289,7 +301,7 @@ export function LeagueArchivePage({ mode }: { mode: 'standings' | 'leaders' }) {
             <p role="status">No source records match the filters.</p>
           )}
           <p>
-            Home/away records, last10 and streaks are not included in this standings
+            Home/away records, last 10 and streaks are not included in this standings
             snapshot. No current roster or injury information is inferred.
           </p>
         </>
