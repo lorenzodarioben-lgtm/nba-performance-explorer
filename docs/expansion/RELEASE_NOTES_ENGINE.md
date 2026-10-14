@@ -75,3 +75,5 @@ Recorded analytics now supplies histogram/scatter with exact values, qualified t
 Recorded shot studio `/lab/shots` now supports authentic partial2018 playoff field-goal events, make/miss dots, all-filter density/zone tables, two-player comparison, strict game/date/team/type/distance/result filters, saved URLs and bounded CC0 CSV/SVG export. Original provider/design unchanged. Source13,470 attempts,80games,203players,16teams; no full/current/league-average claim.
 
 Added recorded cohort similarity, auditable threshold-category queries/random qualified targets and source-agreed calendar games with leap-day/team filters. Existing recorded source only; no new networksource/dependency/mandatorycost. Histories/bookmarks/sharedURLs preserve queryfilters.
+
+Added separate historicalyearlyaward source preservingmissingrecipients/coaches/finalist distinction; source-agreedobserved record-through-date progression anddailytrend/gapchart withexacttable. Single2023-24historicalscope, transparentwindows/quarantine/samplethresholds; noalltime/within-day/possession claims.

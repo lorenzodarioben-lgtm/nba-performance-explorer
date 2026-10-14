@@ -15,6 +15,8 @@ export * from './recorded-labs.js';
 export * from './recorded-analytics.js';
 export * from './shot-archive.js';
 export * from './recorded-discovery.js';
+export * from './history-awards.js';
+export * from './recorded-progression.js';
 
 export {
   PlayerSearchResponseSchema,

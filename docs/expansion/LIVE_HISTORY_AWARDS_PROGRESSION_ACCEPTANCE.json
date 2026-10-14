@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-10-14T09:09:46.525462+00:00",
+  "status": "PASS",
+  "environment": "local-genuine-wikipedia-and-recorded-sources",
+  "productionHostTested": false,
+  "requests": 6,
+  "upstreamAwardPageReads": 1,
+  "awardSourceRevision": 1347383197,
+  "awardCategories": 13,
+  "namedRecipients": 12,
+  "missingRecipientCategories": 1,
+  "firstRecipient": "Nikola Jokic",
+  "firstRecipientSourceTeam": "DEN",
+  "sourceAgreedGames": 1219,
+  "progressionDateEvents": 4,
+  "observedCombinedPointHigh": 309,
+  "dailyMeanGaps": 14,
+  "leapMonthCalendarDays": 29,
+  "emptyOutsideSourceWindowPreserved": true,
+  "directSpaRefreshes": 2
+}

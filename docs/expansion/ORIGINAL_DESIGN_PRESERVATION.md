@@ -52,3 +52,5 @@ Only additive App routes and new/research components changed. Existing NBA Playe
 Shot milestone: protected original frontend components/styles/assets/legacy provider/render paths remain empty diff against baseline. Mobile repair changes only existing expansion research.module.css wrapping and label containment. Source CSV is numeric data, no original asset/image replacement. Genuine browser actual marks/table verified; no pixel comparison claim.
 
 Discovery/calendar checkpoint adds lazyplainroutes and scopedfunctionalforms/tables. Protected originalpaths/assets/provider/render remain empty diff vs cd557e4. No original style/interaction redesign or production deployment.
+
+Historical awards/progression adds only lazy research routes/forms/scoped SVG tables and independent providers. Protected original frontend paths/assets, existing NBA provider and render configuration remain unchanged versus baseline cd557e4. No image or media reuse, global styling redesign, push or deployment.

@@ -1,5 +1,7 @@
 import {
   RecordedCalendarResponseSchema,
+  RecordedProgressionResponseSchema,
+  type RecordedProgressionQuery,
   type RecordedCalendarQuery,
   type RecordedDiscoveryQuery,
   RecordedDatasetSchema,
@@ -20,6 +22,7 @@ import {
   type RecordedAnalyticsQuery,
 } from '@nba-performance-explorer/contracts';
 import { discoverRecorded } from './recorded-discovery.js';
+import { observedProgression } from './recorded-progression.js';
 import data from './recorded-snapshot.json' with { type: 'json' };
 import { analyzeRecordedPairs } from './recorded-statistics.js';
 type Participant = TeamArchiveResponse['statistics']['regular-season'][number];
@@ -469,6 +472,41 @@ export class RecordedArchiveProvider {
           'Month/day is a calendar label, not a converted UTC tipoff. Local today is resolved in browser and frozen in shared links.',
           'Globally quarantined conflicting/unpaired IDs do not enter these calendar matches.',
           'Source revisions/CC BY-SA4.0 attribution preserved; no missing scores or unknown games inferred.',
+        ],
+      },
+    });
+  }
+  progression(q: RecordedProgressionQuery) {
+    const { verified, conflictingGameIds, unpairedGameIds } = this.reconcileGames(),
+      dates = verified.map((g) => g.date).sort(),
+      from = q.from ?? (q.to && q.to < dates[0]! ? q.to : dates[0]!),
+      to = q.to ?? (q.from && q.from > dates.at(-1)! ? q.from : dates.at(-1)!);
+    return RecordedProgressionResponseSchema.parse({
+      season: q.season,
+      metric: q.metric,
+      team: q.team ?? null,
+      from,
+      to,
+      minDailyGames: q.minDailyGames,
+      ...observedProgression(verified, q, from, to),
+      reconciledGames: verified.length,
+      quarantinedGameIds: [...conflictingGameIds, ...unpairedGameIds],
+      snapshotCreatedAt: this.dataset.createdAt,
+      attributions: this.dataset.snapshots.map((s) => s.attribution),
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'regular-season',
+        coverage:
+          'Calendar-date progression and daily means inside source-agreed2023-24 regular-season finals/window only. Not complete/all-time/live/possession/era-adjusted league records.',
+        warnings: [
+          'Within-day tipoff ordering is unknown: report highest value through each date and all tied games at that value, not an invented intra-day sequence.',
+          'Record maxima reset at the selected window start. Conflicting/unpaired IDs are excluded globally.',
+          'Missing dates/low daily sample retain raw game counts and null means; chart gaps are not connected.',
+          'teamPoints without a team means the higher final team score in each game; finalMargin is absolute final-score difference, not largest in-game lead.',
         ],
       },
     });

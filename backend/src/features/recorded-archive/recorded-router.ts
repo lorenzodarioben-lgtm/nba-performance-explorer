@@ -7,6 +7,7 @@ import {
   RecordedAnalyticsQuerySchema,
   RecordedDiscoveryQuerySchema,
   RecordedCalendarQuerySchema,
+  RecordedProgressionQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
@@ -204,5 +205,34 @@ export function createRecordedRouter(provider: RecordedArchiveProvider | undefin
     return res.json(provider.calendar(q.data));
   });
   router.all('/calendar', methodNotAllowedHandler);
+  router.get('/progression', (req, res) => {
+    const q = RecordedProgressionQuerySchema.safeParse(req.query);
+    if (!q.success)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_PROGRESSION',
+        'Choose recorded2023-24 metric/team, ordered calendar window and daily sample threshold.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    if (
+      q.data.team &&
+      !provider.dataset.snapshots.some((s) => s.team.id === q.data.team)
+    )
+      return sendApiError(
+        res,
+        404,
+        'TEAM_NOT_FOUND',
+        'Team not found in recorded source.',
+      );
+    return res.json(provider.progression(q.data));
+  });
+  router.all('/progression', methodNotAllowedHandler);
   return router;
 }

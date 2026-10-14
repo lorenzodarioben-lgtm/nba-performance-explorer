@@ -46,6 +46,8 @@ export function ResearchShell({
         <Link to="/lab/shots">Recorded shot studio</Link>
         <Link to="/discover/recorded">Recorded cohort discovery</Link>
         <Link to="/history/calendar">Calendar game archive</Link>
+        <Link to="/history/awards">Historical yearly awards</Link>
+        <Link to="/history/progression">Record progression and trends</Link>
         <Link to="/my-nba">My NBA</Link>
         <Link to="/">Original home</Link>
       </nav>

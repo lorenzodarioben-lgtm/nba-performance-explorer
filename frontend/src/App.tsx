@@ -106,6 +106,16 @@ const RecordedCalendarPage = lazy(() =>
     default: m.RecordedCalendarPage,
   })),
 );
+const HistoricalAwardsPage = lazy(() =>
+  import('./features/history/HistoricalAwardsPage').then((m) => ({
+    default: m.HistoricalAwardsPage,
+  })),
+);
+const RecordedProgressionPage = lazy(() =>
+  import('./features/recorded-discovery/RecordedProgressionPage').then((m) => ({
+    default: m.RecordedProgressionPage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -115,6 +125,34 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/history/progression"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading record progression…
+                  </p>
+                }
+              >
+                <RecordedProgressionPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/history/awards"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading historical awards…
+                  </p>
+                }
+              >
+                <HistoricalAwardsPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/discover/recorded"
             element={
