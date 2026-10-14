@@ -303,3 +303,86 @@ licence and React-native layout/presence primitives; no second animation library
 - Results: frontend **343/343**; lint 0 errors; typecheck pass. Browser: smoke **78/78**
   (desktop + phone) and axe **39/39 routes with zero serious/critical violations** (Stage 0
   baseline: 0/39).
+
+## Stage 9 (part 2) — motion setting and "What's on tape"
+
+- My NBA gains a **Motion** setting (System / Reduced / Full), remembered on this device.
+  Toggling it first remounted page content (Reveal, Stagger, StaggerItem and RouteEntrance
+  swapped between plain and motion elements); they now always render motion elements and
+  change only their initial state. New test: choosing Reduced/Full updates the pressed state,
+  the document's motion mode and storage.
+- `/explore` becomes **What's on tape**: six source cards (NBA.com on request, 2023–24
+  Wikipedia archive, Wikidata, 2018 playoff shots, 2017–18 lineup study, team identities),
+  each with licence, what it covers, what it leaves out and where it is used; the service's
+  capability report grouped into Available / Conditional / Blocked lanes (status by word and
+  shape, never colour alone; "Open" links only for usable capabilities); a tape legend; and
+  a "Not on tape" list. Pinned strings kept verbatim (demo-mode notice, `id: status` lines,
+  "Find a player for insights", outage alert). Source facts were checked against
+  `docs/expansion/FREE_DATA_SOURCE_AUDIT.md` and the shot contract.
+- Copy correction found while checking facts: Labs said Shot Studio takes "up to four
+  players"; the shot query contract allows one or two. Now "one or two players".
+- Results: frontend **346/346**; explorer smoke + axe pass; Chromium at 390 and 1440 px: no
+  overflow, no console errors, every reveal reached its end state.
+
+## Stage 10 — hardening and final verification
+
+- **Route sweep (Chromium, all 39 routes × 390 and 1440 px, full motion):** no horizontal
+  overflow, no console errors, no content left at zero opacity, no error alerts.
+- **Reduced-motion fix:** `useSeen` reported a mark as seen only once it scrolled into view,
+  even with motion off, so bars below the fold (and in captures or print) sat at zero until
+  scrolled. With motion off, marks are now drawn at their values at once.
+- **Polish of the rawest lab pages:**
+  - Comparison lab: action row; slot controls read "Season" and "Remove", with the player ID
+    kept for screen readers so the pinned accessible names are unchanged.
+  - Career comparison: numbered name chips, a real empty state, the curve help text shown
+    only beside a chart, and a readable status line.
+  - Discover: metric names instead of enum keys (shared with the analytics lab) and grouped
+    target controls, plus a distance chart drawn from the same evidence as the table (new
+    test).
+  - Page-level fields get bottom spacing inside the Film Room body.
+- **Copy defects:** 26 backend prose strings and 13 frontend captions had run-together words
+  ("Licensed2023-24", "recorded2018", "fewer than3", "License2.0", "only;13,867"). Spaces were
+  restored; values, identifiers, formulas, HTTP headers and data snapshots are unchanged
+  (the immutable lineup snapshot was restored byte-for-byte after a mis-scoped formatter
+  run). Backend **413/413**.
+- **Keyboard walkthrough (Chromium):**
+  - Skip link is reachable (Shift+Tab from the focused heading). Every tab stop on home
+    shows a visible ring.
+  - `/` opens search; arrow keys and Enter reach a player.
+  - Chart arrow keys announce values; Shot Studio views switch from the keyboard.
+  - The mobile menu traps focus across 40 tabs; Escape closes it and returns focus to Menu.
+- **Search focus bug (browser-only):** the overlay's exit animation keeps it mounted for
+  ~260 ms, so restoring focus to the opener ran after the new page had focused its heading,
+  and focus was pulled back to the opener. Focus is now restored only when the overlay is
+  dismissed without a choice. Verified with full and reduced motion. The shell tests assert
+  both contracts, but jsdom skips the exit animation and cannot reproduce the ordering.
+- **Transform/opacity audit:**
+  - The player-hub score bug animated `width` (a per-frame reflow). It now fades and slides
+    with `popLayout`, and the tabs follow with a transform layout animation.
+  - `BarChart` tweened SVG `y`/`height`. Bars now span their side of the baseline and scale.
+    In Chromium, animated bars settle at exactly the static geometry (0 px difference on 28
+    bars); a new unit test covers positive, negative and missing values.
+  - The skip link uses a transform.
+  - Scroll and pointer effects are motion values. Pointer handlers set state only when a
+    discrete index changes; there is no React state per frame.
+- **Bundle (correction):** Stage 3 compared main chunks only ("−33 %"), but Motion ships in
+  its own initially loaded chunk. Measured like for like, after rebuilding `b4e5f88` in a
+  scratch worktree and reading each build's `index.html` preloads:
+
+  | Initial load | Baseline `b4e5f88` | Now                               |
+  | ------------ | ------------------ | --------------------------------- |
+  | JS chunks    | `index` + `dist`   | `index` + Motion + `createApiUrl` |
+  | JS raw       | 805.3 kB           | 637.4 kB (−20.8 %)                |
+  | JS gzip      | 235.2 kB           | 196.5 kB (−16.5 %)                |
+  | CSS gzip     | 8.8 kB             | 23.7 kB                           |
+  | JS+CSS gzip  | 244.0 kB           | 220.2 kB (−9.8 %)                 |
+
+  Fonts are self-hosted (204 KB in total, three faces preloaded, OFL licences in
+  `frontend/public/fonts`). No chunk exceeds 500 kB, so the baseline warning is gone.
+
+- **Final results on `claude/nba-explorer-design`:**
+  - `npm run validate`: exit 0. Frontend **347/347**, backend **413/413** (760 tests); lint 0
+    errors (13 react-refresh warnings for non-component exports); typecheck and builds pass.
+  - Playwright: **117/117**, i.e. smoke 78/78 (desktop and phone) and axe 39/39 routes with
+    zero serious/critical violations. Axe scans once at desktop width; its 39 phone entries
+    are skipped by design.

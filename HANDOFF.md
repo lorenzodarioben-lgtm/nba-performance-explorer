@@ -3,37 +3,82 @@
 > This section is the live handoff for the redesign. The engineering handoff below it is the
 > original Codex closeout and stays authoritative for the engine, sources and contracts.
 
-- **Branch:** `claude/nba-explorer-design` (engineering baseline `b4e5f88`; original history
-  preserved — never rebase, reset or rewrite it; never commit to or merge into `main`).
-- **Approved direction:** A — Arena & Film Room. B and C are rejected visually; C's linked
-  charts / brushing / filtering may be reused in A's language only.
-- **Evidence:** `docs/redesign/VERIFICATION_LOG.md` (per-stage results), `e2e/` (Playwright
-  smoke + axe, `npm run e2e`, needs `npm run dev` ports free).
+- **Branch:** `claude/nba-explorer-design`. The engineering baseline is `b4e5f88`.
+  - The original history is preserved; never rebase, reset or rewrite it.
+  - Never commit to or merge into `main`. Nothing has been deployed.
+- **Approved direction:** A, Arena & Film Room. B and C were rejected visually. C's linked
+  charts, brushing and filtering are reused in A's language only.
+- **Evidence:**
+  - `docs/redesign/VERIFICATION_LOG.md` holds per-stage results, test re-expressions and the
+    bundle record.
+  - `e2e/` holds the Playwright smoke and axe suites. Run them with `npm run e2e`, which needs
+    `npm run dev` with ports 5173 and 3001 free.
 
 ## Stage status
 
-| Stage | Scope                                                                     | Status  |
-| ----- | ------------------------------------------------------------------------- | ------- |
-| 0     | Baseline, harness, dependencies                                           | Done    |
-| 1     | Tokens, fonts, motion system, primitives, chart kit                       | Done    |
-| 2     | Global shell: masthead, nav, search, footer, Film Room shell, 404         | Next    |
-| 3     | Player hub (overview, form, games, career, shooting), Recharts removal    | Pending |
-| 4     | Shot Studio (court, modes, linked table, export by stable ref)            | Pending |
-| 5–8   | Compare suite; teams/games/standings/leaders; seasons/history; labs       | Pending |
-| 9–10  | Homepage, landings, My NBA motion setting, final polish, axe zero serious | Pending |
+| Stage | Scope                                                                        | Status |
+| ----- | ---------------------------------------------------------------------------- | ------ |
+| 0     | Baseline, harness, dependencies                                              | Done   |
+| 1     | Tokens, fonts, motion system, primitives, chart kit                          | Done   |
+| 2     | Global shell: masthead, nav, search, footer, Film Room frame, 404            | Done   |
+| 3     | Player hub (overview, form, games, career, shooting), Recharts removal       | Done   |
+| 4     | Shot Studio (court, dots/density/zones, linked table, export by stable ref)  | Done   |
+| 5–8   | Compare suite; teams/games/standings/leaders; seasons/history; labs          | Done   |
+| 9     | Homepage, landings, My NBA motion setting, "What's on tape" coverage page    | Done   |
+| 10    | Route sweep, keyboard walkthrough, transform-only audit, copy, bundle record | Done   |
+
+The redesign scope is implemented and verified across all 39 route examples (35 route
+templates plus home, landings and the catch-all).
+
+Final verified state:
+
+- `npm run validate` exits 0: 347 frontend and 413 backend tests pass, lint has 0 errors, and
+  typecheck and builds pass.
+- Playwright passes 117/117. Smoke passes 78/78 on desktop and phone. Axe passes 39/39
+  routes with zero serious or critical violations.
+- Initial JS is 196.5 kB gzip, against 235.2 kB at baseline.
 
 ## Continuation instructions
 
-1. `git status` must be clean on `claude/nba-explorer-design`; `npm ci` if `node_modules` is
-   missing; `npm run validate` must pass before and after each stage.
-2. Continue with the first stage not marked Done above. Building blocks live in
-   `frontend/src/{design,motion,ui,charts}`. Pages adopt the Film Room scope by wrapping
-   research content in `.fr`; Arena moments use `KineticHeadline`, `Reveal`, `Stagger`.
-3. Keep accessible names and copy that tests pin (see the test-compatibility notes in
-   `docs/redesign/VERIFICATION_LOG.md`); re-express colour assertions as `data-*` hooks rather
-   than deleting them. Never add URL params outside the backend contracts.
-4. After each stage: append results to the verification log, update the table above, commit
-   with the session trailers and `git push -u origin claude/nba-explorer-design`.
+1. Check out `claude/nba-explorer-design` with a clean `git status`.
+   - Run `npm ci` if `node_modules` is missing.
+   - `npm run validate` must pass before and after any change.
+2. The building blocks live in `frontend/src/{design,motion,ui,charts}`.
+   - Research pages render inside `ResearchShell`, which provides the `.fr` Film Room scope.
+   - Arena moments use `KineticHeadline`, `Reveal` and `Stagger`.
+   - Chart marks animate from `useSeen()`, which reports true at once when motion is off.
+3. Keep accessible names and copy that tests pin; see the test re-expressions in the
+   verification log.
+   - Re-express colour or geometry assertions as `data-*` hooks rather than deleting them.
+   - Never add URL params outside the backend contracts.
+4. Run Prettier from the repository root (`npx prettier --write <paths>`). Run from a
+   workspace folder, it misses `.prettierignore` and reformats the immutable
+   `lineup-study-snapshot.json`.
+5. Animate only `transform` and `opacity`, and never set React state per frame. Use motion
+   values for scroll and pointer effects.
+6. After each change, append its results to the verification log. Commit with the session
+   trailers and push with `git push -u origin claude/nba-explorer-design`.
+
+## Known limitations and open items
+
+- **Initial focus.** Every page focuses its `h1` on entry, including the first load. This is
+  an inherited contract pinned by baseline tests. The skip link and masthead are therefore
+  reached with Shift+Tab from the heading.
+- **Peak-season picker.** Its summary still reads "Choose a qualified peak season for NBA player
+  {id}". A test pins the text verbatim, so it should be changed only together with that test.
+- **Backend copy.** The run-together spacing defects are fixed. Beyond that, some engine copy
+  stays dense ("regular finals", slash lists) and was left for its owners.
+- **Demo-mode career data.** The fixture provider has no career raw totals, so career curves
+  and career tables are empty in demo mode. This is a data limit; the page says so.
+- **Search focus test.** The handoff of focus to the destination after a search choice is
+  verified in Chromium only. jsdom skips the exit animation, so it cannot reproduce that
+  ordering.
+- **CSS size.** CSS grew from 8.8 kB to 23.7 kB gzip, the cost of the design system.
+- **Lint warnings.** Lint reports 13 react-refresh warnings for modules that export constants
+  alongside components. There are no errors.
+- **Production checks.** Production-host reachability and deployment are not verified, and are
+  not authorized on this branch.
+- The motion preference, item L10 in the Codex ledger, is now delivered on My NBA.
 
 ---
 
