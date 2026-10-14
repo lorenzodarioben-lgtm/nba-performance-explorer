@@ -84,7 +84,7 @@ export function discoverRecorded(
     provenance: {
       ...data.provenance,
       coverage:
-        'Recorded2023-24 common qualified source cohort only. Transparent two-axis similarity or exact threshold queries; no league-wide/era/player-quality claim.',
+        'Recorded 2023-24 common qualified source cohort only. Transparent two-axis similarity or exact threshold queries; no league-wide/era/player-quality claim.',
       warnings: [
         'Both metrics must be available after explicit GP/identity/trade qualification; missing metrics and unknown scope are excluded without imputation.',
         'Population z-scores use the same common cohort, with constant-axis z=0. No era normalization or player-quality score.',

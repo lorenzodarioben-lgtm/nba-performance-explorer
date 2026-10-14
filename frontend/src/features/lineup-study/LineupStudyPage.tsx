@@ -44,7 +44,7 @@ function GroupTable({ rows, label }: { rows: StudyLineupRow[]; label: string }) 
               'Shared seconds',
               'Shared minutes',
               'Joint +/−',
-              '+/− per48min',
+              '+/− per 48 min',
               'Observed games',
               'Quarter reports',
               'Qualified',
@@ -156,7 +156,7 @@ export function LineupStudyPage() {
       </p>
       {!valid ? (
         <p role="alert">
-          Invalid research lineup filters. Use supported2017-18 regular scope, native
+          Invalid research lineup filters. Use supported 2017-18 regular scope, native
           member/group IDs, different comparison groups and bounded numeric controls.
         </p>
       ) : (
@@ -181,7 +181,7 @@ export function LineupStudyPage() {
           </select>
         </label>
         <label>
-          Native member IDs (up to5, comma separated)
+          Native member IDs (up to 5, comma separated)
           <input
             value={params.get('members') ?? ''}
             maxLength={100}
@@ -344,7 +344,7 @@ export function LineupStudyPage() {
               {data.source.creator}, dataset version {data.source.datasetVersion}.{' '}
               <a href={data.source.licenceUrl}>{data.source.licence}</a>. Source updated
               {data.source.sourceUpdatedAt ?? 'Unknown'}, retrieved
-              {data.source.retrievedAt}. Modified by extracting2017–18 reports, exact
+              {data.source.retrievedAt}. Modified by extracting 2017–18 reports, exact
               source game-key/URL joins, aggregate conversion and explicit quarantine.
               No producer/NBA endorsement implied.
             </p>

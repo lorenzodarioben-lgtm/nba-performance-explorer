@@ -349,7 +349,7 @@ export function RecordedArchivePage({ mode }: { mode: 'leaders' | 'records' }) {
               <ResearchTable label="Recorded source-agreed game extrema">
                 <table>
                   <caption>
-                    Recorded2023–24 regular-season extrema only; no all-time record
+                    Recorded 2023–24 regular-season extrema only; no all-time record
                     claim
                   </caption>
                   <thead>

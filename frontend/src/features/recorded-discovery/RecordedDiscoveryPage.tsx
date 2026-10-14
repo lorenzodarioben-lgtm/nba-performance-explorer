@@ -57,7 +57,7 @@ export function RecordedDiscoveryPage() {
     <ResearchShell title="Recorded cohort discovery">
       <p>
         Find similar statistical profiles or run explicit category thresholds over the
-        qualified2023–24 recorded source cohort. Every result retains exact metric/GP
+        qualified 2023–24 recorded source cohort. Every result retains exact metric/GP
         evidence. This incomplete historical cohort does not establish player quality,
         popularity, era equivalence or league-wide peers.
       </p>

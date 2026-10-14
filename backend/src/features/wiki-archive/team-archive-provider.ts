@@ -408,14 +408,14 @@ export class WikipediaTeamArchiveProvider implements TeamArchiveProvider {
           provenance: {
             ...archiveProvenance(page, 'regular-season', 'wikipedia'),
             coverage:
-              '2023-24 historical team page: source-listed roster, reconciled82 regular-season results, published participant summaries in separate regular/playoff scopes.',
+              '2023-24 historical team page: source-listed roster, reconciled 82 regular-season results, published participant summaries in separate regular/playoff scopes.',
             warnings: [
               'Adapted Wikipedia tables under CC BY-SA4.0; revision and contributor history linked. Exact-article Wikidata P3647 identity mappings are CC0, not player-name guesses.',
               'Historical roster is the source-listed season snapshot, not complete transaction membership or the current roster. Regular-season participant tables may include departed players.',
               'Rounded participant per-game values/percentages are as published; raw totals only when explicitly sourced. No weighted team shooting, possessions or joint lineup metrics inferred.',
               'Derived per-game rows identify their raw-total basis. Unspecified source scope is separate from regular/playoff records.',
               'Source home/away designation includes designated neutral-site games; location/attendance labels remain as published. No timezone/live clock available.',
-              'Opponent IDs use explicit linked2023-24 season pages; repeated unlinked labels may reuse only an identical label with an explicit identity link on this same source page.',
+              'Opponent IDs use explicit linked 2023-24 season pages; repeated unlinked labels may reuse only an identical label with an explicit identity link on this same source page.',
               ...(identityStatus === 'unavailable'
                 ? [
                     'Player ID mapping source unavailable; only sourced external article links shown.',

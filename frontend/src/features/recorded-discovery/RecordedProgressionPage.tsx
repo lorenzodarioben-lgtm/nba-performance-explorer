@@ -82,14 +82,14 @@ export function RecordedProgressionPage() {
   return (
     <ResearchShell title="Observed record progression and daily trends">
       <p>
-        Source-agreed2023–24 regular-season finals only. Record maxima begin at the
+        Source-agreed 2023–24 regular-season finals only. Record maxima begin at the
         selected window start and are reported through each calendar date; game order
         within a date is unknown. Every tied game at that date’s high is retained. These
         are observed window records, not all-time or complete official league records.
       </p>
       {!valid ? (
         <p role="alert">
-          Invalid progression filters. Choose a supported metric, ordered2023–24 window
+          Invalid progression filters. Choose a supported metric, ordered 2023–24 window
           and daily sample threshold.
         </p>
       ) : (

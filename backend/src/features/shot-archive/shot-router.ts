@@ -32,7 +32,7 @@ export function createShotRouter(provider: ShotArchiveProvider | undefined) {
         res,
         400,
         'INVALID_SHOOTING_BOX',
-        'Choose exact recorded2018 playoff game and minimum attempts.',
+        'Choose exact recorded 2018 playoff game and minimum attempts.',
       );
     if (!provider)
       return sendApiError(
@@ -58,7 +58,7 @@ export function createShotRouter(provider: ShotArchiveProvider | undefined) {
         res,
         400,
         'INVALID_SHOT_QUERY',
-        'Choose the recorded2017-18 playoff scope and bounded shot filters.',
+        'Choose the recorded 2017-18 playoff scope and bounded shot filters.',
       );
     if (!provider)
       return sendApiError(

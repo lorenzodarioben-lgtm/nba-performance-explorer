@@ -252,7 +252,7 @@ export function createRecordedRouter(provider: RecordedArchiveProvider | undefin
         res,
         400,
         'INVALID_RECORDED_PROGRESSION',
-        'Choose recorded2023-24 metric/team, ordered calendar window and daily sample threshold.',
+        'Choose recorded 2023-24 metric/team, ordered calendar window and daily sample threshold.',
       );
     if (!provider)
       return sendApiError(

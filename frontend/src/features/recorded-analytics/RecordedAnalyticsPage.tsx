@@ -256,7 +256,7 @@ export function RecordedAnalyticsPage() {
               <p>
                 Descriptive Pearson correlation:{' '}
                 {data.correlation === null
-                  ? 'Unavailable (fewer than3 pairs or constant axis)'
+                  ? 'Unavailable (fewer than 3 pairs or constant axis)'
                   : data.correlation.toFixed(4)}
                 . Correlation does not establish causation. Target has a larger marker
                 and is identified explicitly in the equivalent table.

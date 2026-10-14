@@ -167,7 +167,7 @@ export class ShotArchiveProvider {
         isLive: false,
         scope: 'playoffs',
         coverage:
-          'Recorded subset of 2018 playoffs:13,470 field-goal attempts/80 games/203 players/16 teams,2018-04-14 through06-03. Incomplete playoffs; no free throws, full box scores or current league claim.',
+          'Recorded subset of 2018 playoffs: 13,470 field-goal attempts/80 games/203 players/16 teams, 2018-04-14 through 06-03. Incomplete playoffs; no free throws, full box scores or current league claim.',
         warnings: [
           'Original publisher declares CC0; unofficial historical data, not NBA endorsement.',
           'All summaries/density cells use filtered events before pagination; dot/table page is bounded.',
@@ -259,12 +259,12 @@ export class ShotArchiveProvider {
         isLive: false,
         scope: 'playoffs',
         coverage:
-          'Shooting-only observed2018 playoff game table from recorded shot events. Includes players with source attempts only; no full box score/final-score/bench participation claim.',
+          'Shooting-only observed 2018 playoff game table from recorded shot events. Includes players with source attempts only; no full box score/final-score/bench participation claim.',
         warnings: [
           'Field-goal points=2*made2s+3*made3s; excludes unknown free throws and is not total player/team points.',
-          'FG/eFG and3P ratios use actual observed attempts, with explicit minimum. No game-average-to-total multiplication.',
+          'FG/eFG and 3P ratios use actual observed attempts, with explicit minimum. No game-average-to-total multiplication.',
           'FT/minutes/REB/AST and final scores unavailable, not zero. Players without source shot records are not inferred as DNP or zero-attempt participants.',
-          'Original CC0 publisher/partial2018 playoff dataset/version/hash retained; no live/current or independently complete game-event claim.',
+          'Original CC0 publisher/partial 2018 playoff dataset/version/hash retained; no live/current or independently complete game-event claim.',
         ],
       },
     });

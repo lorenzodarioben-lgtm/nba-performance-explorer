@@ -29,7 +29,7 @@ export function createLineupStudyRouter(provider: LineupStudyProvider | undefine
         res,
         400,
         'INVALID_STUDY_LINEUP_QUERY',
-        'Choose2017-18 regular research scope, native member IDs and bounded filters.',
+        'Choose 2017-18 regular research scope, native member IDs and bounded filters.',
       );
     if (!provider)
       return sendApiError(

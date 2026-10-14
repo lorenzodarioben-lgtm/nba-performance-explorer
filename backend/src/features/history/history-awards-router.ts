@@ -22,7 +22,7 @@ export function createAwardsRouter(
           res,
           400,
           'INVALID_AWARDS_SEASON',
-          'Choose recorded2023-24 yearly awards.',
+          'Choose recorded 2023-24 yearly awards.',
         );
       if (!provider)
         return sendApiError(
@@ -46,7 +46,7 @@ export function createAwardsRouter(
               isLive: false,
               scope: 'history',
               coverage:
-                'Wikipedia2023-24 yearly award table only; missing recipients retained. Coaches/executives are recipients, not inferred NBA player identities. No complete cross-season/All-NBA-team archive claim.',
+                'Wikipedia 2023-24 yearly award table only; missing recipients retained. Coaches/executives are recipients, not inferred NBA player identities. No complete cross-season/All-NBA-team archive claim.',
               warnings: [
                 'Adapted factual award rows under CC BY-SA4.0; exact source revision/contributors/licence linked.',
                 'Finalists are not winners and are excluded from recipients. Empty cells remain unavailable.',

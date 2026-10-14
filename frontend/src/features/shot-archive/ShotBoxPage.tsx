@@ -77,7 +77,7 @@ export function ShotBoxPage() {
   return (
     <ResearchShell title="Recorded game shooting table">
       <p>
-        Observed field-goal counts for one recorded2018 playoff game. Field-goal points
+        Observed field-goal counts for one recorded 2018 playoff game. Field-goal points
         exclude unknown free throws and are not final scores or full player point
         totals. Minutes, rebounds, assists, FT and non-shooting participants remain
         unavailable.
@@ -234,7 +234,7 @@ export function ShotBoxPage() {
             <a href={data.source.url}>{data.source.title}</a> · {data.source.creator},
             version {data.source.version},{' '}
             <a href={data.source.licenceUrl}>{data.source.licence}</a>. Coverage is the
-            publisher’s partial2018 playoff file; source hash {data.source.sha256}.
+            publisher’s partial 2018 playoff file; source hash {data.source.sha256}.
           </p>
         </>
       )}

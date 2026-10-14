@@ -135,12 +135,12 @@ export class LineupStudyProvider {
         isLive: false,
         scope: 'regular-season',
         coverage:
-          'Author-derived2017-18 research lineup reports only;13,867 usable five-person groups/1,229 source games, one incomplete overtime game quarantined. Not official NBA lineup verification or current/complete league data.',
+          'Author-derived 2017-18 research lineup reports only; 13,867 usable five-person groups/1,229 source games, one incomplete overtime game quarantined. Not official NBA lineup verification or current/complete league data.',
         warnings: [
-          'Arnaud Odet, scholarly dataset DOI10.57745/9NVFIQ, Etalab Open License2.0; source/update/modified-data notices retained, no endorsement implied.',
+          'Arnaud Odet, scholarly dataset DOI 10.57745/9NVFIQ, Etalab Open License 2.0; source/update/modified-data notices retained, no endorsement implied.',
           'Five members and shared seconds/plus-minus come from researcher reconstruction using substitution records. Raw PBP is not redistributed or independently replayed here.',
           'All reported period clocks/opposing plus-minus reconcile; one missing-period game and its exclusive groups excluded, no missing quarter filled by guessing.',
-          'Plus-minus per48 = sourcePM×2880/sharedSeconds, available only at the chosen shared-minute threshold; this is not net rating or a causal quality estimate.',
+          'Plus-minus per 48 = sourcePM×2880/sharedSeconds, available only at the chosen shared-minute threshold; this is not net rating or a causal quality estimate.',
           'Possessions/ORtg/DRtg/net rating and contiguous stint ordering unavailable. Native BasketballReference identities/short aliases retained; NBA IDs never guessed from names.',
         ],
       },

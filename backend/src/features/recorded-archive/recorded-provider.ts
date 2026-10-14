@@ -154,7 +154,7 @@ export function rankRecordedDataset(
       isLive: false,
       scope: q.scope,
       coverage:
-        'Explicit recorded2023-24 source cohort, not complete/current NBA league rankings. Static genuine licensed data, not fixtures or a live fallback.',
+        'Explicit recorded 2023-24 source cohort, not complete/current NBA league rankings. Static genuine licensed data, not fixtures or a live fallback.',
       warnings: [
         'Ranks and midrank percentiles describe only the qualified, identifiable, supported-metric snapshot cohort. Search/team filters do not recompute the ranking population.',
         'Unknown-scope, missing-ID, low-GP and unsupported trade/metric rows are excluded and counted. Raw counts are never reconstructed from rounded averages.',
@@ -300,12 +300,12 @@ export class RecordedArchiveProvider {
       provenance: {
         ...x.first.provenance,
         coverage:
-          'Recorded2023-24 jointly qualified supported-metric source cohort. Not complete/official/current league distributions.',
+          'Recorded 2023-24 jointly qualified supported-metric source cohort. Not complete/official/current league distributions.',
         warnings: [
           'Both metric values must be available after explicit GP/identity/trade qualification. Intersection is the common ranking/distribution denominator.',
           'Population z-scores use this common cohort; constant axes have z=0. Custom six-decimal scores define competition ties. Negative weights favor lower values.',
           'Quantiles use linear interpolation at (n-1)*p; histogram bins are equal-width, last bin includes maximum. Percentiles use midrank within common cohort.',
-          'Correlation is descriptive, not causal; unavailable for fewer than3 pairs or constant axes. Missing/excluded targets are not plotted at0.',
+          'Correlation is descriptive, not causal; unavailable for fewer than 3 pairs or constant axes. Missing/excluded targets are not plotted at 0.',
         ],
       },
     });
@@ -350,7 +350,7 @@ export class RecordedArchiveProvider {
         isLive: false,
         scope: 'directory',
         coverage:
-          'Recorded2023-24 identities with explicit CC0 NBA ID facts; source-listed team membership only, not a current roster.',
+          'Recorded 2023-24 identities with explicit CC0 NBA ID facts; source-listed team membership only, not a current roster.',
         warnings: [
           'Community-maintained recorded source; exact IDs rather than name guesses. No observed lineup possessions or current availability metadata.',
         ],
@@ -408,7 +408,7 @@ export class RecordedArchiveProvider {
         isLive: false,
         scope,
         coverage:
-          'Hypothetical five identities; independent recorded2023-24 individual summaries only.',
+          'Hypothetical five identities; independent recorded 2023-24 individual summaries only.',
         warnings: [
           'No joint games/minutes/possessions/on-off/ratings supplied or inferred, even if members share a source-listed team.',
           'Any sum is a sum of independent individual season counts across separate games, not performance together. Missing raw counts remain unavailable.',
@@ -457,7 +457,7 @@ export class RecordedArchiveProvider {
         isLive: false,
         scope: 'regular-season',
         coverage:
-          'Equal2023-24 regular-season definitions; both-source-agreed game cohorts only. Observed GP can differ after quarantine.',
+          'Equal 2023-24 regular-season definitions; both-source-agreed game cohorts only. Observed GP can differ after quarantine.',
         warnings: [
           'W/L and scoring averages refer only to observed source-agreed games, not official complete-season standings. Sample counts retained.',
           'Final margin is not net rating; possession, shooting-attempt and in-game event metrics absent.',
@@ -556,7 +556,7 @@ export class RecordedArchiveProvider {
         isLive: false,
         scope: 'regular-season',
         coverage:
-          'Calendar lookup within recorded2023-24 regular-season source-agreed finals only. Not a complete all-time archive or daily/live scoreboard.',
+          'Calendar lookup within recorded 2023-24 regular-season source-agreed finals only. Not a complete all-time archive or daily/live scoreboard.',
         warnings: [
           'Month/day is a calendar label, not a converted UTC tipoff. Local today is resolved in browser and frozen in shared links.',
           'Globally quarantined conflicting/unpaired IDs do not enter these calendar matches.',
@@ -590,7 +590,7 @@ export class RecordedArchiveProvider {
         isLive: false,
         scope: 'regular-season',
         coverage:
-          'Calendar-date progression and daily means inside source-agreed2023-24 regular-season finals/window only. Not complete/all-time/live/possession/era-adjusted league records.',
+          'Calendar-date progression and daily means inside source-agreed 2023-24 regular-season finals/window only. Not complete/all-time/live/possession/era-adjusted league records.',
         warnings: [
           'Within-day tipoff ordering is unknown: report highest value through each date and all tied games at that value, not an invented intra-day sequence.',
           'Record maxima reset at the selected window start. Conflicting/unpaired IDs are excluded globally.',
@@ -641,7 +641,7 @@ export class RecordedArchiveProvider {
         isLive: false,
         scope: 'regular-season',
         coverage:
-          'Recorded2023-24 regular-season games agreed by both source team pages only. Not all-time/official/live records.',
+          'Recorded 2023-24 regular-season games agreed by both source team pages only. Not all-time/official/live records.',
         warnings: [
           'Conflicting or unpaired source game IDs are quarantined, not corrected by guessing. All maximum ties are retained.',
           'Final margin is the difference in final scores, not the largest in-game lead. Quarter/PBP/shot data unavailable.',

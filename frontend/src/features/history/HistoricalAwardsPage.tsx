@@ -48,14 +48,14 @@ export function HistoricalAwardsPage() {
   return (
     <ResearchShell title="Historical yearly awards">
       <p>
-        Source-listed2023–24 award recipients. Finalists are excluded; missing
+        Source-listed 2023–24 award recipients. Finalists are excluded; missing
         recipients remain unavailable. Coaches and executives keep their source names
         without being mapped to player profiles. This is a single-season yearly-award
         table, not a complete all-time/All-NBA-team archive.
       </p>
       {!valid ? (
         <p role="alert">
-          Invalid award filters. Choose2023-24 and bounded search text.
+          Invalid award filters. Choose 2023-24 and bounded search text.
         </p>
       ) : (
         <QueryFeedback pending={query.isPending} failed={query.isError} />

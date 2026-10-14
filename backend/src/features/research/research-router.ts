@@ -128,7 +128,7 @@ export function createResearchRouter(
             id: 'historical-team-roster-results',
             status: extensions.teamArchive ? 'conditional' : 'blocked',
             reason: extensions.teamArchive
-              ? 'Licensed2023-24 team snapshots: source-listed roster, regular finals and separate participant summaries; exact CC0 external-ID joins. Per-team source validation required; no current roster or live schedule.'
+              ? 'Licensed 2023-24 team snapshots: source-listed roster, regular finals and separate participant summaries; exact CC0 external-ID joins. Per-team source validation required; no current roster or live schedule.'
               : 'Historical team snapshot provider disabled.',
           },
           {
