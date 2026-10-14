@@ -61,3 +61,6 @@ desktop.ini
 
 # Regenerable local design-hook cache; scoped detector decisions remain tracked.
 .impeccable/hook.cache.json
+
+# Local browser-check artifacts (screenshots, traces)
+e2e/.artifacts/

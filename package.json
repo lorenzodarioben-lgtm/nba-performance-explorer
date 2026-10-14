@@ -24,10 +24,13 @@
     "smoke:free-sources": "npm run build --workspace @nba-performance-explorer/contracts && npm run smoke:free-sources --workspace backend",
     "smoke:engine": "npm run build --workspace @nba-performance-explorer/contracts && npm run smoke:engine --workspace backend",
     "validate": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
-    "smoke:closeout": "npm run build --workspace @nba-performance-explorer/contracts && tsx backend/src/scripts/smoke-closeout.ts"
+    "smoke:closeout": "npm run build --workspace @nba-performance-explorer/contracts && tsx backend/src/scripts/smoke-closeout.ts",
+    "e2e": "playwright test -c e2e/playwright.config.ts"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.55.0",
     "concurrently": "^10.0.3",
     "eslint": "^10.5.0",
     "eslint-plugin-react-hooks": "^7.1.1",
