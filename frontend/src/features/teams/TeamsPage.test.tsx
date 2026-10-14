@@ -11,6 +11,14 @@ const team = {
   abbreviation: 'GSW',
   name: 'Golden State Warriors',
 };
+const leagueAttribution = {
+  title: '2023–24 Golden State Warriors season',
+  revision: 1,
+  url: 'https://en.wikipedia.org/w/index.php?oldid=1',
+  license: 'CC BY-SA 4.0',
+  licenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+  adapted: true,
+};
 const provenance = {
   source: 'nba-api-static',
   servedAt: '2026-10-13T16:00:00.000Z',
@@ -81,5 +89,87 @@ describe('team pages', () => {
     );
     renderApp('/teams');
     expect(await screen.findByRole('alert')).toHaveTextContent('unavailable');
+  });
+});
+
+describe('team wall records', () => {
+  const directory = { teams: [team], provenance };
+  const rankings = {
+    season: '2023-24',
+    scope: 'regular-season',
+    officialStandings: false,
+    metric: 'winPercentage',
+    order: 'desc',
+    minGames: 1,
+    completeOnly: false,
+    conference: null,
+    rows: [
+      {
+        team,
+        conference: 'West',
+        observedGames: 82,
+        wins: 46,
+        losses: 36,
+        completeSeason: true,
+        missingGameIds: [],
+        winPercentage: 46 / 82,
+        pointsPerGame: 117.8,
+        opponentPointsPerGame: 115.2,
+        finalMarginPerGame: 2.6,
+        home: { games: 41, wins: 21, losses: 20 },
+        away: { games: 41, wins: 25, losses: 16 },
+        lastTen: {
+          expectedGames: 10,
+          observedGames: 10,
+          complete: true,
+          wins: 7,
+          losses: 3,
+          from: '2024-03-25',
+          to: '2024-04-14',
+        },
+        streak: { kind: 'L', length: 1, through: '2024-04-14' },
+        source: leagueAttribution,
+        rank: 12,
+        value: 46 / 82,
+      },
+    ],
+    rankingPopulation: 30,
+    belowMinimumTeams: 0,
+    incompleteExcludedTeams: 0,
+    missingMetricTeams: 0,
+    reconciledGames: 1219,
+    quarantinedGameIds: [],
+    snapshotCreatedAt: '2026-10-13T22:00:00.000Z',
+    attributions: Array.from({ length: 30 }, () => leagueAttribution),
+    conferenceSource: leagueAttribution,
+    provenance: { ...provenance, source: 'wikipedia', scope: 'regular-season' },
+  };
+
+  it('adds each recorded 2023–24 record to its plate and its accessible name', async () => {
+    server.use(
+      http.get('http://localhost/api/teams', () => HttpResponse.json(directory)),
+      http.get('http://localhost/api/recorded/team-rankings', () =>
+        HttpResponse.json(rankings),
+      ),
+    );
+    renderApp('/teams');
+    const plate = await screen.findByRole('link', {
+      name: 'Golden State Warriors team hub, recorded 2023–24 record 46–36',
+    });
+    expect(plate).toHaveTextContent('46–36');
+  });
+
+  it('keeps plain plates when the recorded rankings are unavailable', async () => {
+    server.use(
+      http.get('http://localhost/api/teams', () => HttpResponse.json(directory)),
+      http.get(
+        'http://localhost/api/recorded/team-rankings',
+        () => new HttpResponse(null, { status: 503 }),
+      ),
+    );
+    renderApp('/teams');
+    expect(
+      await screen.findByRole('link', { name: 'Golden State Warriors team hub' }),
+    ).toBeInTheDocument();
   });
 });

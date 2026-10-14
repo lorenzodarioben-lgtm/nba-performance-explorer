@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link, useParams, useSearchParams } from 'react-router';
 import {
   CanonicalTeamIdSchema,
+  RecordedTeamRankingsResponseSchema,
   TeamDetailResponseSchema,
   TeamDirectoryResponseSchema,
 } from '@nba-performance-explorer/contracts';
@@ -18,6 +19,7 @@ import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { TeamArchivePanel } from '../wiki-archive/TeamArchivePanel';
 import { TeamSeasonArchivePanel } from '../wiki-archive/TeamSeasonArchivePanel';
 import { Stagger, StaggerItem } from '../../motion/choreography';
+import { TeamSeasonGlance } from '../team-season/TeamSeasonGlance';
 
 export function TeamsPage() {
   const [params, setParams] = useSearchParams();
@@ -36,6 +38,20 @@ export function TeamsPage() {
     staleTime: 24 * 60 * 60_000,
     refetchOnWindowFocus: false,
   });
+  // Recorded 2023-24 records for the plates: optional decoration, the directory works without it.
+  const records = useQuery({
+    queryKey: ['research', 'recorded-team-rankings', 'metric=winPercentage'],
+    queryFn: ({ signal }) =>
+      fetchResearch(
+        '/api/recorded/team-rankings?metric=winPercentage',
+        signal,
+        RecordedTeamRankingsResponseSchema.parse,
+      ),
+    retry: false,
+    staleTime: 60 * 60_000,
+    refetchOnWindowFocus: false,
+  });
+  const recordOf = new Map(records.data?.rows.map((r) => [r.team.id, r]));
   return (
     <ResearchShell title="NBA teams">
       <p>
@@ -82,10 +98,26 @@ export function TeamsPage() {
                   <Link
                     to={`/teams/${team.id}`}
                     className="teamwall__plate"
-                    aria-label={`${team.name} team hub`}
+                    aria-label={`${team.name} team hub${
+                      recordOf.get(team.id)
+                        ? `, recorded 2023–24 record ${recordOf.get(team.id)!.wins}–${recordOf.get(team.id)!.losses}`
+                        : ''
+                    }`}
                   >
                     <b>{team.abbreviation}</b>
                     <span>{team.name}</span>
+                    {recordOf.get(team.id) ? (
+                      <span className="teamwall__rec">
+                        <i
+                          aria-hidden="true"
+                          style={{
+                            transform: `scaleX(${recordOf.get(team.id)!.winPercentage ?? 0})`,
+                          }}
+                        />
+                        {recordOf.get(team.id)!.wins}–{recordOf.get(team.id)!.losses}
+                        <small> 2023–24</small>
+                      </span>
+                    ) : null}
                   </Link>
                 </StaggerItem>
               ))}
@@ -170,6 +202,7 @@ export function TeamDetailPage() {
           <Link to={`/teams/${query.data.team.id}/season`} className="intel-cta">
             <span className="intel-cta__kicker">Recorded 2023–24 season</span>
             <b>Season intelligence</b>
+            <TeamSeasonGlance team={query.data.team.id} />
             <span className="intel-cta__blurb">
               All 82 games, streaks, rest and margin splits, and the season series
               against every opponent.
