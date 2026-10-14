@@ -1,0 +1,210 @@
+import type { ShotAttempt, ShotResponse } from '@nba-performance-explorer/contracts';
+import type { Ref } from 'react';
+
+import { Court } from '../../charts/Court';
+import { COURT, zoneAreas, type SourceZone } from '../../charts/court';
+
+export type ShotView = 'dots' | 'density' | 'zones';
+type Group = ShotResponse['groups'][number];
+
+// The studio crops at half court. Recorded attempts beyond it (long heaves) are never moved or
+// dropped: they stay in every table and are counted at the far edge of the court.
+const CROP = COURT.halfCourt;
+const MADE = '#f4f3f1';
+const MISS = '#ef4444';
+const HEAT = '251,191,36';
+
+// Label anchors (court units) for the source zones, used only to place text in the zone view.
+const ZONE_LABEL: Partial<Record<SourceZone, [number, number]>> = {
+  'Restricted Area': [0, 18],
+  'In The Paint (Non-RA)': [0, 96],
+  'Mid-Range': [-150, 120],
+  'Left Corner 3': [-235, 30],
+  'Right Corner 3': [235, 30],
+  'Above the Break 3': [0, 300],
+};
+
+const ratio = (n: number | null) => (n === null ? '—' : `${(n * 100).toFixed(0)}%`);
+
+export function beyondCrop(shots: readonly ShotAttempt[]) {
+  return shots.filter((shot) => shot.y !== null && shot.y > CROP).length;
+}
+
+export function ShotCourt({
+  view,
+  shots,
+  group,
+  maxDensity,
+  activeShot,
+  onActiveShot,
+  svgRef,
+  title,
+}: {
+  view: ShotView;
+  shots: readonly ShotAttempt[];
+  group: Group;
+  /** Shared across every panel so equal shading means equal counts. */
+  maxDensity: number;
+  activeShot: string | null;
+  onActiveShot: (id: string | null) => void;
+  svgRef: Ref<SVGSVGElement>;
+  title: string;
+}) {
+  const located = shots.filter((shot) => shot.x !== null && shot.y !== null);
+  const zoneTotal = group.zones.reduce((sum, zone) => sum + zone.attempts, 0);
+  return (
+    <Court
+      side="bottom"
+      depth={CROP}
+      svgRef={svgRef}
+      aria-hidden="true"
+      className="shotcourt"
+      data-view={view}
+      data-title={title}
+    >
+      {(projection) => {
+        const P = projection.point;
+        if (view === 'density') {
+          return (
+            <g className="shotcourt__density">
+              {group.cells.map((cell) => {
+                const [x, yTop] = P(cell.x * 10, cell.y * 10 + 50);
+                const opacity = 0.12 + (0.78 * cell.attempts) / Math.max(1, maxDensity);
+                return (
+                  <rect
+                    key={`${cell.x}:${cell.y}`}
+                    data-cell={`${cell.x}:${cell.y}`}
+                    data-attempts={cell.attempts}
+                    x={x}
+                    y={yTop}
+                    width={50}
+                    height={50}
+                    fill={`rgba(${HEAT},${opacity.toFixed(3)})`}
+                  >
+                    <title>
+                      {cell.x} to {cell.x + 5} ft across, {cell.y} to {cell.y + 5} ft
+                      out: {cell.attempts} attempts, {cell.makes} makes
+                    </title>
+                  </rect>
+                );
+              })}
+            </g>
+          );
+        }
+        if (view === 'zones') {
+          const areas = zoneAreas(projection);
+          return (
+            <g className="shotcourt__zones">
+              {group.zones.map((zone) => {
+                const d = areas[zone.zone as SourceZone];
+                if (!d) return null;
+                const share = zoneTotal ? zone.attempts / zoneTotal : 0;
+                return (
+                  <path
+                    key={zone.zone}
+                    d={d}
+                    data-zone={zone.zone}
+                    data-attempts={zone.attempts}
+                    fill={`rgba(${HEAT},${(0.06 + share * 0.7).toFixed(3)})`}
+                    fillRule="evenodd"
+                    stroke="rgba(10,10,11,0.85)"
+                    strokeWidth={1.5}
+                  >
+                    <title>
+                      {zone.zone}: {zone.attempts} attempts, {zone.makes} makes
+                    </title>
+                  </path>
+                );
+              })}
+              {group.zones.map((zone) => {
+                const anchor = ZONE_LABEL[zone.zone as SourceZone];
+                if (!anchor) return null;
+                const [x, y] = P(anchor[0], anchor[1]);
+                return (
+                  <g key={`label-${zone.zone}`} className="shotcourt__zlabel">
+                    <text
+                      x={x}
+                      y={y}
+                      textAnchor="middle"
+                      fill="#f4f3f1"
+                      fontSize={17}
+                      fontWeight={700}
+                    >
+                      {zone.attempts ? ratio(zone.fgPercentage) : '—'}
+                    </text>
+                    <text
+                      x={x}
+                      y={y + 15}
+                      textAnchor="middle"
+                      fill="rgba(244,243,241,0.7)"
+                      fontSize={11}
+                    >
+                      {zone.attempts} att
+                    </text>
+                  </g>
+                );
+              })}
+            </g>
+          );
+        }
+        const drawn = located.filter((shot) => (shot.y as number) <= CROP);
+        const beyond = located.length - drawn.length;
+        return (
+          <g className="shotcourt__marks">
+            {beyond > 0 ? (
+              <text
+                x={projection.width / 2}
+                y={16}
+                textAnchor="middle"
+                fill="rgba(244,243,241,0.75)"
+                fontSize={12}
+                className="shotcourt__edge"
+              >
+                +{beyond} beyond half court (in the table, not drawn)
+              </text>
+            ) : null}
+            {drawn.map((shot, index) => {
+              const [x, y] = P(shot.x as number, shot.y as number);
+              const on = activeShot === shot.id;
+              const common = {
+                'data-shot': shot.id,
+                'data-result': shot.made ? 'made' : 'missed',
+                'data-raw-x': shot.x as number,
+                'data-raw-y': shot.y as number,
+                className: `shot-mark ${on ? 'is-on' : ''}`,
+                style: { ['--i' as string]: Math.min(index, 60) },
+                onPointerEnter: () => onActiveShot(shot.id),
+                onPointerLeave: () => onActiveShot(null),
+              };
+              return shot.made ? (
+                <circle
+                  key={shot.id}
+                  {...common}
+                  cx={x}
+                  cy={y}
+                  r={on ? 8 : 5.5}
+                  fill={MADE}
+                  stroke="#0a0a0b"
+                  strokeWidth={1.5}
+                >
+                  <title>{shot.id}: made</title>
+                </circle>
+              ) : (
+                <path
+                  key={shot.id}
+                  {...common}
+                  d={`M${x - 5} ${y - 5}L${x + 5} ${y + 5}M${x - 5} ${y + 5}L${x + 5} ${y - 5}`}
+                  stroke={MISS}
+                  strokeWidth={on ? 3.4 : 2.4}
+                  strokeLinecap="round"
+                >
+                  <title>{shot.id}: missed</title>
+                </path>
+              );
+            })}
+          </g>
+        );
+      }}
+    </Court>
+  );
+}

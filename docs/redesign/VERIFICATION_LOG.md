@@ -137,3 +137,36 @@ licence and React-native layout/presence primitives; no second animation library
   (Recharts, Stage 5), `/lab/profiles` (Stage 5); home legacy label contrast fixed.
 - Build: main chunk 776.15 kB (229.36 kB gzip) — Recharts is still eagerly loaded by the
   comparison page until Stage 5.
+
+## Stage 4 — Shot Studio
+
+- `/lab/shots` rebuilt on the shared `Court` (official geometry, basket at the bottom as in the
+  approved prototype, cropped at half court). Views: Dots (exact table page; make = filled
+  chalk circle, miss = red ×), Density (all filtered located events, 5 ft cells, one amber
+  scale shared by every panel) and the new Zones view (each original source zone shaded by
+  its share of the panel's attempts, labelled with FG%; outlines never reassign attempts).
+  `view` stays a UI-only parameter stripped before the API call; `zones` is a new value of it.
+- Attempts beyond half court are not moved: they stay in every table and are counted at the
+  far edge of the drawn court. A panel with no events on the current table page says so.
+- Linked reading: hovering a shot highlights its table row and fills the broadcast readout;
+  hovering or focusing a row highlights its mark.
+- Filter rail (sticky on desktop, collapsed `details` on phones); Segmented view switch;
+  per-panel stat strip.
+- **Export fix**: each court registers its SVG under its group key; "Export … plot SVG" takes
+  that panel's own SVG (previously `querySelectorAll('svg')[index]`, which picks the wrong
+  element as soon as any icon precedes it). Court lines carry presentation attributes so an
+  exported SVG keeps them without page CSS. Export copy spacing fixed ("partial 2018",
+  "event page 1, 2 rows", "5 ft cells").
+- Copy fixes: "Coverage ends June 3", "Separate 2023–24", "recorded 2017-18", "makes-only
+  yields 100%", "50×94 feet", "5.25 feet", "divided by 10", "5×5 foot", "page 1", attribution
+  spacing.
+- `research.module.css` now compiles into the `components` cascade layer (it was unlayered and
+  silently beat every layered design rule).
+- Test re-expressions: mark colours → `[data-result][data-raw-x][data-raw-y]` (raw recorded
+  coordinates asserted); density `rect[fill="#1d4ed8"]` → `[data-cell]` (same count of 2);
+  "June3" → "June 3" with the copy fix.
+- New test: "exports each panel from its own court, not by position on the page" — two
+  panels, export the second, assert the SVG contains only that player's shot, carries the
+  label and reopens as valid XML.
+- Results: frontend **341/341**; lint 0 errors; typecheck, Prettier pass. Browser check on the
+  genuine archive (`/lab/shots?players=201939,201935`, dots/density/zones, phone).

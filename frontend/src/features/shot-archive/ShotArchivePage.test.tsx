@@ -180,6 +180,38 @@ describe('recorded shot studio', () => {
     expect(reopened.documentElement.namespaceURI).toBe('http://www.w3.org/2000/svg');
     expect(svg).toHaveAttribute('aria-hidden', 'true');
   });
+  it('exports each panel from its own court, not by position on the page', async () => {
+    const twoPanels: ShotResponse = {
+      ...data,
+      groups: [
+        { ...data.groups[0]!, playerId: '2544', label: 'Fixture Main' },
+        { ...data.groups[0]!, playerId: '201939', label: 'Fixture Peer' },
+      ],
+    };
+    routes(() => HttpResponse.json(twoPanels));
+    const blobs: Blob[] = [];
+    const create = vi.fn((blob: Blob) => {
+      blobs.push(blob);
+      return 'blob:shot-export';
+    });
+    const revoke = vi.fn();
+    Object.assign(URL, { createObjectURL: create, revokeObjectURL: revoke });
+    const click = vi
+      .spyOn(HTMLAnchorElement.prototype, 'click')
+      .mockImplementation(() => {});
+    renderApp('/lab/shots?players=2544,201939&minAttempts=1');
+    fireEvent.click(
+      await screen.findByRole('button', { name: 'Export Fixture Peer plot SVG' }),
+    );
+    expect(create).toHaveBeenCalledTimes(1);
+    const exported = await blobs[0]!.text();
+    expect(exported).toContain('Fixture Peer: recorded partial 2018 playoff shots');
+    expect(exported).toContain('data-shot="nba:0041700131:150"');
+    expect(exported).not.toContain('data-shot="nba:0041700131:149"');
+    const reopened = new DOMParser().parseFromString(exported, 'image/svg+xml');
+    expect(reopened.querySelector('parsererror')).toBeNull();
+    click.mockRestore();
+  });
   it('renders observed make/miss marks with exact table parity and source/coverage evidence', async () => {
     routes();
     const view = renderApp('/lab/shots?minAttempts=1');
@@ -188,15 +220,22 @@ describe('recorded shot studio', () => {
     });
     expect(within(table).getAllByRole('row')).toHaveLength(3);
     expect(view.container.querySelectorAll('svg title')).toHaveLength(2);
-    expect(view.container.querySelector('circle[fill="#166534"]')).toHaveAttribute(
-      'cx',
-      '-168',
-    );
-    expect(view.container.querySelector('path[stroke="#991b1b"]')).toBeInTheDocument();
+    // Marks carry their outcome and the raw recorded coordinates as semantic hooks (the colour
+    // is a design decision; the data is what is asserted).
+    expect(
+      view.container.querySelector(
+        '[data-result="made"][data-raw-x="-168"][data-raw-y="206"]',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      view.container.querySelector(
+        '[data-result="missed"][data-raw-x="0"][data-raw-y="-6"]',
+      ),
+    ).toBeInTheDocument();
     expect(screen.getByLabelText('Shot dataset attribution')).toHaveTextContent(
       'CC0: Public Domain',
     );
-    expect(screen.getByText(/Coverage ends June3/)).toBeInTheDocument();
+    expect(screen.getByText(/Coverage ends June 3/)).toBeInTheDocument();
   });
   it('uses full-filter density values and leaves filter controls editable after invalid input', async () => {
     routes();
@@ -204,7 +243,7 @@ describe('recorded shot studio', () => {
     await screen.findByRole('group', {
       name: 'All filtered source events density values',
     });
-    expect(view.container.querySelectorAll('svg rect[fill="#1d4ed8"]')).toHaveLength(2);
+    expect(view.container.querySelectorAll('svg [data-cell]')).toHaveLength(2);
     fireEvent.change(screen.getByLabelText('Minimum shot distance (ft)'), {
       target: { value: '91' },
     });

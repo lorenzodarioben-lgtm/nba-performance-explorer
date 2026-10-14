@@ -10,6 +10,20 @@ import {
   type CourtProjection,
 } from './court';
 
+// Presentation attributes mirror the stylesheet so an exported SVG keeps its court lines
+// without the page CSS (the stylesheet still wins on screen).
+const LINE_PAINT: Record<string, { stroke: string; width: number; dash?: string }> = {
+  boundary: { stroke: 'rgba(244,243,241,0.55)', width: 1.6 },
+  lane: { stroke: 'rgba(244,243,241,0.42)', width: 1.6 },
+  arc: { stroke: 'rgba(244,243,241,0.42)', width: 1.6 },
+  dashed: { stroke: 'rgba(244,243,241,0.28)', width: 1.6, dash: '6 7' },
+  hash: { stroke: 'rgba(244,243,241,0.3)', width: 1.6 },
+  rim: { stroke: '#ef4444', width: 2 },
+  backboard: { stroke: 'rgba(244,243,241,0.8)', width: 2.4 },
+};
+
+const safeId = (id: string) => id.replace(/[^a-zA-Z0-9_-]/g, '');
+
 /**
  * The hardwood half court every shot view is drawn on. Lines come from the official geometry in
  * `court.ts`; children receive the projection so marks are placed from raw recorded coordinates.
@@ -35,8 +49,8 @@ export function Court({
 } & Omit<SVGProps<SVGSVGElement>, 'children' | 'ref'>) {
   const projection = projectCourt(side, depth);
   const allowed = useMotionAllowed();
-  const grainId = useId();
-  const clipId = useId();
+  const grainId = safeId(`court-grain-${useId()}`);
+  const clipId = safeId(`court-clip-${useId()}`);
   return (
     <svg
       ref={svgRef}
@@ -89,6 +103,10 @@ export function Court({
                 key={`${side}-${index}`}
                 d={line.d}
                 className={`court__line court__line--${line.kind}`}
+                fill="none"
+                stroke={LINE_PAINT[line.kind]?.stroke}
+                strokeWidth={LINE_PAINT[line.kind]?.width}
+                strokeDasharray={LINE_PAINT[line.kind]?.dash}
                 initial={
                   line.kind === 'dashed'
                     ? { opacity: 0 }
@@ -114,6 +132,10 @@ export function Court({
                 key={`${side}-${index}`}
                 d={line.d}
                 className={`court__line court__line--${line.kind}`}
+                fill="none"
+                stroke={LINE_PAINT[line.kind]?.stroke}
+                strokeWidth={LINE_PAINT[line.kind]?.width}
+                strokeDasharray={LINE_PAINT[line.kind]?.dash}
               />
             ),
           )}
