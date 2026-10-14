@@ -18,6 +18,7 @@ export * from './recorded-discovery.js';
 export * from './history-awards.js';
 export * from './recorded-progression.js';
 export * from './lineup-study.js';
+export * from './shot-box.js';
 
 export {
   PlayerSearchResponseSchema,

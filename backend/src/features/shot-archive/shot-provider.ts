@@ -1,6 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import {
+  ShotBoxResponseSchema,
+  type ObservedShootingCounts,
   ShotDirectorySchema,
   ShotResponseSchema,
   ShotSourceSchema,
@@ -190,6 +192,81 @@ export class ShotArchiveProvider {
         'basket-origin; x left-to-right, y toward opposite end; 10 source units/foot; no home/away or period flips',
       coordinateEvidence:
         '13,470/13,470 source distances match floor(hypot(LOC_X,LOC_Y)/10); left/right corner X signs agree. Basket-origin orientation corroborated by nbadb primary guide. No fabricated coordinates.',
+    });
+  }
+  shootingBox(gameId: string, minAttempts: number) {
+    const game = this.directory.games.find((g) => g.id === gameId)!,
+      shots = this.shots.filter((r) => r.gameId === gameId);
+    const counts = (rows: readonly ShotAttempt[]): ObservedShootingCounts => {
+      const attempts = rows.length,
+        makes = rows.filter((r) => r.made).length,
+        threeAttempts = rows.filter((r) => r.type === '3PT').length,
+        threeMakes = rows.filter((r) => r.type === '3PT' && r.made).length,
+        twoAttempts = attempts - threeAttempts,
+        twoMakes = makes - threeMakes;
+      return {
+        attempts,
+        makes,
+        twoAttempts,
+        twoMakes,
+        threeAttempts,
+        threeMakes,
+        fgPercentage: attempts >= minAttempts ? makes / attempts : null,
+        threePercentage:
+          threeAttempts >= minAttempts ? threeMakes / threeAttempts : null,
+        efgPercentage:
+          attempts >= minAttempts ? (makes + 0.5 * threeMakes) / attempts : null,
+        fieldGoalPoints: 2 * twoMakes + 3 * threeMakes,
+        freeThrows: null,
+        totalPoints: null,
+        minutes: null,
+        rebounds: null,
+        assists: null,
+      };
+    };
+    const byPlayer = new Map<string, ShotAttempt[]>();
+    for (const r of shots)
+      byPlayer.set(r.playerId, [...(byPlayer.get(r.playerId) ?? []), r]);
+    const players = [...byPlayer.values()]
+      .map((rows) => ({
+        ...counts(rows),
+        playerId: rows[0]!.playerId,
+        name: rows[0]!.playerName,
+        team: rows[0]!.team,
+      }))
+      .sort(
+        (a, b) =>
+          b.fieldGoalPoints - a.fieldGoalPoints || a.playerId.localeCompare(b.playerId),
+      );
+    return ShotBoxResponseSchema.parse({
+      gameId: game.id,
+      date: game.date,
+      home: game.home,
+      away: game.away,
+      minAttempts,
+      observedAttempts: shots.length,
+      players,
+      teams: [game.away, game.home].map((team) => ({
+        ...counts(shots.filter((r) => r.team.id === team.id)),
+        team,
+      })),
+      source: shotSource,
+      provenance: {
+        source: 'kaggle-cc0',
+        servedAt: new Date().toISOString(),
+        retrievedAt: shotSource.retrievedAt,
+        asOf: null,
+        isLive: false,
+        scope: 'playoffs',
+        coverage:
+          'Shooting-only observed2018 playoff game table from recorded shot events. Includes players with source attempts only; no full box score/final-score/bench participation claim.',
+        warnings: [
+          'Field-goal points=2*made2s+3*made3s; excludes unknown free throws and is not total player/team points.',
+          'FG/eFG and3P ratios use actual observed attempts, with explicit minimum. No game-average-to-total multiplication.',
+          'FT/minutes/REB/AST and final scores unavailable, not zero. Players without source shot records are not inferred as DNP or zero-attempt participants.',
+          'Original CC0 publisher/partial2018 playoff dataset/version/hash retained; no live/current or independently complete game-event claim.',
+        ],
+      },
     });
   }
 }

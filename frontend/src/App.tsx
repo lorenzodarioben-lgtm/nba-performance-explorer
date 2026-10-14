@@ -121,6 +121,11 @@ const LineupStudyPage = lazy(() =>
     default: m.LineupStudyPage,
   })),
 );
+const ShotBoxPage = lazy(() =>
+  import('./features/shot-archive/ShotBoxPage').then((m) => ({
+    default: m.ShotBoxPage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -130,6 +135,20 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/games/shooting"
+            element={
+              <Suspense
+                fallback={
+                  <p role="status" className="pt-24 text-white">
+                    Loading game shooting…
+                  </p>
+                }
+              >
+                <ShotBoxPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/lab/lineups"
             element={

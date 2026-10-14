@@ -56,3 +56,5 @@ Discovery/calendar checkpoint adds lazyplainroutes and scopedfunctionalforms/tab
 Historical awards/progression adds only lazy research routes/forms/scoped SVG tables and independent providers. Protected original frontend paths/assets, existing NBA provider and render configuration remain unchanged versus baseline cd557e4. No image or media reuse, global styling redesign, push or deployment.
 
 Research-lineup checkpoint preserves protected original components/global CSS/assets/provider/render files versus cd557e4. New plain route uses existing scoped research styles; native members/source links/quantities and mobile containment verified. Byte-copy build change affects only new recorded assets; no original image or branding replacement. No pixel-comparison or production deployment claim.
+
+715 shooting-table checkpoint: original protected paths/assets/provider/render configuration remain unchanged versusbaseline. Plain newresearch game route/scoped tables tested; mobile390px/document375px. No fullscore/roster orpixel-comparison claim.

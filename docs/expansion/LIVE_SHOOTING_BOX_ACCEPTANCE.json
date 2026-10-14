@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-14T10:32:02.261361+00:00",
+  "status": "PASS",
+  "environment": "local-genuine-recorded-shot-source",
+  "productionHostTested": false,
+  "requests": 4,
+  "runtimeUpstreamRequests": 0,
+  "finalsGameId": "nba:0041700402",
+  "finalsObservedAttempts": 172,
+  "observedShooters": 24,
+  "teamFGPoints": [
+    {
+      "team": "CLE",
+      "fieldGoalPoints": 83,
+      "fullPoints": null
+    },
+    {
+      "team": "GSW",
+      "fieldGoalPoints": 109,
+      "fullPoints": null
+    }
+  ],
+  "rawCountsWithheldRatiosPreserved": true,
+  "playerTeamSumsReconciled": true,
+  "missingFullStatsNeverZero": true,
+  "directSpaRefreshes": 1
+}

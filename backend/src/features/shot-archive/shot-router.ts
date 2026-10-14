@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { ShotQuerySchema } from '@nba-performance-explorer/contracts';
+import {
+  ShotQuerySchema,
+  ShotBoxQuerySchema,
+} from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { ShotArchiveProvider } from './shot-provider.js';
 export function createShotRouter(provider: ShotArchiveProvider | undefined) {
@@ -22,6 +25,32 @@ export function createShotRouter(provider: ShotArchiveProvider | undefined) {
     return res.json(provider.directory);
   });
   router.all('/directory', methodNotAllowedHandler);
+  router.get('/box', (req, res) => {
+    const q = ShotBoxQuerySchema.safeParse(req.query);
+    if (!q.success)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_SHOOTING_BOX',
+        'Choose exact recorded2018 playoff game and minimum attempts.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'SHOT_ARCHIVE_DISABLED',
+        'Recorded shot dataset disabled.',
+      );
+    if (!provider.directory.games.some((g) => g.id === q.data.game))
+      return sendApiError(
+        res,
+        404,
+        'SHOT_GAME_NOT_FOUND',
+        'Game absent from recorded shot source.',
+      );
+    return res.json(provider.shootingBox(q.data.game, q.data.minAttempts));
+  });
+  router.all('/box', methodNotAllowedHandler);
   router.get('/', (req, res) => {
     const q = ShotQuerySchema.safeParse(req.query);
     if (!q.success)
