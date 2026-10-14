@@ -151,11 +151,11 @@ export function RecordedProgressionPage() {
         <>
           <SourceNote provenance={data.provenance} />
           <p>
-            {data.matchingGames} matching games in{data.from}–{data.to};{' '}
+            {data.matchingGames} matching games in {data.from}–{data.to};{' '}
             {data.reconciledGames} source-agreed archive games,{' '}
             {data.quarantinedGameIds.length} globally quarantined IDs. teamPoints
             without a team means the higher final score in each game; finalMargin means
-            absolute final-score difference. Daily means require{data.minDailyGames}{' '}
+            absolute final-score difference. Daily means require {data.minDailyGames}{' '}
             games; maxima still refer to actual games. No possession or largest in-game
             lead inference.
           </p>

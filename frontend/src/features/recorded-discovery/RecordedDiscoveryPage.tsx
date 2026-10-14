@@ -168,7 +168,7 @@ export function RecordedDiscoveryPage() {
         <>
           <SourceNote provenance={data.provenance} />
           <p>
-            Common qualified pool{data.eligiblePool.length}; {data.sourceRows} scoped
+            Common qualified pool {data.eligiblePool.length}; {data.sourceRows} scoped
             source rows; {data.unknownScopeRows} unknown-scope rows withheld. Population
             normalization remains fixed before threshold/target selection. Snapshot
             {data.snapshotCreatedAt}.
@@ -181,7 +181,7 @@ export function RecordedDiscoveryPage() {
             >
               <option value="">Choose qualifying target</option>
               {data.target && !data.targetAvailable && (
-                <option value={data.target}>Unavailable target{data.target}</option>
+                <option value={data.target}>Unavailable target {data.target}</option>
               )}
               {data.eligiblePool.map((p) => (
                 <option key={p.playerId} value={p.playerId}>
@@ -204,8 +204,8 @@ export function RecordedDiscoveryPage() {
           </button>
           {data.targetRow && (
             <p>
-              Target{data.targetRow.name}, GP{data.targetRow.gamesPlayed}, X
-              {data.targetRow.x}, Y{data.targetRow.y}.{' '}
+              Target {data.targetRow.name}, GP {data.targetRow.gamesPlayed}, X
+              {data.targetRow.x}, Y {data.targetRow.y}.{' '}
               <Link to={evidence(data.targetRow.playerId)}>
                 Inspect target evidence
               </Link>
@@ -239,8 +239,8 @@ export function RecordedDiscoveryPage() {
             path={`/discover/recorded?${share}`}
           />
           <p>
-            {data.totalMatches} matching candidates; showing at most{data.limit}. Target
-            excluded from similarity peers.
+            {data.totalMatches} matching candidates; showing at most {data.limit}.
+            Target excluded from similarity peers.
           </p>
           {!data.rows.length ? (
             <p role="status">

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
 import {
@@ -9,6 +10,7 @@ import {
 } from '@nba-performance-explorer/contracts';
 
 import { fetchResearch } from '../research/api';
+import { ScatterPlot } from '../../charts/ScatterPlot';
 import {
   QueryFeedback,
   ResearchShell,
@@ -26,62 +28,51 @@ const metrics = [
   { key: 'pointsPer36', label: 'Points per 36', unit: 'points/36 min' },
 ] as const;
 
-function Scatter({ data }: { data: CohortResponse }) {
+function Scatter({
+  data,
+  selected,
+  onBrush,
+}: {
+  data: CohortResponse;
+  selected: ReadonlySet<string>;
+  onBrush: (ids: readonly string[]) => void;
+}) {
   const rows = data.analysis.rows;
   if (rows.length === 0) return null;
-  const minX = Math.min(...rows.map((r) => r.x)),
-    maxX = Math.max(...rows.map((r) => r.x));
-  const minY = Math.min(...rows.map((r) => r.y)),
-    maxY = Math.max(...rows.map((r) => r.y));
-  const scale = (value: number, min: number, max: number) =>
-    max === min ? 0.5 : (value - min) / (max - min);
+  const precise = (value: number) =>
+    Math.abs(value) < 1 ? value.toFixed(3) : value.toFixed(1);
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 500 300"
-      style={{ width: '100%', maxWidth: 640, height: 'auto' }}
-    >
-      <path d="M 70 30 V 230 H 450" stroke="#52525b" fill="none" />
-      <text x="250" y="290" textAnchor="middle">
-        X: {data.analysis.x}
-      </text>
-      <text x="15" y="130" transform="rotate(-90 15 130)" textAnchor="middle">
-        Y: {data.analysis.y}
-      </text>
-      <text x="70" y="255">
-        {minX.toPrecision(3)}
-      </text>
-      <text x="405" y="255">
-        {maxX.toPrecision(3)}
-      </text>
-      <text x="22" y="35">
-        {maxY.toPrecision(3)}
-      </text>
-      <text x="22" y="230">
-        {minY.toPrecision(3)}
-      </text>
-      {rows.map((row, index) => (
-        <g key={row.playerId}>
-          <circle
-            cx={70 + 360 * scale(row.x, minX, maxX)}
-            cy={230 - 190 * scale(row.y, minY, maxY)}
-            r="5"
-            fill="#1d4ed8"
-          />
-          <text
-            x={80 + 360 * scale(row.x, minX, maxX)}
-            y={225 - 190 * scale(row.y, minY, maxY)}
-          >
-            {index + 1}
-          </text>
-        </g>
-      ))}
-    </svg>
+    <div className="panel frchart" data-chart="cohort-scatter">
+      <ScatterPlot
+        label={`${data.analysis.y} against ${data.analysis.x} for the selected player-seasons`}
+        xLabel={`X: ${data.analysis.x}`}
+        yLabel={`Y: ${data.analysis.y}`}
+        formatX={precise}
+        formatY={precise}
+        selected={selected}
+        onBrush={onBrush}
+        points={rows.map((row, index) => {
+          const source = data.rows.find((r) => r.playerId === row.playerId);
+          return {
+            id: row.playerId,
+            x: row.x,
+            y: row.y,
+            tag: String(index + 1),
+            label: `${index + 1}. ${source?.player?.fullName ?? row.playerId} · ${source?.season ?? ''}`,
+          };
+        })}
+      />
+      <p className="lchart__note">
+        Numbers match the table rows. Drag across the chart to select a group; Escape
+        clears.
+      </p>
+    </div>
   );
 }
 
 export function AnalyticsLabPage() {
   const [params, setParams] = useSearchParams();
+  const [brushed, setBrushed] = useState<ReadonlySet<string>>(() => new Set());
   const repeated = [...params.keys()].some((k) => params.getAll(k).length > 1);
   const parsed = CohortQuerySchema.safeParse(Object.fromEntries(params));
   const valid = parsed.success && !repeated;
@@ -233,7 +224,20 @@ export function AnalyticsLabPage() {
             metric: z = 0. Negative weights favor smaller values. Six-decimal scores
             determine tied competition ranks.
           </p>
-          <Scatter data={query.data} />
+          <Scatter
+            data={query.data}
+            selected={brushed}
+            onBrush={(ids) => setBrushed(new Set(ids))}
+          />
+          {brushed.size ? (
+            <p className="brushnote" role="status">
+              {brushed.size} of {query.data.analysis.rows.length} points selected; their
+              table rows are highlighted.{' '}
+              <button type="button" onClick={() => setBrushed(new Set())}>
+                Clear selection
+              </button>
+            </p>
+          ) : null}
           <ResearchTable label="Exact selected-cohort values">
             <table>
               <caption>
@@ -264,7 +268,10 @@ export function AnalyticsLabPage() {
                     (r) => r.playerId === row.playerId,
                   );
                   return (
-                    <tr key={row.playerId}>
+                    <tr
+                      key={row.playerId}
+                      className={brushed.has(row.playerId) ? 'is-hl' : undefined}
+                    >
                       <td>{i + 1}</td>
                       <th scope="row">
                         <Link

@@ -16,6 +16,7 @@ import {
 } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
+import { UnitCards } from './UnitCards';
 function Members({ row }: { row: StudyLineupRow }) {
   return (
     <>
@@ -223,7 +224,7 @@ export function LineupStudyPage() {
           >
             <option value="minutes">Shared time</option>
             <option value="plusMinus">Signed plus/minus</option>
-            <option value="plusMinusPer48">Plus/minus per48 shared minutes</option>
+            <option value="plusMinusPer48">Plus/minus per 48 shared minutes</option>
             <option value="games">Observed games</option>
           </select>
         </label>
@@ -258,16 +259,16 @@ export function LineupStudyPage() {
         <>
           <SourceNote provenance={data.provenance} />
           <p>
-            {data.total} groups qualify for these filters/minimum{data.minMinutes}{' '}
+            {data.total} groups qualify for these filters/minimum {data.minMinutes}{' '}
             shared minutes. Usable source: {data.usableLineups} groups/
-            {data.usableGames} games, versus publisher{data.source.sourceLineups}{' '}
+            {data.usableGames} games, versus publisher {data.source.sourceLineups}{' '}
             groups/{data.source.sourceRegularGames} games. Same year/scope and minimum
             apply to both comparison groups; opponent/game contexts differ.
           </p>
           <p>
-            Plus/minus per48 = source plus/minus×2880/shared seconds. This time
-            normalization is not net rating per100 possessions, opponent adjustment or a
-            causal quality estimate. Raw shared time/plus-minus stay visible below the
+            Plus/minus per 48 = source plus/minus × 2880 / shared seconds. This time
+            normalization is not net rating per 100 possessions, opponent adjustment or
+            a causal quality estimate. Raw shared time/plus-minus stay visible below the
             comparison minimum; the normalized rate is then unavailable.
           </p>
           <label>
@@ -292,7 +293,7 @@ export function LineupStudyPage() {
           )}
           <h2>Qualified source groups</h2>
           <p>
-            Page{data.page}; showing{data.rows.length} rows.
+            Page {data.page}; showing {data.rows.length} rows.
           </p>
           <button
             disabled={data.page <= 1}
@@ -312,6 +313,7 @@ export function LineupStudyPage() {
             </p>
           ) : (
             <>
+              <UnitCards rows={data.rows} />
               <GroupTable rows={data.rows} label="Research lineup exact values" />
               <details>
                 <summary>Choose comparison groups from this page</summary>
@@ -339,7 +341,7 @@ export function LineupStudyPage() {
             <h2>Source and exclusions</h2>
             <p>
               <a href={`https://doi.org/${data.source.doi}`}>{data.source.title}</a> ·{' '}
-              {data.source.creator}, dataset version{data.source.datasetVersion}.{' '}
+              {data.source.creator}, dataset version {data.source.datasetVersion}.{' '}
               <a href={data.source.licenceUrl}>{data.source.licence}</a>. Source updated
               {data.source.sourceUpdatedAt ?? 'Unknown'}, retrieved
               {data.source.retrievedAt}. Modified by extracting2017–18 reports, exact
@@ -354,7 +356,7 @@ export function LineupStudyPage() {
             <ul>
               {data.quarantinedGames.map((g) => (
                 <li key={g.id}>
-                  {g.id}: source{g.sourceKey}, reported periods
+                  {g.id}: source {g.sourceKey}, reported periods
                   {g.reportedPeriods.join(', ')}; missing-contiguous-periods. Whole game
                   excluded without guessing a missing quarter.
                 </li>
@@ -362,7 +364,7 @@ export function LineupStudyPage() {
             </ul>
             <p>
               Groups only in excluded game: {data.quarantinedOnlyLineupIds.join(', ')}.
-              Source file{data.source.statisticsFile}; SHA256
+              Source file {data.source.statisticsFile}; SHA256
               {data.source.statisticsSha256}.
             </p>
           </aside>

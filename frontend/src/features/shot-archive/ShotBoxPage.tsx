@@ -232,9 +232,9 @@ export function ShotBoxPage() {
           <p>
             Full points/FT/minutes/REB/AST: unavailable.{' '}
             <a href={data.source.url}>{data.source.title}</a> · {data.source.creator},
-            version{data.source.version},{' '}
+            version {data.source.version},{' '}
             <a href={data.source.licenceUrl}>{data.source.licence}</a>. Coverage is the
-            publisher’s partial2018 playoff file; source hash{data.source.sha256}.
+            publisher’s partial2018 playoff file; source hash {data.source.sha256}.
           </p>
         </>
       )}

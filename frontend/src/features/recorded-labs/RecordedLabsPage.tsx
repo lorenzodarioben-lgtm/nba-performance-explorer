@@ -12,6 +12,7 @@ import {
 } from '@nba-performance-explorer/contracts';
 import { fetchResearch } from '../research/api';
 import { MirrorBars, type MirrorRow } from '../../charts/MirrorBars';
+import { Tape } from '../../ui/Tape';
 import {
   ResearchShell,
   ResearchTable,
@@ -299,15 +300,19 @@ export function RecordedLabsPage({ mode }: { mode: 'groups' | 'teams' }) {
           </label>
           <SaveResearchButton
             kind="analysis"
-            label={`Recorded2023-24 ${mode}`}
+            label={`Recorded 2023-24 ${mode}`}
             path={`${route}?${share}`}
           />
           {mode === 'groups' && groups.data && (
-            <>
+            <section className="hypo" aria-label="Hypothetical group">
+              <div className="hypo__tag">
+                <Tape code="Group" source="Built by you" variant="hypothetical" />
+                <span>Never observed together · not a result</span>
+              </div>
               <h2>Hypothetical membership · no observed joint performance</h2>
               <p>
-                {groups.data.availableMembers} of5 identities have selected-scope source
-                rows. Sum of independent individual recorded points:{' '}
+                {groups.data.availableMembers} of 5 identities have selected-scope
+                source rows. Sum of independent individual recorded points:{' '}
                 {groups.data.sumOfIndividualRecordedPoints ?? 'Unavailable'}. This sum
                 is across separate individual season records; it does not describe these
                 players performing together.
@@ -374,7 +379,7 @@ export function RecordedLabsPage({ mode }: { mode: 'groups' | 'teams' }) {
                 minutes together. No joint scoring efficiency or win prediction is
                 calculated.
               </p>
-            </>
+            </section>
           )}
           {mode === 'teams' && teams.data && (
             <>

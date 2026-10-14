@@ -16,31 +16,31 @@ import {
 } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { WikiAttribution } from '../wiki-archive/WikiAttribution';
+import { BarChart } from '../../charts/BarChart';
+import { ScatterPlot } from '../../charts/ScatterPlot';
 import styles from '../research/research.module.css';
 function Histogram({ data, label }: { data: Distribution; label: string }) {
   const max = Math.max(1, ...data.bins.map((b) => b.count));
   return (
     <>
-      <svg
-        viewBox="0 0 500 160"
-        aria-hidden="true"
-        style={{ width: '100%', maxWidth: 640, height: 'auto' }}
+      <div
+        className="panel frchart"
+        data-chart={`histogram-${label}`}
+        data-bins={max ? data.bins.length : 0}
       >
-        {data.bins.map((b, i) => (
-          <g key={i}>
-            <rect
-              x={20 + (i * 460) / data.bins.length}
-              y={140 - (b.count / max) * 110}
-              width={Math.max(1, 460 / data.bins.length - 4)}
-              height={(b.count / max) * 110}
-              fill="#1d4ed8"
-            />
-            <text x={20 + (i * 460) / data.bins.length} y={155}>
-              {b.count}
-            </text>
-          </g>
-        ))}
-      </svg>
+        <BarChart
+          label={`${label} distribution: players per equal-width bin`}
+          format={(value) => String(Math.round(value))}
+          height={180}
+          color="#3b82f6"
+          data={data.bins.map((b, i) => ({
+            key: String(i),
+            label: `${b.from.toFixed(2)}–${b.to.toFixed(2)}`,
+            value: b.count,
+          }))}
+          tickLabel={(datum) => datum.label.split('–')[0]}
+        />
+      </div>
       <ResearchTable label={`${label} histogram values`}>
         <table>
           <caption>
@@ -68,33 +68,29 @@ function Histogram({ data, label }: { data: Distribution; label: string }) {
   );
 }
 function Scatter({ data }: { data: RecordedAnalyticsResponse }) {
-  const dx = data.xDistribution,
-    dy = data.yDistribution;
-  const scale = (v: number, min: number | null, max: number | null) =>
-    min === null || max === null || max === min ? 0.5 : (v - min) / (max - min);
+  const precise = (value: number) =>
+    Math.abs(value) < 1 ? value.toFixed(3) : value.toFixed(1);
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 500 320"
-      style={{ width: '100%', maxWidth: 640, height: 'auto' }}
-    >
-      <path d="M50 20 V270 H470" stroke="#52525b" fill="none" />
-      {data.rows.map((r) => (
-        <circle
-          key={r.playerId}
-          cx={50 + 400 * scale(r.x, dx.min, dx.max)}
-          cy={270 - 230 * scale(r.y, dy.min, dy.max)}
-          r={r.playerId === data.target ? 7 : 3}
-          fill={r.playerId === data.target ? '#991b1b' : '#1d4ed8'}
-        />
-      ))}
-      <text x="220" y="310">
-        X: {data.x}
-      </text>
-      <text x="5" y="16">
-        Y: {data.y}
-      </text>
-    </svg>
+    <div className="panel frchart" data-chart="recorded-scatter">
+      <ScatterPlot
+        label={`${data.y} against ${data.x} across the qualified group`}
+        xLabel={`X: ${data.x}`}
+        yLabel={`Y: ${data.y}`}
+        formatX={precise}
+        formatY={precise}
+        points={data.rows.map((r) => ({
+          id: r.playerId,
+          x: r.x,
+          y: r.y,
+          label: `${r.name} · ${r.gamesPlayed} GP`,
+          highlight: r.playerId === data.target,
+        }))}
+      />
+      <p className="lchart__note">
+        Red marks the target player when one is chosen. Correlation is descriptive, not
+        causal.
+      </p>
+    </div>
   );
 }
 export function RecordedAnalyticsPage() {

@@ -250,3 +250,28 @@ licence and React-native layout/presence primitives; no second animation library
   `[data-chart="progression-mean"]` — the same "one mark per recorded mean, gap never
   bridged" assertion.
 - Results: frontend **343/343**; lint 0 errors; typecheck pass.
+
+## Stage 8 — labs
+
+- Chart kit: `ScatterPlot` (nice axes with labels, nearest-point hover with crosshair and
+  tooltip, keyboard reading in x order, rectangle brushing whose rectangle follows the pointer
+  by direct attribute writes — no React state per frame — and commits the selection once on
+  release). Non-negative measures are never padded below zero.
+- Analytics lab (`/lab/analytics`): the colour-only numbered scatter becomes `ScatterPlot`
+  with row-number tags; brushing highlights the matching table rows with a "n of N selected"
+  status and Clear button (linked filtering in A's language).
+- Group analytics (`/lab/recorded`): histograms on the keyboard-readable `BarChart`; scatter on
+  `ScatterPlot` with the target player in red.
+- Lineups (`/lab/lineups`): five-player unit cards (initials medallions with full aliases,
+  shared-minutes bar on a page-wide scale, plus/minus per 48 diverging around zero — "Below
+  min" when the unit does not qualify, never a fabricated rate).
+- Hypothetical five (`/lab/groups`): the result sits inside a dashed hypothetical frame with a
+  HYPOTHETICAL tape and "Never observed together · not a result".
+- Copy sweep: no glued `word{expression}` text remains in feature JSX ("of 5",
+  "per 48", "× 2880 /", "per 100", "minimum {n}", "publisher {n}", "Page {n}; showing {n}",
+  "in {from}", "require {n}", "pool {n}", "Target {name}, GP {n}", "at most {n}",
+  "version {n}", "source {key}", "file {name}").
+- Circle-count tests (`AnalyticsLabPage`, `RecordedAnalyticsPage`) pass unchanged: one circle
+  per point.
+- Results: frontend **343/343**; lint 0 errors; typecheck pass. Browser check on the genuine
+  archive: group scatter hover, lineup cards, hypothetical frame, season timeline.
