@@ -15,6 +15,7 @@ import { SECTIONS } from '../../shell/sections';
 import { Icon } from '../../ui/Icon';
 import { PlayerSearch } from '../player-search/PlayerSearch';
 import { HomePreviews } from './HomePreviews';
+import { NewRooms } from './NewRooms';
 import { useHealthQuery } from './useHealthQuery';
 
 // The public landing: the Arena front door. Every block maps to a real capability and every
@@ -283,6 +284,7 @@ export function FoundationPage() {
       <Hero headingRef={headingRef} />
       <Rundown />
       <OnTape />
+      <NewRooms />
       <CompareSection />
     </main>
   );

@@ -514,3 +514,86 @@
     grid-row: 1;
   }
 }
+
+/* --------------------------------------------------------------- new in the film room */
+
+.newrooms {
+  padding-top: 72px;
+  padding-bottom: 24px;
+}
+.newrooms__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.newrooms__grid > li::before {
+  content: none !important;
+}
+.newroom {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  height: 100%;
+  min-height: 230px;
+  padding: 20px 18px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgb(185 28 28 / 0.14), transparent 60%),
+    var(--coal);
+  color: var(--chalk);
+  text-decoration: none;
+  overflow: hidden;
+  transition:
+    border-color var(--dur-base) var(--ease-film),
+    transform var(--dur-base) var(--ease-snap);
+}
+.newroom:hover,
+.newroom:focus-visible {
+  border-color: var(--red-hi);
+  transform: translateY(-3px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .newroom:hover,
+  .newroom:focus-visible {
+    transform: none;
+  }
+}
+.newroom__kicker {
+  font: 600 10.5px/1 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red-hi);
+}
+.newroom__figure {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font: 800 4rem/0.85 var(--display);
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--chalk-2);
+  transition: color var(--dur-base) var(--ease-film);
+}
+.newroom:hover .newroom__figure,
+.newroom:focus-visible .newroom__figure {
+  color: var(--chalk);
+  -webkit-text-stroke: 0;
+}
+.newroom__figure small {
+  font: 600 11px/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+  -webkit-text-stroke: 0;
+}
+.newroom__title {
+  font: 800 1.6rem/1 var(--display);
+  text-transform: uppercase;
+}
+.newroom__blurb {
+  font-size: 14px;
+  color: var(--chalk-2);
+}
