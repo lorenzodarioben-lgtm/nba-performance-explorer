@@ -5,7 +5,7 @@ import { DataProvenanceSchema, ResearchPlayerIdSchema } from './research.js';
 import { ArchiveSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
 export const WikiArticleUrlSchema = z
   .string()
-  .regex(/^https:\/\/en\.wikipedia\.org\/wiki\/[\w%()'.-]+$/);
+  .regex(/^https:\/\/en\.wikipedia\.org\/wiki\/[\w%()',.-]+$/);
 const playerIdentity = {
   name: z.string().min(1).max(100),
   articleUrl: WikiArticleUrlSchema.nullable(),

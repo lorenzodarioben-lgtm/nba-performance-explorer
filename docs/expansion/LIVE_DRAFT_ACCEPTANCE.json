@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-14T11:06:30.189197+00:00",
+  "status": "PASS",
+  "environment": "local-genuine-public-Wikipedia-and-optional-CC0-identities",
+  "productionHostTested": false,
+  "requests": 4,
+  "sourceRevision": 1376923660,
+  "selections": 58,
+  "forfeitures": ["CHI", "PHI"],
+  "identityStatus": "available",
+  "missingNBAIds": 0,
+  "sourceTradeNotesPreserved": true,
+  "brandonCommaArticleAccepted": true,
+  "scope2023Only": true,
+  "directSpaRefreshes": 1
+}

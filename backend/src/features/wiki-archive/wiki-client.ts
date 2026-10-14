@@ -29,7 +29,11 @@ export class WikiArchiveClient {
     this.cache = new NbaStatsCache({ maxEntries: 32, now: () => this.now().getTime() });
   }
   getPage(
-    title: '2023–24 NBA season' | '2024 NBA playoffs' | `2023–24 ${string} season`,
+    title:
+      | '2023–24 NBA season'
+      | '2024 NBA playoffs'
+      | '2023 NBA draft'
+      | `2023–24 ${string} season`,
   ): Promise<WikiPage> {
     return this.cache.getOrLoad(
       title,
@@ -37,6 +41,7 @@ export class WikiArchiveClient {
         const allowed = [
           '2023–24 NBA season',
           '2024 NBA playoffs',
+          '2023 NBA draft',
           ...(await staticTeamDirectoryProvider.listTeams()).map(
             (t) => `2023–24 ${t.name} season`,
           ),

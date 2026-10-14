@@ -36,3 +36,12 @@ The team extension also adapts the30 fixed2023–24 NBA team-season pages. Every
 The explicitly recorded dataset `backend/src/features/recorded-archive/recorded-snapshot.json` is adapted genuine historical data, offered under CC BY-SA4.0 with every source revision and contributor link preserved. Numeric normalization, exact CC0 identifier enrichment, qualification, raw-count aggregation and paired-game conflict quarantine are adaptations. Independent application code and original NBA.com source remain outside this data licence. Its fixed assembly time and source retrieval range are shown; publication as-of remains unknown. Bounded CSV exports include licence/coverage/source revisions and apply formula-cell safety escaping.
 
 Awardviewadaptsonly factualyearlyawardrecipientcolumnfrom2023-24season source, keepsblankCommunityAssistcell, excludesfinalists/media/prose. Exactsource revision/CCBYSA/contributorhistorydisplayed. Recordedprogression/trends adaptalreadyattributed pairedsource finalscorefacts; everyviewretains30sourcecredits.
+
+The draft extension adapts the fixed `2023 NBA draft` table under CC BY-SA 4.0.
+It retains 58 numbered selections and the two unnumbered forfeitures, source player
+markers, nationalities, positions, school/club text and complete trade/via notes.
+The first source-listed team is a historical table affiliation, not inferred current
+roster or final transaction ownership. Every response links its exact revision,
+contributors and licence. Optional exact-article Wikidata P3647 mappings remain
+CC0 with entity evidence; unavailable mappings retain source articles. This adds
+one fixed page title to the existing whitelist with the same bounded protections.

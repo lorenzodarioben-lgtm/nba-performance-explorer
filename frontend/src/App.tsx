@@ -126,6 +126,11 @@ const ShotBoxPage = lazy(() =>
     default: m.ShotBoxPage,
   })),
 );
+const HistoricalDraftPage = lazy(() =>
+  import('./features/history/HistoricalDraftPage').then((m) => ({
+    default: m.HistoricalDraftPage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -135,6 +140,20 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/history/draft"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading historical draft…
+                  </p>
+                }
+              >
+                <HistoricalDraftPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/games/shooting"
             element={

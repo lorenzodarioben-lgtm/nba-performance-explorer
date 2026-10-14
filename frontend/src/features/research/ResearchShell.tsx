@@ -50,6 +50,7 @@ export function ResearchShell({
         <Link to="/history/progression">Record progression and trends</Link>
         <Link to="/lab/lineups">Research lineup reports</Link>
         <Link to="/games/shooting">Recorded game shooting</Link>
+        <Link to="/history/draft">Historical draft class</Link>
         <Link to="/my-nba">My NBA</Link>
         <Link to="/">Original home</Link>
       </nav>

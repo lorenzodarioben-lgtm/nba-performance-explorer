@@ -93,6 +93,6 @@ export function wikiLink(cell: HtmlNode): string | null {
       isElement(n) && n.tagName === 'a' && attribute(n, 'href')?.startsWith('/wiki/'),
   );
   const value = href && attribute(href, 'href');
-  if (!value || !/^\/wiki\/[\w%()'.-]+$/.test(value)) return null;
+  if (!value || !/^\/wiki\/[\w%()',.-]+$/.test(value)) return null;
   return `https://en.wikipedia.org${value}`;
 }
