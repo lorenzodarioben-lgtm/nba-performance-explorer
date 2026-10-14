@@ -73,7 +73,7 @@ const directory = {
   provenance: leagueFixture.provenance,
 };
 describe('percentile profiles UI', () => {
-  it('has exact table/radar parity and never plots an excluded identity at zero', async () => {
+  it('has exact table/strip parity and never plots an excluded identity at zero', async () => {
     server.use(
       http.get('http://localhost/api/recorded/directory', () =>
         HttpResponse.json(directory),
@@ -87,7 +87,9 @@ describe('percentile profiles UI', () => {
     expect(container.querySelectorAll('tbody')[0]?.querySelectorAll('tr')).toHaveLength(
       3,
     );
-    expect(screen.getByText(/no values or zero polygon imputed/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/no values or zero-percentile marks imputed/),
+    ).toBeInTheDocument();
     expect(screen.getByText(/Common cohort: 3 players/)).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Save to My NBA' }));
     expect(

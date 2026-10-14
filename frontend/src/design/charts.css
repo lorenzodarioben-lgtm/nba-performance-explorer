@@ -222,3 +222,83 @@
 .notice__action {
   margin-top: 10px;
 }
+
+/* ---------------------------------------------------------- mirror bars */
+
+.mirror {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--coal);
+}
+.mirror__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+  font: 800 1.125rem/1 var(--display);
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.mirror__head span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.mirror__head i {
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+}
+.mirror .is-hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgb(0 0 0 / 0.35) 0 2px,
+    transparent 2px 5px
+  ) !important;
+}
+.mirror__row {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr) minmax(7rem, 11rem) minmax(0, 1fr) 4.5rem;
+  gap: 10px;
+  align-items: center;
+}
+.mirror__val {
+  font: 700 1.125rem/1 var(--display);
+  text-align: right;
+  color: var(--chalk);
+  font-variant-numeric: tabular-nums;
+}
+.mirror__val--b {
+  text-align: left;
+}
+.mirror__label {
+  font: 500 10.5px/1.25 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--chalk-3);
+}
+.mirror__track {
+  position: relative;
+  height: 12px;
+  overflow: hidden;
+}
+.mirror__track i {
+  position: absolute;
+  inset: 0;
+  border-radius: 1px;
+}
+@media (max-width: 560px) {
+  .mirror__row {
+    grid-template-columns: 3.25rem minmax(0, 1fr) minmax(0, 1fr) 3.25rem;
+  }
+  .mirror__label {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+}

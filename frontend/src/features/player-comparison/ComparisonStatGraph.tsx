@@ -101,8 +101,8 @@ const METRIC_GROUPS: readonly MetricGroup[] = [
 // Player A is the light-blue series, Player B the amber series. These are data-visualisation colours
 // (the same family as the career chart), never the red interface accent and never team colours, and
 // neither is treated as "better".
-const SERIES_A = '#60a5fa';
-const SERIES_B = '#fbbf24';
+const SERIES_A = '#3b82f6';
+const SERIES_B = '#bd8008';
 
 interface GraphRow {
   label: string;
@@ -241,14 +241,11 @@ export function ComparisonStatGraph({
   const groups = buildGroups(playerA.stats, playerB.stats);
 
   return (
-    <section aria-labelledby={headingId} className="mt-10">
-      <h3
-        id={headingId}
-        className="display text-2xl font-extrabold uppercase text-chalk sm:text-3xl"
-      >
+    <section aria-labelledby={headingId} className="cmp-mod">
+      <h3 id={headingId} className="cmp-mod__title">
         Statistical matchup
       </h3>
-      <p className="mt-2 max-w-prose text-sm text-white/60">
+      <p className="cmp-mod__note">
         Each metric uses its own scale. Compare players within a row, not across rows.
         The exact values are listed in the detailed statistics table below.
       </p>

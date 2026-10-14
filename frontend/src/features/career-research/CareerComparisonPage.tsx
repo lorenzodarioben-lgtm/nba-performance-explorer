@@ -19,6 +19,9 @@ import {
 } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
+import { LineChart } from '../../charts/LineChart';
+import { ChartLegend } from '../../charts/markers';
+import { seasonFromStartYear, shortSeason } from '../player-hub/seasons';
 
 function careerCurvePoints(
   data: CareerComparisonResponse,
@@ -41,6 +44,13 @@ function careerCurvePoints(
     })),
   }));
 }
+const CURVE_STYLE = [
+  { color: '#3b82f6', dash: undefined, shape: 'circle' },
+  { color: '#bd8008', dash: '6 3', shape: 'square' },
+  { color: '#0ea594', dash: '2 4', shape: 'triangle' },
+  { color: '#9b6be8', dash: '10 4 2 4', shape: 'diamond' },
+] as const;
+
 function Curves({
   data,
   metric,
@@ -52,72 +62,71 @@ function Curves({
   minGames: number;
   axis: 'calendar' | 'reported' | 'age';
 }) {
-  const series = careerCurvePoints(data, metric, minGames, axis);
-  const points = series.flatMap((s) => s.points).filter((p) => p.x !== null);
-  const visible = points.filter((p) => p.y !== null && p.x !== null);
-  if (!visible.length) return <p>No reported seasons qualify for the curves.</p>;
-  const minX = Math.min(...points.map((p) => p.x!)),
-    maxX = Math.max(...points.map((p) => p.x!));
-  const maxY = Math.max(...visible.map((p) => p.y!));
-  const x = (v: number) =>
-    60 + 460 * (maxX === minX ? 0.5 : (v - minX) / (maxX - minX));
-  const y = (v: number) => 220 - 180 * (maxY === 0 ? 0 : v / maxY);
+  const curves = careerCurvePoints(data, metric, minGames, axis);
+  const xs = curves
+    .flatMap((c) => c.points.map((p) => p.x))
+    .filter((x): x is number => x !== null);
+  const hasValue = curves.some((c) =>
+    c.points.some((p) => p.y !== null && p.x !== null),
+  );
+  if (!xs.length || !hasValue)
+    return <p>No reported seasons qualify for the curves.</p>;
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  // A continuous axis (every year, age or reported number in range), so missing values are
+  // visible gaps; consecutive slots only connect when the seasons are consecutive years.
+  const categories = Array.from({ length: maxX - minX + 1 }, (_, i) => minX + i);
+  const series = curves.map((curve, index) => {
+    const byX = new Map(
+      curve.points.filter((p) => p.x !== null).map((p) => [p.x as number, p]),
+    );
+    const name =
+      data.rows[index]?.data?.player.fullName ?? `NBA player ${curve.playerId}`;
+    const style = CURVE_STYLE[index % CURVE_STYLE.length]!;
+    return {
+      id: curve.playerId,
+      label: `${index + 1}. ${name}`,
+      ...style,
+      values: categories.map((x) => byX.get(x)?.y ?? null),
+      breakBefore: categories.map((x, i) => {
+        const point = byX.get(x);
+        const previous = i > 0 ? byX.get(categories[i - 1]!) : undefined;
+        return Boolean(point && previous && point.year !== previous.year + 1);
+      }),
+    };
+  });
+  const percent = metric === 'trueShooting' || metric === 'effectiveFieldGoal';
   return (
-    <svg
-      data-chart="career-curves"
-      viewBox="0 0 600 290"
-      aria-hidden="true"
-      style={{ width: '100%', maxWidth: 800 }}
-    >
-      <path d="M 60 30 V 220 H 530" fill="none" stroke="#52525b" />
-      <text x="60" y="245">
-        {minX}
-      </text>
-      <text x="510" y="245">
-        {maxX}
-      </text>
-      <text x="10" y="40">
-        {maxY.toFixed(2)}
-      </text>
-      <text x="20" y="220">
-        0
-      </text>
-      <text x="280" y="280" textAnchor="middle">
-        {axis === 'calendar'
-          ? 'NBA season start year'
-          : axis === 'age'
-            ? 'Age on October 1 (sourced birth date)'
-            : 'Reported season number (not verified experience)'}
-      </text>
-      {series.map((s, i) => (
-        <g key={s.playerId} fill={['#1d4ed8', '#92400e', '#047857', '#7e22ce'][i]}>
-          {s.points.map((p, index) => {
-            if (p.y === null || p.x === null) return null;
-            const previous = s.points[index - 1];
-            return (
-              <g key={p.season}>
-                {previous &&
-                  previous.y !== null &&
-                  previous.x !== null &&
-                  p.year === previous.year + 1 && (
-                    <path
-                      d={`M ${x(previous.x)} ${y(previous.y)} L ${x(p.x)} ${y(p.y)}`}
-                      stroke="currentColor"
-                      style={{ color: ['#1d4ed8', '#92400e', '#047857', '#7e22ce'][i] }}
-                      fill="none"
-                      strokeWidth="2"
-                    />
-                  )}
-                <circle cx={x(p.x)} cy={y(p.y)} r="3" />
-                <text x={x(p.x) + 5} y={y(p.y) - 5}>
-                  {i + 1}
-                </text>
-              </g>
-            );
-          })}
-        </g>
-      ))}
-    </svg>
+    <div className="panel frchart" data-chart="career-curves">
+      <ChartLegend items={series} />
+      <LineChart
+        label={`Career curves: ${CAREER_METRICS[metric]} by ${
+          axis === 'calendar'
+            ? 'season'
+            : axis === 'age'
+              ? 'age'
+              : 'reported season number'
+        }`}
+        categories={categories.map(String)}
+        series={series}
+        height={320}
+        format={(value) => (percent ? value.toFixed(3) : value.toFixed(1))}
+        formatCategory={(value) =>
+          axis === 'calendar'
+            ? shortSeason(seasonFromStartYear(Number(value)))
+            : axis === 'age'
+              ? `Age ${value}`
+              : `#${value}`
+        }
+        footnote={
+          axis === 'calendar'
+            ? 'NBA season start year. Lines break at missing seasons, unavailable inputs and unqualified samples.'
+            : axis === 'age'
+              ? 'Age on October 1 from a sourced birth date. Lines break where seasons are not consecutive.'
+              : 'Reported season number (not verified experience). Lines break where reported seasons are years apart.'
+        }
+      />
+    </div>
   );
 }
 export function CareerComparisonPage() {
@@ -262,9 +271,9 @@ export function CareerComparisonPage() {
             axis={axis as 'calendar' | 'reported' | 'age'}
           />
           <p>
-            The numbered curves correspond to the players below. The table provides the
-            same data for keyboard and screen reader access. Percentages are raw ratios
-            in the curves.
+            The numbered curves correspond to the players below; use the arrow keys on
+            the chart to read every point. The table provides the same data for keyboard
+            and screen reader access. Percentages are raw ratios in the curves.
           </p>
           {query.data.rows.map((row, index) => (
             <section key={row.playerId}>

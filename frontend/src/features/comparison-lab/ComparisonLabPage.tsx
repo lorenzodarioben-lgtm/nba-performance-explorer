@@ -11,6 +11,7 @@ import { PlayerCombobox } from '../player-search/PlayerCombobox';
 import { usePlayerProfileQuery } from '../players/usePlayerProfileQuery';
 import { usePlayerSeasonsQuery } from '../players/usePlayerSeasonsQuery';
 import { fetchResearch } from '../research/api';
+import { RankBars } from '../../charts/RankBars';
 import {
   QueryFeedback,
   ResearchShell,
@@ -210,6 +211,38 @@ export function ComparisonLabPage() {
             <>
               <Link to={`/lab/analytics?${apiParams}`}>Analyze selected cohort</Link>
               <SourceNote provenance={query.data.provenance} />
+              <div className="metricboard" data-chart="metric-board">
+                {metrics.map((metric) => {
+                  const rows = query.data!.rows.map((row, index) => {
+                    const raw = row.stats ? Number(row.stats[metric.key]) : null;
+                    return {
+                      key: row.playerId,
+                      label: `${index + 1}. ${row.player?.fullName ?? `NBA ${row.playerId}`}`,
+                      value: raw,
+                      display:
+                        raw === null
+                          ? 'Unavailable'
+                          : metric.unit === '%'
+                            ? `${(raw * 100).toFixed(1)}%`
+                            : metric.unit === 'games'
+                              ? String(raw)
+                              : raw.toFixed(1),
+                    };
+                  });
+                  return (
+                    <div key={metric.key} className="metricboard__cell">
+                      <p className="metricboard__title">
+                        {metric.label} <span>({metric.unit})</span>
+                      </p>
+                      <RankBars
+                        label={`${metric.label} for each selected player-season`}
+                        rows={rows}
+                        color="#cfcdc9"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
               <ResearchTable label="Multi-player season comparison">
                 <table>
                   <caption>

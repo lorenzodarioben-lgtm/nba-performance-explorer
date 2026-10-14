@@ -26,6 +26,12 @@ import { ComparisonPlayerSlot } from './ComparisonPlayerSlot';
 import { ComparisonSeasonSelector } from './ComparisonSeasonSelector';
 import { ComparisonStatGraph } from './ComparisonStatGraph';
 import { ComparisonTableDisclosure } from './ComparisonTableDisclosure';
+import { KineticHeadline, Reveal } from '../../motion/choreography';
+import { useMotionAllowed } from '../../motion/MotionPreference';
+import { easings } from '../../motion/tokens';
+import { Notice } from '../../ui/DataState';
+import { Icon } from '../../ui/Icon';
+import { motion } from 'motion/react';
 
 type ActiveSlot = 'player1' | 'player2' | null;
 
@@ -53,7 +59,7 @@ function nextActiveSlot(selection: ComparisonSelection): ActiveSlot {
 
 function StatusMessage({ children }: { children: string }) {
   return (
-    <p role="status" aria-live="polite" className="mt-6 text-sm text-white/70">
+    <p role="status" aria-live="polite" className="cmp-status">
       {children}
     </p>
   );
@@ -61,12 +67,25 @@ function StatusMessage({ children }: { children: string }) {
 
 function AlertMessage({ children }: { children: string }) {
   return (
-    <p
-      role="alert"
-      className="mt-6 rounded-sm border border-white/10 bg-accent/15 px-3 py-2 text-sm text-red-100"
-    >
+    <Notice tone="error" role="alert">
       {children}
-    </p>
+    </Notice>
+  );
+}
+
+/** The VS mark: it lands once when the matchup is set, then stays still. */
+function VersusMark() {
+  const allowed = useMotionAllowed();
+  return (
+    <motion.span
+      className="cmp-vs__mark"
+      aria-hidden="true"
+      initial={allowed ? { scale: 1.6, opacity: 0, rotate: -8 } : false}
+      animate={{ scale: 1, opacity: 1, rotate: 0 }}
+      transition={{ duration: 0.7, ease: easings.arena, delay: 0.25 }}
+    >
+      VS
+    </motion.span>
   );
 }
 
@@ -274,7 +293,7 @@ export function PlayerComparisonPage() {
       !isCommonSeason(state.season.season, seasonIds1, seasonIds2);
 
     return (
-      <div className="mt-10 border-t border-white/10 pt-8">
+      <div className="cmp-body">
         {state.season.status === 'invalid' ? (
           <AlertMessage>
             That season link is not valid. Choose a comparison season below.
@@ -343,23 +362,24 @@ export function PlayerComparisonPage() {
   }
 
   return (
-    <main className="bg-night text-chalk">
-      <div className="mx-auto max-w-[72rem] px-4 pb-20 pt-28 sm:px-8 sm:pt-32">
-        <p className="eyebrow text-accent">Head to head</p>
-        <h1
-          ref={headingRef}
+    <main className="cmp">
+      <div className="wrap cmp__inner">
+        <p className="t-eyebrow is-red">Head to head</p>
+        <KineticHeadline
+          lines={['Compare', 'players']}
+          headingRef={headingRef}
           tabIndex={-1}
-          className="display mt-3 text-5xl font-extrabold uppercase leading-[0.9] text-chalk outline-none sm:text-7xl"
-        >
-          Compare players
-        </h1>
-        <p className="mt-4 max-w-prose text-white/70">
-          Choose two players to compare their regular-season statistics for a season
-          they both played.
-        </p>
+          className="cmp__title"
+        />
+        <Reveal delay={0.3} variant="fade">
+          <p className="cmp__lede">
+            Choose two players to compare their regular-season statistics for a season
+            they both played.
+          </p>
+        </Reveal>
 
         {/* Player-versus-player hero: two equally prominent identity panels flanking the VS. */}
-        <div className="mt-10 grid grid-cols-1 items-stretch gap-5 md:grid-cols-[1fr_auto_1fr] md:gap-5">
+        <div className="cmp-vs">
           <ComparisonPlayerSlot
             slotName="Player A"
             comboboxLabel="Search for Player A"
@@ -379,10 +399,8 @@ export function PlayerComparisonPage() {
             onClear={handleClearPlayer1}
           />
 
-          <div className="flex items-center justify-center py-2 md:py-0">
-            <span className="vs-in display text-6xl font-extrabold leading-none text-accent-bright sm:text-7xl">
-              VS
-            </span>
+          <div className="cmp-vs__divider">
+            <VersusMark />
           </div>
 
           <ComparisonPlayerSlot
@@ -408,12 +426,16 @@ export function PlayerComparisonPage() {
 
         {renderComparisonBody()}
 
-        <Link
-          to="/"
-          className="mt-12 inline-block font-semibold text-chalk underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:decoration-accent-strong"
-        >
-          Back to search
-        </Link>
+        <div className="cmp__foot">
+          <Link to="/" className="link-arrow">
+            <Icon name="arrowLeft" size={15} />
+            Back to search
+          </Link>
+          <Link to="/lab/compare" className="link-arrow">
+            Compare up to four player-seasons
+            <Icon name="arrowRight" size={15} />
+          </Link>
+        </div>
       </div>
     </main>
   );

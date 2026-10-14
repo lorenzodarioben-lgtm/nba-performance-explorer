@@ -18,6 +18,8 @@ import {
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { WikiAttribution } from '../wiki-archive/WikiAttribution';
 import styles from '../research/research.module.css';
+import { ChartLegend } from '../../charts/markers';
+import { PercentileStrips } from '../../charts/PercentileStrips';
 const labels: Record<ProfileMetric, string> = {
   pointsPerGame: 'PPG',
   reboundsPerGame: 'RPG',
@@ -26,64 +28,50 @@ const labels: Record<ProfileMetric, string> = {
   blocksPerGame: 'BPG',
   minutesPerGame: 'MPG',
 };
-const colors = ['#1d4ed8', '#166534', '#9a3412', '#7e22ce'];
-function ProfileRadar({ data }: { data: RecordedProfilesResponse }) {
-  const point = (i: number, percentile: number) => {
-    const angle = -Math.PI / 2 + (i * 2 * Math.PI) / data.metrics.length;
-    return [
-      220 + (Math.cos(angle) * 140 * percentile) / 100,
-      185 + (Math.sin(angle) * 140 * percentile) / 100,
-    ];
-  };
+const STYLES = [
+  { color: '#3b82f6', shape: 'circle' },
+  { color: '#bd8008', shape: 'square' },
+  { color: '#0ea594', shape: 'triangle' },
+  { color: '#9b6be8', shape: 'diamond' },
+] as const;
+function ProfileStrips({ data }: { data: RecordedProfilesResponse }) {
+  const players = data.profiles.flatMap((p, i) =>
+    p.available
+      ? [
+          {
+            id: p.playerId,
+            name: p.name ?? p.playerId,
+            ...STYLES[i % STYLES.length]!,
+            values: Object.fromEntries(
+              p.categories.map((c) => [c.metric, c.percentile]),
+            ),
+          },
+        ]
+      : [],
+  );
   return (
-    <svg
-      role="img"
-      aria-label="Common-cohort percentile profiles; exact values in the table"
-      viewBox="0 0 440 380"
-      style={{ width: '100%', maxWidth: 640, height: 'auto' }}
-    >
-      {[25, 50, 75, 100].map((p) => (
-        <polygon
-          key={p}
-          points={data.metrics.map((_, i) => point(i, p).join(',')).join(' ')}
-          stroke="#a1a1aa"
-          fill="none"
-        />
-      ))}
-      {data.metrics.map((m, i) => {
-        const p = point(i, 100),
-          label = point(i, 116);
-        return (
-          <g key={m}>
-            <line x1={220} y1={185} x2={p[0]} y2={p[1]} stroke="#a1a1aa" />
-            <text x={label[0]} y={label[1]} textAnchor="middle">
-              {labels[m]}
-            </text>
-          </g>
-        );
-      })}
-      {data.profiles.map(
-        (p, i) =>
-          p.available && (
-            <polygon
-              data-profile={p.playerId}
-              key={p.playerId}
-              points={p.categories
-                .map((c, n) => point(n, c.percentile).join(','))
-                .join(' ')}
-              fill={colors[i]}
-              fillOpacity={0.06}
-              stroke={colors[i]}
-              strokeWidth={2}
-            >
-              <title>{p.name}</title>
-            </polygon>
-          ),
-      )}
-      <text x={10} y={370}>
-        Rings: 25, 50, 75, 100 percentile
-      </text>
-    </svg>
+    <div className="panel frchart" data-chart="percentile-profiles">
+      <ChartLegend
+        items={players.map((player, i) => ({
+          id: player.id,
+          label: `${i + 1}. ${player.name}`,
+          color: player.color,
+          shape: player.shape,
+        }))}
+      />
+      <PercentileStrips
+        label="Common-cohort percentile profiles; exact values in the table"
+        categories={data.metrics.map((metric) => ({
+          key: metric,
+          label: labels[metric],
+        }))}
+        players={players}
+      />
+      <p className="lchart__note">
+        Midrank percentile within one common population (0–100). Position is not a
+        quality score; higher steals or blocks is not automatically better.
+      </p>
+    </div>
   );
 }
 export function RecordedProfilesPage() {
@@ -133,8 +121,8 @@ export function RecordedProfilesPage() {
       </p>
       <p>
         Percentiles describe numerical values in this incomplete 2023–24 source cohort.
-        Higher does not mean better; radar area is not a quality score. Steals and
-        blocks are event counts, not defensive quality.
+        Higher does not mean better; a position on the strip is not a quality score.
+        Steals and blocks are event counts, not defensive quality.
       </p>
       {!valid ? (
         <p role="alert">
@@ -242,18 +230,20 @@ export function RecordedProfilesPage() {
             path={`/lab/profiles?${params}`}
           />
           {data.population > 0 ? (
-            <ProfileRadar data={data} />
+            <ProfileStrips data={data} />
           ) : (
-            <p role="status">No jointly qualified players. No radar is drawn.</p>
+            <p role="status">No jointly qualified players. No profile is drawn.</p>
           )}
           <ul>
             {data.profiles.map((p, i) => (
               <li key={p.playerId}>
-                <span style={{ color: colors[i] }}>Player {i + 1}: </span>
+                <span style={{ color: STYLES[i % STYLES.length]!.color }}>
+                  Player {i + 1}:{' '}
+                </span>
                 <Link to={`/players/${p.playerId}`}>{p.name ?? p.playerId}</Link>
                 {p.available
                   ? ` — ${p.gamesPlayed} reported games`
-                  : ' — unavailable or excluded from the common cohort; no values or zero polygon imputed.'}
+                  : ' — unavailable or excluded from the common cohort; no values or zero-percentile marks imputed.'}
               </li>
             ))}
           </ul>

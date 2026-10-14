@@ -1,17 +1,11 @@
 import { useId, useState } from 'react';
-import {
-  CartesianGrid,
-  Legend,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
 
 import type { PlayerSeasonStats } from '@nba-performance-explorer/contracts';
 
+import { LineChart } from '../../charts/LineChart';
+import { ChartLegend } from '../../charts/markers';
+import { LoadingLine } from '../../ui/DataState';
+import { fillSeasonGaps, shortSeason } from '../player-hub/seasons';
 import { formatPercentage, formatPerGame } from '../players/format';
 import { usePlayerSeasonTrendsQuery } from '../players/usePlayerSeasonTrendsQuery';
 
@@ -82,12 +76,8 @@ const CAREER_METRICS: readonly CareerMetric[] = [
 // pair as the matchup graph, never a team colour and never the red UI accent. Beyond colour the two
 // lines differ by dash pattern and legend marker shape, and both carry the same weight, so neither is
 // presented as "better".
-const SERIES_A = '#60a5fa';
-const SERIES_B = '#fbbf24';
-
-const AXIS_TICK = { fontSize: 12, fill: '#a1a1aa' } as const;
-const GRID_STROKE = 'rgb(255 255 255 / 0.08)';
-const AXIS_LINE_STROKE = 'rgb(255 255 255 / 0.15)';
+const SERIES_A = '#3b82f6';
+const SERIES_B = '#bd8008';
 
 interface ArcRow {
   season: string;
@@ -158,7 +148,7 @@ function playerSummary(
 
 function ArcEmpty() {
   return (
-    <p role="status" aria-live="polite" className="mt-4 text-sm text-white/70">
+    <p role="status" aria-live="polite" className="cmp-empty">
       Career arc is unavailable for this matchup with the current data source.
     </p>
   );
@@ -174,16 +164,11 @@ function MetricSelector({
   onSelect: (key: string) => void;
 }) {
   return (
-    <fieldset className="mt-5">
-      <legend className="text-xs font-semibold uppercase tracking-[0.12em] text-white/55">
-        Metric
-      </legend>
-      <div className="mt-2 flex flex-wrap gap-2">
+    <fieldset className="cmp-metrics">
+      <legend className="field-label">Metric</legend>
+      <div className="cmp-metrics__chips">
         {CAREER_METRICS.map((metric) => (
-          <label
-            key={metric.key}
-            className="cursor-pointer select-none rounded-sm border border-white/10 px-3 py-1.5 text-xs font-medium text-white/60 transition-colors hover:border-white/25 has-[:checked]:border-white/40 has-[:checked]:bg-white/10 has-[:checked]:text-chalk has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[color:var(--color-focus)]"
-          >
+          <label key={metric.key} className="cmp-chip">
             <input
               type="radio"
               name={groupName}
@@ -213,64 +198,40 @@ function ArcChart({
   nameA: string;
   nameB: string;
 }) {
-  const format = (value: number | string) => {
-    const numeric = Number(value);
-    return metric.kind === 'percentage' ? `${numeric.toFixed(1)}%` : numeric.toFixed(1);
-  };
-
+  // A calendar axis: seasons neither player reported become gaps, never bridged.
+  const axis = fillSeasonGaps(rows.map((row) => row.season));
+  const bySeason = new Map(rows.map((row) => [row.season, row]));
+  const series = [
+    {
+      id: 'a',
+      label: nameA,
+      color: SERIES_A,
+      shape: 'circle' as const,
+      values: axis.map((season) => bySeason.get(season)?.a ?? null),
+    },
+    {
+      id: 'b',
+      label: nameB,
+      color: SERIES_B,
+      dash: '6 3',
+      shape: 'square' as const,
+      values: axis.map((season) => bySeason.get(season)?.b ?? null),
+    },
+  ];
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={rows} margin={{ top: 8, right: 16, bottom: 8, left: 0 }}>
-        <CartesianGrid vertical={false} stroke={GRID_STROKE} strokeDasharray="3 3" />
-        <XAxis
-          dataKey="season"
-          tick={AXIS_TICK}
-          tickLine={false}
-          axisLine={{ stroke: AXIS_LINE_STROKE }}
-          interval="preserveStartEnd"
-          minTickGap={24}
-        />
-        <YAxis tick={AXIS_TICK} width={40} tickLine={false} axisLine={false} />
-        <Tooltip
-          formatter={(value) => format(value as number)}
-          cursor={{ stroke: 'rgb(255 255 255 / 0.25)' }}
-          contentStyle={{
-            backgroundColor: '#0a0a0b',
-            borderColor: 'rgb(255 255 255 / 0.15)',
-            borderRadius: 4,
-            fontSize: 13,
-            color: '#f4f3f1',
-          }}
-          labelStyle={{ color: '#a1a1aa', fontWeight: 600 }}
-        />
-        <Legend wrapperStyle={{ fontSize: 13 }} />
-        <Line
-          type="linear"
-          dataKey="a"
-          name={nameA}
-          stroke={SERIES_A}
-          strokeWidth={2.5}
-          legendType="circle"
-          dot={{ r: 3, fill: SERIES_A }}
-          activeDot={{ r: 5 }}
-          isAnimationActive={false}
-          connectNulls={false}
-        />
-        <Line
-          type="linear"
-          dataKey="b"
-          name={nameB}
-          stroke={SERIES_B}
-          strokeWidth={2.5}
-          strokeDasharray="6 3"
-          legendType="square"
-          dot={{ r: 3, fill: SERIES_B }}
-          activeDot={{ r: 5 }}
-          isAnimationActive={false}
-          connectNulls={false}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <>
+      <ChartLegend items={series} />
+      <LineChart
+        label={`Career arc: ${metric.label} by season for ${nameA} and ${nameB}`}
+        categories={axis}
+        series={series}
+        height={300}
+        format={(value) =>
+          metric.kind === 'percentage' ? `${value.toFixed(1)}%` : value.toFixed(1)
+        }
+        formatCategory={shortSeason}
+      />
+    </>
   );
 }
 
@@ -297,11 +258,7 @@ export function ComparisonCareerArc({
 
   function renderBody() {
     if (trendsA.isPending || trendsB.isPending) {
-      return (
-        <p role="status" aria-live="polite" className="mt-4 text-sm text-white/70">
-          Loading career arc...
-        </p>
-      );
+      return <LoadingLine>Loading career arc...</LoadingLine>;
     }
 
     if (trendsA.isError || trendsB.isError) {
@@ -334,9 +291,9 @@ export function ComparisonCareerArc({
           selectedKey={selectedKey}
           onSelect={setSelectedKey}
         />
-        <div className="mt-4 rounded-md border border-white/10 bg-coal p-4">
+        <div className="panel cmp-arc__chart" data-chart="career-arc">
           <p className="sr-only">{summary}</p>
-          <div aria-hidden="true">
+          <div>
             <ArcChart
               rows={rows}
               metric={metric}
@@ -350,19 +307,13 @@ export function ComparisonCareerArc({
   }
 
   return (
-    <section
-      aria-labelledby={headingId}
-      className="mt-12 border-t border-white/10 pt-8"
-    >
-      <h3
-        id={headingId}
-        className="display text-2xl font-extrabold uppercase text-chalk sm:text-3xl"
-      >
+    <section aria-labelledby={headingId} className="cmp-mod">
+      <h3 id={headingId} className="cmp-mod__title">
         Career arc
       </h3>
-      <p className="mt-2 max-w-prose text-sm text-white/60">
+      <p className="cmp-mod__note">
         Season-by-season trajectory for one metric at a time. Career arc uses available
-        season data. Missing seasons are omitted.
+        season data. Missing seasons are omitted; the lines break across them.
       </p>
       {renderBody()}
     </section>

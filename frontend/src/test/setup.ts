@@ -5,10 +5,9 @@ import { afterAll, afterEach, beforeAll } from 'vitest';
 
 import { server } from './server';
 
-// Recharts' ResponsiveContainer measures its parent through ResizeObserver, which jsdom does
+// The chart kit measures its container through ResizeObserver (useChartWidth), which jsdom does
 // not implement. This deterministic mock reports a fixed non-zero size on observe so the real
-// chart (with animation disabled) renders synchronously in tests instead of collapsing to a
-// zero-size, empty SVG. It does not mock or replace the recharts package itself.
+// charts render synchronously in tests instead of collapsing to a zero-size, empty SVG.
 class ResizeObserverMock {
   private readonly callback: ResizeObserverCallback;
 

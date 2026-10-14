@@ -24,6 +24,11 @@ export interface LineSeries {
   shape?: MarkerShape | undefined;
   /** One value per category; null is a gap in the record and is never bridged. */
   values: readonly (number | null)[];
+  /**
+   * Optional: true at an index whose point must not connect to the previous one even though
+   * both exist (e.g. adjacent reported seasons that are years apart).
+   */
+  breakBefore?: readonly boolean[] | undefined;
 }
 
 export type IndexRange = readonly [number, number];
@@ -118,7 +123,15 @@ export function LineChart({
     const parts = segments(
       entry.values.map((value, index) => ({ value, index })),
       (point) => point.value,
-    );
+    ).flatMap((part) => {
+      if (!entry.breakBefore) return [part];
+      const split: (typeof part)[] = [];
+      for (const point of part) {
+        if (!split.length || entry.breakBefore[point.index]) split.push([point]);
+        else split[split.length - 1]!.push(point);
+      }
+      return split;
+    });
     return parts.map((part) =>
       part
         .map(
@@ -318,6 +331,7 @@ export function LineChart({
                 {paths[seriesIndex]?.map((d, part) => (
                   <motion.path
                     key={part}
+                    d={d}
                     initial={false}
                     animate={{ d }}
                     transition={springs.data}

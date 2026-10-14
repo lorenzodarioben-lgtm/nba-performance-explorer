@@ -8,8 +8,10 @@ import {
   ResearchPlayerIdSchema,
   CanonicalTeamIdSchema,
   ArchiveSeasonSchema,
+  type RecordedTeamComparison,
 } from '@nba-performance-explorer/contracts';
 import { fetchResearch } from '../research/api';
+import { MirrorBars, type MirrorRow } from '../../charts/MirrorBars';
 import {
   ResearchShell,
   ResearchTable,
@@ -42,6 +44,66 @@ const teamState = z
     season: ArchiveSeasonSchema.default('2023-24'),
   })
   .strict();
+const fixed = (n: number | null, digits: number) =>
+  n === null ? '—' : n.toFixed(digits);
+
+/** Two recorded team samples, side by side on per-row scales, with typographic team plates. */
+function TeamTape({ data }: { data: RecordedTeamComparison }) {
+  const [a, b] = data.rows;
+  if (!a || !b) return null;
+  const rows: MirrorRow[] = [
+    {
+      label: 'Observed GP',
+      a: a.observedGames,
+      b: b.observedGames,
+      displayA: String(a.observedGames),
+      displayB: String(b.observedGames),
+    },
+    {
+      label: 'Win ratio',
+      a: a.winPercentage,
+      b: b.winPercentage,
+      displayA: fixed(a.winPercentage, 3),
+      displayB: fixed(b.winPercentage, 3),
+    },
+    {
+      label: 'PTS / game',
+      a: a.pointsPerGame,
+      b: b.pointsPerGame,
+      displayA: fixed(a.pointsPerGame, 1),
+      displayB: fixed(b.pointsPerGame, 1),
+    },
+    {
+      label: 'Opp PTS / game',
+      a: a.opponentPointsPerGame,
+      b: b.opponentPointsPerGame,
+      displayA: fixed(a.opponentPointsPerGame, 1),
+      displayB: fixed(b.opponentPointsPerGame, 1),
+    },
+  ];
+  return (
+    <section className="teamtape" aria-label="Team comparison overview">
+      <div className="teamtape__plates" aria-hidden="true">
+        <span className="teamtape__plate">
+          <b>{a.team.abbreviation}</b>
+          {a.wins}–{a.losses}
+        </span>
+        <span className="teamtape__vs">VS</span>
+        <span className="teamtape__plate teamtape__plate--b">
+          <b>{b.team.abbreviation}</b>
+          {b.wins}–{b.losses}
+        </span>
+      </div>
+      <MirrorBars rows={rows} nameA={a.team.name} nameB={b.team.name} />
+      <p className="lchart__note">
+        Each row uses its own scale; observed samples only, not official standings.
+        Final margin per game: {a.team.abbreviation} {fixed(a.finalMarginPerGame, 2)},{' '}
+        {b.team.abbreviation} {fixed(b.finalMarginPerGame, 2)}.
+      </p>
+    </section>
+  );
+}
+
 export function RecordedLabsPage({ mode }: { mode: 'groups' | 'teams' }) {
   const [params, setParams] = useSearchParams();
   const parsed = (mode === 'groups' ? groupState : teamState).safeParse(
@@ -316,6 +378,7 @@ export function RecordedLabsPage({ mode }: { mode: 'groups' | 'teams' }) {
           )}
           {mode === 'teams' && teams.data && (
             <>
+              <TeamTape data={teams.data} />
               <ResearchTable label="Equal-scope recorded team comparison">
                 <table>
                   <caption>
@@ -366,7 +429,7 @@ export function RecordedLabsPage({ mode }: { mode: 'groups' | 'teams' }) {
               <ResearchTable label="Recorded head-to-head evidence">
                 <table>
                   <caption>
-                    {teams.data.headToHead.length} agreed meetings in2023–24 regular
+                    {teams.data.headToHead.length} agreed meetings in 2023–24 regular
                     season
                   </caption>
                   <thead>

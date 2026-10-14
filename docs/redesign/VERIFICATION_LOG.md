@@ -170,3 +170,34 @@ licence and React-native layout/presence primitives; no second animation library
   label and reopens as valid XML.
 - Results: frontend **341/341**; lint 0 errors; typecheck, Prettier pass. Browser check on the
   genuine archive (`/lab/shots?players=201939,201935`, dots/density/zones, phone).
+
+## Stage 5 — comparison suite
+
+- Head to head (`/compare`): Arena header (kinetic "Compare players"), VS mark that lands
+  once, design-system states, season control and module titles; series colours moved to the
+  validated categorical pair. The career arc now uses the in-house `LineChart` on a calendar
+  axis (unreported seasons are gaps; keyboard reading with crosshair + tooltip verified in the
+  browser).
+- **Recharts removed** (`npm uninstall recharts -w frontend`): both of its charts (profile
+  career trends in Stage 3, comparison career arc here) have tested, browser-verified
+  in-house equivalents. Main chunk **432.46 kB (127.53 kB gzip)** vs the Stage 0 baseline
+  646.12 kB (189.08 kB gzip): −33 % even with Motion added.
+- `LineChart` gains `breakBefore` (a per-index "do not connect" flag) so adjacent categories can
+  still break when the underlying seasons are years apart.
+- Career curves (`/lab/careers`): in-house chart on calendar / age / reported-number axes, up
+  to four players told apart by colour, dash and marker shape; lines never connect
+  non-consecutive seasons.
+- Percentile profiles (`/lab/profiles`): the colour-only radar becomes percentile strips (one
+  0–100 track per category; players differ by shape, lane and colour; markers appear in
+  place). `data-profile` hooks kept; the low-contrast `#1d4ed8` label is gone.
+- Player lab (`/lab/compare`): metric board — one small multiple per metric, players on a
+  shared scale inside each panel, unavailable never drawn as zero.
+- Team vs team (`/lab/teams`): typographic team plates (outlined abbreviations, W–L) and a
+  reusable `MirrorBars` tale of the tape (per-row scales, solid vs hatched sides).
+- Test re-expressions: career-curve "no fabricated line" now asserts that no drawn series
+  segment contains a connecting `L` command (previously a count of all paths in one SVG);
+  percentile-profile copy "zero polygon" → "zero-percentile marks" (plain-language, the
+  never-at-zero assertion is unchanged).
+- New tests: `src/charts/LineChart.test.tsx` (2) — gaps and explicit breaks are never
+  bridged; every point can be read from the keyboard, including "not recorded".
+- Results: frontend **343/343** (51 files); lint 0 errors; typecheck pass.

@@ -62,6 +62,14 @@ const body = {
     warnings: ['DEMO FIXTURES'],
   },
 };
+function curveLines() {
+  return [
+    ...document.querySelectorAll(
+      '[data-chart="career-curves"] [data-series] path[fill="none"]',
+    ),
+  ].map((path) => path.getAttribute('d') ?? '');
+}
+
 describe('career research', () => {
   it('renders sourced age and team rows without duplicating aggregate values', async () => {
     server.use(
@@ -153,9 +161,10 @@ describe('career research', () => {
       await screen.findByRole('table', { name: /Fixture career player/ }),
     ).toBeInTheDocument();
     expect(screen.getByText('Unavailable (source-unavailable)')).toBeInTheDocument();
-    expect(
-      document.querySelectorAll('svg[data-chart="career-curves"] path'),
-    ).toHaveLength(1); // Only axes: no fabricated line across missing 2022-23.
+    // No fabricated line across the missing 2022-23: every drawn series segment is a single
+    // point (no connecting segment), while the reported seasons are still plotted.
+    expect(curveLines().length).toBeGreaterThan(0);
+    expect(curveLines().some((d) => d.includes('L'))).toBe(false);
     expect(screen.getByLabelText('Shareable career URL')).toHaveValue(
       'http://localhost:3000/lab/careers?players=2544%2C201939&metric=pointsPerGame&minGames=20&axis=calendar',
     );
@@ -168,9 +177,7 @@ describe('career research', () => {
       ).toContain('axis=reported'),
     );
     expect(calls).toBe(1);
-    expect(
-      document.querySelectorAll('svg[data-chart="career-curves"] path'),
-    ).toHaveLength(1);
+    expect(curveLines().some((d) => d.includes('L'))).toBe(false);
   });
   it('restores criteria, shows raw/weighted values and saves the explicit criterion', async () => {
     server.use(
