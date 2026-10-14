@@ -71,3 +71,5 @@ Recorded2023–24 source-cohort leaderboard and game-extrema pages add qualifica
 Source-agreed historical team comparison/head-to-head and explicitly hypothetical5-player identities added. Missing raw counts remain unavailable; joint statistics always unavailable. Full665 tests and5 local genuine API/SPA acceptance reads pass; no upstream fanout or costs.
 
 Recorded analytics now supplies histogram/scatter with exact values, qualified target percentiles, descriptive correlation and signed custom ranking. The opt-in source updater never runs during startup/CI or replaces unavailable live data. Full672 gate and genuine local acceptance passed; original visuals/provider unchanged.
+
+Recorded shot studio `/lab/shots` now supports authentic partial2018 playoff field-goal events, make/miss dots, all-filter density/zone tables, two-player comparison, strict game/date/team/type/distance/result filters, saved URLs and bounded CC0 CSV/SVG export. Original provider/design unchanged. Source13,470 attempts,80games,203players,16teams; no full/current/league-average claim.

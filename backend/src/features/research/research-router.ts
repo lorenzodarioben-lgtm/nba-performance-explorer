@@ -32,6 +32,7 @@ export function createResearchRouter(
     games?: boolean;
     archive?: boolean;
     teamArchive?: boolean;
+    shots?: boolean;
   } = {},
 ) {
   const router = Router();
@@ -172,9 +173,10 @@ export function createResearchRouter(
           },
           {
             id: 'shots-lineups-history',
-            status: 'blocked',
-            reason:
-              'Shots/lineups and comprehensive statistical history lack a verified rights-cleared dataset. A separate historical-facts capability reports the narrower CC0 season navigator.',
+            status: extensions.shots ? 'conditional' : 'blocked',
+            reason: extensions.shots
+              ? 'CC0 recorded partial2018 playoff shot events with verified IDs/coordinate reconciliation; real lineups and comprehensive history remain unavailable.'
+              : 'Shot provider disabled; real lineups and comprehensive history remain unavailable.',
           },
           {
             id: 'league-analytics',

@@ -1,0 +1,208 @@
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import {
+  ShotDirectorySchema,
+  ShotResponseSchema,
+  ShotSourceSchema,
+  ShotZoneSchema,
+  type ShotAttempt,
+  type ShotQuery,
+  type DirectoryTeam,
+  type ShotDirectory,
+} from '@nba-performance-explorer/contracts';
+import { staticTeamDirectoryProvider } from '../teams/team-directory-provider.js';
+import { parseShotCsv } from './shot-parser.js';
+export const shotSource = ShotSourceSchema.parse({
+  title: 'NBA Playoff Shots 2018',
+  creator: 'Boon P',
+  version: 1,
+  url: 'https://www.kaggle.com/datasets/boonpalipatana/nba-playoff-shots-2018',
+  licence: 'CC0: Public Domain',
+  licenceUrl: 'https://creativecommons.org/publicdomain/zero/1.0/',
+  sourceUpdatedAt: '2018-06-06T22:04:48.633Z',
+  retrievedAt: '2026-10-14T07:43:50.166Z',
+  sha256: '1e97afe9574d133e3f2e5db20130604605c10a6763b0516a58051aab78274cf6',
+  originalSource:
+    'stats.nba.com; downloaded from public Kaggle dataset, no new NBA requests',
+});
+export function summarizeShots(shots: readonly ShotAttempt[], minAttempts: number) {
+  const attempts = shots.length,
+    makes = shots.filter((r) => r.made).length,
+    threeMakes = shots.filter((r) => r.made && r.type === '3PT').length;
+  return {
+    attempts,
+    makes,
+    fgPercentage: attempts >= minAttempts ? makes / attempts : null,
+    efgPercentage:
+      attempts >= minAttempts ? (makes + 0.5 * threeMakes) / attempts : null,
+    pointsPerAttempt:
+      attempts >= minAttempts ? (2 * makes + threeMakes) / attempts : null,
+  };
+}
+export class ShotArchiveProvider {
+  readonly directory: ShotDirectory;
+  constructor(
+    readonly shots: readonly ShotAttempt[],
+    teams: readonly DirectoryTeam[],
+  ) {
+    const players = new Map<string, { id: string; name: string; attempts: number }>(),
+      games = new Map<string, ShotDirectory['games'][number]>();
+    for (const r of shots) {
+      const p = players.get(r.playerId) ?? {
+        id: r.playerId,
+        name: r.playerName,
+        attempts: 0,
+      };
+      if (p.name !== r.playerName) throw new Error('Conflicting source player name.');
+      p.attempts++;
+      players.set(p.id, p);
+      const g = games.get(r.gameId) ?? {
+        id: r.gameId,
+        date: r.date,
+        home: r.home,
+        away: r.away,
+        attempts: 0,
+      };
+      g.attempts++;
+      games.set(g.id, g);
+    }
+    this.directory = ShotDirectorySchema.parse({
+      players: [...players.values()].sort((a, b) => a.name.localeCompare(b.name)),
+      teams: teams.filter((t) => shots.some((r) => r.team.id === t.id)),
+      games: [...games.values()].sort(
+        (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
+      ),
+      source: shotSource,
+    });
+  }
+  analyze(q: ShotQuery) {
+    const filtered = this.shots
+      .filter(
+        (r) =>
+          (!q.players || q.players.includes(r.playerId)) &&
+          (!q.team || r.team.id === q.team) &&
+          (!q.opponent ||
+            (r.team.id === r.home.id ? r.away.abbreviation : r.home.abbreviation) ===
+              q.opponent) &&
+          (!q.game || r.gameId === q.game) &&
+          (!q.from || r.date >= q.from) &&
+          (!q.to || r.date <= q.to) &&
+          (!q.period || r.period === q.period) &&
+          (!q.type || r.type === q.type) &&
+          (!q.zone || r.zone === q.zone) &&
+          (!q.result || r.made === (q.result === 'made')) &&
+          r.distanceFeet >= q.minDistance &&
+          r.distanceFeet <= q.maxDistance,
+      )
+      .sort(
+        (a, b) =>
+          a.date.localeCompare(b.date) ||
+          a.gameId.localeCompare(b.gameId) ||
+          b.period - a.period ||
+          a.minutesRemaining - b.minutesRemaining ||
+          a.secondsRemaining - b.secondsRemaining ||
+          b.eventId - a.eventId,
+      );
+    const groups = (q.players ?? [null]).map((playerId) => {
+      const rows = playerId
+        ? filtered.filter((r) => r.playerId === playerId)
+        : filtered;
+      const cells = new Map<
+        string,
+        {
+          x: number;
+          y: number;
+          attempts: number;
+          makes: number;
+          fgPercentage: number | null;
+        }
+      >();
+      for (const r of rows)
+        if (r.x !== null && r.y !== null) {
+          const x = Math.floor(r.x / 50) * 5,
+            y = Math.floor(r.y / 50) * 5,
+            key = `${x}:${y}`,
+            cell = cells.get(key) ?? {
+              x,
+              y,
+              attempts: 0,
+              makes: 0,
+              fgPercentage: null,
+            };
+          cell.attempts++;
+          if (r.made) cell.makes++;
+          cells.set(key, cell);
+        }
+      return {
+        playerId,
+        label: playerId
+          ? (this.directory.players.find((p) => p.id === playerId)?.name ?? playerId)
+          : 'All filtered source events',
+        ...summarizeShots(rows, q.minAttempts),
+        missingCoordinates: rows.filter((r) => r.x === null || r.y === null).length,
+        zones: ShotZoneSchema.options.map((zone) => ({
+          zone,
+          ...summarizeShots(
+            rows.filter((r) => r.zone === zone),
+            q.minAttempts,
+          ),
+        })),
+        cells: [...cells.values()].map((c) => ({
+          ...c,
+          fgPercentage: c.attempts >= q.minAttempts ? c.makes / c.attempts : null,
+        })),
+      };
+    });
+    return ShotResponseSchema.parse({
+      season: q.season,
+      scope: q.scope,
+      source: shotSource,
+      provenance: {
+        source: 'kaggle-cc0',
+        servedAt: new Date().toISOString(),
+        retrievedAt: shotSource.retrievedAt,
+        asOf: shotSource.sourceUpdatedAt,
+        isLive: false,
+        scope: 'playoffs',
+        coverage:
+          'Recorded subset of 2018 playoffs:13,470 field-goal attempts/80 games/203 players/16 teams,2018-04-14 through06-03. Incomplete playoffs; no free throws, full box scores or current league claim.',
+        warnings: [
+          'Original publisher declares CC0; unofficial historical data, not NBA endorsement.',
+          'All summaries/density cells use filtered events before pagination; dot/table page is bounded.',
+          'Ratios below explicit minimum attempts stay unavailable. Source zones are retained, not reassigned geometrically.',
+          'Long heaves and negative near-basket Y coordinates are retained; basket-relative frame has no home/away or period flips.',
+        ],
+      },
+      sourceAttempts: this.shots.length,
+      sourceGames: this.directory.games.length,
+      sourcePlayers: this.directory.players.length,
+      sourceTeams: this.directory.teams.length,
+      sourceFrom: this.directory.games[0]!.date,
+      sourceTo: this.directory.games.at(-1)!.date,
+      filteredAttempts: filtered.length,
+      filteredGames: new Set(filtered.map((r) => r.gameId)).size,
+      minAttempts: q.minAttempts,
+      page: q.page,
+      pageSize: q.pageSize,
+      shots: filtered.slice((q.page - 1) * q.pageSize, q.page * q.pageSize),
+      groups,
+      coordinateSystem:
+        'basket-origin; x left-to-right, y toward opposite end; 10 source units/foot; no home/away or period flips',
+      coordinateEvidence:
+        '13,470/13,470 source distances match floor(hypot(LOC_X,LOC_Y)/10); left/right corner X signs agree. Basket-origin orientation corroborated by nbadb primary guide. No fabricated coordinates.',
+    });
+  }
+}
+export async function createShotArchiveProvider() {
+  const bytes = readFileSync(new URL('./shot-events.csv', import.meta.url));
+  if (
+    bytes.length !== 2_751_496 ||
+    createHash('sha256').update(bytes).digest('hex') !== shotSource.sha256
+  )
+    throw new Error('Recorded shot source integrity mismatch.');
+  const teams = await staticTeamDirectoryProvider.listTeams(),
+    shots = parseShotCsv(bytes.toString('utf8'), teams);
+  if (shots.length !== 13_470)
+    throw new Error('Unexpected recorded shot source coverage.');
+  return new ShotArchiveProvider(shots, teams);
+}

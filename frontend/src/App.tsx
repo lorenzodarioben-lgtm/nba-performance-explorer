@@ -91,6 +91,11 @@ const RecordedAnalyticsPage = lazy(() =>
     default: m.RecordedAnalyticsPage,
   })),
 );
+const ShotArchivePage = lazy(() =>
+  import('./features/shot-archive/ShotArchivePage').then((m) => ({
+    default: m.ShotArchivePage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -100,6 +105,20 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/lab/shots"
+            element={
+              <Suspense
+                fallback={
+                  <p role="status" className="pt-24 text-white">
+                    Loading recorded shots…
+                  </p>
+                }
+              >
+                <ShotArchivePage />
+              </Suspense>
+            }
+          />
           <Route
             path="/lab/recorded"
             element={

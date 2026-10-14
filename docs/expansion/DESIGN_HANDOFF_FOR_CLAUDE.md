@@ -82,3 +82,5 @@ New `/leaders/recorded` and `/history/records` use plain scoped research tables/
 `/lab/teams` and `/lab/groups` remain plain functional research controls/tables. Preserve observed sample sizes after quarantine, actual game links, individual-vs-joint distinction, missing raw data and full source licence/contributor notices. Original UI remains frozen.
 
 Plain functional `/lab/recorded` now verified:3 actual SVGs (two histograms+scatter),363 exact table rows at defaultGP20, actual Curry target at26.4PTS/4.5REB; all controls/source notices/URL/save workflows work. Preserve original shell. Full-platform design readiness remains NO while statistical/game/source coverage gaps remain.
+
+New plain functional `/lab/shots` uses fixed basket geometry, observed circle/cross marks, full-filter density cells, exact table page, explicit source zones and source/coverage notices. Ratios and comparison denominators remain transparent. Mobile longselect/hash overflow was found and fixed only in scoped research CSS; complete original design freeze preserved. G source minimum is supported within partial2018 playoffs; overall full-platform readiness remains NO.

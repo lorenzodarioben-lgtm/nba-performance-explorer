@@ -57,3 +57,5 @@ Recorded historical source now supports pageable qualified cohort rankings, nume
 Recorded labs add source-agreed team/head-to-head comparison and strictly hypothetical5-identity groups. No actual shared minutes, possessions, ratings, substitutions or on/off observations exist. J02–J07 remain DATA_BLOCKED; no joint metrics are inferred.
 
 Recorded analytics uses only the jointly supported qualified2023-24 identity intersection; same sample denominator for distribution, scatter, correlation, custom ranking and target percentile. Missing targets never imputed. Population incomplete/current/official/era claims remain unavailable.
+
+G now has genuine CC0 partial2018 playoff events from Kaggle Boon P v1. Required IDs/date/type/result/zones/distance/rawcoordinates verified; all13,470 geometry rows pass scale/sign checks and no duplicate compositeIDs. Missing coordinates handled without imputation; current snapshot none. No FT/free-throw/assist/PBP/alltime/live/representative league coverage. Nine G items verified within this scope; G09 still blocked. Source details SHOT_DATA_NOTICE.md.

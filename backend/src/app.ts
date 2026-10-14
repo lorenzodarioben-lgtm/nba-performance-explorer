@@ -24,6 +24,8 @@ import type { TeamArchiveProvider } from './features/wiki-archive/team-archive-p
 import { createPlayersRouter } from './features/players/players-router.js';
 import { createRecordedRouter } from './features/recorded-archive/recorded-router.js';
 import type { RecordedArchiveProvider } from './features/recorded-archive/recorded-provider.js';
+import type { ShotArchiveProvider } from './features/shot-archive/shot-provider.js';
+import { createShotRouter } from './features/shot-archive/shot-router.js';
 import { errorHandler, notFoundHandler } from './middleware/errors.js';
 import { healthRouter } from './routes/health.js';
 
@@ -77,6 +79,7 @@ export function createApp(
     archiveProvider?: ArchiveProvider;
     teamArchiveProvider?: TeamArchiveProvider;
     recordedArchiveProvider?: RecordedArchiveProvider;
+    shotArchiveProvider?: ShotArchiveProvider;
   } = {},
 ): Express {
   const application = express();
@@ -85,6 +88,7 @@ export function createApp(
   application.disable('x-powered-by');
   application.use(express.json());
   application.use('/api/health', healthRouter);
+  application.use('/api/shots', createShotRouter(options.shotArchiveProvider));
   application.use(
     '/api/recorded',
     createRecordedRouter(options.recordedArchiveProvider),
@@ -141,6 +145,7 @@ export function createApp(
         games: !!options.gamesProvider,
         archive: !!options.archiveProvider,
         teamArchive: !!options.teamArchiveProvider,
+        shots: !!options.shotArchiveProvider,
       },
     ),
   );

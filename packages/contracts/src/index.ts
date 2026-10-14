@@ -13,6 +13,7 @@ export * from './team-archive.js';
 export * from './recorded-archive.js';
 export * from './recorded-labs.js';
 export * from './recorded-analytics.js';
+export * from './shot-archive.js';
 
 export {
   PlayerSearchResponseSchema,

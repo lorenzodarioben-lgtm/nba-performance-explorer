@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-10-14T08:09:43.866328+00:00",
+  "status": "PASS",
+  "environment": "local-genuine-recorded-CC0-source",
+  "productionHostTested": false,
+  "runtimeUpstreamRequests": 0,
+  "requests": 6,
+  "sourceAttempts": 13470,
+  "sourceMakes": 6143,
+  "sourceGames": 80,
+  "sourcePlayers": 203,
+  "sourceTeams": 16,
+  "coverageFrom": "2018-04-14",
+  "coverageTo": "2018-06-03",
+  "curryObservedAttempts": 261,
+  "curryMakes": 122,
+  "twoPlayerGroups": 2,
+  "zoneAndDensityCountConservation": true,
+  "boundedEventPage": 200,
+  "perGameSourceId": "nba:0041700402",
+  "sourceHashMatchesBuiltCopy": true,
+  "directSpaRefreshes": 1
+}

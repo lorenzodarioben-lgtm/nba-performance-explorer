@@ -60,8 +60,9 @@ export function ExplorerPage() {
       <p>
         Historical standings, published category leaders and recorded playoff games are
         available through separately attributed snapshot tools. Live/current league
-        feeds, shot coordinates and observed lineups require additional verified source
-        coverage.
+        feeds and observed lineups require additional verified source coverage. The
+        separate recorded shot studio covers part of the2018 playoffs with CC0 events
+        and explicit coverage/coordinate evidence.
       </p>
     </ResearchShell>
   );

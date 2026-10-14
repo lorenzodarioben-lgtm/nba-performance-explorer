@@ -16,6 +16,7 @@ export const DataSourceSchema = z.enum([
   'nba-api-static',
   'wikidata',
   'wikipedia',
+  'kaggle-cc0',
 ]);
 export type DataSource = z.infer<typeof DataSourceSchema>;
 
