@@ -36,7 +36,7 @@ const BENCHES: readonly {
         to: '/lab/shots',
         name: 'Shot Studio',
         blurb:
-          'Dots, density and zones for up to four players, with a linked shot table.',
+          'Dots, density and zones for one or two players, with a linked shot table.',
         tapes: [SHOTS],
       },
       {

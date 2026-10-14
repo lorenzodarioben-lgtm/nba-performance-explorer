@@ -268,3 +268,274 @@
   letter-spacing: 0.06em;
   color: var(--chalk-3);
 }
+
+/* ------------------------------------------------------------ coverage (What's on tape) */
+
+.srctapes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.srctapes > li {
+  display: grid;
+}
+.srctape {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 20px 20px 18px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 5px,
+      rgb(255 255 255 / 0.018) 5px 6px
+    ),
+    var(--coal);
+}
+.srctape::before {
+  /* the tape spine: a ruled strip along the top edge, like a cassette label */
+  content: '';
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red-hi) 0 64px, var(--line-2) 64px);
+}
+.srctape__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.srctape__name {
+  margin: 0;
+  font: 800 1.9rem/0.92 var(--display);
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.srctape__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  gap: 14px 20px;
+}
+.srctape__k {
+  margin: 0 0 6px;
+  font: 500 10.5px/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.srctape__list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14.5px;
+  line-height: 1.4;
+  color: var(--chalk-2);
+}
+.srctape__list li {
+  position: relative;
+  padding-left: 14px;
+}
+.srctape__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  background: var(--chalk-3);
+}
+.srctape__list--gaps li::before {
+  background: transparent;
+  border: 1px solid var(--red-hi);
+}
+.srctape__used {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
+  margin: 2px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.srctape__used .srctape__k {
+  margin: 0 4px 0 0;
+}
+.srctape__link {
+  font-size: 14px;
+  color: var(--chalk);
+  text-decoration: underline;
+  text-decoration-color: var(--line-3);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--dur-base) var(--ease-film);
+}
+.srctape__link:hover,
+.srctape__link:focus-visible {
+  text-decoration-color: var(--red-hi);
+}
+
+.covmode {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--line-2);
+  border-left: 3px solid var(--amber);
+  border-radius: 3px;
+  background: var(--film);
+}
+.covmode strong {
+  font: 600 13px/1.3 var(--mono);
+  letter-spacing: 0.04em;
+  color: var(--chalk);
+}
+.covmode__note {
+  margin: 10px 0 20px;
+}
+.caplanes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 12px;
+}
+.caplane {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--coal);
+}
+.caplane__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  font: 800 1.35rem/1 var(--display);
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.caplane__count {
+  margin-left: auto;
+  font: 500 12px/1 var(--mono);
+  color: var(--chalk-3);
+}
+/* Status is told by word and shape: a solid square, a half-filled square, a crossed outline. */
+.caplane__pip {
+  position: relative;
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid var(--chalk);
+}
+.caplane--available .caplane__pip {
+  background: var(--chalk);
+}
+.caplane--conditional .caplane__pip {
+  border-color: var(--amber);
+  background: linear-gradient(90deg, var(--amber) 50%, transparent 50%);
+}
+.caplane--blocked .caplane__pip {
+  border-color: var(--red-hi);
+  background:
+    linear-gradient(45deg, transparent 44%, var(--red-hi) 44% 56%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, var(--red-hi) 44% 56%, transparent 56%);
+}
+.caplane__list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cap {
+  display: grid;
+  gap: 4px;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--line);
+}
+.cap__name {
+  font-weight: 600;
+  color: var(--chalk);
+}
+.cap__id {
+  font: 500 11px/1.3 var(--mono);
+  letter-spacing: 0.02em;
+  color: var(--chalk-3);
+  overflow-wrap: anywhere;
+}
+.cap__reason {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--chalk-2);
+}
+.cap__go {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 5px;
+  min-height: 32px;
+  font: 500 10.5px/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+  transition: color var(--dur-base) var(--ease-film);
+}
+.cap__go:hover,
+.cap__go:focus-visible {
+  color: var(--chalk);
+}
+.caplane__empty {
+  margin: 0;
+}
+
+.tapekey {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 0 24px;
+  margin: 0;
+}
+.tapekey__row {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.tapekey dt,
+.tapekey dd {
+  margin: 0;
+}
+.tapekey dd {
+  font-size: 14.5px;
+  color: var(--chalk-2);
+}
+.offtape {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 0 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.offtape li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--chalk-2);
+}
+.offtape svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--red-hi);
+}

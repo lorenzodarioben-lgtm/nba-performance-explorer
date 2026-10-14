@@ -18,7 +18,8 @@ export interface TapeSpec {
   variant: TapeVariant;
 }
 
-const DESCRIPTIONS: Record<TapeVariant, string> = {
+/** What each tape variant means, in the reader's words. */
+export const TAPE_MEANING: Record<TapeVariant, string> = {
   archive: 'Archived record',
   queried: 'Queried on request, not live',
   partial: 'Partial record',
@@ -39,7 +40,7 @@ export function Tape({ code, source, variant }: TapeSpec) {
   return (
     <span
       className={`tape tape--${base}`}
-      title={`${DESCRIPTIONS[variant]}${source ? ` · ${source}` : ''}`}
+      title={`${TAPE_MEANING[variant]}${source ? ` · ${source}` : ''}`}
     >
       <span className="tape__code">
         {variant === 'derived' ? 'ƒ ' : ''}

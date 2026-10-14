@@ -32,6 +32,64 @@ describe('explorer portal', () => {
       screen.getByRole('combobox', { name: 'Find a player for insights' }),
     ).toBeInTheDocument();
   });
+  it('groups reported capabilities by status and links only usable ones', async () => {
+    server.use(
+      http.get('http://localhost/api/data-sources/status', () =>
+        HttpResponse.json({
+          playerSource: 'nba-stats',
+          checkedAt: '2026-10-13T16:00:00.000Z',
+          hostVerified: false,
+          capabilities: [
+            {
+              id: 'player-insights',
+              status: 'conditional',
+              reason: 'Observed games only.',
+            },
+            {
+              id: 'league-analytics',
+              status: 'blocked',
+              reason: 'No verified league-wide cohort.',
+            },
+          ],
+        }),
+      ),
+    );
+    renderApp('/explore');
+    expect(
+      await screen.findByText('Configured player source: nba-stats'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Report generated Oct 13, 2026, 4:00 PM UTC/),
+    ).toBeVisible();
+    const conditional = screen.getByRole('region', { name: /Conditional/ });
+    expect(within(conditional).getByText('player-insights: conditional')).toBeVisible();
+    expect(
+      within(conditional).getByRole('link', { name: /Open Player insights/ }),
+    ).toHaveAttribute('href', '/players');
+    const blocked = screen.getByRole('region', { name: /Blocked/ });
+    expect(within(blocked).getByText('League-wide analytics')).toBeVisible();
+    expect(within(blocked).queryByRole('link')).toBeNull();
+    expect(
+      within(screen.getByRole('region', { name: /Available/ })).getByText(
+        'None reported.',
+      ),
+    ).toBeVisible();
+  });
+  it('names every source tape with its coverage, gaps and where it is used', async () => {
+    renderApp('/explore');
+    const tapes = await screen.findByRole('region', { name: 'The tapes' });
+    expect(within(tapes).getAllByRole('article')).toHaveLength(6);
+    const shots = within(tapes).getByRole('article', { name: '2018 playoff shots' });
+    expect(within(shots).getByText(/coverage ends June 3/)).toBeVisible();
+    expect(within(shots).getByRole('link', { name: 'Shot Studio' })).toHaveAttribute(
+      'href',
+      '/lab/shots',
+    );
+    const offTape = screen.getByRole('region', { name: 'Not on tape' });
+    expect(
+      within(offTape).getByText(/Live or current-season scores/),
+    ).toBeInTheDocument();
+  });
   it('keeps navigation available during source outage', async () => {
     server.use(
       http.get(
