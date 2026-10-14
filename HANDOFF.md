@@ -1,3 +1,42 @@
+# Shot 2 — Arena & Film Room redesign (Claude design branch)
+
+> This section is the live handoff for the redesign. The engineering handoff below it is the
+> original Codex closeout and stays authoritative for the engine, sources and contracts.
+
+- **Branch:** `claude/nba-explorer-design` (engineering baseline `b4e5f88`; original history
+  preserved — never rebase, reset or rewrite it; never commit to or merge into `main`).
+- **Approved direction:** A — Arena & Film Room. B and C are rejected visually; C's linked
+  charts / brushing / filtering may be reused in A's language only.
+- **Evidence:** `docs/redesign/VERIFICATION_LOG.md` (per-stage results), `e2e/` (Playwright
+  smoke + axe, `npm run e2e`, needs `npm run dev` ports free).
+
+## Stage status
+
+| Stage | Scope                                                                     | Status  |
+| ----- | ------------------------------------------------------------------------- | ------- |
+| 0     | Baseline, harness, dependencies                                           | Done    |
+| 1     | Tokens, fonts, motion system, primitives, chart kit                       | Done    |
+| 2     | Global shell: masthead, nav, search, footer, Film Room shell, 404         | Next    |
+| 3     | Player hub (overview, form, games, career, shooting), Recharts removal    | Pending |
+| 4     | Shot Studio (court, modes, linked table, export by stable ref)            | Pending |
+| 5–8   | Compare suite; teams/games/standings/leaders; seasons/history; labs       | Pending |
+| 9–10  | Homepage, landings, My NBA motion setting, final polish, axe zero serious | Pending |
+
+## Continuation instructions
+
+1. `git status` must be clean on `claude/nba-explorer-design`; `npm ci` if `node_modules` is
+   missing; `npm run validate` must pass before and after each stage.
+2. Continue with the first stage not marked Done above. Building blocks live in
+   `frontend/src/{design,motion,ui,charts}`. Pages adopt the Film Room scope by wrapping
+   research content in `.fr`; Arena moments use `KineticHeadline`, `Reveal`, `Stagger`.
+3. Keep accessible names and copy that tests pin (see the test-compatibility notes in
+   `docs/redesign/VERIFICATION_LOG.md`); re-express colour assertions as `data-*` hooks rather
+   than deleting them. Never add URL params outside the backend contracts.
+4. After each stage: append results to the verification log, update the table above, commit
+   with the session trailers and `git push -u origin claude/nba-explorer-design`.
+
+---
+
 # NBA Performance Explorer 2.0 — Engineering Handoff
 
 ## Snapshot timestamp / branch / HEAD / base commit

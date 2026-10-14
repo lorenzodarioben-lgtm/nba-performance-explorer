@@ -34,3 +34,24 @@ open. Test changes are re-expressions of the same assertion, never removals.
 
 No paid service, account or API key is introduced. Motion was chosen over GSAP for its MIT
 licence and React-native layout/presence primitives; no second animation library is used.
+
+## Stage 1 — design and motion foundations
+
+- Added: Barlow UI face (self-hosted, OFL notice), design tokens (`src/design/system.css`),
+  chart surfaces (`src/design/charts.css`), motion tokens and registers
+  (`src/motion/tokens.ts`), motion preference provider (system / reduced / full, stored under
+  `npe.motion-preference.v1`, mirrored to `html[data-motion]` for CSS), choreography
+  primitives (kinetic headline, scroll reveals, stagger, value flip, pointer depth, route
+  entrance), UI primitives (source tape, slate, icons, toast, segmented control, data states,
+  demonstration band) and the chart kit (scales, court geometry + `Court`, `LineChart` with
+  gap-honest segments, crosshair, keyboard reading and brushing, `BarChart`, `RankBars`,
+  legends with shape + dash encoding, tooltip).
+- Test environment: IntersectionObserver mock reports elements in view, `matchMedia` fallback,
+  `MotionGlobalConfig.skipAnimations = true` so animated content renders in its final state.
+- New unit tests: `src/charts/chart-kit.test.ts` (7) — scale mapping, nice ticks, gap
+  splitting, nearest-point lookup, corner-three break point, coordinate projection, court
+  line kinds.
+- Frontend tests: **331 pass / 48 files** (324 original + 7 new). Typecheck, lint (0 errors;
+  react-refresh warnings only), Prettier check pass.
+- Build: main chunk **777.18 kB (232.75 kB gzip)** — +131 kB / +43.7 kB gzip for Motion while
+  Recharts is still eagerly loaded. Recharts removal (Stage 3) is expected to offset this.

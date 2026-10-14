@@ -6,6 +6,9 @@ import { AppHeader } from './AppHeader';
 import { FoundationPage } from './features/foundation/FoundationPage';
 import { PlayerComparisonPage } from './features/player-comparison/PlayerComparisonPage';
 import { PlayerProfilePage } from './features/players/PlayerProfilePage';
+import { MotionPreferenceProvider } from './motion/MotionPreference';
+import { DemoBand } from './ui/DataMode';
+import { ToastProvider } from './ui/Toast';
 
 const ExplorerPage = lazy(() =>
   import('./features/explorer/ExplorerPage').then((m) => ({ default: m.ExplorerPage })),
@@ -146,8 +149,19 @@ export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
   // fixed and each page bleeds under it, handling its own top spacing.
   return (
+    <MotionPreferenceProvider>
+      <ToastProvider>
+        <AppLayout />
+      </ToastProvider>
+    </MotionPreferenceProvider>
+  );
+}
+
+function AppLayout() {
+  return (
     <div className="flex min-h-[100dvh] flex-col bg-night">
       <AppHeader />
+      <DemoBand />
       <div className="flex-1">
         <Routes>
           <Route

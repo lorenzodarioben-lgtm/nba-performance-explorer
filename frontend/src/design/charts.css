@@ -1,0 +1,224 @@
+/* Chart kit surfaces: court, line, bar and ranked-bar charts, legends and readouts. */
+
+/* ---------------------------------------------------------------- court */
+
+.court {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.court__boards line {
+  stroke: rgb(255 255 255 / 0.025);
+  stroke-width: 1;
+}
+.court__line {
+  fill: none;
+  stroke: rgb(244 243 241 / 0.42);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+.court__line--boundary {
+  stroke: rgb(244 243 241 / 0.55);
+}
+.court__line--dashed {
+  stroke-dasharray: 6 7;
+  stroke: rgb(244 243 241 / 0.28);
+}
+.court__line--rim {
+  stroke: var(--red-hi);
+  stroke-width: 2;
+}
+.court__line--backboard {
+  stroke: rgb(244 243 241 / 0.8);
+  stroke-width: 2.4;
+}
+.court__line--hash {
+  stroke: rgb(244 243 241 / 0.3);
+}
+
+/* ---------------------------------------------------------- line chart */
+
+.lchart,
+.bchart {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+.lchart__surface {
+  position: relative;
+  border-radius: 3px;
+  touch-action: pan-y;
+}
+.lchart__surface:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+.lchart__svg {
+  display: block;
+  overflow: visible;
+}
+.lchart__hit {
+  fill: transparent;
+  cursor: crosshair;
+}
+.lchart__cross {
+  stroke: rgb(255 255 255 / 0.32);
+  stroke-dasharray: 3 3;
+  pointer-events: none;
+}
+.lchart__brush {
+  fill: rgb(239 68 68 / 0.09);
+  stroke: rgb(239 68 68 / 0.55);
+  stroke-dasharray: 4 3;
+  rx: 3px;
+  pointer-events: none;
+}
+.lchart__mark {
+  transition: d var(--dur-quick) var(--ease-snap);
+  pointer-events: none;
+}
+.lchart__note {
+  margin-top: 8px;
+  font: 500 11px/1.4 var(--mono);
+  letter-spacing: 0.04em;
+  color: var(--chalk-3);
+}
+
+.tip__row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  margin-top: 4px;
+  font-size: 12.5px;
+}
+.tip__row i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.tip__row b {
+  font: 700 15px/1 var(--display);
+  color: var(--chalk);
+  font-variant-numeric: tabular-nums;
+}
+.tip .tip__k + .tip__row {
+  margin-top: 8px;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+  font: 600 13px/1.3 var(--ui);
+  color: var(--chalk-2);
+}
+.chart-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.chart-legend li::before {
+  content: none !important;
+}
+
+/* ----------------------------------------------------------- bar chart */
+
+.bchart__bar {
+  transition: fill var(--dur-quick) var(--ease-film);
+}
+.bchart__missing {
+  fill: none;
+  stroke: var(--chalk-4);
+  stroke-dasharray: 2 2;
+}
+.bchart__ref line {
+  stroke: var(--amber);
+  stroke-dasharray: 5 4;
+  opacity: 0.8;
+}
+.bchart__ref text {
+  fill: var(--amber);
+}
+
+/* ------------------------------------------------------------ rank bars */
+
+.rankbars {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rankbars__row {
+  display: grid;
+  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 4.5rem;
+  gap: 12px;
+  align-items: center;
+  min-height: 34px;
+  padding: 4px 6px;
+  border-radius: 2px;
+  transition: background-color var(--dur-quick) var(--ease-film);
+}
+.rankbars__row::before {
+  content: none !important;
+}
+.rankbars__row:hover {
+  background: var(--film);
+}
+.rankbars__row.is-hl .rankbars__label {
+  color: var(--chalk);
+}
+.rankbars__label {
+  overflow: hidden;
+  font: 600 14px/1.25 var(--ui);
+  color: var(--chalk-2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rankbars__track {
+  position: relative;
+  height: 10px;
+  background: rgb(255 255 255 / 0.04);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.rankbars__track i {
+  position: absolute;
+  inset: 0;
+  border-radius: 1px;
+  will-change: transform;
+}
+.rankbars__value {
+  font: 700 1.125rem/1 var(--display);
+  text-align: right;
+  color: var(--chalk);
+}
+.rankbars__meta {
+  grid-column: 1 / -1;
+  font: 500 11px/1.3 var(--mono);
+  color: var(--chalk-3);
+}
+@media (max-width: 520px) {
+  .rankbars__row {
+    grid-template-columns: minmax(0, 1fr) 4rem;
+  }
+  .rankbars__track {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+/* --------------------------------------------------------- data states */
+
+.null-value {
+  color: var(--chalk-3);
+}
+.notice__action {
+  margin-top: 10px;
+}
