@@ -10,6 +10,7 @@ import { ResearchShell, ResearchTable, SourceNote } from '../research/ResearchSh
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
 import { SeasonHero, SeasonTimeline } from './SeasonTimeline';
+import { SeasonResearchHub } from './SeasonResearchHub';
 
 export function HistoryPage() {
   const { season } = useParams();
@@ -50,6 +51,7 @@ export function HistoryPage() {
           <Link to="/games">Recorded 2024 playoff games</Link>.
         </p>
       )}
+      {season === '2023-24' ? <SeasonResearchHub /> : null}
       {!valid && (
         <p role="alert">
           Invalid historical selection.{' '}

@@ -171,29 +171,29 @@ function SeasonBody({
           <dd className="num">
             {all.wins}–{all.losses}
           </dd>
-          <p className="intel-board__note">
+          <dd className="intel-board__note">
             {data.verifiedGames} of 82 games verified
             {unverified.length ? ` · ${unverified.length} quarantined` : ''}
-          </p>
+          </dd>
         </div>
         <div className="scoreboard__cell">
           <dt>Margin per game</dt>
           <dd className="num">{signed(all.marginPerGame, 1)}</dd>
-          <p className="intel-board__note">
+          <dd className="intel-board__note">
             {fixed(all.pointsFor, 1)} scored · {fixed(all.pointsAgainst, 1)} allowed
-          </p>
+          </dd>
         </div>
         <div className="scoreboard__cell">
           <dt>Longest win streak</dt>
           <dd className="num">{data.longestWinStreak?.length ?? '—'}</dd>
-          <p className="intel-board__note">
+          <dd className="intel-board__note">
             {data.longestWinStreak
               ? `Games ${data.longestWinStreak.fromGame}–${data.longestWinStreak.toGame} · ${calendarLabel(data.longestWinStreak.from)} to ${calendarLabel(data.longestWinStreak.to)}`
               : 'Unavailable: game order unknown'}
             {data.longestLosingStreak
               ? ` · longest skid ${data.longestLosingStreak.length}`
               : ''}
-          </p>
+          </dd>
         </div>
       </dl>
 

@@ -10,7 +10,12 @@ import {
 } from '@nba-performance-explorer/contracts';
 
 import { fetchResearch } from '../research/api';
-import { QueryFeedback, ResearchTable, SourceNote } from '../research/ResearchShell';
+import {
+  QueryFeedback,
+  ResearchShell,
+  ResearchTable,
+  SourceNote,
+} from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { Stagger, StaggerItem, useSeen } from '../../motion/choreography';
 import { useMotionAllowed } from '../../motion/MotionPreference';
@@ -56,12 +61,12 @@ export function RecordedSeasonRoom() {
   });
   const data = query.data;
   return (
-    <section className="wrap fr pseason" aria-labelledby="pseason-title">
-      <div className="pmod">
+    <ResearchShell title={`${data?.name ?? 'Player'} · 2023–24 recorded season`}>
+      <div className="pmod pseason">
         <Slate
           as="h2"
           id="pseason-title"
-          title="2023–24 recorded season"
+          title="The season in the archive"
           tapes={TAPES}
           meta={[
             'Regular season',
@@ -92,7 +97,7 @@ export function RecordedSeasonRoom() {
         )}
       </div>
       {data ? <SeasonBody data={data} minGames={minGames} /> : null}
-    </section>
+    </ResearchShell>
   );
 }
 
@@ -129,11 +134,11 @@ function SeasonBody({
           <div key={metric} className="scoreboard__cell">
             <dt>{LABELS[metric].long}</dt>
             <dd className="num">{value === null ? '—' : value.toFixed(1)}</dd>
-            <p className="intel-board__note">
+            <dd className="intel-board__note">
               {byMetric.get(metric)
                 ? `${ordinal(Math.round(byMetric.get(metric)!.percentile))} percentile · rank ${byMetric.get(metric)!.rank} of ${data.population}`
                 : 'Outside the cohort'}
-            </p>
+            </dd>
           </div>
         ))}
       </dl>

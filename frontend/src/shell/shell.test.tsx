@@ -254,7 +254,7 @@ describe('search reach (3.0)', () => {
       expect(screen.queryByRole('dialog', { name: 'Search' })).not.toBeInTheDocument(),
     );
     expect(
-      await screen.findByRole('heading', { name: '2023–24 recorded season' }),
+      await screen.findByRole('heading', { level: 1, name: /2023–24 recorded season/ }),
     ).toBeInTheDocument();
   });
 

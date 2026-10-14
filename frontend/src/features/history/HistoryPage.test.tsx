@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 import { renderApp } from '../../test/renderApp';
@@ -88,5 +88,76 @@ describe('historical navigator', () => {
       'Invalid historical selection',
     );
     expect(screen.queryByRole('table')).not.toBeInTheDocument();
+  });
+});
+
+describe('2023–24 season research hub', () => {
+  it('shows four research paths that fail independently, and every season tool', async () => {
+    server.use(
+      http.get('http://localhost/api/history/seasons/:season', () =>
+        HttpResponse.json({
+          ...body,
+          seasons: [{ ...body.seasons[0]!, season: '2023-24' }],
+        }),
+      ),
+      http.get(
+        'http://localhost/api/recorded/team-rankings',
+        () => new HttpResponse(null, { status: 503 }),
+      ),
+      http.get(
+        'http://localhost/api/games/bracket',
+        () => new HttpResponse(null, { status: 503 }),
+      ),
+      http.get(
+        'http://localhost/api/recorded/leaders',
+        () => new HttpResponse(null, { status: 503 }),
+      ),
+      http.get(
+        'http://localhost/api/recorded/records',
+        () => new HttpResponse(null, { status: 503 }),
+      ),
+    );
+    renderApp('/history/2023-24');
+    const hub = await screen.findByRole('region', {
+      name: 'Research the 2023–24 season',
+    });
+    for (const title of [
+      'The best regular season',
+      "The champion's run",
+      'The top scorer in the record',
+      'The highest-scoring game',
+    ])
+      expect(within(hub).getByRole('heading', { name: title })).toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        within(hub).getAllByText(
+          'This source is unavailable right now; no substitute is shown.',
+        ),
+      ).toHaveLength(4),
+    );
+    // The champion path still points at the recorded playoff games when the bracket is down.
+    expect(
+      within(hub).getByRole('link', { name: 'Recorded playoff games' }),
+    ).toHaveAttribute('href', '/games');
+    expect(within(hub).getByRole('link', { name: /Standings race/ })).toHaveAttribute(
+      'href',
+      '/standings/race',
+    );
+    expect(
+      within(hub).getAllByRole('link', { name: /./ }).length,
+    ).toBeGreaterThanOrEqual(9);
+  });
+
+  it('appears only on the 2023–24 season', async () => {
+    server.use(
+      http.get('http://localhost/api/history/seasons/:season', () =>
+        HttpResponse.json(body),
+      ),
+    );
+    renderApp('/history/1999-00');
+    await screen.findByRole('table');
+    expect(
+      screen.queryByRole('region', { name: 'Research the 2023–24 season' }),
+    ).toBeNull();
   });
 });

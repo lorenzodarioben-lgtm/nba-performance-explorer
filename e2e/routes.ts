@@ -51,5 +51,11 @@ export const routeExamples: readonly RouteExample[] = [
   { name: 'discover', path: '/discover?players=2544,201939&seasons=2023-24,2023-24' },
   { name: 'discover-recorded', path: '/discover/recorded' },
   { name: 'my-nba', path: '/my-nba' },
+  // NBA 3.0
+  { name: 'team-season', path: '/teams/nba:1610612738/season?focus=close&game=3' },
+  { name: 'standings-race', path: '/standings/race?conference=West' },
+  { name: 'playoff-bracket', path: '/games/bracket?series=r2-DEN-MIN' },
+  { name: 'player-archive', path: '/players/203999/archive' },
+  { name: 'lab-shots-zones', path: '/lab/shots?players=201939,2544&view=zones' },
   { name: 'not-found', path: '/this-route-does-not-exist' },
 ];
