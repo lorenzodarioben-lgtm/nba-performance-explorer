@@ -20,6 +20,7 @@ import {
   mkdirSync,
   readFileSync,
   readdirSync,
+  realpathSync,
   rmSync,
   writeFileSync,
 } from 'node:fs';
@@ -220,7 +221,9 @@ export function checkModuleCase(repoRoot, roots = ROOTS) {
 }
 
 function selfTest() {
-  const root = mkdtempSync(path.join(tmpdir(), 'module-case-'));
+  // The checker walks real directory listings, so the root must be the long, canonical path:
+  // on Windows tmpdir() can be an 8.3 short name (C:\Users\LORENZ~1) that no listing contains.
+  const root = realpathSync.native(mkdtempSync(path.join(tmpdir(), 'module-case-')));
   const put = (file, text = 'export {};\n') => {
     mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
     writeFileSync(path.join(root, file), text);
@@ -287,7 +290,9 @@ if (
   if (process.argv.includes('--self-test')) {
     selfTest();
   } else {
-    const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+    const repoRoot = realpathSync.native(
+      path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'),
+    );
     const { problems, files, imports, dirs } = checkModuleCase(repoRoot);
     const scanned = `${dirs} folders, ${files} source files, ${imports} relative imports`;
     if (problems.length) {
