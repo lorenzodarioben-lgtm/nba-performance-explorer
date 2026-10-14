@@ -20,6 +20,8 @@ import {
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
 import { LineChart } from '../../charts/LineChart';
+import { Notice } from '../../ui/DataState';
+import { Icon } from '../../ui/Icon';
 import { ChartLegend } from '../../charts/markers';
 import { seasonFromStartYear, shortSeason } from '../player-hub/seasons';
 
@@ -70,7 +72,12 @@ function Curves({
     c.points.some((p) => p.y !== null && p.x !== null),
   );
   if (!xs.length || !hasValue)
-    return <p>No reported seasons qualify for the curves.</p>;
+    return (
+      <Notice title="No curves to draw">
+        No reported seasons qualify for the curves. Lower the minimum games, change the
+        scope or choose another metric.
+      </Notice>
+    );
   const minX = Math.min(...xs);
   const maxX = Math.max(...xs);
   // A continuous axis (every year, age or reported number in range), so missing values are
@@ -126,6 +133,11 @@ function Curves({
               : 'Reported season number (not verified experience). Lines break where reported seasons are years apart.'
         }
       />
+      <p>
+        The numbered curves correspond to the players below; use the arrow keys on the
+        chart to read every point. The table provides the same data for keyboard and
+        screen reader access. Percentages are raw ratios in the curves.
+      </p>
     </div>
   );
 }
@@ -162,6 +174,8 @@ export function CareerComparisonPage() {
     staleTime: 5 * 60_000,
     refetchOnWindowFocus: false,
   });
+  const nameFor = (id: string) =>
+    query.data?.rows.find((row) => row.playerId === id)?.data?.player.fullName;
   const update = (key: string, value: string) => {
     const copy = new URLSearchParams(params);
     if (value) copy.set(key, value);
@@ -187,18 +201,23 @@ export function CareerComparisonPage() {
         }}
       />
       {message && <p role="status">{message}</p>}
-      <ul>
-        {ids.map((id) => (
-          <li key={id}>
-            NBA player {id}{' '}
-            <button
-              onClick={() => update('players', ids.filter((p) => p !== id).join(','))}
-            >
-              Remove NBA player {id}
-            </button>
-          </li>
-        ))}
-      </ul>
+      {ids.length ? (
+        <ul className="chiprow" aria-label="Selected players">
+          {ids.map((id, index) => (
+            <li key={id} className="chip chip--on">
+              <span className="chiprow__n num">{index + 1}</span>
+              {nameFor(id) ?? `NBA player ${id}`}
+              <button
+                className="chip__x"
+                aria-label={`Remove NBA player ${id}`}
+                onClick={() => update('players', ids.filter((p) => p !== id).join(','))}
+              >
+                <Icon name="close" size={14} />
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
       <div className={styles.controls}>
         <label>
           Career season scope
@@ -255,11 +274,13 @@ export function CareerComparisonPage() {
       )}
       {ready && query.data && (
         <>
-          <SaveResearchButton
-            kind="comparison"
-            label="Career comparison"
-            path={`/lab/careers?${params}`}
-          />
+          <div className={styles.actions}>
+            <SaveResearchButton
+              kind="comparison"
+              label="Career comparison"
+              path={`/lab/careers?${params}`}
+            />
+          </div>
           <label>
             Shareable career URL
             <input readOnly value={`${window.location.origin}/lab/careers?${params}`} />
@@ -270,11 +291,6 @@ export function CareerComparisonPage() {
             minGames={minGames}
             axis={axis as 'calendar' | 'reported' | 'age'}
           />
-          <p>
-            The numbered curves correspond to the players below; use the arrow keys on
-            the chart to read every point. The table provides the same data for keyboard
-            and screen reader access. Percentages are raw ratios in the curves.
-          </p>
           {query.data.rows.map((row, index) => (
             <section key={row.playerId}>
               <h2>
@@ -295,46 +311,52 @@ export function CareerComparisonPage() {
                     reference: {row.data.ageReference}. No draft-age estimate is used.
                   </p>
                   <p>
-                    {row.status}; {row.data.seasons.length} reported seasons; qualified
-                    peak: {row.data.peak.seasons.join(', ') || 'Unavailable'}.
+                    Status: {row.status} · {row.data.seasons.length} reported seasons ·
+                    qualified peak: {row.data.peak.seasons.join(', ') || 'Unavailable'}.
                   </p>
-                  <ResearchTable label={`Career series for NBA player ${row.playerId}`}>
-                    <table>
-                      <caption>
-                        {row.data.player.fullName} · {CAREER_METRICS[metric]}
-                      </caption>
-                      <thead>
-                        <tr>
-                          <th scope="col">Season</th>
-                          <th scope="col">Reported number</th>
-                          <th scope="col">Age on October 1</th>
-                          <th scope="col">Games</th>
-                          <th scope="col">Metric (raw ratio for %)</th>
-                          <th scope="col">Qualified</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {row.data.seasons.map((s, i) => (
-                          <tr key={s.totals.season}>
-                            <th scope="row">{s.totals.season}</th>
-                            <td>{i + 1}</td>
-                            <td>{s.ageOnOctober1 ?? 'Unavailable'}</td>
-                            <td>{s.totals.gamesPlayed}</td>
-                            <td>
-                              {careerMetricValue(s, metric)?.toFixed(4) ??
-                                'Unavailable'}
-                            </td>
-                            <td>
-                              {s.totals.gamesPlayed >= minGames &&
-                              careerMetricValue(s, metric) !== null
-                                ? 'Yes'
-                                : 'No'}
-                            </td>
+                  {row.data.seasons.length === 0 ? (
+                    <p role="status">No reported seasons in this scope.</p>
+                  ) : (
+                    <ResearchTable
+                      label={`Career series for NBA player ${row.playerId}`}
+                    >
+                      <table>
+                        <caption>
+                          {row.data.player.fullName} · {CAREER_METRICS[metric]}
+                        </caption>
+                        <thead>
+                          <tr>
+                            <th scope="col">Season</th>
+                            <th scope="col">Reported number</th>
+                            <th scope="col">Age on October 1</th>
+                            <th scope="col">Games</th>
+                            <th scope="col">Metric (raw ratio for %)</th>
+                            <th scope="col">Qualified</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </ResearchTable>
+                        </thead>
+                        <tbody>
+                          {row.data.seasons.map((s, i) => (
+                            <tr key={s.totals.season}>
+                              <th scope="row">{s.totals.season}</th>
+                              <td>{i + 1}</td>
+                              <td>{s.ageOnOctober1 ?? 'Unavailable'}</td>
+                              <td>{s.totals.gamesPlayed}</td>
+                              <td>
+                                {careerMetricValue(s, metric)?.toFixed(4) ??
+                                  'Unavailable'}
+                              </td>
+                              <td>
+                                {s.totals.gamesPlayed >= minGames &&
+                                careerMetricValue(s, metric) !== null
+                                  ? 'Yes'
+                                  : 'No'}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </ResearchTable>
+                  )}
                 </>
               )}
             </section>

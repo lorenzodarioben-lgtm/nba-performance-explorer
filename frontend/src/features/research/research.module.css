@@ -24,6 +24,15 @@
     align-self: end;
   }
 
+  /* A row of page-level actions (related links, save, share). */
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 20px;
+    margin: 16px 0;
+  }
+
   .scroll {
     max-width: 100%;
     overflow-x: auto;

@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
 import {
   AnalyticsMetricSchema,
-  COMPARISON_METRICS,
   CohortQuerySchema,
   CohortResponseSchema,
   type CohortResponse,
@@ -19,14 +18,9 @@ import {
 } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
+import { ANALYTICS_METRICS } from './metrics';
 
-const metrics = [
-  ...COMPARISON_METRICS.map((m) => ({ ...m, unit: m.unit === '%' ? 'ratio' : m.unit })),
-  { key: 'trueShooting', label: 'TS% estimate', unit: 'ratio' },
-  { key: 'effectiveFieldGoal', label: 'eFG%', unit: 'ratio' },
-  { key: 'assistTurnover', label: 'AST/TO', unit: 'ratio' },
-  { key: 'pointsPer36', label: 'Points per 36', unit: 'points/36 min' },
-] as const;
+const metrics = ANALYTICS_METRICS;
 
 function Scatter({
   data,

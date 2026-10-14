@@ -1,9 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
-import {
-  AnalyticsMetricSchema,
-  CohortResponseSchema,
-} from '@nba-performance-explorer/contracts';
+import { CohortResponseSchema } from '@nba-performance-explorer/contracts';
 import { fetchResearch } from '../research/api';
 import {
   ResearchShell,
@@ -12,6 +9,8 @@ import {
   QueryFeedback,
 } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
+import { ANALYTICS_METRICS } from '../analytics-lab/metrics';
+import { RankBars } from '../../charts/RankBars';
 import { readDiscoveryState, nearestWithinCohort } from './discovery-core';
 import styles from '../research/research.module.css';
 export function DiscoverPage() {
@@ -56,12 +55,14 @@ export function DiscoverPage() {
         pool is deliberately small; it cannot identify the closest NBA peer across the
         league or normalize different eras. All values are raw regular-season summaries.
       </p>
-      <Link to={`/lab/compare${base.size ? `?${base}` : ''}`}>
-        Choose or edit discovery pool
-      </Link>{' '}
-      <Link to={`/lab/analytics${state.valid ? `?${state.api}` : ''}`}>
-        Inspect exact metric and standardization evidence
-      </Link>
+      <div className={styles.actions}>
+        <Link to={`/lab/compare${base.size ? `?${base}` : ''}`}>
+          Choose or edit discovery pool
+        </Link>
+        <Link to={`/lab/analytics${state.valid ? `?${state.api}` : ''}`}>
+          Inspect exact metric and standardization evidence
+        </Link>
+      </div>
       {!state.valid && (
         <p role="status">
           Choose 2–4 distinct players with aligned seasons, two different metrics and a
@@ -91,8 +92,10 @@ export function DiscoverPage() {
                 params.get(key) ?? (key === 'x' ? 'pointsPerGame' : 'reboundsPerGame')
               }
             >
-              {AnalyticsMetricSchema.options.map((m) => (
-                <option key={m}>{m}</option>
+              {ANALYTICS_METRICS.map((m) => (
+                <option key={m.key} value={m.key}>
+                  {m.label} ({m.unit})
+                </option>
               ))}
             </select>
           </label>
@@ -128,87 +131,112 @@ export function DiscoverPage() {
             six-decimal distances define tied competition ranks. Lower means closer for
             these two metrics only.
           </p>
-          <label>
-            Similarity target
-            <select value={target ?? ''} onChange={(e) => updateTarget(e.target.value)}>
-              <option value="" disabled>
-                Choose a qualifying target
-              </option>
-              {pool.map((r) => (
-                <option key={r.playerId} value={r.playerId}>
-                  {label(r.playerId)}
+          <div className={styles.controls}>
+            <label>
+              Similarity target
+              <select
+                value={target ?? ''}
+                onChange={(e) => updateTarget(e.target.value)}
+              >
+                <option value="" disabled>
+                  Choose a qualifying target
                 </option>
-              ))}
-              {state.target && !pool.some((r) => r.playerId === state.target) && (
-                <option value={state.target}>{label(state.target)} (excluded)</option>
-              )}
-            </select>
-          </label>
-          <button
-            disabled={!pool.length}
-            onClick={() =>
-              updateTarget(pool[Math.floor(Math.random() * pool.length)]!.playerId)
-            }
-          >
-            Random qualifying target
-          </button>
+                {pool.map((r) => (
+                  <option key={r.playerId} value={r.playerId}>
+                    {label(r.playerId)}
+                  </option>
+                ))}
+                {state.target && !pool.some((r) => r.playerId === state.target) && (
+                  <option value={state.target}>{label(state.target)} (excluded)</option>
+                )}
+              </select>
+            </label>
+            <button
+              disabled={!pool.length}
+              onClick={() =>
+                updateTarget(pool[Math.floor(Math.random() * pool.length)]!.playerId)
+              }
+            >
+              Random qualifying target
+            </button>
+          </div>
           <label>
             Shareable discovery URL
             <input readOnly value={`${window.location.origin}/discover?${saved}`} />
           </label>
-          <SaveResearchButton
-            kind="analysis"
-            label="Selected-season statistical similarity"
-            path={`/discover?${saved}`}
-          />
+          <div className={styles.actions}>
+            <SaveResearchButton
+              kind="analysis"
+              label="Selected-season statistical similarity"
+              path={`/discover?${saved}`}
+            />
+          </div>
           {nearest.length ? (
-            <ResearchTable label="Selected-season similarity evidence">
-              <table>
-                <caption>
-                  Closest matches in this selected pool; no official peer ranking
-                </caption>
-                <thead>
-                  <tr>
-                    {[
-                      'Tied rank',
-                      'Player / season',
-                      'Distance',
-                      'X',
-                      'Y',
-                      'Squared X contribution',
-                      'Squared Y contribution',
-                      'Season evidence',
-                    ].map((s) => (
-                      <th key={s} scope="col">
-                        {s}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {nearest.map((r) => (
-                    <tr key={r.playerId}>
-                      <td>{r.rank}</td>
-                      <th scope="row">
-                        <Link to={`/players/${r.playerId}`}>{label(r.playerId)}</Link>
-                      </th>
-                      <td>{r.distance.toFixed(6)}</td>
-                      <td>{r.x}</td>
-                      <td>{r.y}</td>
-                      <td>{r.xSquared.toFixed(6)}</td>
-                      <td>{r.ySquared.toFixed(6)}</td>
-                      <td>
-                        <Link
-                          to={`/players/${r.playerId}/insights?season=${row(r.playerId)!.season}`}
-                        >
-                          Recorded-season evidence
-                        </Link>
-                      </td>
+            <>
+              <div className="metricboard__cell" data-chart="similarity-distance">
+                <p className="metricboard__title">
+                  Distance to {target ? label(target) : 'the target'}{' '}
+                  <span>(standardized; shorter is closer)</span>
+                </p>
+                <RankBars
+                  label={`Similarity distance from ${target ? label(target) : 'the target'} for each selected season; shorter is closer`}
+                  rows={nearest.map((r) => ({
+                    key: r.playerId,
+                    label: `${r.rank}. ${label(r.playerId)}`,
+                    value: r.distance,
+                    display: r.distance.toFixed(3),
+                  }))}
+                  color="#cfcdc9"
+                />
+              </div>
+              <ResearchTable label="Selected-season similarity evidence">
+                <table>
+                  <caption>
+                    Closest matches in this selected pool; no official peer ranking
+                  </caption>
+                  <thead>
+                    <tr>
+                      {[
+                        'Tied rank',
+                        'Player / season',
+                        'Distance',
+                        'X',
+                        'Y',
+                        'Squared X contribution',
+                        'Squared Y contribution',
+                        'Season evidence',
+                      ].map((s) => (
+                        <th key={s} scope="col">
+                          {s}
+                        </th>
+                      ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </ResearchTable>
+                  </thead>
+                  <tbody>
+                    {nearest.map((r) => (
+                      <tr key={r.playerId}>
+                        <td>{r.rank}</td>
+                        <th scope="row">
+                          <Link to={`/players/${r.playerId}`}>{label(r.playerId)}</Link>
+                        </th>
+                        <td>{r.distance.toFixed(6)}</td>
+                        <td>{r.x}</td>
+                        <td>{r.y}</td>
+                        <td>{r.xSquared.toFixed(6)}</td>
+                        <td>{r.ySquared.toFixed(6)}</td>
+                        <td>
+                          <Link
+                            to={`/players/${r.playerId}/insights?season=${row(r.playerId)!.season}`}
+                          >
+                            Recorded-season evidence
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </ResearchTable>
+            </>
           ) : (
             <p role="status">
               No qualifying peer for this target in the selected pool. Add qualifying

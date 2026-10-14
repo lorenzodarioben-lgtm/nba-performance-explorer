@@ -69,6 +69,9 @@ describe('discovery view', () => {
     renderApp(route);
     const table = await screen.findByRole('table');
     expect(within(table).getAllByText('1.732051')).toHaveLength(2);
+    // The distance chart draws the same evidence: one bar per peer, shorter is closer.
+    const distances = screen.getByRole('list', { name: /Similarity distance from/ });
+    expect(within(distances).getAllByText('1.732')).toHaveLength(2);
     expect(
       screen.getByText(/cannot identify the closest NBA peer across the league/),
     ).toBeInTheDocument();

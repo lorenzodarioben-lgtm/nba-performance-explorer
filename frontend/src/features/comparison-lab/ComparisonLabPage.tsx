@@ -46,7 +46,9 @@ function PlayerSlot({
       />
       <div className={styles.controls}>
         <label>
-          Season for NBA player {slot.playerId}
+          <span>
+            Season <span className="sr-only">for NBA player {slot.playerId}</span>
+          </span>
           <select value={slot.season ?? ''} onChange={(e) => onSeason(e.target.value)}>
             <option value="">Choose a recorded season</option>
             {slot.season && !seasons.data?.some((s) => s.season === slot.season) && (
@@ -61,7 +63,9 @@ function PlayerSlot({
             ))}
           </select>
         </label>
-        <button onClick={onRemove}>Remove NBA player {slot.playerId}</button>
+        <button onClick={onRemove}>
+          Remove <span className="sr-only">NBA player {slot.playerId}</span>
+        </button>
         <Link to={`/players/${slot.playerId}`}>
           Original profile: {profile.data?.fullName ?? slot.playerId}
         </Link>
@@ -104,16 +108,18 @@ export function ComparisonLabPage() {
   );
   return (
     <ResearchShell title="Comparison lab">
-      <Link
-        to={`/lab/careers${state.slots.length >= 2 ? `?players=${state.slots.map((s) => s.playerId).join(',')}` : ''}`}
-      >
-        Compare reported careers
-      </Link>
-      <SaveResearchButton
-        kind="comparison"
-        label="Player season comparison"
-        path={`/lab/compare${params.size ? `?${params}` : ''}`}
-      />
+      <div className={styles.actions}>
+        <Link
+          to={`/lab/careers${state.slots.length >= 2 ? `?players=${state.slots.map((s) => s.playerId).join(',')}` : ''}`}
+        >
+          Compare reported careers
+        </Link>
+        <SaveResearchButton
+          kind="comparison"
+          label="Player season comparison"
+          path={`/lab/compare${params.size ? `?${params}` : ''}`}
+        />
+      </div>
       <p>
         Choose 2–4 distinct NBA players and one recorded season each. Values use equal
         units and regular-season scope. Cross-era values remain raw; no pace or

@@ -354,6 +354,9 @@ export function RouteEntrance({
  */
 export function useSeen<T extends Element = HTMLDivElement>(amount = 0.15) {
   const ref = useRef<T>(null);
-  const seen = useInView(ref, { once: true, amount });
-  return [ref, seen] as const;
+  const allowed = useMotionAllowed();
+  const inView = useInView(ref, { once: true, amount });
+  // Without motion there is nothing to wait for: marks are drawn at their values at once, so
+  // nothing below the fold (or in a print or capture) is left at zero.
+  return [ref, inView || !allowed] as const;
 }

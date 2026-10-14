@@ -539,3 +539,35 @@
   margin-top: 3px;
   color: var(--red-hi);
 }
+
+/* Selected-player chips (career comparison). */
+.chiprow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0;
+  padding: 0;
+  list-style: none;
+}
+.chiprow > li.chip {
+  padding: 0 4px 0 10px;
+}
+.chiprow > li::before {
+  content: none;
+}
+.chiprow__n {
+  color: var(--chalk-3);
+  font: 500 11px/1 var(--mono);
+}
+.chiprow .chip__x {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+}
+.chiprow .chip__x:hover,
+.chiprow .chip__x:focus-visible {
+  color: var(--chalk);
+  background: rgb(255 255 255 / 0.06);
+}
