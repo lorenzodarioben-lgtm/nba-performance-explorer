@@ -46,3 +46,5 @@ Age/stints/recency are expansion-only. Worker scheduling changed; protected orig
 ## Historical archive checkpoint
 
 Only additive App routes and new/research components changed. Existing NBA PlayerProvider, home/profile/compare UI, masthead/footer, global CSS, public assets/metadata and Render configuration remain unchanged. One free runtime HTML parser adds intentional package/lockfile changes; lockfile preservation statements apply to prior checkpoints. No images or prose imported.
+
+672-test analytics checkpoint: protected original frontend paths/assets/provider/render configuration have an empty diff against baseline cd557e4d3cf75e44f930ba75de4ea149a80ccdda. Browser QA confirms3 rendered analytics SVGs/363 dots/table and actual target. No pixel comparison claim.

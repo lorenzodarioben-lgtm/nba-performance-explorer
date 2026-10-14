@@ -4,6 +4,7 @@ import {
   RecordedRecordsQuerySchema,
   HypotheticalQuerySchema,
   RecordedTeamComparisonQuerySchema,
+  RecordedAnalyticsQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
@@ -134,5 +135,24 @@ export function createRecordedRouter(provider: RecordedArchiveProvider | undefin
     return res.json(provider.compareTeams(q.data.teams));
   });
   router.all('/team-comparison', methodNotAllowedHandler);
+  router.get('/analytics', (req, res) => {
+    const q = RecordedAnalyticsQuerySchema.safeParse(req.query);
+    if (!q.success)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_ANALYTICS',
+        'Choose different supported metrics, explicit GP and weights.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    return res.json(provider.analytics(q.data));
+  });
+  router.all('/analytics', methodNotAllowedHandler);
   return router;
 }

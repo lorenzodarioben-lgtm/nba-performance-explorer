@@ -80,3 +80,5 @@ Historical team page adds a separate opt-in roster/regular-results section with 
 New `/leaders/recorded` and `/history/records` use plain scoped research tables/forms. Keep static historical source dates, limited population, qualification/trade exclusions, cohort-percentile definition, source licences and quarantined IDs visible. Current/official/all-time distinctions remain essential. Large source-credit lists use native details disclosure; original design remains frozen.
 
 `/lab/teams` and `/lab/groups` remain plain functional research controls/tables. Preserve observed sample sizes after quarantine, actual game links, individual-vs-joint distinction, missing raw data and full source licence/contributor notices. Original UI remains frozen.
+
+Plain functional `/lab/recorded` now verified:3 actual SVGs (two histograms+scatter),363 exact table rows at defaultGP20, actual Curry target at26.4PTS/4.5REB; all controls/source notices/URL/save workflows work. Preserve original shell. Full-platform design readiness remains NO while statistical/game/source coverage gaps remain.

@@ -55,3 +55,5 @@ Shooting-count page expands B01/H02 using already sourced raw totals. G remains 
 Recorded historical source now supports pageable qualified cohort rankings, numeric metric selection, declared-scope filters, bounded licensed CSV, source-cohort midrank percentiles and2023–24 source-agreed game extrema. Unknown Chicago statistical scope, missing identifiers, unavailable attempts and unsupported trade values are excluded explicitly. Current/live league data, complete official qualification/population and broad all-time archives remain incomplete.
 
 Recorded labs add source-agreed team/head-to-head comparison and strictly hypothetical5-identity groups. No actual shared minutes, possessions, ratings, substitutions or on/off observations exist. J02–J07 remain DATA_BLOCKED; no joint metrics are inferred.
+
+Recorded analytics uses only the jointly supported qualified2023-24 identity intersection; same sample denominator for distribution, scatter, correlation, custom ranking and target percentile. Missing targets never imputed. Population incomplete/current/official/era claims remain unavailable.

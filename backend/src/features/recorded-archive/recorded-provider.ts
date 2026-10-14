@@ -13,8 +13,11 @@ import {
   RecordedTeamComparisonSchema,
   type HypotheticalGroup,
   type RecordedTeamComparison,
+  RecordedAnalyticsResponseSchema,
+  type RecordedAnalyticsQuery,
 } from '@nba-performance-explorer/contracts';
 import data from './recorded-snapshot.json' with { type: 'json' };
+import { analyzeRecordedPairs } from './recorded-statistics.js';
 type Participant = TeamArchiveResponse['statistics']['regular-season'][number];
 function metricValue(
   rows: readonly Participant[],
@@ -86,13 +89,16 @@ export function rankRecordedDataset(
     });
   }
   qualified.sort((a, b) => b.value - a.value || a.playerId.localeCompare(b.playerId));
+  const frequencies = new Map<number, number>();
+  for (const row of qualified)
+    frequencies.set(row.value, (frequencies.get(row.value) ?? 0) + 1);
   let previous: number | undefined,
     rank = 0;
   const ranked = qualified.map((r, i) => {
     if (previous !== r.value) rank = i + 1;
     previous = r.value;
-    const equal = qualified.filter((other) => other.value === r.value).length,
-      lower = qualified.filter((other) => other.value < r.value).length;
+    const equal = frequencies.get(r.value)!,
+      lower = qualified.length - (rank - 1) - equal;
     return { ...r, rank, percentile: ((lower + equal * 0.5) / qualified.length) * 100 };
   });
   const filtered = ranked.filter(
@@ -144,6 +150,69 @@ export class RecordedArchiveProvider {
   readonly dataset = RecordedDatasetSchema.parse(data);
   rank(q: ArchiveRankingQuery) {
     return rankRecordedDataset(this.dataset, q);
+  }
+  analytics(q: RecordedAnalyticsQuery) {
+    const collect = (metric: RecordedAnalyticsQuery['x']) => {
+      const base = {
+        season: q.season,
+        scope: q.scope,
+        metric,
+        minGames: q.minGames,
+        page: 1,
+        pageSize: 50,
+      };
+      const first = this.rank(base),
+        rows = [...first.rows];
+      for (let page = 2; (page - 1) * 50 < first.total; page++)
+        rows.push(...this.rank({ ...base, page }).rows);
+      return { first, rows };
+    };
+    const x = collect(q.x),
+      y = collect(q.y),
+      byId = new Map(y.rows.map((r) => [r.playerId, r]));
+    const values = x.rows.flatMap((r) => {
+      const other = byId.get(r.playerId);
+      return other
+        ? [
+            {
+              playerId: r.playerId,
+              name: r.name,
+              gamesPlayed: r.gamesPlayed,
+              x: r.value,
+              y: other.value,
+            },
+          ]
+        : [];
+    });
+    return RecordedAnalyticsResponseSchema.parse({
+      season: '2023-24',
+      scope: q.scope,
+      x: q.x,
+      y: q.y,
+      minGames: q.minGames,
+      weightX: q.weightX,
+      weightY: q.weightY,
+      ...analyzeRecordedPairs(values, q.weightX, q.weightY),
+      target: q.target ?? null,
+      targetAvailable: !!q.target && values.some((r) => r.playerId === q.target),
+      singleMetricQualifiedX: x.rows.length,
+      singleMetricQualifiedY: y.rows.length,
+      sourceRows: x.first.sourceRows,
+      unknownScopeRows: x.first.unknownScopeRows,
+      snapshotCreatedAt: this.dataset.createdAt,
+      attributions: x.first.attributions,
+      provenance: {
+        ...x.first.provenance,
+        coverage:
+          'Recorded2023-24 jointly qualified supported-metric source cohort. Not complete/official/current league distributions.',
+        warnings: [
+          'Both metric values must be available after explicit GP/identity/trade qualification. Intersection is the common ranking/distribution denominator.',
+          'Population z-scores use this common cohort; constant axes have z=0. Custom six-decimal scores define competition ties. Negative weights favor lower values.',
+          'Quantiles use linear interpolation at (n-1)*p; histogram bins are equal-width, last bin includes maximum. Percentiles use midrank within common cohort.',
+          'Correlation is descriptive, not causal; unavailable for fewer than3 pairs or constant axes. Missing/excluded targets are not plotted at0.',
+        ],
+      },
+    });
   }
   directory() {
     const players = new Map<

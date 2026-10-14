@@ -86,6 +86,11 @@ const RecordedLabsPage = lazy(() =>
     default: m.RecordedLabsPage,
   })),
 );
+const RecordedAnalyticsPage = lazy(() =>
+  import('./features/recorded-analytics/RecordedAnalyticsPage').then((m) => ({
+    default: m.RecordedAnalyticsPage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -95,6 +100,20 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/lab/recorded"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading recorded analytics…
+                  </p>
+                }
+              >
+                <RecordedAnalyticsPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/lab/groups"
             element={
