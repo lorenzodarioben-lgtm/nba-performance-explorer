@@ -34,6 +34,7 @@ const SHOTS_TAPE: TapeSpec = {
 const VIEWS: readonly { value: ShotView; label: string }[] = [
   { value: 'dots', label: 'Dots' },
   { value: 'density', label: 'Density' },
+  { value: 'efficiency', label: 'Efficiency' },
   { value: 'zones', label: 'Zones' },
 ];
 
@@ -67,7 +68,7 @@ export function ShotArchivePage() {
   const mode = params.get('view') ?? 'dots';
   const valid =
     parsed.success &&
-    ['dots', 'density', 'zones'].includes(mode) &&
+    ['dots', 'density', 'efficiency', 'zones'].includes(mode) &&
     [...params.keys()].every((k) => params.getAll(k).length === 1);
   const directory = useQuery({
     queryKey: ['research', 'shot-directory'],
@@ -351,9 +352,11 @@ export function ShotArchivePage() {
               <p className="studio__mode">
                 {mode === 'density'
                   ? 'Density uses every filtered located event, 5×5 foot cells; brighter means more attempts, not better shooting. All panels share the same count-to-shade scale.'
-                  : mode === 'zones'
-                    ? 'Zones shade each original source zone by its share of the panel’s attempts and label its FG%. Outlines are approximate drawings; no attempt is reassigned.'
-                    : 'Dots show only the exact table page: filled chalk circles are makes; red crosses are misses. Hover a shot or a table row to link them.'}{' '}
+                  : mode === 'efficiency'
+                    ? `Efficiency colours only 5×5 foot cells with at least ${data.minAttempts} attempts: red where the cell's FG% is above the panel's own FG%, blue where it is below, stronger with the gap (full at 30 points). Dashed cells hold too few attempts for a FG% and are not coloured; lower the minimum to see more, at the cost of noisier cells.`
+                    : mode === 'zones'
+                      ? 'Zones shade each original source zone by its share of the panel’s attempts and label its FG%. Outlines are approximate drawings; no attempt is reassigned.'
+                      : 'Dots show only the exact table page: filled chalk circles are makes; red crosses are misses. Hover a shot or a table row to link them.'}{' '}
                 Identical basket-relative axes for every panel.
               </p>
               {mode === 'zones' ? (
@@ -509,7 +512,7 @@ export function ShotArchivePage() {
                           </tbody>
                         </table>
                       </ResearchTable>
-                      {mode === 'density' && (
+                      {(mode === 'density' || mode === 'efficiency') && (
                         <ResearchTable label={`${g.label} density values`}>
                           <table>
                             <caption>

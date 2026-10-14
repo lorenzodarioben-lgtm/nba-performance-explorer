@@ -4,7 +4,7 @@ import type { Ref } from 'react';
 import { BasketballCourt } from '../../charts/BasketballCourt';
 import { COURT, zoneAreas, type SourceZone } from '../../charts/court';
 
-export type ShotView = 'dots' | 'density' | 'zones';
+export type ShotView = 'dots' | 'density' | 'efficiency' | 'zones';
 type Group = ShotResponse['groups'][number];
 
 // The studio crops at half court. Recorded attempts beyond it (long heaves) are never moved or
@@ -90,6 +90,67 @@ export function ShotCourt({
                     <title>
                       {cell.x} to {cell.x + 5} ft across, {cell.y} to {cell.y + 5} ft
                       out: {cell.attempts} attempts, {cell.makes} makes
+                    </title>
+                  </rect>
+                );
+              })}
+            </g>
+          );
+        }
+        if (view === 'efficiency') {
+          // Only cells that meet the minimum-attempts rule carry a FG%; they are coloured by how
+          // far they sit from the panel's own FG% (red above, blue below). Thinner cells keep a
+          // faint dashed outline so located attempts are never hidden, but get no colour.
+          const base = group.fgPercentage;
+          return (
+            <g className="shotcourt__efficiency">
+              {group.cells.map((cell) => {
+                const [x, yTop] = P(cell.x * 10, cell.y * 10 + 50);
+                const key = `${cell.x}:${cell.y}`;
+                if (cell.fgPercentage === null || base === null)
+                  return (
+                    <rect
+                      key={key}
+                      data-cell={key}
+                      data-qualified="false"
+                      x={x + 4}
+                      y={yTop + 4}
+                      width={42}
+                      height={42}
+                      fill="none"
+                      stroke="rgba(244,243,241,0.22)"
+                      strokeDasharray="4 4"
+                    >
+                      <title>
+                        {cell.x} to {cell.x + 5} ft across, {cell.y} to {cell.y + 5} ft
+                        out: {cell.attempts} attempts, too few for a FG%
+                      </title>
+                    </rect>
+                  );
+                const diff = cell.fgPercentage - base;
+                const strength = Math.min(1, Math.abs(diff) / 0.3);
+                return (
+                  <rect
+                    key={key}
+                    data-cell={key}
+                    data-qualified="true"
+                    data-fg={cell.fgPercentage}
+                    x={x}
+                    y={yTop}
+                    width={50}
+                    height={50}
+                    fill={
+                      diff >= 0
+                        ? `rgba(239,68,68,${(0.18 + 0.72 * strength).toFixed(3)})`
+                        : `rgba(59,130,246,${(0.18 + 0.72 * strength).toFixed(3)})`
+                    }
+                    stroke="rgba(10,10,11,0.9)"
+                    strokeWidth={1.5}
+                  >
+                    <title>
+                      {cell.x} to {cell.x + 5} ft across, {cell.y} to {cell.y + 5} ft
+                      out: {cell.makes}/{cell.attempts}, FG {ratio(cell.fgPercentage)}{' '}
+                      vs panel {ratio(base)}
                     </title>
                   </rect>
                 );

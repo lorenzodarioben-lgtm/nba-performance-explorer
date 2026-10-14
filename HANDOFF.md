@@ -62,12 +62,10 @@ version 1). All derivations live in backend domain modules with unit tests; the 
 
 ## Next actions (in order)
 
-1. Two-team season comparison in `/lab/teams` using the team-season endpoint (ribbons, splits
-   and season series side by side).
-2. Playoff game pages: quarter-by-quarter cumulative margin and "series so far" context.
-3. A formula and glossary page listing every derived metric with definition, inputs and source.
-4. Standings race: games-behind view and a play-in line overlay.
-5. After each UI change re-run `npm run e2e`; keep the verification log current.
+1. Shot Studio efficiency view (last commit): add a frontend test for qualified vs dashed cells and
+   run the e2e suite (`npm run e2e`); it was typechecked and validated but not screenshot-checked.
+2. Re-run the full e2e and record the count in the verification log (last full run: 133/133).
+3. Optional: second recorded season (see `docs/expansion3/SOURCE_NOTES.md`).
 
 Continuation: `git checkout claude/nba-explorer-3-expansion && npm ci && npm run validate`.
 For live checks run the backend on 3001 (`PORT=3001 npm run dev:backend`) and the frontend with
