@@ -126,9 +126,26 @@ function split(
   };
 }
 
+/** Each team's observed win percentage over its source-agreed games. */
+export function observedWinPercentages(verified: readonly VerifiedRecordedGame[]) {
+  const tally = new Map<string, { wins: number; games: number }>();
+  const add = (id: string, won: boolean) => {
+    const t = tally.get(id) ?? { wins: 0, games: 0 };
+    t.games++;
+    if (won) t.wins++;
+    tally.set(id, t);
+  };
+  for (const g of verified) {
+    add(g.home.id, g.homeScore > g.awayScore);
+    add(g.away.id, g.awayScore > g.homeScore);
+  }
+  return new Map([...tally].map(([id, t]) => [id, t.wins / t.games]));
+}
+
 export function teamSeasonSplits(
   games: readonly TeamSeasonGame[],
   chronologyKnown: boolean,
+  opponentWinPercentage?: ReadonlyMap<string, number>,
 ): TeamSeasonSplit[] {
   const out: TeamSeasonSplit[] = [
     split(
@@ -167,6 +184,23 @@ export function teamSeasonSplits(
       games.filter((g) => g.opponentConference === 'West'),
     ),
   ];
+  if (opponentWinPercentage)
+    out.push(
+      split(
+        'vs-winning',
+        'opponent',
+        'vs winning teams',
+        'Opponent finished above .500 in its own source-agreed games (meetings with this team included). Teams at exactly .500 are in neither group.',
+        games.filter((g) => (opponentWinPercentage.get(g.opponent.id) ?? 0.5) > 0.5),
+      ),
+      split(
+        'vs-losing',
+        'opponent',
+        'vs losing teams',
+        'Opponent finished below .500 in its own source-agreed games (meetings with this team included). Teams at exactly .500 are in neither group.',
+        games.filter((g) => (opponentWinPercentage.get(g.opponent.id) ?? 0.5) < 0.5),
+      ),
+    );
   if (chronologyKnown)
     out.push(
       split(
@@ -332,7 +366,7 @@ export function buildTeamSeason(
     chronologyKnown,
     games,
     verifiedGames: games.filter((g) => g.verified).length,
-    splits: teamSeasonSplits(games, chronologyKnown),
+    splits: teamSeasonSplits(games, chronologyKnown, observedWinPercentages(verified)),
     longestWinStreak: longest(runs, 'W'),
     longestLosingStreak: longest(runs, 'L'),
     streakRuns: runs,

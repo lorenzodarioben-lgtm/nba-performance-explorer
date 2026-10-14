@@ -174,6 +174,21 @@ export const FORMULAS: readonly Formula[] = [
     added: true,
   },
   {
+    id: 'opponent-quality',
+    name: 'Record against winning and losing teams',
+    area: 'Team',
+    formula:
+      'Split by the opponent’s observed season win % (> .500 winning, < .500 losing)',
+    definition:
+      'How a team fared against opponents that finished above or below .500 in their own source-agreed games.',
+    missing:
+      'The opponent’s record includes its games against this team. Opponents at exactly .500 belong to neither group.',
+    example: 'Boston 2023–24: 32–15 against winning teams, 31–3 against losing teams.',
+    implementedIn: 'backend/src/features/recorded-archive/recorded-team-season.ts',
+    usedIn: [{ to: '/teams', label: 'Team season · splits' }],
+    added: true,
+  },
+  {
     id: 'games-behind',
     name: 'Games behind (observed)',
     area: 'Team',

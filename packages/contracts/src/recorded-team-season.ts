@@ -53,6 +53,8 @@ export const TeamSeasonSplitKeySchema = z.enum([
   'away',
   'vs-east',
   'vs-west',
+  'vs-winning',
+  'vs-losing',
   'back-to-back',
   'one-day-rest',
   'two-plus-rest',

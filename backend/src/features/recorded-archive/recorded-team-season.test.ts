@@ -9,6 +9,7 @@ import {
   buildStandingsRace,
   buildTeamSeason,
   marginBins,
+  observedWinPercentages,
   streakRuns,
   teamSeasonGames,
 } from './recorded-team-season.js';
@@ -17,6 +18,28 @@ import { RecordedArchiveProvider } from './recorded-provider.js';
 import { createApp } from '../../app.js';
 
 const p = new RecordedArchiveProvider();
+/** Every source-agreed game, rebuilt from each team's season (verified slots carry the scores). */
+function reconciled() {
+  const seen = new Map<string, VerifiedRecordedGame>();
+  for (const snapshot of p.dataset.snapshots) {
+    const season = p.teamSeason({ season: '2023-24', team: snapshot.team.id })!;
+    for (const g of season.games)
+      if (g.verified && !seen.has(g.id)) {
+        const home = g.location === 'home';
+        seen.set(g.id, {
+          id: g.id,
+          date: g.date,
+          home: home ? season.team : g.opponent,
+          away: home ? g.opponent : season.team,
+          homeScore: home ? g.teamScore! : g.opponentScore!,
+          awayScore: home ? g.opponentScore! : g.teamScore!,
+          recapUrl: g.recapUrl,
+          sources: [season.attribution, season.attribution],
+        });
+      }
+  }
+  return [...seen.values()];
+}
 const original = p.dataset.snapshots.find((s) => s.team.abbreviation === 'LAL')!;
 const east = p.dataset.snapshots.find((s) => s.team.abbreviation === 'BOS')!.team;
 const west = p.dataset.snapshots.find((s) => s.team.abbreviation === 'DEN')!.team;
@@ -161,6 +184,14 @@ describe('recorded team-season intelligence', () => {
     expect(by.decisive).toMatchObject({ games: 3, wins: 1, losses: 2 });
     expect(by.overtime).toMatchObject({ games: 1, wins: 1 });
     expect(by['month-01']!.games).toBe(11);
+    // Opponents' observed records come from the same agreed games: Boston went 1-4 and Denver
+    // 2-4 against this team, so every verified game here is against a losing team.
+    expect(by['vs-losing']).toMatchObject({ games: 11, wins: 8, losses: 3 });
+    expect(by['vs-winning']).toMatchObject({
+      games: 0,
+      winPercentage: null,
+      smallSample: true,
+    });
     expect(by.all!.pointsFor).toBeCloseTo(
       SCORES.filter((_, i) => i !== 5).reduce((s, [a]) => s + a, 0) / 11,
     );
@@ -205,6 +236,8 @@ describe('genuine recorded 2023-24 team seasons and standings race', () => {
     );
     const race = p.standingsRace({ season: '2023-24' });
     expect(race.teams).toHaveLength(30);
+    const percentages = observedWinPercentages(reconciled());
+    expect(reconciled()).toHaveLength(1219);
     for (const snapshot of p.dataset.snapshots) {
       const season = p.teamSeason({ season: '2023-24', team: snapshot.team.id })!;
       const all = season.splits.find((s) => s.key === 'all')!;
@@ -235,6 +268,13 @@ describe('genuine recorded 2023-24 team seasons and standings race', () => {
         season.games.filter((g) => !g.verified).map((g) => g.id),
       );
       expect(season.opponents.reduce((s, o) => s + o.scheduled, 0)).toBe(82);
+      // Winning + losing opponents cover every verified game except those against .500 teams.
+      const even = season.games.filter(
+        (g) => g.verified && percentages.get(g.opponent.id) === 0.5,
+      ).length;
+      const vsWinning = season.splits.find((s) => s.key === 'vs-winning')!;
+      const vsLosing = season.splits.find((s) => s.key === 'vs-losing')!;
+      expect(vsWinning.games + vsLosing.games + even).toBe(all.games);
     }
   });
 
