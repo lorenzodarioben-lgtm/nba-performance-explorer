@@ -5,6 +5,8 @@ import {
   HypotheticalQuerySchema,
   RecordedTeamComparisonQuerySchema,
   RecordedAnalyticsQuerySchema,
+  RecordedDiscoveryQuerySchema,
+  RecordedCalendarQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
@@ -154,5 +156,53 @@ export function createRecordedRouter(provider: RecordedArchiveProvider | undefin
     return res.json(provider.analytics(q.data));
   });
   router.all('/analytics', methodNotAllowedHandler);
+  router.get('/discovery', (req, res) => {
+    const q = RecordedDiscoveryQuerySchema.safeParse(req.query);
+    if (!q.success)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_DISCOVERY',
+        'Choose different supported axes, qualification and bounded thresholds.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    return res.json(provider.discovery(q.data));
+  });
+  router.all('/discovery', methodNotAllowedHandler);
+  router.get('/calendar', (req, res) => {
+    const q = RecordedCalendarQuerySchema.safeParse(req.query);
+    if (!q.success)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_RECORDED_CALENDAR',
+        'Choose a valid MM-DD calendar label and recorded season/team.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    if (
+      q.data.team &&
+      !provider.dataset.snapshots.some((s) => s.team.id === q.data.team)
+    )
+      return sendApiError(
+        res,
+        404,
+        'TEAM_NOT_FOUND',
+        'Team not found in recorded source.',
+      );
+    return res.json(provider.calendar(q.data));
+  });
+  router.all('/calendar', methodNotAllowedHandler);
   return router;
 }

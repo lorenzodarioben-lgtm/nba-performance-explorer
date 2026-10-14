@@ -1,4 +1,7 @@
 import {
+  RecordedCalendarResponseSchema,
+  type RecordedCalendarQuery,
+  type RecordedDiscoveryQuery,
   RecordedDatasetSchema,
   ArchiveRankingResponseSchema,
   type RecordedDataset,
@@ -16,6 +19,7 @@ import {
   RecordedAnalyticsResponseSchema,
   type RecordedAnalyticsQuery,
 } from '@nba-performance-explorer/contracts';
+import { discoverRecorded } from './recorded-discovery.js';
 import data from './recorded-snapshot.json' with { type: 'json' };
 import { analyzeRecordedPairs } from './recorded-statistics.js';
 type Participant = TeamArchiveResponse['statistics']['regular-season'][number];
@@ -419,6 +423,55 @@ export class RecordedArchiveProvider {
       });
     }
     return { verified, conflictingGameIds, unpairedGameIds };
+  }
+  discovery(q: RecordedDiscoveryQuery) {
+    return discoverRecorded(
+      this.analytics({
+        season: q.season,
+        scope: q.scope,
+        x: q.x,
+        y: q.y,
+        minGames: q.minGames,
+        weightX: 1,
+        weightY: 1,
+        ...(q.target ? { target: q.target } : {}),
+      }),
+      q,
+    );
+  }
+  calendar(q: RecordedCalendarQuery) {
+    const { verified, conflictingGameIds, unpairedGameIds } = this.reconcileGames();
+    return RecordedCalendarResponseSchema.parse({
+      season: q.season,
+      day: q.day,
+      team: q.team ?? null,
+      games: verified
+        .filter(
+          (g) =>
+            g.date.slice(5) === q.day &&
+            (!q.team || g.home.id === q.team || g.away.id === q.team),
+        )
+        .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id)),
+      reconciledGames: verified.length,
+      quarantinedGameIds: [...conflictingGameIds, ...unpairedGameIds],
+      snapshotCreatedAt: this.dataset.createdAt,
+      attributions: this.dataset.snapshots.map((s) => s.attribution),
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'regular-season',
+        coverage:
+          'Calendar lookup within recorded2023-24 regular-season source-agreed finals only. Not a complete all-time archive or daily/live scoreboard.',
+        warnings: [
+          'Month/day is a calendar label, not a converted UTC tipoff. Local today is resolved in browser and frozen in shared links.',
+          'Globally quarantined conflicting/unpaired IDs do not enter these calendar matches.',
+          'Source revisions/CC BY-SA4.0 attribution preserved; no missing scores or unknown games inferred.',
+        ],
+      },
+    });
   }
   records(query: {
     team?: string | undefined;

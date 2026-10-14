@@ -59,3 +59,5 @@ Recorded labs add source-agreed team/head-to-head comparison and strictly hypoth
 Recorded analytics uses only the jointly supported qualified2023-24 identity intersection; same sample denominator for distribution, scatter, correlation, custom ranking and target percentile. Missing targets never imputed. Population incomplete/current/official/era claims remain unavailable.
 
 G now has genuine CC0 partial2018 playoff events from Kaggle Boon P v1. Required IDs/date/type/result/zones/distance/rawcoordinates verified; all13,470 geometry rows pass scale/sign checks and no duplicate compositeIDs. Missing coordinates handled without imputation; current snapshot none. No FT/free-throw/assist/PBP/alltime/live/representative league coverage. Nine G items verified within this scope; G09 still blocked. Source details SHOT_DATA_NOTICE.md.
+
+K recorded discovery expands from selected2-4 seasons to qualified2023-24 common source pool; transparent categorythresholds withGP qualifiers. Calendar history uses1219 source-agreed finals and11globalquarantines, no all-time/daily/live archive claim. L04presets already implemented via verifiedsavedleaderboardURLs; ledgercorrected.

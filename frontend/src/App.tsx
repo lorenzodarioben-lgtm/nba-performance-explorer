@@ -96,6 +96,16 @@ const ShotArchivePage = lazy(() =>
     default: m.ShotArchivePage,
   })),
 );
+const RecordedDiscoveryPage = lazy(() =>
+  import('./features/recorded-discovery/RecordedDiscoveryPage').then((m) => ({
+    default: m.RecordedDiscoveryPage,
+  })),
+);
+const RecordedCalendarPage = lazy(() =>
+  import('./features/recorded-discovery/RecordedCalendarPage').then((m) => ({
+    default: m.RecordedCalendarPage,
+  })),
+);
 
 export function App() {
   // Every route is now a dark experience (landing, player profile, and comparison). The masthead is
@@ -105,6 +115,34 @@ export function App() {
       <AppHeader />
       <div className="flex-1">
         <Routes>
+          <Route
+            path="/discover/recorded"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading recorded discovery…
+                  </p>
+                }
+              >
+                <RecordedDiscoveryPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/history/calendar"
+            element={
+              <Suspense
+                fallback={
+                  <p className="pt-24 text-white" role="status">
+                    Loading calendar games…
+                  </p>
+                }
+              >
+                <RecordedCalendarPage />
+              </Suspense>
+            }
+          />
           <Route
             path="/lab/shots"
             element={

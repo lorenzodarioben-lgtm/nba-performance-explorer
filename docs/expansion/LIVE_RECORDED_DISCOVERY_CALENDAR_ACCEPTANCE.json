@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-10-14T08:34:10.195050+00:00",
+  "status": "PASS",
+  "environment": "local-genuine-recorded-source",
+  "productionHostTested": false,
+  "runtimeUpstreamRequests": 0,
+  "requests": 7,
+  "commonQualifiedPool": 363,
+  "closestObservedPeer": "De'Aaron Fox",
+  "closestDistance": 0.049376,
+  "thresholdQualifiedPool": 293,
+  "thresholdMatches": 12,
+  "missingTargetWithheld": true,
+  "leapDayGames": 7,
+  "allCalendarMatchesSourceAgreed": true,
+  "globalQuarantinedIds": 11,
+  "emptyCalendarPreserved": true,
+  "directSpaRefreshes": 2
+}
