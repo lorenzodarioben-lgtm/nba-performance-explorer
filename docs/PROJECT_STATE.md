@@ -400,3 +400,7 @@ Follow HANDOFF.md: expose a reported-career summary and explicit minimum-games
 peak-season selection from the validated raw record cache; test missing coverage
 and ties. Resolve rights/host access for league/game sources independently.
 Do not treat the preserved previous production history as this branch's live status.
+
+## Final Shot 1 closeout scope (2026-10-14)
+
+Feature expansion is closed. The historical team ranking/split continuation is completed with guarded source agreement, native metadata and source attribution. Broad new feeds remain blocked; they are not part of Claude design implementation. The current audited ledger uses VERIFIED/PARTIAL/BLOCKED/DEFERRED, superseding older milestone vocabulary. Cloud handoff is self-contained in DESIGN_HANDOFF_FOR_CLAUDE.md and API_CATALOG.md; previous restart notes are archived separately. Supervised design can begin on the working foundation without claiming all134features or production readiness.

@@ -1,8 +1,6 @@
 # Architecture — NBA Performance Explorer
 
-> Status: Initial development. This describes the intended architecture. Most of it is not
-> implemented yet. Contributors must read this before making structural changes and must
-> not violate the boundaries described here.
+> Current engine state: Shot 1 is closed on the unmerged development branch. The functional architecture and complete route/data/styling inventory are documented in [the Claude handoff](expansion/DESIGN_HANDOFF_FOR_CLAUDE.md). Historical architecture sections below remain as context; they are not a claim that the implemented app is still an initial scaffold.
 
 ## Overview
 

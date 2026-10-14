@@ -2,354 +2,92 @@
 
 ## Snapshot timestamp / branch / HEAD / base commit
 
-2026-10-14 Australia/Sydney. Branch `codex/nba-explorer-2-engine`.
-Implementation HEAD at snapshot: `a20fcf23ec81f59ef758ec91e131f99f07d71dc0`.
-Base: `cd557e4d3cf75e44f930ba75de4ea149a80ccdda`.
-Resumed after documentation checkpoint `9746df3` on 2026-10-14. Read
-`git rev-parse HEAD` and `git status --short --branch` on resume.
-NOT DEPLOYED / NOT MERGED / NOT PUSHED.
+Closeout completed on 2026-10-15 Australia/Sydney. Branch `codex/nba-explorer-2-engine`. Validated engine HEAD: `2561a17a2700b6f14fbed2cac727acfac1b09fdd`; the final documentation commit follows that checkpoint. Resolve the actual checkout HEAD with `git rev-parse HEAD`; the delivery report gives the final documentation SHA. Protected baseline: `cd557e4d3cf75e44f930ba75de4ea149a80ccdda`.
 
 ## Working tree and pending changes
 
-ACTIVE IMPLEMENTATION. Previous execution stopped voluntarily after checkpoints;
-there was no recorded execution limit or technical blocker requiring that stop.
-Career raw totals, qualified peak selection, milestone tracker, season timeline,
-and multi-player career curves are being implemented from the verified checkpoint.
-Career checkpoint passed full 577-test validation and six genuine local API/SPA
-reads (LIVE_CAREER_ACCEPTANCE.json). Pending checkpoint files include career
-implementation, deterministic tests, two opt-in smoke/probe scripts and docs.
-After this slice, continue raw game shooting, postseason modes, discovery and
-opt-in local recent history. Checkpoints are not stopping conditions.
+All engineering changes are committed. Final documentation and audit evidence are the only changes being sealed by the closeout commit; no unfinished feature implementation remains. Confirm `git status --short` on receipt: the final delivery checks it after committing. Ignored local validation logs are not required for Cloud. No reset, discarded source work, stash, merge, push or deployment was performed.
 
 ## Goal and non-negotiable constraints
 
-Execute the fully read 1,107-line Shot 1 brief as engineering, not redesign.
-Preserve original visuals/provider/history/credentials; zero mandatory costs;
-real provenance or honest missing states; never merge main or deploy unapproved.
-No applicable AGENTS.md found, including a final hidden-file search.
-Overall WORKING_BUT_INCOMPLETE. Full platform design readiness NO; supported
-insights/comparison/analytics/preferences are reviewable for a targeted design pass.
+Shot 1 feature expansion is officially closed. This is the stable foundation for Claude Code Cloud Sessions to design and implement approved Shot 2 frontend work through GitHub. Do not resume old expansion instructions in the archived journal/master specification. Preserve source contracts, calculations, qualification, missingness, provider boundaries and attribution. No invented statistics, required paid services, restriction bypass or unapproved production action. Original visuals remain protected until the owner approves specific Shot 2 changes.
 
 ## Verified baseline and last validation results
 
-Node v22.19.0 / npm 10.9.3. Initial clean main, baseline full 434 tests passed.
-Sandbox `npm ci` failed (`Exit handler never called!`); authorized retry passed
-461 packages. Sandbox Vitest failed before collection on temporary-file EPERM;
-identical validation outside sandbox passed. Use permitted elevated execution
-when that Windows sandbox limitation recurs; never weaken tests/config.
+`npm run validate` PASS after the final SVG repair: 737 tests, comprising 324 frontend tests in47files and413backend tests in41files; all formatting, lint, typechecks and production builds pass. Original434tests remain. No tests were removed or timeouts weakened. Frontend two-worker cap remains; the new team test preloads its subject before assertion timers to avoid cold module compilation affecting UI timing.
 
-Latest complete source gate before final ID/scope guards: 247 frontend + 319
-backend = 566 passing, format/lint/strict types/builds pass. Final guards then
-passed typecheck and 66 research-focused backend tests. Final combined gate passed
-247 frontend + 320 backend = 567, recorded below and in VERIFICATION_LOG.md.
-Known existing Vite/Recharts chunk warning remains non-blocking.
+Genuine local evidence: `npm run smoke:engine` PASS16reads; `npm run smoke:closeout -- --write-report` PASS87reads (46contractAPIs,36SPArefreshes,5invalid/methodcases), realCSVcontent and exact source/dist asset hashes. Genuine shotSVG metadata/XML-reopen PASS. All35registered route templates plus home rendered in bounded browser checks. Reports are committed under `docs/expansion/CLOSEOUT_*`.
 
 ## Completed commits and shipped-on-branch vertical slices
 
-- `5886ea0`: audited baseline, source rights and initial execution records.
-- `361299a`: source-aware explorer/insights/2–4 player comparison; full 497 tests.
-- `81a815c`: My NBA and MIT sourced 30-team identity directory; full 529 tests.
-- `a20fcf2`: separate raw shooting/efficiency provider, selected-cohort analytics,
-  source budget, safe export size and identity/filter/URL hardening; genuine local
-  source/API/browser evidence, full 566 before final guard/focused validation.
+All historical branch checkpoints remain intact. Last prior checkpoint5810907 delivered common-cohort profiles. Closeout commits:
 
-New routes: `/explore`, `/teams`, `/teams/:teamId`, `/players/:playerId/insights`,
-`/lab/compare`, `/lab/analytics`, `/my-nba`. Seven new GET patterns documented
-in docs/expansion/API_CATALOG.md. All non-sensitive local/provider inputs bounded.
+- `121d4baf683e2286a9400bf0ae0d92a27db61853`: finished historical team rankings/splits, source-backed conference facts, source capability reporting, tests and bounded genuine acceptance harness.
+- `2561a17a2700b6f14fbed2cac727acfac1b09fdd`: fixed invalid SVG duplicate namespace declarations and strengthened XML-reopen tests/evidence.
+- Final documentation commit: this handoff, complete Claude inventory/setup, source notices, release notes, accurate134-item ledger and preserved archives. Its SHA is resolved from Git and reported at delivery.
+
+Working modules include explorer; player rolling/split/raw/career/shooting research; selected/career/normalized comparisons; historical teams/results; playoff games/quarters; standings/leaders/recorded rankings; historical facts/awards/draft/records/calendar/progression; genuine shot maps/density/shooting tables; research lineup time/PM; discovery; local favorites/named links/preferences/recent history. Every route/control/source limit is listed in DESIGN_HANDOFF_FOR_CLAUDE.md; all public APIs in API_CATALOG.md.
 
 ## Current milestone and exact in-progress task
 
-Stable supported engine slices implemented and source-verified locally. Final
-source/docs full gate PASS (567); closing documentation checkpoint and handoff.
-No claim that fan games, roster/schedule, standings, league populations, full
-history, shots, lineup or discovery modules meet minimums. Conditional source
-gates do not count as delivered features.
+Engineering closeout is complete. There is no next feature implementation. Publish only the completed development branch **after explicit owner approval and watched-branch review**, then let Claude inspect the repository and propose supervised Shot 2 design. Production release is a later, separately authorized audit.
 
 ## Feature ledger summary (counts by status)
 
-134 desired feature IDs: DONE_VERIFIED 28, PARTIAL 7, DATA_BLOCKED 83,
-DEFERRED_BY_PRIORITY 16. Other categories 0. Partial/blocked total 90.
-Definitions and feature-scoped limitations in FEATURE_LEDGER.md.
-B/F/L supported minimums pass; H calculation/scatter/table/ranking/URL minimum
-passes ONLY for explicit selected 2–4 player-seasons, not league analysis.
-A/C/D/E/I/J/K minimums absent; G honest gated coverage. B01/B04/B08/B10 are
-partial rather than pretending all raw/defensive/weighted/career fields shipped.
+Exactly134requirements: **77VERIFIED,41PARTIAL,14BLOCKED,2DEFERRED**. All master IDs match one-for-one; machine-readablecounts in CLOSEOUT_FEATURE_COUNTS.json. Six earlier verified claims were reduced (A10,B10,B13,C08,F10,H11). Upcoming/current league capabilities A05/A08 are blocked. I06 historical franchise mapping is deferred because a permitted candidate exists but was not integrated; L10 motion preference is deferred. Verified means the complete behavior within its stated supported scope, not comprehensive/current/all-time NBA coverage.
+
+SHOT_1_ENGINE_STATUS=WORKING_BUT_INCOMPLETE. READY_FOR_CLAUDE_DESIGN=YES for supervised work on the stable existing engine; this does not certify all module minimums or production readiness. D full match center and E current/full league remain incomplete; broader historical/lineup/era scopes remain limited.
 
 ## Data sources (verified, conditional, blocked, rejected)
 
-Existing FOUR named NBA endpoints passed 12 bounded local checks, 288–1,932ms:
-Curry search 7/profile 1/career 17, 2023-24 games 74; LeBron career 23 (previously
-empty, now nonempty); Wembanyama 3, Jordan 15, Doncic 8; profiles 1 each.
-Totals parameter mode passed two probes (Curry 17 raw rows, Doncic 10 with traded
-splits), 466/327ms. Actual raw adapter/TS/eFG input and GP/identity reconciliation
-then passed live engine acceptance for three player-seasons. No new endpoint
-family or raw traffic archive. Use remains conditional under accepted ADR-013.
-
-MIT nba_api directory contains 30 static identity facts with license notice, not
-NBA statistics, rosters, imagery or historical aliases. ESPN extraction rejected
-by published terms; broader NBA/CDN/league/archive rights not cleared, connectivity
-NOT_TESTED for those candidates. Render expansion host access NOT_TESTED.
-No pricing/billing/API key requirement, proxies, cookie harvesting or evasion.
+- Existing NBA.com four endpoint families preserved; genuine local engine flows passed. Network availability, empty rows, broad source rights and actual Render/Cloud access remain conditional.
+- Wikipedia CC BY-SA4.0: fixed2023-24league/team tables,2024playoff finals,2023draft; exact revisions/contributors/licence/adaptation notices. Wiki client uses33allowedtitles,10s/2MB/24hboundedcache/Retry-After, no retries.
+- WikidataCC0: historical season/champion facts and exact article/NBA-ID enrichment; missing facts/modern franchise labels remain explicit, no fuzzy mapping.
+- Genuine recorded2023-24archive:30sources,639regularrows/29scopedteams,18Chicago unknown-scope rows;1219agreedfinals/nineconflicts/twounpaired quarantines; common363GP20defaultcohort, not complete league.
+- BoonP/KaggleCC0:13,470attempts/6143makes/203players/16teams/80games, partial2018playoffs. Original CSV/hash, geometry and licensing preserved.
+- ArnaudOdet/DataverseEtalab2 author-derived2017-18research:13,867groups/1229games/540nativeBRIDs; one missing-period game/two exclusive groups quarantined. No rawPBP/code/pickle reuse, guessed NBA IDs or possession ratings.
+- Broad NBA/CDN/ESPN/PBP routes remain rights/input blocked. MIT libraries do not license upstream datasets. No automatic fixture substitution, evasion, paid database or scheduler.
 
 ## Architecture and important decisions (with file pointers)
 
-Original PlayerProvider/visual trees/public contracts untouched. New separate
-SeasonTotalsProvider, TeamDirectoryProvider, strict research/raw/cohort/preference
-contracts and pure backend math. Same-origin browser API. Three shared concurrent
-source jobs, sequential capped 2–4 selections, no queue/retries or fixture fallback.
-Legacy 500-entry process LRU; raw 100-entry cache (6h nonempty, 1m empty), unique
-traded aggregate. Raw input nulls/zero denominators preserved. Legacy retrieval
-unknown, raw retrieval actual, published asOf unknown, isLive false.
-
-My NBA: local-only version 1 JSON, max 100 bookmarks AND 100k serialized characters,
-safe implemented URLs, rejects unsafe/prototype keys, merge imports, explicit clear,
-session fallback/corruption recovery. No accounts, server writes or telemetry.
-New UI lazy, plain and scoped. No statistical bulk export. ADR-024 records scope.
+App.tsx registers additive lazy routes; original render trees/assets/provider remain unchanged. ResearchShell/research.module.css provide separate scoped UI. Shared Zod contracts in packages/contracts validate boundaries. Backend app/server compose independent optional providers; research services own raw math/source budget; recorded providers reuse immutable data and paired-game reconciliation. Frontend math helpers remain outside visual rendering. Local My NBA uses versioned internal URLs, strict caps, session recovery and separate opt-in recent key. Full architecture/styling/component inventory and data invariants are in the Claude handoff; operational details in OPERATIONS.md.
 
 ## Files changed in current work session
 
-Contracts and index exports; new backend research/math/source-budget/teams/scripts;
-new frontend explorer/player-insights/comparison-lab/analytics-lab/my-nba/teams/
-research and tests; additive App.tsx routes; app/server composition; package scripts;
-README and factual engineering docs. No dependency additions or lockfile changes.
-Use `git diff cd557e4 --name-only` for the full exact list.
+Interrupted team feature contracts/provider/router/UI/tests and source conference JSON; app capability plumbing/explorer text; SVG export helper/regression; opt-in smoke-closeout.ts/root script; final genuine/browser/export/count reports. Documentation: rootHANDOFF, README, architecture/state/decisions, all essential expansion audit/catalog/calculation/source/operations/design/release/verification documents. Original journal preserved in SHOT1_EXECUTION_JOURNAL.md and original specification in SHOT_1_MASTER_SPEC.md, explicitly marked archival/superseded.
 
 ## Tests and exact commands/results
 
-- `npm ci --no-audit --no-fund`: passed (461 packages, outside sandbox).
-- `npm run validate`: baseline 434; insights 480; comparison 497; My NBA/teams 529;
-  raw/cohort 564; URL/sample hardening 566. All executed and passed.
-- `npm run typecheck`: final identity guards passed.
-- `npm run test --workspace backend -- src/features/research`: final focused 66 pass.
-- Focused raw/analytics UI suite 12 pass; My NBA 22 pass; team route 8/UI 3 pass.
-- `npm run smoke:free-sources`: 12 existing-source checks pass, no retries.
-- `npx tsx backend/src/scripts/probe-season-totals.ts`: 2 numeric-field probes pass.
-- `npm run smoke:engine`: 16 genuine local API/SPA checks PASS; report JSON recorded.
-- `git diff --check`: passing at checkpoints; protected path diff empty.
-- Final all-work gate: `npm run validate` PASS, 247 frontend + 320 backend = 567; format/lint/strict typechecks/all production builds passed. No lint warnings; known Vite/Recharts warning remains.
+- `npm run validate`: final PASS737, including final SVG namespace regression.
+- `npm run smoke:engine`: PASS16genuine local reads and raw formula/rolling/comparison checks.
+- `npm run smoke:closeout -- --write-report`: PASS87bounded genuine API/SPA/error/hash/CSVchecks after the production build.
+- Focused team suites:4backend/3frontend cases PASS; source capability regression included in21-case suite PASS; shot UI/export suite5cases PASS.
+- Literal Node ESM/jsdom genuine SVG check:261Curryfilteredattempts/hash/licence metadata and validXML PASS; no browser download wait.
+- `git diff --check`: PASS.134uniqueledger IDs match archivedspec exactly; documentation links checked. Protected paths have no diff againstcd557e4.
+- Local production config starts with NBA genuine provider, fixtures forbidden and builtSPA; actual host/remoteCI not tested or deployed.
 
 ## Known bugs, security concerns and reliability limitations
 
-No confirmed critical current-bundle defect. Upstream can return empty/blocked/
-timed-out or revised data. Earlier missing LeBron career was nonempty this session,
-not proof that the condition is fixed permanently. Broader source rights and Render
-access unresolved. Weighted game shooting splits, complete careers/peak/trends,
-playoffs/birthdates remain follow-ups; league-only/possession metrics unsupported.
+No confirmed unresolved critical calculation, route or export bug after closeout. Genuine checks found and repaired team frontend query mismatch and duplicateSVGxmlns. A few ad-hoc harness/selector/quoting mistakes were corrected without weakening application checks, and are recorded in VERIFICATION_LOG.md.
 
-Static rebuild while a browser tab held old lazy hashes caused a missing-chunk
-error; existing boundary Reload recovered. This local rebuild/cache rollover is a
-Shot 3 operational test, not a passing pixel regression. Refresh after builds.
-Original header home anchors/static footer branding are frozen; local new-page
-navigation and prominent real/fixture source labels supply current context.
-QA created four bookmarks only at local origin localhost:3002; no cloud changes.
-Temporary QA server stopped after verification; no listener remains on port 3002.
+Release risks: production-host/Cloud egress, cold starts and memory remain unverified; local server working set128.7MB after genuine flows is not cloud certification. Original shared/Recharts646KBchunk warning remains. No public rate limiter or durable server cache added. Immutable integrity-checked asset corruption intentionally prevents startup. Historical cohorts are incomplete, not live/official; research lineups are reconstructed and lack possessions/on-off. Original masthead anchors/footer/metadata retain static live branding and need approved design integration. No same-fixture pixel equality test.
 
 ## Protected original UI baseline and visual check status
 
-Base cd557e4. No diff to AppHeader/AppFooter/AppRoot/styles.css, legacy feature trees,
-metadata, images/fonts, player-image map, docs/assets, render.yaml or lockfile.
-App.tsx only adds lazy route elements/imports. Original 190/244 tests retained/pass.
-Browser legacy home/search/profile/season and compare refresh inspected at 664x704;
-new insights same viewport, analytics 390x844 no outer overflow, named table
-keyboard-scrolled 39.5px with three exact rows matching plotted points.
-Native screenshots in chat only; no new files or matched-fixture before/after
-pixel diffs. ORIGINAL_VISUAL_DESIGN=unchanged_diff_only.
+Original protected frontend files/assets/metadata/screenshots, originalbackendplayers andrender.yaml diff is empty againstcd557e4. Original tests remain. Actual original home/profile/compare and all expansion templates rendered at390x844; document375px/controlsfit/tablecontainersscroll. Default desktop width1280/document1265 tested for final team navigation. Viewport reset. ORIGINAL_VISUAL_DESIGN=unchanged_diff_only; no pixel-equality claim or redesigned baseline.
 
 ## Next task queue (ordered)
 
-1. Reported-career summary/explicit min-games peak selection from existing validated
-   raw-record cache, with missing-coverage labels; B09/F07, no rounded extrapolation.
-2. Multiple career trend lines/tables using existing career data; no league fiction.
-3. Probe/validate extended game-attempt fields within existing endpoint and add
-   weighted home-away/W-L shooting splits without changing legacy contracts.
-4. Obtain suitable free usage-rights-cleared game/roster/league sources and separately
-   validate the actual intended host before building A/C/D/E fan/league foundations.
-5. Conditional historical/shot/lineup/discovery and optional preferences, then
-   supervised Shot 2 visuals and Shot 3 hardening. No automatic merge/deploy.
+1. Owner confirms Render watchedbranch will not auto-deploy the developmentbranch, approves publication and executes the explicit safe branch commands in OPERATIONS.md.
+2. Review GitHub CI, grant Claude Cloud repository/branch access; start a separate Shot2branch.
+3. Claude reads this file and DESIGN_HANDOFF_FOR_CLAUDE.md, runs validation, inspects real supported pages and proposes designs for human approval.
+4. Implement only approvedfrontendwork, preserving engine contracts/math/source/coverage and protected originals until specific approval.
+5. Separately authorize future production release validation. Do not restart deferred source expansion during design.
 
-## Single NEXT ACTION (one exact command or file/task to open)
+## Single NEXT ACTION
 
-Continue separate postseason raw totals and extended individual game analysis
-from the verified 10-row/13-game local probes. Preserve regular-only legacy
-contracts. Add weighted shooting splits/rolling/thresholds with missingness tests.
+Review `docs/expansion/DESIGN_HANDOFF_FOR_CLAUDE.md`, then approve development-branch publication only after confirming Render’s watchedbranch. No push command has been executed.
 
 ## Continuation prompt for a new Codex session
 
-CONTINUE FROM HERE: Read HANDOFF, ledger, source audit, calculations, API catalog
-and latest verification; inspect Git and confirm the actual branch/HEAD/tree.
-Resume NEXT ACTION, continue complete verified slices, preserve the original site,
-never fabricate or extrapolate unavailable NBA facts, incur mandatory costs,
-assume broader permissions, silently enable fixtures, merge main or deploy.
-
-## Resumed verified checkpoint (supersedes earlier snapshot)
-
-577-test full gate passed; six local genuine career reads PASS for Curry, LeBron,
-Jordan, career comparison and SPA refreshes. Career source is existing Totals
-mode only; scope remains reported regular seasons, never verified complete career.
-Checkpoint commit follows this document. Continue postseason/game/discovery/local
-history implementation; do not stop after this checkpoint.
-
-## Latest verified checkpoint — raw games and postseason
-
-Full591 tests pass; genuine six-read local acceptance and mobile keyboard QA pass.
-Source/game/career scopes explicitly separate; protected original files unchanged.
-See LIVE_GAME_RESEARCH_ACCEPTANCE.json and verification log. Checkpoint commit
-follows. Continue immediately: CC0 Wikidata historical season navigator, then
-selected-cohort similarity/discovery, opt-in recent history and hypothetical groups.
-A free Wikidata candidate passed two bounded probes (84 rows, six summer labels
-excluded, modern franchise labels and six missing champions require warnings).
-Temporary genuine server session74364 is running at localhost3002; QA tab2 exists
-in the in-app browser. Restart/reload after builds. Do not push/merge/deploy.
-
-## Latest checkpoint — CC0 history (supersedes earlier queue)
-
-Full602 tests pass; genuine5-read local history acceptance PASS (78 season
-entities,6 missing winners). History/champion source is CC0 Wikidata, not official
-NBA archive; label/coverage/cap/rate-limit safeguards are implemented. Raw-game
-minSample qualification implemented and verified. Local server session32247 is
-running on3002; in-app QA tab2 remains. Do not merge/push/deploy.
-NEXT ACTION: implement DOB-based age-at-October1 curves and reported team stints
-using existing profile/career families (two DOB probes passed20:10:42–43Z), then
-selected-pool discovery, opt-in local recent history and hypothetical five-man
-identity groups. Continue beyond checkpoints. Broad game/league feeds remain
-rights-gated; CC0 alternative now unlocks narrow history without mandatory cost.
-
-History inventory precision: I01 navigator is delivered; I05 year/decade filters, I08 championship facts and I11 fact-coverage views are partial. I02 statistical leaders, I03 statistical record book, I09 record progression and I10 era normalization are not delivered by the champion source. Those gates remain unavailable.
-
-## Exact resumed state (supersedes older NEXT ACTION entries)
-
-HEAD4135c4a verified age/stints/local consent. Full gate614 tests passed (264+350),
-all other gates/builds passed. Live age/stints3-read acceptance PASS. Human
-confirmed account usage limit, now restored; no pending source was discarded.
-Current work: licensed Wikimedia season/playoff snapshot source. Two official
-API probes passed for2023-24 season (revision1347383197,609k HTML) and2024
-playoffs (revision1376206465,753k HTML). MIT parse5@8 runtime dependency added;
-package/lockfile changes pending. Licensing requires source/contributor links,
-CC BY-SA4.0 adaptation notice and no media reuse. Original NBA provider unchanged.
-NEXT ACTION: implement bounded Wikimedia client + standings/category leaders
-then recorded-playoff scoreboard/detail/team schedule. Do not stop at checkpoints.
-Temporary local server session52234 on3002; restart after builds.
-
-## Active checkpoint: licensed historical league/game archive
-
-HEAD4135c4a; unfinished source work preserved. Historical source/parser/API/UI now implemented; focused7 backend+10 frontend tests pass, typechecks pass. New parse5@8 production dependency with lockfile is intentional. Full gate pending; first attempt stopped at formatting of existing pending docs and regenerable hook cache, now excluded. Finish full validation, genuine10-read archive smoke and browser QA; checkpoint and continue selected-pool discovery/advanced analysis and remaining team/shooting slices. Wikipedia30 standings/27 published leaders/82 playoff finals normalize successfully; no official full box score/roster/live claim. Source notices in WIKIPEDIA_DATA_NOTICE.md.
-
-## Verified archive checkpoint; continue immediately
-
-Full628 gate PASS (271 frontend+357 backend), genuine10-read LIVE_WIKI_ARCHIVE_ACCEPTANCE.json PASS. 30 standings/27 published leader entries/82 playoff finals/3OT,4SPArefreshes. New provider licensed CC BY-SA4.0, exact attribution, parse5 MIT; original NBA provider and original visual paths unchanged. Temporary genuine server session44411 localhost3002; QA tab2. Checkpoint commit follows browser QA. Do not stop: next selected-season similarity/discovery and historical team roster/schedule integration. Cached genuine Lakers candidate at OS temp nba-team-source-DrTdmP/lakers.json; exact Wiki/Wikidata roster query maps17/18 IDs, leave missing identity null. No roster/current/full-box-score claims until tested.
-
-Browser QA: genuine scoreboard date2024-04-21 showed4 finals and actual game-ID navigation; game detail displayed venue/timezone warning,4 reconciled quarters and published tied leaders. Phone390x844 standings table stayed within335px container (600px content), keyboard ArrowRight scrolled it; no page overflow. Screenshot emitted in chat; viewport reset. No saved pixel-comparison claim.
-
-## Discovery verified checkpoint (continue)
-
-Full634 tests PASS; source2-read local LIVE_DISCOVERY_ACCEPTANCE.json PASS. `/discover` transparent selected2–4-season similarity and random qualifying targets; no new backend source or league/era claims. Checkpoint commit follows. NEXT: historical team roster/regular-results/scoped leader tables using licensed source and exact-article Wikidata identity mappings; source candidate cached in nba-team-source-DrTdmP/lakers.json. Then hypothetical five-man identity groups and additional raw shooting analysis. Do not stop at checkpoints. Local server44411/QA tab2 remains; frontend dist refreshed.
-
-## Active unfinished team checkpoint
-
-HEAD d0cdf7c, preserve all current changes. Historical team provider/API/UI implemented, source rosters/results structurally verified30/30 using cached genuine public pages. Every team82 reconciled regular finals;29 regular participant tables639 rows; Chicago18 unknown-scope rows kept separate. Exact-ID mapping LAL18/18,BOS17/17 live provider checks pass. Raw-total layouts preserve actual MIN/REB/AST/STL/BLK/PTS; percentages remain nullable where absent, no attempt inference. Full gate now pending; first latest attempt stopped at roster-identities.ts formatting only. Next: format/check full gate, genuine local team API/SPA acceptance, browser QA, ledger/checkpoint; continue team-vs-team/head-to-head, hypothetical groups, shooting/leaderboard work. Temp source diagnostics nba-team-compatibility-vYYFsa/ and nba-team-verification-dY1MGm/ contain actual unshipped pages. Local server44411 needs restart after build. No merge/push/deploy.
-
-## Team verified checkpoint; continue
-
-Full643 gate and4-read live historical team acceptance PASS; browser scope/venue/known-ID controls verified. All30 source pages structurally pass,29 regular stat tables639 rows;18 Chicago source-unspecified rows remain separate. Checkpoint commit follows. Server53196 on3002, QA tab2. Continue immediately: stronger shooting analysis from already verified raw totals, team comparison/head-to-head, hypothetical5-man groups, and source-backed historical record/leaderboard cohort. A genuine licensed recorded snapshot can support bounded historical records without live source fanout; distinguish it explicitly from fixtures and preserve attribution. No original visual/provider changes, merge/push/deploy.
-
-## Shooting verified checkpoint; continue
-
-Full648 gate,3-read genuine scoped shooting acceptance PASS. Dedicated raw-type counts page preserves unavailable coordinate/zone statements; no G map completion claim. Checkpoint commit follows. Server53196 remains; only static frontend changed since restart. New genuine historical dataset candidate prepared in OS temp nba-genuine-historical-snapshot-gmfenm/snapshot.json:30 source team records,639 regular participant rows,575 distinct articles,566 exact Wikidata entities in10 bounded serial queries; some NBA IDs remain missing. This is genuine licensed recorded historical data, not a fixture or live fallback. Next implement explicit snapshot-backed historical records/leaderboard cohort with coverage/trade exclusions and source attribution; then team/head-to-head comparison and hypothetical groups. No merge/push/deploy.
-
-## Recorded dataset verified checkpoint (continue)
-
-HEAD637b567; recorded archive pending checkpoint after docs/ledger. Full658 gate and6-read local genuine recorded acceptance PASS; source dataset included in backend build with zero runtime upstream requests.30 source revisions,639 regular rows/29 explicitly scoped teams,18 unknown Chicago rows,575 exact articles/566 mapped entities; default GP20 ranking363 players with17 ID rows/59 metric exclusions. Records quarantine9 conflicts/2 unpaired,1219 source-agreed regular games. Every data view/export preserves CC BY-SA4.0 attribution and CC0 ID evidence; no live fallback, NBA provider/design unchanged. Server82332 on3002, QA tab2. NEXT: team-vs-team/head-to-head and hypothetical5-man identities using the recorded dataset, then source-cohort analytics/discovery refinements. Do not stop at checkpoints or merge/push/deploy.
-
-Recorded CSV export is verified; browser download-wait API took7.7h unexpectedly, eventually succeeded. Actual reason unknown, so use API/CLI checks and avoid waiting on browser downloads. Repository state preserved; server82332/QA tab2 remain. Continue after checkpoint, not a voluntary stopping condition.
-
-## Active recorded labs milestone
-
-HEAD714ea33 verified658-test recorded archive. Current uncommitted team/head-to-head and hypothetical5-player API/contracts/plain UI implemented. Four backend and3frontend focused cases pass; types pass; full gate session started (665 expected total). Reconciliation helper shared with record book, directory carries30 source credits, group output kind=hypothetical/observedLineup=false/jointPerformance=null. Individual missing raw points staynull. Validate, restart local server, bounded genuine lab acceptance and ledger/checkpoint; then continue dataset analytics/discovery, source integrity/reproducible builder and remaining realistically implementable scope. No original design/provider changes or paid source. Avoid browser download waits (prior7.7h delay); CLI/API checks work.
-
-## Recorded labs verified checkpoint; continue
-
-Full665 gate,5 genuine local lab acceptance reads and actual browser five-member summaries PASS. 564 source identities/30 teams, independent LAL stats with missing raw totals/nulljoint performance; source-agreed LAL/BOS2meetings, observedGP82/81 after globalquarantine11. Checkpoint follows. Server33245 on3002, QA tab2. NEXT: reproducible recorded-source builder, histogram/scatter/correlation over the declared snapshot cohort, broader genuine discovery and bounded history refinements. Keep original visuals/provider, $0 constraint, source rights/coverage, no merge/push/deploy. Checkpoint is not a stopping condition.
-
-## Active recorded analytics/source updater milestone
-
-HEADca2b55b. Uncommitted opt-in source builder (help path verified without new data reads) plus `/api/recorded/analytics` and `/lab/recorded` implemented. Common jointly supported cohort, population SD/z-scores, interpolated quantiles, conservative histograms, equivalent scatter/table, empirical percentile target, descriptive Pearson>=3/nonconstant, weighted6-decimal tie ranking. Four backend+3frontend focused cases pass; types pass. Full gate running (672 expected). Source builder never startup/CI/fallback; fixed30 pages+max20 serial CC0 queries, no retry, optionalwrite only after unchanged dataset check. Preserve pending work; validate, genuine local analytics smoke, docs/ledger/checkpoint then continue remaining scope. Server33245 needs restart after backend rebuild; QA tab2. No merge/push/deploy.
-
-## Recorded analytics verified checkpoint; continue
-
-Full672 gate PASS(295 frontend/38files+377 backend/32files); unchanged two-worker cap stable. Four genuine local API/SPA reads PASS, common363 GP20 pairs; Curry26.4PTS, histogram conservation, excluded target withheld, negative weights change ranking, descriptive r0.6034018697. Source builder help verified; no automatic reads/write/fallback. Temporary genuine server83650 on3002. New source candidate verified via normal public Kaggle metadata/download: Boon P NBA Playoff Shots2018 v1, CC0,13,470 authentic rows/203 players/16teams/80games,2018-04-14 through06-03 (incomplete playoffs). Raw X[-244,248],Y[-32,720], includes long heaves; do not assume coordinate units/orientation or complete season. CSV SHA2561e97afe9574d133e3f2e5db20130604605c10a6763b0516a58051aab78274cf6, temporary nba-shot-source-2u_ucqxf. NEXT implement strict recorded shot-event provider/filters/source zones/raw-coordinate plot, preserving all data and honest coverage; continue beyond checkpoint. No merge/push/deploy.
-
-## Active authentic shot milestone
-
-HEAD8a48327. New CC0 recorded shot archive/protected byte-preserved CSV, strict parser/provider/API, event/density/zone/comparison filters and plain `/lab/shots` UI implemented. Source rows13,470/80 games/203players; all radial distances reconcile at10units/foot, corner signs pass, no duplicateIDs. Six genuine backend +four UI focused tests PASS; strict types PASS. CSV/SVG exports added, tests/full gate pending. Source is explicit partial2018 playoffs, never fixture/live fallback. Keep all unfinished changes; finish export tests/gate, genuine local API/browser/mobile acceptance, docs/ledger/checkpoint then CONTINUE discovery/history/independent scopes. Current local server83650 old672 build on3002; restart after build.
-
-## Authentic shot verified checkpoint; continue
-
-Full683 gate PASS twice, including final mobile fix (300frontend/39files+383backend/33files). Genuine6-read LIVE_SHOT_ARCHIVE_ACCEPTANCE.json PASS:13,470actual CC0 attempts,6,143makes,80games/203players/16teams; Curry261attempts122makes. Hash byte-identical in builtCSV; all-row radial scale/corner signs, zero duplicateIDs. Browser100marks100rows; density/comparison functional;390px mobile page/controls fit after scoped label/wrap fix. No global/protected design/provider changes.9G items verified only within partial2018 playoffs;G09 representativeleague blocked. NEXT immediately implement recorded discovery/transparent threshold insights and calendar on-this-day from existing reconciled2023-24 games; then historical awards archive using licensed fixedWiki season page. Source candidate existing cachedseason has explicit yearly award winner/finalist table. Server95384 on3002;QA tab2. No merge/push/deploy, checkpoints do not end task.
-
-## Active recorded discovery/calendar milestone
-
-HEADf5ad363 verified683 authentic-shot checkpoint. Uncommitted `/api/recorded/discovery`, `/discover/recorded`, `/api/recorded/calendar`, `/history/calendar` implemented; four genuine math/source/API plusfourUI cases PASS, types passed beforelatestUItests. Commonqualified363GP20 pool, auditable equal-weightz distances, raw thresholds/categories and randomtargets only loadedeligiblepool; calendar strictMM-DD/leap day plus global11-IDquarantine. Full691 gate running; finishgenuine local/browser/doc/ledger checkpoint thenCONTINUE historicalawards + calendar-date observed recordprogression fromsource-agreedgames. CachedWiki season contains explicityearly awards table; no new rights/sourcefamily needed. Server95384 oldshotbuildon3002; restartafterbuild. Preserveallwork, no merge/push/deploy orcheckpoint stopping.
-
-## Recorded discovery/calendar verified checkpoint; continue
-
-Full691 gate PASS(304frontend/40files+387backend/34files), genuine7read LIVE_RECORDED_DISCOVERY_CALENDAR_ACCEPTANCE.json PASS withzero runtimeupstreamreads. Similaritypool363GP20/CurryclosestPTSREBpeerDeAaronFox distance0.049376; GP40thresholdpool293 finds12 PTS<=15REB>=8; missingtarget999 withholds peers; leapday7source-agreedgames, July4empty,11globalquarantines. AllsavedURL/localdate/queryfilters functional. Testsfixture directory initiallyhadwrongtype/shape, corrected to strict30teams/season/provenance, no productionschema loosened. CheckpointfollowsbrowserQA. NEXT implement narrow2023-24yearlyawards with13categories/12recipients/CommunityAssistmissing fromactualcachedWikipedia revision1347383197; preserve missingnamecoach/non-player identities andignorefinalistcolumn. Also observed calendar-date recordprogression withallties/day-orderunknown; notalltime. Server9475 on3002;QA tab2. Continueautonomously, no merge/push/deploy.
-
-## Active historical awards/source research
-
-HEAD e53d949 verified691 discovery/calendar checkpoint. Uncommitted separatehistoryawardsprovider/API/plainUI implemented, types initiallyPASS; tests/progression pending. UsesfixedlicensedWikipedia2023-24sameclient; cachedsource13categories/12recipients/CommunityAssistblank. No finalists promoted orcoachNBAIDs inferred. Free sourcecandidate ScholarlyDataverseDOI10.57745/9NVFIQ publicmetadata+README verified:ArnaudOdet,EtalabOpenLicense2.0,2015-20observedlineups derivedfromrecordedsubstitutions;data.zip125,578,161bytes unrestricted/fileID744185,MD5dee0454ff932339714192c4031006972. READMEfile744606 sayspreproc_data/stats +identifications +starting_lineups; rawsource includesBasketballReference/KaggleOtherlicense, so DO NOTintegraterawPBPorassumeallupstreamrights. Onlyauthor-createdpublishedderivedstatscouldbeconsideredaftermethod/fieldsvalidation. Candidate metadata in OS temp nba-lineup-source-4ltlg81p; noarchive downloadedyet. Neverrundownloadedresearchcode. Continueawards/progressionvalidationandindependentwork; no merge/push/deploy. Server9475 on3002 old691build.
-
-## Active awards/progression validation (supersedes priorentry)
-
-HEAD e53d949. AwardsAPI/UI anddailytrend/date-throughrecordprogression nowimplemented. Sixbackend+fourUI focusedcases PASS; full701 gate running. Firstfocusedprogressionrun used stalebuiltcontractexports; rebuiltcontracts andallpassed. Awardteamassociationcorrectedfromgenuinecell: plainparentheticexactname (notnecessarilyteamlink). Sourcecached13categories/12recipients1missing; liveacceptanceafterbuildpending. Processedlineupcandidate archive downloaded toOS temp nba-lineup-audit-3vnf8kuj/data.zip checksumMD5matchespublisheddee0454ff932339714192c4031006972. Neverexecutezipcode/unpickle. Onlyreadauthor-derivedpreproc_data/stats/2017-18.csv(8,577,057bytes) andstarting_lineups(270,327). Stats50,237quarterlineuprows/1,230regulargames2017-10-17to2018-04-11/13,869unique5manlineups/540nativeBasketballReferenceIDs/30teams. Allquarters sum720secs(regular) or300OT, bothsidePMsum0; zero negative/zero times; everyrow5uniqueIDs regex[a-z]{2,8}[0-9]{2}. Initialoverstrict7lettercheckfalseflaggedshortsurnames; correctedauditzeroinvalid. Startingfile1,312regular+playoffgames includesexplicitNBAgameURLs; joinstatsbyexactresearchgamekeyonly, doNOTjoinbyfuzzynames or inferNBAplayerIDs. No possessioncounts inpublishedstats(time,pm only), soORtg/DRtg/NetRtgunsupported. LicenceEtalab2author-derivedstats ONLY; rawBR/KaggleOther-sourcePBPmustnotrepublish. Promisingnextindependentlineupsharedminutes/sourcePM slice aftercurrentverifiedhistorycheckpoint. Currentlocalserver9475 old691 on3002,QA tab2. Continue, no merge/push/deploy.
-
-## Historical awards/progression verified checkpoint; continue
-
-Full701 gate PASS:308 frontend/42files +393 backend/36files; format/lint/types/build pass. Six genuine local reads PASS in LIVE_HISTORY_AWARDS_PROGRESSION_ACCEPTANCE.json: Wikipedia revision1347383197 has13 yearly categories,12 recipients,1 blank Community Assist; MVP Nikola Jokic/DEN exact source affiliation. Recorded1219 agreed games yield4 combined-point record dates, observed high309,14 mean gaps. February window29 days; future empty window remains null and ordered. No within-day/complete/all-time/possession claim. Checkpoint follows browser QA.
-
-NEXT immediately implement selective author-derived lineup research dataset from downloaded scholarly archive. Use ONLY preproc_data/stats/2017-18.csv plus exact source game-key mapping to starting_lineups/2017-18.csv; no raw PBP, code execution or pickle deserialization. Preserve source-native BasketballReference player IDs/short aliases (no guessed NBA joins). Source has50,237 quarter aggregates,13,869 observed/research-reconstructed five-player groups,540 IDs,1230 regular games; all period clocks and opposite PM totals reconcile. Expose source shared seconds/minutes and signed PM, observed samples and comparison/minimum minutes. Possessions, ORtg/DRtg/net rating and actual contiguous stint ordering remain unavailable. Clearly label researcher reconstruction/source limitations; never replace hypothetical group flags or original NBA provider. Etalab2 metadata/licence attribution verified; author/source/update/modified-data notices mandatory. Archive/temp/source paths in previous active entry. Server16236 on3002; QA tab2. Continue beyond checkpoint, no merge/push/deploy.
-
-## Active lineup research implementation (preserve pending work)
-
-HEAD1c7c5b9 is verified701 history checkpoint. Uncommitted offline importer and compact genuine researcher-derived lineup snapshot (3,778,946bytes, SHA25664b1c58f2e7b8f2865500254ea0aa7571bca1704ea51e4a1c92811e24745fd5b), strict contracts/provider/API/server wiring implemented; typecheck running, UI/tests pending. Import found one incomplete source triple-overtime game2017-12-15PHI/OKC missing period6; whole game quarantined, not repaired. Two source groups exclusive to that game removed. Usable13,867 five-person research groups/1,229 games/540 nativeBRIDs; source50,237 reported quarter rows. Repeated same-group rows within quarters are legitimate reports, retained using unique source CSV report indices (do not deduplicate by game/quarter/group). All retained complete-game period clocks and opposing PM reconcile. Dataset only author-created processed statistics/identity game-key mapping, never rawPBP/code/pickle/media. Source has jointseconds andsignedPM; possession/rating fields literalnull, NBAplayer IDs literalnull rather than name guesses. Label research reconstruction, not official independently verified lineups. `.prettierignore` and -text preserve compact data/import hash; original design/provider unchanged. Next implement plain `/lab/lineups` filters/member lookup/two-source-group comparison, genuine source/math/API/UI tests, full gate/local smoke/source notice/ledger/checkpoint and continue. Server16236 old701 on3002,QA tab2. No merge/push/deploy orcheckpoint termination.
-
-## Lineup validation in progress
-
-Source/provider/API/plain `/lab/lineups` now implemented; four genuine backend andfour synthetic-contract UI cases PASS. Native five-member filters, shared-minute qualifier, signed sort, exact source game links and pending/two-group comparison/saved URLs work. Source game/actor maps avoid repeated scans. Full709 gate running; first attempt stopped only at newtest formatting, targetedformatting fixed. Importer refuses overwrite of an existing untracked/dirty snapshot; compactdata hash preserved byPrettierignore/Gitbytepolicy. Finishgate, confirm packaged JSON hash/startup resource use, genuineAPI/browser/mobile smoke, source notice/ledger/checkpoint thenCONTINUE remaining independent scope. Source reconstruction/1gamequarantine/unknown NBA IDs andpossessionratings must remain explicit. Server16236 old701 on3002; restartafterbuild. No merge/push/deploy.
-
-## Lineup research verified checkpoint; continue
-
-Full709 gate PASS twice (312 frontend/43files +397 backend/37files), including postcompiler packaging repair. Four genuine backend+four synthetic UI behavioral cases pass. LIVE_LINEUP_STUDY_ACCEPTANCE.json PASS6 local reads/no upstream requests:13867 usable researcher-derived groups/1229 games/540 native IDs/30teams; whole missing-period gameNBA0021700421 plus2 exclusive groups quarantined. Raw source/dist JSON hash matches64b1c58f...45fd5b. TypeScript emitted reformatted JSON initially failed startup checksum; fixed exact-byte recorded-asset copy after compilation without weakening integrity. Source-only local initialization115ms/heap37.7MB/resident98.9MB; no production host claim.
-
-Browser genuine Curry filter5 groups, mobile390px/document375px/all controls fit. GSW source groups001/003 compare five native identities, shared24862/7629seconds (+64/+14), source evidence36/28games; same minimum/year, differing source game contexts. Possessions/ratings/NBA IDs remain null and research reconstruction caveat visible. Ledger77DONE/40PARTIAL/15DATA_BLOCKED/2DEFERRED,134total. Source lookup/minutes/comparison partial due official event/possession limitations; minimum shared-minute qualification verified.
-
-NEXT continue immediately: source-backed shooting-only per-game player/team tables from existing genuine2018 shot events (field-goal points explicitly exclude FT; full points/minutes/REB/AST unavailable), then licensed2023 draft-class archive with exact source trade/identity caveats. Investigate other independent free facts/metrics without introducing unlicensed PBP or guessing missing data. Keep original design/provider, $0, no merge/push/deploy. Server51335 on3002; QA tab2. Do not stop at this checkpoint.
-
-## Active shooting-only game tables
-
-HEAD eb29165 verified709 research-lineup checkpoint. Uncommitted `/api/shots/box` + `/games/shooting` contracts/API/plainUI implemented. Three genuine backend cases reconcile player/team attempts/makes/FG-point sums acrossall80 recorded source games; three UI cases now PASS (initial test selected before source options loaded; fixed readiness, no timeout changes). Explicit full points/FT/minutes/REB/AST literalnull, FG-points2*2PM+3*3PM, source-shooter-only roster, minimum suppresses ratios only. Full715 gate running. FinishgenuineAPI/browser/ledger/docs/checkpoint then CONTINUE licensed2023 draft archive candidate (one normal bounded Wikipedia page probe running/cached). Preserveoriginaldesign/provider/$0/no merge/push/deploy. Server51335 old709 on3002; restartafterbuild.
-
-## Shooting-only game tables verified checkpoint; continue
-
-Full715 gate PASS(315frontend/44files+400backend/38files), allformat/lint/types/builds. LIVE_SHOOTING_BOX_ACCEPTANCE.json PASS4genuine localreads/no upstream:Finals0041700402 shows172observed attempts/24shooters, CLE37/90FG and83field-goalpoints, GSW47/82 and109FGpoints; fullpoints/FT/MIN/REB/AST remainnull. All80sourcegame player/team counts/sums checked. Browseractual24rows/two teamrows and390pxmobile/document375px fit. Originalprotectedpaths/provider unchanged. Checkpointfollows.
-
-NEXT immediately implement2023NBA draft archive. Genuine fixed publicWiki page probe succeeded:revision1376923660,522597bytes, OS temp nba-draft-source-lz_lhomp/page.json normalizedWikiPage. Main source table headers via boundedparser: Rnd./Pick/Player/Pos./Nationality/Team/School-club; source trade annotations must remain literal, not current-roster ownership guesses. Other tables containundraftedplayers/notes andmustnot be mistaken for picks. Useexactarticle CC0 IDs optional/missing, notfuzzy names. Source rightsCCBYSAalready verified; extendonlyfixedtitle whitelist andoptionalindependentprovider. Continue, no merge/push/deploy. Server25173 on3002/QA tab2.
-
-## Active draft class source implementation
-
-HEADbaa9e83 verified715 shooting-table checkpoint. Uncommitted independentDraftProvider/API/contracts/plain `/history/draft` nowimplemented; typesinitiallyrunning, tests/liveidentityenrichment pending. Main source2023 draft tablegenuine61rows:1header+58numberedpicks+2explicitunindexedforfeitures(CHI/PHI). Preservefullsourceplayer markers andlistedteam/trade/via text; neverinvent59/60 orcurrentRosterOwner. FixedWiki title addedtoexistingwhitelist; same2MB/10s/cooldown/24hcache/shared3jobbudget. Optionalexactarticle CC0NBAIDs query<=60:missing/outage mappingsretain source links, corruptmaps reject. Genuinecached pageOS tempnba-draft-source-lz_lhomp/page.json rev1376923660. Completefocusedsource/API/UI tests, fullgate, genuinepublicsource/API/browser acceptance andledger/checkpointthencontinue. Server25173 old715on3002; QA tab2. Originaldesign/provider/$0 andno merge/push/deploy unchanged.
-
-## Draft verified checkpoint; continue
-
-Full722 gate PASS(318frontend45files+404backend39files), including genuine comma-URL source fix/regression. LIVE_DRAFT_ACCEPTANCE.json PASS4localreads:58 source selections/two unnumbered forfeitures(CHI/PHI), exactCC0 IDs58/58/revision1376923660. ListedWAS pick57 retains Golden State trade note rather than guessed ownership. Browser real table/source/evidence verified. Original visual/provider paths unchanged; no paid source/merge/push/deploy. Checkpoint follows mobile QA. Server79672 on3002 withFRONTEND_DIST enabled;QA tab2.
-
-NEXT continue common-cohort multi-category percentile profiles and normalized player comparison (transparent shared GP/metric intersection, missing/excluded targets withheld, no complete-league/quality claims). Then source-agreed historical team rankings/splits. Relocation source candidate normalpublicWiki probe succeeded:List of relocated NBA teams rev1361642687/86782bytes, OS tempnba-relocation-source-ffigu612/page.json;23 permanent table rows/two temporary relocations, sensitive Charlotte continuity must not be inferred. Do not stop at this checkpoint.
-
-## Active common-cohort percentile profiles
-
-HEADf2a048a verified722 draft checkpoint. Uncommitted `/api/recorded/profiles` + `/lab/profiles` implemented:one-to-four explicitNBA IDs/three-to-six supportedPG categories/sharedGP-qualified complete-metric intersection; rawvalue/competitionrank/midrankpercentile/population z-score plusplainSVG/table/knownidentitychooser/savedURL. Missing/excluded targets withheld, constantaxes50percentile/z0, noqualityscore orcompleteleagueclaim. Fourbackend+threeUItests added; initialgenuinepostseason test wronglyassumedempty but actualsource has8GP20supportedplayers, correctedtest to realdata/Curryexcluded. Initialunusedvariable fixed. Types/focusedtests running; full729gate next. Preserveallprogress, completegenuineAPI/browser/mobile/docs/ledger/checkpointthenCONTINUE teams/standings/remaininghistory. Server79672 olddraftbuild3002/QA tab2. No merge/push/deploy.
-
-## Percentile profiles verified checkpoint; continue
-
-Full729 gate PASS(321frontend46files+408backend40files), genuine5-read LIVE_PROFILES_ACCEPTANCE.json PASS/no upstream. Common363GP20/fivePGcategories; Curry26.4PTS/rank11/96.96969697percentile; comparechosenIDsdoesnotalterpopulation; unknown999andout-of-scopeCurrywithheld;playoff8/GP150empty actual. Source notice/ledger updated; originalprotectedpaths/provider unchanged. Browser/mobile verification thenlocalcommit. Server85251on3002/QA tab2.
-
-NEXT immediately implement source-agreed historical team rankings and home/away/last10/terminalstreak summaries, with fullsource82expectedIDs versus1219pairedfinals/11quarantines. Missing last10/streak boundaries must stay unavailable, source-agreedW/L must not replace published complete-season standings or inventGB. Then bounded historical relocations ifsourcefields can be represented without guessingfranchise continuity. Continue beyond checkpoints, no merge/push/deploy.
+Shot1isclosed. Read currentGit,HANDOFF,FEATURE_LEDGER,Claudehandoff and source notices. Preserve the validated engine and all progress. Do not resume archived feature queues, redesign protected pages without approval, invent data, spend money, merge, push or deploy. ClaudeCloud owns supervisedShot2design/approvedfrontendimplementation on the published developmentfoundation; execute only the owner’s next explicit task.

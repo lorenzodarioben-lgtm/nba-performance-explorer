@@ -252,3 +252,11 @@ Engine branch `npm run validate` passes 247 frontend + 320 backend = **567 tests
 - [Current project state](docs/PROJECT_STATE.md)
 - [TASK-010 live provider validation](docs/tasks/TASK-010-live-nba-provider-response-validation.md)
 - [TASK-011 portfolio readiness](docs/tasks/TASK-011-portfolio-readiness-and-final-audit.md)
+
+## Shot 1 engine closeout and Claude handoff
+
+The unmerged `codex/nba-explorer-2-engine` branch is a locally validated foundation for supervised ClaudeCodeCloud design and approvedfrontendimplementation. The published live demo above remains the original deployment; expansion has not been pushed, merged or deployed. Start at `/explore` in a local checkout. Read [the Claude handoff](docs/expansion/DESIGN_HANDOFF_FOR_CLAUDE.md), [the audited134feature ledger](docs/expansion/FEATURE_LEDGER.md), [API catalog](docs/expansion/API_CATALOG.md) and [operations/setup](docs/expansion/OPERATIONS.md). The original site design/provider are preserved.
+
+After `npm ci`, run `npm run validate` and `npm run dev` using Node22.12–22.x. Default player mode is explicitly demo; `NBA_DATA_PROVIDER=nba-stats` enables genuineNBA queries without a paidkey. Separate committed historical/cohort/shot/research-lineup data is genuine,partial,attributed and never a livefallback. Cloud source access is unverified; do not bypass blocking or invent missing data. The bounded `npm run smoke:closeout -- --write-report` checks an already running genuine localhost build, not production.
+
+Shot1feature expansion isclosed. Remaining functionality anddata limits are documented; they do not require Claude to build fake screens. No push/merge/deployment command has been run. Review the approved-branch publishing steps in OPERATIONS.md before making the repository available to Claude.

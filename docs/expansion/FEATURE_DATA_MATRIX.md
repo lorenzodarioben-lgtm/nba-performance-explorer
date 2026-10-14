@@ -67,3 +67,9 @@ I08now adds source-listed2023-24 yearlyawards (13categories,12recipients,1source
 J now gains a narrow researcher-reconstructed2017-18 source-group lookup/sharedtime/PM/comparison/minute qualification candidate. Complete reported period coverage1229games, one incomplete overtime sourcegame quarantined. Real source five-member relationships, not hypothetical sum-of-player statistics; independent official lineup/event/possession verification not claimed. NBAidentitybridge unimplemented; nativeBRIDs retained. Sourcepossessioncounts absent, so ORtg/DRtg/netRating/on-offpossessionmetrics remainunsupported. Fullgate/localacceptance pending.
 
 D04partialshooting-only player/team tables nowavailablefor80recorded2018playoffgames. Shooter-only sourcepopulation andFGcontributions; fullbox/free-throw/scoring/PBP/roster evidence remainsabsent, neverreconstructed fromPGvalues orFGpoints.
+
+## Final closeout matrix additions
+
+E02/E03/C05: fixed2023-24namespaced team/game IDs,pairedfinal scores,calendar dates,home/away andfullsource82-IDlists;1219agreements/11quarantines. Conference labels areexplicitfacts fromWikipedia revision1347383197,not inferredfromteamname. RankingGP/coverage/conference qualifiers andsearchdenominator tested; no possessions/currentfeed/officialstandings claim. SourceDTOtestsplusactuallocalAPI/mobileevidence inCLOSEOUT_ACCEPTANCE.json.
+
+B13/F06/H04: source-supportedcommoncategory intersection,sameGP/year/scope andexactNBAIDs;missingtargets withheld; raw/rank/midrank/ztable matchesradar. B13/H04remainpartial forcompletequalifiedleagueingestion; F06coherentnormalizedcomparison isverifiedwithindeclaredcohort. A05/A08areblockedbecause upcoming/currentleaguefeeds arenot implemented; historical finals arenot credited asupcoming/livefeatures. A10/B10/C08/F10/H11partiallimitations areexplicitinthefinalledger. Localgame/seasonbookmarksL06areimplementedandtested. All134IDscheckedagainstarchivedmaster.

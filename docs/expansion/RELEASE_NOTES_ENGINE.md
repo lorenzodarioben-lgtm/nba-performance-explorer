@@ -1,83 +1,15 @@
-# Shot 1 engineering release notes
+# Engine release notes — final Shot 1 closeout
 
-NOT DEPLOYED / NOT MERGED. Branch codex/nba-explorer-2-engine, base cd557e4.
+Feature expansion is closed. The branch contains a stable, documented, tested foundation for Claude Code Cloud design and approved frontend implementation. It remains unmerged/unpublished/undeployed by Codex. The complete original Shot 1 scope is not delivered.
 
-Shipped on this branch: seven new page patterns and seven GET API patterns. Explorer
-hub; sourced 30-team identity directory; observed-game player analysis (rolling,
-splits, date/opponent/results filters, sorting, pagination and extrema); independent
-2–4 player season comparison; raw Totals-mode shooting efficiency and per36;
-selected-cohort scatter/table and transparent weighted ranking; versioned local
-favorites and research import/export with recovery. Every NBA number comes from
-existing NBA provider data, or explicitly labeled deterministic test/demo mode.
-No fabricated attempts, shots, scores, rankings or joint lineup performance.
+Working sections: preserved original home/profile/compare; explorer; player rolling/split/raw-game/shooting/career analysis; selected-season and career comparisons; 30-team text directory and 2023–24 source roster/results; recorded playoff game/quarter views; historical standings/category winners; qualified recorded cohort leaders/CSV; paired-game records/calendar/progression; CC0 historical facts; yearly awards and 2023 draft class; common-cohort distributions/ranking/radar; recorded similarity/criteria; authentic partial 2018 shot maps/density/comparison/CSV/SVG and shooting-only game tables; licensed researcher-derived lineup time/PM comparison; local favorites/named research/preferences and opt-in recent history.
 
-Existing four NBA endpoint families passed 12 local bounded checks. Raw Totals
-fields separately passed two checks. Genuine local API acceptance passed 16 checks:
-74 Curry games, two BOS-filtered records, raw formulas, three real comparison and
-raw-metric cohort slots, changing weight results, 30 identities and six SPA refreshes.
-Live source access from Render is NOT verified, and rights remain conditional under
-existing ADR-013. No broader ESPN/NBA league feeds or bulk archives enabled.
+Closeout completed the interrupted historical team rankings/splits. Every sample and missing source ID is explicit; last ten/streaks are withheld without a complete verified boundary. Added separate genuine conference source credits, repaired stale capability reporting, and fixed a team link query mismatch found by real browser QA. No original visual redesign or new broad source feature was introduced.
 
-Baseline was 434 tests. Latest complete source gate before final identity hardening
-passed 566; identity guards additionally passed focused research tests/typecheck.
-Final `npm run validate` passed 247 frontend + 320 backend = 567; see VERIFICATION_LOG.md. Builds pass;
-known Vite/Recharts chunk warning remains. No dependencies, costs, deployments,
-production secrets, original visual files or screenshot baselines changed.
+Final audit: 77 VERIFIED, 41 PARTIAL, 14 BLOCKED, 2 DEFERRED =134. Six earlier completion claims were reduced after inspecting the requested behavior. Verified means behavior in the stated supported scope, not unrestricted league/time coverage. The final test/evidence totals are in HANDOFF.md and VERIFICATION_LOG.md; CLOSEOUT_ACCEPTANCE.json records genuine local API/SPA/error/export/hash results. Original protected-file diff is empty; no pixel-equality claim.
 
-Plain UI intentionally awaits supervised Shot 2. Phone 390x844: no outer overflow,
-three real scatter points matched table rows, keyboard table scroll worked. A stale
-lazy chunk after rebuilding static assets recovered via the existing reload boundary;
-production asset rollover belongs in Shot 3 testing.
+Remaining limits: no current/upcoming league feed, full box/PBP/scoring runs/scrubber, possession ratings/pace/on-off, medical availability, representative league zone averages, dated rank movements, complete historical franchise map or cross-era normalization. Historical team/draft/award/record/cohort scopes are bounded. Comparative PNG exports and several broader workflows are partial. Historical franchise mapping and the configurable motion preference are deferred; a relocation candidate exists but was not integrated.
 
-Minimum slices: B/F/L pass in supported scope; H passes for explicit selected cohorts
-only, with league distributions/percentiles absent. A daily games, C roster/schedule,
-D match center, E standings/leaders, I league history, J observed/hypothetical roster,
-K discover are not delivered. G shots honestly gated. Overall WORKING_BUT_INCOMPLETE.
-Career milestones/peak-season selection and multi-player career trends remain
-unstarted/deferred, not falsely called data-delivered. See feature ledger and handoff.
+Sources remain separately attributed: existing conditional NBA provider, Wikipedia CC BY-SA4.0 adaptations/exact revisions, Wikidata CC0 identity/season facts, Boon P CC0 partial-shot CSV, Arnaud Odet Etalab2 author-derived research data. No fixture fallback, invented stats or required paid service. Render/Claude Cloud network/resource behavior and remote CI remain unverified; original static live branding and the nonfatal shared bundle warning require attention in the approved design/release process.
 
-Final all-work gate PASS: 567 tests, all strict checks/builds; 28 scoped verified features, 7 partial, 83 data-blocked and 16 deferred. No full-platform completeness claimed.
-
-## Resumed career checkpoint
-
-Added reported career raw totals, weighted efficiency, chronological season timeline with gap labels, milestone thresholds, explicit min-games peak with ties, and 2–4 player career curves/table with shareable state. Missing players and transient source failures remain distinct slots. Qualified peak choices update only the chosen comparison season. 577-test full gate passed and six genuine local API/refresh checks passed for active and retired players. No push, merge, deployment or new mandatory costs. Implementation continues; this checkpoint is not the end of SHOT 1.
-
-## Raw-game and postseason checkpoint (2026-10-14)
-
-Added raw shooting and defensive game logs, attempt-weighted splits/rolling, explicit unusual-game thresholds and share state; separately scoped postseason careers/games and same-season regular/playoff comparison. Old player APIs and original website remain unchanged. Full591 tests and six genuine local smoke reads pass; responsive keyboard QA passes. Work continues beyond this checkpoint.
-
-## CC0 history and qualification checkpoint (2026-10-14)
-
-Added a working free CC0 historical season/champion navigator with filters, source links, missingness, record-backed navigation, bookmarks and direct routes. Adds bounded source caching and rate-limit cooldown. Game research now has explicit cohort minimum qualification. Full602 tests and five genuine local history checks pass. Continue age/team history, selected-cohort discovery and local preferences.
-
-History inventory precision: I01 navigator is delivered; I05 year/decade filters, I08 championship facts and I11 fact-coverage views are partial. I02 statistical leaders, I03 statistical record book, I09 record progression and I10 era normalization are not delivered by the champion source. Those gates remain unavailable.
-
-## Usage-limit resume verification (2026-10-14)
-
-Verified sourced age/trade metadata and opt-in recent history; full614 gate passes with jsdom worker cap2. All original assertions and timeouts remain. Work continues into licensed Wikimedia standings/game snapshots and selected-pool discovery.
-
-## Historical league/game source
-
-Licensed Wikipedia snapshots add historical standings, published leaders, date/team playoff scoreboard, actual source-ID game details, validated quarter/overtime scoring and optional team historical results. Regular standings and recorded playoffs remain separate. User-facing credit/licence/modification notices included. No original website redesign, NBA provider change, mandatory cost or deployment. Current feeds, full box scores and rosters remain incomplete.
-
-Selected-season discovery adds transparent standardized distance, ties, source evidence, random qualifying target and saved/shareable filters. Existing NBA endpoint families only; no paid service or league-wide cohort claim.
-
-Historical team source adds source-listed rosters,82 reconciled regular results per team, participant summaries/raw totals where explicit, and exact Wiki/Wikidata ID evidence. Thirty fixed source pages verified without costs or NBA endpoint expansion. Unknown scope and missing IDs remain unavailable rather than guessed.
-
-Raw shooting-type page adds attempt qualification, weighted percentages, attempt/point shares and made-shot score reconciliation. Regular/playoff scopes separate, actual counts only. No coordinates, fake heatmaps or mandatory cost.
-
-Recorded2023–24 source-cohort leaderboard and game-extrema pages add qualification/search/team/scope/page controls, exact source evidence, missingness/trade exclusions, cohort percentile formula and bounded licensed CSV. Genuine static data is explicitly labeled;9 conflicting/2 unpaired games quarantined. Full658 tests and six genuine local recorded API/SPA reads pass. No current/official/all-time claim or original design/provider change.
-
-Source-agreed historical team comparison/head-to-head and explicitly hypothetical5-player identities added. Missing raw counts remain unavailable; joint statistics always unavailable. Full665 tests and5 local genuine API/SPA acceptance reads pass; no upstream fanout or costs.
-
-Recorded analytics now supplies histogram/scatter with exact values, qualified target percentiles, descriptive correlation and signed custom ranking. The opt-in source updater never runs during startup/CI or replaces unavailable live data. Full672 gate and genuine local acceptance passed; original visuals/provider unchanged.
-
-Recorded shot studio `/lab/shots` now supports authentic partial2018 playoff field-goal events, make/miss dots, all-filter density/zone tables, two-player comparison, strict game/date/team/type/distance/result filters, saved URLs and bounded CC0 CSV/SVG export. Original provider/design unchanged. Source13,470 attempts,80games,203players,16teams; no full/current/league-average claim.
-
-Added recorded cohort similarity, auditable threshold-category queries/random qualified targets and source-agreed calendar games with leap-day/team filters. Existing recorded source only; no new networksource/dependency/mandatorycost. Histories/bookmarks/sharedURLs preserve queryfilters.
-
-Added separate historicalyearlyaward source preservingmissingrecipients/coaches/finalist distinction; source-agreedobserved record-through-date progression anddailytrend/gapchart withexacttable. Single2023-24historicalscope, transparentwindows/quarantine/samplethresholds; noalltime/within-day/possession claims.
-
-Added plain research-lineup browser/member lookup/shared-minute qualification/signed PM sorting, two-group comparison and source game evidence with saved URLs. Source is explicitly researcher-reconstructed2017-18 data, with one incomplete overtime game quarantined. Unknown NBA IDs/possession ratings remain unavailable. Exact-byte packaging/runtime source checks and709-test gate pass; no original design/provider/cost/deployment change.
-
-Added observed game/player/team shooting table with exactevent drilldown and saved minimum/game filters. Field-goal points are explicitly partial contributions; fullpoints/FT/MIN/REB/AST remainunavailable.715test gate andgenuinelocalchecks pass; originaldesign/provider/$0 unchanged.
+Claude can begin supervised Shot 2 on this working foundation after owner-approved development-branch publication and repository access. This is not approval to merge, deploy, expand data sources or fill blocked capabilities with visual mock data. Read DESIGN_HANDOFF_FOR_CLAUDE.md and OPERATIONS.md first.

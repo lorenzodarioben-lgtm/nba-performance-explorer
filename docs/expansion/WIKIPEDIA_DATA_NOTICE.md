@@ -52,3 +52,12 @@ supported-value intersection. Raw values, competition ranks, midrank percentiles
 and population z-scores are displayed together. Comparison selection never changes
 the denominator. Missing targets are withheld, and a constant category has z=0
 and percentile=50. Every view preserves the 30 source revision/licence links.
+
+The final team-ranking extension adapts conference facts from the already verified
+2023–24 NBA season revision1347383197 into `recorded-conferences.json`, under the
+same CC BY-SA4.0 licence and contributor attribution. Its response/view includes
+that separate source credit. The source-agreed final-game summaries retain all30
+team credits, quarantine11IDs and expose incomplete last-ten/streak boundaries.
+No inferred current standings, official tiebreak, incomplete-sample GB or possession
+rating is introduced. The final closeout notices supersede earlier capability text;
+source scope and licensing remain independent of application-code licensing.

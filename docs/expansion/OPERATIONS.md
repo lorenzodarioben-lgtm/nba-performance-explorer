@@ -1,111 +1,92 @@
-# Expansion operations
+# Operations and Claude Cloud setup
 
-No new hosting/database/accounts are required. Keep render.yaml and production
-NBA_ALLOW_FIXTURE_IN_PRODUCTION=false. No merge, remote push or deploy performed.
-Process cache is ephemeral; Render cold starts refetch on demand, no scheduler.
-Local preferences live in each browser/origin and are never sent to a cloud store.
+Shot 1 expansion is closed. This branch is a locally validated foundation for supervised design, not a production rollout. No push, merge or deployment was performed. Mandatory new data/API/storage cost is $0; no key, billing account, database, Redis, scheduler or durable writable disk is required.
 
-## Local usage
+## Development and preview
 
-```powershell
+Use Node 22.12–22.x, npm and the committed lockfile. From the repository root:
+
+```sh
 npm ci
+npm run validate
 npm run dev
 ```
 
-Open http://localhost:5173/explore. Default fixture runtime is explicitly demo data;
-raw totals/attempts unavailable. Genuine mode uses no API key:
+Frontend port 5173 proxies `/api` to backend port 3001. Development defaults to an explicitly labelled fixture player provider. Genuine immutable recorded archives remain independent. On Linux use `NBA_DATA_PROVIDER=nba-stats npm run dev`; PowerShell uses `$env:NBA_DATA_PROVIDER='nba-stats'` followed by `npm run dev`. Do not substitute fixtures when a genuine query fails. Original static live branding is preserved; research pages show their actual sources.
 
-```powershell
-$env:NBA_DATA_PROVIDER='nba-stats'
-npm run dev
-```
+Preview the production build locally without deploying:
 
-If source errors, keep navigation working and show unavailable states. Do not switch
-provider silently, copy fixtures into production, rotate proxies/IPs/cookies or bypass
-blocking. No auto retry. Source cache disappears on process restart (500 legacy,
-100 raw entries). Restart local server to invalidate cache for a justified debug test;
-do not repeatedly invalidate merely to probe a failing source. Optional legacy
-diagnostics are sanitized and disabled by default.
-
-## Source acceptance
-
-Opt-in only, never regular CI:
-
-```powershell
-npm run smoke:free-sources
-npx tsx backend/src/scripts/probe-season-totals.ts
-```
-
-First has at most 12 checks, 5-second timeout, stop after two failures. Second only
-two fixed Totals-mode requests. Do not rerun indiscriminately. Broad league/CDN/ESPN
-feeds need usage-rights and host validation before enabling a new provider.
-
-For the genuine engine acceptance suite, build and run a temporary local server:
-
-```powershell
+```sh
 npm run build
-$env:NBA_DATA_PROVIDER='nba-stats'
-$env:FRONTEND_DIST='frontend/dist'
-$env:PORT='3002'
-node backend/dist/server.js
+NBA_DATA_PROVIDER=nba-stats NBA_ALLOW_FIXTURE_IN_PRODUCTION=false NODE_ENV=production FRONTEND_DIST=frontend/dist PORT=3002 node backend/dist/server.js
 ```
 
-Then a second terminal: `npm run smoke:engine`. Fixed sixteen sequential API/SPA
-reads; 25-second API timeout, no retries, localhost only; no raw response dumps.
-Use a clean/current build. Reload browser tabs after replacing dist assets; old
-in-memory lazy hashes may no longer exist and the existing error boundary offers
-Reload. Do not infer a data outage from an obsolete asset hash. Review rollout/cache
-handling before production release. Stop temporary services when QA finishes.
+In PowerShell, set those five variables individually before running Node. `FRONTEND_DIST` resolves relative to the working directory and must contain the built `index.html`. Production config rejects a missing provider or accidental fixtures. `/api/health` checks the process, not every upstream. Vite preview alone does not prove backend integration.
 
-## Data / preference recovery
+Claude Cloud needs access to the owner-published development branch, Node/npm installation and repository files. Start with `HANDOFF.md` and `DESIGN_HANDOFF_FOR_CLAUDE.md`. Cloud/Render egress, memory and cold starts were not tested through deployment. If NBA/Wikimedia access fails, use unaffected genuine recorded tools and honest unavailable states. Never bypass access restrictions to make previews work.
 
-Missing profile: 404; missing season: nullable state; malformed/mismatched data: 502;
-source unavailable/busy: 503; timeout: 504. Never a made-up zero career or live game.
-Legacy timestamps unknown, raw response retrieval known, published as-of unknown.
+## Verification
 
-Preference import merges, preserves existing values and rejects unsafe/oversized JSON.
-Corrupt storage is left untouched on load. Export session JSON before closing if
-storage is blocked/full. Clear requires UI confirmation, only affects the research key.
-No server persistence, updates, telemetry, statistical export or accounts needed.
+```sh
+npm run validate
+git diff --check
+npm run smoke:engine
+npm run smoke:closeout -- --write-report
+```
 
-## Release gate
+Smoke commands require an already running local genuine server. They are opt-in, never ordinary CI or startup. Closeout allows only localhost HTTP, at most 100 sequential reads, 30-second API/5-second SPA timeouts, a ten-minute total budget and no retries. `CLOSEOUT_ACCEPTANCE.json` stores actual results. Avoid repeated probes of a failing source.
 
-`npm run validate`, `git diff --check`, new bounded source acceptance in the actual
-host if authorized, current browser desktop/phone/keyboard journeys, preserved legacy
-visual checks. This branch is not production-ready merely because local sources pass.
-Resolve source-rights gaps and finish outstanding minimums before full platform design
-integration; keep stable supported tools reviewable for a targeted supervised pass.
+Frontend Vitest retains a two-worker cap for jsdom contention; no assertion or timeout was weakened. Existing 434 tests remain in the enlarged suite. New recorded data has genuine integrity/arithmetic tests, and controlled MSW/Supertest source/error tests remain deterministic. CI is configured on Ubuntu/Node 22 with `npm ci` and `npm run validate`; no remote CI was triggered during closeout.
 
-## Career verification
+Use bounded browser navigation/locator checks and API/export serialization assertions. Avoid download event/path waits: an earlier wait stalled for hours. When rebuilding assets, reload old tabs because lazy chunk hashes may have disappeared. Distinguish obsolete assets from a data outage. Reset temporary viewports and stop agent-started QA servers afterward.
 
-Run `npx tsx backend/src/scripts/smoke-career.ts` only against a local genuine-provider server; bounded six requests and assertions, no raw traffic dumps or production calls. `probe-postseason-fields.ts` is opt-in, two existing-family reads, timeout 5 seconds, no retry. Do not enable fixtures in production.
+## Failure and cache recovery
 
-## Raw-game and postseason checkpoint (2026-10-14)
+The original PlayerProvider and four NBA endpoint families remain unchanged. Separate raw/bio/game adapters have bounded caches; raw successful results cache for six hours, empty results for five minutes. The shared source budget permits three top-level network research jobs; a fourth receives 503 rather than queues or fans out.
 
-Opt-in `npx tsx backend/src/scripts/smoke-game-research.ts` reads six local API/SPA paths; requires genuine provider, asserts weighted attempts, filters and separate playoffs. Temporary server requires restart after backend rebuild; reload browser after frontend hash changes. No automatic production/network fallback.
+Wikimedia uses fixed titles/queries, 24-hour bounded caches, ten-second timeouts/body limits and Retry-After cooldown for 429/503, with no retries. A restart clears process caches; use it only for justified local debugging, never to evade cooldown or flood a failing source.
 
-## CC0 history and qualification checkpoint (2026-10-14)
+400 means invalid input; 404 a valid absent identity/game; 502 invalid upstream data; 503 disabled/unavailable/busy; 504 timeout. A genuine missing season can be a 200 response with status/null fields. `null` is unavailable, not zero. Optional draft/roster enrichment failure retains source facts and external links, never guessed NBA IDs. `servedAt` is not source publication `asOf`. Recorded archives are neither live nor outage fallbacks.
 
-Wikidata history initializes lazily at server composition, with no key/cost. Fixed query and10s timeout;24h/one-entry cache,429 cooldown. Opt-in `smoke-history.ts` performs at most five local public API/SPA reads. Production-host access remains unverified. `probe-birthdate.ts` is two existing-family source reads,5s timeout/no retries. No deployment required.
+Broad NBA/CDN/ESPN/PBP integrations remain blocked by rights or missing inputs. MIT source code does not license upstream data. No rotating IPs, proxies, hidden cookies, CAPTCHA bypass or unlicensed raw PBP substitution. Read the source audit and three data notices before using any new source.
 
-## Usage-limit resume verification (2026-10-14)
+## Recorded assets and manual updates
 
-Frontend maxWorkers2 bounds jsdom resource contention. Recent key nba-explorer.recent.v1 is separate from bookmark JSON. Clearing all stops recording and clears visits. Live age smoke performs3 local reads. New parser dependency parse5 is MIT/free and required in backend runtime for safe Wikimedia HTML table parsing; lockfile change is intentional, no original provider change.
+- `recorded-snapshot.json`: genuine 2023–24 Wikipedia adaptations, 30 credits, 639 regular stat rows and 18 separately unknown-scope Chicago rows. Pair reconciliation quarantines nine conflicts and two unpaired IDs. Do not guess a conflict repair.
+- `recorded-conferences.json`: explicit 2023–24 conference facts from revision 1347383197, separately credited. These do not establish historical franchise identity.
+- `shot-events.csv`: exact original CC0 bytes/hash, 13,470 attempts from partial 2018 playoffs. Replace only after deliberate rights, metadata, schema and geometry review.
+- `lineup-study-snapshot.json`: compact Etalab 2 author-derived 2017–18 research groups. One missing-period game and two exclusive groups are quarantined. No raw PBP, foreign archive code, pickle or media is imported/executed.
 
-## Wikipedia archive operation
+Backend build copies fixed shot CSV and compact lineup JSON after tsc, because tsc otherwise reformats JSON and breaks the hash. Preserve `.gitattributes`, `.prettierignore` and startup checks. Corrupt integrity-checked assets deliberately prevent startup rather than serve false data. Source/dist hashes and local production startup passed; host certification remains separate.
 
-Provider enabled independently at server composition; lazy reads, no key/cost. Fixed two page titles,24h/2-entry caches,10s/2 MB bounds, Retry-After cooldown, no retries or substitute endpoints. `npx tsx backend/src/scripts/smoke-wiki-archive.ts` performs at most10 localhost API/SPA reads; first uncached use loads only two public pages. Source revisions visible per response; host still untested. Runtime parse5 dependency/lockfile changes intentional. Regenerable `.impeccable/hook.cache.json` excluded; detector config preserves one synthetic-parser-fixture image false-positive suppression.
+Manual tools, never automatic:
 
-Historical team provider is lazy/on-demand, fixed2023–24 titles derived only from30 static identities; shared Wiki client max32 pages/24h, normalized team cache30/24h. Exact-article Wikidata queries max60 articles/LIMIT121/250kB/10s,24h cache32, Retry-After cooldown. Source failures never trigger alternate endpoints or fixture substitutes. `probe-historical-teams.ts` is opt-in only, at most30 serial page reads, no retries/identity/NBA fanout; cached development responses are not shipped. Regular participant scope may be unavailable; source-unspecified remains separate.
+```sh
+npx tsx backend/src/scripts/build-recorded-snapshot.ts --help
+python backend/src/scripts/import-lineup-study.py --help
+```
 
-Recorded provider loads a schema-validated genuine JSON dataset at composition; TypeScript resolveJsonModule copies the imported dataset into dist. No runtime downloads, retries, fixture substitution or paid storage. Live NBA and Wikipedia providers remain independent. Any future dataset update must revalidate source licence/revisions, identity facts, table scopes, raw-vs-rounded values and cross-page conflicts; never overwrite source discrepancies by assumption. Each recorded response/page includes fixed assembly time and source credits. CSV limited to returned page<=50, formula-safe strings, licence/revision/coverage headers.
+The recorded builder defaults to an audit of 30 fixed pages and at most 20 serial CC0 queries, without writes/retries. `--write` requires unchanged tracked data, a valid result and guarded fixed-workspace/exclusive pending output. The lineup importer validates checksums and designated author-derived CSV members, and refuses to overwrite dirty/untracked existing output. Review source scopes, licences and tests before committing an update. Do not expand source datasets as part of Shot 2 design.
 
-Recorded labs reuse the immutable licensed dataset and shared game reconciliation. No runtime source calls. Any source-defined scalar sum remains an independent count sum; joint performance is a literalnull contract and cannot be populated without a separate verified possession dataset. Browser download event/path waiting proved unreliable in this environment; avoid that path for routine QA.
+## Browser preferences
 
-Recorded snapshot updater is opt-in: `npx tsx backend/src/scripts/build-recorded-snapshot.ts --help`; default audits30 fixed Wikipedia pages and at most20 bounded serial exact-article CC0 requests, without retries or output writes. `--write` requires an unchanged dataset relative toHEAD, validates every source row, writes an exclusive pending file then renames to the fixed workspace source path. Never used by startup, CI or unavailable live providers; review newly recorded differences and attribution before checkpoint.
+Favorites/named URLs use version 1, maximum 100 entries and 100,000 serialized JSON characters. Import validates implemented internal paths, rejects unsafe/oversized/corrupt data and merges existing bookmarks. Corrupt storage is untouched on load; blocked/quota storage falls back to session data with a warning. Export that JSON before closing if persistence failed. Clear requires confirmation. Recent history uses a separate key, is off by default, stores at most 20 research URLs and excludes original screens. No accounts, cloud sync or server telemetry; preferences are per browser/origin and not part of GitHub delivery.
 
-Shot provider loads and validates fixed CC0 CSV once at composition root; exact size/hash mismatch aborts startup. Backend build copies only that fixed file into dist using copy-shot-data.js. Tests use explicit injection; absent provider503. No accounts/network/storage/jobs/mandatory costs added. Preserve .gitattributes -text for hash-stable source bytes. Metadata and source rights/coverage must be deliberately reviewed before any replacement; never fetch current data automatically or use fixtures as live fallback.
+## Publish only after owner approval
 
-Lineup study dataset is immutable/compact and parsed once at startup with importchecksum and cross-reference/time checks; no runtime source fetch. Offline `python backend/src/scripts/import-lineup-study.py --help` describes guarded local archive/metadata import; --write requires fixedworkspace target and tracked/clean existing output. No archive code/pickle/rawPBP copied or executed. Preserve exact data bytes via ignore/attributes. No required accounts/database/scheduler/cost.
+First confirm the Render service does **not** watch this development branch: unchanged `render.yaml` has `autoDeploy: true`, and its actual watched branch was not inspected. Verify origin, branch, expected HEAD and clean tree. Publishing for Claude does not authorize merging/deploying.
 
-Build packaging copies fixed shot CSV and compact lineup JSON after TypeScript compilation. Compiler otherwise reformats JSON and changes the source checksum; the integrity check remains enabled. Both recorded asset hashes match source/dist, local initialization measured115ms andsource-only resident memory98.9MB. These local measurements do not establish production-host behavior; no deployment performed.
+```sh
+git status --short --branch
+git branch --show-current
+git rev-parse HEAD
+git remote get-url origin
+git push --dry-run origin refs/heads/codex/nba-explorer-2-engine:refs/heads/codex/nba-explorer-2-engine
+git push --set-upstream origin refs/heads/codex/nba-explorer-2-engine:refs/heads/codex/nba-explorer-2-engine
+```
+
+These are prepared commands; Codex executed neither push. They target only the development branch and use no force option. If remote history diverged, stop and inspect; do not reset, force, merge or rewrite automatically. A branch push triggers existing GitHub Actions CI and must not trigger production deployment. After CI passes, give Claude access to this branch and create a separate Shot 2 branch for approved frontend work.
+
+## Release risks
+
+No current league feed, full box/PBP, possession ratings, on/off, representative league zones, cross-era normalization or medical availability feed. The ledger distinguishes all missing behavior. Original static branding and home anchors need an approved design integration decision. The approximately 646 KB original shared/Recharts chunk warning remains. No public API rate limiter, authenticated storage or persistent cache was added. Render/Cloud network, cold starts, memory and matched pixel regression still require a separately authorized release audit. Design readiness is not deployment approval.

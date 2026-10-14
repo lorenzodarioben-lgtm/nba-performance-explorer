@@ -1,0 +1,73 @@
+{
+  "requirements": 134,
+  "counts": {
+    "VERIFIED": 77,
+    "PARTIAL": 41,
+    "BLOCKED": 14,
+    "DEFERRED": 2
+  },
+  "modules": {
+    "A": {
+      "VERIFIED": 3,
+      "PARTIAL": 5,
+      "BLOCKED": 2
+    },
+    "B": {
+      "VERIFIED": 11,
+      "PARTIAL": 3,
+      "BLOCKED": 1
+    },
+    "C": {
+      "VERIFIED": 5,
+      "PARTIAL": 6,
+      "BLOCKED": 1
+    },
+    "D": {
+      "PARTIAL": 6,
+      "VERIFIED": 4,
+      "BLOCKED": 4
+    },
+    "E": {
+      "PARTIAL": 6,
+      "VERIFIED": 4,
+      "BLOCKED": 1
+    },
+    "F": {
+      "VERIFIED": 10,
+      "BLOCKED": 1,
+      "PARTIAL": 1
+    },
+    "G": {
+      "VERIFIED": 9,
+      "BLOCKED": 1
+    },
+    "H": {
+      "VERIFIED": 8,
+      "PARTIAL": 3
+    },
+    "I": {
+      "VERIFIED": 3,
+      "PARTIAL": 6,
+      "DEFERRED": 1,
+      "BLOCKED": 1
+    },
+    "J": {
+      "VERIFIED": 4,
+      "PARTIAL": 3,
+      "BLOCKED": 2
+    },
+    "K": {
+      "VERIFIED": 7,
+      "PARTIAL": 2
+    },
+    "L": {
+      "VERIFIED": 9,
+      "DEFERRED": 1
+    }
+  },
+  "masterIdsMatchExactly": true,
+  "downgradedEarlierVerified": ["A10", "B10", "B13", "C08", "F10", "H11"],
+  "engineStatus": "WORKING_BUT_INCOMPLETE",
+  "deferred": ["I06", "L10"],
+  "validatedEngineCommit": "2561a17a2700b6f14fbed2cac727acfac1b09fdd"
+}

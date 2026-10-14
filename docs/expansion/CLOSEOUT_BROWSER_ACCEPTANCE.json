@@ -1,0 +1,80 @@
+{
+  "checkedAt": "2026-10-14T13:24:22.702163+00:00",
+  "status": "PASS",
+  "environment": "Codex in-app browser, genuine localhost build",
+  "productionHostTested": false,
+  "routeTemplatesRendered": [
+    "/",
+    "/history/draft",
+    "/games/shooting",
+    "/lab/lineups",
+    "/history/progression",
+    "/history/awards",
+    "/discover/recorded",
+    "/history/calendar",
+    "/lab/shots",
+    "/lab/recorded",
+    "/lab/groups",
+    "/lab/teams",
+    "/leaders/recorded",
+    "/history/records",
+    "/players/:playerId/shooting",
+    "/discover",
+    "/standings",
+    "/leaders",
+    "/games",
+    "/games/:gameId",
+    "/history",
+    "/history/:season",
+    "/players/:playerId/games",
+    "/lab/careers",
+    "/players/:playerId/career",
+    "/lab/analytics",
+    "/teams",
+    "/teams/:teamId",
+    "/my-nba",
+    "/lab/compare",
+    "/explore",
+    "/players/:playerId/insights",
+    "/players/:playerId",
+    "/standings/recorded",
+    "/lab/profiles",
+    "/compare"
+  ],
+  "phoneViewport": {
+    "width": 390,
+    "height": 844,
+    "documentWidth": 375,
+    "controlsContained": true,
+    "wideTablesScrollContained": true
+  },
+  "defaultViewport": {
+    "width": 1280,
+    "documentWidth": 1265
+  },
+  "temporaryViewportReset": true,
+  "actualTeamNavigation": {
+    "query": "details=2023-24",
+    "rosterRows": 18,
+    "participantRows": 17,
+    "regularResultRows": 82,
+    "homeFilterRows": 42,
+    "alerts": 0
+  },
+  "actualQualificationChange": {
+    "minGames": 80,
+    "commonPopulation": 26,
+    "excludedSelectedTargetsWithheld": true
+  },
+  "originalViews": [
+    "/",
+    "/players/201939",
+    "/compare?player1=201939&player2=2544&season=2023-24"
+  ],
+  "initialIssuesResolved": [
+    "Team ranking used season instead of details query; code and regression fixed.",
+    "QA initially used the wrong roster table label; actual source-listed label/data inspected."
+  ],
+  "downloadEventWaitUsed": false,
+  "sameFixturePixelDiffPerformed": false
+}
