@@ -17,6 +17,7 @@ import {
 } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { WikiAttribution } from './WikiAttribution';
+import { SeriesContext } from '../playoffs/SeriesContext';
 import { shiftCalendarDate } from './calendar-date';
 import styles from '../research/research.module.css';
 import {
@@ -164,8 +165,8 @@ export function GamesArchivePage() {
           {gameId && games[0] ? (
             <>
               <GameHero game={games[0]} />
+              <SeriesContext gameId={games[0].id} />
               <nav className="intel-links" aria-label="This game in context">
-                <Link to={`/games/bracket?game=${games[0].id}`}>Open this series</Link>
                 <Link to={`/teams/${games[0].away.id}/season`}>
                   {games[0].away.abbreviation} regular season
                 </Link>

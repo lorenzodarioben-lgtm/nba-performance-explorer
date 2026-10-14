@@ -214,3 +214,40 @@ describe('playoff bracket page', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Invalid bracket view');
   });
 });
+
+describe('series context on game pages', () => {
+  it('names the round, game number and series score, and links every game', async () => {
+    const { QueryClient, QueryClientProvider } = await import('@tanstack/react-query');
+    const { render } = await import('@testing-library/react');
+    const { MemoryRouter } = await import('react-router');
+    const { SeriesContext } = await import('./SeriesContext');
+    const data = bracket();
+    const finals = data.series.find((s) => s.round === 4)!;
+    server.use(http.get(API, () => HttpResponse.json(data)));
+    const view = (gameId: string) =>
+      render(
+        <MemoryRouter>
+          <QueryClientProvider client={new QueryClient()}>
+            <SeriesContext gameId={gameId} />
+          </QueryClientProvider>
+        </MemoryRouter>,
+      );
+    const second = view(finals.games[1]!.game.id);
+    const region = await screen.findByRole('region', {
+      name: 'This game in its series',
+    });
+    expect(region).toHaveTextContent('NBA Finals · Game 2');
+    expect(region).toHaveTextContent('EAX leads 2–0');
+    expect(within(region).getAllByRole('link', { name: /^Game \d/ })).toHaveLength(4);
+    expect(within(region).getByRole('link', { name: /^Game 2/ })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    expect(
+      within(region).getByRole('link', { name: 'Open the series' }),
+    ).toHaveAttribute('href', `/games/bracket?series=${finals.id}`);
+    second.unmount();
+    view(finals.games[3]!.game.id);
+    expect(await screen.findByText('EAX wins the series 4–0')).toBeInTheDocument();
+  });
+});
