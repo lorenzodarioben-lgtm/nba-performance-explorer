@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { renderApp } from '../../test/renderApp';
@@ -138,5 +138,25 @@ describe('My NBA preferences journey', () => {
     expect(localStorage.getItem(RESEARCH_STORAGE_KEY)).toBe(
       '{"version":1,"bookmarks":[]}',
     );
+  });
+
+  it('lets the reader choose reduced or full motion and remembers it on this device', async () => {
+    renderApp('/my-nba');
+    await screen.findByRole('heading', { name: 'My NBA', level: 1 });
+    const group = screen.getByRole('group', { name: 'Motion preference' });
+    expect(within(group).getByRole('button', { name: 'System' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    fireEvent.click(within(group).getByRole('button', { name: 'Reduced' }));
+    expect(within(group).getByRole('button', { name: 'Reduced' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    expect(document.documentElement.dataset.motion).toBe('reduced');
+    expect(window.localStorage.getItem('npe.motion-preference.v1')).toBe('reduced');
+    fireEvent.click(within(group).getByRole('button', { name: 'Full' }));
+    expect(document.documentElement.dataset.motion).toBe('full');
+    window.localStorage.removeItem('npe.motion-preference.v1');
   });
 });

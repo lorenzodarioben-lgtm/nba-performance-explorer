@@ -121,12 +121,11 @@ export function Reveal({
   as?: 'div' | 'section' | 'li' | 'span' | 'figure' | 'article';
   duration?: number;
 }) {
+  // The element type never changes with the motion setting (a swap would remount the subtree
+  // and lose its state); reduced motion simply starts in the final state.
   const allowed = useMotionAllowed();
   const Component = motion[as];
-  if (!allowed) {
-    const Plain = as as ElementType;
-    return <Plain className={className}>{children}</Plain>;
-  }
+  const start = allowed ? 'hidden' : false;
   const transition = {
     duration: duration ?? (variant === 'wipe' || variant === 'mask' ? 0.9 : 0.7),
     ease: easings.arena,
@@ -138,7 +137,7 @@ export function Reveal({
     return (
       <Component
         className={className}
-        initial="hidden"
+        initial={start}
         whileInView="shown"
         viewport={{ once: true, amount, margin: '0px 0px -6% 0px' }}
       >
@@ -152,7 +151,7 @@ export function Reveal({
     <Component
       className={className}
       variants={revealVariants[variant]}
-      initial="hidden"
+      initial={start}
       whileInView="shown"
       viewport={{ once: true, amount, margin: '0px 0px -6% 0px' }}
       transition={transition}
@@ -180,14 +179,10 @@ export function Stagger({
 }) {
   const allowed = useMotionAllowed();
   const Component = motion[as];
-  if (!allowed) {
-    const Plain = as as ElementType;
-    return <Plain className={className}>{children}</Plain>;
-  }
   return (
     <Component
       className={className}
-      initial="hidden"
+      initial={allowed ? 'hidden' : false}
       whileInView="shown"
       viewport={{ once: true, amount }}
       variants={{
@@ -211,12 +206,7 @@ export function StaggerItem({
   variant?: RevealVariant;
   as?: 'div' | 'li' | 'span' | 'article' | 'tr' | 'dd' | 'section';
 }) {
-  const allowed = useMotionAllowed();
   const Component = motion[as];
-  if (!allowed) {
-    const Plain = as as ElementType;
-    return <Plain className={className}>{children}</Plain>;
-  }
   return (
     <Component
       className={className}
@@ -342,12 +332,11 @@ export function RouteEntrance({
   className?: string;
 }) {
   const allowed = useMotionAllowed();
-  if (!allowed) return <div className={className}>{children}</div>;
   return (
     <motion.div
       key={routeKey}
       className={className}
-      initial={{ opacity: 0, y: 10 }}
+      initial={allowed ? { opacity: 0, y: 10 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={transitions.filmSlow}
     >

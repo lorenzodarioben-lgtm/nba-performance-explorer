@@ -8,6 +8,7 @@ import {
 import { ResearchShell } from '../research/ResearchShell';
 import styles from '../research/research.module.css';
 import { mergeResearch, parseResearchJson, researchRepository } from './local-research';
+import { MotionSettingPanel } from './MotionSettingPanel';
 import { RecentHistoryPanel } from './RecentHistoryPanel';
 import { recentHistoryRepository } from './recent-history';
 
@@ -25,6 +26,7 @@ export function MyNbaPage() {
         sync. Optional recent research history is off by default. Export your bookmark
         JSON before changing browsers or clearing storage.
       </p>
+      <MotionSettingPanel />
       {store.warning && <p role="status">{store.warning}</p>}
       {message && <p role="status">{message}</p>}
       <h2>Save a favorite or research link</h2>
