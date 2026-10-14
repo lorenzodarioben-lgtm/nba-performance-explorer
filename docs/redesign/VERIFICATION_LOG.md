@@ -442,3 +442,40 @@ named 'Court'` (from `HomePreviews.tsx:10`).
   listening (cold `npm run dev`), the homepage's game preview can get one 503 from the dev
   proxy and say its archive is unreachable until a reload. The page itself renders; once
   the backend is up there are no failed responses.
+
+## Hotfix (part 2) — preview placeholder contrast, and final verification
+
+- **Found while verifying the Windows fix:**
+  - The first full Playwright run after the fix had one failure: the homepage axe scan
+    reported `color-contrast: 1 node(s)`.
+  - It did not reproduce in 6 warm runs, 12 cold-browser runs or 16 repeats on 4 parallel
+    workers. Holding the archive requests open made it deterministic.
+  - While a homepage preview loads, its still-frame label ("Court", "Standings", "Final") was
+    set in `--chalk-4`: `#636264` on `#111114`, contrast 3.1:1 at 10.5 px, below 4.5:1.
+  - The suite's first scan had landed while one preview was still loading, against a
+    freshly restarted backend. The defect predates the hotfix (Stage 9); the rename only
+    exposed it through timing.
+- **Fix:** the label now uses `--chalk-3` (about 7:1), like the "archive not reachable" line.
+  `--chalk-4` stays for non-text marks.
+- **Regression test:** a new axe scan in `e2e/a11y.spec.ts` holds the shot, standings and
+  game archive requests open and scans the homepage with all three still frames showing.
+  Before the CSS fix it failed with 3 color-contrast nodes; after it, it passes.
+- **Final verification on the pushed head:**
+  - `npm run validate` exits 0:
+    - Prettier is clean.
+    - Lint has 0 errors (13 react-refresh warnings, as before).
+    - `check:module-case` passes its 5/5 self-test cases and the real check (61 folders,
+      364 source files, 1,086 relative imports).
+    - Typecheck passes.
+    - Frontend tests pass 347/347 and backend tests 413/413.
+    - Production builds pass.
+  - Playwright passes **118/118** with 0 failures: smoke 78/78 (desktop and phone), and axe
+    40/40 scans (39 routes plus the loading-state scan) with zero serious or critical
+    violations. The 40 skipped entries are the phone-width axe runs, which scan once at
+    desktop width by design.
+  - Startup probe on a fresh `npm run dev`, Chromium, Full and Reduced motion: home, Shot
+    Studio and the no-photo player hub pass, with no page or console errors and no failed
+    responses. Courts are drawn: home 2 courts and 100 shot marks, Shot Studio 1 court and
+    100 shot marks, player hub 1 court.
+  - The case-folded Windows view of the fixed tree builds and passes the same six browser
+    runs. The same view of `436cb60` fails as reported.

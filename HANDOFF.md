@@ -34,8 +34,9 @@ Final verified state:
 
 - `npm run validate` exits 0: 347 frontend and 413 backend tests pass, lint has 0 errors, and
   typecheck and builds pass.
-- Playwright passes 117/117. Smoke passes 78/78 on desktop and phone. Axe passes 39/39
-  routes with zero serious or critical violations.
+- Playwright passes 118/118. Smoke passes 78/78 on desktop and phone. Axe passes 40/40
+  scans (39 routes plus the homepage loading state) with zero serious or critical
+  violations.
 - Initial JS is 196.5 kB gzip, against 235.2 kB at baseline.
 
 ## Continuation instructions

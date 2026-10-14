@@ -372,7 +372,8 @@
   font: 500 10.5px/1 var(--mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--chalk-4);
+  /* Text, so it meets text contrast (chalk-4 is for non-text marks only). */
+  color: var(--chalk-3);
 }
 .preview__off {
   margin: 0;
