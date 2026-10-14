@@ -132,3 +132,41 @@ title`), the same two shot marks.
   rule); IND 157 at ATL 152 on Nov 21, 2023, 309 combined points.
 - Visual fix: card padding was overridden by the list reset; selector specificity corrected.
 - `npm run validate` exit 0: 382 frontend / 432 backend. `npm run e2e`: 133 passed.
+
+## Stage 8 — two-team season duel (`4a797d0`)
+
+- `/lab/teams` adds both teams' games-above-.500 paths on one chart and every shared split on
+  one 0–100% scale, sharing the team-season query cache. BOS 63–18 vs DEN 57–24 observed.
+- Tests: 2 frontend cases (shared splits only; one failing team shows an error, not half a
+  comparison).
+
+## Stage 9 — series context on game pages (`c328062`)
+
+- Each playoff game page shows round, game number, series score after the game (or the clinch),
+  a linked strip of the series' games and a bracket link. Finals Game 5: "BOS wins the series
+  4–1".
+- Axe caught red winner labels at 4.41:1 on the lighter current-game fill; the current game is
+  now framed instead. Game page, bracket, duel and 2023-24 hub scan clean.
+
+## Stage 10 — Formula lab (`d6c19dd`)
+
+- `/lab/formulas`: 16 derived metrics (10 added in 3.0) with formula, definition,
+  missing-data rule, worked example, implementing module and usage links; area and search in
+  the URL. Every worked example was re-derived by hand; one (similarity distance) was corrected
+  from 2.78 to 2.85 before commit.
+
+## Stage 11 — race views and opponent quality (`bd152bc`, `4d43aac`)
+
+- Standings race gains games-behind and ladder-rank (bump chart) views with 6th/10th rules;
+  hand-checked series incl. ties.
+- Team seasons split by opponent quality (observed win % above/below .500). Genuine
+  reconciliation for all 30 teams; the rebuilt agreed-game list equals the documented 1219.
+
+## Stage 12 — published playoff seeds (`809e86f`)
+
+- Seeds are parsed from the series headings of the already-licensed "2024 NBA playoffs" page and
+  accepted only if consistent; the live bracket carries all 16 seeds matching the historical
+  record and follows the official layout.
+- Source check: "2024 NBA play-in tournament" on Wikipedia is a 173-byte redirect (revision
+  1286346997), so play-in games are not available as a separate table and are not ingested.
+- `npm run validate` exit 0: 391 frontend / 434 backend tests.
