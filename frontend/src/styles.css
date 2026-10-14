@@ -7,6 +7,7 @@
 @import './design/studio.css' layer(components);
 @import './design/compare.css' layer(components);
 @import './design/league.css' layer(components);
+@import './design/history.css' layer(components);
 
 /*
  * Self-hosted web fonts (latin subset, woff2). The condensed grotesque (Saira Condensed) is the

@@ -14,63 +14,30 @@ import {
   SourceNote,
   QueryFeedback,
 } from '../research/ResearchShell';
+import { LineChart } from '../../charts/LineChart';
 import { WikiAttribution } from '../wiki-archive/WikiAttribution';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
 function MeanSeries({ series }: { series: RecordedProgressionResponse['series'] }) {
-  const maximum = Math.max(
-      1,
-      ...series.flatMap((r) => (r.meanValue === null ? [] : [r.meanValue])),
-    ),
-    segments: string[][] = [];
-  let current: string[] = [];
-  series.forEach((r, i) => {
-    if (r.meanValue === null) {
-      if (current.length) segments.push(current);
-      current = [];
-    } else
-      current.push(
-        `${30 + (i / Math.max(1, series.length - 1)) * 620},${170 - (140 * r.meanValue) / maximum}`,
-      );
-  });
-  if (current.length) segments.push(current);
   return (
-    <svg
-      viewBox="0 0 700 220"
-      aria-hidden="true"
-      style={{ width: '100%', maxWidth: 800, height: 'auto' }}
-    >
-      <path d="M30 15 V170 H650" fill="none" stroke="#52525b" />
-      {segments.map((points, i) => (
-        <polyline
-          key={i}
-          points={points.join(' ')}
-          fill="none"
-          stroke="#1d4ed8"
-          strokeWidth={2}
-        />
-      ))}
-      {series.map((r, i) =>
-        r.meanValue === null ? null : (
-          <circle
-            key={r.date}
-            cx={30 + (i / Math.max(1, series.length - 1)) * 620}
-            cy={170 - (140 * r.meanValue) / maximum}
-            r={2}
-            fill="#1d4ed8"
-          />
-        ),
-      )}
-      <text x={30} y={200}>
-        {series[0]?.date}
-      </text>
-      <text x={560} y={200}>
-        {series.at(-1)?.date}
-      </text>
-      <text x={35} y={15}>
-        Daily mean metric value; gaps remain disconnected
-      </text>
-    </svg>
+    <div className="panel frchart" data-chart="progression-mean">
+      <LineChart
+        label="Daily mean metric value; gaps remain disconnected"
+        categories={series.map((r) => r.date)}
+        series={[
+          {
+            id: 'mean',
+            label: 'Daily mean',
+            color: '#3b82f6',
+            values: series.map((r) => r.meanValue),
+          },
+        ]}
+        height={240}
+        format={(value) => value.toFixed(2)}
+        formatCategory={(date) => date.slice(5)}
+        footnote="Daily mean metric value across the recorded games of each date; days without games are gaps, never bridged."
+      />
+    </div>
   );
 }
 export function RecordedProgressionPage() {

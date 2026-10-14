@@ -9,6 +9,7 @@ import { fetchResearch } from '../research/api';
 import { ResearchShell, ResearchTable, SourceNote } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
+import { SeasonHero, SeasonTimeline } from './SeasonTimeline';
 
 export function HistoryPage() {
   const { season } = useParams();
@@ -55,7 +56,12 @@ export function HistoryPage() {
           <button onClick={() => setParams({})}>Clear filters</button>
         </p>
       )}
-      {valid && query.isPending && <p role="status">Loading historical facts…</p>}
+      {valid && query.isPending && (
+        <p role="status" className="loading-line">
+          <i aria-hidden="true" />
+          Loading historical facts…
+        </p>
+      )}
       {query.isError && (
         <p role="alert">
           The historical facts source or this season is unavailable. No substitute facts
@@ -120,6 +126,12 @@ export function HistoryPage() {
             Shareable history URL
             <input readOnly value={`${window.location.origin}${path}`} />
           </label>
+          {season && data.seasons.find((s) => s.season === season) ? (
+            <SeasonHero season={data.seasons.find((s) => s.season === season)!} />
+          ) : null}
+          {!season && data.seasons.length > 1 ? (
+            <SeasonTimeline seasons={data.seasons} />
+          ) : null}
           <SourceNote provenance={data.provenance} />
           <p>
             {data.seasons.length} matching seasons of {data.sourceSeasons} source season
@@ -127,7 +139,7 @@ export function HistoryPage() {
             {data.coverage.missingWinners} source seasons lack champion statements.
             Source status: {data.status}.
           </p>
-          <div className={styles.controls}>
+          <div className="seasonnav">
             {data.navigation.previous && (
               <Link
                 to={`/history/${data.navigation.previous}${params.size ? `?${params}` : ''}`}

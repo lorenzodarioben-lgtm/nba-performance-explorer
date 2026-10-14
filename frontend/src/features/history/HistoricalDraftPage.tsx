@@ -12,6 +12,7 @@ import {
   SourceNote,
   QueryFeedback,
 } from '../research/ResearchShell';
+import { Stagger, StaggerItem } from '../../motion/choreography';
 import { WikiAttribution } from '../wiki-archive/WikiAttribution';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
@@ -150,59 +151,94 @@ export function HistoricalDraftPage() {
           {!data.selections.length ? (
             <p role="status">No source selections match these filters/page.</p>
           ) : (
-            <ResearchTable label="Historical draft selections">
-              <table>
-                <caption>
-                  2023 numbered picks; source-listed affiliations and markers, not
-                  current roster facts
-                </caption>
-                <thead>
-                  <tr>
-                    {[
-                      'Round',
-                      'Pick',
-                      'Player/source marker',
-                      'NBA identity',
-                      'Position',
-                      'Nationality',
-                      'Listed team and trade notes',
-                      'School/club',
-                    ].map((s) => (
-                      <th key={s} scope="col">
-                        {s}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.selections.map((p) => (
-                    <tr key={p.id}>
-                      <td>{p.round}</td>
-                      <th scope="row">{p.pick}</th>
-                      <td>
-                        <a href={p.articleUrl}>{p.playerLabel}</a>
-                      </td>
-                      <td>
-                        {p.nbaPlayerId ? (
-                          <Link to={`/players/${p.nbaPlayerId}`}>{p.nbaPlayerId}</Link>
-                        ) : (
-                          'Unavailable'
-                        )}
-                        {p.identityUrl && (
-                          <div>
-                            <a href={p.identityUrl}>CC0 identity evidence</a>
-                          </div>
-                        )}
-                      </td>
-                      <td>{p.position ?? 'Unavailable'}</td>
-                      <td>{p.nationality ?? 'Unavailable'}</td>
-                      <td>{p.teamLabel}</td>
-                      <td>{p.schoolClub ?? 'Unavailable'}</td>
+            <>
+              <Stagger as="ol" className="draftboard" gap={0.025}>
+                {data.selections.map((p) => {
+                  const card = (
+                    <>
+                      <span className="draftboard__pick">{p.pick}</span>
+                      <span className="draftboard__team">
+                        {p.listedTeam.abbreviation}
+                      </span>
+                      <span className="draftboard__name">{p.name}</span>
+                      <span className="draftboard__meta">
+                        {[p.position, p.schoolClub].filter(Boolean).join(' · ') || '—'}
+                      </span>
+                    </>
+                  );
+                  return (
+                    <StaggerItem as="li" key={p.id}>
+                      {p.nbaPlayerId ? (
+                        <Link
+                          to={`/players/${p.nbaPlayerId}`}
+                          className="draftboard__card"
+                          aria-label={`Pick ${p.pick}: ${p.name}, ${p.listedTeam.name}, player hub`}
+                        >
+                          {card}
+                        </Link>
+                      ) : (
+                        <div className="draftboard__card is-static">{card}</div>
+                      )}
+                    </StaggerItem>
+                  );
+                })}
+              </Stagger>
+              <ResearchTable label="Historical draft selections">
+                <table>
+                  <caption>
+                    2023 numbered picks; source-listed affiliations and markers, not
+                    current roster facts
+                  </caption>
+                  <thead>
+                    <tr>
+                      {[
+                        'Round',
+                        'Pick',
+                        'Player/source marker',
+                        'NBA identity',
+                        'Position',
+                        'Nationality',
+                        'Listed team and trade notes',
+                        'School/club',
+                      ].map((s) => (
+                        <th key={s} scope="col">
+                          {s}
+                        </th>
+                      ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </ResearchTable>
+                  </thead>
+                  <tbody>
+                    {data.selections.map((p) => (
+                      <tr key={p.id}>
+                        <td>{p.round}</td>
+                        <th scope="row">{p.pick}</th>
+                        <td>
+                          <a href={p.articleUrl}>{p.playerLabel}</a>
+                        </td>
+                        <td>
+                          {p.nbaPlayerId ? (
+                            <Link to={`/players/${p.nbaPlayerId}`}>
+                              {p.nbaPlayerId}
+                            </Link>
+                          ) : (
+                            'Unavailable'
+                          )}
+                          {p.identityUrl && (
+                            <div>
+                              <a href={p.identityUrl}>CC0 identity evidence</a>
+                            </div>
+                          )}
+                        </td>
+                        <td>{p.position ?? 'Unavailable'}</td>
+                        <td>{p.nationality ?? 'Unavailable'}</td>
+                        <td>{p.teamLabel}</td>
+                        <td>{p.schoolClub ?? 'Unavailable'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </ResearchTable>
+            </>
           )}
           <h2>Source forfeitures</h2>
           <ul>

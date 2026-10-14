@@ -72,8 +72,11 @@ describe('observed record progression UI', () => {
     );
     const view = renderApp('/history/progression?metric=combinedPoints');
     await screen.findByRole('group', { name: 'Daily observed metric values' });
-    expect(view.container.querySelectorAll('svg circle')).toHaveLength(2);
-    expect(view.container.querySelectorAll('svg polyline')).toHaveLength(2);
+    // One mark per recorded daily mean, and the missing date splits the line into two
+    // disconnected segments (never bridged).
+    const chart = view.container.querySelector('[data-chart="progression-mean"]')!;
+    expect(chart.querySelectorAll('.lchart__mark')).toHaveLength(2);
+    expect(chart.querySelectorAll('[data-series] path[fill="none"]')).toHaveLength(2);
     expect(screen.getByText('No earlier window record')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'nba:0022300001' })).toHaveAttribute(
       'href',

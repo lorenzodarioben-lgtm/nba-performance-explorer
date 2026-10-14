@@ -11,6 +11,7 @@ import {
   SourceNote,
   QueryFeedback,
 } from '../research/ResearchShell';
+import { Stagger, StaggerItem } from '../../motion/choreography';
 import { WikiAttribution } from '../wiki-archive/WikiAttribution';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 export function HistoricalAwardsPage() {
@@ -76,7 +77,7 @@ export function HistoricalAwardsPage() {
         <>
           <SourceNote provenance={data.provenance} />
           <p>
-            {filtered.length} matching categories from{data.awards.length} source rows;{' '}
+            {filtered.length} matching categories from {data.awards.length} source rows;{' '}
             {data.awards.filter((a) => a.recipientUnavailable).length} missing recipient
             categories.
           </p>
@@ -89,49 +90,71 @@ export function HistoricalAwardsPage() {
           </label>
           <SaveResearchButton
             kind="page"
-            label="Historical2023–24 yearly awards"
+            label="Historical 2023–24 yearly awards"
             path={`/history/awards?${share}`}
           />
           {!filtered.length ? (
             <p role="status">No recorded awards match this search.</p>
           ) : (
-            <ResearchTable label="Historical award recipients">
-              <table>
-                <caption>Winners from the recipient column only</caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Award</th>
-                    <th scope="col">Recipient(s)</th>
-                    <th scope="col">Source team association</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((a) => (
-                    <tr key={a.category}>
-                      <th scope="row">{a.category}</th>
-                      <td>
-                        {a.recipientUnavailable
-                          ? 'Unavailable in source'
-                          : a.recipients.map((r) => (
-                              <div key={`${r.name}:${r.articleUrl}`}>
-                                {r.articleUrl ? (
-                                  <a href={r.articleUrl}>{r.name}</a>
-                                ) : (
-                                  r.name
-                                )}
-                              </div>
-                            ))}
-                      </td>
-                      <td>
-                        {a.recipients.map((r) => (
-                          <div key={r.name}>{r.team?.name ?? 'Unavailable'}</div>
-                        ))}
-                      </td>
+            <>
+              <Stagger as="ul" className="trophies" gap={0.04}>
+                {filtered.map((a) => (
+                  <StaggerItem as="li" key={a.category} className="trophy">
+                    <span className="trophy__award">{a.category}</span>
+                    {a.recipientUnavailable ? (
+                      <span className="trophy__none">Recipient not in source</span>
+                    ) : (
+                      a.recipients.map((r) => (
+                        <span
+                          key={`${r.name}:${r.articleUrl}`}
+                          className="trophy__winner"
+                        >
+                          <b>{r.name}</b>
+                          <span>{r.team?.name ?? 'Team unavailable'}</span>
+                        </span>
+                      ))
+                    )}
+                  </StaggerItem>
+                ))}
+              </Stagger>
+              <ResearchTable label="Historical award recipients">
+                <table>
+                  <caption>Winners from the recipient column only</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Award</th>
+                      <th scope="col">Recipient(s)</th>
+                      <th scope="col">Source team association</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </ResearchTable>
+                  </thead>
+                  <tbody>
+                    {filtered.map((a) => (
+                      <tr key={a.category}>
+                        <th scope="row">{a.category}</th>
+                        <td>
+                          {a.recipientUnavailable
+                            ? 'Unavailable in source'
+                            : a.recipients.map((r) => (
+                                <div key={`${r.name}:${r.articleUrl}`}>
+                                  {r.articleUrl ? (
+                                    <a href={r.articleUrl}>{r.name}</a>
+                                  ) : (
+                                    r.name
+                                  )}
+                                </div>
+                              ))}
+                        </td>
+                        <td>
+                          {a.recipients.map((r) => (
+                            <div key={r.name}>{r.team?.name ?? 'Unavailable'}</div>
+                          ))}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </ResearchTable>
+            </>
           )}
           <WikiAttribution data={data.attribution} />
         </>

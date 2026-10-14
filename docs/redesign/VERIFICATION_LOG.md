@@ -231,3 +231,22 @@ licence and React-native layout/presence primitives; no second animation library
   (`OT1` now also appears in the aria-hidden line score).
 - Results: frontend **343/343**; lint 0 errors; typecheck pass. Browser check on the genuine
   archive: standings, leaders, games, game page, team hub with details, recorded leaders.
+
+## Stage 7 — seasons and history
+
+- Season index (`/history`): decade timeline of every recorded season, each cell carrying
+  its champion statement (dashed when the source has none) and linking to the season page.
+  Season page (`/history/:season`): giant outlined season hero with the champion statement;
+  previous/next links restyled (names unchanged).
+- Awards (`/history/awards`): trophy board — one card per award, every published recipient
+  with the source team association; missing recipients stated, never guessed.
+- Draft (`/history/draft`): draft board of numbered picks (pick, listed team, name, position,
+  school), linking to the player hub only where a sourced NBA identity exists.
+- Record progression (`/history/progression`): the hand-drawn SVG (low-contrast
+  `#1d4ed8`, no axis, no reading) becomes the in-house `LineChart`; missing dates stay gaps.
+- Copy fixes: "from {n} source rows", "Historical 2023–24 yearly awards".
+- Test re-expressions: progression's `svg circle` / `svg polyline` counts (2 / 2) become the
+  chart's mark count (2) and disconnected series-segment count (2) under
+  `[data-chart="progression-mean"]` — the same "one mark per recorded mean, gap never
+  bridged" assertion.
+- Results: frontend **343/343**; lint 0 errors; typecheck pass.

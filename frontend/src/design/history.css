@@ -1,0 +1,233 @@
+/* Seasons and history: season timeline, season hero, awards and draft boards. */
+
+.timeline {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0;
+}
+.timeline__decade {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+.timeline__label {
+  padding-top: 10px;
+  font: 800 1.5rem/1 var(--display);
+  color: var(--chalk-3);
+}
+.timeline__cells {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.timeline__cells > li::before {
+  content: none !important;
+}
+.fr .timeline__cell {
+  display: grid;
+  gap: 4px;
+  min-height: 64px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--coal);
+  color: var(--chalk);
+  text-decoration: none;
+  transition:
+    border-color var(--dur-quick) var(--ease-film),
+    background-color var(--dur-quick) var(--ease-film),
+    transform var(--dur-base) var(--ease-snap);
+}
+.fr .timeline__cell:hover,
+.fr .timeline__cell:focus-visible {
+  border-color: var(--line-3);
+  background: var(--film);
+  transform: translateY(-2px);
+}
+.fr .timeline__cell.is-on {
+  border-color: var(--red-hi);
+}
+.timeline__cell.is-empty {
+  background: transparent;
+  border-style: dashed;
+}
+.timeline__year {
+  font: 500 10.5px/1 var(--mono);
+  letter-spacing: 0.06em;
+  color: var(--chalk-3);
+}
+.timeline__champ {
+  display: -webkit-box;
+  overflow: hidden;
+  font: 700 0.9375rem/1.05 var(--display);
+  text-transform: uppercase;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+@media (max-width: 900px) {
+  .timeline__cells {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  .timeline__decade {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .timeline__cells {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.seasonhero {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px 32px;
+  margin: 8px 0 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.seasonhero__year {
+  font: 800 clamp(5rem, 16vw, 12rem) / 0.78 var(--display);
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--chalk);
+}
+.seasonhero__champ {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 8px;
+}
+.seasonhero__champ b {
+  font: 800 clamp(1.75rem, 4vw, 3rem) / 0.9 var(--display);
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.seasonnav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 16px 0;
+}
+.fr .seasonnav a {
+  padding: 10px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  font: 600 13px/1 var(--ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--chalk);
+  text-decoration: none;
+}
+.fr .seasonnav a:hover {
+  border-color: var(--chalk-3);
+  background: var(--film);
+}
+.fr .seasonnav a:last-child:not(:first-child) {
+  margin-left: auto;
+}
+
+/* ------------------------------------------------------ trophies, draft */
+
+.trophies {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+}
+.trophy {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 130px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background:
+    radial-gradient(80% 60% at 100% 0%, rgb(251 191 36 / 0.08), transparent 70%),
+    var(--coal);
+}
+.trophy::before {
+  content: none !important;
+}
+.trophy__award {
+  font: 500 10.5px/1.35 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.trophy__winner {
+  display: grid;
+  gap: 2px;
+}
+.trophy__winner b {
+  font: 800 1.5rem/0.95 var(--display);
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.trophy__winner span,
+.trophy__none {
+  font-size: 13px;
+  color: var(--chalk-3);
+}
+.draftboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+}
+.draftboard > li::before {
+  content: none !important;
+}
+.fr .draftboard__card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto auto;
+  column-gap: 12px;
+  min-height: 112px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--coal);
+  color: var(--chalk);
+  text-decoration: none;
+  overflow: hidden;
+  transition:
+    border-color var(--dur-base) var(--ease-film),
+    background-color var(--dur-base) var(--ease-film);
+}
+.fr a.draftboard__card:hover,
+.fr a.draftboard__card:focus-visible {
+  border-color: var(--line-3);
+  background: var(--film);
+}
+.draftboard__pick {
+  grid-row: 1 / span 3;
+  font: 800 3.25rem/0.8 var(--display);
+  color: var(--red-hi);
+  min-width: 2.5rem;
+}
+.draftboard__team {
+  font: 500 10.5px/1 var(--mono);
+  letter-spacing: 0.12em;
+  color: var(--chalk-3);
+}
+.draftboard__name {
+  font: 800 1.25rem/0.95 var(--display);
+  text-transform: uppercase;
+}
+.draftboard__meta {
+  font-size: 12.5px;
+  color: var(--chalk-3);
+}
