@@ -30,16 +30,17 @@ percentile profiles, My NBA bookmarks/presets/import-export, global search.
 - Standings: a final table only → **Standings race** replay (Stage 1).
 - Playoff games: per-date list only → **Bracket and series explorer** (Stage 2).
 
+**Delivered in 3.0 (beyond the above):** Shot Studio distance profiles, clickable zones, zone
+comparison strip and saved views; the player hub "2023–24" room with cohort percentiles and
+transparent similar seasons; search over archive players, team seasons and tool keywords; the My
+NBA research board with notes; the 2023-24 season research hub.
+
 **Missing but feasible with existing data (backlog, in priority order):**
 
-1. Shot Studio: clickable zones linked to the table, shot-distance histogram, zone comparison
-   strip, local saved workspaces.
-2. Recorded player research: a player-season card for the 639 recorded rows with
-   cohort percentiles and transparent similar players.
-3. My NBA: named collections, notes on saved items, duplicate/rename, search.
-4. Command search: index teams, the new rooms and tools with keywords.
-5. Season research dashboard for 2023-24 tying race, leaders, bracket and records together.
-6. Formula lab / glossary page showing every derived metric's definition and inputs.
+1. Two-team season comparison built on the team-season endpoint.
+2. Playoff game cumulative-margin chart and series context on game pages.
+3. Formula lab / glossary of every derived metric.
+4. Standings race games-behind view.
 
 **Blocked (unchanged, documented in the Codex ledger):** live/current scoreboards, play-by-play,
 possessions and ratings, on/off, era adjustment, league-wide shot baselines, injury data.

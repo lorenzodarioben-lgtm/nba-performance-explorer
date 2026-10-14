@@ -6,32 +6,43 @@
 - **Branch:** `claude/nba-explorer-3-expansion`, cut from the approved 2.0 checkpoint `0aa2717`.
   Never commit to `main`, `codex/nba-explorer-2-engine` or `claude/nba-explorer-design`; no
   merge, PR to `main` or deploy.
-- **HEAD:** see `git log -1`; the last verified feature commit is listed in the log below.
+- **HEAD:** see `git log -1`; every verified stage commit is listed below.
+- **Working tree:** clean after each commit (a local, untracked `.claude/launch.json` preview
+  config may exist on the development machine; never commit it).
 - **Evidence:** `docs/expansion3/VERIFICATION_LOG.md` (per-stage results) and
   `docs/expansion3/FEATURE_INVENTORY.md` (inventory and backlog).
 - **Design:** the Arena & Film Room system is final. New modules reuse its tokens, slates,
   tapes, scoreboard/statgrid/ladder modules and motion primitives; new CSS lives in
-  `frontend/src/design/intel.css` and `playoffs.css`.
+  `frontend/src/design/intel.css` and `playoffs.css`, with additions in `studio.css` and
+  `history.css`.
 
 ## Completed in 3.0
 
 | Stage | Scope                                                                       | Commit    |
 | ----- | --------------------------------------------------------------------------- | --------- |
 | 0     | 16 → 0 npm audit findings (in-range updates); Windows module-case self-test | `fd2d2c0` |
-| 1     | Team season intelligence (`/teams/:id/season`) and standings race           | `a9c6d0b` |
+| 1     | Team season intelligence (`/teams/:id/season`) and the standings race       | `a9c6d0b` |
 | 2     | 2024 playoff bracket and series explorer (`/games/bracket`)                 | `7e8e2cb` |
+| 3     | Shot Studio: distance profiles, clickable zones, zone strip, saved views    | `46e5e67` |
+| 4     | Player hub "2023–24" room (`/players/:id/archive`) with similar seasons     | `dd29902` |
+| 5     | Search reaches archive players and new rooms; My NBA research board + notes | `0526b32` |
+| 6–7   | e2e on new routes (2 a11y defects fixed); 2023–24 season research hub       | `5845b23` |
 
 New APIs: `GET /api/recorded/team-season?team=`, `GET /api/recorded/standings-race?conference=`,
-`GET /api/games/bracket`. All derivations live in backend domain modules with unit tests; the UI
-only presents them.
+`GET /api/games/bracket`, `GET /api/recorded/player-season?player=&minGames=`. Shot groups gained
+`meanDistanceFeet` and `distances`; research bookmarks gained an optional `note` (schema stays
+version 1). All derivations live in backend domain modules with unit tests; the UI presents them.
 
 ## Verified state
 
-- `npm run validate` exit 0 at `7e8e2cb`: 367 frontend and 427 backend tests, lint 0 errors
-  (13 pre-existing react-refresh warnings), typecheck and builds pass, module-case check passes.
-- `npm audit`: 0 vulnerabilities.
-- Visual checks at 1280 and 390 px for every new page (see the log). The Playwright e2e
-  smoke/axe suites have not yet been extended to the new routes or re-run on this branch.
+- `npm run validate` exit 0: 382 frontend and 432 backend tests (2.0 baseline 347/413), lint 0
+  errors (13 pre-existing react-refresh warnings), typecheck, builds and module-case check pass.
+- `npm run e2e`: 133 passed, 0 failed (2.0: 118) — smoke on desktop and phone plus axe scans for
+  every route, including the five 3.0 routes.
+- `npm audit`: 0 vulnerabilities (full tree and production-only).
+- Bundle: initial JS 197.2 kB gzip (2.0: 196.5 kB); CSS 26.8 kB (2.0: 23.7 kB); new pages are
+  lazy chunks of 3.5–5.6 kB gzip.
+- Visual checks at 1280 and 390 px for every new page; details and fixes in the log.
 
 ## Constraints and data notes
 
@@ -40,19 +51,27 @@ only presents them.
   a score. Rest, streaks and rolling margins are withheld when chronology is unknown.
 - Bracket winners require a fourth win in the series' last recorded game; rounds are derived
   from team series order and cross-checked against NBA game-ID round digits. No seeds.
+- Similar seasons are equal-weight z-score distance in a stated cohort; the UI calls them a
+  resemblance, never a quality judgement. Recorded leaders use the archive's games rule, not the
+  official one, and say so.
+- Tests that were re-expressed (never weakened) are listed in the log: the Shot Studio title
+  count and the search "warriors" option.
 - Commits carry no AI co-author trailer (owner preference).
+- npm 10.9.3 crashes on `npm update` (arborist edgesOut); use `npx npm@11 update <pkg>` for
+  targeted updates, then `npm ci` with the project npm.
 
 ## Next actions (in order)
 
-1. Shot Studio: clickable zones linked to the event table, distance histogram, zone comparison
-   strip, saved local workspaces.
-2. Recorded player-season research card with cohort percentiles and transparent similarity.
-3. My NBA collections and notes; command search for teams and the new rooms.
-4. Extend `e2e/` route examples to the new pages; run smoke and axe; record results.
+1. Two-team season comparison in `/lab/teams` using the team-season endpoint (ribbons, splits
+   and season series side by side).
+2. Playoff game pages: quarter-by-quarter cumulative margin and "series so far" context.
+3. A formula and glossary page listing every derived metric with definition, inputs and source.
+4. Standings race: games-behind view and a play-in line overlay.
+5. After each UI change re-run `npm run e2e`; keep the verification log current.
 
 Continuation: `git checkout claude/nba-explorer-3-expansion && npm ci && npm run validate`.
 For live checks run the backend on 3001 (`PORT=3001 npm run dev:backend`) and the frontend with
-`npm run dev:frontend`.
+`npm run dev:frontend`; `npm run e2e` reuses those servers.
 
 ---
 
