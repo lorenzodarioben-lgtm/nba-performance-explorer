@@ -79,7 +79,7 @@ export function SeriesFilmRoomPage() {
         <Link to={data ? `/games/bracket?series=${data.series.id}` : '/games/bracket'}>
           Back to the bracket
         </Link>
-        <Link to="/games">Playoff games by date</Link>
+        <Link to="/games/recorded">Playoff games by date</Link>
       </nav>
       {!valid ? (
         <p role="alert">

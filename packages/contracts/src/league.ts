@@ -230,3 +230,346 @@ export const LeagueLeadersResponseSchema = z
   })
   .strict();
 export type LeagueLeadersResponse = z.infer<typeof LeagueLeadersResponseSchema>;
+
+// ---- Teams and franchises -----------------------------------------------------------------
+export const LeagueTeamQuerySchema = z
+  .object({ season: LeagueSeasonLabelSchema.optional() })
+  .strict();
+const WonLostSchema = z
+  .object({
+    wins: z.number().int().nonnegative(),
+    losses: z.number().int().nonnegative(),
+  })
+  .strict();
+const ShootingSchema = z
+  .object({
+    fieldGoal: z.number().min(0).max(1).nullable(),
+    threePoint: z.number().min(0).max(1).nullable(),
+    freeThrow: z.number().min(0).max(1).nullable(),
+    effectiveFieldGoal: z.number().min(0).max(1.5).nullable(),
+    trueShooting: z.number().min(0).max(1.5).nullable(),
+  })
+  .strict();
+/** Season totals with the per-game value of each; null where the source did not record it. */
+const BoxTotalsSchema = z.array(
+  z
+    .object({
+      key: z.string().max(10),
+      label: z.string().max(40),
+      total: z.number().nullable(),
+      perGame: z.number().nullable(),
+    })
+    .strict(),
+);
+const TitleSchema = z
+  .object({ year: z.string().max(10), opponent: z.string().max(80).nullable() })
+  .strict();
+
+export const LeagueTeamResponseSchema = z
+  .object({
+    team: LeagueTeamRefSchema,
+    franchise: z
+      .object({
+        founded: z.number().int().nullable(),
+        arena: z.string().max(100).nullable(),
+        /** City and nickname periods derived from the season-by-season names. */
+        identities: z.array(
+          z
+            .object({
+              city: z.string().max(60),
+              name: z.string().max(60),
+              firstSeason: LeagueSeasonLabelSchema,
+              lastSeason: LeagueSeasonLabelSchema,
+              seasons: z.number().int().positive(),
+            })
+            .strict(),
+        ),
+        totals: z
+          .object({
+            games: z.number().int().nonnegative(),
+            wins: z.number().int().nonnegative(),
+            losses: z.number().int().nonnegative(),
+            playoffAppearances: z.number().int().nonnegative(),
+            divisionTitles: z.number().int().nonnegative(),
+            conferenceTitles: z.number().int().nonnegative(),
+            leagueTitles: z.number().int().nonnegative(),
+          })
+          .strict()
+          .nullable(),
+        championships: z.array(TitleSchema),
+        conferenceTitles: z.array(TitleSchema),
+        divisionTitles: z.array(TitleSchema),
+        seasons: z.array(
+          z
+            .object({
+              season: LeagueSeasonLabelSchema,
+              name: z.string().max(80),
+              wins: z.number().int().nonnegative(),
+              losses: z.number().int().nonnegative(),
+              winPercentage: z.number().min(0).max(1),
+              conferenceRank: z.number().int().nullable(),
+              divisionRank: z.number().int().nullable(),
+              playoffWins: z.number().int().nullable(),
+              playoffLosses: z.number().int().nullable(),
+              finals: z.string().max(30).nullable(),
+              archived: z.boolean(),
+            })
+            .strict(),
+        ),
+        notable: z.array(
+          z
+            .object({
+              label: z.string().max(60),
+              value: z.string().max(40),
+              seasons: z.array(LeagueSeasonLabelSchema).max(10),
+            })
+            .strict(),
+        ),
+      })
+      .strict()
+      .nullable(),
+    /** Archived seasons in which this team ID played, oldest first. */
+    seasons: z.array(LeagueSeasonLabelSchema),
+    season: z
+      .object({
+        season: LeagueSeasonLabelSchema,
+        team: LeagueTeamRefSchema,
+        record: z
+          .object({
+            overall: WonLostSchema,
+            home: WonLostSchema,
+            road: WonLostSchema,
+            neutral: WonLostSchema,
+          })
+          .strict(),
+        standing: z
+          .object({
+            conference: z.enum(['East', 'West']),
+            rank: z.number().int().positive().nullable(),
+            division: z.string().max(40),
+            divisionRank: z.number().int().positive().nullable(),
+            gamesBehind: z.number().nonnegative().nullable(),
+          })
+          .strict()
+          .nullable(),
+        playoffs: z
+          .object({
+            wins: z.number().int(),
+            losses: z.number().int(),
+            games: z.number().int(),
+          })
+          .strict()
+          .nullable(),
+        totals: z.object({ team: BoxTotalsSchema, opponent: BoxTotalsSchema }).strict(),
+        shooting: z.object({ team: ShootingSchema, opponent: ShootingSchema }).strict(),
+        ratings: z
+          .object({
+            offRating: z.number(),
+            defRating: z.number(),
+            netRating: z.number(),
+            pace: z.number(),
+            possessions: z.number().nonnegative(),
+          })
+          .strict()
+          .nullable(),
+        ratingsNote: z.string().max(400),
+        leaders: z.array(
+          z
+            .object({
+              key: z.string().max(10),
+              label: z.string().max(40),
+              rows: z
+                .array(
+                  z
+                    .object({
+                      playerId: ResearchPlayerIdSchema,
+                      name: z.string().max(80),
+                      gamesPlayed: z.number().int().positive(),
+                      total: z.number(),
+                      perGame: z.number(),
+                    })
+                    .strict(),
+                )
+                .max(3),
+            })
+            .strict(),
+        ),
+        roster: z
+          .object({
+            listed: z.number().int().nonnegative(),
+            appeared: z.number().int().nonnegative(),
+            listedWhoAppeared: z.number().int().nonnegative(),
+            positions: z.array(
+              z.object({ label: z.string().max(10), count: z.number().int() }).strict(),
+            ),
+            experience: z.array(
+              z.object({ label: z.string().max(20), count: z.number().int() }).strict(),
+            ),
+            age: z
+              .object({
+                min: z.number(),
+                median: z.number(),
+                max: z.number(),
+                known: z.number().int(),
+              })
+              .strict()
+              .nullable(),
+            players: z.array(
+              z
+                .object({
+                  playerId: ResearchPlayerIdSchema,
+                  name: z.string().max(80),
+                  number: z.string().max(10).nullable(),
+                  position: z.string().max(10).nullable(),
+                  age: z.number().nullable(),
+                  experience: z.string().max(10).nullable(),
+                  gamesPlayed: z.number().int().nonnegative(),
+                })
+                .strict(),
+            ),
+            coaches: z.array(z.string().max(120)).max(20),
+          })
+          .strict()
+          .nullable(),
+      })
+      .strict()
+      .nullable(),
+    provenance: LeagueProvenanceSchema,
+  })
+  .strict();
+export type LeagueTeamResponse = z.infer<typeof LeagueTeamResponseSchema>;
+
+// ---- Record book and progression -----------------------------------------------------------
+export const LeagueRecordCategorySchema = z.enum([
+  'points',
+  'rebounds',
+  'assists',
+  'steals',
+  'blocks',
+  'threesMade',
+  'fieldGoalsMade',
+  'freeThrowsMade',
+  'offensiveRebounds',
+]);
+export type LeagueRecordCategory = z.infer<typeof LeagueRecordCategorySchema>;
+export const LeagueRecordsQuerySchema = z
+  .object({
+    scope: LeagueScopeSchema.default('regular-season'),
+    kind: z.enum(['game', 'season']).default('game'),
+    category: LeagueRecordCategorySchema.default('points'),
+    /** Season records only: season total or per game (qualified). */
+    mode: z.enum(['totals', 'per-game']).default('totals'),
+  })
+  .strict();
+export type LeagueRecordsQuery = z.infer<typeof LeagueRecordsQuerySchema>;
+const RecordEntrySchema = z
+  .object({
+    rank: z.number().int().positive(),
+    value: z.number(),
+    playerId: ResearchPlayerIdSchema,
+    name: z.string().max(80),
+    season: LeagueSeasonLabelSchema,
+    teams: z.array(LeagueTeamRefSchema).min(1).max(6),
+    /** Single-game records only. */
+    game: z
+      .object({
+        id: z.string().regex(/^00[1-6]\d{7}$/),
+        date: z.iso.date(),
+        opponent: LeagueTeamRefSchema,
+        home: z.boolean(),
+        won: z.boolean(),
+      })
+      .strict()
+      .nullable(),
+    gamesPlayed: z.number().int().positive().nullable(),
+  })
+  .strict();
+export const LeagueRecordsResponseSchema = z
+  .object({
+    query: z
+      .object({
+        scope: LeagueScopeSchema,
+        kind: z.enum(['game', 'season']),
+        category: LeagueRecordCategorySchema,
+        mode: z.enum(['totals', 'per-game']),
+      })
+      .strict(),
+    definition: z.string().max(400),
+    coverage: z
+      .object({
+        included: z.array(LeagueSeasonLabelSchema),
+        excluded: z.array(
+          z
+            .object({ season: LeagueSeasonLabelSchema, reason: z.string().max(200) })
+            .strict(),
+        ),
+      })
+      .strict(),
+    /** The top ten, plus every performance tied with the tenth. */
+    records: z.array(RecordEntrySchema).max(60),
+    /** Each performance that set or tied the best mark so far, in date order. */
+    progression: z
+      .array(RecordEntrySchema.extend({ kind: z.enum(['first', 'new', 'tie']) }))
+      .max(200),
+    provenance: LeagueProvenanceSchema,
+  })
+  .strict();
+export type LeagueRecordsResponse = z.infer<typeof LeagueRecordsResponseSchema>;
+
+// ---- Team rankings ------------------------------------------------------------------------
+export const LeagueTeamMetricSchema = z.enum([
+  'winPercentage',
+  'pointsPerGame',
+  'opponentPointsPerGame',
+  'pointDifferential',
+  'offensiveRating',
+  'defensiveRating',
+  'netRating',
+  'pace',
+  'fieldGoalPercentage',
+  'threePointPercentage',
+  'freeThrowPercentage',
+  'trueShootingPercentage',
+  'reboundsPerGame',
+  'assistsPerGame',
+  'turnoversPerGame',
+]);
+export type LeagueTeamMetric = z.infer<typeof LeagueTeamMetricSchema>;
+export const LeagueTeamRankingsQuerySchema = z
+  .object({
+    season: LeagueSeasonLabelSchema.optional(),
+    scope: LeagueScopeSchema.default('regular-season'),
+    metric: LeagueTeamMetricSchema.default('netRating'),
+  })
+  .strict();
+export const LeagueTeamRankingsResponseSchema = z
+  .object({
+    query: z
+      .object({
+        season: LeagueSeasonLabelSchema,
+        scope: LeagueScopeSchema,
+        metric: LeagueTeamMetricSchema,
+      })
+      .strict(),
+    definition: z.string().max(400),
+    /** Lower is better for allowed points, defensive rating and turnovers: rank 1 is lowest. */
+    direction: z.enum(['higher-is-better', 'lower-is-better']),
+    rows: z.array(
+      z
+        .object({
+          rank: z.number().int().positive(),
+          team: LeagueTeamRefSchema,
+          gamesPlayed: z.number().int().positive(),
+          wins: z.number().int().nonnegative(),
+          losses: z.number().int().nonnegative(),
+          value: z.number(),
+        })
+        .strict(),
+    ),
+    unavailable: z.string().max(300).nullable(),
+    provenance: LeagueProvenanceSchema,
+  })
+  .strict();
+export type LeagueTeamRankingsResponse = z.infer<
+  typeof LeagueTeamRankingsResponseSchema
+>;

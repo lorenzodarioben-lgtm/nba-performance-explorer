@@ -40,6 +40,9 @@ const KEYWORDS: Record<string, string> = {
   '/games/series/r4-BOS-DAL':
     'film room series game by game quarters margins finals celtics mavericks clinch',
   '/standings/race': 'standings race replay timeline ladder date season animation',
+  '/history/record-book':
+    'record book most points game career high single season record progression tied',
+  '/leaders/teams': 'team rankings offense defense net rating pace best team',
   '/standings': 'standings table east west conference season history clinch',
   '/leaders':
     'leaders leaderboard scoring champion per game per 36 per 100 totals season playoffs',

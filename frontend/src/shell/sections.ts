@@ -20,7 +20,14 @@ export interface Section {
 }
 
 const exact = (path: string) => (pathname: string) => pathname === path;
-const SEASON_BOOK = new Set(['records', 'progression', 'awards', 'draft', 'calendar']);
+const SEASON_BOOK = new Set([
+  'records',
+  'progression',
+  'awards',
+  'draft',
+  'calendar',
+  'record-book',
+]);
 
 export const SECTIONS: readonly Section[] = [
   {
@@ -41,13 +48,23 @@ export const SECTIONS: readonly Section[] = [
     id: 'games',
     label: 'Games',
     to: '/games',
-    blurb: 'Recorded playoff games, the game calendar and game shooting.',
+    blurb:
+      'The scoreboard, box scores and play-by-play, the 2024 playoffs and game shooting.',
     pages: [
       {
         to: '/games',
+        label: 'Scoreboard',
+        blurb:
+          'Games on any date since 1983–84 and NBA.com’s current schedule, with box scores and play-by-play.',
+        match: (pathname) =>
+          pathname === '/games' || /^\/games\/nba:00(?!423)/.test(pathname),
+      },
+      {
+        to: '/games/recorded',
         label: 'Playoff games',
         blurb: 'Recorded 2023-24 playoff results by date, with quarter line scores.',
-        match: (pathname) => pathname === '/games' || /^\/games\/nba:/.test(pathname),
+        match: (pathname) =>
+          pathname === '/games/recorded' || /^\/games\/nba:00423/.test(pathname),
       },
       {
         to: '/games/bracket',
@@ -117,6 +134,20 @@ export const SECTIONS: readonly Section[] = [
           'Every player ranked by season, rate and qualification, from NBA.com box scores.',
         match: (pathname) =>
           pathname === '/leaders' || pathname === '/leaders/wikipedia',
+      },
+      {
+        to: '/leaders/teams',
+        label: 'Team leaders',
+        blurb:
+          'Every team in a season ranked on records, scoring, shooting, ratings and pace.',
+        match: exact('/leaders/teams'),
+      },
+      {
+        to: '/history/record-book',
+        label: 'Record book',
+        blurb:
+          'Best single games and seasons since 1983–84, and how each record moved.',
+        match: exact('/history/record-book'),
       },
       {
         to: '/leaders/recorded',

@@ -41,6 +41,7 @@ import {
 import { healthRouter } from './routes/health.js';
 import { createLeagueRouter } from './features/league/league-router.js';
 import type { LeagueService } from './features/league/league-service.js';
+import type { NbaLiveClient } from './features/league/league-live.js';
 import { buildCoverage } from './features/coverage/coverage.js';
 
 // Optional same-origin static hosting for the built frontend. When `FRONTEND_DIST` points to a
@@ -98,6 +99,8 @@ export function createApp(
     lineupStudyProvider?: LineupStudyProvider;
     draftProvider?: DraftProvider;
     leagueService?: LeagueService;
+    /** NBA.com live sources for current games; omitted, game pages use the archive only. */
+    leagueLive?: NbaLiveClient;
     /** How the Wikipedia archives are served (reported by the coverage explorer). */
     archiveMode?: 'live' | 'bundled';
   } = {},
@@ -127,7 +130,10 @@ export function createApp(
     );
   });
   application.all('/api/coverage', methodNotAllowedHandler);
-  application.use('/api/league', createLeagueRouter(options.leagueService));
+  application.use(
+    '/api/league',
+    createLeagueRouter(options.leagueService, options.leagueLive),
+  );
   application.use('/api/shots', createShotRouter(options.shotArchiveProvider));
   application.use(
     '/api/history',

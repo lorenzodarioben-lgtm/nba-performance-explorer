@@ -451,7 +451,7 @@ export function TeamSeasonArchivePanel({ team }: { team: DirectoryTeam }) {
           <p>
             Quarter scoring and full shooting box scores are absent from this
             regular-season table. Playoff quarter scores are available in{' '}
-            <Link to="/games">Recorded playoff games</Link>.
+            <Link to="/games/recorded">Recorded playoff games</Link>.
           </p>
         </>
       )}

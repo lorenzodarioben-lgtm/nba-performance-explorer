@@ -95,11 +95,12 @@ export function GamesArchivePage() {
         displayed game is a recorded final. Live, upcoming, regular-season games and
         current schedules are outside this source's coverage.
       </p>
-      <Link to="/games">Recorded scoreboard</Link>{' '}
+      <Link to="/games/recorded">Recorded scoreboard</Link>{' '}
       <Link to="/standings">Historical standings</Link>
       {!valid ? (
         <p role="alert">
-          Invalid recorded-game URL. <Link to="/games">Open supported snapshot</Link>
+          Invalid recorded-game URL.{' '}
+          <Link to="/games/recorded">Open supported snapshot</Link>
         </p>
       ) : (
         <QueryFeedback pending={query.isPending} failed={query.isError} />
@@ -116,13 +117,13 @@ export function GamesArchivePage() {
           <SaveResearchButton
             kind="analysis"
             label={gameId ? `Recorded game ${gameId}` : 'Recorded playoff scoreboard'}
-            path={`/games${gameId ? `/${gameId}` : ''}?${savedParams}`}
+            path={`/games${gameId ? `/${gameId}` : '/recorded'}?${savedParams}`}
           />
           <label>
             Shareable recorded-game URL
             <input
               readOnly
-              value={`${window.location.origin}/games${gameId ? `/${gameId}` : ''}?${savedParams}`}
+              value={`${window.location.origin}/games${gameId ? `/${gameId}` : '/recorded'}?${savedParams}`}
             />
           </label>
           {!gameId && date && (

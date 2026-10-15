@@ -53,7 +53,13 @@ export const SourceRequestSchema = z
   .strict();
 
 const QuarantineSchema = z
-  .object({ gameId: GameIdSchema, reason: z.string().max(200) })
+  .object({
+    gameId: GameIdSchema,
+    reason: z.string().max(200),
+    /** The listed date and teams, kept so the game can be shown in its quarantined state. */
+    date: DateSchema.nullable(),
+    teamIds: z.array(NbaIdSchema).max(2),
+  })
   .strict();
 
 const TeamSeasonSchema = z

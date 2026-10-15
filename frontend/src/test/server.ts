@@ -13,7 +13,9 @@ const unavailable = () =>
 //  - The player hub asks which players are in the archived shot directory (its Shot map tab).
 //  - The home page previews read the shot, standings and playoff-game archives.
 //  - Global search, the homepage band and game pages read the 2024 playoff bracket.
+//  - Team pages read their NBA.com league-archive sections.
 export const server = setupServer(
+  http.get('http://localhost/api/league/*', unavailable),
   http.get('http://localhost/api/shots/directory', unavailable),
   http.get('http://localhost/api/shots', unavailable),
   http.get('http://localhost/api/standings', unavailable),

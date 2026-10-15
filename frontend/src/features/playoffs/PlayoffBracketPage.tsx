@@ -75,7 +75,7 @@ export function PlayoffBracketPage() {
       }
     >
       <nav className="intel-links" aria-label="Related playoff research">
-        <Link to="/games">Playoff games by date</Link>
+        <Link to="/games/recorded">Playoff games by date</Link>
         <Link to="/games/shooting">2018 playoff shooting</Link>
         <Link to="/standings/race">Regular-season race</Link>
       </nav>

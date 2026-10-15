@@ -48,7 +48,7 @@ export function HistoryPage() {
         <p>
           Separate licensed 2023–24 tables: <Link to="/standings">Standings</Link>{' '}
           <Link to="/leaders">Published leaders</Link>{' '}
-          <Link to="/games">Recorded 2024 playoff games</Link>.
+          <Link to="/games/recorded">Recorded 2024 playoff games</Link>.
         </p>
       )}
       {season === '2023-24' ? <SeasonResearchHub /> : null}

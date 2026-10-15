@@ -228,7 +228,12 @@ function buildScope(
                     ? 'result does not match the scores'
                     : null;
     if (reason) {
-      quarantined.push({ gameId, reason });
+      quarantined.push({
+        gameId,
+        reason,
+        date: rows[0] ? isoDate(rows[0].GAME_DATE) : null,
+        teamIds: [...new Set(rows.map((r) => Number(r.TEAM_ID)))].slice(0, 2),
+      });
       continue;
     }
     const h = home[0]!,

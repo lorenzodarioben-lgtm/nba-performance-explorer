@@ -19,7 +19,7 @@ import {
 } from './league-api';
 import { LeagueFeedback, LeagueSourceNote } from './LeagueSourceNote';
 
-export const LEADER_METRICS: {
+const LEADER_METRICS: {
   group: string;
   items: [LeagueLeaderMetric, string][];
 }[] = [

@@ -58,11 +58,11 @@ describe('licensed archive views', () => {
   });
   it('freezes default recorded date in saved state and labels coverage-aware empty days', async () => {
     mockSources();
-    renderApp('/games');
+    renderApp('/games/recorded');
     await screen.findByRole('table');
     expect(screen.getByLabelText('Recorded game date')).toHaveValue('2024-04-22');
     expect(screen.getByLabelText('Shareable recorded-game URL')).toHaveValue(
-      `${window.location.origin}/games?date=2024-04-22&season=2023-24`,
+      `${window.location.origin}/games/recorded?date=2024-04-22&season=2023-24`,
     );
     fireEvent.click(screen.getByRole('button', { name: 'Next calendar day' }));
     expect(
@@ -109,7 +109,7 @@ describe('licensed archive views', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Invalid');
     expect(fetch).not.toHaveBeenCalled();
     view.unmount();
-    const duplicate = renderApp('/games?date=2024-04-21&date=2024-04-22');
+    const duplicate = renderApp('/games/recorded?date=2024-04-21&date=2024-04-22');
     expect(await screen.findByRole('alert')).toHaveTextContent('Invalid');
     duplicate.unmount();
     server.use(
@@ -118,7 +118,7 @@ describe('licensed archive views', () => {
         () => new HttpResponse(null, { status: 503 }),
       ),
     );
-    renderApp('/games');
+    renderApp('/games/recorded');
     expect(await screen.findByRole('alert')).toHaveTextContent('unavailable');
   });
   it('loads team sources on request, separates regular/playoff scope and shares venue filters', async () => {

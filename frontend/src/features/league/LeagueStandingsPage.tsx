@@ -8,11 +8,8 @@ import {
 import { ResearchShell, ResearchTable } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
-import {
-  ConferenceLadders,
-  postseasonFormat,
-  type LadderSort,
-} from './ConferenceLadder';
+import { ConferenceLadders, type LadderSort } from './ConferenceLadder';
+import { postseasonFormat } from './postseason-format';
 import {
   fetchLeague,
   newestFirst,

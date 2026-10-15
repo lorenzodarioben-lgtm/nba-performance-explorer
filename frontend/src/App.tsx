@@ -72,6 +72,26 @@ const LeagueLeadersPage = lazy(() =>
     default: m.LeagueLeadersPage,
   })),
 );
+const LeagueGamesPage = lazy(() =>
+  import('./features/league/LeagueGamesPage').then((m) => ({
+    default: m.LeagueGamesPage,
+  })),
+);
+const GameRoute = lazy(() =>
+  import('./features/league/LeagueGamePage').then((m) => ({
+    default: m.GameRoute,
+  })),
+);
+const LeagueRecordBookPage = lazy(() =>
+  import('./features/league/LeagueRecordBookPage').then((m) => ({
+    default: m.LeagueRecordBookPage,
+  })),
+);
+const LeagueTeamRankingsPage = lazy(() =>
+  import('./features/league/LeagueTeamRankingsPage').then((m) => ({
+    default: m.LeagueTeamRankingsPage,
+  })),
+);
 const LeagueArchivePage = lazy(() =>
   import('./features/wiki-archive/LeagueArchivePage').then((m) => ({
     default: m.LeagueArchivePage,
@@ -300,11 +320,15 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   // Games
   {
     path: '/games',
+    element: lazyRoute('Loading the scoreboard…', <LeagueGamesPage />),
+  },
+  {
+    path: '/games/recorded',
     element: lazyRoute('Loading recorded games…', <GamesArchivePage />),
   },
   {
     path: '/games/:gameId',
-    element: lazyRoute('Loading recorded game…', <GamesArchivePage />),
+    element: lazyRoute('Loading the game…', <GameRoute />),
   },
   {
     path: '/games/bracket',
@@ -350,6 +374,14 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/leaders',
     element: lazyRoute('Loading league leaders…', <LeagueLeadersPage />),
+  },
+  {
+    path: '/leaders/teams',
+    element: lazyRoute('Loading team rankings…', <LeagueTeamRankingsPage />),
+  },
+  {
+    path: '/history/record-book',
+    element: lazyRoute('Loading the record book…', <LeagueRecordBookPage />),
   },
   {
     path: '/leaders/wikipedia',

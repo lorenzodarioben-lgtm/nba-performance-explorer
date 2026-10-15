@@ -95,7 +95,7 @@ export function LeagueArchivePage({ mode }: { mode: 'standings' | 'leaders' }) {
       <Link to={mode === 'standings' ? '/leaders/wikipedia' : '/standings/wikipedia'}>
         {mode === 'standings' ? 'Published category leaders' : 'Historical standings'}
       </Link>{' '}
-      <Link to="/games">Recorded playoff games</Link>{' '}
+      <Link to="/games/recorded">Recorded playoff games</Link>{' '}
       <Link to={`/${mode}`}>Every season from NBA.com</Link>
       {!valid ? (
         <p role="alert">

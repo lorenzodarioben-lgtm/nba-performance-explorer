@@ -18,6 +18,7 @@ import {
 import { WikiArchiveClient } from './features/wiki-archive/wiki-client.js';
 import { RecordedArchiveProvider } from './features/recorded-archive/recorded-provider.js';
 import { LeagueService } from './features/league/league-service.js';
+import { NbaLiveClient } from './features/league/league-live.js';
 import { createShotArchiveProvider } from './features/shot-archive/shot-provider.js';
 import { WikipediaAwardsProvider } from './features/history/history-awards-provider.js';
 import { createLineupStudyProvider } from './features/lineup-study/lineup-study-provider.js';
@@ -77,6 +78,7 @@ const app = createApp(createPlayerProvider(config), {
   ),
   recordedArchiveProvider: recordedProvider,
   leagueService: new LeagueService(),
+  leagueLive: new NbaLiveClient({ timeoutMs: 8000 }),
   shotArchiveProvider: await createShotArchiveProvider(),
   awardsProvider: new WikipediaAwardsProvider(wikiClient),
   lineupStudyProvider: await createLineupStudyProvider(),

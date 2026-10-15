@@ -17,6 +17,7 @@ import {
 import styles from '../research/research.module.css';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { TeamArchivePanel } from '../wiki-archive/TeamArchivePanel';
+import { LeagueTeamSections } from '../league/LeagueTeamSections';
 import { TeamSeasonArchivePanel } from '../wiki-archive/TeamSeasonArchivePanel';
 import { Stagger, StaggerItem } from '../../motion/choreography';
 import { TeamSeasonGlance } from '../team-season/TeamSeasonGlance';
@@ -208,6 +209,7 @@ export function TeamDetailPage() {
               against every opponent.
             </span>
           </Link>
+          <LeagueTeamSections teamId={query.data.team.id} />
           <TeamArchivePanel team={query.data.team} />
           <TeamSeasonArchivePanel team={query.data.team} />
         </>

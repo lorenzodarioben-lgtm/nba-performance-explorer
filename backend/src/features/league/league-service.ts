@@ -268,7 +268,10 @@ function qualificationText(o: {
     o.minAttempts === null
       ? ''
       : `; at least ${o.minAttempts} attempts${o.chosenAttempts ? ' (chosen here)' : o.playoffs ? ' (this app’s playoff default)' : ' (this app’s default, scaled to the schedule length)'}`;
-  return `${games}${attempts}. Not the NBA’s official qualification rule.`.slice(0, 400);
+  return `${games}${attempts}. Not the NBA’s official qualification rule.`.slice(
+    0,
+    400,
+  );
 }
 
 export function midrankPercentiles(values: number[]): number[] {
