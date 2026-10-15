@@ -5,6 +5,8 @@ import { describe, expect, it } from 'vitest';
 import { renderApp } from '../test/renderApp';
 import { server } from '../test/server';
 import { hasSubnav, pageForPath, sectionForPath } from './sections';
+// Compile the lazily loaded search overlay before assertion timers.
+import './SearchOverlay';
 
 const directoryProvenance = {
   source: 'nba-api-static',

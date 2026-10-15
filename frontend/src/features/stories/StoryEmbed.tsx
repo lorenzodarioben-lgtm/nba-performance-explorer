@@ -16,6 +16,7 @@ import { GapBoard } from '../comparison-studio/GapBoard';
 import { formatValue } from '../workbench/workbench-config';
 import { SIM_LABEL } from '../similarity/similarity-config';
 import { embedPlan } from './embed-plan';
+import { paced } from './embed-pacing';
 import { describeRegion } from '../shot-archive/shot-region';
 import { Tape } from '../../ui/Tape';
 
@@ -38,14 +39,16 @@ export function StoryEmbed({ path }: { path: string }) {
   const query = useQuery({
     queryKey: ['research', 'story-embed', plan.api],
     queryFn: ({ signal }) =>
-      fetchResearch(
-        plan.api!,
-        signal,
-        PARSE[plan.kind as keyof typeof PARSE] as (v: unknown) => unknown,
+      paced(() =>
+        fetchResearch(
+          plan.api!,
+          signal,
+          PARSE[plan.kind as keyof typeof PARSE] as (v: unknown) => unknown,
+        ),
       ),
     enabled: plan.api !== null,
-    // A story opens several analyses at once; the API bounds concurrent source work, so a
-    // refused request is retried briefly before the story reports the source unavailable.
+    // Pacing (above) prevents most refusals; a refused request is still retried briefly before
+    // the story reports the source unavailable.
     retry: 2,
     retryDelay: (attempt) => 500 * (attempt + 1),
     staleTime: 60 * 60_000,

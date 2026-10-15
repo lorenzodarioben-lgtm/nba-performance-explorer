@@ -5,6 +5,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
 import { playerSearchDebounceMilliseconds } from '../player-search/useDebouncedSearchTerm';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './PlayerComparisonPage';
 
 interface TestPlayer {
   profile: {

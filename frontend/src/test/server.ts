@@ -12,9 +12,11 @@ const unavailable = () =>
 // handler with server.use().
 //  - The player hub asks which players are in the archived shot directory (its Shot map tab).
 //  - The home page previews read the shot, standings and playoff-game archives.
+//  - Global search, the homepage band and game pages read the 2024 playoff bracket.
 export const server = setupServer(
   http.get('http://localhost/api/shots/directory', unavailable),
   http.get('http://localhost/api/shots', unavailable),
   http.get('http://localhost/api/standings', unavailable),
   http.get('http://localhost/api/games', unavailable),
+  http.get('http://localhost/api/games/bracket', unavailable),
 );

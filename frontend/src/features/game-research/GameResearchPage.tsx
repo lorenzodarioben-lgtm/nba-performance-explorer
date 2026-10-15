@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useSearchParams } from 'react-router';
 import {
@@ -18,6 +19,7 @@ import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { SeasonScopeComparison } from './SeasonScopeComparison';
 import { LedgerBars, RollingEfficiency } from './GameVisuals';
 import { useHubIdentity } from '../player-hub/hub-context';
+import { usePlayerSeasonsQuery } from '../players/usePlayerSeasonsQuery';
 import { Slate } from '../../ui/Slate';
 import type { TapeSpec } from '../../ui/Tape';
 
@@ -60,6 +62,18 @@ export function GameResearchPage() {
     parsed.success &&
     ResearchPlayerIdSchema.safeParse(playerId).success &&
     [...params.keys()].every((k) => params.getAll(k).length === 1);
+  // Arriving without a season (the player hub's tab from the overview) opens the player's latest
+  // season instead of an error; the URL is replaced so Back still leaves the page.
+  const seasons = usePlayerSeasonsQuery(playerId);
+  const latest = seasons.data?.[0]?.season;
+  const missingSeason = !params.has('season');
+  useEffect(() => {
+    if (!missingSeason || !latest) return;
+    const copy = new URLSearchParams(params);
+    copy.set('season', latest);
+    setParams(copy, { replace: true });
+  }, [missingSeason, latest, params, setParams]);
+  const choosingSeason = missingSeason && (seasons.isPending || Boolean(latest));
   const query = useQuery({
     queryKey: ['research', 'raw-games', playerId, params.toString()],
     queryFn: ({ signal }) =>
@@ -85,9 +99,16 @@ export function GameResearchPage() {
     <ResearchShell
       title={data ? `${data.player.fullName} · game research` : 'Game research'}
     >
-      {!valid ? (
-        <section role="alert" className="notice notice--warn">
-          Choose a valid recorded season and filters.{' '}
+      {choosingSeason ? (
+        <QueryFeedback pending failed={false} />
+      ) : !valid ? (
+        <section
+          role={missingSeason ? 'status' : 'alert'}
+          className="notice notice--warn"
+        >
+          {missingSeason
+            ? 'No recorded season could be loaded for this player. Enter one to open it.'
+            : 'Choose a valid recorded season and filters.'}{' '}
           <form
             onSubmit={(e) => {
               e.preventDefault();

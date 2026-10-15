@@ -4,6 +4,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { renderApp } from '../../test/renderApp';
 import { RESEARCH_STORAGE_KEY, researchRepository } from './local-research';
 import { RECENT_STORAGE_KEY, recentHistoryRepository } from './recent-history';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './MyNbaPage';
 
 beforeEach(() => {
   localStorage.clear();

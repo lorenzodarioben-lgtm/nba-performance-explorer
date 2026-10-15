@@ -5,6 +5,8 @@ import { type HistoricalAwardsResponse } from '@nba-performance-explorer/contrac
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
 import { homeTeam, leagueFixture } from '../wiki-archive/archive-fixtures';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './HistoricalAwardsPage';
 const body: HistoricalAwardsResponse = {
   season: '2023-24',
   awards: [

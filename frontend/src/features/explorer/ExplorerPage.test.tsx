@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest';
 
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './ExplorerPage';
 
 describe('explorer portal', () => {
   it('labels fixture configuration and blocked sources without live claims', async () => {

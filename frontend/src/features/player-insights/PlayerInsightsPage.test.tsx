@@ -5,6 +5,8 @@ import { type PlayerInsightsResponse } from '@nba-performance-explorer/contracts
 
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './PlayerInsightsPage';
 
 // Explicit synthetic UI fixture. Real computations are tested in backend stats-core tests.
 const summary = {

@@ -4,6 +4,8 @@ import { describe, expect, it, vi } from 'vitest';
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
 import { leagueFixture } from '../wiki-archive/archive-fixtures';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './RecordedAnalyticsPage';
 const distribution = {
   sample: 3,
   min: 1,

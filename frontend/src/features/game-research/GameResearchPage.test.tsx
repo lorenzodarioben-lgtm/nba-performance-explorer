@@ -3,6 +3,8 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './GameResearchPage';
 const totals = {
   playerId: '2544',
   season: '2022-23',
@@ -195,5 +197,41 @@ describe('raw game research UI', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Open season' }));
     await screen.findByRole('table', { name: /Page 1/ });
     expect(calls).toBe(1);
+  });
+  it('opens the latest recorded season when the URL has none (the hub tab from the overview)', async () => {
+    const seen: string[] = [];
+    scopeHandler();
+    server.use(
+      http.get('http://localhost/api/players/2544/seasons', () =>
+        HttpResponse.json({
+          seasons: [
+            { season: '2022-23', team: { abbreviation: 'LAL' } },
+            { season: '2021-22', team: { abbreviation: 'LAL' } },
+          ],
+        }),
+      ),
+      http.get('http://localhost/api/players/2544/game-research', ({ request }) => {
+        seen.push(new URL(request.url).searchParams.get('season') ?? '');
+        return HttpResponse.json(body);
+      }),
+    );
+    renderApp('/players/2544/games');
+    await screen.findByRole('table', { name: /Page 1/ });
+    expect(seen).toEqual(['2022-23']);
+    expect(screen.queryByRole('alert')).toBeNull();
+  });
+
+  it('asks for a season, without an error, when no season list can be loaded', async () => {
+    server.use(
+      http.get(
+        'http://localhost/api/players/2544/seasons',
+        () => new HttpResponse(null, { status: 503 }),
+      ),
+    );
+    renderApp('/players/2544/games');
+    expect(
+      await screen.findByText(/No recorded season could be loaded/),
+    ).toHaveAttribute('role', 'status');
+    expect(screen.getByLabelText('Season (YYYY-YY)')).toBeInTheDocument();
   });
 });

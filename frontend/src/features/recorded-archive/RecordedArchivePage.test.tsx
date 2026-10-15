@@ -10,6 +10,8 @@ import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
 import { homeTeam, awayTeam, leagueFixture } from '../wiki-archive/archive-fixtures';
 import { recordedRankingCsv } from './recorded-csv';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './RecordedArchivePage';
 const credits = Array.from({ length: 30 }, (_, i) => ({
   ...leagueFixture.attribution,
   title: `Fixture source ${i}`,

@@ -3,6 +3,8 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './ShootingResearchPage';
 const totals = {
   playerId: '2544',
   season: '2023-24',

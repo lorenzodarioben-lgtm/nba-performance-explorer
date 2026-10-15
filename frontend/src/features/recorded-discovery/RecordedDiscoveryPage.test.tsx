@@ -9,6 +9,8 @@ import {
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
 import { homeTeam, awayTeam, leagueFixture } from '../wiki-archive/archive-fixtures';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './RecordedDiscoveryPage';
 const credits = Array.from({ length: 30 }, (_, i) => ({
   ...leagueFixture.attribution,
   revision: 1234 + i,

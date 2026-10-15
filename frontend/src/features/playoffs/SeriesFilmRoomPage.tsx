@@ -123,7 +123,8 @@ function FilmRoom({
   const teamOf = (teamId: string) => (teamId === a.id ? a : b);
   const roundName = series.round ? ROUND_NAMES[series.round] : 'Playoff series';
   const seed = (i: 0 | 1) => (series.seeds ? series.seeds[i] : null);
-  const path = `/games/series/${series.id}`;
+  // The saved and shared link keeps the game being studied (Game 5 by default is the clinch).
+  const path = `/games/series/${series.id}${selectedNumber === series.games.length ? '' : `?game=${selectedNumber}`}`;
   return (
     <>
       <section className="fr-hero" aria-label="Series result">

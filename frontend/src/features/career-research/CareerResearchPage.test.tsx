@@ -3,6 +3,8 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it } from 'vitest';
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './CareerResearchPage';
 
 const metrics = {
   trueShooting: 0.6,
