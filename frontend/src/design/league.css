@@ -464,13 +464,16 @@
   border-radius: 3px;
   background: var(--coal);
 }
-.marginflow__labels {
-  display: flex;
-  justify-content: space-between;
+.marginflow__label {
+  display: block;
   font: 500 10px/1 var(--mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--chalk-3);
+}
+.marginflow__label--away {
+  margin-top: 8px;
+  color: var(--red-hi);
 }
 .marginflow__bars {
   display: grid;

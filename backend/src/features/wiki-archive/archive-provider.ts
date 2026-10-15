@@ -24,6 +24,12 @@ import {
   type HtmlNode,
 } from './html-tables.js';
 import { ArchiveSourceError, WikiArchiveClient, type WikiPage } from './wiki-client.js';
+import {
+  ArchiveSnapshotSchema,
+  snapshotPage,
+  type ArchiveSnapshot,
+} from './archive-snapshot.js';
+import bundledSnapshot from './archive-snapshot.json' with { type: 'json' };
 export function attribution(page: WikiPage): WikiAttribution {
   return {
     title: page.title,
@@ -49,6 +55,11 @@ export function archiveProvenance(
     coverage:
       '2023-24 historical Wikipedia snapshot only; no current/live NBA feed or complete cross-season archive.',
     warnings: [
+      ...(page.bundled
+        ? [
+            `Served from the snapshot of revision ${page.revision} committed with this app (retrieved ${page.retrievedAt.slice(0, 10)}), because the live source was not used or could not be reached. The same licensed tables, not a substitute.`,
+          ]
+        : []),
       ...(source === 'fixture'
         ? ['DEMO FIXTURES: synthetic test snapshot, not NBA results.']
         : []),
@@ -272,36 +283,94 @@ export function mapPlayoffArchive(
 export interface ArchiveProvider {
   source: 'wikipedia' | 'fixture';
   getLeague(): Promise<ReturnType<typeof mapLeagueArchive> & { page: WikiPage }>;
-  getGames(): Promise<{ games: ArchiveGame[]; page: WikiPage }>;
+  getGames(): Promise<{
+    games: ArchiveGame[];
+    page: WikiPage;
+    /** Seeds already read from the source; absent means read them from page.html. */
+    seeds?: { seeds: Map<string, number> | null; issue: string | null };
+  }>;
+}
+let parsedSnapshot: ArchiveSnapshot | null = null;
+/** The committed snapshot, validated once; a malformed file is a build error, not a fallback. */
+export function archiveSnapshot(): ArchiveSnapshot {
+  parsedSnapshot ??= ArchiveSnapshotSchema.parse(bundledSnapshot);
+  return parsedSnapshot;
 }
 export class WikipediaArchiveProvider implements ArchiveProvider {
   readonly source = 'wikipedia' as const;
   private readonly cache = new NbaStatsCache({ maxEntries: 2 });
-  constructor(private readonly client = new WikiArchiveClient()) {}
+  /**
+   * `live` fetches Wikipedia and falls back to the committed snapshot when the fetch fails;
+   * `bundled` never touches the network (local demonstrations, offline checks).
+   */
+  constructor(
+    private readonly client = new WikiArchiveClient(),
+    private readonly mode: 'live' | 'bundled' = 'live',
+  ) {}
+  private async withFallback<T>(live: () => Promise<T>, bundled: () => T) {
+    if (this.mode === 'bundled') return bundled();
+    try {
+      return await live();
+    } catch (error) {
+      if (error instanceof ArchiveSourceError) return bundled();
+      throw error;
+    }
+  }
   getLeague() {
     return this.cache.getOrLoad(
       'league',
-      async () => {
-        const page = await this.client.getPage('2023–24 NBA season');
-        return {
-          ...mapLeagueArchive(page, await staticTeamDirectoryProvider.listTeams()),
-          page,
-        };
-      },
-      () => 24 * 60 * 60_000,
+      () =>
+        this.withFallback(
+          async () => {
+            const page = await this.client.getPage('2023–24 NBA season');
+            return {
+              ...mapLeagueArchive(page, await staticTeamDirectoryProvider.listTeams()),
+              page,
+            };
+          },
+          () => {
+            const { league } = archiveSnapshot();
+            return {
+              standings: league.standings,
+              leaders: league.leaders,
+              page: snapshotPage(league.page),
+            };
+          },
+        ),
+      // A fallback is cached briefly so the live source is retried soon.
+      (value) =>
+        value.page.bundled && this.mode === 'live' ? 5 * 60_000 : 24 * 60 * 60_000,
     );
   }
   getGames() {
     return this.cache.getOrLoad(
       'games',
-      async () => {
-        const page = await this.client.getPage('2024 NBA playoffs');
-        return {
-          games: mapPlayoffArchive(page, await staticTeamDirectoryProvider.listTeams()),
-          page,
-        };
-      },
-      () => 24 * 60 * 60_000,
+      () =>
+        this.withFallback(
+          async () => {
+            const page = await this.client.getPage('2024 NBA playoffs');
+            return {
+              games: mapPlayoffArchive(
+                page,
+                await staticTeamDirectoryProvider.listTeams(),
+              ),
+              page,
+            };
+          },
+          () => {
+            const { playoffs } = archiveSnapshot();
+            return {
+              games: playoffs.games,
+              page: snapshotPage(playoffs.page),
+              seeds: {
+                seeds: playoffs.seeds ? new Map(Object.entries(playoffs.seeds)) : null,
+                issue: playoffs.seedIssue,
+              },
+            };
+          },
+        ),
+      (value) =>
+        value.page.bundled && this.mode === 'live' ? 5 * 60_000 : 24 * 60 * 60_000,
     );
   }
 }

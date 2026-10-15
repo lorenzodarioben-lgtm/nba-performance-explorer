@@ -178,6 +178,11 @@ const FormulaLabPage = lazy(() =>
     default: m.FormulaLabPage,
   })),
 );
+const SeriesFilmRoomPage = lazy(() =>
+  import('./features/playoffs/SeriesFilmRoomPage').then((m) => ({
+    default: m.SeriesFilmRoomPage,
+  })),
+);
 const PlayoffBracketPage = lazy(() =>
   import('./features/playoffs/PlayoffBracketPage').then((m) => ({
     default: m.PlayoffBracketPage,
@@ -266,6 +271,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/games/bracket',
     element: lazyRoute('Loading playoff bracket…', <PlayoffBracketPage />),
+  },
+  {
+    path: '/games/series/:seriesId',
+    element: lazyRoute('Loading series film room…', <SeriesFilmRoomPage />),
   },
   {
     path: '/games/shooting',

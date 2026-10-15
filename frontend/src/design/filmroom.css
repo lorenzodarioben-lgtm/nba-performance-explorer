@@ -1,0 +1,265 @@
+/*
+ * The series film room: a broadcast scoreboard for the series, a tape of game cards (one tab
+ * stop, arrow keys between games), the selected game's line score and period bars, and the
+ * series intelligence board. Existing tokens only; motion is transform/opacity.
+ */
+
+.fr .fr-hero {
+  position: relative;
+  margin: 8px 0 18px;
+  padding: 26px 28px 20px;
+  border: 1px solid var(--line-2);
+  background:
+    radial-gradient(80% 150% at 50% 0%, var(--red-glow), transparent 60%),
+    linear-gradient(180deg, var(--film), var(--coal));
+  overflow: hidden;
+}
+.fr-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--red-hi), transparent);
+}
+.fr-hero__kicker {
+  display: block;
+  text-align: center;
+  font: 600 11px/1.3 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red-hi);
+}
+.fr-hero__board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 18px auto 14px;
+  max-width: 720px;
+}
+.fr-hero__side {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'seed wins'
+    'abbr wins'
+    'name wins';
+  align-items: end;
+  padding: 14px 18px;
+  background: rgb(10 10 11 / 0.6);
+}
+.fr-hero__side:last-child {
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    'wins seed'
+    'wins abbr'
+    'wins name';
+  text-align: right;
+}
+.fr-hero__seed {
+  grid-area: seed;
+  font: 600 10px/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.fr-hero__abbr {
+  grid-area: abbr;
+  font: 800 clamp(2.4rem, 7vw, 4.5rem) / 0.95 var(--display);
+  color: var(--chalk);
+}
+.fr-hero__name {
+  grid-area: name;
+  font: 600 13px/1.2 var(--ui);
+  color: var(--chalk-2);
+}
+.fr-hero__wins {
+  grid-area: wins;
+  align-self: center;
+  padding: 0 6px;
+  font: 800 clamp(3rem, 9vw, 5.5rem) / 1 var(--display);
+  color: var(--chalk-2);
+}
+.fr-hero__side.is-won .fr-hero__wins {
+  color: var(--red-hi);
+}
+.fr-hero__side.is-out {
+  opacity: 0.72;
+}
+.fr .fr-hero__result {
+  margin: 0 auto;
+  max-width: 64ch;
+  text-align: center;
+  font-size: 15px;
+  color: var(--chalk-2);
+}
+.fr-hero__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 22px;
+  margin-top: 14px;
+  font: 600 12px/1.2 var(--ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------ game tape */
+
+.fr-tape {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 6px;
+  margin: 14px 0 18px;
+  padding: 0;
+  list-style: none;
+}
+.fr .fr-card {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  padding: 12px 12px 10px;
+  border: 1px solid var(--line-2);
+  border-top: 3px solid var(--line-2);
+  background: var(--film);
+  color: var(--chalk-2);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-quick) var(--ease-film),
+    transform var(--dur-quick) var(--ease-film);
+}
+.fr .fr-card:hover {
+  border-color: var(--line-3);
+  transform: translateY(-2px);
+}
+.fr .fr-card.is-on {
+  border-color: var(--chalk-3);
+  border-top-color: var(--red-hi);
+  background: var(--film-2);
+  color: var(--chalk);
+}
+.fr .fr-card:focus-visible {
+  outline: 2px solid var(--red-hi);
+  outline-offset: 2px;
+}
+.fr-card__no {
+  font: 800 22px/1 var(--display);
+  color: var(--chalk);
+}
+.fr-card__date {
+  font: 500 11px/1 var(--mono);
+  color: var(--chalk-3);
+}
+.fr-card__score {
+  display: grid;
+  gap: 2px;
+  font: 500 13px/1.25 var(--mono);
+}
+.fr-card__score .is-won {
+  font-weight: 700;
+  color: var(--chalk);
+}
+.fr-card__bar {
+  position: relative;
+  height: 6px;
+  background: var(--line);
+}
+.fr-card__bar::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--chalk-3);
+}
+.fr-card__bar i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.fr-card.is-a .fr-card__bar i {
+  background: var(--s1);
+}
+.fr-card.is-b .fr-card__bar i {
+  background: var(--s4);
+}
+.fr-card__after {
+  font: 600 12px/1 var(--mono);
+  color: var(--chalk-2);
+}
+.fr-card__after b {
+  color: var(--chalk);
+}
+/* Red stays a mark, not small text (system rule: red-hi is for figures and selection). */
+.fr-card__after b::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 5px 1px 2px;
+  background: var(--red-hi);
+}
+.fr-card__after em {
+  font-style: normal;
+  color: var(--amber);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fr .fr-card,
+  .fr .fr-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------ selected game */
+
+.fr-game__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px 28px;
+  margin: 14px 0;
+}
+.fr .fr-sub {
+  margin: 14px 0 8px;
+  font: 600 10.5px/1.3 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.fr-game__facts {
+  margin-top: 14px;
+}
+.fr .fr-note {
+  max-width: 76ch;
+  font-size: 13px;
+  color: var(--chalk-3);
+}
+.fr-leaders dl {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+.fr-leaders dl > div {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--film);
+}
+.fr .fr-leaders dt {
+  font: 700 14px/1.3 var(--display);
+  color: var(--chalk);
+}
+.fr .fr-leaders dd {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--chalk-2);
+}
+.fr-intel {
+  margin: 14px 0;
+}
+.fr-periods {
+  max-width: 640px;
+}

@@ -40,11 +40,24 @@ function loadConfig(): PlayerProviderConfig {
 }
 
 const config = loadConfig();
-const wikiClient = new WikiArchiveClient();
+// WIKI_ARCHIVE_MODE=bundled serves the 2023-24 league and 2024 playoff tables from the committed
+// snapshot and never contacts Wikipedia (local demonstrations, offline checks). The default,
+// live, fetches and falls back to the same snapshot when Wikipedia cannot be reached.
+const archiveMode = process.env.WIKI_ARCHIVE_MODE ?? 'live';
+if (archiveMode !== 'live' && archiveMode !== 'bundled') {
+  console.error('Cannot start: WIKI_ARCHIVE_MODE must be live or bundled.');
+  process.exit(1);
+}
+const wikiClient =
+  archiveMode === 'bundled'
+    ? new WikiArchiveClient(() =>
+        Promise.reject(new TypeError('Wikipedia disabled: bundled mode')),
+      )
+    : new WikiArchiveClient();
 const app = createApp(createPlayerProvider(config), {
   playerSource: config.mode,
   historyProvider: new WikidataHistoryProvider(),
-  archiveProvider: new WikipediaArchiveProvider(wikiClient),
+  archiveProvider: new WikipediaArchiveProvider(wikiClient, archiveMode),
   teamArchiveProvider: new WikipediaTeamArchiveProvider(wikiClient),
   recordedArchiveProvider: new RecordedArchiveProvider(),
   shotArchiveProvider: await createShotArchiveProvider(),

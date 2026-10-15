@@ -11,6 +11,8 @@ import { server } from '../../test/server';
 import { homeTeam, awayTeam, leagueFixture } from '../wiki-archive/archive-fixtures';
 import { shotPageCsv, shotSvgExport } from './shot-export';
 import { feetFromSvg, regionFromCorners } from './shot-region';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './ShotArchivePage';
 const source: ShotResponse['source'] = {
   title: 'NBA Playoff Shots 2018',
   creator: 'Boon P',

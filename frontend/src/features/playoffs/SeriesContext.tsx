@@ -54,8 +54,11 @@ export function SeriesContext({ gameId }: { gameId: string }) {
           </li>
         ))}
       </ol>
-      <Link to={`/games/bracket?series=${series.id}`} className="seriesctx__go">
-        Open the series
+      <Link
+        to={`/games/series/${series.id}?game=${entry.number}`}
+        className="seriesctx__go"
+      >
+        Open the series film room
       </Link>
     </section>
   );

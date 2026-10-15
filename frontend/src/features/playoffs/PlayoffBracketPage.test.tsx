@@ -246,8 +246,8 @@ describe('series context on game pages', () => {
       'page',
     );
     expect(
-      within(region).getByRole('link', { name: 'Open the series' }),
-    ).toHaveAttribute('href', `/games/bracket?series=${finals.id}`);
+      within(region).getByRole('link', { name: 'Open the series film room' }),
+    ).toHaveAttribute('href', `/games/series/${finals.id}?game=2`);
     second.unmount();
     view(finals.games[3]!.game.id);
     expect(await screen.findByText('EAX wins the series 4–0')).toBeInTheDocument();

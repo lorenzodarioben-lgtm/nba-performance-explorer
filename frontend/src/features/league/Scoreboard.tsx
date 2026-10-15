@@ -157,10 +157,7 @@ export function MarginFlow({ game }: { game: ArchiveGame }) {
   const max = Math.max(4, ...points.map((p) => Math.abs(p.margin)));
   return (
     <div ref={ref} className="marginflow" aria-hidden="true">
-      <div className="marginflow__labels">
-        <span>{game.home.abbreviation} ahead</span>
-        <span>{game.away.abbreviation} ahead</span>
-      </div>
+      <span className="marginflow__label">↑ {game.home.abbreviation} (home) ahead</span>
       <div className="marginflow__bars">
         {points.map((point, index) => {
           const share = Math.abs(point.margin) / max;
@@ -206,6 +203,9 @@ export function MarginFlow({ game }: { game: ArchiveGame }) {
           );
         })}
       </div>
+      <span className="marginflow__label marginflow__label--away">
+        ↓ {game.away.abbreviation} (away) ahead
+      </span>
     </div>
   );
 }

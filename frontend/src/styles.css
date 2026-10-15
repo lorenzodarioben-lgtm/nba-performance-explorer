@@ -11,6 +11,7 @@
 @import './design/home.css' layer(components);
 @import './design/intel.css' layer(components);
 @import './design/playoffs.css' layer(components);
+@import './design/filmroom.css' layer(components);
 @import './design/workbench.css' layer(components);
 @import './design/cstudio.css' layer(components);
 @import './design/similarity.css' layer(components);

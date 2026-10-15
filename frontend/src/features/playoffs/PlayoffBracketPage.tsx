@@ -354,9 +354,14 @@ function SeriesPanel({
             : 'Game IDs disagree on the round',
         ]}
         actions={
-          <button type="button" className="btn btn--sm btn--quiet" onClick={onClose}>
-            Close series
-          </button>
+          <>
+            <Link className="btn btn--sm" to={`/games/series/${series.id}`}>
+              Open the film room
+            </Link>
+            <button type="button" className="btn btn--sm btn--quiet" onClick={onClose}>
+              Close series
+            </button>
+          </>
         }
       />
       <dl className="statgrid">

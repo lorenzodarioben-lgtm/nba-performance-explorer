@@ -83,5 +83,7 @@ export const routeExamples: readonly RouteExample[] = [
     name: 'discover-similar',
     path: '/discover/similar?player=203999&metrics=pointsPerGame,reboundsPerGame,assistsPerGame,fieldGoalPercentage',
   },
+  { name: 'series-film-room', path: '/games/series/r4-BOS-DAL' },
+  { name: 'series-film-room-game', path: '/games/series/r1-BOS-MIA?game=2' },
   { name: 'not-found', path: '/this-route-does-not-exist' },
 ];

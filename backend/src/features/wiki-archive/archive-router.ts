@@ -9,9 +9,12 @@ import {
   GameDateSchema,
   PlayoffBracketQuerySchema,
   PlayoffBracketResponseSchema,
+  PlayoffSeriesFilmRoomResponseSchema,
+  PlayoffSeriesIdSchema,
 } from '@nba-performance-explorer/contracts';
 import { recordedConferences } from '../recorded-archive/recorded-team-rankings.js';
 import { buildPlayoffBracket, parsePublishedSeeds } from './playoff-series.js';
+import { analyzeSeries, seriesNeighbours } from './playoff-film-room.js';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import { SourceWorkBudget } from '../research/source-work-budget.js';
 import { staticTeamDirectoryProvider } from '../teams/team-directory-provider.js';
@@ -152,31 +155,53 @@ export function createArchiveRouter(
         'ARCHIVE_DISABLED',
         'Historical snapshot provider is disabled.',
       );
-    const data = await provider.getGames();
-    const provenance = archiveProvenance(data.page, 'playoffs', provider.source);
-    const published = parsePublishedSeeds(
-      data.page.html,
-      await staticTeamDirectoryProvider.listTeams(),
-    );
-    const derived = buildPlayoffBracket(data.games, published.seeds);
     res.json(
-      PlayoffBracketResponseSchema.parse({
-        season: query.data.season,
+      PlayoffBracketResponseSchema.parse(
+        await loadBracket(provider, query.data.season),
+      ),
+    );
+  });
+  const series = wrap(async (req, res) => {
+    const id = PlayoffSeriesIdSchema.safeParse(req.params.seriesId);
+    if (!id.success || Object.keys(req.query).length)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_PLAYOFF_SERIES',
+        'Choose a recorded 2024 playoff series, such as r4-BOS-DAL.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'ARCHIVE_DISABLED',
+        'Historical snapshot provider is disabled.',
+      );
+    const bracket = await loadBracket(provider, '2023-24');
+    const found = bracket.series.find((s) => s.id === id.data);
+    if (!found)
+      return sendApiError(
+        res,
+        404,
+        'PLAYOFF_SERIES_NOT_FOUND',
+        'No recorded 2024 playoff series has that ID.',
+      );
+    res.json(
+      PlayoffSeriesFilmRoomResponseSchema.parse({
+        season: bracket.season,
         scope: 'playoffs',
-        ...derived,
-        issues: published.issue ? [...derived.issues, published.issue] : derived.issues,
-        seedsPublished: published.seeds !== null,
-        recordedGames: data.games.length,
-        attribution: attribution(data.page),
-        conferenceSource: recordedConferences.source,
+        series: found,
+        analysis: analyzeSeries(found),
+        ...seriesNeighbours(found, bracket.series),
+        champion: bracket.champion,
+        seedsPublished: bracket.seedsPublished,
+        attribution: bracket.attribution,
+        conferenceSource: bracket.conferenceSource,
         provenance: {
-          ...provenance,
-          coverage:
-            'Series and bracket derived from the recorded 2024 playoff finals (2023-24 season). Historical; play-in games are outside this source table.',
+          ...bracket.provenance,
           warnings: [
-            ...provenance.warnings,
-            'A series is every recorded game between two teams; a winner is named only when the recorded games end with a fourth win. Rounds come from each team’s own order of series and are cross-checked against the round digit in NBA game IDs.',
-            'Seeds are read only from the source page’s series headings and must be consistent (one seed per team, unique within a conference); otherwise none are shown. Conference alignment uses the sourced 2023-24 facts.',
+            ...bracket.provenance.warnings,
+            'Series analysis uses final and period scores only: margins, period totals and the score after three quarters. There is no play-by-play, so no runs, lead changes within a period or possessions are described.',
           ],
         },
       }),
@@ -184,9 +209,41 @@ export function createArchiveRouter(
   });
   router.get('/games/bracket', bracket);
   router.all('/games/bracket', methodNotAllowedHandler);
+  router.get('/games/series/:seriesId', series);
+  router.all('/games/series/:seriesId', methodNotAllowedHandler);
   router.get('/games', games);
   router.get('/games/:gameId', games);
   router.all('/games', methodNotAllowedHandler);
   router.all('/games/:gameId', methodNotAllowedHandler);
   return router;
+}
+
+/** The bracket as served by /games/bracket; the series film room reads the same object. */
+async function loadBracket(provider: ArchiveProvider, season: '2023-24') {
+  const data = await provider.getGames();
+  const provenance = archiveProvenance(data.page, 'playoffs', provider.source);
+  const published =
+    data.seeds ??
+    parsePublishedSeeds(data.page.html, await staticTeamDirectoryProvider.listTeams());
+  const derived = buildPlayoffBracket(data.games, published.seeds);
+  return PlayoffBracketResponseSchema.parse({
+    season: season,
+    scope: 'playoffs',
+    ...derived,
+    issues: published.issue ? [...derived.issues, published.issue] : derived.issues,
+    seedsPublished: published.seeds !== null,
+    recordedGames: data.games.length,
+    attribution: attribution(data.page),
+    conferenceSource: recordedConferences.source,
+    provenance: {
+      ...provenance,
+      coverage:
+        'Series and bracket derived from the recorded 2024 playoff finals (2023-24 season). Historical; play-in games are outside this source table.',
+      warnings: [
+        ...provenance.warnings,
+        'A series is every recorded game between two teams; a winner is named only when the recorded games end with a fourth win. Rounds come from each team’s own order of series and are cross-checked against the round digit in NBA game IDs.',
+        'Seeds are read only from the source page’s series headings and must be consistent (one seed per team, unique within a conference); otherwise none are shown. Conference alignment uses the sourced 2023-24 facts.',
+      ],
+    },
+  });
 }

@@ -74,3 +74,102 @@ export const PlayoffBracketResponseSchema = z
   })
   .strict();
 export type PlayoffBracketResponse = z.infer<typeof PlayoffBracketResponseSchema>;
+
+// ------------------------------------------------------------------ series film room
+
+export const PlayoffSeriesIdSchema = z.string().regex(/^r[1-4]-[A-Z]{3}-[A-Z]{3}$/);
+
+const pair = z.tuple([z.number().int().nonnegative(), z.number().int().nonnegative()]);
+
+/** One recorded game seen from the series: every number is from teams[0]'s side first. */
+export const SeriesGameAnalysisSchema = z
+  .object({
+    gameId: z.string(),
+    number: z.number().int().min(1).max(7),
+    /** teams[0] points minus teams[1] points. */
+    margin: z.number().int(),
+    total: z.number().int().nonnegative(),
+    homeTeamId: z.string(),
+    winnerId: z.string(),
+    /** Points per period and the running margin at the end of each period (teams[0] side). */
+    periods: z
+      .array(
+        z
+          .object({
+            period: z.number().int().min(1).max(8),
+            points: pair,
+            cumulativeMargin: z.number().int(),
+          })
+          .strict(),
+      )
+      .min(4)
+      .max(8),
+    halves: z.object({ first: pair, second: pair, overtime: pair.nullable() }).strict(),
+    /** The team ahead after three quarters went on to lose (quarter totals only). */
+    wonFromBehindAfterThree: z.boolean(),
+    clinching: z.boolean(),
+  })
+  .strict();
+export type SeriesGameAnalysis = z.infer<typeof SeriesGameAnalysisSchema>;
+
+export const SeriesAnalysisSchema = z
+  .object({
+    games: z.array(SeriesGameAnalysisSchema).min(1).max(7),
+    /** Points by period across every recorded game; overtime periods combined. */
+    periodTotals: z
+      .array(
+        z
+          .object({ period: z.enum(['Q1', 'Q2', 'Q3', 'Q4', 'OT']), points: pair })
+          .strict(),
+      )
+      .min(4)
+      .max(5),
+    pointsPerGame: z.tuple([z.number().nonnegative(), z.number().nonnegative()]),
+    averageMargin: z.number(),
+    averageTotal: z.number().nonnegative(),
+    /** Smallest absolute final margin; every game that shares it. */
+    closest: z
+      .object({
+        margin: z.number().int().nonnegative(),
+        gameIds: z.array(z.string()).min(1),
+      })
+      .strict(),
+    /** Largest absolute final margin; the earliest game when tied. */
+    largest: z
+      .object({
+        margin: z.number().int().nonnegative(),
+        gameId: z.string(),
+        winnerId: z.string(),
+      })
+      .strict(),
+    /** The period with the widest combined scoring gap across the series (teams[0] side); descriptive, not causal. */
+    widestPeriod: z
+      .object({
+        period: z.enum(['Q1', 'Q2', 'Q3', 'Q4', 'OT']),
+        margin: z.number().int(),
+      })
+      .strict(),
+    comebacksAfterThree: z.number().int().min(0).max(7),
+  })
+  .strict();
+export type SeriesAnalysis = z.infer<typeof SeriesAnalysisSchema>;
+
+export const PlayoffSeriesFilmRoomResponseSchema = z
+  .object({
+    season: ArchiveSeasonSchema,
+    scope: z.literal('playoffs'),
+    series: PlayoffSeriesSchema,
+    analysis: SeriesAnalysisSchema,
+    /** The series each team arrived from, and the one the winner went on to. */
+    previous: z.tuple([z.string().nullable(), z.string().nullable()]),
+    next: z.string().nullable(),
+    champion: DirectoryTeamSchema.nullable(),
+    seedsPublished: z.boolean(),
+    attribution: WikiAttributionSchema,
+    conferenceSource: WikiAttributionSchema,
+    provenance: DataProvenanceSchema,
+  })
+  .strict();
+export type PlayoffSeriesFilmRoomResponse = z.infer<
+  typeof PlayoffSeriesFilmRoomResponseSchema
+>;

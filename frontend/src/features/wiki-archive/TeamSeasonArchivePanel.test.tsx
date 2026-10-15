@@ -5,6 +5,8 @@ import type { TeamArchiveResponse } from '@nba-performance-explorer/contracts';
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
 import { homeTeam, awayTeam, leagueFixture } from './archive-fixtures';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import '../teams/TeamsPage';
 const person = {
   name: 'Fixture player A',
   articleUrl: 'https://en.wikipedia.org/wiki/Fixture_player_A',

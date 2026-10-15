@@ -19,6 +19,8 @@ export interface WikiPage {
   revision: number;
   html: string;
   retrievedAt: string;
+  /** True when served from the committed snapshot instead of a live fetch. */
+  bundled?: true;
 }
 export class WikiArchiveClient {
   private readonly cache: NbaStatsCache;

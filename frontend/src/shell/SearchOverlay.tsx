@@ -30,6 +30,8 @@ interface Option {
 // Words people use for a tool that its title and blurb do not contain.
 const KEYWORDS: Record<string, string> = {
   '/games/bracket': 'playoffs postseason series finals champion bracket tree',
+  '/games/series/r4-BOS-DAL':
+    'film room series game by game quarters margins finals celtics mavericks clinch',
   '/standings/race': 'standings race replay timeline ladder date season animation',
   '/lab/shots': 'shot chart heatmap hex zones court shooting map distance',
   '/games/shooting': 'box score shooting splits team field goals',

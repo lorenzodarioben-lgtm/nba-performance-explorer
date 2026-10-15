@@ -56,6 +56,13 @@ export const SECTIONS: readonly Section[] = [
         match: exact('/games/bracket'),
       },
       {
+        to: '/games/series/r4-BOS-DAL',
+        label: 'Series film room',
+        blurb:
+          'One 2024 playoff series game by game: margins, quarters and the series score.',
+        match: (pathname) => pathname.startsWith('/games/series/'),
+      },
+      {
         to: '/history/calendar',
         label: 'Game calendar',
         blurb: 'Every recorded game on a date, from the season archive.',
