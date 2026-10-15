@@ -170,3 +170,71 @@ title`), the same two shot marks.
 - Source check: "2024 NBA play-in tournament" on Wikipedia is a 173-byte redirect (revision
   1286346997), so play-in games are not available as a separate table and are not ingested.
 - `npm run validate` exit 0: 391 frontend / 434 backend tests.
+
+# Session two
+
+## S2-1 — efficiency view closed (`a1c672b`, `e8cd484`)
+
+- FG%-relative colouring painted every three-point cell blue; cells are now coloured by points
+  per attempt against the panel's own (full strength at ±0.6), thin cells dashed. Backend test
+  reconciles cell makes/attempts to the group totals; frontend test checks qualified, thin and
+  colour direction.
+- Full `npm run e2e`: 142 passed, 0 failed, 48 skipped by design.
+
+## S2-2 — 2022-23 audit (`c3e241c`)
+
+- Opt-in audit (`backend/src/scripts/audit-recorded-season.ts`): 2022-23 has 10/30 team pages
+  that parse cleanly and 1119 of 1214 game IDs listed by both teams; 2023-24 for comparison has
+  24/30 and 1228 of 1230. Root causes: newer `div.mw-heading` markup (now parsed, tested) and
+  genuine source gaps. **Not ingested**; the contract still allows only `2023-24`. Details in
+  `SOURCE_NOTES.md`.
+
+## S2-3 — Research Workbench (`c8a1b99`)
+
+- `GET /api/recorded/workbench`; 6 backend and 7 frontend cases (quartiles, histogram edges,
+  Pearson/OLS, ranks with ties, team-filtered exclusions counted from the team page).
+- Browser: bin filter, row pick, brush and point pick at 1280 and 390 px; axe found red on
+  `film-2` at 4.41:1 for the picked row, fixed.
+
+## S2-4 — Comparison Studio (`682de4d`)
+
+- `GET /api/recorded/player-comparison`; values and z-scores equal the player rooms' exactly
+  (tested). Gap board z scale grows to the largest |z| so nothing is clipped (Jokić vs Giannis
+  needed ±4). 4 backend and 4 frontend cases; axe clean.
+
+## S2-5 — Shot Studio court region (`45c495c`)
+
+- `region=x1,y1,x2,y2` (whole feet, contract-bounded, ordered). Curry's paint box
+  `-8,-6,8,8` returns 79 located attempts; the region is outlined on every view and named in
+  the CSV and SVG exports.
+- Drag-to-select verified in a real browser at 1280 and 390 px: draft box during the drag,
+  URL and outline after release, numeric fields follow the URL, no console errors. Keyboard
+  route: four numeric bounds with Apply/Clear. Axe clean on dots/density/zones with a region.
+- Tests: 1 backend, 4 frontend (projection inverse, snapping, keyboard apply/clear/exports,
+  four malformed regions rejected).
+
+## S2-6 — My NBA collections (`2d22dc0`)
+
+- Optional `tags` (1–6 per item, ≤24 chars, letters/digits/space/&'-, folded, unique). Older
+  files import unchanged; imports add missing collections to existing items without renaming.
+- Board: collection chips with counts, rename (refuses merging into an existing name),
+  dissolve with confirmation, single-collection export. 3 store and 2 UI cases; axe clean at
+  1280 and 390 px.
+
+## S2-7 — Similarity Finder and trend departures (`899801f`, `7b56586`)
+
+- `GET /api/recorded/similarity`: 2–9 reader-chosen rate measures, cohort z-scores, RMS
+  distance. Hand-checked synthetic distances to 12 places; on real rows Jokić's nearest on
+  points/rebounds/assists/FG% are Sabonis (0.59) and Antetokounmpo (0.72). Players outside the
+  cohort are explained (below minimum or missing a measure; traded players have no combined
+  percentages). 4 backend, 5 frontend cases; axe clean; 390 px layout checked.
+- Workbench relationship view lists the five furthest above and below the fit line (residual
+  and residual-SD multiples; percentages in points). Pure function tested by hand values.
+
+## S2-8 — full browser suites at `7b56586`
+
+- `npm run e2e`: 157 passed, 0 failed, 53 skipped by design (3.8 min), desktop and mobile
+  projects, smoke and axe on every listed route including the five added this session
+  (`lab-workbench`, `lab-workbench-teams`, `compare-studio`, `lab-shots-region`,
+  `discover-similar`).
+- `npm run validate` exit 0: 424 frontend / 452 backend tests.

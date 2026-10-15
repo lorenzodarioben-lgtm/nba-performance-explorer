@@ -35,12 +35,22 @@ comparison strip and saved views; the player hub "2023–24" room with cohort pe
 transparent similar seasons; search over archive players, team seasons and tool keywords; the My
 NBA research board with notes; the 2023-24 season research hub.
 
+**Delivered in session two:** Research Workbench (rank, distribution with quartiles, relationship
+with fit line and residual departures; players and teams); Comparison Studio (2–4 players, gap
+board on z/percentile/raw scales, plain statements, exact values); Shot Studio efficiency by
+points per attempt and court-region selection; My NBA collections; Similarity Finder on
+reader-chosen measures. The session-one backlog (team duel, series context, Formula lab, race
+games-behind view) shipped in session one.
+
 **Missing but feasible with existing data (backlog, in priority order):**
 
-1. Two-team season comparison built on the team-season endpoint.
-2. Playoff game cumulative-margin chart and series context on game pages.
-3. Formula lab / glossary of every derived metric.
-4. Standings race games-behind view.
+1. Playoff series film room from the 2024 playoff snapshot (margins, quarter flow, leaders).
+2. Statistical story builder composing saved Workbench, Studio and Similarity results (local).
+3. Reader-weighted similarity and similar team seasons.
+4. Shot Studio: compare two regions, or one region across two players, as a single readout.
+
+**Blocked by data quality:** a second recorded season. 2022-23 team pages fail the strict parser
+on 20 of 30 teams (audit in `SOURCE_NOTES.md`); nothing is ingested until they pass.
 
 **Blocked (unchanged, documented in the Codex ledger):** live/current scoreboards, play-by-play,
 possessions and ratings, on/off, era adjustment, league-wide shot baselines, injury data.

@@ -24,7 +24,7 @@ pages, Shot Studio distance/zone/efficiency/saved views, player hub "2023–24" 
 seasons, two-team duel, search over archive players, My NBA research board with notes, Formula
 lab, 2023–24 season hub, team wall records and the homepage "New in the film room" band.
 
-Session two (in progress):
+Session two (`a1c672b` … `7b56586`):
 
 | Commit    | Scope                                                                          |
 | --------- | ------------------------------------------------------------------------------ |
@@ -32,20 +32,26 @@ Session two (in progress):
 | `e8cd484` | e2e covers the efficiency view; full run 142 passed, 0 failed                  |
 | `c3e241c` | 2022-23 audited and **not ingested** (10/30 clean pages); season-aware parser  |
 | `c8a1b99` | Research Workbench `/lab/workbench` (players/teams, rank/distribution/relate)  |
+| `682de4d` | Comparison Studio `/compare/recorded`: gap board, statements, exact values     |
+| `45c495c` | Shot Studio court region: drag or numeric bounds, URL, outline, exports        |
+| `2d22dc0` | My NBA collections: tag, filter, rename, dissolve, export one collection       |
+| `899801f` | Similarity Finder `/discover/similar` on 2–9 reader-chosen measures            |
+| `7b56586` | Workbench: furthest above and below the fit line (residuals)                   |
 
-\* see `git log` for the exact e2e commit hash.
-
-New APIs this session: `GET /api/recorded/workbench`. Contract changes: density cells gain
-`pointsPerAttempt`; recorded contracts use `RecordedSeasonSchema` (still `['2023-24']`).
+New APIs this session: `GET /api/recorded/workbench`, `/api/recorded/player-comparison`,
+`/api/recorded/similarity`; `/api/shots` accepts `region`. Contract changes: density cells gain
+`pointsPerAttempt`; shot responses carry `region`; bookmarks gain optional `tags`; recorded
+contracts use `RecordedSeasonSchema` (still `['2023-24']`). Saved-research paths now allow
+`/discover/similar`.
 
 ## Verified state
 
-- `npm run validate` exit 0 at `c8a1b99`: 402 frontend and 443 backend tests, lint 0 errors
+- `npm run validate` exit 0 at `7b56586`: 424 frontend and 452 backend tests, lint 0 errors
   (13 pre-existing react-refresh warnings), typecheck, builds and module-case check pass.
-- `npm run e2e` full run (before the workbench): 142 passed, 0 failed, 48 skipped by design.
-  Workbench, Shot Studio and Formula lab routes re-run afterwards: 17 passed.
-- Workbench interactions verified in a real browser (bin filter, row pick, brush, point pick,
-  390 px layout, no console errors).
+- `npm run e2e` full run at `7b56586`: 157 passed, 0 failed, 53 skipped by design (3.8 min).
+- Real-browser checks for every new interaction (workbench bin/brush/pick, studio cast and
+  scales, court-region drag, collections, similarity) at 1280 and 390 px with axe; details in
+  `docs/expansion3/VERIFICATION_LOG.md`.
 - `npm audit`: 0 vulnerabilities (no dependency changes this session).
 
 ## Constraints and data notes
@@ -54,7 +60,8 @@ New APIs this session: `GET /api/recorded/workbench`. Contract changes: density 
   archives and the Wikipedia playoff snapshot. Quarantined games keep their slot but never get
   a score. Rest, streaks and rolling margins are withheld when chronology is unknown.
 - Bracket winners require a fourth win in the series' last recorded game; rounds are derived
-  from team series order and cross-checked against NBA game-ID round digits. No seeds.
+  from team series order and cross-checked against NBA game-ID round digits. Seeds come
+  only from the published series headings and are accepted only when consistent.
 - Similar seasons are equal-weight z-score distance in a stated cohort; the UI calls them a
   resemblance, never a quality judgement. Recorded leaders use the archive's games rule, not the
   official one, and say so.
@@ -66,11 +73,12 @@ New APIs this session: `GET /api/recorded/workbench`. Contract changes: density 
 
 ## Next actions (in order)
 
-1. Player comparison studio: extend `/lab/profiles`-style cohort comparisons with a shared-scale
-   gap board and deterministic comparison summaries.
-2. Shot Studio court-region selection (select a region, list its attempts, export, save).
-3. Playoff series film room and a statistical story builder; My NBA collections.
-4. Re-run the full `npm run e2e` and update this file and the verification log.
+1. Playoff series film room: a series page built from the 2024 playoff snapshot (game-by-game
+   margins, quarter flow, leaders), linked from the bracket.
+2. Statistical story builder: compose saved charts and statements from Workbench, Studio and
+   Similarity into one exportable page (local only).
+3. Weighted similarity (reader-set weights) and a "similar teams" mode on team seasons.
+4. Re-audit 2022-23 if Wikipedia's team pages are repaired; the parser and audit script are ready.
 
 Continuation: `git checkout claude/nba-explorer-3-expansion && npm ci && npm run validate`.
 For live checks run the backend on 3001 (`PORT=3001 npm run dev:backend`) and the frontend with
