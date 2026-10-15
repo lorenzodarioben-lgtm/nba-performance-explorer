@@ -1,6 +1,7 @@
 import { screen, render } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { http, HttpResponse } from 'msw';
+import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
 
 import { server } from '../../test/server';
@@ -21,7 +22,10 @@ function view() {
     <QueryClientProvider
       client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
     >
-      <SeasonTotalsPanel playerId="2544" season="2023-24" />
+      {/* The panel always renders inside the app router; its failure notice links to coverage. */}
+      <MemoryRouter>
+        <SeasonTotalsPanel playerId="2544" season="2023-24" />
+      </MemoryRouter>
     </QueryClientProvider>,
   );
 }
