@@ -30,6 +30,8 @@ import {
   type RecordedPlayerSeasonQuery,
   type WorkbenchQuery,
   type RecordedPlayerComparisonQuery,
+  type RecordedSimilarityQuery,
+  RecordedSimilarityResponseSchema,
   RecordedPlayerComparisonResponseSchema,
   WorkbenchResponseSchema,
   RecordedPlayerSeasonResponseSchema,
@@ -39,6 +41,7 @@ import {
 import { buildStandingsRace, buildTeamSeason } from './recorded-team-season.js';
 import { buildPlayerSeason } from './recorded-player-season.js';
 import { buildPlayerComparison } from './recorded-player-comparison.js';
+import { buildSimilarity } from './recorded-similarity.js';
 import {
   PLAYER_DEFAULT_MIN_GAMES,
   TEAM_DEFAULT_MIN_GAMES,
@@ -263,6 +266,39 @@ export class RecordedArchiveProvider {
         warnings: [
           'Values, percentiles and z-scores are the same as on each player room. Statements only restate these numbers: who leads, by how much, and where samples or inputs differ.',
           'A standardised gap is the difference in cohort z-scores (population SD). Higher is numerically higher, not better; no overall ranking of players is made.',
+        ],
+      },
+    });
+  }
+  /** Nearest players on the reader's metrics; null when the player is not in the source. */
+  similarity(q: RecordedSimilarityQuery) {
+    const built = buildSimilarity(
+      this.allPlayerRows('gamesPlayed').rows,
+      q.metrics.map((metric) => ({ metric, rows: this.allPlayerRows(metric).rows })),
+      q.player,
+      q.minGames,
+      q.limit,
+    );
+    if (!built) return null;
+    return RecordedSimilarityResponseSchema.parse({
+      season: q.season,
+      minGames: q.minGames,
+      metrics: q.metrics,
+      ...built,
+      snapshotCreatedAt: this.dataset.createdAt,
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'regular-season',
+        coverage:
+          'Recorded 2023-24 regular-season player rows: every player with the games minimum and a published value for each chosen metric. Not a complete or official league population.',
+        warnings: [
+          'Each metric is standardised inside this cohort (population SD), so the cohort changes with the metrics and the games minimum. Every chosen metric weighs the same.',
+          'Distance is the root-mean-square of the z-score differences: 0 is identical on every chosen metric, 1 is one cohort SD apart on average. A descriptive resemblance, not a role or quality judgement.',
+          'Players without a value for a metric leave the cohort rather than being given an invented value. Traded players have no combined shooting percentages in the source, so choosing a percentage drops them.',
         ],
       },
     });

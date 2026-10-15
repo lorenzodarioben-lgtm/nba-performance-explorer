@@ -143,6 +143,26 @@ export const FORMULAS: readonly Formula[] = [
     added: true,
   },
   {
+    id: 'similarity-distance',
+    name: 'Similarity distance',
+    area: 'Cohorts',
+    formula: 'd = √[ Σₖ (z_neighbour,k − z_target,k)² / K ] over the K chosen measures',
+    definition:
+      'Each chosen measure is standardised inside the cohort (population SD); the distance is the root-mean-square of the z differences, so 0 is identical and 1 is one cohort SD apart on average, whatever K is. Every measure weighs the same.',
+    missing:
+      'Players without the games minimum or a published value for any chosen measure leave the cohort; no value is invented.',
+    example:
+      'z differences +0.5 and −0.5 on two measures → d = √[(0.25 + 0.25) / 2] = 0.5.',
+    implementedIn: 'backend/src/features/recorded-archive/recorded-similarity.ts',
+    usedIn: [
+      {
+        to: '/discover/similar?player=203999&metrics=pointsPerGame,reboundsPerGame,assistsPerGame',
+        label: 'Similarity finder',
+      },
+    ],
+    added: true,
+  },
+  {
     id: 'histogram',
     name: 'Distribution bins',
     area: 'Cohorts',

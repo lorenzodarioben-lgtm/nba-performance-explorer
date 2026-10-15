@@ -41,6 +41,8 @@ const KEYWORDS: Record<string, string> = {
   '/history/progression': 'progression records over time trend',
   '/standings/recorded': 'rankings splits home away streak last ten',
   '/discover/recorded': 'similar players discover filter outliers',
+  '/discover/similar':
+    'similar players like comparable lookalike nearest neighbours closest match',
   '/my-nba': 'saved bookmarks favourites favorites notes collections',
   '/compare/recorded':
     'compare players side by side versus vs gap who leads difference studio',

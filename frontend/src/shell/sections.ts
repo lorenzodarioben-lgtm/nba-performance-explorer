@@ -248,6 +248,12 @@ export const SECTIONS: readonly Section[] = [
         match: exact('/discover/recorded'),
       },
       {
+        to: '/discover/similar',
+        label: 'Similarity finder',
+        blurb: 'Seasons nearest to a player on the measures you choose.',
+        match: exact('/discover/similar'),
+      },
+      {
         to: '/lab/groups',
         label: 'Hypothetical five',
         blurb: 'Build a hypothetical group from recorded player seasons.',

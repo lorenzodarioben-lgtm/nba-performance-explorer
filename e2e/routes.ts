@@ -79,5 +79,9 @@ export const routeExamples: readonly RouteExample[] = [
     path: '/lab/shots?players=201939,2544&view=zones&region=-8,-6,8,8',
   },
   { name: 'lab-teams-duel', path: '/lab/teams?teams=nba:1610612738,nba:1610612743' },
+  {
+    name: 'discover-similar',
+    path: '/discover/similar?player=203999&metrics=pointsPerGame,reboundsPerGame,assistsPerGame,fieldGoalPercentage',
+  },
   { name: 'not-found', path: '/this-route-does-not-exist' },
 ];

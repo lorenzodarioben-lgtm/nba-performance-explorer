@@ -158,6 +158,11 @@ const RecordedSeasonRoom = lazy(() =>
     default: m.RecordedSeasonRoom,
   })),
 );
+const SimilarityPage = lazy(() =>
+  import('./features/similarity/SimilarityPage').then((m) => ({
+    default: m.SimilarityPage,
+  })),
+);
 const ComparisonStudioPage = lazy(() =>
   import('./features/comparison-studio/ComparisonStudioPage').then((m) => ({
     default: m.ComparisonStudioPage,
@@ -376,6 +381,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/discover/recorded',
     element: lazyRoute('Loading recorded discovery…', <RecordedDiscoveryPage />),
+  },
+  {
+    path: '/discover/similar',
+    element: lazyRoute('Loading similarity finder…', <SimilarityPage />),
   },
   {
     path: '/lab/groups',

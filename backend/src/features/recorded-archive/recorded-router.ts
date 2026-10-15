@@ -15,6 +15,7 @@ import {
   RecordedPlayerSeasonQuerySchema,
   WorkbenchQuerySchema,
   RecordedPlayerComparisonQuerySchema,
+  RecordedSimilarityQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
@@ -392,5 +393,32 @@ export function createRecordedRouter(provider: RecordedArchiveProvider | undefin
     return res.json(provider.playerComparison(q.data));
   });
   router.all('/player-comparison', methodNotAllowedHandler);
+  router.get('/similarity', (req, res) => {
+    const q = RecordedSimilarityQuerySchema.safeParse(req.query);
+    if (!q.success || Object.values(req.query).some(Array.isArray))
+      return sendApiError(
+        res,
+        400,
+        'INVALID_SIMILARITY',
+        'Choose one NBA player ID, two to nine different rate metrics, a games minimum of 1 to 82 and a limit of 1 to 25.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    const result = provider.similarity(q.data);
+    if (!result)
+      return sendApiError(
+        res,
+        404,
+        'PLAYER_NOT_FOUND',
+        'Player not found in the recorded 2023-24 source.',
+      );
+    return res.json(result);
+  });
+  router.all('/similarity', methodNotAllowedHandler);
   return router;
 }

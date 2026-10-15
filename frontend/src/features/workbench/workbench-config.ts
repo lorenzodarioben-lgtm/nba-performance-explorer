@@ -121,7 +121,8 @@ export function formatValue(def: WorkbenchMetricDefinition, value: number | null
 }
 
 /** A spreadsheet-safe cell: quoted, inner quotes doubled, formula-leading text defused. */
-function cell(value: string | number | null) {
+/** One CSV cell, quoted, with spreadsheet formula prefixes neutralised. */
+export function csvCell(value: string | number | null) {
   const text = value === null ? '' : String(value);
   const safe =
     /^[=+\-@\t\r]/.test(text) && typeof value === 'string' ? `'${text}` : text;
@@ -150,7 +151,7 @@ export function workbenchCsv(data: WorkbenchResponse) {
       r.percentile.toFixed(2),
       r.zX.toFixed(4),
     ]
-      .map((v) => cell(v as string | number | null))
+      .map((v) => csvCell(v as string | number | null))
       .join(','),
   );
   const notes = [
@@ -162,6 +163,6 @@ export function workbenchCsv(data: WorkbenchResponse) {
     '# Source: recorded 2023-24 Wikipedia team pages (CC BY-SA 4.0); identifiers from Wikidata (CC0).',
   ];
   return (
-    [...notes, header.map((h) => cell(h)).join(','), ...lines].join('\r\n') + '\r\n'
+    [...notes, header.map((h) => csvCell(h)).join(','), ...lines].join('\r\n') + '\r\n'
   );
 }
