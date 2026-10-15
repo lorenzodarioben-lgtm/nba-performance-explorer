@@ -134,6 +134,7 @@ export class ShotArchiveProvider {
           y: number;
           attempts: number;
           makes: number;
+          threeMakes: number;
           fgPercentage: number | null;
         }
       >();
@@ -147,10 +148,12 @@ export class ShotArchiveProvider {
               y,
               attempts: 0,
               makes: 0,
+              threeMakes: 0,
               fgPercentage: null,
             };
           cell.attempts++;
           if (r.made) cell.makes++;
+          if (r.made && r.type === '3PT') cell.threeMakes++;
           cells.set(key, cell);
         }
       return {
@@ -171,9 +174,13 @@ export class ShotArchiveProvider {
           ? rows.reduce((sum, r) => sum + r.distanceFeet, 0) / rows.length
           : null,
         distances: distanceProfile(rows, q.minAttempts),
-        cells: [...cells.values()].map((c) => ({
+        cells: [...cells.values()].map(({ threeMakes, ...c }) => ({
           ...c,
           fgPercentage: c.attempts >= q.minAttempts ? c.makes / c.attempts : null,
+          pointsPerAttempt:
+            c.attempts >= q.minAttempts
+              ? (2 * c.makes + threeMakes) / c.attempts
+              : null,
         })),
       };
     });

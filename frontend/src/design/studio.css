@@ -346,3 +346,27 @@
 .studio__updating:empty {
   display: none;
 }
+.efflegend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  margin: 0 0 12px;
+  font: 500 11px/1 var(--mono);
+  color: var(--chalk-2);
+}
+.efflegend__scale {
+  display: inline-flex;
+}
+.efflegend__scale i {
+  width: 22px;
+  height: 12px;
+}
+.efflegend__thin i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  vertical-align: -2px;
+  border: 1px dashed rgba(244, 243, 241, 0.4);
+}

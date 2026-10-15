@@ -125,8 +125,8 @@ const data: ShotResponse = {
         threePointAttempts: i === 8 ? 1 : 0,
       })),
       cells: [
-        { x: -20, y: 20, attempts: 1, makes: 1, fgPercentage: 1 },
-        { x: 0, y: -5, attempts: 1, makes: 0, fgPercentage: 0 },
+        { x: -20, y: 20, attempts: 1, makes: 1, fgPercentage: 1, pointsPerAttempt: 3 },
+        { x: 0, y: -5, attempts: 1, makes: 0, fgPercentage: 0, pointsPerAttempt: 0 },
       ],
     },
   ],
@@ -397,5 +397,64 @@ describe('shot studio 3.0 tools', () => {
     expect(localStorage.getItem('nba-explorer.research.v1')).not.toContain(
       'Threes only',
     );
+  });
+});
+
+describe('shot studio efficiency view', () => {
+  it('colours only qualified cells, relative to the panel FG%, and outlines thin cells', async () => {
+    // Panel 1.0 points per attempt: a qualified cell at 1.5 (above), one at 0.4 (below) and a
+    // thin cell. A 50% three-point cell (1.5) outranks the panel even with a lower FG%.
+    const group = {
+      ...data.groups[0]!,
+      fgPercentage: 0.5,
+      pointsPerAttempt: 1,
+      cells: [
+        {
+          x: -20,
+          y: 20,
+          attempts: 12,
+          makes: 6,
+          fgPercentage: 0.5,
+          pointsPerAttempt: 1.5,
+        },
+        {
+          x: 0,
+          y: -5,
+          attempts: 10,
+          makes: 2,
+          fgPercentage: 0.2,
+          pointsPerAttempt: 0.4,
+        },
+        {
+          x: 10,
+          y: 0,
+          attempts: 2,
+          makes: 1,
+          fgPercentage: null,
+          pointsPerAttempt: null,
+        },
+      ],
+    };
+    routes(() => HttpResponse.json({ ...data, minAttempts: 10, groups: [group] }));
+    const view = renderApp('/lab/shots?view=efficiency&minAttempts=10');
+    await screen.findByText(
+      /Efficiency colours only 5×5 foot cells with at least 10 attempts/,
+    );
+    const cells = view.container.querySelectorAll('.shotcourt__efficiency rect');
+    expect(cells).toHaveLength(3);
+    const byCell = (key: string) =>
+      view.container.querySelector(`.shotcourt__efficiency [data-cell="${key}"]`)!;
+    expect(byCell('-20:20')).toHaveAttribute('data-qualified', 'true');
+    expect(byCell('-20:20').getAttribute('fill')).toMatch(/^rgba\(239,68,68,/);
+    expect(byCell('0:-5').getAttribute('fill')).toMatch(/^rgba\(59,130,246,/);
+    expect(byCell('10:0')).toHaveAttribute('data-qualified', 'false');
+    expect(byCell('10:0')).toHaveAttribute('fill', 'none');
+    expect(byCell('10:0').textContent).toMatch(/2 attempts, too few for a rate/);
+    expect(byCell('-20:20').textContent).toMatch(
+      /6\/12, 1.50 points per attempt vs panel 1.00/,
+    );
+    // The exact values table lists every cell, qualified or not, with its counts.
+    const table = screen.getByRole('group', { name: /density values/ });
+    expect(within(table).getAllByRole('row')).toHaveLength(4);
   });
 });

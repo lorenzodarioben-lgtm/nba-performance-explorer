@@ -145,6 +145,8 @@ export const ShotGroupSchema = SummarySchema.extend({
           attempts: count,
           makes: count,
           fgPercentage: ratio,
+          /** (2 × makes + made threes) / attempts; null below the minimum-attempts rule. */
+          pointsPerAttempt: z.number().min(0).max(3).nullable(),
         })
         .strict(),
     )

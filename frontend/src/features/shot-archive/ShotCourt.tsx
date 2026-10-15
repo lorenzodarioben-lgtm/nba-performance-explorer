@@ -3,6 +3,7 @@ import type { Ref } from 'react';
 
 import { BasketballCourt } from '../../charts/BasketballCourt';
 import { COURT, zoneAreas, type SourceZone } from '../../charts/court';
+import { EFFICIENCY_FULL_SCALE } from './shot-scales';
 
 export type ShotView = 'dots' | 'density' | 'efficiency' | 'zones';
 type Group = ShotResponse['groups'][number];
@@ -98,16 +99,18 @@ export function ShotCourt({
           );
         }
         if (view === 'efficiency') {
-          // Only cells that meet the minimum-attempts rule carry a FG%; they are coloured by how
-          // far they sit from the panel's own FG% (red above, blue below). Thinner cells keep a
-          // faint dashed outline so located attempts are never hidden, but get no colour.
-          const base = group.fgPercentage;
+          // Only cells that meet the minimum-attempts rule are coloured, by points per attempt
+          // relative to the panel's own (red above, blue below, full strength at 0.6 points).
+          // Points per attempt, not FG%, so threes and twos are measured on one scale. Thinner
+          // cells keep a faint dashed outline: located attempts are never hidden.
+          const base = group.pointsPerAttempt;
           return (
             <g className="shotcourt__efficiency">
               {group.cells.map((cell) => {
                 const [x, yTop] = P(cell.x * 10, cell.y * 10 + 50);
                 const key = `${cell.x}:${cell.y}`;
-                if (cell.fgPercentage === null || base === null)
+                const where = `${cell.x} to ${cell.x + 5} ft across, ${cell.y} to ${cell.y + 5} ft out`;
+                if (cell.pointsPerAttempt === null || base === null)
                   return (
                     <rect
                       key={key}
@@ -122,19 +125,18 @@ export function ShotCourt({
                       strokeDasharray="4 4"
                     >
                       <title>
-                        {cell.x} to {cell.x + 5} ft across, {cell.y} to {cell.y + 5} ft
-                        out: {cell.attempts} attempts, too few for a FG%
+                        {where}: {cell.attempts} attempts, too few for a rate
                       </title>
                     </rect>
                   );
-                const diff = cell.fgPercentage - base;
-                const strength = Math.min(1, Math.abs(diff) / 0.3);
+                const diff = cell.pointsPerAttempt - base;
+                const strength = Math.min(1, Math.abs(diff) / EFFICIENCY_FULL_SCALE);
                 return (
                   <rect
                     key={key}
                     data-cell={key}
                     data-qualified="true"
-                    data-fg={cell.fgPercentage}
+                    data-ppa={cell.pointsPerAttempt}
                     x={x}
                     y={yTop}
                     width={50}
@@ -148,9 +150,9 @@ export function ShotCourt({
                     strokeWidth={1.5}
                   >
                     <title>
-                      {cell.x} to {cell.x + 5} ft across, {cell.y} to {cell.y + 5} ft
-                      out: {cell.makes}/{cell.attempts}, FG {ratio(cell.fgPercentage)}{' '}
-                      vs panel {ratio(base)}
+                      {where}: {cell.makes}/{cell.attempts},{' '}
+                      {cell.pointsPerAttempt.toFixed(2)} points per attempt vs panel{' '}
+                      {base.toFixed(2)}
                     </title>
                   </rect>
                 );

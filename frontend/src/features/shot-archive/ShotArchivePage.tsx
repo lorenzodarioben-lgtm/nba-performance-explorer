@@ -21,6 +21,7 @@ import { ShotDistanceProfile } from './ShotDistanceProfile';
 import { StudioViews } from './StudioViews';
 import { ZoneStrip } from './ZoneStrip';
 import { ShotCourt, type ShotView } from './ShotCourt';
+import { EFFICIENCY_FULL_SCALE } from './shot-scales';
 import { Segmented } from '../../ui/Segmented';
 import { Slate } from '../../ui/Slate';
 import { Icon } from '../../ui/Icon';
@@ -353,7 +354,7 @@ export function ShotArchivePage() {
                 {mode === 'density'
                   ? 'Density uses every filtered located event, 5×5 foot cells; brighter means more attempts, not better shooting. All panels share the same count-to-shade scale.'
                   : mode === 'efficiency'
-                    ? `Efficiency colours only 5×5 foot cells with at least ${data.minAttempts} attempts: red where the cell's FG% is above the panel's own FG%, blue where it is below, stronger with the gap (full at 30 points). Dashed cells hold too few attempts for a FG% and are not coloured; lower the minimum to see more, at the cost of noisier cells.`
+                    ? `Efficiency colours only 5×5 foot cells with at least ${data.minAttempts} attempts, by points per attempt compared with the panel's own (shown above each court): red above, blue below, full colour at ${EFFICIENCY_FULL_SCALE} points. Points per attempt puts twos and threes on one scale. Dashed cells hold too few attempts for a rate; each panel is compared with itself, never with the other player.`
                     : mode === 'zones'
                       ? 'Zones shade each original source zone by its share of the panel’s attempts and label its FG%. Outlines are approximate drawings; no attempt is reassigned.'
                       : 'Dots show only the exact table page: filled chalk circles are makes; red crosses are misses. Hover a shot or a table row to link them.'}{' '}
@@ -384,6 +385,23 @@ export function ShotArchivePage() {
                       {z}
                     </button>
                   ))}
+                </div>
+              ) : null}
+              {mode === 'efficiency' ? (
+                <div className="efflegend" aria-hidden="true">
+                  <span className="efflegend__scale">
+                    <i style={{ background: 'rgba(59,130,246,0.9)' }} />
+                    <i style={{ background: 'rgba(59,130,246,0.4)' }} />
+                    <i style={{ background: 'rgba(239,68,68,0.4)' }} />
+                    <i style={{ background: 'rgba(239,68,68,0.9)' }} />
+                  </span>
+                  <span>
+                    −{EFFICIENCY_FULL_SCALE} · panel points per attempt · +
+                    {EFFICIENCY_FULL_SCALE}
+                  </span>
+                  <span className="efflegend__thin">
+                    <i /> fewer than {data.minAttempts} attempts
+                  </span>
                 </div>
               ) : null}
               <div className="studio__panels" data-panels={data.groups.length}>

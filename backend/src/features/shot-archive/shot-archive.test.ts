@@ -171,6 +171,34 @@ describe('genuine recorded CC0 shot archive', () => {
       provider.analyze(ShotQuerySchema.parse({ game: 'nba:0041700999' })).groups[0],
     ).toMatchObject({ attempts: 0, meanDistanceFeet: null });
   });
+  it('reconciles density cells with located attempts and computes cell points per attempt', () => {
+    const rows = provider.shots.filter((r) => r.playerId === '201939');
+    const group = provider.analyze(
+      ShotQuerySchema.parse({ players: '201939', minAttempts: '10' }),
+    ).groups[0]!;
+    const located = rows.filter((r) => r.x !== null && r.y !== null);
+    expect(
+      group.cells.reduce((s, c) => s + c.attempts, 0) + group.missingCoordinates,
+    ).toBe(rows.length);
+    expect(group.cells.reduce((s, c) => s + c.makes, 0)).toBe(
+      located.filter((r) => r.made).length,
+    );
+    for (const cell of group.cells) {
+      const inCell = located.filter(
+        (r) =>
+          Math.floor(r.x! / 50) * 5 === cell.x && Math.floor(r.y! / 50) * 5 === cell.y,
+      );
+      expect(inCell).toHaveLength(cell.attempts);
+      const points = inCell.reduce(
+        (s, r) => s + (r.made ? (r.type === '3PT' ? 3 : 2) : 0),
+        0,
+      );
+      if (cell.attempts >= 10)
+        expect(cell.pointsPerAttempt).toBeCloseTo(points / cell.attempts);
+      else expect(cell.pointsPerAttempt).toBeNull();
+    }
+    expect(group.cells.some((c) => c.pointsPerAttempt !== null)).toBe(true);
+  });
   it('exposes strict archive routes without fallback or repeated/unsupported state', async () => {
     const app = createApp(undefined, { shotArchiveProvider: provider });
     for (const query of [
