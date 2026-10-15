@@ -141,9 +141,16 @@
   text-decoration-color: var(--line-3);
   text-underline-offset: 3px;
 }
-.fr .wb-rowpick:hover,
-.fr .wb-rowpick[aria-pressed='true'] {
+.fr .wb-rowpick:hover {
   color: var(--red-hi);
+}
+/* On the highlighted row the fill is lighter: the picked name stays white (red would fall
+   below text contrast) and the red moves to its underline. */
+.fr .wb-rowpick[aria-pressed='true'] {
+  color: var(--chalk);
+  font-weight: 700;
+  text-decoration-color: var(--red-hi);
+  text-decoration-thickness: 2px;
 }
 .fr tr.is-picked {
   background: var(--film-2);

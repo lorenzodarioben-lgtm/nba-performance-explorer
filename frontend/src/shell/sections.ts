@@ -153,6 +153,13 @@ export const SECTIONS: readonly Section[] = [
         match: exact('/compare'),
       },
       {
+        to: '/compare/recorded',
+        label: 'Comparison studio',
+        blurb:
+          'Two to four recorded 2023-24 seasons on one gap board, with plain statements.',
+        match: exact('/compare/recorded'),
+      },
+      {
         to: '/lab/compare',
         label: 'Player lab',
         blurb: 'Up to four player-seasons on shared scales.',

@@ -158,6 +158,11 @@ const RecordedSeasonRoom = lazy(() =>
     default: m.RecordedSeasonRoom,
   })),
 );
+const ComparisonStudioPage = lazy(() =>
+  import('./features/comparison-studio/ComparisonStudioPage').then((m) => ({
+    default: m.ComparisonStudioPage,
+  })),
+);
 const WorkbenchPage = lazy(() =>
   import('./features/workbench/WorkbenchPage').then((m) => ({
     default: m.WorkbenchPage,
@@ -321,6 +326,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   },
   // Compare
   { path: '/compare', element: <PlayerComparisonPage /> },
+  {
+    path: '/compare/recorded',
+    element: lazyRoute('Loading comparison studio…', <ComparisonStudioPage />),
+  },
   {
     path: '/lab/compare',
     element: lazyRoute('Loading comparison lab…', <ComparisonLabPage />),

@@ -29,6 +29,8 @@ import {
   type RecordedTeamSeasonQuery,
   type RecordedPlayerSeasonQuery,
   type WorkbenchQuery,
+  type RecordedPlayerComparisonQuery,
+  RecordedPlayerComparisonResponseSchema,
   WorkbenchResponseSchema,
   RecordedPlayerSeasonResponseSchema,
   ProfileMetricSchema,
@@ -36,6 +38,7 @@ import {
 } from '@nba-performance-explorer/contracts';
 import { buildStandingsRace, buildTeamSeason } from './recorded-team-season.js';
 import { buildPlayerSeason } from './recorded-player-season.js';
+import { buildPlayerComparison } from './recorded-player-comparison.js';
 import {
   PLAYER_DEFAULT_MIN_GAMES,
   TEAM_DEFAULT_MIN_GAMES,
@@ -235,6 +238,34 @@ export class RecordedArchiveProvider {
     for (let page = 2; (page - 1) * 50 < first.total; page++)
       rows.push(...this.rank({ ...base, page }).rows);
     return { rows, first };
+  }
+  playerComparison(q: RecordedPlayerComparisonQuery) {
+    const columns = this.profileColumns({
+      season: q.season,
+      scope: 'regular-season',
+      minGames: q.minGames,
+      metrics: [...ProfileMetricSchema.options],
+    });
+    return RecordedPlayerComparisonResponseSchema.parse({
+      season: q.season,
+      minGames: q.minGames,
+      ...buildPlayerComparison(this.dataset, columns, q.players, q.minGames),
+      snapshotCreatedAt: this.dataset.createdAt,
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'regular-season',
+        coverage:
+          'Recorded 2023-24 regular-season player rows compared inside one games-qualified cohort. Not a complete or official league population.',
+        warnings: [
+          'Values, percentiles and z-scores are the same as on each player room. Statements only restate these numbers: who leads, by how much, and where samples or inputs differ.',
+          'A standardised gap is the difference in cohort z-scores (population SD). Higher is numerically higher, not better; no overall ranking of players is made.',
+        ],
+      },
+    });
   }
   workbench(q: WorkbenchQuery) {
     const players = q.entity === 'players';

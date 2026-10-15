@@ -59,6 +59,10 @@ export const routeExamples: readonly RouteExample[] = [
   { name: 'lab-shots-zones', path: '/lab/shots?players=201939,2544&view=zones' },
   { name: 'lab-formulas', path: '/lab/formulas' },
   {
+    name: 'compare-studio',
+    path: '/compare/recorded?players=203999,203507,1628983,1628384',
+  },
+  {
     name: 'lab-workbench',
     path: '/lab/workbench?view=relationship&metric=pointsPerGame&y=assistsPerGame&pick=203999',
   },

@@ -14,6 +14,7 @@ import {
   RecordedStandingsRaceQuerySchema,
   RecordedPlayerSeasonQuerySchema,
   WorkbenchQuerySchema,
+  RecordedPlayerComparisonQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
@@ -372,5 +373,24 @@ export function createRecordedRouter(provider: RecordedArchiveProvider | undefin
     return res.json(provider.workbench(q.data));
   });
   router.all('/workbench', methodNotAllowedHandler);
+  router.get('/player-comparison', (req, res) => {
+    const q = RecordedPlayerComparisonQuerySchema.safeParse(req.query);
+    if (!q.success || Object.values(req.query).some(Array.isArray))
+      return sendApiError(
+        res,
+        400,
+        'INVALID_PLAYER_COMPARISON',
+        'Choose two to four different NBA player IDs and a games minimum of 1 to 82.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    return res.json(provider.playerComparison(q.data));
+  });
+  router.all('/player-comparison', methodNotAllowedHandler);
   return router;
 }
