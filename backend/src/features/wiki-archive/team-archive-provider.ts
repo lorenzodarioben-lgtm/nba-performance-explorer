@@ -6,6 +6,7 @@ import {
   TeamArchiveResponseSchema,
   type DirectoryTeam,
   type TeamArchiveResponse,
+  type RecordedDataset,
 } from '@nba-performance-explorer/contracts';
 import { NbaStatsCache } from '../players/nba-stats/nba-stats-cache.js';
 import { staticTeamDirectoryProvider } from '../teams/team-directory-provider.js';
@@ -385,73 +386,128 @@ export class WikipediaTeamArchiveProvider implements TeamArchiveProvider {
   constructor(
     private client = new WikiArchiveClient(),
     private identities: RosterIdentityProvider = new WikidataRosterIdentities(),
+    /** The same team page from the committed recorded snapshot, used when the live page fails. */
+    private fallback:
+      | ((team: DirectoryTeam) => TeamArchiveResponse | null)
+      | null = null,
   ) {}
   getTeam(team: DirectoryTeam) {
     return this.cache.getOrLoad(
       team.id,
       async () => {
-        const page = await this.client.getPage(`2023–24 ${team.name} season`);
-        const data = mapTeamArchive(
-          page,
-          team,
-          await staticTeamDirectoryProvider.listTeams(),
-        );
-        const people = [
-          ...data.roster,
-          ...data.statistics['regular-season'],
-          ...data.statistics.playoffs,
-          ...data.statistics['source-unspecified'],
-        ];
-        const articles = [
-          ...new Set(people.flatMap((p) => (p.articleUrl ? [p.articleUrl] : []))),
-        ];
-        let identityStatus: 'available' | 'unavailable' = 'available',
-          identityRetrievedAt: string | null = null;
         try {
-          const mapped = await this.identities.getIdentities(articles);
-          identityRetrievedAt = mapped.retrievedAt;
-          for (const p of people) {
-            const identity = p.articleUrl
-              ? mapped.identities.get(p.articleUrl)
-              : undefined;
-            if (identity) {
-              p.nbaPlayerId = identity.nbaPlayerId;
-              p.identityUrl = identity.identityUrl;
-            }
-          }
+          return await this.live(team);
         } catch (error) {
-          if (!(error instanceof ArchiveSourceError)) throw error;
-          if (error.kind === 'invalid') throw error;
-          identityStatus = 'unavailable';
+          const bundled =
+            error instanceof ArchiveSourceError && this.fallback
+              ? this.fallback(team)
+              : null;
+          if (bundled) return bundled;
+          throw error;
         }
-        return TeamArchiveResponseSchema.parse({
-          team,
-          season: '2023-24',
-          ...data,
-          identityStatus,
-          identityRetrievedAt,
-          attribution: attribution(page),
-          provenance: {
-            ...archiveProvenance(page, 'regular-season', 'wikipedia'),
-            coverage:
-              '2023-24 historical team page: source-listed roster, reconciled 82 regular-season results, published participant summaries in separate regular/playoff scopes.',
-            warnings: [
-              'Adapted Wikipedia tables under CC BY-SA4.0; revision and contributor history linked. Exact-article Wikidata P3647 identity mappings are CC0, not player-name guesses.',
-              'Historical roster is the source-listed season snapshot, not complete transaction membership or the current roster. Regular-season participant tables may include departed players.',
-              'Rounded participant per-game values/percentages are as published; raw totals only when explicitly sourced. No weighted team shooting, possessions or joint lineup metrics inferred.',
-              'Derived per-game rows identify their raw-total basis. Unspecified source scope is separate from regular/playoff records.',
-              'Source home/away designation includes designated neutral-site games; location/attendance labels remain as published. No timezone/live clock available.',
-              'Opponent IDs use explicit linked 2023-24 season pages; repeated unlinked labels may reuse only an identical label with an explicit identity link on this same source page.',
-              ...(identityStatus === 'unavailable'
-                ? [
-                    'Player ID mapping source unavailable; only sourced external article links shown.',
-                  ]
-                : []),
-            ],
-          },
-        });
       },
-      () => 24 * 60 * 60_000,
+      // A fallback is cached briefly so the live page is retried soon.
+      (value) =>
+        value.provenance.warnings.some((w) => w.startsWith('Served from the snapshot'))
+          ? 5 * 60_000
+          : 24 * 60 * 60_000,
     );
   }
+  private async live(team: DirectoryTeam) {
+    const page = await this.client.getPage(`2023–24 ${team.name} season`);
+    const data = mapTeamArchive(
+      page,
+      team,
+      await staticTeamDirectoryProvider.listTeams(),
+    );
+    const people = [
+      ...data.roster,
+      ...data.statistics['regular-season'],
+      ...data.statistics.playoffs,
+      ...data.statistics['source-unspecified'],
+    ];
+    const articles = [
+      ...new Set(people.flatMap((p) => (p.articleUrl ? [p.articleUrl] : []))),
+    ];
+    let identityStatus: 'available' | 'unavailable' = 'available',
+      identityRetrievedAt: string | null = null;
+    try {
+      const mapped = await this.identities.getIdentities(articles);
+      identityRetrievedAt = mapped.retrievedAt;
+      for (const p of people) {
+        const identity = p.articleUrl ? mapped.identities.get(p.articleUrl) : undefined;
+        if (identity) {
+          p.nbaPlayerId = identity.nbaPlayerId;
+          p.identityUrl = identity.identityUrl;
+        }
+      }
+    } catch (error) {
+      if (!(error instanceof ArchiveSourceError)) throw error;
+      if (error.kind === 'invalid') throw error;
+      identityStatus = 'unavailable';
+    }
+    return TeamArchiveResponseSchema.parse({
+      team,
+      season: '2023-24',
+      ...data,
+      identityStatus,
+      identityRetrievedAt,
+      attribution: attribution(page),
+      provenance: {
+        ...archiveProvenance(page, 'regular-season', 'wikipedia'),
+        coverage:
+          '2023-24 historical team page: source-listed roster, reconciled 82 regular-season results, published participant summaries in separate regular/playoff scopes.',
+        warnings: [
+          'Adapted Wikipedia tables under CC BY-SA4.0; revision and contributor history linked. Exact-article Wikidata P3647 identity mappings are CC0, not player-name guesses.',
+          'Historical roster is the source-listed season snapshot, not complete transaction membership or the current roster. Regular-season participant tables may include departed players.',
+          'Rounded participant per-game values/percentages are as published; raw totals only when explicitly sourced. No weighted team shooting, possessions or joint lineup metrics inferred.',
+          'Derived per-game rows identify their raw-total basis. Unspecified source scope is separate from regular/playoff records.',
+          'Source home/away designation includes designated neutral-site games; location/attendance labels remain as published. No timezone/live clock available.',
+          'Opponent IDs use explicit linked 2023-24 season pages; repeated unlinked labels may reuse only an identical label with an explicit identity link on this same source page.',
+          ...(identityStatus === 'unavailable'
+            ? [
+                'Player ID mapping source unavailable; only sourced external article links shown.',
+              ]
+            : []),
+        ],
+      },
+    });
+  }
+}
+
+/**
+ * A team's 2023-24 page as committed in the recorded snapshot (the same parser output, with the
+ * exact-article identities resolved when the snapshot was built), served with a notice.
+ */
+export function recordedTeamArchive(
+  snapshot: RecordedDataset['snapshots'][number],
+  createdAt: string,
+): TeamArchiveResponse {
+  const page = {
+    title: snapshot.attribution.title,
+    revision: snapshot.attribution.revision,
+    html: '',
+    retrievedAt: snapshot.retrievedAt,
+    bundled: true as const,
+  };
+  const base = archiveProvenance(page, 'regular-season', 'wikipedia');
+  return TeamArchiveResponseSchema.parse({
+    team: snapshot.team,
+    season: '2023-24',
+    roster: snapshot.roster,
+    statistics: snapshot.statistics,
+    results: snapshot.results,
+    identityStatus: 'available',
+    identityRetrievedAt: createdAt,
+    attribution: snapshot.attribution,
+    provenance: {
+      ...base,
+      coverage:
+        '2023-24 historical team page: source-listed roster, reconciled 82 regular-season results, published participant summaries in separate regular/playoff scopes.',
+      warnings: [
+        ...base.warnings,
+        'Identity mappings are those resolved from exact-article Wikidata P3647 when the snapshot was built (CC0).',
+      ],
+    },
+  });
 }

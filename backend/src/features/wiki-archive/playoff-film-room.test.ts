@@ -5,6 +5,7 @@ import {
   PlayoffBracketResponseSchema,
   PlayoffSeriesFilmRoomResponseSchema,
   PlayoffSeriesSchema,
+  TeamArchiveResponseSchema,
   type ArchiveGame,
 } from '@nba-performance-explorer/contracts';
 import { createApp } from '../../app.js';
@@ -12,6 +13,10 @@ import { RecordedArchiveProvider } from '../recorded-archive/recorded-provider.j
 import { analyzeSeries, seriesNeighbours } from './playoff-film-room.js';
 import { WikipediaArchiveProvider, archiveSnapshot } from './archive-provider.js';
 import { WikiArchiveClient } from './wiki-client.js';
+import {
+  WikipediaTeamArchiveProvider,
+  recordedTeamArchive,
+} from './team-archive-provider.js';
 
 const teams = new RecordedArchiveProvider().dataset.snapshots.map((s) => s.team);
 const BOS = teams.find((t) => t.abbreviation === 'BOS')!;
@@ -207,5 +212,32 @@ describe('series film room analysis', () => {
     expect(data.page.bundled).toBe(true);
     expect(data.page.revision).toBe(archiveSnapshot().playoffs.page.revision);
     expect(data.seeds?.seeds?.size).toBe(16);
+  });
+});
+
+describe('team page fallback', () => {
+  it('serves the committed recorded team page when Wikipedia cannot be reached, and says so', async () => {
+    const recorded = new RecordedArchiveProvider();
+    const offline = new WikiArchiveClient(() =>
+      Promise.reject(new TypeError('offline test')),
+    );
+    const provider = new WikipediaTeamArchiveProvider(offline, undefined, (team) => {
+      const found = recorded.dataset.snapshots.find((s) => s.team.id === team.id);
+      return found ? recordedTeamArchive(found, recorded.dataset.createdAt) : null;
+    });
+    const boston = recorded.dataset.snapshots.find(
+      (s) => s.team.abbreviation === 'BOS',
+    )!;
+    const page = TeamArchiveResponseSchema.parse(await provider.getTeam(boston.team));
+    expect(page.results).toEqual(boston.results);
+    expect(page.roster).toEqual(boston.roster);
+    expect(page.attribution.revision).toBe(boston.attribution.revision);
+    expect(page.provenance.warnings[0]).toMatch(
+      /^Served from the snapshot of revision/,
+    );
+    // Without a fallback the failure still surfaces as unavailable, never as substitute data.
+    await expect(
+      new WikipediaTeamArchiveProvider(offline).getTeam(boston.team),
+    ).rejects.toThrow();
   });
 });

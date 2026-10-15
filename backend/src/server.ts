@@ -11,7 +11,10 @@ import { NbaGameResearchProvider } from './features/research/game-research-provi
 import { WikidataHistoryProvider } from './features/history/history-provider.js';
 import { NbaPlayerBioProvider } from './features/research/player-bio-provider.js';
 import { WikipediaArchiveProvider } from './features/wiki-archive/archive-provider.js';
-import { WikipediaTeamArchiveProvider } from './features/wiki-archive/team-archive-provider.js';
+import {
+  WikipediaTeamArchiveProvider,
+  recordedTeamArchive,
+} from './features/wiki-archive/team-archive-provider.js';
 import { WikiArchiveClient } from './features/wiki-archive/wiki-client.js';
 import { RecordedArchiveProvider } from './features/recorded-archive/recorded-provider.js';
 import { createShotArchiveProvider } from './features/shot-archive/shot-provider.js';
@@ -54,12 +57,24 @@ const wikiClient =
         Promise.reject(new TypeError('Wikipedia disabled: bundled mode')),
       )
     : new WikiArchiveClient();
+const recordedProvider = new RecordedArchiveProvider();
 const app = createApp(createPlayerProvider(config), {
   playerSource: config.mode,
   historyProvider: new WikidataHistoryProvider(),
   archiveProvider: new WikipediaArchiveProvider(wikiClient, archiveMode),
-  teamArchiveProvider: new WikipediaTeamArchiveProvider(wikiClient),
-  recordedArchiveProvider: new RecordedArchiveProvider(),
+  teamArchiveProvider: new WikipediaTeamArchiveProvider(
+    wikiClient,
+    undefined,
+    (team) => {
+      const found = recordedProvider.dataset.snapshots.find(
+        (s) => s.team.id === team.id,
+      );
+      return found
+        ? recordedTeamArchive(found, recordedProvider.dataset.createdAt)
+        : null;
+    },
+  ),
+  recordedArchiveProvider: recordedProvider,
   shotArchiveProvider: await createShotArchiveProvider(),
   awardsProvider: new WikipediaAwardsProvider(wikiClient),
   lineupStudyProvider: await createLineupStudyProvider(),
