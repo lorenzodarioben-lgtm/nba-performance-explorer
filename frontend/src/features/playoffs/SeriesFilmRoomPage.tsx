@@ -25,6 +25,7 @@ import { useMotionAllowed } from '../../motion/MotionPreference';
 import { springs } from '../../motion/tokens';
 import { Slate } from '../../ui/Slate';
 import { ROUND_NAMES } from './bracket-layout';
+import { LeaderText } from '../wiki-archive/LeaderText';
 
 const TAPES = [
   { code: 'ARCHIVE', source: 'WIKIPEDIA · CC BY-SA', variant: 'archive' as const },
@@ -465,13 +466,21 @@ function GamePanel({
                 <div key={l.teamId}>
                   <dt>{team.abbreviation}</dt>
                   <dd>
-                    {[
-                      l.points && `Points: ${l.points}`,
-                      l.rebounds && `Rebounds: ${l.rebounds}`,
-                      l.assists && `Assists: ${l.assists}`,
-                    ]
-                      .filter(Boolean)
-                      .join(' · ') || 'Not published'}
+                    {(
+                      [
+                        ['Points', l.points],
+                        ['Rebounds', l.rebounds],
+                        ['Assists', l.assists],
+                      ] as const
+                    )
+                      .filter(([, v]) => v)
+                      .map(([label, v], i) => (
+                        <span key={label}>
+                          {i ? ' · ' : ''}
+                          {label}: <LeaderText text={v} teamId={l.teamId} />
+                        </span>
+                      ))}
+                    {!l.points && !l.rebounds && !l.assists ? 'Not published' : null}
                   </dd>
                 </div>
               );

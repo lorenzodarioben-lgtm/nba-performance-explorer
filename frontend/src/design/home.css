@@ -454,6 +454,8 @@
 /* ------------------------------------------------------- head to head */
 
 .homecmp {
+  /* The photos slide in from the sides; clip them so phones never scroll sideways. */
+  overflow-x: clip;
   margin-top: clamp(64px, 10vw, 128px);
   padding: clamp(56px, 8vw, 96px) 0;
   border-top: 1px solid var(--line);

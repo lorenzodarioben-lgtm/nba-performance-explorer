@@ -11,6 +11,13 @@ import { server } from '../../test/server';
 import { leagueFixture } from '../wiki-archive/archive-fixtures';
 // Compile the subject before assertion timers; the app still renders its actual lazy route.
 import './ComparisonStudioPage';
+import {
+  chartSvgExport,
+  comparisonLabCsv,
+  comparisonStudioCsv,
+} from '../comparison-lab/comparison-export';
+
+const data0 = { provenance: leagueFixture.provenance };
 
 const metrics = [
   'pointsPerGame',
@@ -153,5 +160,73 @@ describe('comparison studio', () => {
     routes();
     renderApp('/compare/recorded?players=1,1');
     expect(await screen.findByRole('alert')).toHaveTextContent('not supported');
+  });
+});
+
+describe('comparison exports', () => {
+  it('writes exact values, percentiles and z-scores with the cohort and source, formula-safe', () => {
+    const data = comparison(['1', '2']);
+    data.players[0]!.name = '=HYPERLINK("x")';
+    const csv = comparisonStudioCsv(data);
+    expect(csv).toContain('# Cohort: 300 players with at least 20 games');
+    expect(csv).toContain('"\'=HYPERLINK(""x"")"');
+    const header = csv.split('\r\n').find((l) => l.startsWith('"player"'))!;
+    expect(header.split(',')).toHaveLength(4 + 6 * 3);
+    expect(csv).toContain('"pointsPerGame percentile"');
+    // Values are the response's own numbers: 20 points, 80th percentile, z 1.
+    expect(csv).toMatch(/"20","80","1"/);
+  });
+
+  it('exports the comparison lab table with units and unavailable seasons spelled out', () => {
+    const csv = comparisonLabCsv(
+      {
+        provenance: data0.provenance,
+        rows: [
+          {
+            playerId: '1',
+            player: null,
+            season: '2023-24',
+            stats: null,
+            status: 'season-unavailable',
+          },
+          {
+            playerId: '2',
+            player: null,
+            season: '2022-23',
+            stats: null,
+            status: 'source-unavailable',
+          },
+        ],
+      },
+      [{ key: 'pointsPerGame', label: 'Points', unit: 'per game' }],
+    );
+    expect(csv).toContain(
+      '"Points","per game","Unavailable (season-unavailable)","Unavailable (source-unavailable)"',
+    );
+    expect(csv).toContain('"NBA player 1 2023-24"');
+  });
+
+  it('exports the on-screen gap board as a labelled, standalone SVG', async () => {
+    routes();
+    const view = renderApp('/compare/recorded?players=1,2');
+    await screen.findByRole('img', { name: /Gap board on the standardised scale/ });
+    const svg = view.container.querySelector('.gapboard svg') as SVGSVGElement;
+    const exported = chartSvgExport(
+      svg,
+      'Gap board: <script>x</script>',
+      'Cohort and source',
+    );
+    const doc = new DOMParser().parseFromString(exported, 'image/svg+xml');
+    expect(doc.querySelector('parsererror')).toBeNull();
+    expect(doc.documentElement.namespaceURI).toBe('http://www.w3.org/2000/svg');
+    expect(doc.querySelector('title')?.textContent).toBe(
+      'Gap board: <script>x</script>',
+    );
+    expect(doc.querySelector('script')).toBeNull();
+    expect(doc.querySelector('desc')?.textContent).toBe('Cohort and source');
+    expect(doc.querySelectorAll('.gapboard__row')).toHaveLength(6);
+    // The page's own chart is untouched.
+    expect(svg.querySelector('title, desc')).toBeTruthy();
+    expect(svg.parentElement).toBeTruthy();
   });
 });

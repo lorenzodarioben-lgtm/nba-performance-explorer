@@ -20,6 +20,8 @@ import {
 } from '../research/ResearchShell';
 import styles from '../research/research.module.css';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
+import { downloadShotFile } from '../shot-archive/shot-export';
+import { comparisonLabCsv } from './comparison-export';
 import { PeakSeasonPicker } from '../career-research/PeakSeasonPicker';
 import { addLabPlayer, buildLabParams, readLabState, type LabSlot } from './lab-state';
 
@@ -249,6 +251,19 @@ export function ComparisonLabPage() {
                   );
                 })}
               </div>
+              <button
+                type="button"
+                className="btn btn--sm"
+                onClick={() =>
+                  downloadShotFile(
+                    comparisonLabCsv(query.data!, metrics),
+                    'text/csv;charset=utf-8',
+                    `nba-comparison-lab-${query.data!.rows.map((r) => `${r.playerId}-${r.season}`).join('_')}.csv`,
+                  )
+                }
+              >
+                Export comparison CSV
+              </button>
               <ResearchTable label="Multi-player season comparison">
                 <table>
                   <caption>

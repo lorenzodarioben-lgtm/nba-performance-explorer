@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest';
 
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './ComparisonLabPage';
 
 const stats = {
   season: '2023-24',

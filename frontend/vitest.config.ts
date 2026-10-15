@@ -10,6 +10,8 @@ export default defineConfig({
     // Bound concurrent jsdom processes on shared development/CI hosts; every test,
     // assertion and timeout still runs unchanged.
     maxWorkers: 2,
+    // Matches the longer async wait in src/test/setup.ts.
+    testTimeout: 15_000,
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     restoreMocks: true,

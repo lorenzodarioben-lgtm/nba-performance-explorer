@@ -178,6 +178,9 @@ const FormulaLabPage = lazy(() =>
     default: m.FormulaLabPage,
   })),
 );
+const TourPage = lazy(() =>
+  import('./features/foundation/TourPage').then((m) => ({ default: m.TourPage })),
+);
 const StoriesPage = lazy(() =>
   import('./features/stories/StoriesPage').then((m) => ({ default: m.StoriesPage })),
 );
@@ -422,6 +425,7 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   },
   // Personal
   { path: '/my-nba', element: lazyRoute('Loading My NBA…', <MyNbaPage />) },
+  { path: '/tour', element: lazyRoute('Loading the tour…', <TourPage />) },
   { path: '/my-nba/stories', element: lazyRoute('Loading stories…', <StoriesPage />) },
   {
     path: '/my-nba/stories/shared',

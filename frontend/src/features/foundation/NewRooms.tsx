@@ -35,44 +35,54 @@ export function NewRooms() {
     : null;
   const tiles = [
     {
-      to: '/standings/race',
-      kicker: 'Seasons',
-      title: 'The standings race',
-      figure: '30',
-      unit: 'teams racing',
-      blurb: 'Replay 2023–24 date by date: the ladder reorders, the bump chart climbs.',
+      to: '/games/series/r4-BOS-DAL',
+      kicker: 'Games',
+      title: 'Series film room',
+      figure: record ? `${record.wins}–${record.losses}` : '15',
+      unit: record ? `${champion!.abbreviation} title run` : 'series',
+      blurb:
+        'Any 2024 series game by game: the tape, the line scores, the swing quarters.',
+    },
+    {
+      to: '/my-nba/stories',
+      kicker: 'My NBA',
+      title: 'Statistical stories',
+      figure: '6',
+      unit: 'tools to embed',
+      blurb:
+        'Write up a finding with live charts between your notes; print or share it.',
+    },
+    {
+      to: '/lab/workbench',
+      kicker: 'Labs',
+      title: 'Research workbench',
+      figure: '639',
+      unit: 'player rows',
+      blurb: 'Rank, distribute or relate any recorded metric, with the cohort stated.',
+    },
+    {
+      to: '/compare/recorded?players=203999,203507',
+      kicker: 'Compare',
+      title: 'Comparison studio',
+      figure: '4',
+      unit: 'players at once',
+      blurb: 'One shared scale, the widest gaps first, and plain statements.',
+    },
+    {
+      to: '/lab/shots?players=201939&view=density&region=-8,-6,8,8',
+      kicker: 'Labs',
+      title: 'Shot Studio regions',
+      figure: '13,470',
+      unit: 'real attempts',
+      blurb: 'Drag a box on the court; every summary follows it.',
     },
     {
       to: '/games/bracket',
       kicker: 'Games',
       title: 'Playoff bracket',
-      figure: record ? `${record.wins}–${record.losses}` : '15',
-      unit: record ? `${champion!.abbreviation} run` : 'series',
-      blurb: 'All 82 games of the 2024 playoffs as series, seeds and a bracket.',
-    },
-    {
-      to: '/teams',
-      kicker: 'Teams',
-      title: 'Team seasons',
       figure: '82',
-      unit: 'games each',
-      blurb: 'Streaks, rest, close games and the season series against every opponent.',
-    },
-    {
-      to: '/lab/shots?view=zones',
-      kicker: 'Labs',
-      title: 'Shot Studio, deeper',
-      figure: '11',
-      unit: 'distance bins',
-      blurb: 'Distance profiles, clickable zones and two-player shot diets.',
-    },
-    {
-      to: '/lab/formulas',
-      kicker: 'Labs',
-      title: 'Formula lab',
-      figure: 'ƒ',
-      unit: 'every formula',
-      blurb: 'Every derived number written out, with a worked example.',
+      unit: 'games',
+      blurb: 'The 2024 playoffs as series, seeds and a bracket.',
     },
   ];
   return (
@@ -86,7 +96,10 @@ export function NewRooms() {
         <Reveal variant="fade" delay={0.15}>
           <p className="ontape__note">
             Built on the recorded archives: the same sources, more ways in. Historical,
-            never live.
+            never live.{' '}
+            <Link to="/tour" className="newrooms__tour">
+              Take the five-minute tour →
+            </Link>
           </p>
         </Reveal>
       </div>

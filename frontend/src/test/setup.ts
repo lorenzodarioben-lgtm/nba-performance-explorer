@@ -1,9 +1,14 @@
 import '@testing-library/jest-dom/vitest';
-import { cleanup } from '@testing-library/react';
+import { cleanup, configure } from '@testing-library/react';
 import { MotionGlobalConfig } from 'motion/react';
 import { afterAll, afterEach, beforeAll } from 'vitest';
 
 import { server } from './server';
+
+// Lazy routes compile on first render. On a busy development host that can exceed Testing
+// Library's one-second default wait, failing a correct test by timing alone; every assertion is
+// unchanged, the find* queries simply wait up to four seconds.
+configure({ asyncUtilTimeout: 4000 });
 
 // The chart kit measures its container through ResizeObserver (useChartWidth), which jsdom does
 // not implement. This deterministic mock reports a fixed non-zero size on observe so the real

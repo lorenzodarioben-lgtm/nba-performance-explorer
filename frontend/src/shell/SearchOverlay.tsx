@@ -1,4 +1,5 @@
 import {
+  PlayoffBracketResponseSchema,
   RecordedDirectorySchema,
   TeamDirectoryResponseSchema,
 } from '@nba-performance-explorer/contracts';
@@ -8,6 +9,7 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router';
 
 import { fetchResearch } from '../features/research/api';
+import { playoffOptions } from './playoff-search';
 import { useDebouncedSearchTerm } from '../features/player-search/useDebouncedSearchTerm';
 import { usePlayerSearchQuery } from '../features/player-search/usePlayerSearchQuery';
 import { useMotionAllowed } from '../motion/MotionPreference';
@@ -18,7 +20,12 @@ import { SECTIONS } from './sections';
 
 interface Option {
   key: string;
-  group: 'Players' | 'Archive players' | 'Teams' | 'Sections and tools';
+  group:
+    | 'Players'
+    | 'Archive players'
+    | 'Teams'
+    | 'Playoff series'
+    | 'Sections and tools';
   /** Extra words a reader might type for this destination. */
   keywords?: string;
   title: string;
@@ -187,6 +194,16 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
     refetchOnWindowFocus: false,
   });
 
+  const bracketQuery = useQuery({
+    queryKey: ['research', 'playoff-bracket'],
+    queryFn: ({ signal }) =>
+      fetchResearch('/api/games/bracket', signal, PlayoffBracketResponseSchema.parse),
+    enabled: normalizedTerm.length >= 2,
+    staleTime: 60 * 60_000,
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
+
   // Focus the field on open. Closing without a choice gives focus back to whatever opened the
   // overlay; choosing a result leaves focus to the destination page (its heading takes it).
   const leaving = useRef(false);
@@ -275,14 +292,22 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
             to: `/players/${p.playerId}/archive`,
           }))
       : [];
+  const series: Option[] =
+    trimmed.length >= 2 ? playoffOptions(bracketQuery.data?.series ?? [], trimmed) : [];
   const tools = trimmed
     ? TOOLS.filter((option) => matches(option, trimmed)).slice(0, 8)
     : TOOLS.filter(
         (option) => option.key.startsWith('section:') || option.key === 'page:/my-nba',
       );
-  const options = [...players, ...archivePlayers, ...teams, ...tools];
+  const options = [...players, ...archivePlayers, ...teams, ...series, ...tools];
   const groups = (
-    ['Players', 'Archive players', 'Teams', 'Sections and tools'] as const
+    [
+      'Players',
+      'Archive players',
+      'Teams',
+      'Playoff series',
+      'Sections and tools',
+    ] as const
   )
     .map((group) => ({
       group,

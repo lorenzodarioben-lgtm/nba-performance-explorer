@@ -1,5 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'motion/react';
+import { useRef } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import { z } from 'zod';
 import {
@@ -18,6 +19,11 @@ import {
   SourceNote,
 } from '../research/ResearchShell';
 import { SavedViews } from '../my-nba/SavedViews';
+import { downloadShotFile } from '../shot-archive/shot-export';
+import {
+  chartSvgExport,
+  comparisonStudioCsv,
+} from '../comparison-lab/comparison-export';
 import { useMotionAllowed } from '../../motion/MotionPreference';
 import { springs } from '../../motion/tokens';
 import { markerPath } from '../../charts/markers';
@@ -248,6 +254,7 @@ function Result({
   sharePath: string;
   updating: boolean;
 }) {
+  const board = useRef<HTMLDivElement>(null);
   const shots = useQuery({
     queryKey: ['research', 'shots', 'directory'],
     queryFn: ({ signal }) =>
@@ -299,7 +306,28 @@ function Result({
             </li>
           ))}
         </ul>
-        <GapBoard data={data} scale={scale} />
+        <div ref={board}>
+          <GapBoard data={data} scale={scale} />
+        </div>
+        <button
+          type="button"
+          className="btn btn--sm btn--quiet"
+          onClick={() => {
+            const svg = board.current?.querySelector('svg');
+            if (!svg) return;
+            downloadShotFile(
+              chartSvgExport(
+                svg,
+                `Gap board: ${data.players.map((p) => p.name).join(', ')}`,
+                `${scale === 'z' ? 'Standardised (cohort z)' : scale === 'percentile' ? 'Cohort percentile' : 'Raw values, each row its own range'}; recorded ${data.season} regular season, ${data.population}-player cohort with at least ${data.minGames} games. Source: Wikipedia team pages (CC BY-SA 4.0), Wikidata identifiers (CC0); NBA Performance Explorer.`,
+              ),
+              'image/svg+xml',
+              `nba-gap-board-${data.players.map((p) => p.playerId).join('-')}-${scale}.svg`,
+            );
+          }}
+        >
+          Export gap board SVG
+        </button>
       </section>
 
       <section className="pmod" aria-labelledby="cs-read">
@@ -401,6 +429,19 @@ function Result({
             </Link>
           ) : null}
         </p>
+        <button
+          type="button"
+          className="btn btn--sm"
+          onClick={() =>
+            downloadShotFile(
+              comparisonStudioCsv(data),
+              'text/csv;charset=utf-8',
+              `nba-comparison-${data.players.map((p) => p.playerId).join('-')}.csv`,
+            )
+          }
+        >
+          Export comparison CSV
+        </button>
         <SavedViews
           path={sharePath}
           prefix="/compare/recorded"

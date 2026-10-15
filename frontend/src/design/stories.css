@@ -378,3 +378,45 @@
     background: #f2f2f2 !important;
   }
 }
+
+/* ------------------------------------------------------------ guided tour */
+
+.tour {
+  display: grid;
+  gap: 22px;
+  margin: 8px 0 18px;
+  padding: 0;
+  list-style: none;
+}
+.tour__no {
+  color: var(--red-hi);
+}
+.tour__steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.tour__step {
+  padding: 14px 16px;
+  border: 1px solid var(--line-2);
+  border-top: 3px solid var(--line-3);
+  background: var(--film);
+}
+.fr .tour__link {
+  font: 700 19px/1.15 var(--display);
+  text-transform: uppercase;
+}
+.fr .tour__step p {
+  margin: 8px 0 0;
+  font-size: 14.5px;
+  color: var(--chalk-2);
+}
+.fr .tour__step p.tour__proves {
+  color: var(--chalk-3);
+}
+.fr .newrooms__tour {
+  white-space: nowrap;
+}

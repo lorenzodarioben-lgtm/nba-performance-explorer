@@ -28,6 +28,7 @@ import {
   ScoreCards,
 } from '../league/Scoreboard';
 import { Slate } from '../../ui/Slate';
+import { LeaderText } from './LeaderText';
 const QuerySchema = z
   .object({
     season: ArchiveSeasonSchema.default('2023-24'),
@@ -329,9 +330,15 @@ export function GamesArchivePage() {
                             ? games[0]!.home.name
                             : games[0]!.away.name}
                         </th>
-                        <td>{l.points ?? 'Unavailable'}</td>
-                        <td>{l.rebounds ?? 'Unavailable'}</td>
-                        <td>{l.assists ?? 'Unavailable'}</td>
+                        <td>
+                          <LeaderText text={l.points} teamId={l.teamId} />
+                        </td>
+                        <td>
+                          <LeaderText text={l.rebounds} teamId={l.teamId} />
+                        </td>
+                        <td>
+                          <LeaderText text={l.assists} teamId={l.teamId} />
+                        </td>
                       </tr>
                     ))}
                   </tbody>
