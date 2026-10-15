@@ -10,6 +10,7 @@ import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
 import { homeTeam, awayTeam, leagueFixture } from '../wiki-archive/archive-fixtures';
 import { shotPageCsv, shotSvgExport } from './shot-export';
+import { feetFromSvg, regionFromCorners } from './shot-region';
 const source: ShotResponse['source'] = {
   title: 'NBA Playoff Shots 2018',
   creator: 'Boon P',
@@ -130,6 +131,7 @@ const data: ShotResponse = {
       ],
     },
   ],
+  region: null,
   coordinateSystem:
     'basket-origin; x left-to-right, y toward opposite end; 10 source units/foot; no home/away or period flips',
   coordinateEvidence:
@@ -457,4 +459,101 @@ describe('shot studio efficiency view', () => {
     const table = screen.getByRole('group', { name: /density values/ });
     expect(within(table).getAllByRole('row')).toHaveLength(4);
   });
+});
+
+describe('shot studio court region', () => {
+  it('inverts the court projection and snaps dragged corners to whole feet', () => {
+    // The basket sits at SVG (250, 417.5) in the half-court crop.
+    expect(feetFromSvg(250, 417.5)).toEqual({ x: 0, y: 0 });
+    expect(feetFromSvg(0, 0)).toEqual({ x: -25, y: 41.75 });
+    // Corners in any order become an ordered box, widened outward to whole feet.
+    expect(regionFromCorners({ x: 7.2, y: 8.4 }, { x: -7.6, y: -2.1 })).toEqual({
+      x1: -8,
+      y1: -3,
+      x2: 8,
+      y2: 9,
+    });
+    // Clamped to the court and the distance cap.
+    expect(regionFromCorners({ x: -40, y: -9 }, { x: 30, y: 120 })).toEqual({
+      x1: -25,
+      y1: -6,
+      x2: 25,
+      y2: 90,
+    });
+    // A click or a sliver is not a region.
+    expect(regionFromCorners({ x: 1, y: 1 }, { x: 1.4, y: 9 })).toBeNull();
+  });
+
+  it('applies a region from the keyboard fields, outlines it and labels every export', async () => {
+    const seen: string[] = [];
+    routes(({ request }) => {
+      const region = new URL(request.url).searchParams.get('region');
+      seen.push(region ?? '');
+      return HttpResponse.json({
+        ...data,
+        region: region ? { x1: -8, y1: -6, x2: 8, y2: 8 } : null,
+      });
+    });
+    const view = renderApp('/lab/shots');
+    const apply = await screen.findByRole('button', { name: 'Apply region' });
+    expect(apply).toBeDisabled();
+    const values = ['-8', '-6', '8', '8'];
+    for (const [i, label] of [
+      'Region left edge (ft across)',
+      'Region near edge (ft out)',
+      'Region right edge (ft across)',
+      'Region far edge (ft out)',
+    ].entries())
+      fireEvent.change(screen.getByLabelText(label), { target: { value: values[i] } });
+    fireEvent.click(screen.getByRole('button', { name: 'Apply region' }));
+    await waitFor(() => expect(seen.at(-1)).toBe('-8,-6,8,8'));
+    expect(
+      await screen.findByText(/across -8 to 8 ft, out -6 to 8 ft from the basket/),
+    ).toBeInTheDocument();
+    const outline = view.container.querySelector('.shotcourt__region')!;
+    expect(outline).toHaveAttribute('data-region', '-8,-6,8,8');
+    // 16 ft wide and 14 ft deep in source units, with its top edge at 8 ft out.
+    expect(outline).toHaveAttribute('width', '160');
+    expect(outline).toHaveAttribute('height', '140');
+    expect(outline).toHaveAttribute('y', String(417.5 - 80));
+    const regionData = { ...data, region: { x1: -8, y1: -6, x2: 8, y2: 8 } };
+    expect(shotPageCsv(regionData)).toContain(
+      '"Court region","across -8 to 8 ft, out -6 to 8 ft from the basket"',
+    );
+    expect(shotPageCsv(data)).toContain('"Court region","Whole court"');
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    expect(shotSvgExport(svg, regionData, 'Fixture')).toContain(
+      'Court region across -8 to 8 ft',
+    );
+    // The share link carries the region; clearing it returns to the whole court.
+    expect(
+      (screen.getByLabelText('Shareable shot URL') as HTMLInputElement).value,
+    ).toContain('region=-8%2C-6%2C8%2C8');
+    fireEvent.click(screen.getAllByRole('button', { name: 'Clear region' })[0]!);
+    // The whole-court result is already cached, so it returns without a new request.
+    await waitFor(() =>
+      expect(view.container.querySelector('.shotcourt__region')).toBeNull(),
+    );
+  });
+
+  it('offers a drawing mode and rejects regions that are off the court or out of order', async () => {
+    routes();
+    renderApp('/lab/shots');
+    const draw = await screen.findByRole('button', { name: 'Draw a court region' });
+    expect(draw).toHaveAttribute('aria-pressed', 'false');
+    fireEvent.click(draw);
+    expect(
+      screen.getByRole('button', { name: 'Drawing a region: drag on a court' }),
+    ).toHaveAttribute('aria-pressed', 'true');
+    expect(document.querySelector('.shotcourt__picker')).not.toBeNull();
+  });
+
+  it.each(['8,-6,-8,8', '-30,0,5,5', '-8,-6,8', '1.5,0,5,5'])(
+    'rejects the malformed region %s',
+    async (bad) => {
+      routes();
+      renderApp(`/lab/shots?region=${bad}`);
+      expect(await screen.findByRole('alert')).toHaveTextContent('court region');
+    },
+  );
 });

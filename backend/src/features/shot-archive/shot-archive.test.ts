@@ -199,6 +199,35 @@ describe('genuine recorded CC0 shot archive', () => {
     }
     expect(group.cells.some((c) => c.pointsPerAttempt !== null)).toBe(true);
   });
+  it('keeps only located attempts inside a court region and echoes it', () => {
+    const rows = provider.shots.filter((r) => r.playerId === '201939');
+    const inside = rows.filter(
+      (r) =>
+        r.x !== null &&
+        r.y !== null &&
+        r.x >= -80 &&
+        r.x <= 80 &&
+        r.y >= -60 &&
+        r.y <= 80,
+    );
+    const result = provider.analyze(
+      ShotQuerySchema.parse({
+        players: '201939',
+        region: '-8,-6,8,8',
+        minAttempts: '1',
+      }),
+    );
+    expect(result.region).toEqual({ x1: -8, y1: -6, x2: 8, y2: 8 });
+    expect(result.groups[0]!.attempts).toBe(inside.length);
+    expect(result.groups[0]!.makes).toBe(inside.filter((r) => r.made).length);
+    expect(result.groups[0]!.missingCoordinates).toBe(0);
+    expect(result.filteredAttempts).toBe(inside.length);
+    expect(
+      provider.analyze(ShotQuerySchema.parse({ players: '201939' })).region,
+    ).toBeNull();
+    for (const bad of ['8,-6,-8,8', '-30,0,0,10', '0,0,10,95', '1,2,3', '0,0,10,x'])
+      expect(ShotQuerySchema.safeParse({ region: bad }).success, bad).toBe(false);
+  });
   it('exposes strict archive routes without fallback or repeated/unsupported state', async () => {
     const app = createApp(undefined, { shotArchiveProvider: provider });
     for (const query of [

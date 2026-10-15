@@ -5,6 +5,7 @@ import {
   ShotQuerySchema,
   ShotResponseSchema,
   ShotDirectorySchema,
+  ShotRegionSchema,
   ShotZoneSchema,
 } from '@nba-performance-explorer/contracts';
 import { fetchResearch } from '../research/api';
@@ -22,6 +23,7 @@ import { SavedViews } from '../my-nba/SavedViews';
 import { ZoneStrip } from './ZoneStrip';
 import { ShotCourt, type ShotView } from './ShotCourt';
 import { EFFICIENCY_FULL_SCALE } from './shot-scales';
+import { describeRegion, regionParam, REGION_LIMITS } from './shot-region';
 import { Segmented } from '../../ui/Segmented';
 import { Slate } from '../../ui/Slate';
 import { Icon } from '../../ui/Icon';
@@ -56,11 +58,79 @@ function useNarrow() {
 }
 const ratio = (n: number | null) =>
   n === null ? 'Unavailable' : `${(n * 100).toFixed(1)}%`;
+
+const REGION_FIELDS = [
+  { label: 'Region left edge (ft across)', limits: REGION_LIMITS.x },
+  { label: 'Region near edge (ft out)', limits: REGION_LIMITS.y },
+  { label: 'Region right edge (ft across)', limits: REGION_LIMITS.x },
+  { label: 'Region far edge (ft out)', limits: REGION_LIMITS.y },
+] as const;
+
+/** The keyboard route to a court region: four whole-foot bounds, applied together. */
+function RegionFields({
+  value,
+  onApply,
+}: {
+  value: string | null;
+  onApply: (next: string) => void;
+}) {
+  const [fields, setFields] = useState(() => {
+    const parts = value?.split(',') ?? [];
+    return REGION_FIELDS.map((_, i) => parts[i] ?? '');
+  });
+  const candidate = fields.join(',');
+  const ok = ShotRegionSchema.safeParse(candidate).success;
+  return (
+    <fieldset className="studio__region">
+      <legend>Court region (whole feet from the basket)</legend>
+      {REGION_FIELDS.map((field, i) => (
+        <label key={field.label}>
+          {field.label}
+          <input
+            type="number"
+            step={1}
+            min={field.limits[0]}
+            max={field.limits[1]}
+            value={fields[i]}
+            onChange={(e) =>
+              setFields(fields.map((v, k) => (k === i ? e.target.value : v)))
+            }
+          />
+        </label>
+      ))}
+      <p className="studio__regionhint">
+        Across runs {REGION_LIMITS.x[0]} to {REGION_LIMITS.x[1]}; out runs{' '}
+        {REGION_LIMITS.y[0]} to {REGION_LIMITS.y[1]}. Left must be below right and near
+        below far.
+      </p>
+      <div className="studio__regionbtns">
+        <button
+          type="button"
+          className="btn btn--sm"
+          disabled={!ok || candidate === value}
+          onClick={() => onApply(candidate)}
+        >
+          Apply region
+        </button>
+        {value ? (
+          <button
+            type="button"
+            className="btn btn--sm btn--quiet"
+            onClick={() => onApply('')}
+          >
+            Clear region
+          </button>
+        ) : null}
+      </div>
+    </fieldset>
+  );
+}
 export function ShotArchivePage() {
   // Each court registers its own SVG under its group key, so an export always takes the
   // panel it belongs to (never "the n-th svg on the page").
   const courts = useRef(new Map<string, SVGSVGElement>());
   const [activeShot, setActiveShot] = useState<string | null>(null);
+  const [selecting, setSelecting] = useState(false);
   const narrow = useNarrow();
   const [params, setParams] = useSearchParams();
   const apiParams = new URLSearchParams(params);
@@ -91,6 +161,7 @@ export function ShotArchivePage() {
     refetchOnWindowFocus: false,
   });
   const data = valid ? query.data : undefined;
+  const region = data?.region ?? null;
   const update = (key: string, value: string) => {
     const copy = new URLSearchParams(params);
     if (value) copy.set(key, value);
@@ -139,7 +210,8 @@ export function ShotArchivePage() {
       {!valid ? (
         <p role="alert" className="notice notice--error">
           Invalid shot filters. Choose at most two different players, recorded 2017-18
-          playoff scope and ordered date/distance bounds.
+          playoff scope, ordered date/distance bounds and a court region inside the
+          court with its edges in order.
         </p>
       ) : (
         <QueryFeedback
@@ -316,6 +388,11 @@ export function ShotArchivePage() {
                 />
               </label>
             ))}
+            <RegionFields
+              key={params.get('region') ?? ''}
+              value={params.get('region')}
+              onApply={(next) => update('region', next)}
+            />
           </div>
         </details>
         <div className="studio__canvas">
@@ -331,6 +408,24 @@ export function ShotArchivePage() {
               }
               onChange={(next) => update('view', next === 'dots' ? '' : next)}
             />
+            <button
+              type="button"
+              className="btn btn--sm"
+              aria-pressed={selecting}
+              onClick={() => setSelecting(!selecting)}
+            >
+              <Icon name="filter" size={15} />
+              {selecting ? 'Drawing a region: drag on a court' : 'Draw a court region'}
+            </button>
+            {params.get('region') ? (
+              <button
+                type="button"
+                className="btn btn--sm btn--quiet"
+                onClick={() => update('region', '')}
+              >
+                Clear region
+              </button>
+            ) : null}
             {data ? (
               <button
                 type="button"
@@ -360,6 +455,14 @@ export function ShotArchivePage() {
                       : 'Dots show only the exact table page: filled chalk circles are makes; red crosses are misses. Hover a shot or a table row to link them.'}{' '}
                 Identical basket-relative axes for every panel.
               </p>
+              {region ? (
+                <p className="studio__mode studio__mode--region" role="status">
+                  <b>Region:</b> {describeRegion(region)}. Every summary, cell, zone,
+                  distance bin and table row counts only located attempts inside it;
+                  attempts without coordinates are left out. Density cells are 5-foot
+                  bins, so a cell can reach past the outline.
+                </p>
+              ) : null}
               {mode === 'zones' ? (
                 <div
                   className="zonechips"
@@ -451,6 +554,12 @@ export function ShotArchivePage() {
                           title={g.label}
                           selectedZone={zone}
                           onZone={toggleZone}
+                          region={region}
+                          selecting={selecting}
+                          onRegion={(next) => {
+                            setSelecting(false);
+                            update('region', regionParam(next));
+                          }}
                           svgRef={(node) => {
                             if (node) courts.current.set(key, node);
                             else courts.current.delete(key);

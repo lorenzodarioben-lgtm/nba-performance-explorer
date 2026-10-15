@@ -370,3 +370,48 @@
   vertical-align: -2px;
   border: 1px dashed rgba(244, 243, 241, 0.4);
 }
+
+/* Court region: a 2×2 grid of whole-foot bounds, the drag layer and the region outline. */
+.fr .studio__region {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 10px;
+  margin: 4px 0 0;
+  padding: 12px;
+}
+.fr .studio__region label {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  font-size: 12.5px;
+  padding: 0;
+}
+.fr .studio__regionhint {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 12px;
+  color: var(--chalk-3);
+}
+.studio__regionbtns {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.shotcourt__picker {
+  cursor: crosshair;
+  touch-action: none;
+}
+.shotcourt__region,
+.shotcourt__draft {
+  pointer-events: none;
+}
+.fr .studio__mode--region {
+  padding: 8px 10px;
+  border-left: 2px solid var(--red-hi);
+  background: rgb(239 68 68 / 0.06);
+  color: var(--chalk-2);
+}
+.shotcourt:has(.shotcourt__picker) {
+  touch-action: none;
+}

@@ -74,6 +74,10 @@ export const routeExamples: readonly RouteExample[] = [
     name: 'lab-shots-efficiency',
     path: '/lab/shots?players=201939,2544&view=efficiency',
   },
+  {
+    name: 'lab-shots-region',
+    path: '/lab/shots?players=201939,2544&view=zones&region=-8,-6,8,8',
+  },
   { name: 'lab-teams-duel', path: '/lab/teams?teams=nba:1610612738,nba:1610612743' },
   { name: 'not-found', path: '/this-route-does-not-exist' },
 ];

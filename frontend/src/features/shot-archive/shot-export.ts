@@ -1,4 +1,5 @@
 import type { ShotResponse } from '@nba-performance-explorer/contracts';
+import { describeRegion } from './shot-region';
 const cell = (v: string | number) =>
   `"${(typeof v === 'string' && /^[=+@\-\t\r]/.test(v) ? `'${v}` : String(v)).replaceAll('"', '""')}"`;
 export function shotPageCsv(data: ShotResponse) {
@@ -35,6 +36,7 @@ export function shotPageCsv(data: ShotResponse) {
       data.coordinateSystem,
       'Source zones retained; X/Y below are original units',
     ],
+    ['Court region', data.region ? describeRegion(data.region) : 'Whole court'],
     [
       'Shot ID',
       'Game ID',
@@ -89,7 +91,7 @@ export function shotSvgExport(svg: SVGSVGElement, data: ShotResponse, label: str
   const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
   title.textContent = `${label}: recorded partial 2018 playoff shots`;
   const desc = document.createElementNS('http://www.w3.org/2000/svg', 'desc');
-  desc.textContent = `${data.source.title}, ${data.source.creator}, v${data.source.version}, ${data.source.licence}, ${data.source.url}. ${data.provenance.coverage} Filtered ${data.filteredAttempts} events; event page ${data.page}, ${data.shots.length} rows. Density uses all filtered located events, 5 ft cells; dots only this exact page. ${data.coordinateSystem}. ${data.source.sha256}`;
+  desc.textContent = `${data.source.title}, ${data.source.creator}, v${data.source.version}, ${data.source.licence}, ${data.source.url}. ${data.provenance.coverage} Filtered ${data.filteredAttempts} events; event page ${data.page}, ${data.shots.length} rows. ${data.region ? `Court region ${describeRegion(data.region)}; only located attempts inside it.` : 'Whole court.'} Density uses all filtered located events, 5 ft cells; dots only this exact page. ${data.coordinateSystem}. ${data.source.sha256}`;
   copy.prepend(title, desc);
   return new XMLSerializer().serializeToString(copy);
 }

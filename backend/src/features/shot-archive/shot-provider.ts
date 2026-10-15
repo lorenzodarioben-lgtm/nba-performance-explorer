@@ -111,6 +111,14 @@ export class ShotArchiveProvider {
           (!q.type || r.type === q.type) &&
           (!q.zone || r.zone === q.zone) &&
           (!q.result || r.made === (q.result === 'made')) &&
+          // A region keeps only located attempts inside it (source units are tenths of a foot).
+          (!q.region ||
+            (r.x !== null &&
+              r.y !== null &&
+              r.x / 10 >= q.region.x1 &&
+              r.x / 10 <= q.region.x2 &&
+              r.y / 10 >= q.region.y1 &&
+              r.y / 10 <= q.region.y2)) &&
           r.distanceFeet >= q.minDistance &&
           r.distanceFeet <= q.maxDistance,
       )
@@ -185,6 +193,7 @@ export class ShotArchiveProvider {
       };
     });
     return ShotResponseSchema.parse({
+      region: q.region ?? null,
       season: q.season,
       scope: q.scope,
       source: shotSource,

@@ -18,6 +18,30 @@ const integer = (min: number, max: number) =>
     .regex(/^\d{1,4}$/)
     .transform(Number)
     .pipe(z.number().int().min(min).max(max));
+/** Court x spans −25…25 ft; y runs from 6 ft behind the basket to the 90 ft distance cap. */
+export const ShotRegionSchema = z
+  .string()
+  .regex(/^-?\d{1,2},-?\d{1,2},-?\d{1,2},-?\d{1,2}$/)
+  .transform((s) => {
+    const [x1, y1, x2, y2] = s.split(',').map(Number) as [
+      number,
+      number,
+      number,
+      number,
+    ];
+    return { x1, y1, x2, y2 };
+  })
+  .refine(
+    (r) =>
+      r.x1 >= -25 &&
+      r.x2 <= 25 &&
+      r.y1 >= -6 &&
+      r.y2 <= 90 &&
+      r.x1 < r.x2 &&
+      r.y1 < r.y2,
+    { message: 'Region bounds out of order or off the court.' },
+  );
+export type ShotRegion = z.infer<typeof ShotRegionSchema>;
 export const ShotQuerySchema = z
   .object({
     season: z.literal('2017-18').default('2017-18'),
@@ -45,6 +69,8 @@ export const ShotQuerySchema = z
     type: z.enum(['2PT', '3PT']).optional(),
     zone: ShotZoneSchema.optional(),
     result: z.enum(['made', 'missed']).optional(),
+    /** A court rectangle in whole feet from the basket: "x1,y1,x2,y2" (x across, y out). */
+    region: ShotRegionSchema.optional(),
     minDistance: integer(0, 90).prefault('0'),
     maxDistance: integer(0, 90).prefault('90'),
     minAttempts: integer(1, 1000).prefault('10'),
@@ -171,6 +197,11 @@ export const ShotResponseSchema = z
     pageSize: count,
     shots: z.array(ShotAttemptSchema).max(200),
     groups: z.array(ShotGroupSchema).max(2),
+    /** The court region filter in force, in feet; null when the whole court is shown. */
+    region: z
+      .object({ x1: z.number(), y1: z.number(), x2: z.number(), y2: z.number() })
+      .strict()
+      .nullable(),
     coordinateSystem: z.literal(
       'basket-origin; x left-to-right, y toward opposite end; 10 source units/foot; no home/away or period flips',
     ),
