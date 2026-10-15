@@ -16,6 +16,9 @@ export function recordedRankingCsv(data: ArchiveRankingResponse) {
         'Scope',
         data.query.season,
         data.query.scope,
+        data.query.position
+          ? `Listed position family ${data.query.position}`
+          : 'All listed positions',
         'Recorded cohort, not official/current NBA rankings',
       ]),
       line([
@@ -37,6 +40,7 @@ export function recordedRankingCsv(data: ArchiveRankingResponse) {
         'Rank',
         'Player',
         'NBA ID',
+        'Listed positions',
         'Source teams',
         'Recorded GP',
         data.query.metric,
@@ -48,6 +52,7 @@ export function recordedRankingCsv(data: ArchiveRankingResponse) {
           r.rank,
           r.name,
           r.playerId,
+          (r.positions ?? []).join(';'),
           r.teams.map((t) => t.abbreviation).join(';'),
           r.gamesPlayed,
           r.value,

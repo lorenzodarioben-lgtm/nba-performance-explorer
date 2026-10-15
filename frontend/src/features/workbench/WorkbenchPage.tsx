@@ -179,20 +179,36 @@ export function WorkbenchPage() {
             </label>
           ) : null}
           {entity === 'players' ? (
-            <label className="wb-field">
-              Team
-              <select
-                value={q?.team ?? ''}
-                onChange={(e) => update({ team: e.target.value || null, pick: null })}
-              >
-                <option value="">All teams</option>
-                {directory.data?.teams.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.name}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <>
+              <label className="wb-field">
+                Team
+                <select
+                  value={q?.team ?? ''}
+                  onChange={(e) => update({ team: e.target.value || null, pick: null })}
+                >
+                  <option value="">All teams</option>
+                  {directory.data?.teams.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {t.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="wb-field">
+                Listed position
+                <select
+                  value={q?.position ?? ''}
+                  onChange={(e) =>
+                    update({ position: e.target.value || null, pick: null })
+                  }
+                >
+                  <option value="">All positions</option>
+                  <option value="G">Guards (G, G/F)</option>
+                  <option value="F">Forwards (F, G/F, F/C)</option>
+                  <option value="C">Centers (C, F/C)</option>
+                </select>
+              </label>
+            </>
           ) : (
             <label className="wb-field">
               Conference
@@ -280,7 +296,7 @@ function Results({
   const [brushed, setBrushed] = useState<ReadonlySet<string>>(new Set());
   const [showAll, setShowAll] = useState(false);
   const [tableLimit, setTableLimit] = useState(TABLE_PAGE);
-  const key = `${data.entity}:${data.view}:${data.metric.key}:${data.y?.key ?? ''}:${data.minGames}`;
+  const key = `${data.entity}:${data.view}:${data.metric.key}:${data.y?.key ?? ''}:${data.minGames}:${data.cohort}`;
   const [lastKey, setLastKey] = useState(key);
   if (key !== lastKey) {
     setLastKey(key);
@@ -355,6 +371,16 @@ function Results({
           ) : (
             'Nothing excluded.'
           )}
+          {data.excluded.some(
+            (e) => e.reason === 'No roster position listed on the team page',
+          ) ? (
+            <>
+              {' '}
+              Positions are those the player’s own 2023–24 team page roster lists; a
+              hybrid label (G/F, F/C) counts for both families it names, and no position
+              is inferred from role.
+            </>
+          ) : null}
         </p>
         <dl className="statgrid wb-stats">
           <div className="statgrid__cell">

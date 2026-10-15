@@ -176,6 +176,18 @@ export function RecordedArchivePage({ mode }: { mode: 'leaders' | 'records' }) {
                 onChange={(e) => update('search', e.target.value)}
               />
             </label>
+            <label>
+              Listed position
+              <select
+                value={params.get('position') ?? ''}
+                onChange={(e) => update('position', e.target.value)}
+              >
+                <option value="">All positions</option>
+                <option value="G">Guards (G, G/F)</option>
+                <option value="F">Forwards (F, G/F, F/C)</option>
+                <option value="C">Centers (C, F/C)</option>
+              </select>
+            </label>
           </>
         )}
       </div>
@@ -250,7 +262,17 @@ export function RecordedArchivePage({ mode }: { mode: 'leaders' | 'records' }) {
                 rows combine only from explicit raw counts; rounded averages are never
                 multiplied into counts. Percentiles use 100 × (lower values + 0.5 ×
                 equal values) / qualified cohort size. Tied ranks use competition
-                ranking. Search/team filters keep that population fixed.
+                ranking. Search, team and position filters keep that population fixed.
+              </p>
+              <p>
+                Positions are those the player’s own 2023–24 team page roster lists (G,
+                F, C, G/F, F/C); a hybrid label counts for both families it names. No
+                position is inferred from role or play style.{' '}
+                {leaders.data.positionUnlistedPlayers ?? 0} qualified players have no
+                listed position (their team page roster does not list them) and appear
+                only under All positions.
+                {leaders.data.positionScope &&
+                  ` Within this family: ${leaders.data.positionScope.belowMinimumPlayers} below-GP and ${leaders.data.positionScope.missingMetricPlayers} missing/unsupported metric players.`}
               </p>
               <RankedBoard
                 rows={leaders.data.rows}
@@ -271,6 +293,7 @@ export function RecordedArchivePage({ mode }: { mode: 'leaders' | 'records' }) {
                       {[
                         'Rank',
                         'Player',
+                        'Listed position',
                         'Source teams',
                         'Recorded GP',
                         'Value',
@@ -290,6 +313,7 @@ export function RecordedArchivePage({ mode }: { mode: 'leaders' | 'records' }) {
                         <th scope="row">
                           <Link to={`/players/${r.playerId}`}>{r.name}</Link>
                         </th>
+                        <td>{r.positions?.length ? r.positions.join(', ') : '—'}</td>
                         <td>{r.teams.map((t) => t.abbreviation).join(', ')}</td>
                         <td>{r.gamesPlayed}</td>
                         <td>{r.value.toFixed(4)}</td>

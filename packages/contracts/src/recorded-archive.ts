@@ -66,6 +66,11 @@ export const ArchiveRankingMetricSchema = z.enum([
   'steals',
   'blocks',
 ]);
+/** Position families: a hybrid label counts for each family it names ("G/F" is a guard and a forward). */
+export const PositionFamilySchema = z.enum(['G', 'F', 'C']);
+export type PositionFamily = z.infer<typeof PositionFamilySchema>;
+/** Roster positions exactly as the 2023-24 team pages list them. */
+export const ListedPositionSchema = z.enum(['G', 'F', 'C', 'G/F', 'F/C']);
 export const ArchiveRankingQuerySchema = z
   .object({
     season: RecordedSeasonSchema.default('2023-24'),
@@ -78,6 +83,8 @@ export const ArchiveRankingQuerySchema = z
       .pipe(z.number().int().min(1).max(150))
       .prefault('20'),
     team: CanonicalTeamIdSchema.optional(),
+    /** Position family, as listed on the player's own 2023-24 team page roster. */
+    position: PositionFamilySchema.optional(),
     search: z.string().max(100).optional(),
     page: z
       .string()
@@ -101,6 +108,8 @@ export const ArchiveRankingRowSchema = z
     teams: z.array(DirectoryTeamSchema).min(1).max(10),
     gamesPlayed: z.number().int().nonnegative(),
     value: z.number().finite().nonnegative(),
+    /** Roster positions listed for this player on their team pages; empty when unlisted. */
+    positions: z.array(ListedPositionSchema).max(5).optional(),
     rank: z.number().int().positive(),
     percentile: z.number().min(0).max(100),
     sources: z.array(WikiAttributionSchema).min(1).max(10),
@@ -115,6 +124,7 @@ export const ArchiveRankingResponseSchema = z
         metric: ArchiveRankingMetricSchema,
         minGames: z.number().int().positive(),
         team: CanonicalTeamIdSchema.optional(),
+        position: PositionFamilySchema.optional(),
         search: z.string().optional(),
         page: z.number().int().positive(),
         pageSize: z.number().int().positive(),
@@ -128,6 +138,17 @@ export const ArchiveRankingResponseSchema = z
     missingIdentityRows: z.number().int().nonnegative(),
     missingMetricPlayers: z.number().int().nonnegative(),
     belowMinimumPlayers: z.number().int().nonnegative(),
+    /** Qualified players whose team pages list no roster position (they left before it). */
+    positionUnlistedPlayers: z.number().int().nonnegative().optional(),
+    /** With a position filter: the same exclusion counts, counted only within that family. */
+    positionScope: z
+      .object({
+        missingMetricPlayers: z.number().int().nonnegative(),
+        belowMinimumPlayers: z.number().int().nonnegative(),
+        missingIdentityRows: z.number().int().nonnegative(),
+      })
+      .strict()
+      .optional(),
     unknownScopeRows: z.number().int().nonnegative(),
     snapshotCreatedAt: z.iso.datetime(),
     sourceFetchedFrom: z.iso.datetime(),

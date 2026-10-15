@@ -203,6 +203,44 @@ describe('research workbench', () => {
     expect(screen.getByLabelText('Conference')).toBeInTheDocument();
   });
 
+  it('narrows the cohort to a source-listed position family and explains it', async () => {
+    const requested: string[] = [];
+    server.use(
+      directory(),
+      http.get(API, ({ request }) => {
+        const search = new URL(request.url).search;
+        requested.push(search);
+        return HttpResponse.json(
+          search.includes('position=C')
+            ? response({
+                cohort:
+                  'Recorded centers (listed C or F/C) with 20+ games, 2023-24 regular season',
+                excluded: [
+                  { reason: 'Fewer than 20 games behind the value', count: 2 },
+                  { reason: 'No roster position listed on the team page', count: 22 },
+                ],
+              })
+            : response(),
+        );
+      }),
+    );
+    renderApp('/lab/workbench');
+    fireEvent.change(await screen.findByLabelText('Listed position'), {
+      target: { value: 'C' },
+    });
+    await waitFor(() => expect(requested.at(-1)).toBe('?position=C'));
+    expect(
+      await screen.findByText(/Recorded centers \(listed C or F\/C\)/),
+    ).toHaveTextContent('a hybrid label (G/F, F/C) counts for both families');
+    expect(screen.getByText(/No roster position listed/)).toHaveTextContent('22');
+    // Teams have no position: the control is only offered for players.
+    expect(
+      readWorkbenchState(
+        new URLSearchParams('entity=teams&metric=winPercentage&position=G'),
+      ).valid,
+    ).toBe(false);
+  });
+
   it('shows an alert for an unsupported URL without calling the API', async () => {
     let calls = 0;
     server.use(

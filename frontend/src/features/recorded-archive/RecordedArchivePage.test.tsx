@@ -115,6 +115,57 @@ describe('recorded archive views and bounded licensed export', () => {
       await screen.findByText('Saved in My NBA on this device.'),
     ).toBeInTheDocument();
   });
+  it('filters by listed position family without re-ranking and shows each listed label', async () => {
+    const requested: string[] = [];
+    server.use(
+      http.get('http://localhost/api/recorded/leaders', ({ request }) => {
+        const url = new URL(request.url);
+        requested.push(url.search);
+        const query = ArchiveRankingQuerySchema.parse(
+          Object.fromEntries(url.searchParams),
+        );
+        return HttpResponse.json({
+          ...ranking,
+          query,
+          positionUnlistedPlayers: 11,
+          rows: [
+            { ...ranking.rows[0]!, positions: ['F/C'] },
+            { ...ranking.rows[1]!, positions: [] },
+          ].filter((r) => !query.position || r.positions.length),
+          ...(query.position
+            ? {
+                positionScope: {
+                  missingMetricPlayers: 0,
+                  belowMinimumPlayers: 7,
+                  missingIdentityRows: 0,
+                },
+              }
+            : {}),
+        });
+      }),
+    );
+    renderApp('/leaders/recorded');
+    const table = await screen.findByRole('table');
+    expect(table).toHaveTextContent('F/C');
+    expect(
+      screen.getByText(/11 qualified players have no listed position/),
+    ).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText('Listed position'), {
+      target: { value: 'C' },
+    });
+    await waitFor(() => expect(requested.at(-1)).toContain('position=C'));
+    expect(
+      await screen.findByText(/Within this family: 7 below-GP/),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('Fixture player B')).toBeNull();
+    const csv = recordedRankingCsv({
+      ...ranking,
+      query: ArchiveRankingQuerySchema.parse({ position: 'C' }),
+      rows: [{ ...ranking.rows[0]!, positions: ['F/C'] }],
+    });
+    expect(csv).toContain('"Listed position family C"');
+    expect(csv).toContain('"2544","F/C"');
+  });
   it('retains raw value units and source evidence while disclosing quarantined game rows', async () => {
     server.use(
       http.get('http://localhost/api/recorded/records', () =>

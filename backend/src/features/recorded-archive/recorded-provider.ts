@@ -8,6 +8,7 @@ import {
   ArchiveRankingResponseSchema,
   type RecordedDataset,
   type ArchiveRankingQuery,
+  ListedPositionSchema,
   type ArchiveRankingResponse,
   type TeamArchiveResponse,
   RecordedRecordsResponseSchema,
@@ -94,7 +95,18 @@ export function rankRecordedDataset(
   q: ArchiveRankingQuery,
 ): ArchiveRankingResponse {
   const source = dataset.snapshots.flatMap((s) =>
-    s.statistics[q.scope].map((p) => ({ p, team: s.team, credit: s.attribution })),
+    s.statistics[q.scope].map((p) => ({
+      p,
+      team: s.team,
+      credit: s.attribution,
+      // The roster position this team's page lists for the player, matched by identity.
+      position:
+        s.roster.find(
+          (r) =>
+            (p.nbaPlayerId !== null && r.nbaPlayerId === p.nbaPlayerId) ||
+            (p.articleUrl !== null && r.articleUrl === p.articleUrl),
+        )?.position ?? null,
+    })),
   );
   const identified = source.filter((r) => r.p.nbaPlayerId !== null);
   const grouped = new Map<string, typeof identified>();
@@ -104,6 +116,19 @@ export function rankRecordedDataset(
   }
   let missingMetricPlayers = 0,
     belowMinimumPlayers = 0;
+  // The same exclusions counted only among players listed in the requested position family.
+  const familyScope = {
+    missingMetricPlayers: 0,
+    belowMinimumPlayers: 0,
+    missingIdentityRows: source.filter(
+      (r) =>
+        r.p.nbaPlayerId === null &&
+        Boolean(q.position) &&
+        r.position?.includes(q.position!),
+    ).length,
+  };
+  const inFamily = (entries: { position: string | null }[]) =>
+    Boolean(q.position) && entries.some((r) => r.position?.includes(q.position!));
   const qualified: Omit<
     ArchiveRankingResponse['rows'][number],
     'rank' | 'percentile'
@@ -115,11 +140,13 @@ export function rankRecordedDataset(
       gamesPlayed = rows.reduce((s, r) => s + r.gamesPlayed, 0);
     if (gamesPlayed < q.minGames || gamesPlayed === 0) {
       belowMinimumPlayers++;
+      if (inFamily(entries)) familyScope.belowMinimumPlayers++;
       continue;
     }
     const value = metricValue(rows, q.metric);
     if (value === null) {
       missingMetricPlayers++;
+      if (inFamily(entries)) familyScope.missingMetricPlayers++;
       continue;
     }
     qualified.push({
@@ -128,6 +155,9 @@ export function rankRecordedDataset(
       teams: entries.map((r) => r.team),
       gamesPlayed,
       value,
+      positions: ListedPositionSchema.array().parse([
+        ...new Set(entries.flatMap((r) => (r.position ? [r.position] : []))),
+      ]),
       sources: entries.map((r) => r.credit),
     });
   }
@@ -147,6 +177,7 @@ export function rankRecordedDataset(
   const filtered = ranked.filter(
     (r) =>
       (!q.team || r.teams.some((t) => t.id === q.team)) &&
+      (!q.position || (r.positions ?? []).some((p) => p.includes(q.position!))) &&
       (!q.search ||
         `${r.name} ${r.teams.map((t) => t.abbreviation).join(' ')}`
           .toLowerCase()
@@ -164,6 +195,8 @@ export function rankRecordedDataset(
     missingIdentityRows: source.length - identified.length,
     missingMetricPlayers,
     belowMinimumPlayers,
+    positionUnlistedPlayers: qualified.filter((r) => !r.positions?.length).length,
+    ...(q.position ? { positionScope: familyScope } : {}),
     unknownScopeRows: dataset.snapshots.reduce(
       (s, t) => s + t.statistics['source-unspecified'].length,
       0,
@@ -182,13 +215,20 @@ export function rankRecordedDataset(
       coverage:
         'Explicit recorded 2023-24 source cohort, not complete/current NBA league rankings. Static genuine licensed data, not fixtures or a live fallback.',
       warnings: [
-        'Ranks and midrank percentiles describe only the qualified, identifiable, supported-metric snapshot cohort. Search/team filters do not recompute the ranking population.',
+        'Ranks and midrank percentiles describe only the qualified, identifiable, supported-metric snapshot cohort. Search, team and position filters do not recompute the ranking population.',
+        'Positions are those the player’s own 2023-24 team page roster lists (G, F, C, G/F, F/C); a hybrid label counts for both families. Players their team page roster does not list have no listed position and appear only without a position filter.',
         'Unknown-scope, missing-ID, low-GP and unsupported trade/metric rows are excluded and counted. Raw counts are never reconstructed from rounded averages.',
         'Publication time unknown; source fetch range and dataset assembly time shown separately. No league qualification rules, era adjustment, possessions or shot locations inferred.',
       ],
     },
   });
 }
+/** Cohort names for position families, with the listed labels each one includes. */
+const POSITION_COHORT = {
+  G: 'guards (listed G or G/F)',
+  F: 'forwards (listed F, G/F or F/C)',
+  C: 'centers (listed C or F/C)',
+} as const;
 export class RecordedArchiveProvider {
   readonly dataset = RecordedDatasetSchema.parse(data);
   rank(q: ArchiveRankingQuery) {
@@ -226,7 +266,11 @@ export class RecordedArchiveProvider {
     return this.teamSeasonCache;
   }
   /** Every ranking row with a value for one player metric (games minimum applied later). */
-  private allPlayerRows(metric: WorkbenchQuery['metric'], team?: string) {
+  private allPlayerRows(
+    metric: WorkbenchQuery['metric'],
+    team?: string,
+    position?: WorkbenchQuery['position'],
+  ) {
     const base = {
       season: '2023-24' as const,
       scope: 'regular-season' as const,
@@ -235,6 +279,7 @@ export class RecordedArchiveProvider {
       page: 1,
       pageSize: 50,
       ...(team ? { team } : {}),
+      ...(position ? { position } : {}),
     };
     const first = this.rank(base),
       rows = [...first.rows];
@@ -312,9 +357,9 @@ export class RecordedArchiveProvider {
       extra: { reason: string; count: number }[];
     let cohort: string;
     if (players) {
-      const x = this.allPlayerRows(q.metric, q.team);
+      const x = this.allPlayerRows(q.metric, q.team, q.position);
       xs = playerValues(x.rows);
-      ys = q.y ? playerValues(this.allPlayerRows(q.y, q.team).rows) : null;
+      ys = q.y ? playerValues(this.allPlayerRows(q.y, q.team, q.position).rows) : null;
       if (q.team) {
         // The ranking's exclusion counts are league-wide; count this team's page directly.
         const page = this.dataset.snapshots.find((t) => t.team.id === q.team)!;
@@ -338,17 +383,26 @@ export class RecordedArchiveProvider {
         extra = [
           {
             reason: 'No value for this metric in the source',
-            count: x.first.missingMetricPlayers,
+            count:
+              x.first.positionScope?.missingMetricPlayers ??
+              x.first.missingMetricPlayers,
           },
           {
             reason: 'Source rows without an NBA identity',
-            count: x.first.missingIdentityRows,
+            count:
+              x.first.positionScope?.missingIdentityRows ?? x.first.missingIdentityRows,
           },
         ];
+      if (q.position)
+        extra.push({
+          reason: 'No roster position listed on the team page',
+          count: x.first.positionUnlistedPlayers ?? 0,
+        });
       const team = q.team
         ? this.dataset.snapshots.find((s) => s.team.id === q.team)?.team.name
         : null;
-      cohort = `${team ? `${team} players` : 'Recorded players'} with ${minGames}+ games, 2023-24 regular season`;
+      const family = q.position ? POSITION_COHORT[q.position] : 'players';
+      cohort = `${team ? `${team} ${family}` : `Recorded ${family}`} with ${minGames}+ games, 2023-24 regular season`;
     } else {
       const seasons = this.allTeamSeasons().filter(
         (t) => !q.conference || t.conference === q.conference,

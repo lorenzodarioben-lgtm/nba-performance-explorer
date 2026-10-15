@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { ArchiveRankingMetricSchema } from './recorded-archive.js';
+import {
+  ArchiveRankingMetricSchema,
+  PositionFamilySchema,
+} from './recorded-archive.js';
 import { CanonicalTeamIdSchema } from './team-directory.js';
 import { RecordedSeasonSchema } from './wiki-archive.js';
 import { DataProvenanceSchema } from './research.js';
@@ -48,6 +51,8 @@ export const WorkbenchQuerySchema = z
       .optional(),
     order: z.enum(['desc', 'asc']).default('desc'),
     team: CanonicalTeamIdSchema.optional(),
+    /** Position-family cohort for players (source-listed 2023-24 roster positions). */
+    position: PositionFamilySchema.optional(),
     conference: z.enum(['East', 'West']).optional(),
   })
   .strict()
@@ -60,6 +65,9 @@ export const WorkbenchQuerySchema = z
   })
   .refine((q) => !q.team || q.entity === 'players', {
     message: 'Team filter is for players.',
+  })
+  .refine((q) => !q.position || q.entity === 'players', {
+    message: 'Position filter is for players.',
   })
   .refine((q) => !q.conference || q.entity === 'teams', {
     message: 'Conference filter is for teams.',
