@@ -1,4 +1,4 @@
-# Demo runbook — NBA Performance Explorer 3.0 on a Windows laptop
+# Demo runbook — NBA Performance Explorer 3.1 on a Windows laptop
 
 A 5–8 minute presentation that runs entirely from this repository, using the production build
 and the historical data committed with the app. It does not need Wikipedia or NBA.com to be
@@ -62,7 +62,10 @@ The same route is built into the site at **/tour** if you prefer to click throug
 
 Optional extras: `/discover/similar?player=203999&metrics=pointsPerGame,reboundsPerGame,assistsPerGame,fieldGoalPercentage`
 (Sabonis 0.59 and Antetokounmpo 0.72 nearest), `/lab/formulas` (every formula with a worked
-example), the search box: type `bos dal g4`.
+example), the search box: type `bos dal g4`. New in 3.1: `/explore/coverage` (what every dataset covers,
+season by season, with counts and retrieval dates) and
+`/leaders/recorded?metric=blocksPerGame&position=C` (centers as their team pages list them; ranks
+stay league-wide).
 
 Mobile: the same pages work at phone width; use the browser's device toolbar (F12, then
 Ctrl+Shift+M, 390 px) to show the film room tape and the story reader.
@@ -75,8 +78,9 @@ server was made to fail:
 - Works: homepage, tour, bracket, film room, game pages, playoff games, standings race, recorded
   team rankings, team season rooms, team 2023–24 roster panel (from the committed snapshot),
   Shot Studio, workbench, comparison studio, similarity finder, recorded discovery, lineups,
-  recorded leaders and records, formula lab, My NBA, stories, recorded player rooms
-  (`/players/:id/archive`).
+  recorded leaders and records (including position filters), formula lab, My NBA, stories,
+  recorded player rooms (`/players/:id/archive`), and the data coverage page (its per-player
+  season view needs NBA.com).
 - Shows an honest "unavailable" state, with no substitute data: NBA.com player pages
   (`/players/:id`, insights, careers), the Wikidata season navigator (`/history`), awards and the
   draft.

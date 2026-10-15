@@ -6,8 +6,8 @@ cohort, source and formula produced it.
 
 > **Two versions exist.** The **public site** at https://nba-performance-explorer.onrender.com is
 > deployed from `main` and still runs the **original release**. This branch,
-> `claude/nba-explorer-3-expansion`, is the **unmerged NBA Performance Explorer 3.0 release
-> candidate** described below. It has not been merged or deployed; see
+> `claude/nba-explorer-3-expansion`, is the **unmerged NBA Performance Explorer 3.1 release
+> candidate** (3.0 plus the 3.1 completion sprint) described below. It has not been merged or deployed; see
 > [the deployment runbook](docs/release/DEPLOYMENT_RUNBOOK.md) for the planned, owner-approved
 > release.
 
@@ -59,6 +59,10 @@ All screenshots are of the real application (production build, historical data).
   preference, validated import/export.
 - **A guided tour** at `/tour`, and global search across players, teams, playoff series and
   games, and tools.
+- **New in 3.1:** the **Data Coverage Explorer** (`/explore/coverage`): every dataset's source,
+  licence, revision, retrieval dates, counts and field availability by season, plus any NBA.com
+  career measured season by season. Also **position filters** on recorded leaders and Workbench
+  cohorts, using the positions each 2023–24 team page lists.
 
 ## Data
 
@@ -72,12 +76,14 @@ All screenshots are of the real application (production build, historical data).
 
 Historical only: there is no live or current data, no play-by-play, possessions, injuries or
 league-wide shot baseline. 2022–23 was audited and **not** added because its source pages failed
-the integrity checks. Fixture data appears only in tests or when explicitly enabled, and is
+the integrity checks. BoxScore Lab's 2023–24 files matched the archive in 3.1 but republish NBA
+Stats data under terms that restrict redistribution, so they were not added
+([data source audit](docs/expansion4/DATA_SOURCE_AUDIT.md)). Fixture data appears only in tests or when explicitly enabled, and is
 labelled "DEMO FIXTURES" wherever it shows.
 
 The closeout of the original 134-requirement specification is in
-[the final feature matrix](docs/release/FINAL_FEATURE_MATRIX.md): 83 verified, 37 partial,
-13 blocked and 1 deferred, each with evidence and the reason for any gap.
+[the final feature matrix](docs/release/FINAL_FEATURE_MATRIX.md): 87 verified, 33 partial,
+13 blocked and 1 deferred (3.0: 83 / 37 / 13 / 1), each with evidence and the reason for any gap.
 
 ## Run it
 
@@ -154,7 +160,8 @@ data. Release and rollback steps: [deployment runbook](docs/release/DEPLOYMENT_R
 - [Release readiness](docs/release/RELEASE_READINESS.md)
 - [Final feature matrix](docs/release/FINAL_FEATURE_MATRIX.md)
 - [Demo runbook](docs/release/DEMO_RUNBOOK.md) and [deployment runbook](docs/release/DEPLOYMENT_RUNBOOK.md)
-- [Live handoff](HANDOFF.md), [3.0 verification log](docs/expansion3/VERIFICATION_LOG.md),
+- [Live handoff](HANDOFF.md), [3.1 verification log](docs/expansion4/VERIFICATION_LOG.md),
+  [3.1 data source audit](docs/expansion4/DATA_SOURCE_AUDIT.md), [3.0 verification log](docs/expansion3/VERIFICATION_LOG.md),
   [source notes](docs/expansion3/SOURCE_NOTES.md)
 - Original engineering record: [specification](docs/expansion/SHOT_1_MASTER_SPEC.md),
   [archived ledger](docs/expansion/FEATURE_LEDGER.md), [API catalog](docs/expansion/API_CATALOG.md),

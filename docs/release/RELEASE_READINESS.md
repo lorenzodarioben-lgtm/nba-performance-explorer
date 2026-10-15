@@ -1,4 +1,4 @@
-# Release readiness — NBA Performance Explorer 3.0
+# Release readiness — NBA Performance Explorer 3.1
 
 **Verdict: READY WITH DOCUMENTED LIMITATIONS.** The release candidate is complete, tested and
 demonstrable; its limits are data limits stated below. It has **not** been merged or deployed.
@@ -28,25 +28,25 @@ Playoffs (bracket, series film room, game pages), seasons (standings race, recor
 leaders, records, calendar, history), teams (season intelligence, roster/results panel, duel),
 players (NBA.com rooms; recorded 2023–24 rooms), labs (workbench, Shot Studio, lineups,
 analytics, formula lab), compare (comparison studio, comparison lab, similarity finder,
-discovery), My NBA (saved research, collections, stories, motion, import/export), tour and
-global search. Original specification closeout: 83 verified, 37 partial, 13 blocked, 1 deferred
-of 134 ([matrix](FINAL_FEATURE_MATRIX.md)).
+discovery), My NBA (saved research, collections, stories, motion, import/export), data coverage
+(`/explore/coverage`), tour and global search. Original specification closeout: 87 verified, 33
+partial, 13 blocked, 1 deferred of 134 (3.0: 83 / 37 / 13 / 1; [matrix](FINAL_FEATURE_MATRIX.md)).
 
 ## Test results (final run)
 
 | Gate                                                | Result                                                                                                                                                                           |
 | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Prettier, ESLint, module-case check, TypeScript     | Pass (ESLint: 0 errors, 13 pre-existing react-refresh warnings)                                                                                                                  |
-| Frontend unit/UI tests (Vitest)                     | **448 passed** of 448 (67 files)                                                                                                                                                 |
-| Backend and contract tests (Vitest, Supertest)      | **457 passed** of 457 (48 files)                                                                                                                                                 |
+| Frontend unit/UI tests (Vitest)                     | **457 passed** of 457 (69 files)                                                                                                                                                 |
+| Backend and contract tests (Vitest, Supertest)      | **468 passed** of 468 (51 files)                                                                                                                                                 |
 | Production build (contracts, frontend, backend)     | Pass                                                                                                                                                                             |
-| Browser suite (`npm run e2e`, Playwright, Chromium) | **169 passed, 0 failed, 57 skipped**: desktop 1440×900 and mobile 390×844 smoke on every route; axe scans run once at desktop width, so their 57 mobile instances skip by design |
+| Browser suite (`npm run e2e`, Playwright, Chromium) | **172 passed, 0 failed, 58 skipped**: desktop 1440×900 and mobile 390×844 smoke on every route; axe scans run once at desktop width, so their 57 mobile instances skip by design |
 | `npm audit` / `npm audit --omit=dev`                | 0 / 0 vulnerabilities                                                                                                                                                            |
 
-Run on Windows 11, Node 22.19.0, with the development servers on 5173/3001. On this heavily loaded
-host the first full `npm run validate` runs failed only by timing (different tests each run,
-each passing alone); the recorded run passed format, lint, module-case and typecheck, then tests
-and build were re-run on their own and passed. CI on GitHub runs the same `npm run validate`.
+3.1 final run, 2026-10-16, on Windows 11, Node 22.19.0, with the development servers on
+5173/3001: one uninterrupted `npm run validate` passed (exit 0) after a first run caught a real
+test-harness regression, fixed in `f06e68f` ([log](../expansion4/VERIFICATION_LOG.md)). CI on
+GitHub runs the same `npm run validate`.
 
 ## Accessibility
 
@@ -85,7 +85,8 @@ and build were re-run on their own and passed. CI on GitHub runs the same `npm r
 ## Production build readiness
 
 - `npm run build` succeeds; the compiled backend serves the built frontend, static assets, lazy
-  chunks and deep links (20 routes loaded and refreshed on the local production server).
+  chunks and deep links (55 routes audited at desktop and mobile width on the local production
+  server in 3.1).
 - `render.yaml` unchanged and compatible: build `npm ci && npm run build`, start
   `node backend/dist/server.js`, health `/api/health`. The committed snapshots are emitted into
   `backend/dist` by the TypeScript build (checked).
@@ -105,6 +106,10 @@ and build were re-run on their own and passed. CI on GitHub runs the same `npm r
 - No live or current data, upcoming games, play-by-play, possessions, ratings, on/off, injuries
   or league-wide shot baselines (see the matrix's "What prevents 100%").
 - One fully recorded season (2023–24); 2022–23 failed its integrity audit and is not shipped.
+  BoxScore Lab (audited in 3.1) matched 2023–24 but failed the licence gate
+  ([audit](../expansion4/DATA_SOURCE_AUDIT.md)).
+- Position filters use the positions each 2023–24 team page lists; 11 qualified players have no
+  listed position and appear only without a position filter.
 - Player leader labels link only on exact names (411 of 492); surname-only ties stay text.
 - Stories and saved research are per browser; there are no accounts or sync by design.
 - Shot Studio covers part of the 2018 playoffs (ends June 3, before the Finals).

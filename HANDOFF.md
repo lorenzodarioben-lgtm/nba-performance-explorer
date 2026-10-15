@@ -1,6 +1,61 @@
-# NBA Performance Explorer 3.0 — release candidate handoff (live)
+# NBA Performance Explorer 3.1 — completion sprint handoff (live)
 
-> The live handoff for the 3.0 expansion. The 2.0 redesign handoff and the original Codex
+> 3.1 is the 3.0 release candidate plus an overnight completion sprint on the same branch. The
+> 3.0 handoff below still describes everything built before 3.1; read this section first.
+
+- **Status:** READY WITH DOCUMENTED LIMITATIONS, awaiting the owner's review. Not merged, not
+  deployed, no pull request opened; the public site still serves `main`.
+- **Branch:** `claude/nba-explorer-3-expansion` (no new branch). 3.1 commits: `f05fb89`,
+  `8c6e5b5`, `ca601e3`, `4d62922`, `46d69ad`, `969873e`, `f06e68f`, and the closing
+  documentation commit.
+- **Evidence:** [`docs/expansion4/VERIFICATION_LOG.md`](docs/expansion4/VERIFICATION_LOG.md),
+  [`GAP_CLOSURE_PLAN.md`](docs/expansion4/GAP_CLOSURE_PLAN.md),
+  [`DATA_SOURCE_AUDIT.md`](docs/expansion4/DATA_SOURCE_AUDIT.md) and the updated
+  [`FINAL_FEATURE_MATRIX.md`](docs/release/FINAL_FEATURE_MATRIX.md) (87 / 33 / 13 / 1 of 134;
+  3.0 was 83 / 37 / 13 / 1).
+
+## Completed in 3.1
+
+| Commit    | Scope                                                                                                                |
+| --------- | -------------------------------------------------------------------------------------------------------------------- |
+| `f05fb89` | Live Wikipedia parsing fixed after the parse API switched to Parsoid links (awards and draft returned 502 live)      |
+| `8c6e5b5` | P0: game research defaults to the latest season; film room save keeps the game; story embeds paced; test reliability |
+| `ca601e3` | Gap-closure plan formatting                                                                                          |
+| `4d62922` | Data Coverage Explorer `/explore/coverage` and `GET /api/coverage` (H11, I11)                                        |
+| `46d69ad` | Source-listed position filters on recorded leaders and Workbench cohorts (E08, H05)                                  |
+| `969873e` | BoxScore Lab audit: data quality passes, licence fails, not integrated                                               |
+| `f06e68f` | Totals panel test renders inside a router (regression from the coverage link, caught by the full run)                |
+
+## Verified state (3.1 final)
+
+- `npm run validate` exit 0: format, lint (0 errors, 13 baseline warnings), module-case,
+  typecheck; frontend 457/457, backend 468/468; production build.
+- `npm run e2e`: 172 passed, 0 failed, 58 skipped by design (mobile axe instances).
+- `npm audit` / `--omit=dev`: 0 / 0.
+- Production build on 4310: 55 routes audited at desktop and mobile width (bundled and live
+  archive modes); awards and draft answer live; offline simulation on 4320 verified (19 routes).
+- Servers: the presentation server was stopped at the end of the sprint.
+
+New in 3.1: `GET /api/coverage` (no parameters); `position=G|F|C` on `/api/recorded/leaders` and
+`/api/recorded/workbench` (players only); leader rows carry optional `positions`; responses
+carry `positionUnlistedPlayers` and, when filtered, `positionScope`. Saved-research paths allow
+`/explore/coverage`.
+
+## Open decisions for the owner (3.1)
+
+1. **Roster identity refresh.** Live team pages now add article URLs for 8 teams' rosters that
+   the snapshot has as null. A re-snapshot with `backend/src/scripts/build-recorded-snapshot.ts`
+   would change identity and cohort counts, so it was not done during the sprint.
+2. **BoxScore Lab.** Integrate only with written confirmation that NBA Stats data may be
+   redistributed (see the audit, §5).
+3. **Optional features not started** (P3): Time Machine, player evolution, rivalry view,
+   advanced shot comparison, reader-weighted similarity. None was begun, by design.
+
+---
+
+# NBA Performance Explorer 3.0 — release candidate handoff
+
+> The handoff for the 3.0 expansion. The 2.0 redesign handoff and the original Codex
 > engineering handoff follow below unchanged and stay authoritative for their scope.
 
 - **Status:** release candidate, **READY WITH DOCUMENTED LIMITATIONS**, awaiting the owner's
@@ -98,7 +153,7 @@ contracts use `RecordedSeasonSchema` (still `['2023-24']`). Saved-research paths
 
 ## Next actions (in order)
 
-1. **Owner:** run `scriptsstart-presentation.ps1`, follow the 7-minute route in the demo runbook,
+1. **Owner:** run `scripts/start-presentation.ps1`, follow the 7-minute route in the demo runbook,
    and read `RELEASE_READINESS.md`.
 2. **Owner:** open a pull request into `main`, wait for CI, then squash merge when satisfied
    (`DEPLOYMENT_RUNBOOK.md`); verify NBA.com availability on Render afterwards.
