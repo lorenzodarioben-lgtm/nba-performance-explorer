@@ -319,7 +319,7 @@ function GameTape({
               </span>
               <span className="fr-card__after num">
                 {after[0]}–{after[1]}
-                {g.clinching ? <b> · clinched</b> : null}
+                {g.clinching ? <b>clinched</b> : null}
                 {g.periods.length > 4 ? <em> · OT</em> : null}
               </span>
             </button>

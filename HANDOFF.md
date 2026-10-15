@@ -1,11 +1,18 @@
-# NBA Performance Explorer 3.0 — expansion handoff (live)
+# NBA Performance Explorer 3.0 — release candidate handoff (live)
 
 > The live handoff for the 3.0 expansion. The 2.0 redesign handoff and the original Codex
 > engineering handoff follow below unchanged and stay authoritative for their scope.
 
+- **Status:** release candidate, **READY WITH DOCUMENTED LIMITATIONS**, awaiting the owner's
+  review. Not merged, not deployed: the public site still serves `main` (`cd557e4`).
+- **Start here:** [`docs/release/RELEASE_READINESS.md`](docs/release/RELEASE_READINESS.md), then
+  [`DEMO_RUNBOOK.md`](docs/release/DEMO_RUNBOOK.md),
+  [`DEPLOYMENT_RUNBOOK.md`](docs/release/DEPLOYMENT_RUNBOOK.md),
+  [`FINAL_FEATURE_MATRIX.md`](docs/release/FINAL_FEATURE_MATRIX.md) and
+  [`PRODUCT_OVERVIEW.md`](docs/release/PRODUCT_OVERVIEW.md).
 - **Branch:** `claude/nba-explorer-3-expansion`, cut from the approved 2.0 checkpoint `0aa2717`.
   Never commit to `main`, `codex/nba-explorer-2-engine` or `claude/nba-explorer-design`; no
-  merge, PR to `main` or deploy.
+  merge or deploy without the owner (the runbook describes a squash merge).
 - **HEAD:** see `git log -1`; every verified stage commit is listed below.
 - **Working tree:** clean after each commit (a local, untracked `.claude/launch.json` preview
   config may exist on the development machine; never commit it).
@@ -23,6 +30,21 @@ standings race (three views), 2024 bracket with published seeds and series conte
 pages, Shot Studio distance/zone/efficiency/saved views, player hub "2023–24" room with similar
 seasons, two-team duel, search over archive players, My NBA research board with notes, Formula
 lab, 2023–24 season hub, team wall records and the homepage "New in the film room" band.
+
+Session three — finalization (`50d4b90` … this commit):
+
+| Commit    | Scope                                                                                 |
+| --------- | ------------------------------------------------------------------------------------- |
+| `50d4b90` | Playoff Series Film Room `/games/series/:id`; committed playoff/season table snapshot |
+| `e062351` | Statistical Story Builder `/my-nba/stories` (editor, reader/print, JSON, share link)  |
+| `bbb7ca1` | Spec gaps: series/game search, leader player links, comparison CSV/SVG; `/tour`       |
+| `93499a5` | Team panel snapshot fallback; `scripts/start-presentation.ps1` and stop script        |
+| final     | Release docs, matrix, README, screenshots, player error copy, test timeouts           |
+
+New in session three: `GET /api/games/series/:seriesId`; `WIKI_ARCHIVE_MODE=live|bundled`;
+`backend/src/features/wiki-archive/archive-snapshot.json` (rebuild with
+`npx tsx backend/src/scripts/build-archive-snapshot.ts --write`); stories in browser key
+`nba-explorer.stories.v1`; saved-research paths allow `/games/series/:id`.
 
 Session two (`a1c672b` … `7b56586`):
 
@@ -44,20 +66,23 @@ New APIs this session: `GET /api/recorded/workbench`, `/api/recorded/player-comp
 contracts use `RecordedSeasonSchema` (still `['2023-24']`). Saved-research paths now allow
 `/discover/similar`.
 
-## Verified state
+## Verified state (final)
 
-- `npm run validate` exit 0 at `7b56586`: 424 frontend and 452 backend tests, lint 0 errors
-  (13 pre-existing react-refresh warnings), typecheck, builds and module-case check pass.
-- `npm run e2e` full run at `7b56586`: 157 passed, 0 failed, 53 skipped by design (3.8 min).
-- Real-browser checks for every new interaction (workbench bin/brush/pick, studio cast and
-  scales, court-region drag, collections, similarity) at 1280 and 390 px with axe; details in
-  `docs/expansion3/VERIFICATION_LOG.md`.
-- `npm audit`: 0 vulnerabilities (no dependency changes this session).
+- Format, lint (0 errors, 13 pre-existing warnings), module-case, typecheck: pass. Frontend
+  448/448, backend 457/457, production build: pass.
+- `npm run e2e`: 169 passed, 0 failed, 57 skipped by design (desktop-only axe), desktop and
+  mobile.
+- Production build served locally; 20 routes refreshed with all external browser requests
+  blocked; offline simulation of the server verified (see the demo runbook for what works).
+- `npm audit` and `npm audit --omit=dev`: 0 vulnerabilities.
+- On this host, full runs can fail by timing alone under heavy load; tests now wait longer
+  (async 4 s; frontend 15 s and backend 20 s per test). No assertion was weakened.
 
 ## Constraints and data notes
 
-- NBA Stats timed out from the development machine; new work uses the committed recorded
-  archives and the Wikipedia playoff snapshot. Quarantined games keep their slot but never get
+- NBA Stats timed out from the development machine in sessions one and two and answered at the
+  final session-three check (send the app's own headers; a bare curl times out). New work uses the
+  committed recorded archives and the committed playoff snapshot. Quarantined games keep their slot but never get
   a score. Rest, streaks and rolling margins are withheld when chronology is unknown.
 - Bracket winners require a fourth win in the series' last recorded game; rounds are derived
   from team series order and cross-checked against NBA game-ID round digits. Seeds come
@@ -73,12 +98,13 @@ contracts use `RecordedSeasonSchema` (still `['2023-24']`). Saved-research paths
 
 ## Next actions (in order)
 
-1. Playoff series film room: a series page built from the 2024 playoff snapshot (game-by-game
-   margins, quarter flow, leaders), linked from the bracket.
-2. Statistical story builder: compose saved charts and statements from Workbench, Studio and
-   Similarity into one exportable page (local only).
-3. Weighted similarity (reader-set weights) and a "similar teams" mode on team seasons.
-4. Re-audit 2022-23 if Wikipedia's team pages are repaired; the parser and audit script are ready.
+1. **Owner:** run `scriptsstart-presentation.ps1`, follow the 7-minute route in the demo runbook,
+   and read `RELEASE_READINESS.md`.
+2. **Owner:** open a pull request into `main`, wait for CI, then squash merge when satisfied
+   (`DEPLOYMENT_RUNBOOK.md`); verify NBA.com availability on Render afterwards.
+3. Later engineering (not needed for release): reader-weighted similarity and similar team
+   seasons; a field-by-season coverage explorer (H11/I11); re-audit 2022–23 if Wikipedia's team
+   pages are repaired (parser and audit script ready).
 
 Continuation: `git checkout claude/nba-explorer-3-expansion && npm ci && npm run validate`.
 For live checks run the backend on 3001 (`PORT=3001 npm run dev:backend`) and the frontend with

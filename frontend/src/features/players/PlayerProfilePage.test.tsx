@@ -245,7 +245,9 @@ describe('player profile page', () => {
 
     renderApp('/players/2544');
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong');
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'NBA.com player data could not be loaded',
+    );
     expect(
       screen.getByRole('heading', { name: 'Player profile unavailable' }),
     ).toBeInTheDocument();

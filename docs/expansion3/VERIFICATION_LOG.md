@@ -238,3 +238,69 @@ title`), the same two shot marks.
   (`lab-workbench`, `lab-workbench-teams`, `compare-studio`, `lab-shots-region`,
   `discover-similar`).
 - `npm run validate` exit 0: 424 frontend / 452 backend tests.
+
+# Session three — finalization
+
+## S3-1 — Playoff Series Film Room and the bundled playoff snapshot (`50d4b90`)
+
+- `GET /api/games/series/:seriesId`: analysis from final and period scores only. A synthetic
+  series with an away overtime comeback is checked by hand (margins, running margins, halves,
+  period totals, widest period, closest/largest game). All 15 real series reconcile: period
+  points add to each final, wins and points per game equal the series record, one clinching game
+  per decided series. Finals margins 18, 7, 7, −38, 18 match the record.
+- `backend/src/features/wiki-archive/archive-snapshot.json` (86 KB): structured tables from the
+  2023–24 season and 2024 playoff articles (revisions 1347383197 and 1376206465), built by
+  `build-archive-snapshot.ts` with the same strict parsers; refuses an incomplete bracket. Live
+  fetch falls back to it; `WIKI_ARCHIVE_MODE=bundled` never contacts Wikipedia. Responses say so.
+- Browser: 1280 and 390 px, keyboard tape (Home/arrows, one tab stop); axe found "clinched" in
+  red at 4.41:1 on the selected card, now chalk text with a red mark. The game page margin-flow
+  label for the away team moved below the axis (same component on game pages).
+
+## S3-2 — Statistical Story Builder (`e062351`)
+
+- Separate store `nba-explorer.stories.v1`: 25 stories × 30 sections, 300,000 characters,
+  control characters rejected, prototype keys refused, imports never overwrite (ID collisions get
+  new IDs), share links ≤ 6,000 characters in the URL fragment. 5 store, 2 embed-plan and 5 UI
+  tests; saved research untouched.
+- Real browser at 1280 and 390 px: starter → edit → reorder (focus stays on the moved control)
+  → reader → print emulation and a PDF → share link opened in a fresh browser and saved. Axe
+  clean on library, editor and reader. A cold start once refused two embeds (the API's 3-slot
+  source budget); embeds now retry twice before reporting the source unavailable.
+
+## S3-3 — Specification gaps, tour and polish (`bbb7ca1`, `93499a5`)
+
+- Global search finds playoff series and games (A10); published leaders link to player rooms on
+  exact names only: 411 of 492 labels; surname-only ties stay text (C12, D13). Comparison CSV
+  and gap-board SVG exports (F10). `/tour`; homepage band leads with the new rooms.
+- Homepage photos slid in from the right let phones scroll sideways (413 px at 390); the section
+  now clips horizontal overflow. All showcase routes measured 390 px wide afterwards.
+- Team page 2023–24 panel falls back to the committed recorded snapshot.
+- Test infrastructure: under heavy host load (CPU 77 %, 2 GB free, owner's browser open) correct
+  tests failed only by timing. Async UI waits are now 4 s, frontend tests 15 s, backend 20 s;
+  several suites pre-compile their lazy routes. No assertion was changed.
+
+## S3-4 — production build, offline and presentation checks
+
+- `scripts/start-presentation.ps1`: build, start, health check, reuse of its own server and the
+  stop script were exercised on this machine (Windows PowerShell 5.1). The first version's
+  `npm` call broke under PowerShell 5.1; it now runs `npm.cmd` through `Start-Process`.
+- Production build on port 4310: 20 routes loaded and refreshed with every non-local browser
+  request blocked; no API errors, no page errors, zero external requests.
+- Offline simulation: a second production server loaded with a preload that fails every
+  outbound fetch (the machine's network untouched). Archive, recorded, shot and story routes
+  work; NBA.com player pages, `/history`, awards and draft show their unavailable state
+  (blocked: `stats.nba.com`, `query.wikidata.org`).
+- NBA.com Stats answered through the app's own client at this check (insights and career with
+  `nba-stats` provenance), unlike earlier sessions; a bare curl without the expected headers
+  times out.
+- `npm audit` and `npm audit --omit=dev`: 0 vulnerabilities. No secrets in tracked files.
+
+## S3-5 — final gates
+
+- Format, lint (0 errors, 13 pre-existing warnings), module-case and typecheck: pass. Frontend
+  448/448, backend 457/457, production build: pass.
+- `npm run e2e`: 169 passed, 0 failed, 57 skipped by design (desktop-only axe), 6.6 min,
+  including the new routes `series-film-room`, `series-film-room-game`, `stories` and `tour`.
+- Final offline tour on the rebuilt production server: as S3-4, and the team 2023–24 panel now
+  works offline from the committed snapshot.
+- The NBA.com player error now names the source and says nothing is substituted.

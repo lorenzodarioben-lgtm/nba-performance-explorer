@@ -42,6 +42,16 @@ points per attempt and court-region selection; My NBA collections; Similarity Fi
 reader-chosen measures. The session-one backlog (team duel, series context, Formula lab, race
 games-behind view) shipped in session one.
 
+**Delivered in session three (finalization):** Playoff Series Film Room, Statistical Story
+Builder, playoff series and game search, published-leader player links, comparison CSV/SVG
+exports, the guided tour, an offline-capable committed playoff snapshot and the Windows
+presentation scripts. The authoritative requirement status is now
+[`docs/release/FINAL_FEATURE_MATRIX.md`](../release/FINAL_FEATURE_MATRIX.md).
+
+**Remaining backlog (after session three):** reader-weighted similarity and similar team
+seasons; a field-by-season coverage explorer; Shot Studio two-region comparison. Items 1–2 of the
+list below shipped in session three.
+
 **Missing but feasible with existing data (backlog, in priority order):**
 
 1. Playoff series film room from the 2024 playoff snapshot (margins, quarter flow, leaders).

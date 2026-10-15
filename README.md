@@ -1,262 +1,164 @@
 # NBA Performance Explorer
 
-NBA Performance Explorer is a live portfolio web app for searching NBA players,
-exploring profiles, season statistics, career trends, game logs, and shareable
-two-player comparisons, with production data served from NBA.com through this
-project's backend provider.
+A basketball research site with a broadcast-style "Arena & Film Room" interface: ask a precise
+question of real NBA records, see the answer as an interactive chart, and see exactly which
+cohort, source and formula produced it.
 
-**Live demo:** https://nba-performance-explorer.onrender.com
+> **Two versions exist.** The **public site** at https://nba-performance-explorer.onrender.com is
+> deployed from `main` and still runs the **original release**. This branch,
+> `claude/nba-explorer-3-expansion`, is the **unmerged NBA Performance Explorer 3.0 release
+> candidate** described below. It has not been merged or deployed; see
+> [the deployment runbook](docs/release/DEPLOYMENT_RUNBOOK.md) for the planned, owner-approved
+> release.
 
-The Render free service may need roughly 50 seconds to wake after inactivity. NBA.com
-is an external dependency, so live data availability is not guaranteed continuously.
-
-## Screenshots
-
-Captured from the final redesigned app with deterministic fixture data (Stephen Curry and
-LeBron James, 2023-24 season).
-
-<a href="https://nba-performance-explorer.onrender.com">
-  <img src="docs/assets/home-desktop.png" alt="NBA Performance Explorer home page: an NBA-branded masthead over a full-bleed hero with the player search and a live-data status indicator." width="100%" />
-</a>
+<img src="docs/release/screenshots/02-film-room.jpg" alt="The 2024 Finals film room: Boston 4, Dallas 1 on a broadcast scoreboard, above a tape of five game cards with margins and the series score after each game." width="100%" />
 
 <table role="presentation">
   <tr>
     <td width="50%">
-      <img src="docs/assets/player-profile-desktop.png" alt="Stephen Curry profile under the NBA-branded masthead, with the jersey-number scoreboard identity, bio details, and a season selector." width="100%" />
-      <br /><sub>Player profile identity and bio</sub>
+      <img src="docs/release/screenshots/04-shot-studio-region.jpg" alt="Shot Studio density view of Stephen Curry's 2018 playoff attempts with a dashed court region drawn around the paint and a note that every summary follows the region." width="100%" />
+      <br /><sub>Shot Studio: drag a region on the court</sub>
     </td>
     <td width="50%">
-      <img src="docs/assets/career-trends-desktop.png" alt="Career-trend line chart with a matching data table; series are distinguished by dash pattern and legend shape, not colour alone." width="100%" />
-      <br /><sub>Career-trend chart with an equivalent data table</sub>
+      <img src="docs/release/screenshots/05-comparison-studio.jpg" alt="Comparison studio gap board: three players as distinct shapes on one standardised scale per category, widest gap first." width="100%" />
+      <br /><sub>Comparison studio: one shared scale, widest gaps first</sub>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img src="docs/assets/player-comparison-desktop.png" alt="Two-player comparison of LeBron James and Stephen Curry: a grouped, mirrored statistical matchup graph above a season-by-season career-arc trend chart, with the exact-value table kept in a disclosure below." width="100%" />
-      <br /><sub>Comparison: grouped statistical matchup and career-arc trend</sub>
+      <img src="docs/release/screenshots/06-workbench.jpg" alt="Research workbench: points against assists for the recorded 2023-24 cohort, with a fit line, correlation and the cohort stated." width="100%" />
+      <br /><sub>Research workbench: relationship with fit line</sub>
     </td>
     <td width="50%">
-      <img src="docs/assets/home-mobile.png" alt="NBA Performance Explorer home page on a narrow mobile viewport: the NBA-branded masthead and a single-column hero." width="100%" />
-      <br /><sub>Responsive mobile home page</sub>
+      <img src="docs/release/screenshots/07-story-reader.jpg" alt="A statistical story about Boston's 2023-24 season: a live Finals margin chart and series facts above the reader's own written section." width="100%" />
+      <br /><sub>Statistical stories: notes between live charts</sub>
     </td>
   </tr>
 </table>
 
-## Project Highlights
+All screenshots are of the real application (production build, historical data).
 
-- Live NBA player search and profile pages.
-- Available-season lists and selected-season statistics.
-- Accessible career-trend visualization with an equivalent semantic table.
-- Selected-season game logs.
-- Shareable two-player comparison URLs.
-- Shared Zod contracts for public API responses.
-- Deterministic fixture-backed tests for frontend, backend, and contracts.
-- Backend-private live NBA.com provider with sanitized empty and error states.
-- Single-service Render deployment and GitHub Actions validation.
+## What 3.0 contains
 
-## Technology Stack
+- **Playoff Series Film Room** (`/games/series/:id`): any 2024 series game by game, with a
+  keyboard-navigable game tape, line scores, running margin, period bars and series
+  intelligence. Everything is derived from final and period scores only.
+- **Statistical Story Builder** (`/my-nba/stories`): written research with live charts from six
+  tools between the reader's notes. Print to PDF, validated JSON export and import, share links;
+  stored only in the browser.
+- **Research Workbench** (`/lab/workbench`): rank, distribute or relate any recorded player or
+  team metric, with quartiles, histogram, fit line and residual departures.
+- **Comparison Studio** (`/compare/recorded`) and **Similarity Finder** (`/discover/similar`):
+  shared-scale gap board and plain statements; nearest seasons on 2–9 measures the reader
+  chooses.
+- **Shot Studio** (`/lab/shots`): dots, density, efficiency by points per attempt and source
+  zones on a true court projection, with drag-to-select court regions and CSV/SVG export.
+- **Seasons and teams:** standings race replay, team season intelligence, the 2024 bracket with
+  published seeds, recorded leaders, records and discovery.
+- **My NBA:** saved research with notes and collections, recent history (opt-in), motion
+  preference, validated import/export.
+- **A guided tour** at `/tour`, and global search across players, teams, playoff series and
+  games, and tools.
 
-- TypeScript
-- React 19
-- Vite
-- Tailwind CSS
-- TanStack Query
-- React Router
-- Recharts
-- Node.js 22
-- Express 5
-- Zod
-- Vitest
-- Testing Library
-- Mock Service Worker
-- Supertest
-- ESLint
-- Prettier
-- GitHub Actions
-- Render
+## Data
 
-## Architecture
+| Source                                                                            | Use                                                   | Licence                           |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------- | --------------------------------- |
+| Wikipedia 2023–24 team pages (30), committed and reconciled                       | Recorded season: 1,219 agreed finals, 639 player rows | CC BY-SA 4.0                      |
+| Wikipedia "2024 NBA playoffs" and "2023–24 NBA season" tables, committed snapshot | Bracket, film room, game pages, published standings   | CC BY-SA 4.0                      |
+| Wikidata                                                                          | Player identity links                                 | CC0                               |
+| Kaggle "NBA Playoff Shots 2018" (13,470 attempts)                                 | Shot Studio                                           | CC0                               |
+| NBA.com Stats (on request, backend only)                                          | Player profiles, logs, careers                        | NBA.com terms; may be unavailable |
 
-The browser calls only this project's Express API. The backend selects a configured
-`PlayerProvider`, maps provider-specific data into internal domain models, and validates
-public responses with shared Zod contracts. Live NBA.com request details stay
-backend-private. The fixture provider keeps local development, tests, and CI
-deterministic. A configured live provider never silently falls back to fixtures.
+Historical only: there is no live or current data, no play-by-play, possessions, injuries or
+league-wide shot baseline. 2022–23 was audited and **not** added because its source pages failed
+the integrity checks. Fixture data appears only in tests or when explicitly enabled, and is
+labelled "DEMO FIXTURES" wherever it shows.
 
-```mermaid
-flowchart LR
-  Browser["Browser\nReact SPA"] --> Api["Express API\n/api"]
-  Api --> Provider["PlayerProvider"]
-  Provider --> Fixture["Fixture provider\ntests and local default"]
-  Provider --> Live["NBA.com Stats provider\nproduction"]
-  Api -. "validates public responses" .-> Contracts["Shared Zod\ncontracts"]
-```
+The closeout of the original 134-requirement specification is in
+[the final feature matrix](docs/release/FINAL_FEATURE_MATRIX.md): 83 verified, 37 partial,
+13 blocked and 1 deferred, each with evidence and the reason for any gap.
 
-Key boundaries:
+## Run it
 
-- No browser-side NBA.com requests.
-- No provider response shapes leak into React components.
-- No API keys are required for the current NBA.com provider.
-- No proxying, IP rotation, cookie harvesting, CAPTCHA bypass, or other blocking-evasion
-  behavior.
-
-## Quality And Testing
-
-The canonical validation command is:
-
-```powershell
-npm run validate
-```
-
-Validation includes Prettier format checking, ESLint, strict TypeScript checking, all
-tests, and production builds for the contracts, frontend, and backend workspaces.
-
-Current verified baseline:
-
-- Base (`cd557e4`) frontend tests: 190
-- Base backend tests: 244
-- Base total tests: 434
-- GitHub Actions runs `npm run validate`
-- Automated tests do not make live NBA.com requests
-
-The frontend build currently emits a known Vite/Recharts chunk-size warning; the build
-still succeeds.
-
-## Local Development
-
-Prerequisites:
-
-- Node.js `>=22.12.0 <23`
-- npm compatible with Node.js 22
-- Git
-
-Fresh clone:
+Prerequisites: Node.js `>=22.12.0 <23`, npm, Git.
 
 ```powershell
 git clone https://github.com/lorenzodarioben-lgtm/nba-performance-explorer.git
 cd nba-performance-explorer
+git checkout claude/nba-explorer-3-expansion
 npm ci
-npm run dev
 ```
 
-`npm run dev` builds the shared contracts, then starts both apps:
-
-- Frontend: `http://localhost:5173`
-- Backend API: `http://localhost:3001`
-
-The frontend uses relative `/api` requests. In local development, Vite proxies `/api` to
-the backend, so CORS configuration is not needed.
-
-Local development defaults to the fixture provider when `NBA_DATA_PROVIDER` is unset.
-This keeps the app usable offline and keeps automated tests deterministic. Optional
-backend environment variables are documented in [backend/.env.example](backend/.env.example):
-
-- `NBA_DATA_PROVIDER=fixture|nba-stats`
-- `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true|false`
-- `NBA_STATS_TIMEOUT_MS=10000`
-- `NBA_STATS_DIAGNOSTICS=true|false`
-- `PORT=3001`
-
-Optional frontend environment:
-
-- `VITE_API_BASE_URL` can point the frontend at another non-secret API origin. Do not put
-  secrets in `VITE_` variables because they are exposed to browser code.
-
-Run one app at a time:
+**Presentation (Windows, production build, no network needed for the historical tools):**
 
 ```powershell
-npm run dev:frontend
-npm run dev:backend
+powershell -ExecutionPolicy Bypass -File scripts\start-presentation.ps1
 ```
 
-## Production Configuration
+It opens http://localhost:4310/. Stop it with `scripts\stop-presentation.ps1`. The full
+procedure and a 7-minute route are in [the demo runbook](docs/release/DEMO_RUNBOOK.md).
 
-Production is deployed as one Render web service using [render.yaml](render.yaml):
+**Development:** `npm run dev` starts the frontend on http://localhost:5173 and the API on
+http://localhost:3001 (Vite proxies `/api`). The player provider defaults to fixtures in
+development; set `NBA_DATA_PROVIDER=nba-stats` for live NBA.com player data. Backend options
+are documented in [backend/.env.example](backend/.env.example), including
+`WIKI_ARCHIVE_MODE=live|bundled`.
 
-- Build command: `npm ci && npm run build`
-- Start command: `node backend/dist/server.js`
-- Health check: `/api/health`
-- Express serves the built SPA from `frontend/dist`
-- Production provider: `NBA_DATA_PROVIDER=nba-stats`
-- Fixture fallback disabled: `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`
-- NBA.com timeout: `NBA_STATS_TIMEOUT_MS=10000`
+## Quality
 
-Render supplies `PORT` at runtime. The deployed service uses same-origin frontend and API
-requests, so there is no production CORS proxy.
-
-Documented rollback, if the host can no longer reach NBA.com reliably:
-
-```text
-NBA_DATA_PROVIDER=fixture
-NBA_ALLOW_FIXTURE_IN_PRODUCTION=true
+```powershell
+npm run validate
+npm run e2e
 ```
 
-That rollback is explicit configuration, not a silent runtime fallback.
+`validate` runs Prettier, ESLint, a Windows/Linux module-case check, TypeScript, about 900
+frontend and backend tests (Vitest, Testing Library, MSW, Supertest) and the production builds.
+`e2e` runs Playwright smoke and axe accessibility checks on every listed route, desktop and
+mobile, against running servers. CI runs `npm run validate` on every push. The latest recorded
+results are in [the release readiness report](docs/release/RELEASE_READINESS.md).
 
-## Operational Limitations
+## Architecture
 
-This is an unofficial portfolio project and is not affiliated with, endorsed by, or
-sponsored by the National Basketball Association. NBA statistics and data are sourced
-from NBA.com when the live provider is enabled.
-
-NBA.com Stats is undocumented and unsupported as a public API. It can rate-limit,
-block shared cloud-hosting IPs, change schemas, time out, or temporarily return empty
-results for individual players. During a production smoke check, one player-specific
-career response returned a valid empty result while another player returned complete
-season data through the same parser path.
-
-The application handles unavailable data with sanitized empty and error states. It does
-not expose raw upstream responses, request headers, cookies, tokens, or provider internals
-to the browser, and it does not silently substitute fixture data when live data fails.
-
-## Repository Structure
-
-```text
-frontend/             React/Vite app, feature UI, client API code, frontend tests
-backend/              Express API, provider boundary, live NBA.com provider, backend tests
-packages/contracts/   Shared Zod schemas and API response types
-docs/                 Project spec, architecture, decisions, state, and task history
-render.yaml           Render Blueprint for the single production web service
-.github/workflows/    GitHub Actions CI workflow
+```mermaid
+flowchart LR
+  Browser["React 19 SPA\n(Vite, TanStack Query, Motion)"] --> Api["Express 5 API\nsame origin"]
+  Api --> Recorded["Committed historical data\nrecorded season, playoff snapshot, shots"]
+  Api --> Wiki["Wikipedia (optional live)\nfalls back to the snapshot"]
+  Api --> Nba["NBA.com Stats\nplayer research, on request"]
+  Api -. "validated by" .-> Contracts["Shared Zod contracts"]
+  Browser -. "validated by" .-> Contracts
+  Browser --> Local["Local storage\nsaved research, stories"]
 ```
 
-## 2.0 Engine Branch (Not Deployed)
+- One Node process serves the API and the built frontend, with SPA fallback for deep links.
+- The browser never calls NBA.com or Wikipedia directly; the backend uses fixed, allow-listed
+  pages and endpoints with timeouts, and never evades blocking.
+- Every response is validated against shared contracts on both sides; personal data never
+  leaves the browser.
 
-Shot 1 adds plain functional tools without changing the original home/profile/compare
-visuals. After `npm run dev`, open **http://localhost:5173/explore**. New routes:
-`/teams`, `/teams/:teamId`, `/players/:playerId/insights`, `/lab/compare`,
-`/lab/analytics`, `/my-nba`. Teams currently provide 30 sourced identities; season
-rosters/results unavailable. Analytics uses an explicit selected 2–4 player-season
-cohort, not league-wide rankings. Game/standings/shot/lineup/history feeds remain gated.
+Stack: TypeScript, React 19, Vite, Tailwind CSS 4, TanStack Query, React Router, Motion,
+Express 5, Zod, parse5, Vitest, Testing Library, MSW, Supertest, Playwright, axe-core.
 
-Local default fixtures are prominently marked; raw shooting totals are unavailable
-in fixture runtime. Set `NBA_DATA_PROVIDER=nba-stats` before `npm run dev` to use
-verified local NBA raw inputs. No API key, billing account or new dependency required;
-source usage/access and production-host suitability remain conditional.
+## Production
 
-The existing four NBA endpoint families and Totals mode passed bounded local checks.
-`npm run smoke:free-sources` and `npm run smoke:engine` are opt-in, not CI; the latter
-requires the genuine temporary local server described in the operations runbook.
-Engine branch `npm run validate` passes 247 frontend + 320 backend = **567 tests**. Current validation/evidence is in the [handoff](HANDOFF.md),
-[feature ledger](docs/expansion/FEATURE_LEDGER.md),
-[source audit](docs/expansion/FREE_DATA_SOURCE_AUDIT.md),
-[API catalog](docs/expansion/API_CATALOG.md) and
-[operations](docs/expansion/OPERATIONS.md). The expansion is working but incomplete,
-**NOT MERGED / NOT DEPLOYED**; the public demo remains the original production site.
+The public site is one Render web service ([render.yaml](render.yaml)): build
+`npm ci && npm run build`, start `node backend/dist/server.js`, health check `/api/health`,
+`NBA_DATA_PROVIDER=nba-stats`, fixtures disabled. NBA.com Stats is an undocumented service and
+may block or slow cloud hosts; the player pages then show an unavailable state, never substitute
+data. Release and rollback steps: [deployment runbook](docs/release/DEPLOYMENT_RUNBOOK.md).
 
-## Further Documentation
+## Documentation
 
-- [Project specification](docs/PROJECT_SPEC.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [Architecture decisions](docs/DECISIONS.md)
-- [Current project state](docs/PROJECT_STATE.md)
-- [TASK-010 live provider validation](docs/tasks/TASK-010-live-nba-provider-response-validation.md)
-- [TASK-011 portfolio readiness](docs/tasks/TASK-011-portfolio-readiness-and-final-audit.md)
+- [Product overview](docs/release/PRODUCT_OVERVIEW.md)
+- [Release readiness](docs/release/RELEASE_READINESS.md)
+- [Final feature matrix](docs/release/FINAL_FEATURE_MATRIX.md)
+- [Demo runbook](docs/release/DEMO_RUNBOOK.md) and [deployment runbook](docs/release/DEPLOYMENT_RUNBOOK.md)
+- [Live handoff](HANDOFF.md), [3.0 verification log](docs/expansion3/VERIFICATION_LOG.md),
+  [source notes](docs/expansion3/SOURCE_NOTES.md)
+- Original engineering record: [specification](docs/expansion/SHOT_1_MASTER_SPEC.md),
+  [archived ledger](docs/expansion/FEATURE_LEDGER.md), [API catalog](docs/expansion/API_CATALOG.md),
+  [calculations](docs/expansion/CALCULATIONS.md), [architecture](docs/ARCHITECTURE.md),
+  [decisions](docs/DECISIONS.md)
 
-## Shot 1 engine closeout and Claude handoff
-
-The unmerged `codex/nba-explorer-2-engine` branch is a locally validated foundation for supervised ClaudeCodeCloud design and approvedfrontendimplementation. The published live demo above remains the original deployment; expansion has not been pushed, merged or deployed. Start at `/explore` in a local checkout. Read [the Claude handoff](docs/expansion/DESIGN_HANDOFF_FOR_CLAUDE.md), [the audited134feature ledger](docs/expansion/FEATURE_LEDGER.md), [API catalog](docs/expansion/API_CATALOG.md) and [operations/setup](docs/expansion/OPERATIONS.md). The original site design/provider are preserved.
-
-After `npm ci`, run `npm run validate` and `npm run dev` using Node22.12–22.x. Default player mode is explicitly demo; `NBA_DATA_PROVIDER=nba-stats` enables genuineNBA queries without a paidkey. Separate committed historical/cohort/shot/research-lineup data is genuine,partial,attributed and never a livefallback. Cloud source access is unverified; do not bypass blocking or invent missing data. The bounded `npm run smoke:closeout -- --write-report` checks an already running genuine localhost build, not production.
-
-Shot1feature expansion isclosed. Remaining functionality anddata limits are documented; they do not require Claude to build fake screens. No push/merge/deployment command has been run. Review the approved-branch publishing steps in OPERATIONS.md before making the repository available to Claude.
+Unofficial project, not affiliated with, endorsed by or sponsored by the NBA.

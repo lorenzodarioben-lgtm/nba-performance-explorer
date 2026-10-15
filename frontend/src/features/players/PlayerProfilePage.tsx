@@ -178,7 +178,7 @@ export function PlayerProfilePage() {
       <ProfileStatus
         role="alert"
         heading="Player profile unavailable"
-        message="Something went wrong loading this player. Please try again."
+        message="NBA.com player data could not be loaded right now, so nothing is shown in its place. Try again later; recorded 2023–24 rooms and every archive tool keep working."
       />
     );
   }
