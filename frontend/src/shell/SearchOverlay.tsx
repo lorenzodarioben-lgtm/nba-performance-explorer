@@ -104,6 +104,16 @@ const TOOLS: Option[] = [
     keywords: KEYWORDS['/my-nba/stories'],
   },
   {
+    key: 'page:/explore/coverage',
+    group: 'Sections and tools',
+    title: 'Data coverage',
+    meta: 'Which seasons, games and fields every dataset covers, counted from the data.',
+    badge: 'DC',
+    to: '/explore/coverage',
+    keywords:
+      'coverage sources provenance licence missing fields seasons available unavailable freshness retrieved',
+  },
+  {
     key: 'page:/explore',
     group: 'Sections and tools',
     title: 'What’s on tape',

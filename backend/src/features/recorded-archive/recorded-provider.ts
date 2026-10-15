@@ -773,6 +773,15 @@ export class RecordedArchiveProvider {
       },
     });
   }
+  /** Counts from the same reconciliation every recorded tool uses (for the coverage explorer). */
+  reconciliationSummary() {
+    const { verified, conflictingGameIds, unpairedGameIds } = this.reconcileGames();
+    return {
+      agreed: verified.length,
+      conflicting: conflictingGameIds.length,
+      unpaired: unpairedGameIds.length,
+    };
+  }
   private reconcileGames() {
     const pairs = new Map<
       string,

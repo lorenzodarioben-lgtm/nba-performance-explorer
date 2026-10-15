@@ -79,6 +79,7 @@ const app = createApp(createPlayerProvider(config), {
   awardsProvider: new WikipediaAwardsProvider(wikiClient),
   lineupStudyProvider: await createLineupStudyProvider(),
   draftProvider: new WikipediaDraftProvider(wikiClient),
+  archiveMode,
   ...(config.mode === 'nba-stats'
     ? {
         totalsProvider: new NbaSeasonTotalsProvider(

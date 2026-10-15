@@ -21,7 +21,7 @@ export const InternalResearchPathSchema = z
           url.origin === 'https://research.invalid' &&
           !url.hash &&
           url.pathname === path.split('?')[0] &&
-          /^\/(?:explore|my-nba|compare(?:\/recorded)?|discover(?:\/(?:recorded|similar))?|standings(?:\/(?:recorded|race))?|leaders(?:\/recorded)?|games(?:\/(?:nba:00423\d{5}|shooting|bracket|series\/r[1-4]-[A-Z]{3}-[A-Z]{3}))?|history(?:\/(?:\d{4}-\d{2}|records|calendar|awards|progression|draft))?|lab\/(?:compare|analytics|careers|teams|groups|recorded|profiles|shots|lineups|formulas|workbench)|teams(?:\/nba:[1-9]\d{0,11}(?:\/season)?)?|players\/[1-9]\d{0,11}(?:\/(?:insights|career|games|shooting|archive))?)?$/.test(
+          /^\/(?:explore(?:\/coverage)?|my-nba|compare(?:\/recorded)?|discover(?:\/(?:recorded|similar))?|standings(?:\/(?:recorded|race))?|leaders(?:\/recorded)?|games(?:\/(?:nba:00423\d{5}|shooting|bracket|series\/r[1-4]-[A-Z]{3}-[A-Z]{3}))?|history(?:\/(?:\d{4}-\d{2}|records|calendar|awards|progression|draft))?|lab\/(?:compare|analytics|careers|teams|groups|recorded|profiles|shots|lineups|formulas|workbench)|teams(?:\/nba:[1-9]\d{0,11}(?:\/season)?)?|players\/[1-9]\d{0,11}(?:\/(?:insights|career|games|shooting|archive))?)?$/.test(
             url.pathname,
           )
         );

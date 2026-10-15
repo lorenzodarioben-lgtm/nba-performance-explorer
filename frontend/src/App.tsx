@@ -178,6 +178,9 @@ const FormulaLabPage = lazy(() =>
     default: m.FormulaLabPage,
   })),
 );
+const CoveragePage = lazy(() =>
+  import('./features/explorer/CoveragePage').then((m) => ({ default: m.CoveragePage })),
+);
 const TourPage = lazy(() =>
   import('./features/foundation/TourPage').then((m) => ({ default: m.TourPage })),
 );
@@ -270,6 +273,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   // Players
   { path: '/players', element: lazyRoute('Loading players…', <PlayersLanding />) },
   { path: '/explore', element: lazyRoute('Loading explorer…', <ExplorerPage />) },
+  {
+    path: '/explore/coverage',
+    element: lazyRoute('Counting the data…', <CoveragePage />),
+  },
   // Teams
   { path: '/teams', element: lazyRoute('Loading team directory…', <TeamsPage />) },
   {

@@ -343,7 +343,10 @@ export function ExplorerPage() {
           <h2 id="cov-tapes" className="t-section">
             The tapes
           </h2>
-          <p className="t-meta">Six sources, each credited where it is used.</p>
+          <p className="t-meta">
+            Six sources, each credited where it is used.{' '}
+            <Link to="/explore/coverage">Counts, fields and retrieval dates →</Link>
+          </p>
         </div>
         <Stagger as="ul" className="srctapes">
           {SOURCES.map((source) => (

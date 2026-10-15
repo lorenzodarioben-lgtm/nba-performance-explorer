@@ -138,7 +138,8 @@ export function QueryFeedback({
     return (
       <Notice tone="error" role="alert" title="Data unavailable">
         NBA research data is unavailable or the selection is invalid. No substitute
-        statistics are shown. Adjust the selection or try again later.
+        statistics are shown. Adjust the selection or try again later, or{' '}
+        <Link to="/explore/coverage">see what each source covers</Link>.
       </Notice>
     );
   return null;

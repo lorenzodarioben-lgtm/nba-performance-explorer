@@ -43,6 +43,9 @@ export function AppFooter() {
                 <Link to="/explore">What&rsquo;s on tape</Link>
               </li>
               <li>
+                <Link to="/explore/coverage">Data coverage</Link>
+              </li>
+              <li>
                 <Link to="/my-nba">My NBA</Link>
               </li>
             </ul>

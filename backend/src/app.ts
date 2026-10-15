@@ -32,8 +32,14 @@ import type { LineupStudyProvider } from './features/lineup-study/lineup-study-p
 import { createLineupStudyRouter } from './features/lineup-study/lineup-study-router.js';
 import type { DraftProvider } from './features/history/history-draft-provider.js';
 import { createDraftRouter } from './features/history/history-draft-router.js';
-import { errorHandler, notFoundHandler } from './middleware/errors.js';
+import {
+  errorHandler,
+  methodNotAllowedHandler,
+  notFoundHandler,
+  sendApiError,
+} from './middleware/errors.js';
 import { healthRouter } from './routes/health.js';
+import { buildCoverage } from './features/coverage/coverage.js';
 
 // Optional same-origin static hosting for the built frontend. When `FRONTEND_DIST` points to a
 // built frontend, serve its assets and an SPA fallback from the same origin as the API; this is
@@ -89,6 +95,8 @@ export function createApp(
     awardsProvider?: HistoricalAwardsProvider;
     lineupStudyProvider?: LineupStudyProvider;
     draftProvider?: DraftProvider;
+    /** How the Wikipedia archives are served (reported by the coverage explorer). */
+    archiveMode?: 'live' | 'bundled';
   } = {},
 ): Express {
   const application = express();
@@ -97,6 +105,25 @@ export function createApp(
   application.disable('x-powered-by');
   application.use(express.json());
   application.use('/api/health', healthRouter);
+  application.get('/api/coverage', (request, response) => {
+    if (Object.keys(request.query).length)
+      return sendApiError(
+        response,
+        400,
+        'INVALID_COVERAGE_QUERY',
+        'The coverage summary takes no parameters.',
+      );
+    response.json(
+      buildCoverage({
+        recorded: options.recordedArchiveProvider,
+        shots: options.shotArchiveProvider,
+        lineups: options.lineupStudyProvider,
+        playerSource: options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
+        archiveMode: options.archiveMode ?? 'live',
+      }),
+    );
+  });
+  application.all('/api/coverage', methodNotAllowedHandler);
   application.use('/api/shots', createShotRouter(options.shotArchiveProvider));
   application.use(
     '/api/history',

@@ -87,5 +87,6 @@ export const routeExamples: readonly RouteExample[] = [
   { name: 'series-film-room-game', path: '/games/series/r1-BOS-MIA?game=2' },
   { name: 'stories', path: '/my-nba/stories' },
   { name: 'tour', path: '/tour' },
+  { name: 'coverage', path: '/explore/coverage?player=76003' },
   { name: 'not-found', path: '/this-route-does-not-exist' },
 ];

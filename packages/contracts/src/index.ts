@@ -3,6 +3,7 @@ import { z } from 'zod';
 export * from './research.js';
 export * from './local-research.js';
 export * from './local-stories.js';
+export * from './coverage.js';
 export * from './team-directory.js';
 export * from './season-totals.js';
 export * from './cohort-analytics.js';
