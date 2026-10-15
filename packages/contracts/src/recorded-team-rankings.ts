@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ArchiveSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
+import { RecordedSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
 import { DirectoryTeamSchema } from './team-directory.js';
 import { DataProvenanceSchema } from './research.js';
 import { GameDateSchema } from './player-game-log.js';
@@ -12,7 +12,7 @@ export const TeamRankingMetricSchema = z.enum([
 ]);
 export const RecordedTeamRankingsQuerySchema = z
   .object({
-    season: ArchiveSeasonSchema.default('2023-24'),
+    season: RecordedSeasonSchema.default('2023-24'),
     conference: z.enum(['East', 'West']).optional(),
     metric: TeamRankingMetricSchema.default('winPercentage'),
     order: z.enum(['asc', 'desc']).default('desc'),
@@ -43,7 +43,7 @@ export const RecordedTeamSummarySchema = z
     wins: z.number().int().nonnegative(),
     losses: z.number().int().nonnegative(),
     completeSeason: z.boolean(),
-    missingGameIds: z.array(z.string().regex(/^nba:00223\d{5}$/)).max(82),
+    missingGameIds: z.array(z.string().regex(/^nba:002(?:22|23)\d{5}$/)).max(82),
     winPercentage: z.number().min(0).max(1).nullable(),
     pointsPerGame: z.number().nonnegative().nullable(),
     opponentPointsPerGame: z.number().nonnegative().nullable(),
@@ -80,7 +80,7 @@ export const RecordedTeamSummarySchema = z
 export type RecordedTeamSummary = z.infer<typeof RecordedTeamSummarySchema>;
 export const RecordedTeamRankingsResponseSchema = z
   .object({
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     scope: z.literal('regular-season'),
     officialStandings: z.literal(false),
     metric: TeamRankingMetricSchema,

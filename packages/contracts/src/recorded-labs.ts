@@ -1,11 +1,11 @@
 import { z } from 'zod';
 import { ResearchPlayerIdSchema, DataProvenanceSchema } from './research.js';
 import { DirectoryTeamSchema, CanonicalTeamIdSchema } from './team-directory.js';
-import { ArchiveSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
+import { RecordedSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
 import { VerifiedRecordedGameSchema } from './recorded-archive.js';
 export const RecordedDirectorySchema = z
   .object({
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     teams: z.array(DirectoryTeamSchema).length(30),
     players: z
       .array(
@@ -24,7 +24,7 @@ export const RecordedDirectorySchema = z
   .strict();
 export const HypotheticalQuerySchema = z
   .object({
-    season: ArchiveSeasonSchema.default('2023-24'),
+    season: RecordedSeasonSchema.default('2023-24'),
     scope: z.enum(['regular-season', 'playoffs']).default('regular-season'),
     players: z
       .string()
@@ -42,7 +42,7 @@ const value = z.number().finite().nonnegative().nullable();
 export const HypotheticalGroupSchema = z
   .object({
     kind: z.literal('hypothetical'),
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     scope: z.enum(['regular-season', 'playoffs']),
     observedLineup: z.literal(false),
     jointPerformance: z.null(),
@@ -76,7 +76,7 @@ export const HypotheticalGroupSchema = z
 export type HypotheticalGroup = z.infer<typeof HypotheticalGroupSchema>;
 export const RecordedTeamComparisonQuerySchema = z
   .object({
-    season: ArchiveSeasonSchema.default('2023-24'),
+    season: RecordedSeasonSchema.default('2023-24'),
     teams: z
       .string()
       .max(57)
@@ -91,7 +91,7 @@ export const RecordedTeamComparisonQuerySchema = z
   .strict();
 export const RecordedTeamComparisonSchema = z
   .object({
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     scope: z.literal('regular-season'),
     rows: z
       .array(

@@ -1,3 +1,4 @@
+import { seasonFacts, type RecordedSeasonId } from './seasons.js';
 import {
   ArchiveRosterMemberSchema,
   ArchiveParticipantStatsSchema,
@@ -11,6 +12,7 @@ import { staticTeamDirectoryProvider } from '../teams/team-directory-provider.js
 import { ArchiveSourceError, WikiArchiveClient, type WikiPage } from './wiki-client.js';
 import {
   attribute,
+  children,
   directRows,
   isElement,
   parsePage,
@@ -18,6 +20,7 @@ import {
   walk,
   wikiLink,
   type HtmlElement,
+  type HtmlNode,
 } from './html-tables.js';
 import { attribution, archiveProvenance } from './archive-provider.js';
 import {
@@ -42,12 +45,35 @@ function player(cell: HtmlElement) {
     identityUrl: null,
   };
 }
+/**
+ * The text of a section heading node, in either markup Wikipedia serves: a bare h2–h4, or the
+ * newer <div class="mw-heading"> wrapper around one. Null for any other node.
+ */
+function sectionHeading(node: HtmlNode): string | null {
+  if (!isElement(node)) return null;
+  if (/^h[234]$/.test(node.tagName)) return text(node);
+  if (
+    node.tagName === 'div' &&
+    /(?:^|\s)mw-heading(?:\s|$)/.test(attribute(node, 'class') ?? '')
+  ) {
+    const inner = children(node).find(
+      (c) => isElement(c) && /^h[234]$/.test(c.tagName),
+    );
+    return inner ? text(inner) : null;
+  }
+  return null;
+}
 export function mapTeamArchive(
   page: WikiPage,
   team: DirectoryTeam,
   teams: readonly DirectoryTeam[],
+  season: RecordedSeasonId = '2023-24',
 ) {
-  if (page.title !== `2023–24 ${team.name} season`)
+  const { label, startYear, regularIdPrefix } = seasonFacts(season);
+  const recapPattern = new RegExp(
+    String.raw`^https://www\.nba\.com/game/(?:[a-z0-9-]*-)?${regularIdPrefix}\d{5}(?:/box-score)?$`,
+  );
+  if (page.title !== `${label} ${team.name} season`)
     throw new ArchiveSourceError('invalid');
   const nodes = parsePage(page.html);
   const tables = nodes.filter(
@@ -61,11 +87,11 @@ export function mapTeamArchive(
     teams.find(
       (t) =>
         link ===
-        `https://en.wikipedia.org/wiki/${encodeURIComponent(`2023–24 ${t.name} season`.replaceAll(' ', '_'))}`,
+        `https://en.wikipedia.org/wiki/${encodeURIComponent(`${label} ${t.name} season`.replaceAll(' ', '_'))}`,
     );
   const opponentLabel = (cell: HtmlElement) => text(cell).replace(/^@ /, '');
   for (const node of nodes) {
-    if (isElement(node) && /^h[234]$/.test(node.tagName)) aliasHeading = text(node);
+    aliasHeading = sectionHeading(node) ?? aliasHeading;
     if (
       !isElement(node) ||
       node.tagName !== 'table' ||
@@ -95,7 +121,7 @@ export function mapTeamArchive(
       (n) =>
         isElement(n) &&
         ['th', 'caption'].includes(n.tagName) &&
-        text(n) === `2023–24 ${team.name} roster`,
+        text(n) === `${label} ${team.name} roster`,
     )
   )
     throw new ArchiveSourceError('invalid');
@@ -111,7 +137,9 @@ export function mapTeamArchive(
       if (c.length !== 7) throw new ArchiveSourceError('invalid');
       const birthDate = text(c[5]!) || null;
       const age = birthDate
-        ? 2023 - Number(birthDate.slice(0, 4)) - (birthDate.slice(5) > '10-01' ? 1 : 0)
+        ? startYear -
+          Number(birthDate.slice(0, 4)) -
+          (birthDate.slice(5) > '10-01' ? 1 : 0)
         : null;
       const parsed = ArchiveRosterMemberSchema.safeParse({
         ...player(c[2]!),
@@ -136,7 +164,7 @@ export function mapTeamArchive(
   let heading = '';
   const statScopes = new Set<string>();
   for (const node of nodes) {
-    if (isElement(node) && /^h[234]$/.test(node.tagName)) heading = text(node);
+    heading = sectionHeading(node) ?? heading;
     if (!isElement(node) || node.tagName !== 'table') continue;
     const rows = directRows(node),
       header = rows[0]?.map(text).join('|');
@@ -302,16 +330,14 @@ export function mapTeamArchive(
           (n) =>
             isElement(n) &&
             n.tagName === 'a' &&
-            /^https:\/\/www\.nba\.com\/game\/(?:[a-z0-9-]*-)?00223\d{5}(?:\/box-score)?$/.test(
-              attribute(n, 'href') ?? '',
-            ),
+            recapPattern.test(attribute(n, 'href') ?? ''),
         );
         if (!score || !recap) throw new ArchiveSourceError('invalid');
         const recapUrl = attribute(recap, 'href')!,
-          sourceId = /00223\d{5}/.exec(recapUrl)![0];
+          sourceId = new RegExp(String.raw`${regularIdPrefix}\d{5}`).exec(recapUrl)![0];
         const parsed = ArchiveTeamResultSchema.safeParse({
           sourceId,
-          date: `${month >= 10 ? 2023 : 2024}-${String(month).padStart(2, '0')}-${date[2]!.padStart(2, '0')}`,
+          date: `${month >= 10 ? startYear : startYear + 1}-${String(month).padStart(2, '0')}-${date[2]!.padStart(2, '0')}`,
           opponent,
           location: text(c[2]!).startsWith('@ ') ? 'away' : 'home',
           result: score[1],

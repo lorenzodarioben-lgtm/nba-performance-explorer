@@ -1,3 +1,4 @@
+import { RecordedSeasonSchema } from './wiki-archive.js';
 import { z } from 'zod';
 import {
   ArchiveRankingMetricSchema,
@@ -54,7 +55,7 @@ export const DistributionSchema = z
 export type Distribution = z.infer<typeof DistributionSchema>;
 export const RecordedAnalyticsResponseSchema = z
   .object({
-    season: z.literal('2023-24'),
+    season: RecordedSeasonSchema,
     scope: z.enum(['regular-season', 'playoffs']),
     x: ArchiveRankingMetricSchema,
     y: ArchiveRankingMetricSchema,

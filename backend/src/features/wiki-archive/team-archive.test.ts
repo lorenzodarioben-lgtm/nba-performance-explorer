@@ -227,6 +227,31 @@ describe('historical team archive', () => {
       405,
     );
   });
+  it('reads headings in the newer mw-heading wrapper exactly like bare headings', async () => {
+    const f = await fixture();
+    const wrapped = f.page.html.replace(
+      /<(h[234])>(.*?)<\/\1>/g,
+      '<div class="mw-heading mw-heading3"><$1 id="x">$2</$1><span class="mw-editsection">edit</span></div>',
+    );
+    expect(wrapped).not.toEqual(f.page.html);
+    expect(mapTeamArchive({ ...f.page, html: wrapped }, f.team, f.teams)).toEqual(
+      mapTeamArchive(f.page, f.team, f.teams),
+    );
+    // A playoff game table under a wrapped "Playoffs" heading must not join the regular season.
+    const playoffTable = wrapped.replace(
+      '<h2>Player statistics</h2>',
+      '<div class="mw-heading"><h3>Playoffs</h3></div><table><tr><th>Game</th><th>Date</th><th>Team</th><th>Score</th><th>High points</th><th>High rebounds</th><th>High assists</th><th>Location Attendance</th><th>Record</th></tr><tr><td>1</td><td>April 20</td><td>@ X</td><td>W 1–0</td><td></td><td></td><td></td><td></td><td>1–0</td></tr></table><h2>Player statistics</h2>',
+    );
+    expect(
+      mapTeamArchive({ ...f.page, html: playoffTable }, f.team, f.teams).results,
+    ).toHaveLength(82);
+  });
+
+  it('reads another recorded season only with its own title, roster heading and game IDs', async () => {
+    const f = await fixture();
+    expect(() => mapTeamArchive(f.page, f.team, f.teams, '2022-23')).toThrow();
+  });
+
   it('rejects unapproved page titles without source traffic', async () => {
     const fetcher = vi.fn<typeof fetch>();
     const client = new WikiArchiveClient(fetcher);

@@ -3,6 +3,17 @@ import { DirectoryTeamSchema, CanonicalTeamIdSchema } from './team-directory.js'
 import { GameDateSchema } from './player-game-log.js';
 import { DataProvenanceSchema } from './research.js';
 export const ArchiveSeasonSchema = z.literal('2023-24');
+/**
+ * Seasons held in the committed recorded archive (team pages, players, results). A season is
+ * added only after `backend/src/scripts/audit-recorded-season.ts` finds its source pages complete
+ * and consistent; 2022-23 was audited and failed (see docs/expansion3/SOURCE_NOTES.md).
+ */
+export const RecordedSeasonSchema = z.enum(['2023-24']);
+export type RecordedSeason = z.infer<typeof RecordedSeasonSchema>;
+/** Regular-season NBA game IDs of the recorded seasons: 00222… (2022-23), 00223… (2023-24). */
+export const RECORDED_REGULAR_GAME_ID = /^002(?:22|23)\d{5}$/;
+/** The ID prefix a season's regular-season games must carry. */
+export const regularGamePrefix = (season: RecordedSeason) => `002${season.slice(2, 4)}`;
 export const WikiAttributionSchema = z
   .object({
     title: z.string().min(1).max(120),

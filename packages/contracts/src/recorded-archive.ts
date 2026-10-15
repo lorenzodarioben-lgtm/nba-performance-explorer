@@ -5,12 +5,16 @@ import {
   ArchiveTeamResultSchema,
 } from './team-archive.js';
 import { DirectoryTeamSchema, CanonicalTeamIdSchema } from './team-directory.js';
-import { ArchiveSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
+import {
+  RecordedSeasonSchema,
+  WikiAttributionSchema,
+  regularGamePrefix,
+} from './wiki-archive.js';
 import { DataProvenanceSchema, ResearchPlayerIdSchema } from './research.js';
 export const RecordedTeamSchema = z
   .object({
     team: DirectoryTeamSchema,
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     roster: z.array(ArchiveRosterMemberSchema).min(1).max(40),
     statistics: z
       .object({
@@ -27,12 +31,14 @@ export const RecordedTeamSchema = z
   .refine(
     (d) =>
       new Set(d.results.map((g) => g.sourceId)).size === 82 &&
-      d.results.every((g) => g.opponent.id !== d.team.id),
+      d.results.every((g) => g.opponent.id !== d.team.id) &&
+      // Every game ID must belong to the snapshot's own season (00222… for 2022-23).
+      d.results.every((g) => g.sourceId.startsWith(regularGamePrefix(d.season))),
   );
 export const RecordedDatasetSchema = z
   .object({
     kind: z.literal('genuine-recorded-wikipedia-data'),
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     createdAt: z.iso.datetime(),
     sourcePolicy: z.string().max(200),
     identityRequests: z.number().int().min(0).max(20),
@@ -62,7 +68,7 @@ export const ArchiveRankingMetricSchema = z.enum([
 ]);
 export const ArchiveRankingQuerySchema = z
   .object({
-    season: ArchiveSeasonSchema.default('2023-24'),
+    season: RecordedSeasonSchema.default('2023-24'),
     scope: z.enum(['regular-season', 'playoffs']).default('regular-season'),
     metric: ArchiveRankingMetricSchema.default('pointsPerGame'),
     minGames: z
@@ -104,7 +110,7 @@ export const ArchiveRankingResponseSchema = z
   .object({
     query: z
       .object({
-        season: ArchiveSeasonSchema,
+        season: RecordedSeasonSchema,
         scope: z.enum(['regular-season', 'playoffs']),
         metric: ArchiveRankingMetricSchema,
         minGames: z.number().int().positive(),
@@ -133,7 +139,7 @@ export const ArchiveRankingResponseSchema = z
 export type ArchiveRankingResponse = z.infer<typeof ArchiveRankingResponseSchema>;
 export const VerifiedRecordedGameSchema = z
   .object({
-    id: z.string().regex(/^nba:00223\d{5}$/),
+    id: z.string().regex(/^nba:002(?:22|23)\d{5}$/),
     date: ArchiveTeamResultSchema.shape.date,
     home: DirectoryTeamSchema,
     away: DirectoryTeamSchema,
@@ -150,14 +156,14 @@ export const RecordedRecordMetricSchema = z.enum([
 ]);
 export const RecordedRecordsQuerySchema = z
   .object({
-    season: ArchiveSeasonSchema.default('2023-24'),
+    season: RecordedSeasonSchema.default('2023-24'),
     team: CanonicalTeamIdSchema.optional(),
     metric: RecordedRecordMetricSchema.default('teamPoints'),
   })
   .strict();
 export const RecordedRecordsResponseSchema = z
   .object({
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     metric: RecordedRecordMetricSchema,
     team: CanonicalTeamIdSchema.nullable(),
     value: z.number().nonnegative().nullable(),

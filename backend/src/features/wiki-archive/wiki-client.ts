@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { NbaStatsCache } from '../players/nba-stats/nba-stats-cache.js';
+import { RECORDED_SEASONS, seasonFacts } from './seasons.js';
 import { staticTeamDirectoryProvider } from '../teams/team-directory-provider.js';
 export class ArchiveSourceError extends Error {
   constructor(readonly kind: 'invalid' | 'unavailable' | 'timeout') {
@@ -33,17 +34,20 @@ export class WikiArchiveClient {
       | '2023–24 NBA season'
       | '2024 NBA playoffs'
       | '2023 NBA draft'
-      | `2023–24 ${string} season`,
+      | `2023–24 ${string} season`
+      | `2022–23 ${string} season`,
   ): Promise<WikiPage> {
     return this.cache.getOrLoad(
       title,
       async () => {
+        const teams = await staticTeamDirectoryProvider.listTeams();
         const allowed = [
           '2023–24 NBA season',
+          '2022–23 NBA season',
           '2024 NBA playoffs',
           '2023 NBA draft',
-          ...(await staticTeamDirectoryProvider.listTeams()).map(
-            (t) => `2023–24 ${t.name} season`,
+          ...RECORDED_SEASONS.flatMap((season) =>
+            teams.map((t) => `${seasonFacts(season).label} ${t.name} season`),
           ),
         ];
         if (!allowed.includes(title)) throw new ArchiveSourceError('invalid');

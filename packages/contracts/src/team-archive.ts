@@ -61,7 +61,7 @@ export const ArchiveParticipantStatsSchema = z
   .refine((r) => r.gamesStarted === null || r.gamesStarted <= r.gamesPlayed);
 export const ArchiveTeamResultSchema = z
   .object({
-    sourceId: z.string().regex(/^00223\d{5}$/),
+    sourceId: z.string().regex(/^002(?:22|23)\d{5}$/),
     date: GameDateSchema,
     opponent: DirectoryTeamSchema,
     location: z.enum(['home', 'away']),
@@ -73,7 +73,7 @@ export const ArchiveTeamResultSchema = z
     recapUrl: z
       .string()
       .regex(
-        /^https:\/\/www\.nba\.com\/game\/(?:[a-z0-9-]*-)?00223\d{5}(?:\/box-score)?$/,
+        /^https:\/\/www\.nba\.com\/game\/(?:[a-z0-9-]*-)?002(?:22|23)\d{5}(?:\/box-score)?$/,
       ),
   })
   .strict()

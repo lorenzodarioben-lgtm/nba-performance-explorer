@@ -5,7 +5,7 @@ import {
   RecordedRecordMetricSchema,
 } from './recorded-archive.js';
 import { GameDateSchema } from './player-game-log.js';
-import { ArchiveSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
+import { RecordedSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
 import { CanonicalTeamIdSchema } from './team-directory.js';
 import { DataProvenanceSchema } from './research.js';
 const date = GameDateSchema.refine((d) => d >= '2023-10-01' && d <= '2024-06-30');
@@ -24,7 +24,7 @@ export const RecordedProgressionQuerySchema = RecordedRecordsQuerySchema.extend(
 export type RecordedProgressionQuery = z.infer<typeof RecordedProgressionQuerySchema>;
 export const RecordedProgressionResponseSchema = z
   .object({
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     metric: RecordedRecordMetricSchema,
     team: CanonicalTeamIdSchema.nullable(),
     from: date,

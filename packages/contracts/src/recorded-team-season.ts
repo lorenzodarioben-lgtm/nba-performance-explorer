@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { CanonicalTeamIdSchema, DirectoryTeamSchema } from './team-directory.js';
-import { ArchiveSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
+import { RecordedSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
 import { DataProvenanceSchema } from './research.js';
 import { GameDateSchema } from './player-game-log.js';
 
@@ -9,7 +9,7 @@ import { GameDateSchema } from './player-game-log.js';
 
 export const RecordedTeamSeasonQuerySchema = z
   .object({
-    season: ArchiveSeasonSchema.default('2023-24'),
+    season: RecordedSeasonSchema.default('2023-24'),
     team: CanonicalTeamIdSchema,
   })
   .strict();
@@ -22,7 +22,7 @@ const count = z.number().int().min(0).max(82);
 export const TeamSeasonGameSchema = z
   .object({
     gameNumber: z.number().int().min(1).max(82),
-    id: z.string().regex(/^nba:00223\d{5}$/),
+    id: z.string().regex(/^nba:002(?:22|23)\d{5}$/),
     date: GameDateSchema,
     opponent: DirectoryTeamSchema,
     opponentConference: Conference,
@@ -126,7 +126,7 @@ export const TeamSeasonMarginBinSchema = z
 
 export const RecordedTeamSeasonResponseSchema = z
   .object({
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     scope: z.literal('regular-season'),
     officialStandings: z.literal(false),
     team: DirectoryTeamSchema,
@@ -156,7 +156,7 @@ export type RecordedTeamSeasonResponse = z.infer<
 
 export const RecordedStandingsRaceQuerySchema = z
   .object({
-    season: ArchiveSeasonSchema.default('2023-24'),
+    season: RecordedSeasonSchema.default('2023-24'),
     conference: Conference.optional(),
   })
   .strict();
@@ -179,7 +179,7 @@ export const StandingsRaceTeamSchema = z
 
 export const RecordedStandingsRaceResponseSchema = z
   .object({
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     scope: z.literal('regular-season'),
     officialStandings: z.literal(false),
     conference: Conference.nullable(),

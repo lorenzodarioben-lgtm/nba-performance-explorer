@@ -5,7 +5,7 @@ import {
   VerifiedRecordedGameSchema,
 } from './recorded-archive.js';
 import { ResearchPlayerIdSchema, DataProvenanceSchema } from './research.js';
-import { WikiAttributionSchema, ArchiveSeasonSchema } from './wiki-archive.js';
+import { WikiAttributionSchema, RecordedSeasonSchema } from './wiki-archive.js';
 import { DistributionSchema } from './recorded-analytics.js';
 import { CanonicalTeamIdSchema } from './team-directory.js';
 import { GameDateSchema } from './player-game-log.js';
@@ -51,7 +51,7 @@ const base = z
   .strict();
 export const RecordedDiscoveryResponseSchema = z
   .object({
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     scope: z.enum(['regular-season', 'playoffs']),
     mode: z.enum(['neighbors', 'thresholds']),
     x: ArchiveRankingMetricSchema,
@@ -93,7 +93,7 @@ export const MonthDaySchema = z
   .refine((day) => GameDateSchema.safeParse(`2000-${day}`).success);
 export const RecordedCalendarQuerySchema = z
   .object({
-    season: ArchiveSeasonSchema.default('2023-24'),
+    season: RecordedSeasonSchema.default('2023-24'),
     day: MonthDaySchema,
     team: CanonicalTeamIdSchema.optional(),
   })
@@ -101,7 +101,7 @@ export const RecordedCalendarQuerySchema = z
 export type RecordedCalendarQuery = z.infer<typeof RecordedCalendarQuerySchema>;
 export const RecordedCalendarResponseSchema = z
   .object({
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     day: MonthDaySchema,
     team: CanonicalTeamIdSchema.nullable(),
     games: z.array(VerifiedRecordedGameSchema).max(30),

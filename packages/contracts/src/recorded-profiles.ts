@@ -1,3 +1,4 @@
+import { RecordedSeasonSchema } from './wiki-archive.js';
 import { z } from 'zod';
 import { ArchiveRankingQuerySchema } from './recorded-archive.js';
 import { DataProvenanceSchema, ResearchPlayerIdSchema } from './research.js';
@@ -57,7 +58,7 @@ const category = z
   .strict();
 export const RecordedProfilesResponseSchema = z
   .object({
-    season: z.literal('2023-24'),
+    season: RecordedSeasonSchema,
     scope: z.enum(['regular-season', 'playoffs']),
     minGames: z.number().int().positive(),
     population: z.number().int().min(0).max(650),

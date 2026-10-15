@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { ArchiveParticipantStatsSchema } from './team-archive.js';
 import { DirectoryTeamSchema } from './team-directory.js';
-import { ArchiveSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
+import { RecordedSeasonSchema, WikiAttributionSchema } from './wiki-archive.js';
 import { DataProvenanceSchema, ResearchPlayerIdSchema } from './research.js';
 import { ProfileMetricSchema } from './recorded-profiles.js';
 
@@ -10,7 +10,7 @@ import { ProfileMetricSchema } from './recorded-profiles.js';
 
 export const RecordedPlayerSeasonQuerySchema = z
   .object({
-    season: ArchiveSeasonSchema.default('2023-24'),
+    season: RecordedSeasonSchema.default('2023-24'),
     player: ResearchPlayerIdSchema,
     minGames: z
       .string()
@@ -34,7 +34,7 @@ const Category = z
 
 export const RecordedPlayerSeasonResponseSchema = z
   .object({
-    season: ArchiveSeasonSchema,
+    season: RecordedSeasonSchema,
     scope: z.literal('regular-season'),
     playerId: ResearchPlayerIdSchema,
     /** Null when no team page lists this NBA identity. */
