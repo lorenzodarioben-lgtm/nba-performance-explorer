@@ -87,12 +87,46 @@ export function expandedRows(table: HtmlElement) {
     return result;
   });
 }
+/** The article title an internal Wikipedia link points to, in any form the parse API emits. */
+function articleTitle(element: HtmlElement): string | null {
+  const href = attribute(element, 'href');
+  if (!href) return null;
+  // Legacy parser output: "/wiki/Title" (percent-encoded). Parsoid output (2026): absolute
+  // "https://en.wikipedia.org/wiki/Title" or "./Title" with rel="mw:WikiLink", unencoded.
+  const raw =
+    /^\/wiki\/(.+)$/.exec(href)?.[1] ??
+    /^https:\/\/en\.wikipedia\.org\/wiki\/(.+)$/.exec(href)?.[1] ??
+    (attribute(element, 'rel')?.split(/\s+/).includes('mw:WikiLink')
+      ? /^\.\/(.+)$/.exec(href)?.[1]
+      : undefined);
+  if (!raw) return null;
+  try {
+    return decodeURIComponent(raw);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The first internal article link in a cell, as a canonical URL in MediaWiki's own encoding
+ * (non-ASCII and apostrophes percent-encoded; parentheses and commas literal), so links read
+ * from either parser output compare equal to identities stored from earlier snapshots.
+ * Namespaced pages (File:, Category:), fragments and queries are not article links.
+ */
 export function wikiLink(cell: HtmlNode): string | null {
-  const href = walk(cell).find(
-    (n) =>
-      isElement(n) && n.tagName === 'a' && attribute(n, 'href')?.startsWith('/wiki/'),
-  );
-  const value = href && attribute(href, 'href');
-  if (!value || !/^\/wiki\/[\w%()',.-]+$/.test(value)) return null;
-  return `https://en.wikipedia.org${value}`;
+  for (const n of walk(cell)) {
+    if (!isElement(n) || n.tagName !== 'a') continue;
+    const title = articleTitle(n);
+    if (title === null) continue;
+    // Same rule as the legacy pattern: no namespaces, fragments, queries or subpages.
+    if (/[:#?/]/.test(title)) return null;
+    const encoded = encodeURIComponent(title)
+      .replace(/'/g, '%27')
+      .replace(/%2C/g, ',')
+      .replace(/%28/g, '(')
+      .replace(/%29/g, ')');
+    if (!/^[\w%()',.-]+$/.test(encoded)) return null;
+    return `https://en.wikipedia.org/wiki/${encoded}`;
+  }
+  return null;
 }

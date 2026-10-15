@@ -55,6 +55,30 @@ describe('licensed draft class identity and source scope', () => {
     );
     expect(d.selections.filter((p) => p.round === 1)).toHaveLength(30);
   });
+  it('reads the 2026 Parsoid output: absolute links and an empty row change nothing', async () => {
+    const teams = await staticTeamDirectoryProvider.listTeams();
+    const legacy = mapDraftArchive(page, teams);
+    const parsoid = mapDraftArchive(
+      {
+        ...page,
+        html: page.html
+          .replaceAll(
+            'href="/wiki/',
+            'rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/',
+          )
+          .replace(header, `${header}<tr></tr>`),
+      },
+      teams,
+    );
+    expect(parsoid).toEqual(legacy);
+    // A row with cells of the wrong shape is still rejected.
+    expect(() =>
+      mapDraftArchive(
+        { ...page, html: page.html.replace(header, `${header}<tr><td>1</td></tr>`) },
+        teams,
+      ),
+    ).toThrow(ArchiveSourceError);
+  });
   it('rejects duplicate/invalid picks, unknown listed teams, duplicate people and wrong table shapes', async () => {
     const teams = await staticTeamDirectoryProvider.listTeams();
     for (const html of [

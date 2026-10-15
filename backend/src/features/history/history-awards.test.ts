@@ -27,6 +27,19 @@ describe('licensed source-listed yearly awards', () => {
     expect(awards[2]).toMatchObject({ recipientUnavailable: true, recipients: [] });
     expect(JSON.stringify(awards)).not.toContain('Fixture Finalist');
   });
+  it('reads the 2026 Parsoid output (absolute links) exactly like the legacy output', async () => {
+    const teams = await staticTeamDirectoryProvider.listTeams();
+    const parsoid = {
+      ...page,
+      html: page.html.replaceAll(
+        'href="/wiki/',
+        'rel="mw:WikiLink" href="https://en.wikipedia.org/wiki/',
+      ),
+    };
+    expect(mapHistoricalAwards(parsoid, teams)).toEqual(
+      mapHistoricalAwards(page, teams),
+    );
+  });
   it('rejects duplicate/malformed winner tables, unsafe links and unknown affiliations', async () => {
     const teams = await staticTeamDirectoryProvider.listTeams();
     for (const bad of [

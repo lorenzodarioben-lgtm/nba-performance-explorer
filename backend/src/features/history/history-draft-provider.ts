@@ -45,6 +45,8 @@ export function mapDraftArchive(page: WikiPage, teams: readonly DirectoryTeam[])
     return found;
   };
   for (const cells of expandedRows(tables[0]!).slice(1)) {
+    // Parsoid output can include an empty <tr>; a row without cells carries no data.
+    if (!cells.length) continue;
     if (cells.length !== 7) throw new ArchiveSourceError('invalid');
     const round = text(cells[0]!),
       pick = text(cells[1]!);
