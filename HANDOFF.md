@@ -18,31 +18,35 @@
 
 ## Completed in 3.0
 
-| Stage | Scope                                                                       | Commit    |
-| ----- | --------------------------------------------------------------------------- | --------- |
-| 0     | 16 → 0 npm audit findings (in-range updates); Windows module-case self-test | `fd2d2c0` |
-| 1     | Team season intelligence (`/teams/:id/season`) and the standings race       | `a9c6d0b` |
-| 2     | 2024 playoff bracket and series explorer (`/games/bracket`)                 | `7e8e2cb` |
-| 3     | Shot Studio: distance profiles, clickable zones, zone strip, saved views    | `46e5e67` |
-| 4     | Player hub "2023–24" room (`/players/:id/archive`) with similar seasons     | `dd29902` |
-| 5     | Search reaches archive players and new rooms; My NBA research board + notes | `0526b32` |
-| 6–7   | e2e on new routes (2 a11y defects fixed); 2023–24 season research hub       | `5845b23` |
+Session one (`fd2d2c0` … `b96e4d4`): security (16 → 0 audit findings), team season intelligence,
+standings race (three views), 2024 bracket with published seeds and series context on game
+pages, Shot Studio distance/zone/efficiency/saved views, player hub "2023–24" room with similar
+seasons, two-team duel, search over archive players, My NBA research board with notes, Formula
+lab, 2023–24 season hub, team wall records and the homepage "New in the film room" band.
 
-New APIs: `GET /api/recorded/team-season?team=`, `GET /api/recorded/standings-race?conference=`,
-`GET /api/games/bracket`, `GET /api/recorded/player-season?player=&minGames=`. Shot groups gained
-`meanDistanceFeet` and `distances`; research bookmarks gained an optional `note` (schema stays
-version 1). All derivations live in backend domain modules with unit tests; the UI presents them.
+Session two (in progress):
+
+| Commit    | Scope                                                                          |
+| --------- | ------------------------------------------------------------------------------ |
+| `a1c672b` | Efficiency view recoloured by points per attempt (FG% misled on threes); tests |
+| `e8cd484` | e2e covers the efficiency view; full run 142 passed, 0 failed                  |
+| `c3e241c` | 2022-23 audited and **not ingested** (10/30 clean pages); season-aware parser  |
+| `c8a1b99` | Research Workbench `/lab/workbench` (players/teams, rank/distribution/relate)  |
+
+\* see `git log` for the exact e2e commit hash.
+
+New APIs this session: `GET /api/recorded/workbench`. Contract changes: density cells gain
+`pointsPerAttempt`; recorded contracts use `RecordedSeasonSchema` (still `['2023-24']`).
 
 ## Verified state
 
-- `npm run validate` exit 0: 382 frontend and 432 backend tests (2.0 baseline 347/413), lint 0
-  errors (13 pre-existing react-refresh warnings), typecheck, builds and module-case check pass.
-- `npm run e2e`: 133 passed, 0 failed (2.0: 118) — smoke on desktop and phone plus axe scans for
-  every route, including the five 3.0 routes.
-- `npm audit`: 0 vulnerabilities (full tree and production-only).
-- Bundle: initial JS 197.2 kB gzip (2.0: 196.5 kB); CSS 26.8 kB (2.0: 23.7 kB); new pages are
-  lazy chunks of 3.5–5.6 kB gzip.
-- Visual checks at 1280 and 390 px for every new page; details and fixes in the log.
+- `npm run validate` exit 0 at `c8a1b99`: 402 frontend and 443 backend tests, lint 0 errors
+  (13 pre-existing react-refresh warnings), typecheck, builds and module-case check pass.
+- `npm run e2e` full run (before the workbench): 142 passed, 0 failed, 48 skipped by design.
+  Workbench, Shot Studio and Formula lab routes re-run afterwards: 17 passed.
+- Workbench interactions verified in a real browser (bin filter, row pick, brush, point pick,
+  390 px layout, no console errors).
+- `npm audit`: 0 vulnerabilities (no dependency changes this session).
 
 ## Constraints and data notes
 
@@ -62,10 +66,11 @@ version 1). All derivations live in backend domain modules with unit tests; the 
 
 ## Next actions (in order)
 
-1. Shot Studio efficiency view (last commit): add a frontend test for qualified vs dashed cells and
-   run the e2e suite (`npm run e2e`); it was typechecked and validated but not screenshot-checked.
-2. Re-run the full e2e and record the count in the verification log (last full run: 133/133).
-3. Optional: second recorded season (see `docs/expansion3/SOURCE_NOTES.md`).
+1. Player comparison studio: extend `/lab/profiles`-style cohort comparisons with a shared-scale
+   gap board and deterministic comparison summaries.
+2. Shot Studio court-region selection (select a region, list its attempts, export, save).
+3. Playoff series film room and a statistical story builder; My NBA collections.
+4. Re-run the full `npm run e2e` and update this file and the verification log.
 
 Continuation: `git checkout claude/nba-explorer-3-expansion && npm ci && npm run validate`.
 For live checks run the backend on 3001 (`PORT=3001 npm run dev:backend`) and the frontend with
