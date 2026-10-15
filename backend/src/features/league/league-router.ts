@@ -87,6 +87,17 @@ export function createLeagueRouter(
     return respond(res, () => service!.seasons());
   });
   router.all('/seasons', methodNotAllowedHandler);
+  router.get('/standings/current', (req, res) => {
+    if (Object.keys(req.query).length)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_LEAGUE_STANDINGS',
+        'This endpoint takes no parameters.',
+      );
+    return respondAsync(res, () => games!.currentStandings());
+  });
+  router.all('/standings/current', methodNotAllowedHandler);
   router.get('/standings', (req, res) => {
     const q = LeagueStandingsQuerySchema.safeParse(req.query);
     if (!q.success || repeated(req.query))

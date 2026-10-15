@@ -9,6 +9,7 @@ import {
   LeaguePlayByPlayResponseSchema,
   LeagueStatusResponseSchema,
   LeagueSnapshotResponseSchema,
+  LeagueStandingsResponseSchema,
   type LeagueCalendarResponse,
   type LeagueGameDetailResponse,
   type LeagueGameStatus,
@@ -18,6 +19,7 @@ import {
   type LeagueProvenance,
   type LeagueStatusResponse,
   type LeagueSnapshotResponse,
+  type LeagueStandingsResponse,
   type LeagueTeamRef,
 } from '@nba-performance-explorer/contracts';
 import { LINE_FIELDS, type Line } from './league-data.js';
@@ -387,6 +389,7 @@ export class LeagueGames {
       games: games.slice(0, 40),
       previousDate,
       nextDate,
+      performers: this.performers(date, games),
       coverage,
       provenance: this.liveProvenance(
         fromLive.length
@@ -395,6 +398,101 @@ export class LeagueGames {
             : current!.schedule
           : null,
         coverage,
+      ),
+    });
+  }
+
+  /** NBA.com's live standings for the season its current schedule covers. */
+  async currentStandings(): Promise<LeagueStandingsResponse> {
+    const current = await this.current();
+    if (!current || !this.live)
+      throw new LeagueRequestError(
+        404,
+        'LEAGUE_LIVE_UNAVAILABLE',
+        'NBA.com’s current schedule could not be reached, so the current season is unknown.',
+      );
+    let result: LiveResult<unknown>;
+    try {
+      result = await this.live.standings(current.season);
+    } catch {
+      throw new LeagueRequestError(
+        404,
+        'LEAGUE_LIVE_UNAVAILABLE',
+        `NBA.com’s ${current.season} standings could not be reached.`,
+      );
+    }
+    const set = (
+      result.value as { resultSets?: { headers: string[]; rowSet: unknown[][] }[] }
+    ).resultSets?.[0];
+    const rows = (set?.rowSet ?? []).map((r) =>
+      Object.fromEntries(set!.headers.map((h, i) => [h, r[i]])),
+    );
+    if (!rows.length)
+      throw new LeagueRequestError(
+        404,
+        'LEAGUE_LIVE_UNAVAILABLE',
+        `NBA.com publishes no ${current.season} standings yet.`,
+      );
+    const latest = this.league.archive.summary(this.league.archive.seasons.at(-1)!);
+    const num = (v: unknown) => (typeof v === 'number' ? v : null);
+    const played = rows.some((r) => (num(r.WINS) ?? 0) + (num(r.LOSSES) ?? 0) > 0);
+    const conferences = (['East', 'West'] as const).map((conference) => ({
+      conference,
+      rows: rows
+        .filter((r) => r.Conference === conference)
+        .map((r) => {
+          const id = Number(r.TeamID);
+          const w = num(r.WINS) ?? 0,
+            l = num(r.LOSSES) ?? 0;
+          return {
+            rank: num(r.PlayoffRank) ?? 1,
+            team: {
+              id: `nba:${id}`,
+              abbreviation:
+                latest.teams.find((t) => t.teamId === id)?.abbreviation ?? 'UNK',
+              name: `${String(r.TeamCity ?? '')} ${String(r.TeamName ?? '')}`
+                .trim()
+                .slice(0, 60),
+            },
+            wins: w,
+            losses: l,
+            winPercentage: w + l ? w / (w + l) : 0,
+            gamesBehind: num(r.ConferenceGamesBack) ?? 0,
+            division: r.Division ? String(r.Division).slice(0, 40) : null,
+            home: r.HOME ? String(r.HOME).trim().slice(0, 10) : null,
+            road: r.ROAD ? String(r.ROAD).trim().slice(0, 10) : null,
+            lastTen: r.L10 ? String(r.L10).trim().slice(0, 10) : null,
+            streak: r.strCurrentStreak
+              ? String(r.strCurrentStreak).trim().slice(0, 10) || null
+              : null,
+            clinch: r.ClinchIndicator
+              ? String(r.ClinchIndicator).replace(/^-\s*/, '').trim().slice(0, 10) ||
+                null
+              : null,
+          };
+        })
+        .sort((a, b) =>
+          played ? a.rank - b.rank : a.team.name.localeCompare(b.team.name),
+        ),
+    }));
+    return LeagueStandingsResponseSchema.parse({
+      season: current.season,
+      basis: 'published',
+      conferences: played
+        ? conferences
+        : conferences.map((c) => ({
+            ...c,
+            rows: c.rows.map((r, i) => ({ ...r, rank: i + 1 })),
+          })),
+      resultsAgreement: null,
+      provenance: this.liveProvenance(
+        result,
+        `NBA.com’s live ${current.season} standings table.`,
+        played
+          ? []
+          : [
+              `No ${current.season} regular-season game has been played, so every team is 0–0; teams are listed alphabetically instead of by NBA.com’s placeholder ranks.`,
+            ],
       ),
     });
   }
@@ -493,6 +591,57 @@ export class LeagueGames {
         current?.schedule ?? null,
         `Leaders and standings: ${season} regular season, final as of ${asOf} (archived NBA.com data).${current ? ` Recent and upcoming games: NBA.com’s live ${current.season} schedule.` : ' The live schedule could not be reached, so no recent or upcoming games are shown.'}`,
       ),
+    });
+  }
+
+  /** The day's leading box-score marks from archived lines; the top three per category with ties. */
+  private performers(date: string, games: LeagueGameSummary[]) {
+    const archive = this.league.archive;
+    const ids = new Set(
+      games
+        .filter((g) => g.source === 'archive' && g.status === 'final')
+        .map((g) => g.id.slice(4)),
+    );
+    if (!ids.size) return [];
+    const lines = seasonOfDate(date)
+      .filter((s) => archive.has(s))
+      .flatMap((s) =>
+        [
+          ...archive.playerLines(s, 'regular-season'),
+          ...archive.playerLines(s, 'playoffs'),
+        ].map((l) => ({ l, s })),
+      )
+      .filter(({ l }) => l.date === date && ids.has(l.gameId));
+    return (
+      [
+        ['pts', 'Points'],
+        ['reb', 'Rebounds'],
+        ['ast', 'Assists'],
+      ] as const
+    ).map(([key, label]) => {
+      const rows = lines
+        .map(({ l, s }) => ({ l, s, v: l.line[LINE_FIELDS.indexOf(key)] ?? null }))
+        .filter(
+          (x): x is { l: (typeof lines)[number]['l']; s: string; v: number } =>
+            x.v !== null,
+        )
+        .sort((a, b) => b.v - a.v);
+      const third = rows[2]?.v;
+      return {
+        key,
+        label,
+        rows: rows
+          .filter((x) => third === undefined || x.v >= third)
+          .slice(0, 12)
+          .map(({ l, s, v }) => ({
+            playerId: String(l.playerId),
+            name: this.league.name(archive.summary(s), l.playerId),
+            team: this.teamRef(s, l.teamId).abbreviation,
+            opponent: this.teamRef(s, l.opponentId).abbreviation,
+            gameId: `nba:${l.gameId}`,
+            value: v,
+          })),
+      };
     });
   }
 
@@ -843,12 +992,15 @@ export class LeagueGames {
 }
 
 const FRESHNESS: Record<string, number> = {
+  standings: 3600,
   schedule: 24 * 3600,
   scoreboard: 120,
-  boxscore: 120,
-  playbyplay: 120,
+  // Requested per game: an answer within the hour shows the source is reachable now.
+  boxscore: 3600,
+  playbyplay: 3600,
 };
 const LIVE_NAMES: Record<string, string> = {
+  standings: 'NBA.com current standings (stats.nba.com)',
   schedule: 'NBA.com season schedule (cdn.nba.com)',
   scoreboard: 'NBA.com today’s scoreboard (cdn.nba.com)',
   boxscore: 'NBA.com box scores (cdn.nba.com, stats.nba.com)',
@@ -881,7 +1033,13 @@ export async function leagueStatus(
       note: `${archive.seasons.length} seasons (${archive.seasons[0]} to ${archive.seasons.at(-1)}), retrieved ${retrieved[0]?.slice(0, 10)} to ${retrieved.at(-1)?.slice(0, 10)}. Final results do not change; NBA.com may still restate individual statistics.`,
     },
   ];
-  for (const id of ['schedule', 'scoreboard', 'boxscore', 'playbyplay'] as const) {
+  for (const id of [
+    'schedule',
+    'scoreboard',
+    'standings',
+    'boxscore',
+    'playbyplay',
+  ] as const) {
     const st = live?.status.get(id);
     const ok = st?.lastSuccessAt ? Date.parse(st.lastSuccessAt) : null;
     const bad = st?.lastFailureAt ? Date.parse(st.lastFailureAt) : null;
@@ -904,9 +1062,11 @@ export async function leagueStatus(
       freshnessSeconds: FRESHNESS[id]!,
       note: !live
         ? 'This server does not contact NBA.com live sources.'
-        : id === 'boxscore' || id === 'playbyplay'
-          ? 'Requested when a game page opens; finals are kept for a day, live games for 20 seconds.'
-          : `Checked when this status was requested; reused for ${st?.cacheSeconds ?? 0} seconds.`,
+        : id === 'standings'
+          ? 'Requested when the current season’s standings open; reused for 5 minutes. Current means it answered within the hour.'
+          : id === 'boxscore' || id === 'playbyplay'
+            ? 'Requested when a game page opens; finals are kept for a day, live games for 20 seconds. Current means it answered within the hour.'
+            : `Checked when this status was requested; reused for ${st?.cacheSeconds ?? 0} seconds.`,
     });
   }
   return LeagueStatusResponseSchema.parse({

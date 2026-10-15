@@ -88,6 +88,22 @@ const day: LeagueGamesResponse = {
   ],
   previousDate: '2026-10-15',
   nextDate: '2026-10-21',
+  performers: [
+    {
+      key: 'pts',
+      label: 'Points',
+      rows: [
+        {
+          playerId: '1628369',
+          name: 'Fixture Star',
+          team: 'BOS',
+          opponent: 'PHI',
+          gameId: 'nba:0022500900',
+          value: 41,
+        },
+      ],
+    },
+  ],
   coverage: 'NBA.com’s live 2026-27 schedule and today’s scoreboard.',
   provenance,
 };
@@ -312,6 +328,12 @@ describe('scoreboard and game pages', () => {
       screen.getByRole('link', { name: /Scheduled · time to be decided/ }),
     ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Final · 2OT/ })).toBeInTheDocument();
+    const top = screen.getByRole('region', { name: 'Top performances' });
+    expect(within(top).getByRole('link', { name: 'Fixture Star' })).toHaveAttribute(
+      'href',
+      '/players/1628369',
+    );
+    expect(top).toHaveTextContent('41');
     expect(
       await screen.findByRole('button', { name: /Oct 20, 2026: 4 games/ }),
     ).toHaveAttribute('aria-pressed', 'true');

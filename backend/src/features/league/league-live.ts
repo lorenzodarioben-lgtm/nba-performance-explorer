@@ -17,7 +17,12 @@ const HEADERS: Readonly<Record<string, string>> = {
   Origin: 'https://www.nba.com',
 };
 
-export type LiveSourceId = 'schedule' | 'scoreboard' | 'boxscore' | 'playbyplay';
+export type LiveSourceId =
+  | 'schedule'
+  | 'scoreboard'
+  | 'boxscore'
+  | 'playbyplay'
+  | 'standings';
 export interface LiveSourceStatus {
   id: LiveSourceId;
   lastSuccessAt: string | null;
@@ -62,6 +67,7 @@ export class NbaLiveClient {
       ['scoreboard', 20],
       ['boxscore', 20],
       ['playbyplay', 20],
+      ['standings', 300],
     ] as const)
       this.status.set(id, {
         id,
@@ -245,6 +251,18 @@ export class NbaLiveClient {
       StartPeriod: '0',
     }).toString();
     return this.get<unknown>('playbyplay', `pbp3:${gameId}`, url, () => 86_400);
+  }
+
+  /** NBA.com Stats standings table for one season (used for the current season). */
+  standings(season: string) {
+    if (!/^\d{4}-\d{2}$/.test(season)) throw providerInvalidResponse('Invalid season.');
+    const url = new URL('https://stats.nba.com/stats/leaguestandingsv3');
+    url.search = new URLSearchParams({
+      LeagueID: '00',
+      Season: season,
+      SeasonType: 'Regular Season',
+    }).toString();
+    return this.get<unknown>('standings', `standings:${season}`, url, () => 300);
   }
 
   /** NBA.com Stats traditional box score (v3), with starters and did-not-play notes. */

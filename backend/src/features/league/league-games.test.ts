@@ -133,6 +133,80 @@ const scoreboard = {
     ],
   },
 };
+/** NBA.com's standings table before any regular-season game: every team 0-0. */
+const standingsFixture = {
+  resultSets: [
+    {
+      name: 'Standings',
+      headers: [
+        'TeamID',
+        'TeamCity',
+        'TeamName',
+        'Conference',
+        'PlayoffRank',
+        'Division',
+        'WINS',
+        'LOSSES',
+        'HOME',
+        'ROAD',
+        'L10',
+        'strCurrentStreak',
+        'ConferenceGamesBack',
+        'ClinchIndicator',
+      ],
+      rowSet: [
+        [
+          1610612752,
+          'New York',
+          'Knicks',
+          'East',
+          1,
+          'Atlantic',
+          0,
+          0,
+          '0-0',
+          '0-0',
+          '0-0',
+          '',
+          0,
+          '',
+        ],
+        [
+          1610612737,
+          'Atlanta',
+          'Hawks',
+          'East',
+          2,
+          'Southeast',
+          0,
+          0,
+          '0-0',
+          '0-0',
+          '0-0',
+          '',
+          0,
+          '',
+        ],
+        [
+          1610612760,
+          'Oklahoma City',
+          'Thunder',
+          'West',
+          1,
+          'Northwest',
+          0,
+          0,
+          '0-0',
+          '0-0',
+          '0-0',
+          '',
+          0,
+          '',
+        ],
+      ],
+    },
+  ],
+};
 function liveClient(online = true) {
   const calls: string[] = [];
   const fetchImpl = (async (input: URL | RequestInfo) => {
@@ -147,7 +221,9 @@ function liveClient(online = true) {
           ? fixture.box
           : url.endsWith('playbyplay_0022401229.json')
             ? fixture.pbp
-            : null;
+            : url.includes('leaguestandingsv3')
+              ? standingsFixture
+              : null;
     if (!body) return new Response('<html>Access Denied</html>', { status: 403 });
     return new Response(JSON.stringify(body), {
       status: 200,
@@ -295,6 +371,38 @@ describe('game detail and play-by-play', () => {
     // An old archived game whose events NBA.com does not serve here.
     await expect(games.playByPlay('nba:0021700001')).rejects.toThrow(
       /could not be reached or is not published/,
+    );
+  });
+});
+
+describe('daily performers and current standings', () => {
+  it('lists the day’s leading box-score marks from archived lines, ties included', async () => {
+    const { live } = liveClient(false);
+    const day = await new LeagueGames(service, live).games('2024-12-14', undefined);
+    const points = day.performers.find((p) => p.key === 'pts')!;
+    const lines = service.archive
+      .playerLines('2024-25', 'regular-season')
+      .filter((l) => l.date === '2024-12-14');
+    const best = Math.max(...lines.map((l) => l.line[15] ?? 0));
+    expect(points.rows[0]!.value).toBe(best);
+    expect(points.rows.length).toBeGreaterThanOrEqual(3);
+    const third = points.rows[2]!.value;
+    expect(points.rows.every((r) => r.value >= third)).toBe(true);
+  });
+
+  it('serves NBA.com’s live table for the current season and hides placeholder ranks before games', async () => {
+    const { live } = liveClient();
+    const table = await new LeagueGames(service, live).currentStandings();
+    expect(table.season).toBe('2026-27');
+    expect(table.provenance.mode).toBe('live');
+    expect(table.conferences[0]!.rows.map((r) => r.team.name)).toEqual([
+      'Atlanta Hawks',
+      'New York Knicks',
+    ]);
+    expect(table.provenance.warnings.join(' ')).toMatch(/listed alphabetically/);
+    const { live: offline } = liveClient(false);
+    await expect(new LeagueGames(service, offline).currentStandings()).rejects.toThrow(
+      /could not be reached/,
     );
   });
 });

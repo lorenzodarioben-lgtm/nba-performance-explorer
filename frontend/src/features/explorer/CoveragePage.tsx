@@ -10,6 +10,7 @@ import {
 
 import { fetchResearch } from '../research/api';
 import { QueryFeedback, ResearchShell, ResearchTable } from '../research/ResearchShell';
+import { LeagueCoverageSections } from '../league/LeagueCoverageSections';
 import { PlayerCombobox } from '../player-search/PlayerCombobox';
 import { Slate } from '../../ui/Slate';
 
@@ -136,6 +137,7 @@ export function CoveragePage() {
           </section>
         </>
       ) : null}
+      <LeagueCoverageSections />
       <PlayerSeasonFields />
       <section className="pmod" aria-labelledby="cov-never">
         <Slate id="cov-never" title="Not available from any source here" />

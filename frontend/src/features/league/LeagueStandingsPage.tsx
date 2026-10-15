@@ -20,7 +20,8 @@ import { LeagueFeedback, LeagueSourceNote } from './LeagueSourceNote';
 
 const QuerySchema = z
   .object({
-    season: LeagueSeasonLabelSchema.optional(),
+    /** A season label, or current: NBA.com's live table for the season under way. */
+    season: z.union([LeagueSeasonLabelSchema, z.literal('current')]).optional(),
     conference: z.enum(['East', 'West']).optional(),
     sort: z.enum(['rank', 'wins', 'losses', 'winPercentage']).default('rank'),
   })
@@ -39,13 +40,15 @@ export function LeagueStandingsPage() {
     queryKey: ['league', 'standings', season],
     queryFn: ({ signal }) =>
       fetchLeague(
-        `/api/league/standings?season=${season}`,
+        season === 'current'
+          ? '/api/league/standings/current'
+          : `/api/league/standings?season=${season}`,
         signal,
         LeagueStandingsResponseSchema.parse,
       ),
     enabled: valid && Boolean(season),
     retry: false,
-    staleTime: 60 * 60_000,
+    staleTime: season === 'current' ? 60_000 : 60 * 60_000,
     refetchOnWindowFocus: false,
   });
   const update = (key: string, value: string) => {
@@ -60,6 +63,8 @@ export function LeagueStandingsPage() {
       c.rows.map((r) => ({ ...r, conference: c.conference })),
     ) ?? [];
   const shown = rows.filter((r) => !q.conference || r.conference === q.conference);
+  // Before any game, NBA.com's ranks are placeholders: no rank or ladder is shown.
+  const noGames = rows.length > 0 && rows.every((r) => r.wins + r.losses === 0);
   const path = `/standings${params.size ? `?${params}` : ''}`;
   return (
     <ResearchShell
@@ -67,8 +72,8 @@ export function LeagueStandingsPage() {
       lede={
         <p>
           East and West standings for every archived NBA season, from NBA.com’s
-          published tables and checked against every paired game result. Pick a season;
-          nothing here is live.
+          published tables and checked against every paired game result, plus NBA.com’s
+          live table for the season under way.
         </p>
       }
     >
@@ -98,6 +103,7 @@ export function LeagueStandingsPage() {
             onChange={(e) => update('season', e.target.value)}
             disabled={!seasons.data}
           >
+            <option value="current">Current season (live from NBA.com)</option>
             {newestFirst(seasons.data?.seasons ?? []).map((s) => (
               <option key={s.season} value={s.season}>
                 {seasonDisplay(s.season)}
@@ -142,7 +148,7 @@ export function LeagueStandingsPage() {
               ? `${data.resultsAgreement.agreeing} of ${data.resultsAgreement.teams} teams’ published W–L match the archived game results.`
               : null}
           </p>
-          {data.basis === 'published' ? (
+          {data.basis === 'published' && !noGames ? (
             <ConferenceLadders
               standings={rows.filter(
                 (r): r is typeof r & { conference: 'East' | 'West' } =>
@@ -195,7 +201,7 @@ export function LeagueStandingsPage() {
                   .map((r) => (
                     <tr key={r.team.id}>
                       <td>{r.conference}</td>
-                      <td>{r.rank}</td>
+                      <td>{noGames ? '—' : r.rank}</td>
                       <th scope="row">
                         <Link to={`/teams/${r.team.id}?season=${data.season}`}>
                           {r.team.name}

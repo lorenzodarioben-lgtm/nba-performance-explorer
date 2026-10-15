@@ -191,6 +191,31 @@ export function LeagueGamesPage() {
               NBA.com’s schedule.
             </p>
           )}
+          {data.performers.some((p) => p.rows.length) ? (
+            <section className="pmod" aria-labelledby="top-performances">
+              <h2 id="top-performances">Top performances</h2>
+              <p className="team-note">
+                The day’s leading box-score marks across all games, ties included. A
+                record of what happened, not an award.
+              </p>
+              <div className="snapshot-grid">
+                {data.performers.map((p) => (
+                  <div key={p.key}>
+                    <h3>{p.label}</h3>
+                    <ol>
+                      {p.rows.map((r) => (
+                        <li key={`${r.playerId}-${r.gameId}`}>
+                          <Link to={`/players/${r.playerId}`}>{r.name}</Link> ({r.team}){' '}
+                          <b>{r.value}</b>{' '}
+                          <Link to={`/games/${r.gameId}`}>vs {r.opponent}</Link>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ) : null}
           <p className="team-note">{data.coverage}</p>
           <SaveResearchButton
             kind="analysis"

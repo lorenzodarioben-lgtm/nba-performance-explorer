@@ -68,6 +68,32 @@ export const LeagueGamesResponseSchema = z
     games: z.array(LeagueGameSummarySchema).max(40),
     previousDate: z.iso.date().nullable(),
     nextDate: z.iso.date().nullable(),
+    /**
+     * The day's leading single-game marks from archived box lines (top three per category,
+     * ties at the third included); empty when no archived box lines cover the date.
+     */
+    performers: z.array(
+      z
+        .object({
+          key: z.string().max(10),
+          label: z.string().max(40),
+          rows: z
+            .array(
+              z
+                .object({
+                  playerId: ResearchPlayerIdSchema,
+                  name: z.string().max(80),
+                  team: z.string().max(4),
+                  opponent: z.string().max(4),
+                  gameId: LeagueGameIdSchema,
+                  value: z.number(),
+                })
+                .strict(),
+            )
+            .max(12),
+        })
+        .strict(),
+    ),
     /** What the sources cover on this date, in words. */
     coverage: z.string().max(400),
     provenance: LeagueProvenanceSchema,
