@@ -30,6 +30,7 @@ export * from './recorded-player-season.js';
 export * from './recorded-workbench.js';
 export * from './recorded-player-comparison.js';
 export * from './recorded-similarity.js';
+export * from './league.js';
 
 export {
   PlayerSearchResponseSchema,

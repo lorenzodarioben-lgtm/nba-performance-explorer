@@ -1,0 +1,265 @@
+{
+ "kind": "nba-stats-league-index",
+ "version": 1,
+ "builtAt": "2026-10-15T20:20:00.015Z",
+ "seasons": [
+  {
+   "season": "1983-84",
+   "status": "partial",
+   "summarySha256": "fc8864e7eee7b63ff5c93acc6c4afcc4096861460dd6998d1a1033c33dde6e0e",
+   "gamesSha256": "2f72c8e304eec677c535d0fbb6df9e280b3696aba0c9df2f305a823ad5ddf7bc"
+  },
+  {
+   "season": "1984-85",
+   "status": "partial",
+   "summarySha256": "28cbdf34db68b49dda9782b39962ceb3118a232addee1847b1efebe2ecd7d0f8",
+   "gamesSha256": "27836e2bd72ffbb21b6d81c6dacba44bee8ff675d4cf371a06f3f31909fc2bf7"
+  },
+  {
+   "season": "1985-86",
+   "status": "partial",
+   "summarySha256": "b05bba3440aa93f09c9685db0ef00b16db2823f095bc3c33efc4bfe7958e7a3f",
+   "gamesSha256": "4afc5cd2e39ef571e34c65574f879b2290c6df6156dbcbd3d6c642a9fe96ca25"
+  },
+  {
+   "season": "1986-87",
+   "status": "partial",
+   "summarySha256": "b89e539e6b92d7bea6bd3ff04f88c16bc774e55bed4d4fb22382678409a759b5",
+   "gamesSha256": "a9392fe733c1e02e33312b2c05565b1db781a00037a7420e479aaa23204c2238"
+  },
+  {
+   "season": "1987-88",
+   "status": "complete",
+   "summarySha256": "9d1acb6e1c1885b772a0c7025743d1a1dabb8a95b9503cb9f9c2e9ae716d0ab9",
+   "gamesSha256": "77fe338ad741c5b02ab59ff236fec3ec6e6d7a94e32388b7114af24a80336852"
+  },
+  {
+   "season": "1988-89",
+   "status": "partial",
+   "summarySha256": "1786876368144b537bd2bcb8c52c0a40926337d0a37007281c283fc46ae307eb",
+   "gamesSha256": "782870bb39bdb23eb1e7300dc0128591094bf64c4ac8171beb037471f4584a35"
+  },
+  {
+   "season": "1989-90",
+   "status": "complete",
+   "summarySha256": "fa075c3bc49ed0f10270b4610693b9084e8bbe44e0ff2f3126cbebeecb843611",
+   "gamesSha256": "3ee0913c9a97877f8c1d226daacc64c63f5056453a61a190ba54ede2addcdf37"
+  },
+  {
+   "season": "1990-91",
+   "status": "partial",
+   "summarySha256": "0789b68e5d27c5ca54bfb753247af3644f26b512fa2bece75a279fbaf4aed876",
+   "gamesSha256": "6c29c21cc5499cd7cdd13a35d9f0fd87364714befbd3142d93625bb5d8245204"
+  },
+  {
+   "season": "1991-92",
+   "status": "partial",
+   "summarySha256": "de056a4e0f335929e4ac5b0c501c1ddacff069d1dd6975d43fb7fd8d6048540e",
+   "gamesSha256": "c8468070f92dd2f529abc54017a43d1907b945afb0d56850ebc56fcfbf92b34c"
+  },
+  {
+   "season": "1992-93",
+   "status": "partial",
+   "summarySha256": "d767d1c7c9ff3ef5e192c4b16f48989d47404ffe03480350fe10eff5d5fb4000",
+   "gamesSha256": "8e88543e77c14ec88c8b80216ea2d837a1b650b61a2b01ed0d75f1200a3235d1"
+  },
+  {
+   "season": "1993-94",
+   "status": "partial",
+   "summarySha256": "bb20872d76343d49213c94cd91cebc135a2d2908af8718fecc98694704a5a20f",
+   "gamesSha256": "8c3cfad1a19aa481b575691e43ca0e7f60e77238e2f84e4336a983eb847594ef"
+  },
+  {
+   "season": "1994-95",
+   "status": "partial",
+   "summarySha256": "7d37362597670cffc5d34146e7667fb43ddaabc426d36a525b3bf45c76db500a",
+   "gamesSha256": "12951f462ed0a57e9c562b94b022469ab1fe373c556c1f906afef5b739381865"
+  },
+  {
+   "season": "1995-96",
+   "status": "partial",
+   "summarySha256": "c2beb299030856b841ee4a5a19bdfe71dddc513c0c67c9fc2e060af4b5f5ba90",
+   "gamesSha256": "8b8927660cb0e95c594993c98b50f4a4d24b7b21e8507e24459abd4696999ce3"
+  },
+  {
+   "season": "1996-97",
+   "status": "partial",
+   "summarySha256": "7419c3f98207c8eb9bed02f60bfbf2e231ceb1b9b461d6d3e01b968defe70a90",
+   "gamesSha256": "91065778458d74a537213ee24251e5e5b15f98fb9aacf33d67e740c32d6ed6d2"
+  },
+  {
+   "season": "1997-98",
+   "status": "complete",
+   "summarySha256": "d8b8887a7d9750d4a3f47f40711ae6825853c4c36817aa4d3707483fd74624c4",
+   "gamesSha256": "f4e62baad4d00d533494a9ea81956c1a2b6e51c205aecc6454b9e326f4846d1f"
+  },
+  {
+   "season": "1998-99",
+   "status": "partial",
+   "summarySha256": "616afcfc033bac02e9283e10b4c74a800c51367cb5c32e479402119b787df212",
+   "gamesSha256": "dbe7c7dc2c6f79451ed5aaadf99d2200c5ac3094f85e5d9b12e5f26d3973aed3"
+  },
+  {
+   "season": "1999-00",
+   "status": "partial",
+   "summarySha256": "5a981b91c9783026249340b715b6e83cb5487bab34faac54c1a117a20bc62505",
+   "gamesSha256": "7782e0c1c83ecb1d4bd8fbfe53b26ade234428e1a918bec80859a290c759a6c1"
+  },
+  {
+   "season": "2000-01",
+   "status": "complete",
+   "summarySha256": "846f3e556245e492dbb9a377fc902023196ae9091245b9bf4314909bd7227a82",
+   "gamesSha256": "5547db92b68cc7b82a04aca21ebaa6b96506a234b37c17033c3dd5e9611ae272"
+  },
+  {
+   "season": "2001-02",
+   "status": "partial",
+   "summarySha256": "05fe68ec1b957ac5f7db260f8c0ef2af556dec36c9697cb608ae995079a206cb",
+   "gamesSha256": "325dcd08fb4163f4ebc7d15a91e79678d2f64bd56a7e8679ab0b91a5dd44f0da"
+  },
+  {
+   "season": "2002-03",
+   "status": "complete",
+   "summarySha256": "49c00c259c27e773642e1ea18d43dcaa9e1f26428017b71b87831e3bed42eae0",
+   "gamesSha256": "41f2463851fbfa17cef4b8336f0fae537fcbb3e4314d2292d7449451f91e65ec"
+  },
+  {
+   "season": "2003-04",
+   "status": "partial",
+   "summarySha256": "a7293180bf2a6d033ad424a40b6a43a45a3b80ccbd72bf2bb97502e99f8e589e",
+   "gamesSha256": "17682767b95bb08c223776fad8a0f921ef159538dd568ca2b7a4f18ff289f815"
+  },
+  {
+   "season": "2004-05",
+   "status": "complete",
+   "summarySha256": "75f1f02f54c35ea958844a9cf9f251926207ead66d93588304857ca18212ddb4",
+   "gamesSha256": "9fb4e9260b08cb6d01c7d880aedfa8c52fa5908b1f3f39f374bae0cf97d2a15c"
+  },
+  {
+   "season": "2005-06",
+   "status": "partial",
+   "summarySha256": "6e823980709cb14009b8a2447529cc4e222b3529910be5e95c18dea46de1c509",
+   "gamesSha256": "b8742adf5a497fadf9f122bb4527f9fd87872a2f7fb8a1bdffebd37a39ef5f6a"
+  },
+  {
+   "season": "2006-07",
+   "status": "partial",
+   "summarySha256": "a8012950287f2761ba5aabb2f30058fb62281ba90efb5b21aab43f741c4a0c8b",
+   "gamesSha256": "f6767f0419633fab2c30bf3c79f6ec9a8081477f491a5a3204021f5caeb2d913"
+  },
+  {
+   "season": "2007-08",
+   "status": "complete",
+   "summarySha256": "452a9a08bf9f9ac018e32cac7507c13879dd07e9ada16e2dab674d95e23cc649",
+   "gamesSha256": "daa7415e51fe3dd8faa376476f11fdd82db33f3e4d1dc5bf3c83310ba74ecb56"
+  },
+  {
+   "season": "2008-09",
+   "status": "complete",
+   "summarySha256": "3884ea9d1d70ee338fbd971a767a1f2fe4b82aa279a0fefe9f3288e3de12960a",
+   "gamesSha256": "a792ddbef71c3289ae72b428cdf6a2d6aa2163587953296db9b8f238ea4be9a5"
+  },
+  {
+   "season": "2009-10",
+   "status": "complete",
+   "summarySha256": "c1b2836ee7069bc1af8940f14fc407fe54a0cb23f0f02833ce36258726ca22ce",
+   "gamesSha256": "03f94320cf398266b54c3b22f6f8ed63d3abc4c8e4df1e7c38e53dd704aeb96d"
+  },
+  {
+   "season": "2010-11",
+   "status": "complete",
+   "summarySha256": "d035bd2b30938805b5426e04f5ebd731b1b3ad946958df24c75e7809d187d838",
+   "gamesSha256": "5da280466eb372c01c7cbbe4e155e8f3bfbff01c662693756616262e2eebbe4d"
+  },
+  {
+   "season": "2011-12",
+   "status": "complete",
+   "summarySha256": "0745740fc3aa858659ec93908ef86a89220023587edb5a3c4d9e24ad095584a9",
+   "gamesSha256": "e32fa8911743a91a8e01e84c0af5bce4568cc62eb671c5c8cc9b624df2223148"
+  },
+  {
+   "season": "2012-13",
+   "status": "partial",
+   "summarySha256": "c0e442a6c3237b14d16db69a77f2d88ac70c3536c051d28415870a765c0c9840",
+   "gamesSha256": "4f5e520ef60a80ac519724357826e3ad494c5f47faab10d1dc51445a6a23bef4"
+  },
+  {
+   "season": "2013-14",
+   "status": "complete",
+   "summarySha256": "d253fdeb343191f80d14b117a911d0ab978ac3a056772b7c9d868acf60e51d1d",
+   "gamesSha256": "c9544f247740171e3f3ba00012da99600c2bdb0cb6971a14c258904f25cdd9d8"
+  },
+  {
+   "season": "2014-15",
+   "status": "complete",
+   "summarySha256": "bb09284074cb2909ee6f6ed3225b02fdc835654dcc31697a63cbd66adef1968b",
+   "gamesSha256": "0134319eecf1aaf6435a220983ac38073b7e8bbe5281cdfc01f5d125a381fe51"
+  },
+  {
+   "season": "2015-16",
+   "status": "complete",
+   "summarySha256": "228b5a57fcd10bfce973f90eff80f10519e368ee9f2e0456212e62b429e4d418",
+   "gamesSha256": "19d1609408ae9a512d5a31318d17ea20ecf6a717b374cbf39bd07806bb91e3a8"
+  },
+  {
+   "season": "2016-17",
+   "status": "complete",
+   "summarySha256": "f9d1093e50da15b17982b4993fac0ec6c8e39f95b5941fe8b02baa1a4c9c5b81",
+   "gamesSha256": "6bd56d7e452ebaa871ea9ec1f84eb273ba10205281942cd6b7ac05c13fc607bb"
+  },
+  {
+   "season": "2017-18",
+   "status": "complete",
+   "summarySha256": "a4138e16296c5f30987090e7633b58c08c8a6ec05c39ff8aa4f9e7b5c93f7ef4",
+   "gamesSha256": "0bc5f27f89efbc7bcca9566682c044ed1ec2b38fdd67bd6474e6c4bb60c4c38d"
+  },
+  {
+   "season": "2018-19",
+   "status": "complete",
+   "summarySha256": "2b4a065e62f72978c7496d05ddada8be1a8894496999be7e6a4d84d00b8c066e",
+   "gamesSha256": "67d71b73926607fe415ed79916c13224facb06b91ee59e57e47ce1d14603b855"
+  },
+  {
+   "season": "2019-20",
+   "status": "complete",
+   "summarySha256": "5c5c6b90623822be1dc9d924cf449fcb31f7d3725620bfc8a371244e0f622881",
+   "gamesSha256": "e15e5d73b9f7d81817a1b34e67be2840a235b77e27b750e3baf9fb823c476b98"
+  },
+  {
+   "season": "2020-21",
+   "status": "complete",
+   "summarySha256": "851308ea0a94b6c337f48e640dc575498eb65a715375c7ff0606cf5be3f13c7d",
+   "gamesSha256": "44fc64d196e02b80b3caec0406e2b508e63aebc1ee8ba1c46eea78e557677352"
+  },
+  {
+   "season": "2021-22",
+   "status": "complete",
+   "summarySha256": "57af4223f162a003e993c12f7ffe98dd595d4db5d9adbd639ba76296c2e5fd48",
+   "gamesSha256": "4f1a96aeb22e63309d6b752defea9bbbe988af22efe585bc52a152840946e1d0"
+  },
+  {
+   "season": "2022-23",
+   "status": "complete",
+   "summarySha256": "715dd107e4a504fd0bd1d8f63f9576aaacdcb0629c6d8bed723136a854e73fb7",
+   "gamesSha256": "c60457c1ba62fbce171aafce8268ca04dfbb1fddda92fcaf26b1ba550ef55a95"
+  },
+  {
+   "season": "2023-24",
+   "status": "complete",
+   "summarySha256": "8eaf707b8989e7f3bcbc58cd604e358ba7d617124d7b843d741449a7c50b04c5",
+   "gamesSha256": "4554e552d6a0514344e0ad00a9e1cbb75d11a12516c01da15d4d3e263e366ca0"
+  },
+  {
+   "season": "2024-25",
+   "status": "partial",
+   "summarySha256": "c2918be89e92a3b6a4302a8d9211dff61455634ff41fe6e649bb6b1f1af588cd",
+   "gamesSha256": "543bf3f78f90ad324da3fbd58032d6f86d09bc325f96e65379134cde3466a96c"
+  },
+  {
+   "season": "2025-26",
+   "status": "complete",
+   "summarySha256": "b1efbbad7e4f5c4c818df7a61e3592c8c23841b64ca62e8015f7ac031977acac",
+   "gamesSha256": "08748a34763ccb6838aedde05a5939bde7055f744bc39296170ecb497e359466"
+  }
+ ]
+}
