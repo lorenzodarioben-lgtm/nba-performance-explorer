@@ -319,3 +319,8 @@
   left: 0;
   right: 50%;
 }
+.scatter__fit {
+  stroke: var(--chalk-3);
+  stroke-width: 1.5;
+  pointer-events: none;
+}

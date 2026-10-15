@@ -13,6 +13,7 @@ import {
   RecordedTeamSeasonQuerySchema,
   RecordedStandingsRaceQuerySchema,
   RecordedPlayerSeasonQuerySchema,
+  WorkbenchQuerySchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import type { RecordedArchiveProvider } from './recorded-provider.js';
@@ -342,5 +343,34 @@ export function createRecordedRouter(provider: RecordedArchiveProvider | undefin
     return res.json(provider.playerSeason(q.data));
   });
   router.all('/player-season', methodNotAllowedHandler);
+  router.get('/workbench', (req, res) => {
+    const q = WorkbenchQuerySchema.safeParse(req.query);
+    if (!q.success || Object.values(req.query).some(Array.isArray))
+      return sendApiError(
+        res,
+        400,
+        'INVALID_WORKBENCH_QUERY',
+        'Choose players or teams, supported metrics for that population, a view and a games minimum of 1 to 82.',
+      );
+    if (!provider)
+      return sendApiError(
+        res,
+        503,
+        'RECORDED_ARCHIVE_DISABLED',
+        'Recorded dataset disabled.',
+      );
+    if (
+      q.data.team &&
+      !provider.dataset.snapshots.some((s) => s.team.id === q.data.team)
+    )
+      return sendApiError(
+        res,
+        404,
+        'TEAM_NOT_FOUND',
+        'Team not found in recorded source.',
+      );
+    return res.json(provider.workbench(q.data));
+  });
+  router.all('/workbench', methodNotAllowedHandler);
   return router;
 }

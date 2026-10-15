@@ -158,6 +158,11 @@ const RecordedSeasonRoom = lazy(() =>
     default: m.RecordedSeasonRoom,
   })),
 );
+const WorkbenchPage = lazy(() =>
+  import('./features/workbench/WorkbenchPage').then((m) => ({
+    default: m.WorkbenchPage,
+  })),
+);
 const FormulaLabPage = lazy(() =>
   import('./features/formulas/FormulaLabPage').then((m) => ({
     default: m.FormulaLabPage,
@@ -337,6 +342,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/lab/shots',
     element: lazyRoute('Loading recorded shots…', <ShotArchivePage />),
+  },
+  {
+    path: '/lab/workbench',
+    element: lazyRoute('Loading research workbench…', <WorkbenchPage />),
   },
   {
     path: '/lab/formulas',

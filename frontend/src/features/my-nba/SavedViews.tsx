@@ -1,24 +1,35 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Link } from 'react-router';
 
-import { researchRepository } from '../my-nba/local-research';
+import { researchRepository } from './local-research';
 import { Icon } from '../../ui/Icon';
 import { useToast } from '../../ui/Toast';
 
-const STUDIO = '/lab/shots';
-
 /**
- * Named Shot Studio workspaces: the current filters and view saved under a reader's own name in
+ * Named views of one research tool: the current URL state saved under a reader's own name in
  * the browser's local My NBA store (never uploaded), listed here to reopen or delete.
  */
-export function StudioViews({ path }: { path: string }) {
+export function SavedViews({
+  path,
+  prefix,
+  title,
+  placeholder,
+}: {
+  /** The exact internal path of the current view. */
+  path: string;
+  /** The tool's route; saved views are the bookmarks under it. */
+  prefix: string;
+  title: string;
+  placeholder: string;
+}) {
+  const headingId = useId();
   const [version, setVersion] = useState(0);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const toast = useToast();
   const { data, warning } = researchRepository.load();
   const views = data.bookmarks.filter(
-    (b) => b.path === STUDIO || b.path.startsWith(`${STUDIO}?`),
+    (b) => b.path === prefix || b.path.startsWith(`${prefix}?`),
   );
   const current = views.find((v) => v.path === path);
   const save = () => {
@@ -35,7 +46,7 @@ export function StudioViews({ path }: { path: string }) {
         createdAt: new Date().toISOString(),
       });
       setMessage(result.warning ?? `Saved “${label}” on this device.`);
-      if (!result.warning) toast('Studio view saved');
+      if (!result.warning) toast('View saved to My NBA');
       setName('');
       setVersion((v) => v + 1);
     } catch {
@@ -55,13 +66,9 @@ export function StudioViews({ path }: { path: string }) {
     setVersion((v) => v + 1);
   };
   return (
-    <section
-      className="studioviews"
-      aria-labelledby="studio-views"
-      data-version={version}
-    >
-      <h2 id="studio-views" className="studioviews__title">
-        Saved studio views
+    <section className="studioviews" aria-labelledby={headingId} data-version={version}>
+      <h2 id={headingId} className="studioviews__title">
+        {title}
       </h2>
       <form
         className="studioviews__form"
@@ -75,9 +82,7 @@ export function StudioViews({ path }: { path: string }) {
           <input
             value={name}
             maxLength={100}
-            placeholder={
-              current ? `Saved as “${current.label}”` : 'e.g. Curry above the break'
-            }
+            placeholder={current ? `Saved as “${current.label}”` : placeholder}
             onChange={(e) => setName(e.target.value)}
           />
         </label>

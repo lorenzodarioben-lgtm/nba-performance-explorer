@@ -107,6 +107,57 @@ export const FORMULAS: readonly Formula[] = [
     added: true,
   },
   {
+    id: 'quartiles',
+    name: 'Median and quartiles',
+    area: 'Cohorts',
+    formula:
+      'Value at position (n − 1) × p of the sorted cohort, interpolating linearly',
+    definition:
+      'The middle value (p = 0.5) and the quartiles (p = 0.25, 0.75) of a stated cohort, as drawn on the workbench spread strip.',
+    missing: 'An empty cohort has no quartiles; nothing is estimated.',
+    example: 'Cohort 1, 2, 3, 4 → Q1 1.75, median 2.5, Q3 3.25.',
+    implementedIn: 'backend/src/features/recorded-archive/recorded-workbench.ts',
+    usedIn: [
+      { to: '/lab/workbench?view=distribution', label: 'Workbench · Distribution' },
+    ],
+    added: true,
+  },
+  {
+    id: 'correlation',
+    name: 'Correlation and fit line',
+    area: 'Cohorts',
+    formula:
+      'r = Σ(x − x̄)(y − ȳ) / √[Σ(x − x̄)² · Σ(y − ȳ)²]; slope = Σ(x − x̄)(y − ȳ) / Σ(x − x̄)²',
+    definition:
+      'Pearson r between two metrics across one cohort, and the least-squares line of the second on the first. A description of that cohort, not a cause or a forecast.',
+    missing:
+      'Needs at least three entities with both values; a constant axis has no r.',
+    example: 'Points (1, 3), (2, 5), (3, 7) → r = 1, slope 2, intercept 1.',
+    implementedIn: 'backend/src/features/recorded-archive/recorded-workbench.ts',
+    usedIn: [
+      {
+        to: '/lab/workbench?view=relationship&y=assistsPerGame',
+        label: 'Workbench · Relationship',
+      },
+    ],
+    added: true,
+  },
+  {
+    id: 'histogram',
+    name: 'Distribution bins',
+    area: 'Cohorts',
+    formula:
+      '12 equal-width bins from the cohort minimum to maximum; the last bin includes its edge',
+    definition: 'How a metric is spread across a cohort, as counts per range.',
+    missing: 'A constant metric is one bin; an empty cohort has none.',
+    example: 'Values 0, 1, 2, 3, 12 in 4 bins of width 3 → counts 3, 1, 0, 1.',
+    implementedIn: 'backend/src/features/recorded-archive/recorded-workbench.ts',
+    usedIn: [
+      { to: '/lab/workbench?view=distribution', label: 'Workbench · Distribution' },
+    ],
+    added: true,
+  },
+  {
     id: 'agreed-final',
     name: 'Source-agreed final',
     area: 'Team',

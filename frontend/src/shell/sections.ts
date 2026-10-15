@@ -191,6 +191,13 @@ export const SECTIONS: readonly Section[] = [
         match: exact('/labs'),
       },
       {
+        to: '/lab/workbench',
+        label: 'Workbench',
+        blurb:
+          'Rank, distribute or relate any recorded player or team metric, with the cohort shown.',
+        match: exact('/lab/workbench'),
+      },
+      {
         to: '/lab/shots',
         label: 'Shot Studio',
         blurb: 'Archived 2018 playoff shot charts: dots, density and zones.',

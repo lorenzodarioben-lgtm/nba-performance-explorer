@@ -28,12 +28,23 @@ import {
   RecordedStandingsRaceResponseSchema,
   type RecordedTeamSeasonQuery,
   type RecordedPlayerSeasonQuery,
+  type WorkbenchQuery,
+  WorkbenchResponseSchema,
   RecordedPlayerSeasonResponseSchema,
   ProfileMetricSchema,
   type RecordedStandingsRaceQuery,
 } from '@nba-performance-explorer/contracts';
 import { buildStandingsRace, buildTeamSeason } from './recorded-team-season.js';
 import { buildPlayerSeason } from './recorded-player-season.js';
+import {
+  PLAYER_DEFAULT_MIN_GAMES,
+  TEAM_DEFAULT_MIN_GAMES,
+  buildWorkbench,
+  definition,
+  playerValues,
+  teamValue,
+  type EntityValue,
+} from './recorded-workbench.js';
 import { discoverRecorded } from './recorded-discovery.js';
 import { observedProgression } from './recorded-progression.js';
 import data from './recorded-snapshot.json' with { type: 'json' };
@@ -195,6 +206,128 @@ export class RecordedArchiveProvider {
       for (let page = 2; (page - 1) * 50 < first.total; page++)
         rows.push(...this.rank({ ...base, page }).rows);
       return { metric, rows, first };
+    });
+  }
+  private teamSeasonCache: ReturnType<typeof buildTeamSeason>[] | null = null;
+  /** Every team's recorded season, built once from the same reconciled games. */
+  private allTeamSeasons() {
+    if (!this.teamSeasonCache) {
+      const { verified } = this.reconcileGames();
+      this.teamSeasonCache = this.dataset.snapshots.map((s) =>
+        buildTeamSeason(s, verified),
+      );
+    }
+    return this.teamSeasonCache;
+  }
+  /** Every ranking row with a value for one player metric (games minimum applied later). */
+  private allPlayerRows(metric: WorkbenchQuery['metric'], team?: string) {
+    const base = {
+      season: '2023-24' as const,
+      scope: 'regular-season' as const,
+      minGames: 1,
+      metric: metric as Parameters<typeof rankRecordedDataset>[1]['metric'],
+      page: 1,
+      pageSize: 50,
+      ...(team ? { team } : {}),
+    };
+    const first = this.rank(base),
+      rows = [...first.rows];
+    for (let page = 2; (page - 1) * 50 < first.total; page++)
+      rows.push(...this.rank({ ...base, page }).rows);
+    return { rows, first };
+  }
+  workbench(q: WorkbenchQuery) {
+    const players = q.entity === 'players';
+    const minGames =
+      q.minGames ?? (players ? PLAYER_DEFAULT_MIN_GAMES : TEAM_DEFAULT_MIN_GAMES);
+    let xs: EntityValue[],
+      ys: EntityValue[] | null,
+      extra: { reason: string; count: number }[];
+    let cohort: string;
+    if (players) {
+      const x = this.allPlayerRows(q.metric, q.team);
+      xs = playerValues(x.rows);
+      ys = q.y ? playerValues(this.allPlayerRows(q.y, q.team).rows) : null;
+      if (q.team) {
+        // The ranking's exclusion counts are league-wide; count this team's page directly.
+        const page = this.dataset.snapshots.find((t) => t.team.id === q.team)!;
+        const listed = page.statistics['regular-season'];
+        const valued = new Set(xs.map((e) => e.id));
+        extra = [
+          {
+            reason: 'No value for this metric in the source',
+            count: new Set(
+              listed
+                .filter((r) => r.nbaPlayerId !== null && !valued.has(r.nbaPlayerId))
+                .map((r) => r.nbaPlayerId),
+            ).size,
+          },
+          {
+            reason: 'Source rows without an NBA identity',
+            count: listed.filter((r) => r.nbaPlayerId === null).length,
+          },
+        ];
+      } else
+        extra = [
+          {
+            reason: 'No value for this metric in the source',
+            count: x.first.missingMetricPlayers,
+          },
+          {
+            reason: 'Source rows without an NBA identity',
+            count: x.first.missingIdentityRows,
+          },
+        ];
+      const team = q.team
+        ? this.dataset.snapshots.find((s) => s.team.id === q.team)?.team.name
+        : null;
+      cohort = `${team ? `${team} players` : 'Recorded players'} with ${minGames}+ games, 2023-24 regular season`;
+    } else {
+      const seasons = this.allTeamSeasons().filter(
+        (t) => !q.conference || t.conference === q.conference,
+      );
+      xs = seasons.map((t) => teamValue(t, q.metric));
+      ys = q.y ? seasons.map((t) => teamValue(t, q.y!)) : null;
+      extra = [];
+      cohort = `${q.conference ? `${q.conference}ern Conference teams` : 'All 30 teams'} with ${minGames}+ verified games behind the value, 2023-24 regular season`;
+    }
+    const built = buildWorkbench(q, minGames, xs, ys);
+    const excluded = [...extra, ...built.excluded].reduce<
+      { reason: string; count: number }[]
+    >((list, e) => {
+      if (!e.count) return list;
+      const found = list.find((l) => l.reason === e.reason);
+      if (found) found.count += e.count;
+      else list.push({ ...e });
+      return list;
+    }, []);
+    return WorkbenchResponseSchema.parse({
+      season: q.season,
+      entity: q.entity,
+      view: q.view,
+      order: q.order,
+      minGames,
+      cohort,
+      metric: definition(q.entity, q.metric),
+      y: q.y ? definition(q.entity, q.y) : null,
+      ...built,
+      excluded,
+      snapshotCreatedAt: this.dataset.createdAt,
+      provenance: {
+        source: 'wikipedia',
+        servedAt: new Date().toISOString(),
+        retrievedAt: null,
+        asOf: null,
+        isLive: false,
+        scope: 'regular-season',
+        coverage: `${cohort}. Recorded archive, not a complete or official league population.`,
+        warnings: [
+          'Ranks are competition ranks (ties share a place); percentiles are mid-rank within the stated cohort; z-scores use the cohort mean and population SD.',
+          'Quartiles use linear interpolation. Histogram bins are equal-width between the cohort minimum and maximum.',
+          'Correlation is Pearson r with the least-squares line of the second metric on the first: a description of this cohort, not a cause or a prediction.',
+          'Excluded entities are counted by reason; nothing is filled in or estimated.',
+        ],
+      },
     });
   }
   playerSeason(q: RecordedPlayerSeasonQuery) {

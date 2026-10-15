@@ -18,7 +18,7 @@ import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
 import { shotPageCsv, shotSvgExport, downloadShotFile } from './shot-export';
 import { ShotDistanceProfile } from './ShotDistanceProfile';
-import { StudioViews } from './StudioViews';
+import { SavedViews } from '../my-nba/SavedViews';
 import { ZoneStrip } from './ZoneStrip';
 import { ShotCourt, type ShotView } from './ShotCourt';
 import { EFFICIENCY_FULL_SCALE } from './shot-scales';
@@ -628,7 +628,12 @@ export function ShotArchivePage() {
             label="Recorded 2018 playoff shot investigation"
             path={`/lab/shots?${share}`}
           />
-          <StudioViews path={`/lab/shots?${share}`} />
+          <SavedViews
+            path={`/lab/shots?${share}`}
+            prefix="/lab/shots"
+            title="Saved studio views"
+            placeholder="e.g. Curry above the break"
+          />
           <p>
             {data.coordinateSystem}. {data.coordinateEvidence} Reference court 50×94
             feet; baseline 5.25 feet behind basket; source coordinates divided by 10 for

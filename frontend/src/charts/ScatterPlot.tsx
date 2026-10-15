@@ -43,6 +43,8 @@ export function ScatterPlot({
   height = 340,
   onBrush,
   selected,
+  onPick,
+  fitLine,
 }: {
   points: readonly ScatterPoint[];
   label: string;
@@ -52,6 +54,10 @@ export function ScatterPlot({
   formatY: (value: number) => string;
   height?: number;
   onBrush?: ((ids: readonly string[]) => void) | undefined;
+  /** Click, tap or Enter picks the nearest point. */
+  onPick?: ((id: string) => void) | undefined;
+  /** A descriptive line drawn in data coordinates (e.g. a least-squares fit), dashed. */
+  fitLine?: { x1: number; y1: number; x2: number; y2: number } | null | undefined;
   selected?: ReadonlySet<string> | undefined;
 }) {
   const [measure, width] = useChartWidth();
@@ -133,13 +139,22 @@ export function ScatterPlot({
   };
 
   const onPointerUp = (event: PointerEvent<SVGRectElement>) => {
-    if (!onBrush || !dragStart.current) return;
+    if (!onBrush || !dragStart.current) {
+      if (onPick) {
+        const at = local(event);
+        const hit = at ? nearest(at[0], at[1]) : null;
+        if (hit) onPick(hit.id);
+      }
+      return;
+    }
     const at = local(event);
     const [sx, sy] = dragStart.current;
     dragStart.current = null;
     if (brushRect.current) brushRect.current.style.display = 'none';
     if (!at || (Math.abs(at[0] - sx) < 6 && Math.abs(at[1] - sy) < 6)) {
       onBrush([]);
+      const hit = at ? nearest(at[0], at[1]) : null;
+      if (onPick && hit) onPick(hit.id);
       return;
     }
     const [minX, maxX] = [Math.min(sx, at[0]), Math.max(sx, at[0])];
@@ -165,7 +180,11 @@ export function ScatterPlot({
       next = Math.max(0, index < 0 ? 0 : index - 1);
     else if (event.key === 'Home') next = 0;
     else if (event.key === 'End') next = byX.length - 1;
-    else if (event.key === 'Escape') {
+    else if ((event.key === 'Enter' || event.key === ' ') && onPick && active) {
+      event.preventDefault();
+      onPick(active);
+      return;
+    } else if (event.key === 'Escape') {
       setActive(null);
       onBrush?.([]);
       return;
@@ -296,6 +315,16 @@ export function ScatterPlot({
               </g>
             );
           })}
+          {fitLine ? (
+            <line
+              className="scatter__fit"
+              x1={x(fitLine.x1)}
+              y1={y(fitLine.y1)}
+              x2={x(fitLine.x2)}
+              y2={y(fitLine.y2)}
+              strokeDasharray="6 5"
+            />
+          ) : null}
           <rect
             ref={brushRect}
             className="lchart__brush"
