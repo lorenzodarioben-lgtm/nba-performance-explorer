@@ -32,6 +32,15 @@ export const InternalResearchPathSchema = z
     { message: 'Choose an implemented internal research route.' },
   );
 
+/** A collection name: letters, digits, spaces and simple joiners, folded to lower case. */
+export const ResearchTagSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .min(1)
+  .max(24)
+  .regex(/^[\p{L}\p{N}][\p{L}\p{N} &'-]*$/u, 'Use letters, digits and spaces.');
+export const MAX_TAGS_PER_BOOKMARK = 6;
 export const ResearchBookmarkSchema = z
   .object({
     kind: z.enum(['player', 'team', 'page', 'comparison', 'analysis']),
@@ -40,6 +49,15 @@ export const ResearchBookmarkSchema = z
     createdAt: z.iso.datetime(),
     /** The reader's own annotation; optional, so earlier version-1 files stay valid. */
     note: z.string().trim().max(500).optional(),
+    /** Collections this item belongs to; optional, so earlier files stay valid. */
+    tags: z
+      .array(ResearchTagSchema)
+      .min(1)
+      .max(MAX_TAGS_PER_BOOKMARK)
+      .refine((tags) => new Set(tags).size === tags.length, {
+        message: 'Duplicate collections.',
+      })
+      .optional(),
   })
   .strict();
 export type ResearchBookmark = z.infer<typeof ResearchBookmarkSchema>;

@@ -257,4 +257,99 @@ describe('My NBA research board', () => {
       ).not.toHaveProperty('note'),
     );
   });
+  it('groups saved research into collections that filter, rename, dissolve and export', async () => {
+    localStorage.clear();
+    seed([
+      {
+        kind: 'player',
+        label: 'Jokic 2023-24',
+        path: '/players/203999/archive',
+        createdAt: at(1),
+        tags: ['bigs', 'mvp race'],
+      },
+      {
+        kind: 'player',
+        label: 'Embiid 2023-24',
+        path: '/players/203954/archive',
+        createdAt: at(2),
+        tags: ['bigs'],
+      },
+      {
+        kind: 'analysis',
+        label: 'Curry paint',
+        path: '/lab/shots?players=201939&region=-8,-6,8,8',
+        createdAt: at(3),
+      },
+    ]);
+    renderApp('/my-nba');
+    const group = await screen.findByRole('group', { name: 'Collections' });
+    const labels = () =>
+      [...document.querySelectorAll('.savedcard__label')].map((l) => l.textContent);
+    fireEvent.click(within(group).getByRole('button', { name: 'bigs 2' }));
+    expect(labels()).toEqual(['Embiid 2023-24', 'Jokic 2023-24']);
+    expect(screen.getByText(/Showing 2 of 3 in “bigs”/)).toBeInTheDocument();
+    // Export holds only this collection, as a valid version-1 file.
+    fireEvent.click(screen.getByRole('button', { name: 'Export this collection' }));
+    const exported = JSON.parse(
+      (screen.getByLabelText('Exported preferences JSON') as HTMLTextAreaElement).value,
+    );
+    expect(exported.version).toBe(1);
+    expect(exported.bookmarks.map((b: { label: string }) => b.label).sort()).toEqual([
+      'Embiid 2023-24',
+      'Jokic 2023-24',
+    ]);
+    // Renaming into an existing collection is refused; a new name moves every item.
+    const rename = screen.getByLabelText('Rename collection');
+    fireEvent.change(rename, { target: { value: 'MVP race' } });
+    expect(screen.getByRole('alert')).toHaveTextContent('already exists');
+    expect(screen.getByRole('button', { name: 'Rename' })).toBeDisabled();
+    fireEvent.change(rename, { target: { value: 'Big men' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Rename' }));
+    await waitFor(() =>
+      expect(
+        JSON.parse(localStorage.getItem(RESEARCH_STORAGE_KEY)!).bookmarks.map(
+          (b: { tags?: string[] }) => b.tags ?? [],
+        ),
+      ).toEqual([['big men', 'mvp race'], ['big men'], []]),
+    );
+    // Dissolving asks first and keeps the items.
+    fireEvent.click(screen.getByRole('button', { name: 'Dissolve collection' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Confirm dissolve' }));
+    await waitFor(() => expect(labels()).toHaveLength(3));
+    const stored = JSON.parse(localStorage.getItem(RESEARCH_STORAGE_KEY)!);
+    expect(stored.bookmarks[1]).not.toHaveProperty('tags');
+    expect(stored.bookmarks[0].tags).toEqual(['mvp race']);
+  });
+
+  it('adds collections while editing and rejects malformed names', async () => {
+    localStorage.clear();
+    seed([
+      {
+        kind: 'team',
+        label: 'Celtics',
+        path: '/teams/nba:1610612738/season',
+        createdAt: at(1),
+      },
+    ]);
+    renderApp('/my-nba');
+    fireEvent.click(await screen.findByRole('button', { name: 'Edit Celtics' }));
+    const field = screen.getByLabelText('Collections');
+    fireEvent.change(field, { target: { value: '<script>' } });
+    expect(screen.getByRole('alert')).toHaveTextContent('not a valid collection name');
+    expect(screen.getByRole('button', { name: 'Save changes' })).toBeDisabled();
+    fireEvent.change(field, { target: { value: 'a,b,c,d,e,f,g' } });
+    expect(screen.getByRole('alert')).toHaveTextContent('At most 6 collections');
+    fireEvent.change(field, { target: { value: ' Contenders , EAST,contenders ' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Save changes' }));
+    await waitFor(() =>
+      expect(
+        JSON.parse(localStorage.getItem(RESEARCH_STORAGE_KEY)!).bookmarks[0].tags,
+      ).toEqual(['contenders', 'east']),
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Show the east collection' }));
+    expect(screen.getByRole('button', { name: 'east 1' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+  });
 });

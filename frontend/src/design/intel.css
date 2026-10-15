@@ -812,3 +812,66 @@
   font: 700 1.5rem/1 var(--display);
   color: var(--chalk);
 }
+
+/* Collections: a chip row that filters the board, per-card tags and the collection tools. */
+.savedboard__collections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.savedboard__n {
+  font: 500 11px/1 var(--mono);
+  color: var(--chalk-3);
+}
+.fr .savedboard__tools {
+  display: grid;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-2);
+  border-left: 2px solid var(--red-hi);
+  border-radius: 2px;
+}
+.fr .savedboard__tools h3 {
+  margin: 0;
+  font: 700 15px/1.2 var(--ui);
+  color: var(--chalk);
+}
+.savedboard__tools form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+}
+.savedboard__tools form label {
+  flex: 1 1 200px;
+}
+.savedcard__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.fr .savedcard__tag {
+  padding: 3px 7px;
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  font: 500 11px/1.2 var(--mono);
+  color: var(--chalk-2);
+  cursor: pointer;
+}
+.fr .savedcard__tag:hover,
+.fr .savedcard__tag:focus-visible {
+  border-color: var(--chalk-3);
+  color: var(--chalk);
+}
+.savedboard__collections .chip {
+  cursor: pointer;
+}
+.savedboard__collections .chip:hover {
+  border-color: var(--chalk-3);
+  color: var(--chalk);
+}
+.savedboard__collections .chip[aria-pressed='true'] {
+  border-color: var(--red-hi);
+  background: rgb(239 68 68 / 0.12);
+  color: var(--chalk);
+}

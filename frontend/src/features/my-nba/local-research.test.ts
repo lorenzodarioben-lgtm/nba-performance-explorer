@@ -7,6 +7,7 @@ import {
 import {
   mergeResearch,
   parseResearchJson,
+  parseTags,
   RESEARCH_STORAGE_KEY,
   ResearchRepository,
   type ResearchStorage,
@@ -145,5 +146,70 @@ describe('local research integrity', () => {
       'exceeds',
     );
     expect(repository.load().data.bookmarks).toEqual([item]);
+  });
+});
+
+describe('research collections', () => {
+  it('folds, de-duplicates and bounds collection names', () => {
+    expect(parseTags(' Bigs , MVP race,bigs ,, ')).toEqual({
+      tags: ['bigs', 'mvp race'],
+      error: null,
+    });
+    expect(parseTags('')).toEqual({ tags: [], error: null });
+    for (const bad of [
+      '<b>',
+      'x'.repeat(25),
+      '-lead',
+      'a\u0000b',
+      'one,two,three,four,five,six,seven',
+    ])
+      expect(parseTags(bad).tags, bad).toBeNull();
+  });
+
+  it('keeps tags optional for earlier files and rejects malformed tag arrays', () => {
+    expect(() =>
+      parseResearchJson(JSON.stringify({ version: 1, bookmarks: [item] })),
+    ).not.toThrow();
+    expect(
+      parseResearchJson(
+        JSON.stringify({ version: 1, bookmarks: [{ ...item, tags: ['Bigs'] }] }),
+      ).bookmarks[0]!.tags,
+    ).toEqual(['bigs']);
+    for (const tags of [
+      [],
+      ['a', 'a'],
+      ['<x>'],
+      Array.from({ length: 7 }, (_, i) => `t${i}`),
+      [1],
+    ])
+      expect(() =>
+        parseResearchJson(
+          JSON.stringify({ version: 1, bookmarks: [{ ...item, tags }] }),
+        ),
+      ).toThrow();
+  });
+
+  it('merges imported collections into items already saved without renaming them', () => {
+    const merged = mergeResearch(
+      { version: 1, bookmarks: [{ ...item, tags: ['mine'] }] },
+      {
+        version: 1,
+        bookmarks: [
+          { ...item, label: 'Imported name', tags: ['shared', 'mine'] },
+          { ...item, path: '/players/2544', label: 'LeBron', tags: ['shared'] },
+        ],
+      },
+    );
+    expect(merged.bookmarks[0]).toMatchObject({
+      label: 'Curry',
+      tags: ['mine', 'shared'],
+    });
+    expect(merged.bookmarks[1]).toMatchObject({ label: 'LeBron', tags: ['shared'] });
+    // The per-item cap holds when collections are combined.
+    const full = mergeResearch(
+      { version: 1, bookmarks: [{ ...item, tags: ['a', 'b', 'c', 'd', 'e'] }] },
+      { version: 1, bookmarks: [{ ...item, tags: ['f', 'g'] }] },
+    );
+    expect(full.bookmarks[0]!.tags).toEqual(['a', 'b', 'c', 'd', 'e', 'f']);
   });
 });

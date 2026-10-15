@@ -1,7 +1,9 @@
 import {
   LocalResearchSchema,
   MAX_RESEARCH_JSON_CHARS,
+  MAX_TAGS_PER_BOOKMARK,
   ResearchBookmarkSchema,
+  ResearchTagSchema,
   type LocalResearch,
   type ResearchBookmark,
 } from '@nba-performance-explorer/contracts';
@@ -36,14 +38,53 @@ export function mergeResearch(
   existing: LocalResearch,
   imported: LocalResearch,
 ): LocalResearch {
-  const seen = new Set(existing.bookmarks.map((item) => `${item.kind}:${item.path}`));
-  const added = imported.bookmarks.filter(
-    (item) => !seen.has(`${item.kind}:${item.path}`),
-  );
+  const key = (item: ResearchBookmark) => `${item.kind}:${item.path}`;
+  const incoming = new Map(imported.bookmarks.map((item) => [key(item), item]));
+  // An item already saved keeps its own name and note; it only gains the imported
+  // collections it lacks, up to the per-item limit.
+  const kept = existing.bookmarks.map((item) => {
+    const extra = incoming.get(key(item))?.tags ?? [];
+    const tags = [...new Set([...(item.tags ?? []), ...extra])].slice(
+      0,
+      MAX_TAGS_PER_BOOKMARK,
+    );
+    return tags.length ? { ...item, tags } : item;
+  });
+  const seen = new Set(existing.bookmarks.map(key));
+  const added = imported.bookmarks.filter((item) => !seen.has(key(item)));
   return LocalResearchSchema.parse({
     version: 1,
-    bookmarks: [...existing.bookmarks, ...added],
+    bookmarks: [...kept, ...added],
   });
+}
+
+/**
+ * Reads a comma-separated list of collection names as typed by the reader: trimmed, folded to
+ * lower case and de-duplicated, every name checked against the contract.
+ */
+export function parseTags(
+  text: string,
+): { tags: string[]; error: null } | { tags: null; error: string } {
+  const names = [
+    ...new Set(
+      text
+        .split(',')
+        .map((name) => name.trim().toLowerCase())
+        .filter(Boolean),
+    ),
+  ];
+  if (names.length > MAX_TAGS_PER_BOOKMARK)
+    return {
+      tags: null,
+      error: `At most ${MAX_TAGS_PER_BOOKMARK} collections per item.`,
+    };
+  for (const name of names)
+    if (!ResearchTagSchema.safeParse(name).success)
+      return {
+        tags: null,
+        error: `“${name.slice(0, 30)}” is not a valid collection name: up to 24 letters, digits, spaces, & ' or -.`,
+      };
+  return { tags: names, error: null };
 }
 
 export class ResearchRepository {

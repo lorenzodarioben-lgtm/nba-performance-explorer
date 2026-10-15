@@ -85,6 +85,12 @@ export function MyNbaPage() {
           setStore(researchRepository.save(next));
           setMessage(note);
         }}
+        onExport={(subset, name) => {
+          setExportText(JSON.stringify(subset, null, 2));
+          setMessage(
+            `Export prepared for the “${name}” collection (${subset.bookmarks.length} items). Copy the JSON below to a file; importing it elsewhere keeps that device's research.`,
+          );
+        }}
       />
       <h2>Import and export</h2>
       <button
