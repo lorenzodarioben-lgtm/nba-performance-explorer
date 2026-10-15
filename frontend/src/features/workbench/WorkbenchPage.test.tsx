@@ -10,6 +10,7 @@ import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
 import { leagueFixture } from '../wiki-archive/archive-fixtures';
 import { readWorkbenchState, workbenchCsv } from './workbench-config';
+import { trendDepartures } from './TrendOutliers';
 // Compile the subject before assertion timers; the app still renders its actual lazy route.
 import './WorkbenchPage';
 
@@ -224,5 +225,68 @@ describe('research workbench', () => {
     expect(csv).toContain('# Points per game: Published points per game.');
     expect(csv).toContain(`"'=HYPERLINK(""x"")"`);
     expect(csv).toContain('Fewer than 20 games behind the value (4)');
+  });
+  it('lists who sits furthest above and below the fit line, and picks them', async () => {
+    // Line y = 1 + 0.2x predicts 3, 5, 7, 9; residuals −1, +4, −2, −1 (SD √5.5).
+    const rows = [
+      row('1', 'Fixture One', 10, 4, 2),
+      row('2', 'Fixture Two', 20, 3, 9),
+      row('3', 'Fixture Three', 30, 2, 5),
+      row('4', 'Fixture Four', 40, 1, 8),
+    ];
+    const departures = trendDepartures(rows, 0.2, 1)!;
+    expect(departures.sd).toBeCloseTo(Math.sqrt(5.5), 12);
+    expect(departures.above.map((d) => d.row.id)).toEqual(['2']);
+    expect(departures.above[0]!.standardised).toBeCloseTo(4 / Math.sqrt(5.5), 12);
+    // Furthest first; equal residuals in name order.
+    expect(departures.below.map((d) => d.row.id)).toEqual(['3', '1', '4']);
+    // A perfect line has nothing to list.
+    expect(
+      trendDepartures(
+        [row('1', 'A', 1, 1, 2), row('2', 'B', 2, 2, 3), row('3', 'C', 3, 3, 4)],
+        1,
+        1,
+      ),
+    ).toBeNull();
+    server.use(
+      directory(),
+      http.get(API, () =>
+        HttpResponse.json(
+          response({
+            view: 'relationship',
+            y: {
+              key: 'fieldGoalPercentage',
+              label: 'Field-goal %',
+              unit: 'percent',
+              definition: 'Published FG%.',
+            },
+            rows: rows.map((r) => ({ ...r, y: r.y! / 100 })),
+            ySummary: {
+              n: 4,
+              mean: 0.06,
+              sd: 0.03,
+              min: 0.02,
+              q1: 0.04,
+              median: 0.065,
+              q3: 0.08,
+              max: 0.09,
+            },
+            relationship: { n: 4, pearson: 0.3, slope: 0.002, intercept: 0.01 },
+          }),
+        ),
+      ),
+    );
+    renderApp('/lab/workbench?view=relationship&y=fieldGoalPercentage');
+    const section = await screen.findByRole('region', {
+      name: 'Furthest from the fit line',
+    });
+    const above = within(section).getByRole('button', { name: /Fixture Two/ });
+    // Percentages are measured in percentage points.
+    expect(above).toHaveTextContent('+4.0 pts +1.7 SD');
+    fireEvent.click(above);
+    await waitFor(() => expect(above).toHaveAttribute('aria-pressed', 'true'));
+    expect(screen.getByRole('complementary', { name: 'Selected' })).toHaveTextContent(
+      'Fixture Two',
+    );
   });
 });

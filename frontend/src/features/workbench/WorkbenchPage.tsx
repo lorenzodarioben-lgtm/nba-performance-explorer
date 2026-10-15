@@ -24,6 +24,7 @@ import { Icon } from '../../ui/Icon';
 import { Segmented } from '../../ui/Segmented';
 import { Slate } from '../../ui/Slate';
 import { SpreadStrip } from './SpreadStrip';
+import { TrendOutliers } from './TrendOutliers';
 import {
   PLAYER_METRICS,
   TEAM_METRICS,
@@ -490,6 +491,7 @@ function Results({
                     {data.relationship?.n ?? data.rows.length}): a description of this
                     cohort, not a cause.
                   </p>
+                  <TrendOutliers data={data} pick={pick} onPick={onPick} />
                 </>
               )}
             </div>

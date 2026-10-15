@@ -120,7 +120,6 @@ export function formatValue(def: WorkbenchMetricDefinition, value: number | null
   return value.toFixed(1);
 }
 
-/** A spreadsheet-safe cell: quoted, inner quotes doubled, formula-leading text defused. */
 /** One CSV cell, quoted, with spreadsheet formula prefixes neutralised. */
 export function csvCell(value: string | number | null) {
   const text = value === null ? '' : String(value);
