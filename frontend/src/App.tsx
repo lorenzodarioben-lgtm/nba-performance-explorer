@@ -178,6 +178,24 @@ const FormulaLabPage = lazy(() =>
     default: m.FormulaLabPage,
   })),
 );
+const StoriesPage = lazy(() =>
+  import('./features/stories/StoriesPage').then((m) => ({ default: m.StoriesPage })),
+);
+const StoryEditorPage = lazy(() =>
+  import('./features/stories/StoryEditorPage').then((m) => ({
+    default: m.StoryEditorPage,
+  })),
+);
+const StoryReaderPage = lazy(() =>
+  import('./features/stories/StoryReaderPage').then((m) => ({
+    default: m.StoryReaderPage,
+  })),
+);
+const SharedStoryPage = lazy(() =>
+  import('./features/stories/StoryReaderPage').then((m) => ({
+    default: m.SharedStoryPage,
+  })),
+);
 const SeriesFilmRoomPage = lazy(() =>
   import('./features/playoffs/SeriesFilmRoomPage').then((m) => ({
     default: m.SeriesFilmRoomPage,
@@ -404,6 +422,19 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   },
   // Personal
   { path: '/my-nba', element: lazyRoute('Loading My NBA…', <MyNbaPage />) },
+  { path: '/my-nba/stories', element: lazyRoute('Loading stories…', <StoriesPage />) },
+  {
+    path: '/my-nba/stories/shared',
+    element: lazyRoute('Opening the shared story…', <SharedStoryPage />),
+  },
+  {
+    path: '/my-nba/stories/:storyId',
+    element: lazyRoute('Loading the story editor…', <StoryEditorPage />),
+  },
+  {
+    path: '/my-nba/stories/:storyId/read',
+    element: lazyRoute('Loading the story…', <StoryReaderPage />),
+  },
   { path: '*', element: lazyRoute('Loading…', <NotFoundPage />) },
 ];
 

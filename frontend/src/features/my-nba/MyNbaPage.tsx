@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router';
 import {
   MAX_RESEARCH_JSON_CHARS,
   type ResearchBookmark,
@@ -26,6 +27,17 @@ export function MyNbaPage() {
         sync. Optional recent research history is off by default. Export your bookmark
         JSON before changing browsers or clearing storage.
       </p>
+      <section className="story-promo" aria-labelledby="story-promo">
+        <h2 id="story-promo">Statistical stories</h2>
+        <p>
+          Turn saved analyses into a written research story: your notes between live
+          charts from the film room, comparison studio, similarity finder, workbench and
+          Shot Studio, ready to read, print or share.
+        </p>
+        <Link className="btn btn--sm" to="/my-nba/stories">
+          Open your stories
+        </Link>
+      </section>
       <MotionSettingPanel />
       {store.warning && <p role="status">{store.warning}</p>}
       {message && <p role="status">{message}</p>}

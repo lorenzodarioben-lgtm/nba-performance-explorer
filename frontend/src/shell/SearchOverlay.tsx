@@ -45,6 +45,8 @@ const KEYWORDS: Record<string, string> = {
   '/discover/recorded': 'similar players discover filter outliers',
   '/discover/similar':
     'similar players like comparable lookalike nearest neighbours closest match',
+  '/my-nba/stories':
+    'story stories report write up narrative notes print pdf share builder',
   '/my-nba': 'saved bookmarks favourites favorites notes collections',
   '/compare/recorded':
     'compare players side by side versus vs gap who leads difference studio',
@@ -84,6 +86,15 @@ const TOOLS: Option[] = [
     badge: '★',
     to: '/my-nba',
     keywords: KEYWORDS['/my-nba'],
+  },
+  {
+    key: 'page:/my-nba/stories',
+    group: 'Sections and tools',
+    title: 'Statistical stories',
+    meta: 'Write up your research with live charts from the tools; print or share.',
+    badge: '★',
+    to: '/my-nba/stories',
+    keywords: KEYWORDS['/my-nba/stories'],
   },
   {
     key: 'page:/explore',
