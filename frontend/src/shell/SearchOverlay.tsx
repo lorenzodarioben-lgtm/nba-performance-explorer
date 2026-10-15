@@ -40,6 +40,9 @@ const KEYWORDS: Record<string, string> = {
   '/games/series/r4-BOS-DAL':
     'film room series game by game quarters margins finals celtics mavericks clinch',
   '/standings/race': 'standings race replay timeline ladder date season animation',
+  '/standings': 'standings table east west conference season history clinch',
+  '/leaders':
+    'leaders leaderboard scoring champion per game per 36 per 100 totals season playoffs',
   '/lab/shots': 'shot chart heatmap hex zones court shooting map distance',
   '/games/shooting': 'box score shooting splits team field goals',
   '/lab/profiles': 'percentile radar profile cohort',

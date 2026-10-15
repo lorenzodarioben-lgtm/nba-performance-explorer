@@ -92,10 +92,11 @@ export function LeagueArchivePage({ mode }: { mode: 'standings' | 'leaders' }) {
         league player rankings and custom leader qualification are unavailable in this
         source.
       </p>
-      <Link to={mode === 'standings' ? '/leaders' : '/standings'}>
+      <Link to={mode === 'standings' ? '/leaders/wikipedia' : '/standings/wikipedia'}>
         {mode === 'standings' ? 'Published category leaders' : 'Historical standings'}
       </Link>{' '}
-      <Link to="/games">Recorded playoff games</Link>
+      <Link to="/games">Recorded playoff games</Link>{' '}
+      <Link to={`/${mode}`}>Every season from NBA.com</Link>
       {!valid ? (
         <p role="alert">
           Invalid historical league URL.{' '}
@@ -111,11 +112,14 @@ export function LeagueArchivePage({ mode }: { mode: 'standings' | 'leaders' }) {
           <SaveResearchButton
             kind="analysis"
             label={`2023-24 ${mode}`}
-            path={`/${mode}?${params}`}
+            path={`/${mode}/wikipedia?${params}`}
           />
           <label>
             Shareable league URL
-            <input readOnly value={`${window.location.origin}/${mode}?${params}`} />
+            <input
+              readOnly
+              value={`${window.location.origin}/${mode}/wikipedia?${params}`}
+            />
           </label>
           <div className={styles.controls}>
             <label>

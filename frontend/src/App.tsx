@@ -62,6 +62,16 @@ const HistoryPage = lazy(() =>
   import('./features/history/HistoryPage').then((m) => ({ default: m.HistoryPage })),
 );
 
+const LeagueStandingsPage = lazy(() =>
+  import('./features/league/LeagueStandingsPage').then((m) => ({
+    default: m.LeagueStandingsPage,
+  })),
+);
+const LeagueLeadersPage = lazy(() =>
+  import('./features/league/LeagueLeadersPage').then((m) => ({
+    default: m.LeagueLeadersPage,
+  })),
+);
 const LeagueArchivePage = lazy(() =>
   import('./features/wiki-archive/LeagueArchivePage').then((m) => ({
     default: m.LeagueArchivePage,
@@ -320,6 +330,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   },
   {
     path: '/standings',
+    element: lazyRoute('Loading standings…', <LeagueStandingsPage />),
+  },
+  {
+    path: '/standings/wikipedia',
     element: lazyRoute(
       'Loading historical standings…',
       <LeagueArchivePage mode="standings" />,
@@ -335,6 +349,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   },
   {
     path: '/leaders',
+    element: lazyRoute('Loading league leaders…', <LeagueLeadersPage />),
+  },
+  {
+    path: '/leaders/wikipedia',
     element: lazyRoute(
       'Loading published leaders…',
       <LeagueArchivePage mode="leaders" />,

@@ -25,7 +25,7 @@ describe('licensed archive views', () => {
   });
   it('shares filtered source standings and attributes adapted data', async () => {
     mockSources();
-    renderApp('/standings?conference=East');
+    renderApp('/standings/wikipedia?conference=East');
     const table = await screen.findByRole('table');
     expect(within(table).getAllByRole('row')).toHaveLength(16);
     expect(screen.getByRole('link', { name: 'CC BY-SA 4.0' })).toHaveAttribute(
@@ -37,7 +37,7 @@ describe('licensed archive views', () => {
     });
     expect(within(table).getAllByRole('row')).toHaveLength(2);
     expect(screen.getByLabelText('Shareable league URL')).toHaveValue(
-      `${window.location.origin}/standings?conference=East&search=Boston`,
+      `${window.location.origin}/standings/wikipedia?conference=East&search=Boston`,
     );
     expect(
       within(table).queryByRole('link', { name: homeTeam.name }),
@@ -45,7 +45,7 @@ describe('licensed archive views', () => {
   });
   it('retains tied leader entries, whole-percent units and signed source values', async () => {
     mockSources();
-    renderApp('/leaders?category=FG%25');
+    renderApp('/leaders/wikipedia?category=FG%25');
     const table = await screen.findByRole('table');
     expect(within(table).getByText('Fixture player A')).toBeInTheDocument();
     expect(within(table).getByText('Fixture player B')).toBeInTheDocument();
@@ -105,7 +105,7 @@ describe('licensed archive views', () => {
   it('rejects unsupported/duplicate state before fetching and handles unavailable source', async () => {
     const fetch = vi.fn();
     server.use(http.get('http://localhost/api/standings', fetch));
-    const view = renderApp('/standings?season=2025-26');
+    const view = renderApp('/standings/wikipedia?season=2025-26');
     expect(await screen.findByRole('alert')).toHaveTextContent('Invalid');
     expect(fetch).not.toHaveBeenCalled();
     view.unmount();

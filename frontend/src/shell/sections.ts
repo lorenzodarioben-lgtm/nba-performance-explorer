@@ -94,8 +94,9 @@ export const SECTIONS: readonly Section[] = [
       {
         to: '/standings',
         label: 'Standings',
-        blurb: 'Published final standings by conference.',
-        match: exact('/standings'),
+        blurb: 'East and West standings for every season since 1983–84, from NBA.com.',
+        match: (pathname) =>
+          pathname === '/standings' || pathname === '/standings/wikipedia',
       },
       {
         to: '/standings/recorded',
@@ -112,8 +113,10 @@ export const SECTIONS: readonly Section[] = [
       {
         to: '/leaders',
         label: 'Leaders',
-        blurb: 'Published statistical category leaders.',
-        match: exact('/leaders'),
+        blurb:
+          'Every player ranked by season, rate and qualification, from NBA.com box scores.',
+        match: (pathname) =>
+          pathname === '/leaders' || pathname === '/leaders/wikipedia',
       },
       {
         to: '/leaders/recorded',

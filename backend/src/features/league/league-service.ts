@@ -250,6 +250,27 @@ const ATTEMPT_BASE: Partial<
   effectiveFieldGoalPercentage: { regular: 300, playoffs: 40 },
 };
 
+/** States the qualification actually applied and where each threshold came from. */
+function qualificationText(o: {
+  minGames: number;
+  minAttempts: number | null;
+  chosenGames: boolean;
+  chosenAttempts: boolean;
+  percent: boolean;
+  playoffs: boolean;
+}) {
+  const games = o.minGames
+    ? `At least ${o.minGames} games${o.chosenGames ? ' (chosen here)' : o.playoffs ? ' (this app’s default for playoff rates)' : ' (this app’s default: 70% of the most games any team played)'}`
+    : o.percent
+      ? 'No games minimum'
+      : 'No games minimum for season totals';
+  const attempts =
+    o.minAttempts === null
+      ? ''
+      : `; at least ${o.minAttempts} attempts${o.chosenAttempts ? ' (chosen here)' : o.playoffs ? ' (this app’s playoff default)' : ' (this app’s default, scaled to the schedule length)'}`;
+  return `${games}${attempts}. Not the NBA’s official qualification rule.`.slice(0, 400);
+}
+
 export function midrankPercentiles(values: number[]): number[] {
   const n = values.length;
   return values.map((x) => {
@@ -360,7 +381,7 @@ export class LeagueService {
             road: p.road || null,
             lastTen: p.lastTen,
             streak: p.streak,
-            clinch: p.clinch,
+            clinch: p.clinch?.replace(/^-\s*/, '') || null,
           })),
         };
       });
@@ -623,12 +644,14 @@ export class LeagueService {
         page: q.page,
       },
       definition: `${def.definition}${modeText}`.slice(0, 400),
-      qualification: (
-        `${minGames ? `At least ${minGames} games` : 'No games minimum'}${minAttempts !== null ? ` and at least ${minAttempts} attempts` : ''}. ` +
-        (q.minGames === undefined && q.minAttempts === undefined
-          ? `This app's default (${def.kind === 'percent' ? 'attempts scaled to the schedule length' : '70% of the most team games'}), not the NBA's official qualification rule.`
-          : 'Chosen in this view, not the NBA’s official qualification rule.')
-      ).slice(0, 400),
+      qualification: qualificationText({
+        minGames,
+        minAttempts,
+        chosenGames: q.minGames !== undefined,
+        chosenAttempts: q.minAttempts !== undefined,
+        percent: def.kind === 'percent',
+        playoffs: scope === 'playoffs',
+      }),
       rows: page,
       total: rows.length,
       population: counts,

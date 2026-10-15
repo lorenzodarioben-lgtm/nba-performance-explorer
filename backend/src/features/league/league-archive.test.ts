@@ -143,7 +143,7 @@ describe('league leaders', () => {
     });
     expect(ppg.rows[0]!.value).toBeCloseTo(2370 / 70, 4);
     expect(ppg.query.minGames).toBe(58); // 70% of 82, rounded up
-    expect(ppg.qualification).toMatch(/not the NBA's official qualification rule/);
+    expect(ppg.qualification).toMatch(/70% of the most games any team played.*Not the NBA’s official qualification rule/);
     const totals = service.leaders({
       season: '2023-24',
       scope: 'regular-season',

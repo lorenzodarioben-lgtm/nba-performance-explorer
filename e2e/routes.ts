@@ -24,6 +24,13 @@ export const routeExamples: readonly RouteExample[] = [
   { name: 'standings', path: '/standings' },
   { name: 'standings-recorded', path: '/standings/recorded' },
   { name: 'leaders', path: '/leaders' },
+  {
+    name: 'leaders-history',
+    path: '/leaders?season=2015-16&metric=threesMade&mode=totals',
+  },
+  { name: 'standings-history', path: '/standings?season=1997-98' },
+  { name: 'standings-wikipedia', path: '/standings/wikipedia' },
+  { name: 'leaders-wikipedia', path: '/leaders/wikipedia' },
   { name: 'leaders-recorded', path: '/leaders/recorded' },
   { name: 'history', path: '/history' },
   { name: 'history-season', path: '/history/2023-24' },

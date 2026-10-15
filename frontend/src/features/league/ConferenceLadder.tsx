@@ -1,4 +1,3 @@
-import type { ArchiveLeagueResponse } from '@nba-performance-explorer/contracts';
 import { motion } from 'motion/react';
 import { Link } from 'react-router';
 
@@ -6,13 +5,34 @@ import { useSeen } from '../../motion/choreography';
 import { useMotionAllowed } from '../../motion/MotionPreference';
 import { easings, springs } from '../../motion/tokens';
 
-type Standing = ArchiveLeagueResponse['standings'][number];
+/** The fields a ladder row needs; both the Wikipedia and the NBA.com standings provide them. */
+interface Standing {
+  rank: number;
+  conference: string;
+  team: { id: string; name: string; abbreviation: string };
+  wins: number;
+  losses: number;
+  winPercentage: number;
+  gamesBehind: number | null;
+}
+/** A season's postseason format (a league rule, not a source field). */
+export interface PostseasonFormat {
+  playoffCut: number;
+  playInCut: number | null;
+  label: string;
+}
+export const FORMAT_2023_24: PostseasonFormat = {
+  playoffCut: 6,
+  playInCut: 10,
+  label: '2023–24 postseason format',
+};
+/** Play-in tournament (7–10) from 2020–21; eight playoff teams per conference before it. */
+export function postseasonFormat(season: string): PostseasonFormat {
+  return Number(season.slice(0, 4)) >= 2020
+    ? { playoffCut: 6, playInCut: 10, label: 'play-in format since 2020–21' }
+    : { playoffCut: 8, playInCut: null, label: 'eight playoff teams per conference' };
+}
 export type LadderSort = 'rank' | 'wins' | 'losses' | 'winPercentage';
-
-// 2023–24 postseason format (a league rule, not a source field): seeds 1–6 qualify directly,
-// 7–10 enter the play-in tournament. Lines are drawn only on the source-rank order.
-const PLAYOFF_CUT = 6;
-const PLAY_IN_CUT = 10;
 
 /**
  * Two conference ladders. Rows reorder with a layout (FLIP) animation when the sort changes;
@@ -22,10 +42,13 @@ export function ConferenceLadders({
   standings,
   sort,
   conference,
+  format = FORMAT_2023_24,
 }: {
   standings: readonly Standing[];
   sort: LadderSort;
   conference?: 'East' | 'West' | undefined;
+  /** Where the cut lines go; defaults to the 2023–24 format. */
+  format?: PostseasonFormat;
 }) {
   const maxGb = Math.max(1, ...standings.map((row) => row.gamesBehind ?? 0));
   const conferences = (['East', 'West'] as const).filter(
@@ -51,6 +74,7 @@ export function ConferenceLadders({
             rows={rows}
             maxGb={maxGb}
             showCuts={sort === 'rank'}
+            format={format}
           />
         );
       })}
@@ -63,11 +87,13 @@ function Ladder({
   rows,
   maxGb,
   showCuts,
+  format,
 }: {
   name: string;
   rows: readonly Standing[];
   maxGb: number;
   showCuts: boolean;
+  format: PostseasonFormat;
 }) {
   const allowed = useMotionAllowed();
   const [ref, seen] = useSeen<HTMLElement>();
@@ -84,9 +110,9 @@ function Ladder({
             layout={allowed ? 'position' : false}
             transition={springs.data}
             className={`ladder__row ${
-              showCuts && row.rank === PLAYOFF_CUT
+              showCuts && row.rank === format.playoffCut
                 ? 'is-cut-playoff'
-                : showCuts && row.rank === PLAY_IN_CUT
+                : showCuts && row.rank === format.playInCut
                   ? 'is-cut-playin'
                   : ''
             }`}
@@ -120,9 +146,13 @@ function Ladder({
       </ol>
       {showCuts ? (
         <p className="ladder__key">
-          <span className="ladder__key-playoff">Playoffs 1–6</span>
-          <span className="ladder__key-playin">Play-in 7–10</span>
-          <span>2023–24 postseason format · bars: games behind</span>
+          <span className="ladder__key-playoff">Playoffs 1–{format.playoffCut}</span>
+          {format.playInCut ? (
+            <span className="ladder__key-playin">
+              Play-in {format.playoffCut + 1}–{format.playInCut}
+            </span>
+          ) : null}
+          <span>{format.label} · bars: games behind</span>
         </p>
       ) : (
         <p className="ladder__key">
