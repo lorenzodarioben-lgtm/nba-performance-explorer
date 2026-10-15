@@ -58,6 +58,10 @@ export const routeExamples: readonly RouteExample[] = [
   { name: 'player-archive', path: '/players/203999/archive' },
   { name: 'lab-shots-zones', path: '/lab/shots?players=201939,2544&view=zones' },
   { name: 'lab-formulas', path: '/lab/formulas' },
+  {
+    name: 'lab-shots-efficiency',
+    path: '/lab/shots?players=201939,2544&view=efficiency',
+  },
   { name: 'lab-teams-duel', path: '/lab/teams?teams=nba:1610612738,nba:1610612743' },
   { name: 'not-found', path: '/this-route-does-not-exist' },
 ];
