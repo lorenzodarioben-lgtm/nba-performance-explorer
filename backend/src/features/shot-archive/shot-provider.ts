@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { z } from 'zod';
 import { createHash } from 'node:crypto';
 import {
   ShotBoxResponseSchema,
@@ -6,8 +7,10 @@ import {
   ShotDirectorySchema,
   ShotResponseSchema,
   ShotSourceSchema,
+  ShotLeagueBaselineSchema,
   ShotZoneSchema,
   type ShotAttempt,
+  type ShotLeagueBaseline,
   type ShotQuery,
   type DirectoryTeam,
   type ShotDirectory,
@@ -59,11 +62,72 @@ export function distanceProfile(shots: readonly ShotAttempt[], minAttempts: numb
     };
   });
 }
+const LeagueAveragesFileSchema = z
+  .object({
+    kind: z.literal('nba-stats-shot-league-averages'),
+    version: z.literal(1),
+    season: z.literal('2017-18'),
+    scope: z.literal('playoffs'),
+    source: z.string().max(300),
+    retrievedAt: z.string().datetime(),
+    responseSha256: z.string().regex(/^[0-9a-f]{64}$/),
+    games: z.number().int().positive(),
+    verification: z.string().max(500),
+    headers: z.tuple([
+      z.literal('SHOT_ZONE_BASIC'),
+      z.literal('SHOT_ZONE_AREA'),
+      z.literal('SHOT_ZONE_RANGE'),
+      z.literal('FGA'),
+      z.literal('FGM'),
+    ]),
+    rows: z
+      .array(
+        z.tuple([
+          ShotZoneSchema,
+          z.string(),
+          z.string(),
+          z.number().int().nonnegative(),
+          z.number().int().nonnegative(),
+        ]),
+      )
+      .min(1)
+      .max(40),
+  })
+  .strict();
+/** Groups NBA.com's area-and-range rows into the seven source zones the studio shows. */
+export function leagueBaseline(file: unknown): ShotLeagueBaseline {
+  const f = LeagueAveragesFileSchema.parse(file);
+  const attempts = f.rows.reduce((a, r) => a + r[3], 0),
+    makes = f.rows.reduce((a, r) => a + r[4], 0);
+  if (f.rows.some((r) => r[4] > r[3]))
+    throw new Error('League zone makes exceed attempts.');
+  return ShotLeagueBaselineSchema.parse({
+    source: f.source,
+    retrievedAt: f.retrievedAt,
+    games: f.games,
+    attempts,
+    makes,
+    zones: ShotZoneSchema.options.map((zone) => {
+      const rows = f.rows.filter((r) => r[0] === zone),
+        a = rows.reduce((s, r) => s + r[3], 0),
+        m = rows.reduce((s, r) => s + r[4], 0);
+      return {
+        zone,
+        attempts: a,
+        makes: m,
+        share: attempts ? a / attempts : 0,
+        fgPercentage: a ? m / a : null,
+      };
+    }),
+    verification: f.verification,
+  });
+}
 export class ShotArchiveProvider {
   readonly directory: ShotDirectory;
   constructor(
     readonly shots: readonly ShotAttempt[],
     teams: readonly DirectoryTeam[],
+    readonly baseline: ShotLeagueBaseline | null = null,
   ) {
     const players = new Map<string, { id: string; name: string; attempts: number }>(),
       games = new Map<string, ShotDirectory['games'][number]>();
@@ -193,6 +257,7 @@ export class ShotArchiveProvider {
       };
     });
     return ShotResponseSchema.parse({
+      leagueBaseline: this.baseline,
       region: q.region ?? null,
       season: q.season,
       scope: q.scope,
@@ -319,5 +384,17 @@ export async function createShotArchiveProvider() {
     shots = parseShotCsv(bytes.toString('utf8'), teams);
   if (shots.length !== 13_470)
     throw new Error('Unexpected recorded shot source coverage.');
-  return new ShotArchiveProvider(shots, teams);
+  const baseline = leagueBaseline(
+    JSON.parse(
+      readFileSync(new URL('./league-zone-averages.json', import.meta.url), 'utf8'),
+    ),
+  );
+  // NBA.com's league table covers all 82 games; the recorded events are 80 of them, so the
+  // league table must hold at least as many attempts and makes in every zone.
+  for (const z of baseline.zones) {
+    const own = shots.filter((r) => r.zone === z.zone);
+    if (own.length > z.attempts || own.filter((r) => r.made).length > z.makes)
+      throw new Error('League zone baseline is smaller than the recorded events.');
+  }
+  return new ShotArchiveProvider(shots, teams, baseline);
 }

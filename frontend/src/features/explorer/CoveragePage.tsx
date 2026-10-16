@@ -143,24 +143,33 @@ export function CoveragePage() {
         <Slate id="cov-never" title="Not available from any source here" />
         <ul className="cov-never">
           <li>
-            Live or current scores, schedules and standings: no permitted, verified
-            feed.
+            Play-by-play, scoring runs and lead changes before 1996&ndash;97: NBA.com
+            publishes no events for those games.
           </li>
           <li>
-            Play-by-play, scoring runs, lead changes and possessions: no licensed event
-            data; quarter totals are never stretched into runs.
+            Lineups and on/off splits before 2007&ndash;08: NBA.com publishes none.
           </li>
           <li>
-            Offensive, defensive and net ratings, and on/off splits: need possessions
-            and substitutions.
-          </li>
-          <li>Injury and availability records.</li>
-          <li>
-            A representative league-wide shot baseline: the only shot archive is a
-            partial playoff sample.
+            Player box scores for 1983&ndash;84 to 1986&ndash;87, 1988&ndash;89 and
+            1990&ndash;91 to 1995&ndash;96: NBA.com&rsquo;s player lines do not add up
+            to its team lines often enough, so those seasons are team-only.
           </li>
           <li>
-            Era-adjusted comparisons: no defensible cross-era model or complete archive.
+            Injury reports and reasons for absence. Games missed are counted from the
+            schedule; no diagnosis is ever inferred.
+          </li>
+          <li>
+            Shot locations outside the 2017&ndash;18 playoffs, and Finals Games 3 and 4
+            of those playoffs (the league zone baseline still covers all 82 games).
+          </li>
+          <li>Defender, shot-clock and tracking data.</li>
+          <li>
+            A single &ldquo;best across eras&rdquo; ranking: the era index compares each
+            player with the league of the same season, nothing more.
+          </li>
+          <li>
+            Anything from NBA.com while the server is offline: live pages say so and the
+            committed archive keeps working.
           </li>
         </ul>
         <p className="fr-note">

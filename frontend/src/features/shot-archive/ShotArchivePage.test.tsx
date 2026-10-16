@@ -34,6 +34,21 @@ const summary = {
   pointsPerAttempt: 1.5,
 };
 const data: ShotResponse = {
+  leagueBaseline: {
+    source: 'NBA.com Stats shotchartdetail fixture',
+    retrievedAt: '2026-10-16T01:44:06.000Z',
+    games: 82,
+    attempts: 1000,
+    makes: 450,
+    zones: ShotZoneSchema.options.map((zone, i) => ({
+      zone,
+      attempts: i === 5 ? 250 : 125,
+      makes: i === 5 ? 85 : 61,
+      share: i === 5 ? 0.25 : 0.125,
+      fgPercentage: i === 5 ? 0.34 : 0.488,
+    })),
+    verification: 'Fixture verification.',
+  },
   season: '2017-18',
   scope: 'playoffs',
   source,
@@ -253,6 +268,22 @@ describe('recorded shot studio', () => {
       'CC0: Public Domain',
     );
     expect(screen.getByText(/Coverage ends June 3/)).toBeInTheDocument();
+    // NBA.com's league baseline sits beside each zone, labelled as unfiltered.
+    const zones = screen.getByRole('group', {
+      name: 'All filtered source events shot zones',
+    });
+    const atb = within(zones).getByRole('row', { name: /^Above the Break 3/ });
+    expect(atb).toHaveTextContent('25.0%');
+    expect(atb).toHaveTextContent('34.0%');
+    expect(atb).toHaveTextContent('+16.0 pts');
+    // A zone the filtered group never shot from has no gap, not a zero.
+    expect(
+      within(zones).getByRole('row', { name: /^Restricted Area/ }),
+    ).toHaveTextContent('Unavailable');
+    expect(zones).toHaveTextContent('not narrowed by the filters');
+    expect(screen.getByTestId('league-zone-baseline')).toHaveTextContent(
+      'cover 1 of those games',
+    );
   });
   it('uses full-filter density values and leaves filter controls editable after invalid input', async () => {
     routes();

@@ -7,6 +7,7 @@ import {
   ShotDirectorySchema,
   ShotRegionSchema,
   ShotZoneSchema,
+  type ShotLeagueBaseline,
 } from '@nba-performance-explorer/contracts';
 import { fetchResearch } from '../research/api';
 import {
@@ -58,6 +59,30 @@ function useNarrow() {
 }
 const ratio = (n: number | null) =>
   n === null ? 'Unavailable' : `${(n * 100).toFixed(1)}%`;
+
+/** League share and FG% for one source zone, with the filtered group's FG% gap in points. */
+function LeagueZoneCells({
+  league,
+  zone,
+  fg,
+}: {
+  league: ShotLeagueBaseline;
+  zone: string;
+  fg: number | null;
+}) {
+  const l = league.zones.find((x) => x.zone === zone);
+  const gap =
+    fg === null || l?.fgPercentage == null ? null : (fg - l.fgPercentage) * 100;
+  return (
+    <>
+      <td>{l ? ratio(l.share) : 'Unavailable'}</td>
+      <td>{l ? ratio(l.fgPercentage) : 'Unavailable'}</td>
+      <td>
+        {gap === null ? 'Unavailable' : `${gap > 0 ? '+' : ''}${gap.toFixed(1)} pts`}
+      </td>
+    </>
+  );
+}
 
 const REGION_FIELDS = [
   { label: 'Region left edge (ft across)', limits: REGION_LIMITS.x },
@@ -606,6 +631,9 @@ export function ShotArchivePage() {
                           <caption>
                             Every filtered event by original source zone, before
                             pagination
+                            {data.leagueBaseline
+                              ? `; league columns are NBA.com’s averages for all ${data.leagueBaseline.games} games of these playoffs, not narrowed by the filters`
+                              : ''}
                           </caption>
                           <thead>
                             <tr>
@@ -616,6 +644,9 @@ export function ShotArchivePage() {
                                 'FG',
                                 'eFG',
                                 'Points/attempt',
+                                ...(data.leagueBaseline
+                                  ? ['League share', 'League FG', 'FG vs league']
+                                  : []),
                               ].map((label) => (
                                 <th scope="col" key={label}>
                                   {label}
@@ -634,6 +665,13 @@ export function ShotArchivePage() {
                                 <td>
                                   {z.pointsPerAttempt?.toFixed(3) ?? 'Unavailable'}
                                 </td>
+                                {data.leagueBaseline ? (
+                                  <LeagueZoneCells
+                                    league={data.leagueBaseline}
+                                    zone={z.zone}
+                                    fg={z.fgPercentage}
+                                  />
+                                ) : null}
                               </tr>
                             ))}
                           </tbody>
@@ -681,6 +719,16 @@ export function ShotArchivePage() {
               </div>
               {data.groups.length === 2 ? (
                 <ZoneStrip a={data.groups[0]!} b={data.groups[1]!} />
+              ) : null}
+              {data.leagueBaseline ? (
+                <p className="t-meta" data-testid="league-zone-baseline">
+                  League baseline:{' '}
+                  {data.leagueBaseline.attempts.toLocaleString('en-US')} attempts in all{' '}
+                  {data.leagueBaseline.games} games, from {data.leagueBaseline.source},
+                  retrieved {data.leagueBaseline.retrievedAt.slice(0, 10)}.{' '}
+                  {data.leagueBaseline.verification} The recorded events above cover{' '}
+                  {data.sourceGames} of those games.
+                </p>
               ) : null}
               <div
                 className={`studio__readout ${active ? 'is-active' : ''}`}

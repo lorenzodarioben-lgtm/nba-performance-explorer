@@ -52,6 +52,15 @@ describe('a player across the archive', () => {
     for (const s of lebron.seasons)
       for (const st of s.stints)
         expect(st.teamGamesInSpan).toBeGreaterThanOrEqual(st.gamesPlayed);
+    const span = (season: string) =>
+      lebron.seasons
+        .find((s) => s.season === season)!
+        .stints.map((st) => [st.gamesPlayed, st.teamGamesInSpan, st.lastGame]);
+    // 2018-19 ended with his late-March shutdown: the six games after it are outside the span,
+    // not counted as missed. 2019-20 includes the bubble (the Lakers played 71).
+    expect(span('2018-19')).toEqual([[55, 76, '2019-03-29']]);
+    expect(span('2019-20')).toEqual([[67, 71, '2020-08-13']]);
+    expect(span('2023-24')).toEqual([[71, 82, '2024-04-14']]);
     const og = players.player('1628384').seasons.find((s) => s.season === '2023-24')!;
     expect(og.stints.map((st) => st.team.abbreviation)).toEqual(['TOR', 'NYK']);
     expect(og.stints[0]!.lastGame < og.stints[1]!.firstGame).toBe(true);

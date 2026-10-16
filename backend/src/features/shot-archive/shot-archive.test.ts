@@ -44,6 +44,26 @@ describe('genuine recorded CC0 shot archive', () => {
       filteredAttempts: 13470,
     });
   });
+  it('serves NBA.com’s whole-playoff league baseline by zone, never narrowed by filters', () => {
+    const b = provider.baseline!;
+    // All 82 games: equal to the archive box scores' 13,816 FGA and 6,294 FGM.
+    expect([b.games, b.attempts, b.makes]).toEqual([82, 13816, 6294]);
+    const zone = (z: string) => b.zones.find((x) => x.zone === z)!;
+    expect(zone('Restricted Area')).toMatchObject({ attempts: 4437, makes: 2835 });
+    // NBA.com's four back-court heaves classed as Above the Break 3 stay there.
+    expect(zone('Above the Break 3')).toMatchObject({ attempts: 3756, makes: 1263 });
+    expect(zone('Backcourt')).toMatchObject({ attempts: 41, makes: 2 });
+    expect(b.zones.reduce((a, z) => a + z.share, 0)).toBeCloseTo(1, 10);
+    // Every zone holds at least the recorded events (80 of the 82 games).
+    for (const z of b.zones)
+      expect(z.attempts).toBeGreaterThanOrEqual(
+        provider.shots.filter((r) => r.zone === z.zone).length,
+      );
+    const filtered = provider.analyze(
+      ShotQuerySchema.parse({ players: '2544', zone: 'Restricted Area' }),
+    );
+    expect(filtered.leagueBaseline).toEqual(b);
+  });
   it('keeps every filtered denominator before pagination and separate two-player scopes', () => {
     const q = ShotQuerySchema.parse({
         players: '2544,201939',

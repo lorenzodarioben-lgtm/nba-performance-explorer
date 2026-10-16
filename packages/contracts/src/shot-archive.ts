@@ -178,8 +178,38 @@ export const ShotGroupSchema = SummarySchema.extend({
     )
     .max(250),
 }).strict();
+/**
+ * NBA.com's league averages by source zone for the whole 2017-18 playoffs (every game and
+ * player). It is a fixed baseline: the page's player, game and region filters do not narrow it.
+ */
+export const ShotLeagueBaselineSchema = z
+  .object({
+    source: z.string().max(300),
+    retrievedAt: z.string().datetime(),
+    games: count,
+    attempts: count,
+    makes: count,
+    zones: z
+      .array(
+        z
+          .object({
+            zone: ShotZoneSchema,
+            attempts: count,
+            makes: count,
+            /** This zone's share of all league attempts. */
+            share: z.number().min(0).max(1),
+            fgPercentage: z.number().min(0).max(1).nullable(),
+          })
+          .strict(),
+      )
+      .length(7),
+    verification: z.string().max(500),
+  })
+  .strict();
+export type ShotLeagueBaseline = z.infer<typeof ShotLeagueBaselineSchema>;
 export const ShotResponseSchema = z
   .object({
+    leagueBaseline: ShotLeagueBaselineSchema.nullable(),
     season: z.literal('2017-18'),
     scope: z.literal('playoffs'),
     source: ShotSourceSchema,

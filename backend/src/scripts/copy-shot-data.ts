@@ -7,11 +7,14 @@ const sourceRoot = new URL(
 );
 const files = [
   'shot-archive/shot-events.csv',
+  'shot-archive/league-zone-averages.json',
   'lineup-study/lineup-study-snapshot.json',
   // The league archive: its index pins every file's digest, so copy the bytes unchanged.
   ...readdirSync(new URL('league/data/', sourceRoot))
     .filter((name) =>
-      /^(index\.json|\d{4}-\d{2}\.(summary|games)\.json\.gz)$/.test(name),
+      /^((extras-)?index\.json|franchises\.json\.gz|\d{4}-\d{2}\.(summary|games|rosters)\.json\.gz)$/.test(
+        name,
+      ),
     )
     .map((name) => `league/data/${name}`),
 ];
