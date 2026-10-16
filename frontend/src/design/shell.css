@@ -116,25 +116,43 @@
 .mast__search {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  height: 38px;
-  min-width: 260px;
-  padding: 0 8px 0 12px;
-  border: 1px solid var(--line-2);
-  border-radius: 2px;
-  background: var(--coal);
+  gap: 9px;
+  height: 36px;
+  min-width: 248px;
+  padding: 0 7px 0 11px;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 3px;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.035), rgb(255 255 255 / 0.008)),
+    var(--coal);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
   color: var(--chalk-3);
-  font: 500 14px/1 var(--ui);
+  font: 500 13.5px/1 var(--ui);
+  letter-spacing: 0.005em;
   cursor: pointer;
   transition:
     border-color var(--dur-quick) var(--ease-film),
     color var(--dur-quick) var(--ease-film),
-    background-color var(--dur-quick) var(--ease-film);
+    background-color var(--dur-quick) var(--ease-film),
+    box-shadow var(--dur-quick) var(--ease-film);
+}
+.mast__search > svg {
+  flex: none;
+  color: var(--chalk-3);
+  transition: color var(--dur-quick) var(--ease-film);
 }
 .mast__search:hover {
-  border-color: var(--line-3);
+  border-color: rgb(255 255 255 / 0.22);
   color: var(--chalk-2);
-  background: var(--film);
+  background-color: var(--film);
+}
+.mast__search:hover > svg {
+  color: var(--chalk-2);
+}
+.mast__search:focus-visible {
+  outline: 2px solid var(--red-hi);
+  outline-offset: 2px;
+  border-color: rgb(255 255 255 / 0.22);
 }
 .kbd {
   margin-left: auto;
@@ -144,11 +162,28 @@
   font: 500 11px/1 var(--mono);
   color: var(--chalk-3);
 }
+/* The shortcut key: a small square chip centred on the field's midline. */
+.mast__search .kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-color: rgb(255 255 255 / 0.14);
+  border-radius: 3px;
+  background: rgb(255 255 255 / 0.04);
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.5);
+  font-size: 11px;
+  line-height: 1;
+  color: var(--chalk-2);
+}
 .mast__mine {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 38px;
+  height: 36px;
+  margin-left: 9px;
   padding: 0 12px;
   border-radius: 2px;
   font: 600 13px/1 var(--ui);
@@ -158,6 +193,17 @@
   transition:
     color var(--dur-quick) var(--ease-film),
     background-color var(--dur-quick) var(--ease-film);
+}
+/* A hairline separates the search field from the personal link. */
+.mast__mine::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 1px;
+  height: 18px;
+  transform: translateY(-50%);
+  background: var(--line-2);
 }
 .mast__mine:hover,
 .mast__mine[aria-current='page'] {
@@ -214,6 +260,7 @@
   }
   .mast__search {
     width: 40px;
+    height: 40px;
     justify-content: center;
     padding: 0;
   }
