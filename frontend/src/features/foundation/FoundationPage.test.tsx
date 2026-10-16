@@ -74,6 +74,21 @@ describe('landing page', () => {
     );
   });
 
+  it('restores the ribbon below the hero and the TIP OFF close above the footer', () => {
+    const { container } = renderApp();
+    const ribbon = container.querySelector('.marquee');
+    expect(ribbon).toHaveAttribute('aria-hidden', 'true');
+    expect(ribbon).toHaveTextContent('Head-to-head comparison');
+    expect(container.querySelector('#top + .marquee')).not.toBeNull();
+    const tip = screen.getByRole('link', { name: /Search a player/ });
+    expect(tip).toHaveAttribute('href', '#top');
+    expect(
+      screen.getByText(
+        'Compare two players, explore their numbers and career arcs, then share the matchup.',
+      ),
+    ).toBeInTheDocument();
+  });
+
   it('shows an accessible connecting state while the data service responds', () => {
     mockHealthPending();
     renderApp();
@@ -97,7 +112,10 @@ describe('landing page', () => {
 
     renderApp();
 
-    expect(await screen.findByText('Data service available')).toBeInTheDocument();
+    const ok = await screen.findByText('Data service available');
+    // Healthy: the green dot, never the neutral connecting ring.
+    expect(ok.querySelector('.home-status__dot')).not.toBeNull();
+    expect(ok.querySelector('.home-status__ring')).toBeNull();
     // The raw service identifier is never rendered, even though the response contains it.
     expect(screen.queryByText(/nba-performance-explorer-api/)).not.toBeInTheDocument();
   });
@@ -120,9 +138,9 @@ describe('landing page', () => {
 
     renderApp();
 
-    expect(
-      await screen.findByText(/Data service temporarily unavailable/),
-    ).toBeInTheDocument();
+    const down = await screen.findByText(/Data service temporarily unavailable/);
+    expect(down).toBeInTheDocument();
+    expect(down.querySelector('.home-status__dot')).toBeNull();
     // A failed health check must not block or disable the player search.
     expect(
       screen.getByRole('combobox', { name: 'Search NBA players' }),

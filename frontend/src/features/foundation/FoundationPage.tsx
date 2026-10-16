@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'motion/react';
-import { useEffect, useRef, type RefObject } from 'react';
+import { useEffect, useRef, type MouseEvent, type RefObject } from 'react';
 import { Link } from 'react-router';
 
 import { BasketballCourt } from '../../charts/BasketballCourt';
@@ -17,6 +17,7 @@ import { getSceneImage } from '../../ui/sceneImages';
 import { PlayerSearch } from '../player-search/PlayerSearch';
 import { getPlayerImage, getPortraitImage } from '../players/playerImages';
 import { HomePreviews } from './HomePreviews';
+import { LandingMarquee } from './LandingMarquee';
 import { NewRooms } from './NewRooms';
 import { useHealthQuery } from './useHealthQuery';
 
@@ -37,6 +38,7 @@ function ServiceStatus() {
   if (healthQuery.isPending) {
     return (
       <p role="status" aria-live="polite" className="home-status">
+        <span aria-hidden="true" className="home-status__ring" />
         Connecting to the data service…
       </p>
     );
@@ -52,7 +54,7 @@ function ServiceStatus() {
 
   return (
     <p role="status" aria-live="polite" className="home-status is-ok">
-      <span aria-hidden="true" className="home-status__ring" />
+      <span aria-hidden="true" className="home-status__dot" />
       Data service available
     </p>
   );
@@ -296,8 +298,8 @@ function CompareSection() {
           </Reveal>
           <Reveal variant="fade" delay={0.15}>
             <p className="homecmp__lede">
-              Line up a season they both played, read a tale of the tape and their
-              career arcs, and share the link. No winner is declared for you.
+              Compare two players, explore their numbers and career arcs, then share the
+              matchup.
             </p>
             <Link to="/compare" className="btn btn--primary homecmp__cta">
               Compare two players
@@ -309,6 +311,36 @@ function CompareSection() {
           <ComparePhoto playerId={LEBRON} />
         </Reveal>
       </div>
+    </section>
+  );
+}
+
+// The closing call back to the top: an oversized TIP OFF and a bordered button that returns the
+// visitor to the hero search field and focuses it.
+function ClosingSection() {
+  const backToSearch = (event: MouseEvent<HTMLAnchorElement>) => {
+    const input = document.querySelector<HTMLInputElement>('#top input');
+    if (!input) return;
+    event.preventDefault();
+    const smooth = !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    document
+      .getElementById('top')
+      ?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+    input.focus({ preventScroll: true });
+  };
+  return (
+    <section className="hometip" aria-label="Tip off">
+      <Reveal className="wrap hometip__inner">
+        <p className="hometip__word" aria-hidden="true">
+          Tip
+          <br />
+          off
+        </p>
+        <a href="#top" className="hometip__cta" onClick={backToSearch}>
+          Search a player
+          <span aria-hidden="true">&uarr;</span>
+        </a>
+      </Reveal>
     </section>
   );
 }
@@ -325,10 +357,12 @@ export function FoundationPage() {
   return (
     <main className="home">
       <Hero headingRef={headingRef} />
+      <LandingMarquee />
       <Rundown />
       <OnTape />
       <NewRooms />
       <CompareSection />
+      <ClosingSection />
     </main>
   );
 }

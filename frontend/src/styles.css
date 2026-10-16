@@ -424,7 +424,7 @@ html.js [data-reveal].is-visible {
 }
 @media (prefers-reduced-motion: no-preference) {
   .marquee-track {
-    animation: marquee 40s linear infinite;
+    animation: marquee 80s linear infinite;
   }
   .marquee:hover .marquee-track {
     animation-play-state: paused;

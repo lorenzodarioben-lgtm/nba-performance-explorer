@@ -87,7 +87,7 @@
   color: var(--chalk-2);
 }
 .homehero__line {
-  font: 800 clamp(5rem, 15.5vw, 13.5rem) / 0.78 var(--display);
+  font: 800 clamp(4.8rem, 14.9vw, 12.95rem) / 0.78 var(--display);
   letter-spacing: -0.015em;
   color: var(--chalk);
 }
@@ -97,7 +97,7 @@
 .homehero__lede {
   max-width: 54ch;
   margin-top: 26px;
-  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+  font-size: clamp(1.02rem, 1.54vw, 1.2rem);
   line-height: 1.55;
   color: var(--chalk-2);
 }
@@ -119,8 +119,36 @@
 .home-status__ring {
   width: 8px;
   height: 8px;
-  border: 1.5px solid var(--chalk-2);
+  border: 1.5px solid var(--chalk-3);
   border-radius: 50%;
+}
+/* Available: a small green dot with a faint halo that breathes once every three seconds. */
+.home-status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow:
+    0 0 0 0 rgb(34 197 94 / 0.16),
+    0 0 5px rgb(34 197 94 / 0.32);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .home-status__dot {
+    animation: home-status-breathe 3s ease-in-out infinite;
+  }
+}
+@keyframes home-status-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 0 rgb(34 197 94 / 0.16),
+      0 0 5px rgb(34 197 94 / 0.32);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px rgb(34 197 94 / 0.07),
+      0 0 7px rgb(34 197 94 / 0.42);
+  }
 }
 .homehero__cue {
   position: absolute;
@@ -532,8 +560,65 @@
   margin: 18px auto 0;
   color: var(--chalk-2);
 }
+/* The original sports-display call to action: condensed, bold, uppercase. */
 .homecmp__cta {
-  margin-top: 24px;
+  gap: 12px;
+  min-height: 0;
+  margin-top: 28px;
+  padding: 16px 32px;
+  font: 700 1.125rem/1 var(--display);
+  letter-spacing: 0.025em;
+}
+.homecmp__cta:hover {
+  --btn-bg: #991b1b;
+  --btn-bd: #991b1b;
+}
+.homecmp__cta:focus-visible {
+  outline: 2px solid var(--chalk);
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------- tip off */
+
+.hometip {
+  padding: clamp(88px, 12vw, 136px) 0;
+  border-top: 1px solid var(--line);
+  background: var(--night);
+  text-align: center;
+}
+.hometip__inner {
+  display: grid;
+  justify-items: center;
+}
+.hometip__word {
+  margin: 0;
+  font: 800 clamp(4.5rem, 14vw, 10rem) / 0.82 var(--display);
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.hometip__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 40px;
+  padding: 16px 32px;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  font: 700 1.125rem/1 var(--display);
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  color: var(--chalk);
+  text-decoration: none;
+  transition:
+    border-color var(--dur-base) var(--ease-film),
+    background-color var(--dur-base) var(--ease-film);
+}
+.hometip__cta:hover {
+  border-color: var(--chalk);
+  background: rgb(255 255 255 / 0.05);
+}
+.hometip__cta:focus-visible {
+  outline: 2px solid var(--red-hi);
+  outline-offset: 3px;
 }
 @media (max-width: 860px) {
   .homecmp__inner {

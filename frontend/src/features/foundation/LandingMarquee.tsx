@@ -1,6 +1,6 @@
 // A broadcast-style ticker of the application's real capabilities and the real metrics it surfaces.
 // It is decorative (aria-hidden) so it is never announced or double-read; the same capabilities are
-// listed as real text below. The track is duplicated so the CSS -50% loop is seamless, and it pauses
+// listed as real text below. The track repeats in two identical halves so the CSS -50% loop is seamless, and it pauses
 // on hover. Motion is gated on prefers-reduced-motion in styles.css.
 const ITEMS = [
   'Player search',
@@ -18,7 +18,9 @@ const ITEMS = [
 ] as const;
 
 export function LandingMarquee() {
-  const track = [...ITEMS, ...ITEMS];
+  // Two copies per half, so each half (about 4,000px) is wider than any screen and the loop never
+  // shows a gap on very wide displays.
+  const track = [...ITEMS, ...ITEMS, ...ITEMS, ...ITEMS];
 
   return (
     <div className="marquee border-y border-white/10 bg-coal py-5" aria-hidden="true">
