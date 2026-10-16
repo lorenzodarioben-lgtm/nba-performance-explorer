@@ -146,7 +146,7 @@ export function createLeagueRouter(
         'INVALID_LEAGUE_RECORDS',
         'Choose a scope, record kind, category and mode from the supported values.',
       );
-    return respond(res, () => records!.records(q.data));
+    return respondAsync(res, () => records!.recordsWhenReady(q.data));
   });
   router.all('/records', methodNotAllowedHandler);
   router.get('/team-rankings', (req, res) => {

@@ -72,6 +72,7 @@ type GameScan = Record<
 // Single-game records read every player line of every covered season. One pass computes all
 // categories, and the result is shared by every LeagueRecords over the same archive.
 const gameScans = new WeakMap<object, Map<LeagueScope, GameScan>>();
+const warming = new WeakMap<object, Map<LeagueScope, Promise<void>>>();
 
 export class LeagueRecords {
   private readonly cache = new Map<string, LeagueRecordsResponse>();
@@ -155,19 +156,34 @@ export class LeagueRecords {
   }
 
   /** Computes the regular-season game records in the background, yielding between seasons. */
-  async warm(scope: LeagueScope = 'regular-season') {
+  warm(scope: LeagueScope = 'regular-season'): Promise<void> {
     const archive = this.league.archive;
     const byScope = gameScans.get(archive) ?? new Map<LeagueScope, GameScan>();
     gameScans.set(archive, byScope);
-    if (byScope.has(scope)) return;
-    const it = this.scanGames(scope);
-    let step = it.next();
-    while (!step.done) {
-      await new Promise((resolve) => setImmediate(resolve));
-      if (byScope.has(scope)) return;
-      step = it.next();
-    }
-    byScope.set(scope, step.value);
+    if (byScope.has(scope)) return Promise.resolve();
+    const pending = warming.get(archive) ?? new Map<LeagueScope, Promise<void>>();
+    warming.set(archive, pending);
+    const running = pending.get(scope);
+    if (running) return running;
+    const run = (async () => {
+      const it = this.scanGames(scope);
+      let step = it.next();
+      while (!step.done) {
+        await new Promise((resolve) => setImmediate(resolve));
+        if (byScope.has(scope)) return;
+        step = it.next();
+      }
+      byScope.set(scope, step.value);
+    })().finally(() => pending.delete(scope));
+    pending.set(scope, run);
+    return run;
+  }
+
+  /** Like records(), but waits for a warm-up already under way instead of repeating its work. */
+  async recordsWhenReady(q: LeagueRecordsQuery): Promise<LeagueRecordsResponse> {
+    const running = warming.get(this.league.archive)?.get(q.scope);
+    if (q.kind === 'game' && running) await running;
+    return this.records(q);
   }
 
   private coverage(scope: LeagueScope) {

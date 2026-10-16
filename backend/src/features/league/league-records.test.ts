@@ -88,17 +88,22 @@ describe('background warm-up', () => {
   it('computes single-game records while yielding, and serves them from the shared result', async () => {
     let ticks = 0;
     const timer = setInterval(() => ticks++, 1);
-    await new LeagueRecords(service).warm('playoffs');
+    const q = LeagueRecordsQuerySchema.parse({
+      kind: 'game',
+      category: 'points',
+      scope: 'playoffs',
+    });
+    // A request that arrives mid-warm-up waits for it rather than repeating the scan.
+    const warming = new LeagueRecords(service).warm('playoffs');
+    expect(new LeagueRecords(service).warm('playoffs')).toBe(warming);
+    const [, served] = await Promise.all([
+      warming,
+      new LeagueRecords(service).recordsWhenReady(q),
+    ]);
     clearInterval(timer);
     // Other work ran while the seasons were read.
     expect(ticks).toBeGreaterThan(0);
-    const top = new LeagueRecords(service).records(
-      LeagueRecordsQuerySchema.parse({
-        kind: 'game',
-        category: 'points',
-        scope: 'playoffs',
-      }),
-    ).records[0]!;
+    const top = served.records[0]!;
     expect(top).toMatchObject({ value: 57, playerId: '1628378' });
     expect(top.game?.date).toBe('2020-08-17');
   });
