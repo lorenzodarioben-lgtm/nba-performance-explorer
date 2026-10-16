@@ -7,15 +7,15 @@ dev server, with the backend in fixture mode.
 
 ## Work completed
 
-| Work                                                                                     | Commit    | Where                                |
-| ---------------------------------------------------------------------------------------- | --------- | ------------------------------------ |
-| Collapsible game log (6 games) and career table (5 seasons)                              | `8b90f93` | `ui/RowCollapse.tsx`, player profile |
-| Kyrie Irving: new profile photo; matchup photo reused in the home head-to-head band      | `7184970` | `/players/202681`, home              |
-| Kobe Bryant and Shaquille O'Neal header on the season navigator                          | `f54608c` | `/history` (index only)              |
-| Team directory plates: fuller, mark in its own row, GSW collision fixed                  | `c714bbc` | `/teams`                             |
-| Masthead search field refinement                                                         | `8c08edd` | every page                           |
-| Kawhi Leonard buzzer-beater scoreboard header                                            | `12c5cbf` | `/games`                             |
-| Home: moving ribbon, TIP OFF close, green status dot, hero type, comparison copy and CTA | `b6c6ad7` | home                                 |
+| Work                                                                                                     | Commit    | Where                                |
+| -------------------------------------------------------------------------------------------------------- | --------- | ------------------------------------ |
+| Collapsible game log (6 games) and career table (5 seasons)                                              | `8b90f93` | `ui/RowCollapse.tsx`, player profile |
+| Kyrie Irving: new profile photo; matchup photo reused (now on the Compare page, see the correction pass) | `7184970` | `/players/202681`, home              |
+| Kobe Bryant and Shaquille O'Neal header on the season navigator                                          | `f54608c` | `/history` (index only)              |
+| Team directory plates: fuller, mark in its own row, GSW collision fixed                                  | `c714bbc` | `/teams`                             |
+| Masthead search field refinement                                                                         | `8c08edd` | every page                           |
+| Kawhi Leonard buzzer-beater scoreboard header                                                            | `12c5cbf` | `/games`                             |
+| Home: moving ribbon, TIP OFF close, green status dot, hero type, comparison copy and CTA                 | `b6c6ad7` | home                                 |
 
 ### Collapsible tables
 
@@ -36,8 +36,8 @@ dev server, with the backend in fixture mode.
 
 - **Profile.** `NEWKYRIEPLAYERIMAGE.jpg` is the profile hero (`irving-{640,960,1500}.webp`). It
   frames his face at 1440 and 390 px.
-- **Home.** The earlier matchup photo became the `kyrie-matchup` scene: a 16:9 still above the VS
-  mark in the head-to-head band.
+- **Matchup photo.** The earlier matchup photo became the `kyrie-matchup` scene. It first sat
+  above the VS mark on the home page; the correction pass moved it to the Compare page header.
 - **Identities.** The alt text does not name the Brooklyn defender, who is not identified.
 - **Other players.** The other 72 player mappings are byte-identical.
 
@@ -105,6 +105,29 @@ dev server, with the backend in fixture mode.
   - COMPARE TWO PLAYERS is back in the original condensed display type: Saira Condensed, 700,
     uppercase, 16×32 padding, darker red hover, visible focus outline. It still links to
     `/compare`.
+
+## Correction pass after live review
+
+- **Home comparison band.** Reverted to Wembanyama | VS | LeBron, with no still above the VS
+  mark. The new copy and condensed CTA stay.
+- **Compare page.** The `kyrie-matchup` scene is now the `/compare` header photograph: right
+  side, masked, captioned, decorative. The selectors are unobstructed.
+- **Search.** One premium dark field style for the masthead control and the player search field,
+  with refined border, highlight, focus ring and glow, and a keycap "/" chip.
+- **Hero.** Wembanyama is drawn at 106% of the frame instead of 115%, so about 84% of the photo's
+  height shows instead of 77%.
+- **Status dot.** A brighter, larger green dot, a stronger glow, and a soft expanding ring every
+  2.5 s.
+
+New or replaced screenshots:
+
+- [`compare-page-after-1440.jpg`](screenshots/compare-page-after-1440.jpg)
+- [`compare-page-after-390.jpg`](screenshots/compare-page-after-390.jpg)
+- [`home-compare-after-1440.jpg`](screenshots/home-compare-after-1440.jpg)
+- [`home-hero-after-1440.jpg`](screenshots/home-hero-after-1440.jpg)
+- [`home-hero-after-390.jpg`](screenshots/home-hero-after-390.jpg)
+- [`search-and-status-states.jpg`](screenshots/search-and-status-states.jpg): masthead rest,
+  hover and focus; focused player field; status dot.
 
 ## Visual evidence
 

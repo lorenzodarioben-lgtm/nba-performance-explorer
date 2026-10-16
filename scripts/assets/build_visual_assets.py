@@ -89,7 +89,7 @@ ACTION = [
 SCENES = [
     ('kyrie-matchup', 'A:UpgradedKyrie.png', (1536, 960, 640), '50% 10%',
      'Kyrie Irving, in a Dallas jersey, drives at a Brooklyn Nets defender',
-     "home head-to-head band (Kyrie Irving's previous profile photo)"),
+     "Compare page (/compare) header (Kyrie Irving's previous profile photo)"),
     ('kobe-shaq', 'A:kobetoshaquseastheimageforthehistoricalseasonsectionimage.png', (1672, 1200, 800),
      '58% 62%',
      "Kobe Bryant and Shaquille O'Neal of the Los Angeles Lakers against the Philadelphia 76ers",

@@ -1,3 +1,69 @@
+# NBA Performance Explorer — correction pass after live review (latest)
+
+> Five small fixes from the owner's live review, on `claude/nba-explorer-3-ux-polish`. The 3.3
+> handoff below still describes everything else.
+
+## What changed
+
+1. **Home comparison band reverted** to its layout before the Kyrie still was added: Wembanyama |
+   VS | LeBron. The Kyrie-versus-defender still and its CSS are gone from the home page. The
+   shorter copy and the condensed COMPARE TWO PLAYERS button stay.
+2. **Kyrie matchup photo moved to the Compare page** (`/compare`).
+   - It is the header photograph to the right of "COMPARE PLAYERS", masked into the charcoal on
+     its left and lower edges, with a dark wash behind the title, a faint red floor light and a
+     caption.
+   - It uses the existing `kyrie-matchup` scene (640, 960 and 1536 px) with `srcSet`/`sizes`.
+   - On phones it sits above the title.
+   - The selectors are untouched and unobstructed (checked by hit-testing the input).
+   - The head is a `div`, not a second `<header>` banner landmark.
+3. **Search styling**, one system for the masthead control and the player search field (home
+   hero, players page, comparison slots). Both are dark gradient fields with a soft hairline
+   border, an inner top highlight and a small drop shadow.
+   - **Masthead:** 38 px tall; red search icon; brighter label on hover; red ring and glow on
+     focus. The "/" key is a keycap chip.
+   - **Player field:** 50 px tall; roomier padding; lighter, calmer placeholder; red caret; hover
+     border; red ring and soft glow on focus.
+   - The Tailwind tone classes for the input were replaced by the shared `.searchfield` CSS in
+     `shell.css`.
+4. **Wembanyama zoomed out** in the home hero (desktop). The photo is drawn at 106% of its frame,
+   shifted right, instead of 115%. About 84% of the photo's height shows, up from 77%, and his face
+   stays clear of the headline. Mobile is unchanged.
+5. **Status pulse stronger.**
+   - The dot is a brighter green (#34d058) and 9 px.
+   - Its glow swells from 6 to 12 px, and a soft ring expands and fades every 2.5 s.
+   - No motion under reduced motion.
+   - Connecting still shows a neutral ring; unavailable shows no dot.
+
+## Verification
+
+- **Static checks:** format, lint (0 errors, the same 13 warnings), module case and typecheck
+  pass.
+- **Visual assets:** the check passes (401 files).
+- **Tests:** frontend **516/516** and backend **532/532**, in a full run after the final code change.
+- **Build:** `npm run build` passes.
+- **E2E (`npm run e2e`):** **217 passed, 0 failed**, 73 skipped (desktop and mobile, with axe).
+  - This ran before the last code change, which turned the Compare page head from `<header>` into a
+    `div`. That change only removes a duplicate banner landmark; AppShell's test caught it, and the
+    affected suites pass 101/101 after the change.
+- **Rendered checks** (headless Chromium at 1440 and 390 px, fixture backend):
+  - The home band has only the two portraits.
+  - The Compare page header photo loads the right variant, the Player A input is hit-testable, and
+    there is no horizontal overflow.
+  - The search fields' rest, hover and focus states are distinct.
+  - The status dot runs both animations (glow and ring).
+
+## Next step
+
+Review the five fixes, then decide whether to open a pull request into `main`. The screenshots
+are in `docs/visual-polish/screenshots`:
+
+- `compare-page-after-*`
+- `home-compare-after-1440`
+- `home-hero-after-*`
+- `search-and-status-states`
+
+---
+
 # NBA Performance Explorer — 3.3 UX polish handoff (live)
 
 > Final state of the 3.3 polish. Read this first; the visual-assets handoff below it and the
@@ -18,7 +84,7 @@
 | Work                                                                                                                                         | Commit        |
 | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | Collapsible game log and career table                                                                                                        | `8b90f93`     |
-| Kyrie Irving: new profile photo; matchup photo moved to the home head-to-head band                                                           | `7184970`     |
+| Kyrie Irving: new profile photo; matchup photo reused (on the Compare page since the correction pass)                                        | `7184970`     |
 | Kobe/Shaq season navigator header (`/history` index only)                                                                                    | `f54608c`     |
 | Team directory plates (GSW collision fixed, about 13% wider, equal rows)                                                                     | `c714bbc`     |
 | Masthead search refinement                                                                                                                   | `8c08edd`     |

@@ -34,8 +34,8 @@ const TONES: Record<
   // Film Room: the default on every research surface (dark coal panels).
   light: {
     label: 'field-label',
-    input:
-      'border-[var(--line-2)] bg-[var(--night)] text-chalk placeholder:text-[var(--chalk-4)] hover:border-[var(--line-3)] focus-visible:border-[var(--chalk-3)]',
+    // The field itself is styled once, in shell.css (.searchfield), for every tone.
+    input: 'searchfield--film',
     hint: 'text-[var(--chalk-3)]',
     alert: 'border-[var(--line)] bg-[rgb(185_28_28/0.16)] text-red-200',
     listbox: 'border-[var(--line-2)] bg-[var(--film)] shadow-popover',
@@ -47,8 +47,7 @@ const TONES: Record<
   },
   dark: {
     label: 'text-white/70',
-    input:
-      'border-white/25 bg-white/[0.06] text-chalk placeholder:text-white/45 focus-visible:border-white',
+    input: 'searchfield--arena',
     hint: 'text-white/70',
     alert: 'border-white/10 bg-accent/20 text-red-200',
     listbox: 'border-white/15 bg-coal shadow-popover',
@@ -207,7 +206,7 @@ export function PlayerCombobox({
             ? `${listboxId}-option-${highlightedPlayer.id}`
             : undefined
         }
-        className={`mt-2 w-full rounded-sm border px-4 py-3 text-base ${t.input}`}
+        className={`searchfield mt-2 w-full ${t.input}`}
         placeholder="Enter at least 2 characters"
         onBlur={() => {
           setIsOpen(false);

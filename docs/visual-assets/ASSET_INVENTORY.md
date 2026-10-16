@@ -36,7 +36,7 @@ the upgraded photos and the site photos they were made from.
 | `UpgradedJokic.png`              | 1536×1024 | 2,080 KB | accepted | Nikola Jokic (203999); replaces jokic.webp                                                                                                 |
 | `UpgradedKD.png`                 | 1536×1024 | 2,020 KB | rejected | Kevin Durant: AI over-texturing and haloing on the face; the existing 5000 px original is sharper and natural, so it was kept (re-encoded) |
 | `UpgradedKawhi.png`              | 1672×941  | 2,263 KB | accepted | Kawhi Leonard (202695); replaces kawhi-leonard.jpg (JPEG blur)                                                                             |
-| `UpgradedKyrie.png`              | 1536×1024 | 2,218 KB | accepted | Kyrie Irving matchup scene in the home head-to-head band (`/images/scenes/kyrie-matchup-*.webp`); his profile photo until 3.3              |
+| `UpgradedKyrie.png`              | 1536×1024 | 2,218 KB | accepted | Kyrie Irving matchup scene in the Compare page header (`/images/scenes/kyrie-matchup-*.webp`); his profile photo until 3.3                 |
 | `UpgradedLebrondunk.png`         | 1254×1254 | 2,068 KB | accepted | LeBron James (2544) main photo; replaces lebron-dunk.avif                                                                                  |
 | `UpgradedLuka.png`               | 1436×1095 | 2,021 KB | accepted | Luka Doncic (1629029); replaces luka-doncic.jpg                                                                                            |
 | `UpgradedSteph.png`              | 1536×1024 | 1,850 KB | accepted | Stephen Curry portrait alternate and face thumbnail (new photo)                                                                            |

@@ -367,6 +367,9 @@
    headline, as the earlier landscape crop did; the section clips the overflow. */
 @media (min-width: 768px) {
   .homehero__photo img {
-    width: 115%;
+    /* Slightly wider than the frame and shifted right: his face stays clear of the headline,
+       and about 72% of the photograph's height shows (67% at the earlier 115%). */
+    width: 106%;
+    margin-left: 6%;
   }
 }

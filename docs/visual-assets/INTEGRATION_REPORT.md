@@ -10,7 +10,8 @@ branches were not touched.
   - His profile photo is now `NEWKYRIEPLAYERIMAGE.jpg`, a free-throw-line portrait that frames his
     face at every width.
   - His previous photo, the on-court matchup against a Brooklyn Nets defender, became the
-    `kyrie-matchup` scene above the VS mark in the home head-to-head band. Its alt text does not
+    `kyrie-matchup` scene in the Compare page (`/compare`) header. (It briefly sat above the VS
+    mark in the home head-to-head band; the owner's live review moved it.) Its alt text does not
     name the unidentified defender.
 - **Scenes.** Section imagery that is not a player's profile photo has its own generated registry,
   `frontend/src/ui/sceneImageData.ts` (`getSceneImage(slug)`).

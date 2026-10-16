@@ -28,6 +28,7 @@ import { ComparisonStatGraph } from './ComparisonStatGraph';
 import { ComparisonTableDisclosure } from './ComparisonTableDisclosure';
 import { KineticHeadline, Reveal } from '../../motion/choreography';
 import { useMotionAllowed } from '../../motion/MotionPreference';
+import { getSceneImage } from '../../ui/sceneImages';
 import { easings } from '../../motion/tokens';
 import { Notice } from '../../ui/DataState';
 import { Icon } from '../../ui/Icon';
@@ -86,6 +87,29 @@ function VersusMark() {
     >
       VS
     </motion.span>
+  );
+}
+
+const MATCHUP = getSceneImage('kyrie-matchup');
+
+/** The page's header photograph: a real on-court matchup, decorative and captioned. */
+function CompareBackdrop() {
+  if (!MATCHUP) return null;
+  return (
+    <figure className="cmpshot" aria-hidden="true">
+      <img
+        src={MATCHUP.src}
+        srcSet={MATCHUP.srcSet}
+        sizes="(max-width: 767px) 100vw, min(64vw, 860px)"
+        width={MATCHUP.width}
+        height={MATCHUP.height}
+        alt=""
+        fetchPriority="high"
+        decoding="async"
+        style={{ objectPosition: MATCHUP.objectPosition }}
+      />
+      <figcaption>Pictured: Kyrie Irving drives at a Brooklyn Nets defender</figcaption>
+    </figure>
   );
 }
 
@@ -364,19 +388,22 @@ export function PlayerComparisonPage() {
   return (
     <main className="cmp">
       <div className="wrap cmp__inner">
-        <p className="t-eyebrow is-red">Head to head</p>
-        <KineticHeadline
-          lines={['Compare', 'players']}
-          headingRef={headingRef}
-          tabIndex={-1}
-          className="cmp__title"
-        />
-        <Reveal delay={0.3} variant="fade">
-          <p className="cmp__lede">
-            Choose two players to compare their regular-season statistics for a season
-            they both played.
-          </p>
-        </Reveal>
+        <div className="cmp__head">
+          <CompareBackdrop />
+          <p className="t-eyebrow is-red">Head to head</p>
+          <KineticHeadline
+            lines={['Compare', 'players']}
+            headingRef={headingRef}
+            tabIndex={-1}
+            className="cmp__title"
+          />
+          <Reveal delay={0.3} variant="fade">
+            <p className="cmp__lede">
+              Choose two players to compare their regular-season statistics for a season
+              they both played.
+            </p>
+          </Reveal>
+        </div>
 
         {/* Player-versus-player hero: two equally prominent identity panels flanking the VS. */}
         <div className="cmp-vs">

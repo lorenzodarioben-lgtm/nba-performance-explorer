@@ -122,32 +122,49 @@
   border: 1.5px solid var(--chalk-3);
   border-radius: 50%;
 }
-/* Available: a small green dot with a faint halo that breathes once every three seconds. */
+/* Available: a green dot with a soft halo that pulses once every two and a half seconds. */
 .home-status__dot {
-  width: 8px;
-  height: 8px;
+  position: relative;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
-  background: #22c55e;
-  box-shadow:
-    0 0 0 0 rgb(34 197 94 / 0.16),
-    0 0 5px rgb(34 197 94 / 0.32);
+  background: #34d058;
+  box-shadow: 0 0 8px rgb(52 208 88 / 0.55);
+}
+.home-status__dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgb(52 208 88 / 0.45);
+  opacity: 0;
 }
 @media (prefers-reduced-motion: no-preference) {
   .home-status__dot {
-    animation: home-status-breathe 3s ease-in-out infinite;
+    animation: home-status-glow 2.5s ease-in-out infinite;
+  }
+  .home-status__dot::after {
+    animation: home-status-ring 2.5s ease-out infinite;
   }
 }
-@keyframes home-status-breathe {
+@keyframes home-status-glow {
   0%,
   100% {
-    box-shadow:
-      0 0 0 0 rgb(34 197 94 / 0.16),
-      0 0 5px rgb(34 197 94 / 0.32);
+    box-shadow: 0 0 6px rgb(52 208 88 / 0.45);
   }
   50% {
-    box-shadow:
-      0 0 0 3px rgb(34 197 94 / 0.07),
-      0 0 7px rgb(34 197 94 / 0.42);
+    box-shadow: 0 0 12px rgb(52 208 88 / 0.8);
+  }
+}
+@keyframes home-status-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
   }
 }
 .homehero__cue {
@@ -510,31 +527,7 @@
   position: relative;
   text-align: center;
 }
-.homecmp__still {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  border: 1px solid var(--line-2);
-  border-radius: 3px;
-  background: var(--coal);
-}
-.homecmp__still img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-/* Darken the floor and edges so the still sits in the band and the VS mark reads over it. */
-.homecmp__still::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(to bottom, rgb(10 10 11 / 0) 52%, rgb(10 10 11 / 0.78)),
-    radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(10 10 11 / 0.55));
-}
-.homecmp__still + .homecmp__vs,
-.homecmp__copy > :first-child + .homecmp__vs {
+.homecmp__vs {
   position: relative;
   margin-top: -44px;
 }
