@@ -17,11 +17,15 @@ branches were not touched.
   `frontend/src/ui/sceneImageData.ts` (`getSceneImage(slug)`).
   - It is built by the `SCENES` list in `scripts/assets/build_visual_assets.py`.
   - `scripts/check-visual-assets.mjs` checks it, including dimensions and orphan files.
-- **`kobe-shaq`** sits in the `/history` header, on the all-seasons index only, captioned. It is
+- **`kobe-shaq`** sits in the `/history` header, on the all-seasons index only. It is
   never shown on a single season, so it is not read as that season's result.
-- **`kawhi-buzzer`** sits in the `/games` scoreboard header, captioned as editorial imagery, never
+- **`kawhi-buzzer`** sits in the `/games` scoreboard header as editorial imagery, never
   the date or game on screen.
 - The other 72 player photo mappings are unchanged.
+- **Final cinematic polish:** visible Pictured descriptions were removed from the three scene
+  headers at the owner's request. Scene descriptions remain in the image alt metadata; source
+  paths and the existing rights notes below are retained. No mandatory caption attribution was
+  documented for these supplied images.
 - Details and screenshots: [`docs/visual-polish/FINAL_POLISH_REPORT.md`](../visual-polish/FINAL_POLISH_REPORT.md).
 
 ## Summary

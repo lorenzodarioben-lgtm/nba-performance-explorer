@@ -1,202 +1,123 @@
-# Final polish report: 3.3 UX polish
+# NBA Performance Explorer — final cinematic polish
 
-Branch `claude/nba-explorer-3-ux-polish`, cut from `claude/nba-explorer-3-visual-assets` at
-`1a2bb9c`. Not merged, not deployed, no pull request. Screenshots are in
-[`screenshots/`](screenshots/); they are production-style renders in headless Chromium against the
-dev server, with the backend in fixture mode.
+READY FOR OWNER REVIEW · 17 October 2026 · `codex/nba-explorer-final-polish`
 
-## Work completed
+Implementation HEAD: `07055db`. Based on the verified `claude/nba-explorer-3-ux-polish`
+HEAD `5cc481ab8c3b94e02dcf990769d80c00fc3be881`. The evidence/documentation commit follows
+this implementation commit; `git log -1` identifies the final delivery HEAD.
 
-| Work                                                                                                     | Commit    | Where                                |
-| -------------------------------------------------------------------------------------------------------- | --------- | ------------------------------------ |
-| Collapsible game log (6 games) and career table (5 seasons)                                              | `8b90f93` | `ui/RowCollapse.tsx`, player profile |
-| Kyrie Irving: new profile photo; matchup photo reused (now on the Compare page, see the correction pass) | `7184970` | `/players/202681`, home              |
-| Kobe Bryant and Shaquille O'Neal header on the season navigator                                          | `f54608c` | `/history` (index only)              |
-| Team directory plates: fuller, mark in its own row, GSW collision fixed                                  | `c714bbc` | `/teams`                             |
-| Masthead search field refinement                                                                         | `8c08edd` | every page                           |
-| Kawhi Leonard buzzer-beater scoreboard header                                                            | `12c5cbf` | `/games`                             |
-| Home: moving ribbon, TIP OFF close, green status dot, hero type, comparison copy and CTA                 | `b6c6ad7` | home                                 |
+## Delivered improvements
 
-### Collapsible tables
+| #   | Requested improvement                                     | Implementation and relevant files                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| --- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Wembanyama composition and feathered left edge            | `home.css` owns the complete geometry. Removed the later 106% width / 6% inset override from `assets.css`; desktop image fills a 59vw, maximum 1000px frame without an inset edge. A multi-stop horizontal mask feathers the real source boundary; the lower mask remains. At 1440 × 900, the geometric crop retains approximately 90% of the original height, versus 81% before feathering in the baseline. The 1199 × 1312 source, responsive registry, facial focal point, pointer depth, reveal and scroll motion remain. Mobile keeps its original 104% framing. No source photography was altered. |
+| 2   | Slightly smaller READ THE GAME.                           | Every bound of `.homehero__line`'s clamp is multiplied by 0.96: a 4% reduction at every viewport. Same Saira Condensed, line breaks, weight, colours and reveals.                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 3   | Shorter homepage description                              | `FoundationPage.tsx` uses the exact supplied replacement. Research source notes are preserved.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 4   | Larger logos on all 30 cards                              | `TeamsPage.tsx` requests 62px marks instead of 48px: 29% greater linear size, using the high-resolution mark variant. `assets.css` retains contain sizing, reserves two lines for names and uses uniform grid rows. All thirty marks, especially GSW, Houston, Spurs, Lakers, Clippers and Jazz, were reviewed and measured without identity overlap. Recorded records and season-aware mappings remain.                                                                                                                                                                                                 |
+| 5   | Premium search controls                                   | `shell.css` and `PlayerCombobox.tsx` introduce a shared icon rail, restrained surface, open-sided geometry, bottom rule and precise focus treatment. Navigation is 38px; research fields 54px; Arena fields 60px. The shortcut sits behind a hairline divider. Compact navigation becomes icon-only at tablet widths. Homepage, player landing and comparison fields inherit the same accessible combobox. No API or search-state changes.                                                                                                                                                               |
+| 6   | Three distinct cinematic headers and no Pictured captions | Scoreboard: horizontal broadcast window, lower title strap, red edge, Kawhi visible above the mobile title. History: warm inset archive print, asymmetrical title and timeline ticks. Compare: diagonal matchup photograph and red seam leading toward the selectors. Changes are in `league.css`, `history.css`, `compare.css` and the corresponding page components. Descriptive captions are removed; scene alt metadata and provenance documentation remain.                                                                                                                                         |
+| 7   | More visible confirmed-service LED                        | `home.css`: 10px green core, layered halo reaching 25px, 2.8-second breathing cycle and a separate soft ring. Neutral connecting and unavailable states are unchanged and tested. Only a validated health response produces green.                                                                                                                                                                                                                                                                                                                                                                       |
+| 8   | More noticeable brand feedback                            | `shell.css`: a short 40px red underline and controlled mark brightening. Fine-pointer hover is gated; keyboard focus has an outline and the same accent. No masthead dimensions move; reduced motion resolves immediately.                                                                                                                                                                                                                                                                                                                                                                               |
+| 9   | Interactive liquid VS ball                                | New `LiquidVersus.tsx` and `liquidModel.ts`: real velocity-sensitive linked surface simulation, described below. Resting object and existing comparison composition remain 88px.                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 10  | Compact no-photo player heroes                            | `PlayerProfileHero.tsx` uses the verified ID registry and handles actual image-load failure. Scoped `phero--plain` rules in `player.css` place the name, jersey, metadata and actions in an editorial court composition. Terance Mann (`1629611`, a real player with no registry photograph) is the deterministic example. At 1440px the hero shrinks from 738px to 408px; at 1920px from 860px to 408px. At 390px it is 493px versus the photographic hero's unchanged 715px. No substitute portrait or silhouette.                                                                                     |
+| 11  | Seven-row table previews                                  | `RowCollapse.tsx` defaults to seven. Both `PlayerGameLog.tsx` and `PlayerCareerTrends.tsx` use that default. Seven or fewer rows show naturally; eight or more get the disclosure. Hidden attributes, accurate counts, gradient fade, native button focus, expansion and chart-triggered reveal remain. Other tables are unaffected.                                                                                                                                                                                                                                                                     |
 
-- **Previews.** The game log opens with six games and the career table with five seasons. A
-  fade and a bar show the real count ("6 of 74 games") and a disclosure button ("View all 74
-  games" / "Show less"). The charts above stay complete.
-- **Accessibility.** Hidden rows use the `hidden` attribute, so assistive technology and the
-  screen agree. The button is a native `button` with `aria-expanded` and `aria-controls`.
-- **Motion.**
-  - The height animates over 420 ms; reduced motion skips it.
-  - Collapsing from below the table's top keeps the button still under the pointer.
-  - The settled height equals the measured target, because the body is a block formatting
-    context.
-- **Chart link.** Selecting a chart bar for a hidden game opens the log.
-- **Short tables.** A table at most one row over its preview never collapses.
+## Liquid surface architecture
 
-### Kyrie Irving (202681)
+- 64 radial surface nodes carry displacement and velocity. Restoring stiffness, neighboring
+  surface tension, damping and mean-displacement pressure recover the circular resting shape.
+- Pointer events sweep a line segment through the surface, avoiding missed fast swipes.
+  Distance divided by event time controls impulse strength; direction controls drag and recoil.
+  A narrow pressure crest and negative wake create local ripples alongside broad displacement.
+- Canvas 2D draws a smooth quadratic contour with a rich red body, meniscus, reflected light
+  and restrained halo. The white VS is separate HTML, keeping its reading position stable.
+- Bounded integration substeps are no larger than 1/120 second; requestAnimationFrame paints at the display
+  cadence. Displacement, drift and velocity are clamped; no unbounded particles or new libraries.
+- Rendering starts on disturbance and ends below a small energy threshold. IntersectionObserver
+  stops offscreen work; document visibility stops hidden-tab work. Observers and passive pointer,
+  scroll and resize listeners are removed on unmount. Geometry is cached between layout events.
+- Canvas is capped at 2× device pixel ratio. Coarse pointers, reduced motion (system or app),
+  missing canvas, context failure and drawing failure retain an attractive static circle.
+- This is a surface-wave approximation, not a volumetric fluid solver. There are no detached
+  droplets. This keeps the effect localized and inexpensive without moving selectors or photos.
 
-- **Profile.** `NEWKYRIEPLAYERIMAGE.jpg` is the profile hero (`irving-{640,960,1500}.webp`). It
-  frames his face at 1440 and 390 px.
-- **Matchup photo.** The earlier matchup photo became the `kyrie-matchup` scene. It first sat
-  above the VS mark on the home page; the correction pass moved it to the Compare page header.
-- **Identities.** The alt text does not name the Brooklyn defender, who is not identified.
-- **Other players.** The other 72 player mappings are byte-identical.
+The final full-suite real-pointer test measured slow-swipe alpha disturbance of 38,751 versus 208,624
+for a fast swipe, about 5.4× greater. It verifies recovery, zero resting canvas redraws,
+offscreen pause, reduced-motion fallback and the comparison CTA. Physics unit tests separately
+compare equal paths at different speeds, direction, damping, bounds and invalid samples.
 
-### Scoreboard header (`/games`)
+## Browser evidence
 
-- **Source.** `NBA_ASSETS/buzzerbeater.webp` (2519×1889) becomes `kawhi-buzzer-{800,1280,1920}.webp`.
-- **Composition.**
-  - The photograph fills the right of the page head (up to 920 px wide).
-  - It dissolves into the charcoal through left and bottom masks.
-  - A dark directional wash keeps SCOREBOARD and the lede on a quiet ground, and a low red light
-    rises from the floor.
-  - On phones the photograph sits above the title.
-- **Caption.** "Pictured: Kawhi Leonard's 2019 playoff buzzer-beater, Raptors v 76ers". It is
-  never presented as the date or game on screen.
-- **Unchanged.** The heading, copy, links, filters and data. Kawhi Leonard's profile photo is
-  untouched.
-- **Cost.** The head grows by about 80 px at 1440 px.
+Screenshots live in [`screenshots/final`](screenshots/final). Overview sheets: [1920px](screenshots/final/review-1920.jpg), [1440px](screenshots/final/review-1440.jpg), [1024px](screenshots/final/review-1024.jpg), [390px](screenshots/final/review-390.jpg). `before-*` is the actual
+`5cc481a` interface. Long-table before captures were taken from a temporary archived copy of
+that commit, using the same expanded, explicitly labelled DEMO fixtures as the after captures;
+the original six-game and five-season counts were confirmed. The temporary source copy and
+its dependency/asset junctions were removed after capture.
 
-### Season navigator header (`/history`)
+| Change                                 | Before                                                                                                                                       | After                                                                                                                                             |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hero, title, copy, search, service LED | [1440](screenshots/final/before-home-1440.png), [1920](screenshots/final/before-home-1920.png), [390](screenshots/final/before-home-390.png) | [1440](screenshots/final/after-home-1440.png), [1920](screenshots/final/after-home-1920.png), [390](screenshots/final/after-home-390.png)         |
+| All team marks                         | [Desktop](screenshots/final/before-teams-all-1440.png), [mobile](screenshots/final/before-teams-all-390.png)                                 | [Desktop](screenshots/final/after-teams-all-1440.png), [mobile](screenshots/final/after-teams-all-390.png)                                        |
+| Scoreboard                             | [Before](screenshots/final/before-games-1440.png)                                                                                            | [Desktop](screenshots/final/after-games-1440.png), [mobile](screenshots/final/after-games-390.png)                                                |
+| Historical seasons                     | [Before](screenshots/final/before-history-1440.png)                                                                                          | [Desktop](screenshots/final/after-history-1440.png), [mobile](screenshots/final/after-history-390.png)                                            |
+| Compare                                | [Before](screenshots/final/before-compare-1440.png)                                                                                          | [Desktop](screenshots/final/after-compare-1440.png), [mobile](screenshots/final/after-compare-390.png)                                            |
+| Search selection and focus             | [Before](screenshots/final/before-search-focus-1440.png)                                                                                     | [After](screenshots/final/after-search-focus-desktop.png)                                                                                         |
+| Brand and status                       | [Baseline masthead](screenshots/final/before-home-1440.png)                                                                                  | [Hover/focus and pulse](screenshots/final/after-brand-status.png)                                                                                 |
+| Liquid VS                              | [Flat circle](screenshots/final/before-liquid-1440.png)                                                                                      | [Rest](screenshots/final/after-liquid-rest.png), [slow](screenshots/final/after-liquid-slow.png), [fast](screenshots/final/after-liquid-fast.png) |
+| No-photo player                        | [Before](screenshots/final/before-no-photo-1440.png)                                                                                         | [Desktop](screenshots/final/after-no-photo-1440.png), [mobile](screenshots/final/after-no-photo-390.png)                                          |
+| Photo player unchanged                 | [Before](screenshots/final/before-photo-1440.png)                                                                                            | [After](screenshots/final/after-photo-1440.png)                                                                                                   |
+| Game table                             | [Six rows](screenshots/final/before-table-games-1440.png)                                                                                    | [Seven rows](screenshots/final/after-seven-games-desktop.png)                                                                                     |
+| Career table                           | [Five rows](screenshots/final/before-table-seasons-1440.png)                                                                                 | [Seven rows](screenshots/final/after-seven-seasons-desktop.png)                                                                                   |
 
-- The `kobe-shaq` scene fills the right of the head, masked into the page.
-- The caption names who is pictured.
-- It is shown on the all-seasons index only, never on `/history/:season` (a test asserts it).
+All eight required route examples were exercised at 1920 × 1080, 1440 × 900, 1024 × 900
+and 390 × 844: `/`, `/teams`, `/games`, `/history`, `/compare`, `/players/2544`,
+`/players/1629611` and `/players/2544/career`. All 32 combinations report zero horizontal
+page overflow, broken loaded images or uncaught page errors; see
+[`after-checks.json`](screenshots/final/after-checks.json). A separate console/HTTP audit of all eight routes at 1440px found zero console errors or HTTP errors; see [`console-checks.json`](screenshots/final/console-checks.json). Native mobile lazy loading was
+also exercised by scrolling through every team mark.
 
-### Team directory
+Reproduce settled captures with the fixture backend running:
+`node scripts/capture-final-polish.mjs after`. Set `PW_CHROMIUM_PATH` if the local browser
+is outside Playwright's default location. Interactive assertions live in `e2e/final-polish.spec.ts`.
 
-- **Layout.** Each plate is a column, with the mark in its own top row. Two-line names (Golden
-  State Warriors, Washington Wizards, Minnesota Timberwolves, New Orleans Pelicans, Portland Trail
-  Blazers) grow the plate instead of pushing the abbreviation into the mark.
-- **Measured.** No overlap on any of the 30 plates at 390, 1024, 1440 and 1920 px.
-- **Fixed.** A list bullet indent and item padding had made plates 18 px narrower than their
-  cells, with uneven gaps.
-- **Size.** Plates are about 13% wider (147 px at 1440, still 8 columns) and equal height per row.
+## Verification
 
-### Masthead search
+`npm run validate` completed with exit 0: formatting, lint (zero errors, 13 existing warnings),
+module-case checks, asset integrity, TypeScript, all 527 frontend tests, all 532 backend tests
+and both production builds passed. After the final swept-path guard correction, the affected
+homepage/liquid suites passed again, 15/15. The broader targeted component/physics group passed
+39/39. `npm run e2e` completed on implementation HEAD `07055db`: **230 passed, 74 intentionally skipped, zero failed**, in 7.3 minutes. The skips are 73 duplicate mobile axe cases plus the mouse simulation on touch. Full logs: [validation](verification/validate.txt), [E2E](verification/e2e.txt), [separate asset check](verification/assets.txt).
+The separate `npm run check:visual-assets` also passed: 401 files, 73 players, 45 marks and
+1,257 matched team-seasons. No dependencies changed.
 
-- 36 px field with a softer hairline border, faint top highlight and 3 px radius.
-- A centred square "/" chip.
-- Restrained hover and a red focus outline.
-- A hairline divider before MY NBA.
-- `/`, Ctrl/Cmd+K and a click still open the overlay.
+The mechanical design scan reported three existing accent-stripe warnings in untouched
+search-overlay and player-detail rules. They remain part of the incumbent design, including
+selected-result feedback. No new detector finding was introduced in the changed controls.
 
-### Home
+## Accessibility and limits
 
-- **Ribbon.** The original `LandingMarquee` sits directly below the hero.
-  - Condensed uppercase labels with red dots between hairlines.
-  - The track is two identical halves of about 4,040 px, so the -50% loop has no seam on any
-    screen. It moves at a constant ~50 px/s (80 s per half), measured at 390, 1440 and 1920 px.
-  - Paused on hover; still under reduced motion.
-  - No horizontal page scroll.
-- **TIP OFF.** The original closing section is above the footer: oversized stacked TIP / OFF and
-  a bordered SEARCH A PLAYER ↑. The button scrolls back to the hero search and focuses its
-  combobox (instant under reduced motion). The footer is unchanged.
-- **Service status.**
-  - Available: a small green dot (#22c55e) with a faint halo that breathes once every 3 s (a
-    3 px, 7% halo), not animated under reduced motion.
-  - Connecting: a neutral ring.
-  - Unavailable: no dot.
-  - Tests cover each state.
-- **Hero type.** The headline and lede are about 4% smaller: 216 to 207 px and 20 to 19.2 px at
-  1440; 80 to 76.8 px and 17 to 16.3 px at 390.
-- **Comparison.**
-  - The copy reads "Compare two players, explore their numbers and career arcs, then share the
-    matchup."
-  - COMPARE TWO PLAYERS is back in the original condensed display type: Saira Condensed, 700,
-    uppercase, 16×32 padding, darker red hover, visible focus outline. It still links to
-    `/compare`.
+Search labels, option navigation, shortcuts (`/`, Ctrl+K, Cmd+K), Escape, route selection and
+focus return were exercised. Table buttons expand and collapse using Enter; seven hidden-row
+boundaries agree with assistive visibility. Decorative photography remains out of the landmark
+and reading hierarchy, and the decorative liquid object never traps a pointer or a tab stop.
 
-## Correction pass after live review
+The browser run uses the existing explicit fixture provider and bundled archives. Extended
+tables are test-only layout fixtures, never real results. NBA.com production connectivity and
+Andre Turner's live profile were not used as evidence; Terance Mann supplies the real no-photo
+identity. Physical low-power GPU and touch-device performance is not certified; touch uses the
+static surface. The supplied scene images still have no recorded reuse licences. Existing
+rights/provenance notes were checked and retained; the removed Pictured strings were descriptive
+captions, not documented mandatory attributions.
 
-- **Home comparison band.** Reverted to Wembanyama | VS | LeBron, with no still above the VS
-  mark. The new copy and condensed CTA stay.
-- **Compare page.** The `kyrie-matchup` scene is now the `/compare` header photograph: right
-  side, masked, captioned, decorative. The selectors are unobstructed.
-- **Search.** One premium dark field style for the masthead control and the player search field,
-  with refined border, highlight, focus ring and glow, and a keycap "/" chip.
-- **Hero.** Wembanyama is drawn at 106% of the frame instead of 115%, so about 84% of the photo's
-  height shows instead of 77%.
-- **Status dot.** A brighter, larger green dot, a stronger glow, and a soft expanding ring every
-  2.5 s.
+## Git and owner handoff
 
-New or replaced screenshots:
+- `2f3f3b3` — composition, search and distinct page identities.
+- `fa81f34` — liquid simulation, compact player heroes and seven-row disclosures.
+- `cde9ed7` — final mobile broadcast crop, uniform team rows and capture tooling.
+- `07055db` — full-object cursor jumps are included in swept surface interaction.
+- Closing documentation/evidence commit follows these implementation checkpoints.
 
-- [`compare-page-after-1440.jpg`](screenshots/compare-page-after-1440.jpg)
-- [`compare-page-after-390.jpg`](screenshots/compare-page-after-390.jpg)
-- [`home-compare-after-1440.jpg`](screenshots/home-compare-after-1440.jpg)
-- [`home-hero-after-1440.jpg`](screenshots/home-hero-after-1440.jpg)
-- [`home-hero-after-390.jpg`](screenshots/home-hero-after-390.jpg)
-- [`search-and-status-states.jpg`](screenshots/search-and-status-states.jpg): masthead rest,
-  hover and focus; focused player field; status dot.
+Remote baseline pointers were verified: UX branch `5cc481a`, `main` `cd557e4`. The feature branch is pushed to `origin`. Tracked files are clean after the closing evidence/documentation commit; only the preserved, pre-existing untracked `.claude/` settings remain. The local `NBA_ASSETS` staging folder is untouched. No merge, deployment, force-push or pull request is part of this delivery.
 
-## Visual evidence
-
-| Screenshot                                                                                                                                           | What it shows                                                 |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| [`scoreboard-before-after-1440.jpg`](screenshots/scoreboard-before-after-1440.jpg)                                                                   | `/games` head before (top) and after                          |
-| [`scoreboard-after-1920.jpg`](screenshots/scoreboard-after-1920.jpg), [`scoreboard-after-390.jpg`](screenshots/scoreboard-after-390.jpg)             | wide desktop and phone                                        |
-| [`history-before-after-1440.jpg`](screenshots/history-before-after-1440.jpg), [`history-after-390.jpg`](screenshots/history-after-390.jpg)           | season navigator                                              |
-| [`teams-before-after-1440.jpg`](screenshots/teams-before-after-1440.jpg)                                                                             | team plates before (GSW collision, narrow plates) and after   |
-| [`kyrie-profile-after-1440.jpg`](screenshots/kyrie-profile-after-1440.jpg), [`kyrie-profile-after-390.jpg`](screenshots/kyrie-profile-after-390.jpg) | Kyrie Irving's new profile hero                               |
-| [`home-hero-after-1440.jpg`](screenshots/home-hero-after-1440.jpg), [`home-hero-after-390.jpg`](screenshots/home-hero-after-390.jpg)                 | hero type and green status dot                                |
-| [`home-ribbon-1440.jpg`](screenshots/home-ribbon-1440.jpg)                                                                                           | restored ribbon                                               |
-| [`home-compare-after-1440.jpg`](screenshots/home-compare-after-1440.jpg)                                                                             | comparison band: Kyrie matchup still, new copy, condensed CTA |
-| [`home-tipoff-1440.jpg`](screenshots/home-tipoff-1440.jpg), [`home-tipoff-390.jpg`](screenshots/home-tipoff-390.jpg)                                 | TIP OFF close                                                 |
-
-- **Home before.** The visual-assets home capture,
-  [`../visual-assets/screenshots/home.jpg`](../visual-assets/screenshots/home.jpg), is the "before"
-  for the home changes.
-- **Kyrie before.** His earlier profile photo is the matchup still now shown in the comparison
-  band.
-
-## Automated verification
-
-Runs on 2026-10-17, after every change above. Commits after them touched documentation only.
-
-| Check                                                             | Result                                                                                                          |
-| ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `npm run format:check`                                            | pass                                                                                                            |
-| `npm run lint`                                                    | 0 errors, 13 warnings (unchanged)                                                                               |
-| `check:module-case`                                               | pass                                                                                                            |
-| `check:visual-assets`                                             | pass: 73 players, 45 team marks, 3 scenes; 401 files; 604 archive and 653 franchise-record team-seasons matched |
-| `npm run typecheck`                                               | pass                                                                                                            |
-| Frontend tests (Vitest)                                           | **516 / 516** (82 files)                                                                                        |
-| Backend tests (Vitest)                                            | 531 / 532 in the full run; see below                                                                            |
-| `npm run build`                                                   | pass                                                                                                            |
-| `npm run e2e` (Playwright, desktop 1440 and mobile 390, with axe) | 216 passed, 73 skipped, 1 failed; see below                                                                     |
-| `npm audit` / `npm audit --omit=dev`                              | 0 / 0 vulnerabilities                                                                                           |
-| Production build (port 4310)                                      | 8 routes at 1440 and 390 px: no broken images, no failed requests, no external hosts, no horizontal overflow    |
-| Offline simulation (port 4320, network blocked)                   | the same 8 routes at both widths: clean                                                                         |
-
-**The two full-run failures are timing failures.**
-
-- **Backend:** `league-players.test.ts` › "validates the player routes" hit its 20 s timeout under
-  full-suite load. It passes **8/8** alone. This branch changes no backend code. In the previous
-  full run, a different test in the same folder (`league-records.test.ts`) timed out the same way
-  and also passed alone.
-- **E2E:** `a11y.spec.ts` › "player-career has no serious accessibility violations" [desktop]
-  reported 2 colour-contrast nodes once in the 7.7-minute run. Run alone it passed **2/2**
-  (`--repeat-each=2`). That page's fixture has four seasons, so the collapsible table does not
-  engage there.
-
-Routes checked on the production and offline builds: `/`, `/games`, `/history`,
-`/history/1999-00`, `/teams`, `/players/202681`, `/players/2544` and `/players`.
-
-Rendered checks against the dev server:
-
-- **Home ribbon.** Halves of 2,020 px each (before the track was doubled to two copies per half).
-  It moves at ~50 px/s, sits directly under the hero, pauses on hover, and never overflows the
-  page.
-- **TIP OFF.** It returns the visitor to the search and focuses its combobox.
-- **Status dot.** It breathes on a 3 s cycle.
-- **Team plates.** No collisions at four widths.
-- **Search shortcuts.** `/` and Ctrl+K both open the overlay.
-
-## Known limitations
-
-- **Fixture backend.** NBA.com did not respond from this machine. Rendered checks used the fixture
-  backend, and the 74-game log was checked with fixture data enlarged in the page.
-- **Image rights.** Image usage rights are as recorded in `docs/visual-assets`. The scene
-  photographs carry no supplied licence metadata; publication remains the owner's decision.
-- **Doc snapshots.** `ASSET_INVENTORY.md` tables generated before 3.3 are unchanged; the 3.3
-  additions are listed in their own section.
+Recommended next action: review this feature branch locally, starting with the homepage liquid
+interaction and the before/after evidence above.

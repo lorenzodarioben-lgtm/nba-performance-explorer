@@ -1,3 +1,89 @@
+# NBA Performance Explorer — final cinematic polish (latest)
+
+Owner specification implemented on `codex/nba-explorer-final-polish`, based on the verified
+`claude/nba-explorer-3-ux-polish` commit `5cc481ab8c3b94e02dcf990769d80c00fc3be881`.
+
+- **Status:** READY FOR OWNER REVIEW. All eleven requests are implemented and verified, within the fixture/hardware limits below.
+- **Verified implementation HEAD:** `07055db` (after checkpoints `2f3f3b3`, `fa81f34`, `cde9ed7`).
+  The closing documentation/evidence commit is the final delivery HEAD; resolve it with
+  `git log -1 --oneline`. No previous commit was rewritten.
+- **Working tree:** tracked files clean after the closing documentation/evidence commit; feature branch pushed to `origin`.
+  The pre-existing untracked `.claude/` settings are preserved. `NBA_ASSETS` is untouched.
+- **Branch boundaries:** no changes to `main` or the source UX branch; no merge, deployment,
+  force-push or pull request.
+- **Full report:** [`docs/visual-polish/FINAL_POLISH_REPORT.md`](docs/visual-polish/FINAL_POLISH_REPORT.md).
+- **Before/after evidence:** [`docs/visual-polish/screenshots/final`](docs/visual-polish/screenshots/final).
+  Overview sheets cover 1920, 1440, 1024 and 390px widths. The original table-preview screenshots
+  were captured from the actual archived baseline, with labelled layout fixtures.
+
+## Completed owner feedback
+
+1. Wembanyama image zoomed out; inset hard boundary eliminated and actual source edge feathered.
+2. READ THE GAME. reduced exactly 4% across its responsive clamp, preserving font and motion.
+3. Exact shorter homepage description supplied by the owner.
+4. All thirty directory marks 62px instead of 48px, contained, with uniform card rows and name space.
+5. Search controls share refined icon, surface and focus geometry; navigation, Arena and research
+   sizes differ appropriately. Shortcuts and all combobox behavior remain.
+6. Broadcast Scoreboard, inset archival History, diagonal rivalry Compare. Visible Pictured labels
+   removed; subject metadata, source paths and existing image-rights documentation retained.
+7. Brighter green service LED, larger halo and smooth ring; connecting/unavailable remain truthful.
+8. Brand hover and keyboard feedback: short red underline, brighter NBA mark, no layout shift.
+9. Genuine velocity-driven liquid VS boundary with directional impulses and local surface waves.
+10. Compact court-based no-photo hero, including image failure recovery; photographic frame unchanged.
+11. Seven-row game/career previews; no disclosure at seven or fewer, accessible expansion retained.
+
+## Technical decisions
+
+- No new dependencies or image files in the application asset registries.
+- Liquid: 64-node Canvas 2D surface, neighbor tension, restoring pressure and damping. Swept pointer
+  bounds include cursor jumps over the entire object. Separate HTML VS stays legible. Bounded
+  integration and device pixel ratio; no idle/offscreen/hidden-tab loop; full listener cleanup.
+- Reduced motion and touch use an attractive static circle. Canvas absence/failure also falls back.
+- No-photo identity is selected strictly by the verified registry; real fixture player Terance Mann
+  (`1629611`) demonstrates it. Desktop hero: 738px to 408px at 1440px. LeBron's photo hero stays 738px.
+- Only the two existing player-table RowCollapse consumers receive the new seven-row default.
+- Temporary baseline source and its junctions were removed after before-screenshot capture.
+
+## Verification
+
+- `npm run validate`: exit 0. Formatting, lint (zero errors, 13 existing warnings), module casing,
+  visual assets, TypeScript, frontend **527/527**, backend **532/532** and production builds pass.
+- Final affected homepage/liquid unit suites after the cursor-jump correction: **15/15**.
+- Broader focused physics/profile/table suites: **39/39**.
+- `npm run check:visual-assets`: passes, **401 files**, **73 players**, **45 marks** and **1,257**
+  name-matched team-seasons. Dependencies are unchanged.
+- Full `npm run e2e` on `07055db`: **230 passed, 74 intentionally skipped, zero failed**, 7.3 minutes. Skips: 73 duplicate mobile axe cases and mouse simulation on touch.
+- Actual console/HTTP audit on all eight key routes: zero errors.
+- Raw logs: [`docs/visual-polish/verification`](docs/visual-polish/verification). Final formatting and lint also pass (the same 13 warnings).
+- Eight required routes × four sizes: zero page overflow, broken loaded images or uncaught errors.
+- Real browser checks cover search shortcuts and selection, brand feedback, service pulse, all
+  thirty logos, no-photo/image failure, seven-row keyboard disclosures, slow/fast liquid swipes,
+  recovery, idle pause, offscreen pause, reduced motion and the comparison CTA.
+
+## Known verification limits
+
+Browser runs use the existing explicit fixture provider and bundled archives. Long tables are
+expanded, labelled DEMO fixtures; no real statistics were fabricated. Andre Turner's live response
+and NBA.com production connectivity were not certified. The real no-photo example is Terance Mann.
+The liquid is a surface-wave approximation, without detached droplets. Physical low-power GPU
+and touch-hardware performance were not measured; touch uses the static fallback. Existing supplied
+photograph reuse rights remain undocumented, as in the earlier handoff.
+
+## Exact next action
+
+Review this feature branch locally, starting with the homepage liquid VS and the before/after report.
+For the same deterministic review environment in PowerShell:
+
+```powershell
+$env:NBA_DATA_PROVIDER='fixture'
+$env:WIKI_ARCHIVE_MODE='bundled'
+npm run dev
+```
+
+Open `http://localhost:5173`. The owner review is the next action; no merge or deployment is requested.
+
+---
+
 # NBA Performance Explorer — correction pass after live review (latest)
 
 > Five small fixes from the owner's live review, on `claude/nba-explorer-3-ux-polish`. The 3.3
