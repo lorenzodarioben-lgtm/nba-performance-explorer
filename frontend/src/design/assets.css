@@ -90,18 +90,44 @@
   align-self: center;
 }
 
-/* Team directory plates and the team page head. A plate with a mark grows so the mark sits in
-   clear space above the abbreviation. */
+/* Team directory plates and the team page head. A plate with a mark is a column: the mark takes
+   its own top row and the abbreviation, name and record sit at the foot, so a name that wraps to
+   two lines grows the plate instead of pushing the abbreviation into the mark. */
+.teamwall:has(.teamwall__logo) {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+/* Without the list's bullet indent and item spacing, each plate fills its grid cell, and every
+   plate in a row matches the tallest. */
+.fr .teamwall > li {
+  display: grid;
+  margin: 0;
+  padding: 0;
+}
 .fr .teamwall__plate:has(.teamwall__logo) {
-  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 5px;
+  min-height: 164px;
+  padding: 14px;
 }
 .fr .teamwall__plate .teamwall__logo {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 44px;
-  height: 44px;
+  align-self: flex-end;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  margin-bottom: auto;
   transition: transform var(--dur-base) var(--ease-film);
+}
+.fr .teamwall__plate:has(.teamwall__logo) b {
+  margin-top: 9px;
+  font-size: 2.9rem;
+}
+.fr .teamwall__plate:has(.teamwall__logo) > span:not(.teamwall__rec) {
+  font-size: 13.5px;
+  line-height: 1.3;
+  color: var(--chalk-2);
 }
 .fr .teamwall__plate:hover .teamwall__logo {
   transform: scale(1.06);
