@@ -1,4 +1,4 @@
-# Demo runbook — NBA Performance Explorer 3.1 on a Windows laptop
+# Demo runbook — NBA Performance Explorer 3.2 on a Windows laptop
 
 A 5–8 minute presentation that runs entirely from this repository, using the production build
 and the historical data committed with the app. It does not need Wikipedia or NBA.com to be
@@ -67,6 +67,19 @@ season by season, with counts and retrieval dates) and
 `/leaders/recorded?metric=blocksPerGame&position=C` (centers as their team pages list them; ranks
 stay league-wide).
 
+### New in 3.2: the league since 1983–84 (works offline)
+
+| #   | Open                                    | Do                                                                     | What it proves                                                                                       |
+| --- | --------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| 10  | `/history/champions`                    | Read the note above the table; switch the award to Rookie of the Year. | 43 champions derived from the Finals games, each agreeing with three records; ties (1994–95) shown.  |
+| 11  | `/games?date=2016-06-19`                | Open Cleveland at Golden State, then the play-by-play.                 | An archived Game 7 with box scores; play-by-play, lead changes and runs need NBA.com (skip offline). |
+| 12  | `/players/2544/records`                 | Scroll to milestones and the career timeline.                          | 40,000 points dated to 2024-03-02; availability counted, never explained.                            |
+| 13  | `/history/eras?players=893,2544,201939` | Toggle **Raw** and **Era-adjusted**.                                   | A league-relative index with its caveats, not a cross-era ranking.                                   |
+| 14  | `/lab/shots?players=201939`             | Read the league columns in the zone table.                             | NBA.com league averages for all 82 games of the 2018 playoffs, reconciled with the box scores.       |
+
+Online extras: `/games` (today's NBA.com schedule and scores), `/lab/lineups/nba?season=2023-24&team=nba:1610612738`
+(Celtics units and on/off from NBA.com) and the source status board at the top of `/explore/coverage`.
+
 Mobile: the same pages work at phone width; use the browser's device toolbar (F12, then
 Ctrl+Shift+M, 390 px) to show the film room tape and the story reader.
 
@@ -81,9 +94,13 @@ server was made to fail:
   recorded leaders and records (including position filters), formula lab, My NBA, stories,
   recorded player rooms (`/players/:id/archive`), and the data coverage page (its per-player
   season view needs NBA.com).
+- Also works offline (3.2): standings and leaders for every season since 1983–84, team pages,
+  the record book, eras, champions and awards, player record rooms, archived game days and box
+  scores, and Shot Studio's league baseline.
 - Shows an honest "unavailable" state, with no substitute data: NBA.com player pages
   (`/players/:id`, insights, careers), the Wikidata season navigator (`/history`), awards and the
-  draft.
+  draft, and the NBA.com live features (today's scoreboard, play-by-play, lineups and on/off,
+  the live current standings).
 
 If you are online, NBA.com player pages work too (they answered at the final check), but treat
 them as optional in a presentation.
@@ -103,7 +120,9 @@ them as optional in a presentation.
 ## How it works (one paragraph for questions)
 
 One Node.js process (Express 5) serves both the built React 19 frontend and the JSON API, as on
-Render. Historical data ships with the code: the reconciled 2023–24 team pages, a structured
-snapshot of the 2024 playoff and season tables, and the 2018 shot archive. Shared Zod contracts
+Render. Historical data ships with the code: a digest-pinned NBA.com league archive of 43
+seasons, the reconciled 2023–24 team pages, a structured snapshot of the 2024 playoff and season
+tables, and the 2018 shot archive. Live NBA.com sources are fetched by the server on request and
+cached. Shared Zod contracts
 validate every request and response on both sides. Personal research (saved items, collections,
 stories) stays in the browser's local storage, validated and size-bounded.

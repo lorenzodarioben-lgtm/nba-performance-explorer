@@ -1,3 +1,63 @@
+# NBA Performance Explorer 3.2 — original specification completion handoff (live)
+
+> 3.2 is the 3.1 release candidate plus the original-specification completion project on the
+> same branch. Read this section first; the 3.1 and 3.0 handoffs below still describe what was
+> built before.
+
+- **Status:** READY WITH DOCUMENTED LIMITATIONS, awaiting the owner's review. Not merged, not
+  deployed, no pull request opened; the public site still serves `main`.
+- **Branch:** `claude/nba-explorer-3-expansion`. 3.2 commits: `68cc3c8` … `ecc5f3a` and the
+  closing documentation commit (list in
+  [`docs/expansion5/EXECUTION_LOG.md`](docs/expansion5/EXECUTION_LOG.md)).
+- **Original specification:** 134 of 134 verified within stated scopes (3.1: 87 / 33 / 13 / 1).
+  Evidence per row: [`FINAL_FEATURE_MATRIX.md`](docs/release/FINAL_FEATURE_MATRIX.md); summary:
+  [`ORIGINAL_SPEC_COMPLETION_REPORT.md`](docs/expansion5/ORIGINAL_SPEC_COMPLETION_REPORT.md).
+- **Data:** a digest-pinned NBA.com league archive (43 seasons, 1983-84 to 2025-26), live
+  NBA.com sources on request, NBA.com's 2017-18 playoff shot zones, and award winners agreed by
+  NBA.com and Wikipedia ([`DATA_INTEGRATION_REPORT.md`](docs/expansion5/DATA_INTEGRATION_REPORT.md)).
+
+## Verified state (3.2 final)
+
+- `npm run validate` exit 0: format, lint (0 errors, 13 baseline warnings), module-case,
+  typecheck; frontend 488/488, backend 531/531; production build.
+- `npm run e2e`: 217 passed, 0 failed, 73 skipped by design (mobile axe instances).
+- `npm audit` / `--omit=dev`: 0 / 0.
+- Production build on 4310: 70 routes at desktop and mobile width, only the expected
+  bundled-mode awards and draft states. Offline simulation on 4320: every archive page works;
+  live pages and the status board report NBA.com as unavailable.
+- All servers stopped at the end.
+
+## New in 3.2 (routes and endpoints)
+
+| Route                                             | Endpoint(s)                                                                            |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `/standings?season=`                              | `GET /api/league/seasons`, `/standings`, `/standings/current`                          |
+| `/leaders`, `/leaders/teams`, `/leaders/movement` | `/leaders`, `/team-rankings`, `/movement`, `/distribution`                             |
+| `/teams/:id?season=`                              | `/teams/:teamId`                                                                       |
+| `/games`, `/games/:id`                            | `/games`, `/calendar`, `/snapshot`, `/games/:id`, `/games/:id/play-by-play`, `/status` |
+| `/history/record-book`                            | `/records`                                                                             |
+| `/history/eras`                                   | `/eras`, `/era-players`, `/player-search`                                              |
+| `/history/champions`                              | `/honours`                                                                             |
+| `/players/:id/records`                            | `/players/:playerId`                                                                   |
+| `/lab/lineups/nba`                                | `/lineups`                                                                             |
+| `/lab/shots` (league columns)                     | `leagueBaseline` in `GET /api/shots`                                                   |
+
+Rebuild scripts (run by hand only, spaced and cached): `build-league-archive.ts`,
+`build-league-extras.ts`, `build-league-honours.ts`; `reconcile-boxscorelab.ts` repeats the
+cross-check against local CSVs that are never committed.
+
+## Open decisions for the owner (3.2)
+
+1. **Publication of NBA.com-derived data.** Used under the owner's accepted risk; no licence is
+   held. Decide before merging whether the public site ships it
+   ([deployment runbook §0](docs/release/DEPLOYMENT_RUNBOOK.md)).
+2. **Render availability of NBA.com.** The live features have not been checked from a cloud
+   host.
+3. **Eddie Johnson, 1988-89 Sixth Man.** NBA.com lists no awards for him, so the award is shown
+   as a gap; adding it would need a second source the owner accepts.
+
+---
+
 # NBA Performance Explorer 3.1 — completion sprint handoff (live)
 
 > 3.1 is the 3.0 release candidate plus an overnight completion sprint on the same branch. The

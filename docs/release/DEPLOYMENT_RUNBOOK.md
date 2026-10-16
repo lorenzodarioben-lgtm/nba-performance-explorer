@@ -1,4 +1,4 @@
-# Deployment runbook — NBA Performance Explorer 3.0
+# Deployment runbook — NBA Performance Explorer 3.2
 
 **This document describes a future, owner-approved release. Nothing in it has been executed.**
 No merge, deploy or production setting change was made while preparing the release candidate.
@@ -11,6 +11,23 @@ No merge, deploy or production setting change was made while preparing the relea
 | Release candidate   | Branch `claude/nba-explorer-3-expansion` (see `RELEASE_READINESS.md` for the exact HEAD). `main` is an ancestor of it, so the merge has no conflicts.                                    |
 | Recoverable history | `codex/nba-explorer-2-engine` (2.0 engine), `claude/nba-explorer-design` (2.0 redesign) and the 3.0 branch stay on GitHub untouched; a squash merge does not delete them.                |
 | CI                  | `.github/workflows/ci.yml` runs `npm ci` and `npm run validate` on every push and pull request (Ubuntu, Node 22).                                                                        |
+
+## 0. Publication decision for NBA.com data (owner, 3.2)
+
+3.2 ships a 21 MB NBA.com-derived league archive (`backend/src/features/league/data`) and calls
+NBA.com's CDN and Stats endpoints from the server for live games, play-by-play, lineups and
+on/off. This data is used under the owner's accepted risk; no licence or redistribution
+permission is held ([data integration report](../expansion5/DATA_INTEGRATION_REPORT.md)).
+Before merging, decide whether a public deployment should include it. The options:
+
+- **Publish as built.** Every NBA.com-derived page states its source.
+- **Keep it local.** Do not merge 3.2 into `main`; demonstrate it from the laptop
+  (`DEMO_RUNBOOK.md`).
+
+**Size and memory.** The archive adds about 21 MB to the repository and to `backend/dist` (the
+build copies the digest-pinned files unchanged with `copy-shot-data.ts`). The server
+decompresses at most four seasons' games at a time (an LRU), and the first champions request is
+warmed at start-up. The frontend bundle is unaffected: every 3.2 page is a lazy route.
 
 ## 1. Final pre-merge review (owner)
 
@@ -38,7 +55,8 @@ dashboard that the service still matches:
 | `FRONTEND_DIST`                   | `frontend/dist`                                                                                                                   |
 | `WIKI_ARCHIVE_MODE`               | _unset_ (defaults to `live`: fetch Wikipedia, fall back to the committed snapshot). Optional: `bundled` never contacts Wikipedia. |
 
-No new secrets or paid services are required. 3.0 adds no environment variable that must be set.
+No new secrets or paid services are required. Neither 3.0 nor 3.2 adds an environment variable
+that must be set.
 
 ## 3. Merge (owner action)
 
@@ -92,6 +110,20 @@ curl -s "https://nba-performance-explorer.onrender.com/api/players?search=curry"
   Studio) is unaffected. `render.yaml` documents the optional rollback of the player provider
   to labelled fixtures (`NBA_DATA_PROVIDER=fixture`, `NBA_ALLOW_FIXTURE_IN_PRODUCTION=true`); that
   is an owner decision and shows a "DEMO FIXTURES" label everywhere it applies.
+
+## 6a. NBA.com league features (3.2)
+
+```bash
+curl -s https://nba-performance-explorer.onrender.com/api/league/status | head -c 600
+curl -s "https://nba-performance-explorer.onrender.com/api/league/standings?season=1997-98" | head -c 200
+curl -s https://nba-performance-explorer.onrender.com/api/league/honours | head -c 200
+```
+
+- The archive routes (standings, leaders, teams, records, eras, honours, archived game days)
+  answer from committed data and must work on any host.
+- The status board shows whether the live NBA.com sources answered from Render. If they are
+  blocked, the scoreboard, play-by-play, lineups and live standings show their unavailable
+  states and everything archived keeps working.
 
 ## 7. Historical routes after deploy
 

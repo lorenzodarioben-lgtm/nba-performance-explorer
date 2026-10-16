@@ -6,8 +6,8 @@ cohort, source and formula produced it.
 
 > **Two versions exist.** The **public site** at https://nba-performance-explorer.onrender.com is
 > deployed from `main` and still runs the **original release**. This branch,
-> `claude/nba-explorer-3-expansion`, is the **unmerged NBA Performance Explorer 3.1 release
-> candidate** (3.0 plus the 3.1 completion sprint) described below. It has not been merged or deployed; see
+> `claude/nba-explorer-3-expansion`, is the **unmerged NBA Performance Explorer 3.2 release
+> candidate** (3.0, the 3.1 completion sprint and the 3.2 completion project) described below. It has not been merged or deployed; see
 > [the deployment runbook](docs/release/DEPLOYMENT_RUNBOOK.md) for the planned, owner-approved
 > release.
 
@@ -64,26 +64,41 @@ All screenshots are of the real application (production build, historical data).
   career measured season by season. Also **position filters** on recorded leaders and Workbench
   cohorts, using the positions each 2023–24 team page lists.
 
+- **New in 3.2: the whole league since 1983–84, from NBA.com.** A reconciled 43-season archive
+  powers season-aware standings and leaders (totals, per game, per 36, per 100 possessions),
+  team pages for any season and franchise, a record book, dated leaderboard movement, player
+  record rooms (`/players/:id/records`) and league eras (`/history/eras`). The **scoreboard**
+  (`/games`) covers any date plus NBA.com's live schedule, and game pages add box scores and
+  play-by-play with runs and lead changes (from 1996–97). Also: **NBA.com lineups and on/off**
+  (`/lab/lineups/nba`, from 2007–08), **champions and awards** (`/history/champions`, every
+  winner agreed by two sources), a **league shot baseline** in Shot Studio, and a **source
+  status board** on the coverage page.
+
 ## Data
 
-| Source                                                                            | Use                                                   | Licence                           |
-| --------------------------------------------------------------------------------- | ----------------------------------------------------- | --------------------------------- |
-| Wikipedia 2023–24 team pages (30), committed and reconciled                       | Recorded season: 1,219 agreed finals, 639 player rows | CC BY-SA 4.0                      |
-| Wikipedia "2024 NBA playoffs" and "2023–24 NBA season" tables, committed snapshot | Bracket, film room, game pages, published standings   | CC BY-SA 4.0                      |
-| Wikidata                                                                          | Player identity links                                 | CC0                               |
-| Kaggle "NBA Playoff Shots 2018" (13,470 attempts)                                 | Shot Studio                                           | CC0                               |
-| NBA.com Stats (on request, backend only)                                          | Player profiles, logs, careers                        | NBA.com terms; may be unavailable |
+| Source                                                                            | Use                                                   | Licence                            |
+| --------------------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------------------- |
+| Wikipedia 2023–24 team pages (30), committed and reconciled                       | Recorded season: 1,219 agreed finals, 639 player rows | CC BY-SA 4.0                       |
+| Wikipedia "2024 NBA playoffs" and "2023–24 NBA season" tables, committed snapshot | Bracket, film room, game pages, published standings   | CC BY-SA 4.0                       |
+| Wikidata                                                                          | Player identity links                                 | CC0                                |
+| Kaggle "NBA Playoff Shots 2018" (13,470 attempts)                                 | Shot Studio                                           | CC0                                |
+| NBA.com Stats (on request, backend only)                                          | Player profiles, logs, careers                        | NBA.com terms; may be unavailable  |
+| NBA.com Stats league archive, 1983–84 to 2025–26 (committed, 21 MB)               | Standings, leaders, teams, games, records, eras       | NBA.com terms; owner-accepted risk |
+| NBA.com live CDN and Stats (on request, cached)                                   | Scoreboard, box scores, play-by-play, lineups         | NBA.com terms; may be unavailable  |
+| Wikipedia award articles and NBA.com playerawards (committed facts)               | Award winners agreed by both                          | Facts; CC BY-SA articles linked    |
 
-Historical only: there is no live or current data, no play-by-play, possessions, injuries or
-league-wide shot baseline. 2022–23 was audited and **not** added because its source pages failed
-the integrity checks. BoxScore Lab's 2023–24 files matched the archive in 3.1 but republish NBA
-Stats data under terms that restrict redistribution, so they were not added
-([data source audit](docs/expansion4/DATA_SOURCE_AUDIT.md)). Fixture data appears only in tests or when explicitly enabled, and is
+NBA.com data is used under the owner's accepted risk for this personal, non-commercial project;
+no licence or redistribution permission is claimed, and publishing it is the owner's decision.
+Every season was checked game by game (player lines must add up to team lines; 11 seasons fail
+and are team-only) and reconciled against Wikipedia 2023–24 and BoxScore Lab 2022–23 to 2025–26,
+which is used only as a cross-check and never committed
+([data integration report](docs/expansion5/DATA_INTEGRATION_REPORT.md)). Fixture data appears only in tests or when explicitly enabled, and is
 labelled "DEMO FIXTURES" wherever it shows.
 
 The closeout of the original 134-requirement specification is in
-[the final feature matrix](docs/release/FINAL_FEATURE_MATRIX.md): 87 verified, 33 partial,
-13 blocked and 1 deferred (3.0: 83 / 37 / 13 / 1), each with evidence and the reason for any gap.
+[the final feature matrix](docs/release/FINAL_FEATURE_MATRIX.md): all 134 verified within
+their stated scopes (3.1: 87 verified, 33 partial, 13 blocked, 1 deferred), each with evidence
+and its remaining limits.
 
 ## Run it
 
@@ -131,7 +146,8 @@ flowchart LR
   Browser["React 19 SPA\n(Vite, TanStack Query, Motion)"] --> Api["Express 5 API\nsame origin"]
   Api --> Recorded["Committed historical data\nrecorded season, playoff snapshot, shots"]
   Api --> Wiki["Wikipedia (optional live)\nfalls back to the snapshot"]
-  Api --> Nba["NBA.com Stats\nplayer research, on request"]
+  Api --> Nba["NBA.com Stats and CDN\nplayers, live games, lineups\non request, cached"]
+  Api --> League["Committed NBA.com league archive\n43 seasons, digest-pinned"]
   Api -. "validated by" .-> Contracts["Shared Zod contracts"]
   Browser -. "validated by" .-> Contracts
   Browser --> Local["Local storage\nsaved research, stories"]
@@ -160,6 +176,9 @@ data. Release and rollback steps: [deployment runbook](docs/release/DEPLOYMENT_R
 - [Release readiness](docs/release/RELEASE_READINESS.md)
 - [Final feature matrix](docs/release/FINAL_FEATURE_MATRIX.md)
 - [Demo runbook](docs/release/DEMO_RUNBOOK.md) and [deployment runbook](docs/release/DEPLOYMENT_RUNBOOK.md)
+- [3.2 completion report](docs/expansion5/ORIGINAL_SPEC_COMPLETION_REPORT.md),
+  [3.2 data integration report](docs/expansion5/DATA_INTEGRATION_REPORT.md),
+  [3.2 execution log](docs/expansion5/EXECUTION_LOG.md)
 - [Live handoff](HANDOFF.md), [3.1 verification log](docs/expansion4/VERIFICATION_LOG.md),
   [3.1 data source audit](docs/expansion4/DATA_SOURCE_AUDIT.md), [3.0 verification log](docs/expansion3/VERIFICATION_LOG.md),
   [source notes](docs/expansion3/SOURCE_NOTES.md)
