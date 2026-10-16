@@ -428,7 +428,8 @@ export class LeagueService {
     });
   }
 
-  leaders(q: LeagueLeadersQuery): LeagueLeadersResponse {
+  /** Every qualified player ranked (no paging), with the population and the available modes. */
+  rank(q: LeagueLeadersQuery) {
     const season = this.resolve(q.season, 'player');
     const s = this.archive.summary(season);
     const scope: LeagueScope = q.scope;
@@ -619,6 +620,35 @@ export class LeagueService {
       })),
       percentile: Math.round(c.percentile * 100) / 100,
     }));
+    return {
+      season,
+      s,
+      scope,
+      sc,
+      def,
+      teamId,
+      minGames,
+      minAttempts,
+      counts,
+      modes,
+      rows,
+    };
+  }
+
+  leaders(q: LeagueLeadersQuery): LeagueLeadersResponse {
+    const {
+      season,
+      s,
+      scope,
+      sc,
+      def,
+      teamId,
+      minGames,
+      minAttempts,
+      counts,
+      modes,
+      rows,
+    } = this.rank(q);
     const page = rows.slice((q.page - 1) * PAGE_SIZE, q.page * PAGE_SIZE);
     const modeText =
       def.kind !== 'count'

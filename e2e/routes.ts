@@ -36,6 +36,11 @@ export const routeExamples: readonly RouteExample[] = [
   { name: 'standings-wikipedia', path: '/standings/wikipedia' },
   { name: 'record-book', path: '/history/record-book?kind=season&mode=per-game' },
   {
+    name: 'leader-movement',
+    path: '/leaders/movement?season=2015-16&metric=threesMade',
+  },
+  { name: 'player-records', path: '/players/2544/records' },
+  {
     name: 'team-rankings',
     path: '/leaders/teams?season=2007-08&metric=defensiveRating',
   },

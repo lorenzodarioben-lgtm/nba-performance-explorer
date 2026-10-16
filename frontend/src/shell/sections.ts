@@ -136,6 +136,13 @@ export const SECTIONS: readonly Section[] = [
           pathname === '/leaders' || pathname === '/leaders/wikipedia',
       },
       {
+        to: '/leaders/movement',
+        label: 'Leader movement',
+        blurb:
+          'The league leaderboard rebuilt for every game date: who led on any day.',
+        match: exact('/leaders/movement'),
+      },
+      {
         to: '/leaders/teams',
         label: 'Team leaders',
         blurb:

@@ -82,6 +82,16 @@ const GameRoute = lazy(() =>
     default: m.GameRoute,
   })),
 );
+const LeaguePlayerRoom = lazy(() =>
+  import('./features/league/LeaguePlayerRoom').then((m) => ({
+    default: m.LeaguePlayerRoom,
+  })),
+);
+const LeagueMovementPage = lazy(() =>
+  import('./features/league/LeagueMovementPage').then((m) => ({
+    default: m.LeagueMovementPage,
+  })),
+);
 const LeagueRecordBookPage = lazy(() =>
   import('./features/league/LeagueRecordBookPage').then((m) => ({
     default: m.LeagueRecordBookPage,
@@ -287,6 +297,10 @@ const PLAYER_HUB_ROOMS: readonly { path: string; element: ReactNode }[] = [
     element: lazyRoute('Loading reported career…', <CareerResearchPage />),
   },
   {
+    path: 'records',
+    element: lazyRoute('Loading records…', <LeaguePlayerRoom />),
+  },
+  {
     path: 'shooting',
     element: lazyRoute('Loading shooting research…', <ShootingResearchPage />),
   },
@@ -374,6 +388,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/leaders',
     element: lazyRoute('Loading league leaders…', <LeagueLeadersPage />),
+  },
+  {
+    path: '/leaders/movement',
+    element: lazyRoute('Loading leaderboard movement…', <LeagueMovementPage />),
   },
   {
     path: '/leaders/teams',

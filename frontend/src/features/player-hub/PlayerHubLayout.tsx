@@ -60,6 +60,7 @@ const ROOMS = [
   { key: 'form', label: 'Form', suffix: '/insights' },
   { key: 'games', label: 'Game research', suffix: '/games' },
   { key: 'career', label: 'Career', suffix: '/career' },
+  { key: 'records', label: 'Records', suffix: '/records' },
   { key: 'shooting', label: 'Shooting', suffix: '/shooting' },
   { key: 'archive', label: '2023–24', suffix: '/archive' },
 ] as const;

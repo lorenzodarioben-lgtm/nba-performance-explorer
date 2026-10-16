@@ -42,6 +42,8 @@ const KEYWORDS: Record<string, string> = {
   '/standings/race': 'standings race replay timeline ladder date season animation',
   '/history/record-book':
     'record book most points game career high single season record progression tied',
+  '/leaders/movement':
+    'rank movement leaderboard by date who led race scoring title trend',
   '/leaders/teams': 'team rankings offense defense net rating pace best team',
   '/standings': 'standings table east west conference season history clinch',
   '/leaders':

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router';
 import {
   LeagueLeadersQuerySchema,
@@ -18,6 +19,7 @@ import {
   useLeagueSeasons,
 } from './league-api';
 import { LeagueFeedback, LeagueSourceNote } from './LeagueSourceNote';
+import { LeagueDistributionPanel } from './LeagueDistributionPanel';
 
 const LEADER_METRICS: {
   group: string;
@@ -82,6 +84,7 @@ export function LeagueLeadersPage() {
     parsed.success &&
     [...params.keys()].every((k) => params.getAll(k).length === 1);
   const seasons = useLeagueSeasons();
+  const [marked, setMarked] = useState<string | null>(null);
   const playerSeasons = (seasons.data?.seasons ?? []).filter(
     (s) => s.capabilities.playerStats,
   );
@@ -349,6 +352,7 @@ export function LeagueLeadersPage() {
                     metricLabel(data.query.metric),
                     'Inputs',
                     'Percentile',
+                    'Distribution',
                   ].map((h) => (
                     <th key={h} scope="col">
                       {h}
@@ -373,11 +377,41 @@ export function LeagueLeadersPage() {
                         .join(' · ')}
                     </td>
                     <td>{r.percentile.toFixed(1)}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="reset link-button"
+                        aria-pressed={marked === r.playerId}
+                        onClick={() =>
+                          setMarked(marked === r.playerId ? null : r.playerId)
+                        }
+                      >
+                        Mark
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </ResearchTable>
+          {data.query.team === null &&
+          (percent ||
+            data.query.mode === 'per-game' ||
+            data.query.metric === 'gamesPlayed') ? (
+            <LeagueDistributionPanel
+              season={data.query.season}
+              scope={data.query.scope}
+              metric={data.query.metric}
+              player={marked}
+              onClear={() => setMarked(null)}
+            />
+          ) : (
+            <p className="team-note">
+              The league distribution is drawn for per-game values (and percentages)
+              over the whole league; switch the rate to per game and clear the team
+              filter to see it.
+            </p>
+          )}
           <div className="league-pager">
             <button
               type="button"

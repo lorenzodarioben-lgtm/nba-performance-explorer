@@ -9,6 +9,9 @@ import {
   LeagueCalendarQuerySchema,
   LeagueGameIdSchema,
   LeagueGamesQuerySchema,
+  LeagueMovementQuerySchema,
+  LeagueDistributionQuerySchema,
+  ResearchPlayerIdSchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import { LeagueRequestError, type LeagueService } from './league-service.js';
@@ -17,6 +20,7 @@ import { LeagueTeams } from './league-teams.js';
 import { LeagueRecords } from './league-records.js';
 import { LeagueGames, leagueStatus } from './league-games.js';
 import type { NbaLiveClient } from './league-live.js';
+import { LeaguePlayers } from './league-players.js';
 
 /** Runs a handler and maps league request errors to their documented status codes. */
 export function respond(res: Response, run: () => unknown) {
@@ -66,6 +70,7 @@ export function createLeagueRouter(
   const teams = service ? new LeagueTeams(service) : undefined;
   const records = service ? new LeagueRecords(service) : undefined;
   const games = service ? new LeagueGames(service, live) : undefined;
+  const players = service ? new LeaguePlayers(service) : undefined;
   router.use((_req, res, next) => {
     if (!service)
       return sendApiError(
@@ -218,6 +223,42 @@ export function createLeagueRouter(
     return respondAsync(res, () => leagueStatus(service!, live));
   });
   router.all('/status', methodNotAllowedHandler);
+  router.get('/players/:playerId', (req, res) => {
+    const id = ResearchPlayerIdSchema.safeParse(req.params.playerId);
+    if (!id.success || Object.keys(req.query).length)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_LEAGUE_PLAYER',
+        'Use a numeric NBA player ID.',
+      );
+    return respond(res, () => players!.player(id.data));
+  });
+  router.all('/players/:playerId', methodNotAllowedHandler);
+  router.get('/movement', (req, res) => {
+    const q = LeagueMovementQuerySchema.safeParse(req.query);
+    if (!q.success || repeated(req.query))
+      return sendApiError(
+        res,
+        400,
+        'INVALID_LEAGUE_MOVEMENT',
+        'Choose a season, scope, measure, mode and an optional date.',
+      );
+    return respond(res, () => players!.movement(q.data));
+  });
+  router.all('/movement', methodNotAllowedHandler);
+  router.get('/distribution', (req, res) => {
+    const q = LeagueDistributionQuerySchema.safeParse(req.query);
+    if (!q.success || repeated(req.query))
+      return sendApiError(
+        res,
+        400,
+        'INVALID_LEAGUE_DISTRIBUTION',
+        'Choose a season, scope, measure and an optional player ID.',
+      );
+    return respond(res, () => players!.distribution(q.data));
+  });
+  router.all('/distribution', methodNotAllowedHandler);
   router.get('/teams/:teamId', (req, res) => {
     const id = CanonicalTeamIdSchema.safeParse(req.params.teamId);
     const q = LeagueTeamQuerySchema.safeParse(req.query);
