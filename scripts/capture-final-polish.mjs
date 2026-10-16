@@ -1,5 +1,8 @@
+/* global document, innerWidth */
+// The browser globals below are used only inside Playwright page.evaluate callbacks.
 import { chromium } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
+import { format } from 'prettier';
 
 const phase = process.argv[2] ?? 'after';
 const output = 'docs/visual-polish/screenshots/final';
@@ -62,6 +65,9 @@ for (const [width, height] of [
   checks.push({ width, errors });
   await page.close();
 }
-await writeFile(`${output}/${phase}-checks.json`, JSON.stringify(checks, null, 2));
+await writeFile(
+  `${output}/${phase}-checks.json`,
+  await format(JSON.stringify(checks), { parser: 'json' }),
+);
 await browser.close();
 console.log(JSON.stringify(checks));

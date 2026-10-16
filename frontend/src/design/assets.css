@@ -95,6 +95,7 @@
    two lines grows the plate instead of pushing the abbreviation into the mark. */
 .teamwall:has(.teamwall__logo) {
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-auto-rows: 1fr;
   gap: 12px;
 }
 /* Without the list's bullet indent and item spacing, each plate fills its grid cell, and every
@@ -125,6 +126,7 @@
   font-size: 2.9rem;
 }
 .fr .teamwall__plate:has(.teamwall__logo) > span:not(.teamwall__rec) {
+  min-height: 2.6em;
   font-size: 13.5px;
   line-height: 1.3;
   color: var(--chalk-2);

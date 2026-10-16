@@ -58,6 +58,7 @@ test('all thirty directory marks have their own space above team identity', asyn
         name: card.getAttribute('aria-label'),
         width: logo.width,
         height: logo.height,
+        cardHeight: card.getBoundingClientRect().height,
         loaded: img.complete && img.naturalWidth > 0,
         clear: logo.bottom <= abbr.top + 1,
         fit: getComputedStyle(img).objectFit,
@@ -71,6 +72,7 @@ test('all thirty directory marks have their own space above team identity', asyn
     ),
     JSON.stringify(cards),
   ).toBe(true);
+  expect(new Set(cards.map((c) => c.cardHeight)).size).toBe(1);
 });
 
 test('the three editorial headers retain images without visible captions', async ({

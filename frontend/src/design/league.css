@@ -741,20 +741,24 @@
 @media (max-width: 767px) {
   .frpage__head:has(.gameshot) {
     min-height: 350px;
-    padding: 150px 16px 22px;
+    padding: 198px 16px 22px;
+  }
+  .frpage__backdrop:has(.gameshot) {
+    bottom: auto;
+    height: 210px;
   }
   .frpage__head:has(.gameshot)::after {
     left: 16px;
   }
   .gameshot img {
-    object-position: 60% 65%;
+    object-position: 48% 72%;
   }
   .gameshot::after {
     background: linear-gradient(
       0deg,
-      var(--night) 5%,
-      rgb(10 10 11 / 0.85) 45%,
-      transparent 90%
+      var(--night),
+      rgb(10 10 11 / 0.25) 22%,
+      transparent 50%
     );
   }
 }
