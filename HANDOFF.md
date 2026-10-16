@@ -43,6 +43,9 @@ Owner specification implemented on `codex/nba-explorer-final-polish`, based on t
   (`1629611`) demonstrates it. Desktop hero: 738px to 408px at 1440px. LeBron's photo hero stays 738px.
 - Only the two existing player-table RowCollapse consumers receive the new seven-row default.
 - Temporary baseline source and its junctions were removed after before-screenshot capture.
+- Stop-hook triage: three baseline side accents are intentional command-palette/selection and
+  qualified-peak cues. The hook CLI recorded only file-scoped `side-tab` exceptions in
+  `.impeccable/config.json`; the follow-up detector is clear. UI and prior test results are unchanged.
 
 ## Verification
 

@@ -90,9 +90,13 @@ homepage/liquid suites passed again, 15/15. The broader targeted component/physi
 The separate `npm run check:visual-assets` also passed: 401 files, 73 players, 45 marks and
 1,257 matched team-seasons. No dependencies changed.
 
-The mechanical design scan reported three existing accent-stripe warnings in untouched
-search-overlay and player-detail rules. They remain part of the incumbent design, including
-selected-result feedback. No new detector finding was introduced in the changed controls.
+The stop-hook review confirmed all three accent-stripe findings are unchanged from `5cc481a`:
+the command-palette entry rail, its keyboard-selected result indicator, and the qualified career
+peak summary edge. They are intentional cues in the preserved design. The hook CLI recorded
+`side-tab` exceptions scoped only to `frontend/src/design/shell.css` and
+`frontend/src/design/player.css`, with baseline evidence in each reason. No whole-file or
+project-wide rule suppression was added. The follow-up detector returns no findings. No UI
+changes were needed for this triage; all three visual cues remain as designed.
 
 ## Accessibility and limits
 
