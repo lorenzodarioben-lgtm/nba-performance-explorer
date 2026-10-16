@@ -28,6 +28,11 @@ const schema = z
       ])
       .default('pointsPerGame'),
     search: z.string().max(100).optional(),
+    /** The league season section's own parameter; that section validates its value. */
+    season: z
+      .string()
+      .regex(/^\d{4}-\d{2}$/)
+      .optional(),
   })
   .strict();
 export function readTeamArchiveState(params: URLSearchParams) {

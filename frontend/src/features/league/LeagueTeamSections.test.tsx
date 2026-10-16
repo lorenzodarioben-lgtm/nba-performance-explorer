@@ -244,6 +244,9 @@ describe('team page NBA.com sections', () => {
     expect(within(seasons).getByText('Champion')).toBeInTheDocument();
     // Archived seasons open in place; others are plain text.
     expect(within(seasons).queryByRole('button', { name: '1985–86' })).toBeNull();
+    // The page's 2023–24 archive panels accept the season parameter instead of rejecting it.
+    expect(screen.queryByText(/Invalid historical team filters/)).toBeNull();
+    expect(screen.queryByText('Invalid team-season filters.')).toBeNull();
   });
 
   it('switches seasons and states missing ratings and rosters', async () => {
