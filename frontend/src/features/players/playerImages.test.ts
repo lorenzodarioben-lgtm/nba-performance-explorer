@@ -25,7 +25,7 @@ const EDITORIAL: Record<string, string> = {
   '201935': '/images/players/action/harden-1146.webp', // James Harden
   '202695': '/images/players/action/leonard-1600.webp', // Kawhi Leonard
   '1630595': '/images/players/action/cunningham-1536.webp', // Cade Cunningham
-  '202681': '/images/players/action/irving-1536.webp', // Kyrie Irving
+  '202681': '/images/players/action/irving-1500.webp', // Kyrie Irving
 };
 const HEADSHOTS: Record<string, string> = {
   '893': 'Michael Jordan',

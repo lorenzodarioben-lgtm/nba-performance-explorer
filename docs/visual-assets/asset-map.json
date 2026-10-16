@@ -2454,28 +2454,28 @@
     "note": "replaces cade-cunningham.jpg"
   },
   {
-    "source": "NBA_ASSETS/UpgradedKyrie.png",
-    "sourceSha256": "a67a27776579d9498a5998ab5e6e56c52e738a6675c903552b9cee9ba4735de4",
-    "sourceBytes": 2270861,
+    "source": "NBA_ASSETS/NEWKYRIEPLAYERIMAGE.jpg",
+    "sourceSha256": "6414f2a66508c38e35f34b63a9e198d5c663c8b3523edd108b7f3e5639008362",
+    "sourceBytes": 139032,
     "role": "action",
     "outputs": [
       {
         "path": "frontend/public/images/players/action/irving-640.webp",
-        "bytes": 54874,
+        "bytes": 34496,
         "width": 640,
         "height": 427
       },
       {
         "path": "frontend/public/images/players/action/irving-960.webp",
-        "bytes": 95082,
+        "bytes": 59340,
         "width": 960,
         "height": 640
       },
       {
-        "path": "frontend/public/images/players/action/irving-1536.webp",
-        "bytes": 178664,
-        "width": 1536,
-        "height": 1024
+        "path": "frontend/public/images/players/action/irving-1500.webp",
+        "bytes": 116372,
+        "width": 1500,
+        "height": 1000
       }
     ],
     "note": "new subject"
@@ -3424,5 +3424,32 @@
       }
     ],
     "note": "rockets_classic_1995_2003"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedKyrie.png",
+    "sourceSha256": "a67a27776579d9498a5998ab5e6e56c52e738a6675c903552b9cee9ba4735de4",
+    "sourceBytes": 2270861,
+    "role": "scene",
+    "outputs": [
+      {
+        "path": "frontend/public/images/scenes/kyrie-matchup-640.webp",
+        "bytes": 54874,
+        "width": 640,
+        "height": 427
+      },
+      {
+        "path": "frontend/public/images/scenes/kyrie-matchup-960.webp",
+        "bytes": 95082,
+        "width": 960,
+        "height": 640
+      },
+      {
+        "path": "frontend/public/images/scenes/kyrie-matchup-1536.webp",
+        "bytes": 178664,
+        "width": 1536,
+        "height": 1024
+      }
+    ],
+    "note": "home head-to-head band (Kyrie Irving's previous profile photo)"
   }
 ]

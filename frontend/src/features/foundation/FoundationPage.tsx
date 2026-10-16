@@ -13,6 +13,7 @@ import { useMotionAllowed } from '../../motion/MotionPreference';
 import { easings } from '../../motion/tokens';
 import { SECTIONS } from '../../shell/sections';
 import { Icon } from '../../ui/Icon';
+import { getSceneImage } from '../../ui/sceneImages';
 import { PlayerSearch } from '../player-search/PlayerSearch';
 import { getPlayerImage, getPortraitImage } from '../players/playerImages';
 import { HomePreviews } from './HomePreviews';
@@ -23,6 +24,7 @@ import { useHealthQuery } from './useHealthQuery';
 const WEMBANYAMA = '1641705';
 const LEBRON = '2544';
 const HERO = getPlayerImage(WEMBANYAMA)!;
+const MATCHUP = getSceneImage('kyrie-matchup');
 
 // The public landing: the Arena front door. Every block maps to a real capability and every
 // preview reads a genuine, labelled archive; nothing here claims to be live.
@@ -245,6 +247,26 @@ function ComparePhoto({ playerId }: { playerId: string }) {
   );
 }
 
+/** A real on-court matchup above the VS mark: an editorial still, not one of the two players. */
+function MatchupStill() {
+  if (!MATCHUP) return null;
+  return (
+    <div className="homecmp__still">
+      <img
+        src={MATCHUP.src}
+        srcSet={MATCHUP.srcSet}
+        sizes="(max-width: 860px) calc(100vw - 32px), min(540px, 40vw)"
+        width={MATCHUP.width}
+        height={MATCHUP.height}
+        loading="lazy"
+        decoding="async"
+        alt={MATCHUP.alt}
+        style={{ objectPosition: MATCHUP.objectPosition }}
+      />
+    </div>
+  );
+}
+
 function CompareSection() {
   const allowed = useMotionAllowed();
   return (
@@ -254,6 +276,9 @@ function CompareSection() {
           <ComparePhoto playerId={WEMBANYAMA} />
         </Reveal>
         <div className="homecmp__copy">
+          <Reveal variant="fade">
+            <MatchupStill />
+          </Reveal>
           <motion.span
             className="homecmp__vs"
             aria-hidden="true"

@@ -12,7 +12,7 @@ describe('players landing photography', () => {
     const section = board.closest('section')!;
     const kyrie = within(section).getByRole('link', { name: /Kyrie Irving/ });
     const img = kyrie.querySelector('img')!;
-    expect(img).toHaveAttribute('src', '/images/players/action/irving-1536.webp');
+    expect(img).toHaveAttribute('src', '/images/players/action/irving-1500.webp');
     expect(img.getAttribute('srcset')).toContain(
       '/images/players/action/irving-960.webp 960w',
     );

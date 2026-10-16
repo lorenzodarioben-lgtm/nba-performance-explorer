@@ -1,6 +1,6 @@
 // Visual-asset integrity, run by `npm run validate`:
 // - every player photo, thumbnail and team mark the registries name exists, with the declared size;
-// - every file under public/images/players and public/images/teams is referenced (no orphans);
+// - every file under public/images/players, scenes and teams is referenced (no orphans);
 // - every team-mark era names the team exactly as the league archive does for each covered season;
 // - the social preview and icons exist with the sizes the page metadata declares, at the public URL;
 // - no source file still points at a removed image.
@@ -14,6 +14,7 @@ const pub = join(root, 'frontend', 'public');
 const { PLAYER_IMAGE_DATA } =
   await import('../frontend/src/features/players/playerImageData.ts');
 const { TEAM_LOGO_ERAS } = await import('../frontend/src/features/teams/teamLogos.ts');
+const { SCENE_IMAGE_DATA } = await import('../frontend/src/ui/sceneImageData.ts');
 const problems = [];
 const fail = (m) => problems.push(m);
 
@@ -71,6 +72,14 @@ for (const [id, image] of Object.entries(PLAYER_IMAGE_DATA)) {
     for (const url of srcSetUrls(image.portrait.srcSet))
       expectFile(url, undefined, undefined, `player ${id} portrait`);
   }
+}
+
+// Editorial scenes.
+for (const [slug, image] of Object.entries(SCENE_IMAGE_DATA)) {
+  expectFile(image.src, image.width, image.height, `scene ${slug}`);
+  for (const url of srcSetUrls(image.srcSet))
+    expectFile(url, undefined, undefined, `scene ${slug}`);
+  if (!image.srcSet.includes(image.src)) fail(`scene ${slug}: src missing from srcSet`);
 }
 
 // Team marks, and their identities against the league archive.
@@ -149,6 +158,7 @@ for (const folder of [
   'images/players/portrait',
   'images/players/headshots',
   'images/players/thumbs',
+  'images/scenes',
   'images/teams',
 ]) {
   for (const f of readdirSync(join(pub, folder))) {
