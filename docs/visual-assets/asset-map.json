@@ -3451,5 +3451,32 @@
       }
     ],
     "note": "home head-to-head band (Kyrie Irving's previous profile photo)"
+  },
+  {
+    "source": "NBA_ASSETS/kobetoshaquseastheimageforthehistoricalseasonsectionimage.png",
+    "sourceSha256": "92f89d2139155db4391c322e63e9b3345e5842a777258d7fa3bad6471ac67529",
+    "sourceBytes": 2722081,
+    "role": "scene",
+    "outputs": [
+      {
+        "path": "frontend/public/images/scenes/kobe-shaq-800.webp",
+        "bytes": 116662,
+        "width": 800,
+        "height": 450
+      },
+      {
+        "path": "frontend/public/images/scenes/kobe-shaq-1200.webp",
+        "bytes": 205402,
+        "width": 1200,
+        "height": 675
+      },
+      {
+        "path": "frontend/public/images/scenes/kobe-shaq-1672.webp",
+        "bytes": 306628,
+        "width": 1672,
+        "height": 941
+      }
+    ],
+    "note": "historical season navigator header (index page only, never a specific season)"
   }
 ]

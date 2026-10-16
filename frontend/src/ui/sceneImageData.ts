@@ -3,6 +3,15 @@
 import type { SceneImage } from './sceneImages';
 
 export const SCENE_IMAGE_DATA: Record<string, SceneImage> = {
+  'kobe-shaq': {
+    src: '/images/scenes/kobe-shaq-1672.webp',
+    srcSet:
+      '/images/scenes/kobe-shaq-800.webp 800w, /images/scenes/kobe-shaq-1200.webp 1200w, /images/scenes/kobe-shaq-1672.webp 1672w',
+    width: 1672,
+    height: 941,
+    objectPosition: '58% 62%',
+    alt: "Kobe Bryant and Shaquille O'Neal of the Los Angeles Lakers against the Philadelphia 76ers",
+  },
   'kyrie-matchup': {
     src: '/images/scenes/kyrie-matchup-1536.webp',
     srcSet:

@@ -44,6 +44,30 @@ const body = {
   },
 };
 describe('historical navigator', () => {
+  it('shows the archive photograph on the index only, never on a single season', async () => {
+    server.use(
+      http.get('http://localhost/api/history/seasons', () => HttpResponse.json(body)),
+      http.get('http://localhost/api/history/seasons/:season', () =>
+        HttpResponse.json(body),
+      ),
+    );
+    const { container, unmount } = renderApp('/history');
+    await screen.findByRole('heading', {
+      level: 1,
+      name: 'Historical season navigator',
+    });
+    const shot = container.querySelector('.histshot img');
+    expect(shot).toHaveAttribute('src', '/images/scenes/kobe-shaq-1672.webp');
+    // Decorative inside an aria-hidden backdrop; the visible caption names who is pictured.
+    expect(shot?.closest('[aria-hidden="true"]')).not.toBeNull();
+    expect(container.querySelector('.histshot figcaption')).toHaveTextContent(
+      "Kobe Bryant and Shaquille O'Neal",
+    );
+    unmount();
+    const season = renderApp('/history/1999-00');
+    await screen.findByRole('table');
+    expect(season.container.querySelector('.histshot')).toBeNull();
+  });
   it('preserves entity source links, missing winners and record-backed navigation', async () => {
     server.use(
       http.get('http://localhost/api/history/seasons/:season', () =>

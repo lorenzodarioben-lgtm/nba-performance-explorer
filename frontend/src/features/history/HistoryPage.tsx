@@ -9,8 +9,37 @@ import { fetchResearch } from '../research/api';
 import { ResearchShell, ResearchTable, SourceNote } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
+import { getSceneImage } from '../../ui/sceneImages';
 import { SeasonHero, SeasonTimeline } from './SeasonTimeline';
 import { SeasonResearchHub } from './SeasonResearchHub';
+
+const ARCHIVE_SHOT = getSceneImage('kobe-shaq');
+
+/**
+ * The navigator's header photograph. It appears only on the all-seasons index, never on a single
+ * season, so it is never read as a picture of that season; the caption says who is pictured.
+ */
+function HistoryBackdrop() {
+  if (!ARCHIVE_SHOT) return null;
+  return (
+    <figure className="histshot">
+      <img
+        src={ARCHIVE_SHOT.src}
+        srcSet={ARCHIVE_SHOT.srcSet}
+        sizes="(max-width: 767px) 100vw, min(66vw, 860px)"
+        width={ARCHIVE_SHOT.width}
+        height={ARCHIVE_SHOT.height}
+        alt=""
+        fetchPriority="high"
+        decoding="async"
+        style={{ objectPosition: ARCHIVE_SHOT.objectPosition }}
+      />
+      <figcaption>
+        Pictured: Kobe Bryant and Shaquille O'Neal, Lakers v 76ers
+      </figcaption>
+    </figure>
+  );
+}
 
 export function HistoryPage() {
   const { season } = useParams();
@@ -37,6 +66,7 @@ export function HistoryPage() {
   return (
     <ResearchShell
       title={season ? `${season} · historical facts` : 'Historical season navigator'}
+      backdrop={season ? undefined : <HistoryBackdrop />}
     >
       <p>
         Season and champion statements from Wikidata's community-maintained CC0
