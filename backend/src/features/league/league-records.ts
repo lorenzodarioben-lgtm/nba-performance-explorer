@@ -64,9 +64,111 @@ function topWithTies(entries: Entry[]) {
     : sorted.filter((e) => e.value >= cutoff).slice(0, 60);
 }
 
+type Progression = (Entry & { kind: 'first' | 'new' | 'tie' })[];
+type GameScan = Record<
+  LeagueRecordCategory,
+  { all: Entry[]; progression: Progression }
+>;
+// Single-game records read every player line of every covered season. One pass computes all
+// categories, and the result is shared by every LeagueRecords over the same archive.
+const gameScans = new WeakMap<object, Map<LeagueScope, GameScan>>();
+
 export class LeagueRecords {
   private readonly cache = new Map<string, LeagueRecordsResponse>();
   constructor(private readonly league: LeagueService) {}
+
+  /** One season at a time, so a background warm-up can yield between seasons. */
+  private *scanGames(scope: LeagueScope): Generator<void, GameScan> {
+    const archive = this.league.archive;
+    const cats = Object.keys(CATEGORY) as LeagueRecordCategory[];
+    const scan = Object.fromEntries(
+      cats.map((c) => [c, { all: [] as Entry[], progression: [] as Progression }]),
+    ) as GameScan;
+    const best = new Map<LeagueRecordCategory, number>();
+    for (const season of this.coverage(scope).included) {
+      const lines = archive
+        .playerLines(season, scope)
+        .sort(
+          (a, b) => a.date.localeCompare(b.date) || a.gameId.localeCompare(b.gameId),
+        );
+      for (const c of cats) {
+        const field = CATEGORY[c].field;
+        const entries: Entry[] = [];
+        for (const l of lines) {
+          const v = value(l.line, field);
+          if (v === null) continue;
+          entries.push({
+            value: v,
+            playerId: l.playerId,
+            season,
+            teams: [l.teamId],
+            game: {
+              id: l.gameId,
+              date: l.date,
+              opponent: l.opponentId,
+              home: l.home,
+              won: l.won,
+            },
+            gamesPlayed: null,
+          });
+        }
+        if (!entries.length) continue;
+        const r = scan[c];
+        const b = best.get(c);
+        if (b === undefined) {
+          // The archive's first covered season sets the opening mark (all its ties included).
+          const top = Math.max(...entries.map((e) => e.value));
+          for (const e of entries.filter((x) => x.value === top))
+            r.progression.push({ ...e, kind: 'first' });
+          best.set(c, top);
+        } else {
+          let mark = b;
+          for (const e of entries) {
+            if (e.value > mark) {
+              r.progression.push({ ...e, kind: 'new' });
+              mark = e.value;
+            } else if (e.value === mark) r.progression.push({ ...e, kind: 'tie' });
+          }
+          best.set(c, mark);
+        }
+        // Keep only what can still reach the top ten.
+        r.all = topWithTies([...r.all, ...entries]);
+      }
+      yield;
+    }
+    return scan;
+  }
+
+  private gameScan(scope: LeagueScope): GameScan {
+    const archive = this.league.archive;
+    const byScope = gameScans.get(archive) ?? new Map<LeagueScope, GameScan>();
+    gameScans.set(archive, byScope);
+    let scan = byScope.get(scope);
+    if (!scan) {
+      const it = this.scanGames(scope);
+      let step = it.next();
+      while (!step.done) step = it.next();
+      scan = step.value;
+      byScope.set(scope, scan);
+    }
+    return scan;
+  }
+
+  /** Computes the regular-season game records in the background, yielding between seasons. */
+  async warm(scope: LeagueScope = 'regular-season') {
+    const archive = this.league.archive;
+    const byScope = gameScans.get(archive) ?? new Map<LeagueScope, GameScan>();
+    gameScans.set(archive, byScope);
+    if (byScope.has(scope)) return;
+    const it = this.scanGames(scope);
+    let step = it.next();
+    while (!step.done) {
+      await new Promise((resolve) => setImmediate(resolve));
+      if (byScope.has(scope)) return;
+      step = it.next();
+    }
+    byScope.set(scope, step.value);
+  }
 
   private coverage(scope: LeagueScope) {
     const included: string[] = [];
@@ -104,45 +206,7 @@ export class LeagueRecords {
     let best: number | null = null;
     for (const season of included) {
       if (q.kind === 'game') {
-        const lines = archive
-          .playerLines(season, q.scope)
-          .sort(
-            (a, b) => a.date.localeCompare(b.date) || a.gameId.localeCompare(b.gameId),
-          );
-        const entries: Entry[] = [];
-        for (const l of lines) {
-          const v = value(l.line, cat.field);
-          if (v === null) continue;
-          entries.push({
-            value: v,
-            playerId: l.playerId,
-            season,
-            teams: [l.teamId],
-            game: {
-              id: l.gameId,
-              date: l.date,
-              opponent: l.opponentId,
-              home: l.home,
-              won: l.won,
-            },
-            gamesPlayed: null,
-          });
-        }
-        if (best === null) {
-          // The archive's first covered season sets the opening mark (all its ties included).
-          const top = Math.max(...entries.map((e) => e.value));
-          for (const e of entries.filter((x) => x.value === top))
-            progression.push({ ...e, kind: 'first' });
-          best = top;
-        } else
-          for (const e of entries) {
-            if (e.value > best) {
-              progression.push({ ...e, kind: 'new' });
-              best = e.value;
-            } else if (e.value === best) progression.push({ ...e, kind: 'tie' });
-          }
-        // Keep only what can still reach the top ten.
-        all.splice(0, all.length, ...topWithTies([...all, ...entries]));
+        continue;
       } else {
         const sc = archive.summary(season).scopes[q.scope]!;
         const maxGames = Math.max(...sc.teams.map((t) => t.gp));
@@ -189,6 +253,11 @@ export class LeagueRecords {
         }
         if (best === null || top > best) best = top;
       }
+    }
+    if (q.kind === 'game') {
+      const scan = this.gameScan(q.scope)[q.category];
+      all.push(...scan.all);
+      progression.push(...scan.progression);
     }
     const top = topWithTies(all);
     const rankOf = (v: number) => top.findIndex((e) => e.value === v) + 1;

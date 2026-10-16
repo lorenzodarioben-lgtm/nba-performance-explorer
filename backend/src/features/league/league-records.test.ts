@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import request from 'supertest';
 import {
+  LeagueRecordsQuerySchema,
   LeagueRecordsResponseSchema,
   LeagueTeamRankingsResponseSchema,
 } from '@nba-performance-explorer/contracts';
@@ -80,6 +81,26 @@ describe('league record book', () => {
     expect(top.gamesPlayed).toBeGreaterThanOrEqual(
       Math.ceil(0.7 * Math.max(...sc.teams.map((t) => t.gp))),
     );
+  });
+});
+
+describe('background warm-up', () => {
+  it('computes single-game records while yielding, and serves them from the shared result', async () => {
+    let ticks = 0;
+    const timer = setInterval(() => ticks++, 1);
+    await new LeagueRecords(service).warm('playoffs');
+    clearInterval(timer);
+    // Other work ran while the seasons were read.
+    expect(ticks).toBeGreaterThan(0);
+    const top = new LeagueRecords(service).records(
+      LeagueRecordsQuerySchema.parse({
+        kind: 'game',
+        category: 'points',
+        scope: 'playoffs',
+      }),
+    ).records[0]!;
+    expect(top).toMatchObject({ value: 57, playerId: '1628378' });
+    expect(top.game?.date).toBe('2020-08-17');
   });
 });
 

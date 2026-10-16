@@ -49,10 +49,37 @@ export class LeagueHonours {
         ...hit,
         provenance: { ...hit.provenance, servedAt: new Date().toISOString() },
       };
-    const file = this.file;
+    const it = this.derive(this.file, franchises);
+    let step = it.next();
+    while (!step.done) step = it.next();
+    shared.set(archive, step.value);
+    return step.value;
+  }
+
+  /** Derives the champions in the background, yielding between seasons. */
+  async warm() {
+    const archive = this.league.archive;
+    const franchises = this.extras.franchises();
+    if (!this.file || !franchises || shared.has(archive)) return;
+    const it = this.derive(this.file, franchises);
+    let step = it.next();
+    while (!step.done) {
+      await new Promise((resolve) => setImmediate(resolve));
+      if (shared.has(archive)) return;
+      step = it.next();
+    }
+    shared.set(archive, step.value);
+  }
+
+  private *derive(
+    file: HonoursFile,
+    franchises: NonNullable<ReturnType<LeagueExtras['franchises']>>,
+  ): Generator<void, LeagueHonoursResponse> {
+    const archive = this.league.archive;
     const champions: LeagueHonoursResponse['champions'] = [];
     const unsettled: string[] = [];
     for (const season of archive.seasons) {
+      yield;
       const po = archive.seasonGames(season).scopes.playoffs;
       // Older game IDs do not encode the round. The Finals are the playoffs' last pairing:
       // the two teams in the last game, from different conferences, meet in no other round.
@@ -176,7 +203,6 @@ export class LeagueHonours {
         ],
       },
     });
-    shared.set(archive, response);
     return response;
   }
 }
