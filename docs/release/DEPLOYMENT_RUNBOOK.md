@@ -24,6 +24,12 @@ Before merging, decide whether a public deployment should include it. The option
 - **Keep it local.** Do not merge 3.2 into `main`; demonstrate it from the laptop
   (`DEMO_RUNBOOK.md`).
 
+**Images (visual-assets branch).** The site now also ships NBA.com headshots, NBA and team marks
+(current and historical, identified from SportsLogos.Net) and AI-upscaled editorial photos supplied
+by the owner. No reuse permission is recorded for any of them
+([integration report](../visual-assets/INTEGRATION_REPORT.md#source-and-usage-status)); they are
+part of the same publication decision.
+
 **Size and memory.** The archive adds about 21 MB to the repository and to `backend/dist` (the
 build copies the digest-pinned files unchanged with `copy-shot-data.ts`). The server
 decompresses at most four seasons' games at a time (an LRU), and the first champions request is

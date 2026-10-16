@@ -1,3 +1,87 @@
+# NBA Performance Explorer — visual assets handoff (live)
+
+> The owner-supplied image library integrated on top of the 3.2 release candidate. Read this
+> first; the 3.2, 3.1 and 3.0 handoffs below describe everything built before it.
+
+- **Status:** READY FOR OWNER REVIEW, with limitations noted below. Not merged, not deployed, no
+  pull request opened.
+- **Branch:** `claude/nba-explorer-3-visual-assets`, cut from `claude/nba-explorer-3-expansion` at
+  `0e184db` and pushed to `origin`.
+  - Commits: `d132d5b`, `6664912` and the closing documentation commit (see `git log -1` for
+    HEAD).
+  - The protected branches (`main`, `codex/nba-explorer-2-engine`, `claude/nba-explorer-design`,
+    `claude/nba-explorer-3-expansion`) were not touched.
+- **Worktree:** clean apart from local, untracked `.claude/` settings. The raw `NBA_ASSETS`
+  staging folder stays local; it is in `.gitignore` and was never modified.
+- **Reports:**
+  - [`docs/visual-assets/ASSET_INVENTORY.md`](docs/visual-assets/ASSET_INVENTORY.md)
+  - [`INTEGRATION_REPORT.md`](docs/visual-assets/INTEGRATION_REPORT.md)
+  - [`IMAGE_QUALITY_AUDIT.md`](docs/visual-assets/IMAGE_QUALITY_AUDIT.md)
+  - before/after screenshots in [`docs/visual-assets/screenshots`](docs/visual-assets/screenshots)
+
+## What changed
+
+- **Photos replaced.** 11 of the 14 site photos were replaced by the supplied upgrades:
+  Wembanyama (hero), Curry, LeBron, Giannis, Mitchell, Dončić, Jokić, Embiid, Harden, Leonard and
+  Cunningham. Kevin Durant's upgrade was rejected for AI over-texturing; his sharper original is
+  kept.
+- **More players with photos.** 73 players now have images, up from 14: 15 editorial photos
+  (Kyrie Irving is new) and 58 NBA.com headshots of current stars and 1980s–2010s legends.
+- **Team marks.** All 30 current and all 15 historical marks are integrated, chosen by franchise ID
+  and season and checked against the data's own team names. A season with no verified mark shows a
+  neutral ring, never another era's brand.
+- **One registry for each.** A single generated, ID-keyed player registry and a single
+  season-aware mark registry feed these pages:
+  - home, players landing, player heroes and record rooms;
+  - scoreboard, game pages and standings;
+  - team directory and team pages, rankings;
+  - champions and awards, leaders, record book, leader movement and eras;
+  - similarity, comparison, lineups and search;
+  - bracket and film room.
+- **Social preview and icons.** A social preview captured from the home page, and app icons from
+  the existing mark.
+- **New validate step.** `npm run check:visual-assets` checks files, sizes, orphans, metadata, and
+  every mark era against 1,257 team-seasons of names.
+- **Rebuilding.** `python -I scripts/assets/build_visual_assets.py [--skip-existing]` (Python 3
+  with Pillow), then `npx prettier --write frontend/src/features/players/playerImageData.ts`.
+
+## Verified state (final)
+
+| Check                                                   | Result                                                                             |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `npm run validate`                                      | exit 0; frontend 508/508, backend 532/532, build passed                            |
+| `npm run e2e`                                           | 217 passed, 0 failed, 73 skipped by design                                         |
+| `npm audit`, `npm audit --omit=dev`                     | 0 / 0                                                                              |
+| Production audit (port 4310)                            | 23 routes × 3 widths; no overflow, broken or enlarged images, no external requests |
+| Offline demo (port 4320, all outbound requests blocked) | Every mark and face loads locally                                                  |
+| Servers                                                 | All stopped at the end                                                             |
+
+## Open decisions for the owner
+
+1. **Publication.** No reuse permission is recorded for:
+   - the NBA.com headshots;
+   - the NBA and team marks;
+   - the AI-upscaled editorial photos.
+
+   They join the NBA.com data in the deployment runbook's §0 publication decision.
+
+2. **Medium-confidence mark boundaries** (each falls back before its start), listed in the
+   integration report:
+   - Celtics 1998-99, Cavaliers 2022-23, Mavericks 2001-02, Pistons 1983-96, Pacers 2005-06;
+   - Lakers 1983-84, Grizzlies 2004-05, Knicks 1992-93, 76ers 2015-16, Spurs 2002-03;
+   - Jazz 2025-26 (the purple note supplied as current).
+3. **Gaps you may want to fill.**
+   - Marks of eras that were not supplied, which show neutral rings: Seattle 2001-08, Bobcats
+     2007-14, New Orleans 2002-05 and 2007-08, Nets before 1997, and most 1980s–2000s marks.
+   - Patrick Ewing's photo.
+   - A larger hero source for 2× screens.
+
+**Next action:** review the branch, in particular the screenshots and the Wembanyama hero. Then
+decide on publication. To ship, merge `claude/nba-explorer-3-visual-assets` (it contains the 3.2
+branch) through a pull request, as the deployment runbook describes.
+
+---
+
 # NBA Performance Explorer 3.2 — original specification completion handoff (live)
 
 > 3.2 is the 3.1 release candidate plus the original-specification completion project on the
