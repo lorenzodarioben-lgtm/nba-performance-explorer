@@ -12,8 +12,10 @@ out/
 .vite/
 *.tsbuildinfo
 
-# Test coverage
-coverage/
+# Test coverage output (anchored: backend/src/features/coverage is source code)
+/coverage/
+/*/coverage/
+/packages/*/coverage/
 *.lcov
 .nyc_output/
 
