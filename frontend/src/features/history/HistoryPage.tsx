@@ -17,7 +17,7 @@ const ARCHIVE_SHOT = getSceneImage('kobe-shaq');
 
 /**
  * The navigator's header photograph. It appears only on the all-seasons index, never on a single
- * season, so it is never read as a picture of that season; the caption says who is pictured.
+ * season. The registry retains subject descriptions and asset provenance.
  */
 function HistoryBackdrop() {
   if (!ARCHIVE_SHOT) return null;
@@ -29,14 +29,11 @@ function HistoryBackdrop() {
         sizes="(max-width: 767px) 100vw, min(66vw, 860px)"
         width={ARCHIVE_SHOT.width}
         height={ARCHIVE_SHOT.height}
-        alt=""
+        alt={ARCHIVE_SHOT.alt}
         fetchPriority="high"
         decoding="async"
         style={{ objectPosition: ARCHIVE_SHOT.objectPosition }}
       />
-      <figcaption>
-        Pictured: Kobe Bryant and Shaquille O'Neal, Lakers v 76ers
-      </figcaption>
     </figure>
   );
 }

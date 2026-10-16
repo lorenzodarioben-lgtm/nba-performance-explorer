@@ -34,7 +34,7 @@ const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const BUZZER = getSceneImage('kawhi-buzzer');
 
 /**
- * The scoreboard's header photograph: editorial imagery, captioned, never a picture of the date or
+ * The scoreboard's header photograph: editorial imagery, never a picture of the date or
  * game on screen.
  */
 function ScoreboardBackdrop() {
@@ -47,14 +47,11 @@ function ScoreboardBackdrop() {
         sizes="(max-width: 767px) 100vw, min(66vw, 880px)"
         width={BUZZER.width}
         height={BUZZER.height}
-        alt=""
+        alt={BUZZER.alt}
         fetchPriority="high"
         decoding="async"
         style={{ objectPosition: BUZZER.objectPosition }}
       />
-      <figcaption>
-        Pictured: Kawhi Leonard's 2019 playoff buzzer-beater, Raptors v 76ers
-      </figcaption>
     </figure>
   );
 }

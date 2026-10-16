@@ -108,7 +108,7 @@ export function TeamsPage() {
                   >
                     <TeamLogo
                       team={team}
-                      size={48}
+                      size={62}
                       fallback="none"
                       className="teamwall__logo"
                     />

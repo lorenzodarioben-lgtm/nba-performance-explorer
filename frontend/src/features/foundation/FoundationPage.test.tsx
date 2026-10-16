@@ -27,7 +27,10 @@ describe('landing page', () => {
       // The h1 carries the product name with the "Read the game." headline.
       screen.getByRole('heading', { level: 1, name: /NBA Performance Explorer/ }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Search any NBA player and explore/i)).toBeInTheDocument();
+    expect(screen.getByText(/Search any NBA player and explore/i)).toHaveTextContent(
+      'Search any NBA player and explore their profile, form, career and shooting. Compare careers, study recorded games and seasons, and explore archived shot charts.',
+    );
+    expect(screen.queryByText(/Player figures are queried/)).not.toBeInTheDocument();
     // The supported capabilities are listed.
     expect(screen.getByText('Two-player season comparisons')).toBeInTheDocument();
   });

@@ -357,73 +357,71 @@
 
 /* ------------------------------------------- navigator header photograph */
 
-/* The archive photograph fills the right of the page head and dissolves into the page on its
-   left and lower edges, so the title keeps a dark, quiet ground. Index page only. */
+/* An inset archive print, with a quiet timeline rule running beneath the title. */
 .frpage__head:has(.histshot) {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  min-height: clamp(300px, 29vw, 420px);
+  justify-content: center;
+  min-height: clamp(300px, 27vw, 390px);
+  padding-right: 56%;
+  padding-bottom: 36px;
+  border-bottom-color: rgb(205 180 145 / 0.26);
+}
+.frpage__head:has(.histshot) .frpage__title {
+  font-size: clamp(2.75rem, 4.6vw, 4.8rem);
+  line-height: 0.94;
+}
+.frpage__head:has(.histshot)::after {
+  width: 42%;
+  height: 7px;
+  bottom: -4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--chalk-3) 0 1px,
+    transparent 1px 24px
+  );
 }
 .frpage__backdrop:has(.histshot) {
-  inset: 0 0 0 auto;
-  width: min(68%, 900px);
+  inset: 12px 0 28px auto;
+  width: 51%;
 }
 .histshot {
   position: absolute;
   inset: 0;
   margin: 0;
+  padding: 8px;
+  border: 1px solid rgb(205 180 145 / 0.3);
+  background: #191716;
 }
 .histshot img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.88) contrast(1.04);
-  -webkit-mask-image:
-    linear-gradient(90deg, transparent 0%, #000 42%, #000 94%, transparent 100%),
-    linear-gradient(0deg, transparent 0%, #000 34%, #000 92%, transparent 100%);
-  mask-image:
-    linear-gradient(90deg, transparent 0%, #000 42%, #000 94%, transparent 100%),
-    linear-gradient(0deg, transparent 0%, #000 34%, #000 92%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+  filter: sepia(0.19) saturate(0.78) contrast(1.05);
 }
-/* A low red wash ties the photograph to the arena palette. */
 .histshot::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background: radial-gradient(70% 80% at 70% 60%, transparent 40%, rgb(10 10 11 / 0.5));
+  inset: 8px;
+  background: linear-gradient(0deg, rgb(24 19 16 / 0.35), transparent 55%);
   pointer-events: none;
-}
-.histshot figcaption {
-  position: absolute;
-  right: 6%;
-  bottom: 10px;
-  z-index: 1;
-  font: 500 9.5px/1.4 var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--chalk-3);
 }
 @media (max-width: 767px) {
   .frpage__head:has(.histshot) {
-    min-height: 260px;
+    min-height: 0;
+    padding: 0 0 28px;
   }
   .frpage__backdrop:has(.histshot) {
+    position: relative;
+    inset: auto;
     width: 100%;
+    height: clamp(180px, 54vw, 300px);
+    margin-bottom: 24px;
   }
-  .histshot img {
-    opacity: 0.55;
-    -webkit-mask-image: linear-gradient(0deg, transparent 0%, #000 45%);
-    mask-image: linear-gradient(0deg, transparent 0%, #000 45%);
+  .frpage__head:has(.histshot) .frpage__title {
+    font-size: clamp(2.75rem, 10vw, 4.8rem);
   }
-  .histshot figcaption {
-    top: 10px;
-    bottom: auto;
-    right: 0;
-    font-size: 8.5px;
-    letter-spacing: 0.05em;
-    white-space: nowrap;
+  .frpage__head:has(.histshot)::after {
+    width: 100%;
   }
 }

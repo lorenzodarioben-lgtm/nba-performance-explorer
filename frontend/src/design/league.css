@@ -681,90 +681,80 @@
 
 /* ------------------------------------------------- scoreboard header photograph */
 
-/* A broadcast-style header: the photograph fills the right of the page head, dissolves into the
-   charcoal on its left and lower edges, and a dark directional wash keeps the heading and lede on
-   a quiet ground. A low red light rises from the floor. */
+/* A broadcast frame: a horizontal picture window and a lower title strap. */
 .frpage__head:has(.gameshot) {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: clamp(300px, 27vw, 400px);
+  min-height: clamp(310px, 26vw, 380px);
+  padding: 28px 28px 26px;
+  border-top: 1px solid var(--line-2);
+  background: linear-gradient(
+    0deg,
+    rgb(10 10 11 / 0.96),
+    rgb(10 10 11 / 0.74) 32%,
+    transparent 72%
+  );
+}
+.frpage__head:has(.gameshot)::after {
+  left: 28px;
+  width: 120px;
+}
+.frpage__head:has(.gameshot) .frpage__title {
+  font-size: clamp(3.25rem, 6.8vw, 6.25rem);
+}
+.frpage__head:has(.gameshot) .frpage__lede {
+  max-width: 62ch;
+  font-size: 15px;
 }
 .frpage__backdrop:has(.gameshot) {
-  inset: 0 0 0 auto;
-  width: min(70%, 920px);
+  inset: 0;
+  width: 100%;
 }
 .gameshot {
   position: absolute;
   inset: 0;
   margin: 0;
+  overflow: hidden;
 }
 .gameshot img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.9) contrast(1.05);
-  -webkit-mask-image:
-    linear-gradient(90deg, transparent 0%, #000 46%, #000 95%, transparent 100%),
-    linear-gradient(0deg, transparent 0%, #000 30%, #000 94%, transparent 100%);
-  mask-image:
-    linear-gradient(90deg, transparent 0%, #000 46%, #000 95%, transparent 100%),
-    linear-gradient(0deg, transparent 0%, #000 30%, #000 94%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+  object-position: 62% 65% !important;
+  filter: saturate(0.85) contrast(1.08);
 }
-.gameshot::before {
+.gameshot::after {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: 1;
-  pointer-events: none;
   background:
     linear-gradient(
       90deg,
-      rgb(10 10 11 / 0.9) 0%,
-      rgb(10 10 11 / 0.35) 34%,
-      transparent 58%
+      rgb(10 10 11 / 0.95),
+      rgb(10 10 11 / 0.7) 34%,
+      transparent 64%
     ),
-    radial-gradient(55% 60% at 28% 100%, rgb(185 28 28 / 0.26), transparent 72%);
-}
-.gameshot figcaption {
-  position: absolute;
-  right: 5%;
-  bottom: 10px;
-  z-index: 2;
-  font: 500 9.5px/1.4 var(--mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--chalk-3);
+    linear-gradient(0deg, rgb(10 10 11 / 0.9), transparent 65%);
+  border-right: 2px solid var(--red-hi);
 }
 @media (max-width: 767px) {
   .frpage__head:has(.gameshot) {
-    min-height: 0;
-    padding-top: clamp(150px, 46vw, 210px);
+    min-height: 350px;
+    padding: 150px 16px 22px;
   }
-  .frpage__backdrop:has(.gameshot) {
-    width: 100%;
-    bottom: auto;
-    height: clamp(210px, 62vw, 280px);
+  .frpage__head:has(.gameshot)::after {
+    left: 16px;
   }
   .gameshot img {
-    -webkit-mask-image: linear-gradient(0deg, transparent 0%, #000 50%);
-    mask-image: linear-gradient(0deg, transparent 0%, #000 50%);
+    object-position: 60% 65% !important;
   }
-  .gameshot::before {
-    background: radial-gradient(
-      70% 60% at 50% 100%,
-      rgb(185 28 28 / 0.22),
-      transparent 72%
+  .gameshot::after {
+    background: linear-gradient(
+      0deg,
+      var(--night) 5%,
+      rgb(10 10 11 / 0.85) 45%,
+      transparent 90%
     );
-  }
-  .gameshot figcaption {
-    top: 10px;
-    bottom: auto;
-    right: 0;
-    font-size: 8px;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
   }
 }

@@ -1,6 +1,7 @@
 import { useId, useState, type KeyboardEvent, type PointerEvent } from 'react';
 
 import type { PlayerSummary } from '@nba-performance-explorer/contracts';
+import { Icon } from '../../ui/Icon';
 
 import { useDebouncedSearchTerm } from './useDebouncedSearchTerm';
 import { usePlayerSearchQuery } from './usePlayerSearchQuery';
@@ -192,38 +193,41 @@ export function PlayerCombobox({
       <label htmlFor={inputId} className={`block text-sm font-semibold ${t.label}`}>
         {label}
       </label>
-      <input
-        id={inputId}
-        role="combobox"
-        type="search"
-        value={inputValue}
-        autoComplete="off"
-        aria-autocomplete="list"
-        aria-expanded={isExpanded}
-        aria-controls={isExpanded && hasResults ? listboxId : undefined}
-        aria-activedescendant={
-          isExpanded && highlightedPlayer
-            ? `${listboxId}-option-${highlightedPlayer.id}`
-            : undefined
-        }
-        className={`searchfield mt-2 w-full ${t.input}`}
-        placeholder="Enter at least 2 characters"
-        onBlur={() => {
-          setIsOpen(false);
-        }}
-        onChange={(event) => {
-          const nextValue = event.target.value;
-          setInputValue(nextValue);
-          setIsOpen(nextValue.trim().length >= 2);
-          setHighlightedOption(null);
-        }}
-        onFocus={() => {
-          if (normalizedTerm.length >= 2) {
-            setIsOpen(true);
+      <div className={`searchfield-wrap ${t.input}`}>
+        <Icon name="search" size={18} />
+        <input
+          id={inputId}
+          role="combobox"
+          type="search"
+          value={inputValue}
+          autoComplete="off"
+          aria-autocomplete="list"
+          aria-expanded={isExpanded}
+          aria-controls={isExpanded && hasResults ? listboxId : undefined}
+          aria-activedescendant={
+            isExpanded && highlightedPlayer
+              ? `${listboxId}-option-${highlightedPlayer.id}`
+              : undefined
           }
-        }}
-        onKeyDown={handleKeyDown}
-      />
+          className="searchfield w-full"
+          placeholder="Enter at least 2 characters"
+          onBlur={() => {
+            setIsOpen(false);
+          }}
+          onChange={(event) => {
+            const nextValue = event.target.value;
+            setInputValue(nextValue);
+            setIsOpen(nextValue.trim().length >= 2);
+            setHighlightedOption(null);
+          }}
+          onFocus={() => {
+            if (normalizedTerm.length >= 2) {
+              setIsOpen(true);
+            }
+          }}
+          onKeyDown={handleKeyDown}
+        />
+      </div>
 
       {isOpen && isLoading ? (
         <p role="status" aria-live="polite" className={`mt-3 text-sm ${t.hint}`}>

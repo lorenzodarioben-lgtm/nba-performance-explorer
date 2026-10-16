@@ -92,7 +92,7 @@ function VersusMark() {
 
 const MATCHUP = getSceneImage('kyrie-matchup');
 
-/** The page's header photograph: a real on-court matchup, decorative and captioned. */
+/** The page's header photograph: an editorial matchup, with provenance kept in the registry. */
 function CompareBackdrop() {
   if (!MATCHUP) return null;
   return (
@@ -103,12 +103,11 @@ function CompareBackdrop() {
         sizes="(max-width: 767px) 100vw, min(64vw, 860px)"
         width={MATCHUP.width}
         height={MATCHUP.height}
-        alt=""
+        alt={MATCHUP.alt}
         fetchPriority="high"
         decoding="async"
         style={{ objectPosition: MATCHUP.objectPosition }}
       />
-      <figcaption>Pictured: Kyrie Irving drives at a Brooklyn Nets defender</figcaption>
     </figure>
   );
 }

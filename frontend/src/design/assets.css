@@ -115,13 +115,13 @@
 .fr .teamwall__plate .teamwall__logo {
   align-self: flex-end;
   flex: none;
-  width: 48px;
-  height: 48px;
+  width: 62px;
+  height: 62px;
   margin-bottom: auto;
   transition: transform var(--dur-base) var(--ease-film);
 }
 .fr .teamwall__plate:has(.teamwall__logo) b {
-  margin-top: 9px;
+  margin-top: 2px;
   font-size: 2.9rem;
 }
 .fr .teamwall__plate:has(.teamwall__logo) > span:not(.teamwall__rec) {
@@ -361,15 +361,4 @@
 .sim-row__who--face > span {
   display: grid;
   min-width: 0;
-}
-
-/* Home hero: the portrait-format photo is wider than its frame so the player stands right of the
-   headline, as the earlier landscape crop did; the section clips the overflow. */
-@media (min-width: 768px) {
-  .homehero__photo img {
-    /* Slightly wider than the frame and shifted right: his face stays clear of the headline,
-       and about 72% of the photograph's height shows (67% at the earlier 115%). */
-    width: 106%;
-    margin-left: 6%;
-  }
 }

@@ -58,11 +58,10 @@ describe('historical navigator', () => {
     });
     const shot = container.querySelector('.histshot img');
     expect(shot).toHaveAttribute('src', '/images/scenes/kobe-shaq-1672.webp');
-    // Decorative inside an aria-hidden backdrop; the visible caption names who is pictured.
+    // Decorative inside an aria-hidden backdrop; retain subject metadata without a caption.
     expect(shot?.closest('[aria-hidden="true"]')).not.toBeNull();
-    expect(container.querySelector('.histshot figcaption')).toHaveTextContent(
-      "Kobe Bryant and Shaquille O'Neal",
-    );
+    expect(shot).toHaveAttribute('alt', expect.stringContaining('Kobe Bryant'));
+    expect(container.querySelector('.histshot figcaption')).toBeNull();
     unmount();
     const season = renderApp('/history/1999-00');
     await screen.findByRole('table');

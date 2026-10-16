@@ -82,7 +82,7 @@ function Hero({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null>
           <motion.img
             src={HERO.src}
             srcSet={HERO.srcSet}
-            sizes="(max-width: 767px) 100vw, min(72vw, 1200px)"
+            sizes="(max-width: 760px) 100vw, min(59vw, 1000px)"
             width={HERO.width}
             height={HERO.height}
             alt={HERO.alt}
@@ -141,9 +141,8 @@ function Hero({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null>
         <Reveal delay={0.55} variant="fade">
           <p className="homehero__lede">
             Search any NBA player and explore their profile, form, career and shooting.
-            Compare careers, study recorded games and seasons, and read archived shot
-            charts. Player figures are queried from NBA.com when you ask; archives are
-            labelled by source.
+            Compare careers, study recorded games and seasons, and explore archived shot
+            charts.
           </p>
         </Reveal>
 
