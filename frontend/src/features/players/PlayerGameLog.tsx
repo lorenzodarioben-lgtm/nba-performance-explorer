@@ -5,6 +5,7 @@ import type { PlayerGame } from '@nba-performance-explorer/contracts';
 import { BarChart } from '../../charts/BarChart';
 import { ChartLegend } from '../../charts/markers';
 import { LoadingLine, Notice } from '../../ui/DataState';
+import { RowCollapse } from '../../ui/RowCollapse';
 import { formatGameDate, formatMatchup } from './game-format';
 import { PlayerSeasonError } from './season-api';
 import { usePlayerGameLogQuery } from './usePlayerGameLogQuery';
@@ -39,10 +40,12 @@ function GameLogTable({
   games,
   season,
   highlight,
+  visibleRows = games.length,
 }: {
   games: PlayerGame[];
   season: string;
   highlight: string | null;
+  visibleRows?: number;
 }) {
   return (
     <div
@@ -67,8 +70,12 @@ function GameLogTable({
           </tr>
         </thead>
         <tbody>
-          {games.map((game) => (
-            <tr key={game.id} className={highlight === game.id ? 'is-hl' : undefined}>
+          {games.map((game, index) => (
+            <tr
+              key={game.id}
+              className={highlight === game.id ? 'is-hl' : undefined}
+              hidden={index >= visibleRows || undefined}
+            >
               <th scope="row" className="num">
                 {formatGameDate(game.date)}
               </th>
@@ -141,6 +148,15 @@ function GameLogChart({
   );
 }
 
+/** Games shown before the log is opened; the chart above always covers the whole season. */
+const GAME_PREVIEW = 6;
+
+function highlightIndex(games: PlayerGame[], highlight: string | null): number | null {
+  if (highlight === null) return null;
+  const index = games.findIndex((game) => game.id === highlight);
+  return index === -1 ? null : index;
+}
+
 export function PlayerGameLog({
   playerId,
   season,
@@ -187,11 +203,22 @@ export function PlayerGameLog({
             onHighlight={setHighlight}
           />
         ) : null}
-        <GameLogTable
-          games={gameLogQuery.data.games}
-          season={season}
-          highlight={highlight}
-        />
+        <RowCollapse
+          key={season}
+          total={gameLogQuery.data.games.length}
+          preview={GAME_PREVIEW}
+          noun="games"
+          reveal={highlightIndex(gameLogQuery.data.games, highlight)}
+        >
+          {(visibleRows) => (
+            <GameLogTable
+              games={gameLogQuery.data.games}
+              season={season}
+              highlight={highlight}
+              visibleRows={visibleRows}
+            />
+          )}
+        </RowCollapse>
       </>
     );
   }

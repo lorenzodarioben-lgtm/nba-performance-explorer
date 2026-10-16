@@ -5,6 +5,7 @@ import type { PlayerSeasonStats } from '@nba-performance-explorer/contracts';
 import { LineChart } from '../../charts/LineChart';
 import { ChartLegend } from '../../charts/markers';
 import { LoadingLine, Notice } from '../../ui/DataState';
+import { RowCollapse } from '../../ui/RowCollapse';
 import { Slate } from '../../ui/Slate';
 import { alignToSeasons, fillSeasonGaps, shortSeason } from '../player-hub/seasons';
 
@@ -38,7 +39,18 @@ function buildTrendRows(seasons: PlayerSeasonStats[]): TrendRow[] {
   }));
 }
 
+/** Seasons shown before the table is opened; the chart above always covers the whole career. */
+const SEASON_PREVIEW = 5;
+
 function TrendTable({ rows }: { rows: TrendRow[] }) {
+  return (
+    <RowCollapse total={rows.length} preview={SEASON_PREVIEW} noun="seasons">
+      {(visibleRows) => <TrendRows rows={rows} visibleRows={visibleRows} />}
+    </RowCollapse>
+  );
+}
+
+function TrendRows({ rows, visibleRows }: { rows: TrendRow[]; visibleRows: number }) {
   return (
     <div
       role="group"
@@ -63,8 +75,8 @@ function TrendTable({ rows }: { rows: TrendRow[] }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
-            <tr key={row.season}>
+          {rows.map((row, index) => (
+            <tr key={row.season} hidden={index >= visibleRows || undefined}>
               <th scope="row" className="num">
                 {row.season}
               </th>

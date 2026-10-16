@@ -710,3 +710,93 @@
 .fr .save-research {
   margin: 14px 0;
 }
+
+/* ------------------------------------------------- collapsible tables */
+
+/* Long tables open as a short preview. The fade hints at the rows below; the bar carries the
+   real count and the disclosure button. Height is animated by RowCollapse (JS sets px heights). */
+.rollup {
+  --rollup-bg: var(--night);
+}
+.rollup__body {
+  /* Contain child margins in every state, so the measured and the settled heights agree. */
+  display: flow-root;
+  position: relative;
+  transition: height 420ms cubic-bezier(0.22, 0.7, 0.18, 1);
+}
+.rollup__body[data-animating] {
+  overflow: hidden;
+}
+.rollup__fade {
+  position: absolute;
+  inset: auto 0 0;
+  height: 64px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgb(10 10 11 / 0),
+    rgb(10 10 11 / 0.72) 55%,
+    var(--rollup-bg)
+  );
+  transition: opacity 320ms ease;
+}
+.rollup[data-open='true'] .rollup__fade {
+  opacity: 0;
+}
+.rollup__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-2);
+}
+.rollup__count {
+  font: 500 10.5px/1.5 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.rollup__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 38px;
+  padding: 0 16px 0 18px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--coal);
+  color: var(--chalk);
+  font: 600 11px/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+.rollup__toggle:hover {
+  border-color: var(--line-3);
+  background: var(--film);
+}
+.rollup__toggle:focus-visible {
+  outline: 2px solid var(--red-hi);
+  outline-offset: 2px;
+}
+.rollup__chev {
+  width: 12px;
+  height: 12px;
+  color: var(--chalk-2);
+  transition: transform 320ms ease;
+}
+.rollup[data-open='true'] .rollup__chev {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rollup__body,
+  .rollup__fade,
+  .rollup__chev {
+    transition: none;
+  }
+}
