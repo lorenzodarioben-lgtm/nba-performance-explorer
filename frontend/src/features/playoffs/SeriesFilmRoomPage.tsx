@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'motion/react';
 import { useRef, type KeyboardEvent } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
+import { TeamLogo } from '../../ui/TeamLogo';
 import {
   PlayoffSeriesFilmRoomResponseSchema,
   PlayoffSeriesIdSchema,
@@ -144,7 +145,16 @@ function FilmRoom({
                 {seed(i) !== null ? (
                   <span className="fr-hero__seed">Seed {seed(i)}</span>
                 ) : null}
-                <span className="fr-hero__abbr">{team.abbreviation}</span>
+                <span className="fr-hero__abbr fr-hero__abbr--logo">
+                  <TeamLogo
+                    team={team}
+                    season="2023-24"
+                    size={56}
+                    fallback="none"
+                    priority
+                  />
+                  {team.abbreviation}
+                </span>
                 <span className="fr-hero__name">{team.name}</span>
                 <span className="fr-hero__wins num">{series.wins[i]}</span>
               </div>

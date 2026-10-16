@@ -10,6 +10,8 @@ import {
 } from '@nba-performance-explorer/contracts';
 import { ResearchTable } from '../research/ResearchShell';
 import { Slate } from '../../ui/Slate';
+import { TeamLogo } from '../../ui/TeamLogo';
+import { seasonOfDate } from '../teams/teamLogos';
 import { LineChart } from '../../charts/LineChart';
 import { fetchLeague } from './league-api';
 import { LeagueFeedback, LeagueSourceNote } from './LeagueSourceNote';
@@ -73,10 +75,12 @@ export function LeagueGameDetail({
 
 function Hero({ data }: { data: LeagueGameDetailResponse }) {
   const g = data.game;
+  const season = seasonOfDate(g.date);
   const side = (s: typeof g.home, label: string) => (
     <div
       className={`gamehero__side ${g.status === 'final' && s.score !== null && s.score === Math.max(g.home.score ?? 0, g.away.score ?? 0) ? 'is-won' : ''}`}
     >
+      <TeamLogo team={s.team} season={season} size={64} fallback="none" priority />
       <span className="gamehero__abbr">{s.team.abbreviation}</span>
       <Link to={`/teams/${s.team.id}`} className="gamehero__name">
         {s.team.name}
@@ -138,7 +142,16 @@ function LineScoreTable({ data }: { data: LeagueGameDetailResponse }) {
         <tbody>
           {(['away', 'home'] as const).map((k) => (
             <tr key={k}>
-              <th scope="row">{data.game[k].team.abbreviation}</th>
+              <th scope="row">
+                <span className="withlogo">
+                  <TeamLogo
+                    team={data.game[k].team}
+                    season={seasonOfDate(data.game.date)}
+                    size={20}
+                  />
+                  {data.game[k].team.abbreviation}
+                </span>
+              </th>
               {ls.periods.map((p) => (
                 <td key={p.period}>{p[k]}</td>
               ))}

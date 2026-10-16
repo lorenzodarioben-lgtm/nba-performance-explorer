@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
+import { PlayerAvatar } from '../../ui/PlayerAvatar';
 import {
   LeagueRecordsQuerySchema,
   LeagueRecordsResponseSchema,
@@ -196,7 +197,10 @@ export function LeagueRecordBookPage() {
                     </td>
                     <td>{fmt(r.value)}</td>
                     <th scope="row">
-                      <Link to={`/players/${r.playerId}`}>{r.name}</Link>
+                      <Link to={`/players/${r.playerId}`} className="withface">
+                        <PlayerAvatar playerId={r.playerId} name={r.name} size={28} />
+                        {r.name}
+                      </Link>
                     </th>
                     <td>
                       <Link to={leaderLink(r.season, q)}>
@@ -259,7 +263,10 @@ export function LeagueRecordBookPage() {
                     <td>{p.game?.date ?? seasonDisplay(p.season)}</td>
                     <td>{fmt(p.value)}</td>
                     <th scope="row">
-                      <Link to={`/players/${p.playerId}`}>{p.name}</Link>
+                      <Link to={`/players/${p.playerId}`} className="withface">
+                        <PlayerAvatar playerId={p.playerId} name={p.name} size={24} />
+                        {p.name}
+                      </Link>
                     </th>
                     <td>{p.teams.map((t) => t.abbreviation).join(' / ')}</td>
                     <td>{KIND_LABEL[p.kind]}</td>

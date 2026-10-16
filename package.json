@@ -24,7 +24,8 @@
     "smoke:free-sources": "npm run build --workspace @nba-performance-explorer/contracts && npm run smoke:free-sources --workspace backend",
     "smoke:engine": "npm run build --workspace @nba-performance-explorer/contracts && npm run smoke:engine --workspace backend",
     "check:module-case": "node scripts/check-module-case.mjs --self-test && node scripts/check-module-case.mjs",
-    "validate": "npm run format:check && npm run lint && npm run check:module-case && npm run typecheck && npm run test && npm run build",
+    "check:visual-assets": "node scripts/check-visual-assets.mjs",
+    "validate": "npm run format:check && npm run lint && npm run check:module-case && npm run check:visual-assets && npm run typecheck && npm run test && npm run build",
     "smoke:closeout": "npm run build --workspace @nba-performance-explorer/contracts && tsx backend/src/scripts/smoke-closeout.ts",
     "e2e": "playwright test -c e2e/playwright.config.ts"
   },

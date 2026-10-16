@@ -127,11 +127,13 @@ export function PlayerProfileHero({
         </motion.span>
         {image ? (
           <motion.div
-            className="phero__photo"
+            className={`phero__photo phero__photo--${image.kind}`}
             style={allowed ? { y: scrollPhotoY, opacity: scrollFade } : {}}
           >
             <motion.img
               src={image.src}
+              srcSet={image.srcSet}
+              sizes="(max-width: 767px) 100vw, min(64vw, 980px)"
               width={image.width}
               height={image.height}
               alt={image.alt}

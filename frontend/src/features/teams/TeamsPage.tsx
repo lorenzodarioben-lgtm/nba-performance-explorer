@@ -21,6 +21,7 @@ import { LeagueTeamSections } from '../league/LeagueTeamSections';
 import { TeamSeasonArchivePanel } from '../wiki-archive/TeamSeasonArchivePanel';
 import { Stagger, StaggerItem } from '../../motion/choreography';
 import { TeamSeasonGlance } from '../team-season/TeamSeasonGlance';
+import { TeamLogo } from '../../ui/TeamLogo';
 
 export function TeamsPage() {
   const [params, setParams] = useSearchParams();
@@ -105,6 +106,12 @@ export function TeamsPage() {
                         : ''
                     }`}
                   >
+                    <TeamLogo
+                      team={team}
+                      size={48}
+                      fallback="none"
+                      className="teamwall__logo"
+                    />
                     <b>{team.abbreviation}</b>
                     <span>{team.name}</span>
                     {recordOf.get(team.id) ? (
@@ -139,7 +146,10 @@ export function TeamsPage() {
                   {query.data.teams.map((team) => (
                     <tr key={team.id}>
                       <th scope="row">
-                        <Link to={`/teams/${team.id}`}>{team.name}</Link>
+                        <Link to={`/teams/${team.id}`} className="withlogo">
+                          <TeamLogo team={team} size={20} />
+                          {team.name}
+                        </Link>
                       </th>
                       <td>{team.abbreviation}</td>
                       <td>{team.id}</td>
@@ -174,7 +184,16 @@ export function TeamDetailPage() {
       title={query.data?.team.name ?? 'Team identity'}
       backdrop={
         query.data ? (
-          <span className="teamghost">{query.data.team.abbreviation}</span>
+          <span className="teamhead">
+            <span className="teamghost">{query.data.team.abbreviation}</span>
+            <TeamLogo
+              team={query.data.team}
+              size={136}
+              fallback="none"
+              priority
+              className="teamhead__logo"
+            />
+          </span>
         ) : null
       }
     >

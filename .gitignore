@@ -66,3 +66,6 @@ desktop.ini
 
 # Local browser-check artifacts (screenshots, traces)
 e2e/.artifacts/
+
+# Owner-supplied raw image staging folder: read by scripts/assets, never committed
+/NBA_ASSETS/

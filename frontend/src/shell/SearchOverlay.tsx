@@ -15,6 +15,8 @@ import { usePlayerSearchQuery } from '../features/player-search/usePlayerSearchQ
 import { useMotionAllowed } from '../motion/MotionPreference';
 import { easings } from '../motion/tokens';
 import { Icon } from '../ui/Icon';
+import { TeamLogo } from '../ui/TeamLogo';
+import { getPlayerThumb } from '../features/players/playerImages';
 import { fold } from './fold';
 import { SECTIONS } from './sections';
 
@@ -28,6 +30,10 @@ interface Option {
     | 'Sections and tools';
   /** Extra words a reader might type for this destination. */
   keywords?: string;
+  /** A verified face for a player result (by NBA person id). */
+  face?: string | undefined;
+  /** The team a team result opens, for its current mark. */
+  team?: { id: string; name: string; abbreviation: string };
   title: string;
   meta: string;
   badge: string;
@@ -257,6 +263,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
             .join('')
             .slice(0, 2)
             .toUpperCase(),
+          face: getPlayerThumb(player.id),
           to: `/players/${player.id}`,
         }))
       : [];
@@ -277,6 +284,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
       title: team.name,
       meta: `${team.abbreviation} · Team hub`,
       badge: team.abbreviation,
+      team,
       to: `/teams/${team.id}`,
     },
     // The closest matches also offer the recorded season room directly.
@@ -288,6 +296,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
             title: `${team.name} · 2023–24 season`,
             meta: 'Recorded games, streaks, splits and season series',
             badge: team.abbreviation,
+            team,
             to: `/teams/${team.id}/season`,
           },
         ]
@@ -313,6 +322,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
               .join('')
               .slice(0, 2)
               .toUpperCase(),
+            face: getPlayerThumb(p.playerId),
             to: `/players/${p.playerId}/archive`,
           }))
       : [];
@@ -425,9 +435,27 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
                   onPointerDown={(event) => event.preventDefault()}
                   onClick={() => go(option)}
                 >
-                  <span className="search__badge" aria-hidden="true">
-                    {option.badge}
-                  </span>
+                  {option.face ? (
+                    <img
+                      className="search__badge search__badge--photo"
+                      src={option.face}
+                      alt=""
+                      width={34}
+                      height={34}
+                      decoding="async"
+                    />
+                  ) : option.team ? (
+                    <span
+                      className="search__badge search__badge--logo"
+                      aria-hidden="true"
+                    >
+                      <TeamLogo team={option.team} size={26} fallback="abbr" />
+                    </span>
+                  ) : (
+                    <span className="search__badge" aria-hidden="true">
+                      {option.badge}
+                    </span>
+                  )}
                   <span>
                     <span className="search__title">{option.title}</span>
                     <span className="search__meta">{option.meta}</span>

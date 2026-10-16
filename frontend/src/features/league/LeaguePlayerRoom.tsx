@@ -9,6 +9,8 @@ import {
 import { ResearchShell, ResearchTable } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import { Slate } from '../../ui/Slate';
+import { TeamLogo } from '../../ui/TeamLogo';
+import { PlayerBackdrop } from '../players/PlayerBackdrop';
 import { fetchLeague, seasonDisplay } from './league-api';
 import { LeagueFeedback, LeagueSourceNote } from './LeagueSourceNote';
 import { longDate } from './game-format';
@@ -37,6 +39,7 @@ export function LeaguePlayerRoom() {
   return (
     <ResearchShell
       title={data ? `${data.name}: records` : 'Records'}
+      backdrop={valid ? <PlayerBackdrop playerId={playerId} /> : null}
       lede={
         <p>
           Every archived game since 1983–84: team stints and trades, availability,
@@ -145,7 +148,11 @@ function Timeline({ data }: { data: LeaguePlayerResponse }) {
                   <th scope="row">{i === 0 ? seasonDisplay(s.season) : ''}</th>
                   <td>{i === 0 ? (s.age ?? '—') : ''}</td>
                   <td>
-                    <Link to={`/teams/${st.team.id}?season=${s.season}`}>
+                    <Link
+                      to={`/teams/${st.team.id}?season=${s.season}`}
+                      className="withlogo"
+                    >
+                      <TeamLogo team={st.team} season={s.season} size={20} />
                       {st.team.name}
                     </Link>
                     {i > 0 ? <small> (traded or signed)</small> : null}

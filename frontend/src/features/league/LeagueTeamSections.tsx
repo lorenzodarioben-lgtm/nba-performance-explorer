@@ -7,6 +7,8 @@ import {
 } from '@nba-performance-explorer/contracts';
 import { ResearchTable } from '../research/ResearchShell';
 import { Slate } from '../../ui/Slate';
+import { TeamLogo } from '../../ui/TeamLogo';
+import { TEAM_LOGO_ERAS, teamLogo } from '../teams/teamLogos';
 import { fetchLeague, seasonDisplay } from './league-api';
 import { LeagueFeedback, LeagueSourceNote } from './LeagueSourceNote';
 
@@ -87,6 +89,17 @@ function SeasonPanel({
             : 'No standing',
         ]}
       />
+      <p className="season-mark">
+        <TeamLogo team={s.team} season={s.season} size={44} fallback="abbr" />
+        <span>
+          <b>{s.team.name}</b> {seasonDisplay(s.season)}
+          <small>
+            {teamLogo(s.team.id, s.season, s.team.name)
+              ? 'The mark the team used that season'
+              : 'No verified mark on file for this season, so none is shown'}
+          </small>
+        </span>
+      </p>
       <label className="team-season-pick">
         Season
         <select value={s.season} onChange={(e) => onPick(e.target.value)}>
@@ -334,6 +347,31 @@ function FranchisePanel({
           </li>
         ))}
       </ol>
+      {TEAM_LOGO_ERAS[data.team.id.slice(4)]?.length ? (
+        <>
+          <h3>Marks on file</h3>
+          <ol className="franchise-marks">
+            {TEAM_LOGO_ERAS[data.team.id.slice(4)]!.map((e) => (
+              <li key={`${e.key}-${e.from}`}>
+                <TeamLogo
+                  team={{ id: data.team.id, name: e.identity }}
+                  season={e.from}
+                  size={48}
+                  label
+                />
+                <span>
+                  <b>{e.identity}</b>
+                  {seasonDisplay(e.from)} to {e.to ? seasonDisplay(e.to) : 'now'}
+                </span>
+              </li>
+            ))}
+          </ol>
+          <p className="team-note">
+            Each season shows the mark the team used then. Seasons with no verified mark
+            on file show none, rather than a later or earlier brand.
+          </p>
+        </>
+      ) : null}
       <p className="team-note">
         Periods follow NBA.com’s franchise records, which assign each season to one
         franchise ID: a gap between periods means the franchise did not play. A
@@ -415,7 +453,16 @@ function FranchisePanel({
                     seasonDisplay(s.season)
                   )}
                 </th>
-                <td>{s.name}</td>
+                <td>
+                  <span className="withlogo">
+                    <TeamLogo
+                      team={{ id: data.team.id, name: s.name }}
+                      season={s.season}
+                      size={20}
+                    />
+                    {s.name}
+                  </span>
+                </td>
                 <td>{wl(s)}</td>
                 <td>{s.winPercentage.toFixed(3).replace(/^0/, '')}</td>
                 <td>{s.conferenceRank ?? '—'}</td>

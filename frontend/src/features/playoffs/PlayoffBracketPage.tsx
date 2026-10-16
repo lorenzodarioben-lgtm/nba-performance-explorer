@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
+import { TeamLogo } from '../../ui/TeamLogo';
 import { z } from 'zod';
 import {
   ArchiveGameIdSchema,
@@ -130,6 +131,14 @@ function Champion({ data }: { data: PlayoffBracketResponse }) {
         2024 NBA champion · from recorded games
       </StaggerItem>
       <StaggerItem as="div" className="champion__name">
+        <TeamLogo
+          team={champion}
+          season="2023-24"
+          size={96}
+          fallback="none"
+          className="champion__logo"
+          priority
+        />
         <span className="champion__abbr">{champion.abbreviation}</span>
         <span>{champion.name}</span>
       </StaggerItem>
@@ -299,10 +308,11 @@ function SeriesCard({
             key={team.id}
             className={`seriescard__team ${won ? 'is-won' : series.winner ? 'is-out' : ''}`}
           >
-            <b>
+            <b className="withlogo">
               {series.seeds ? (
                 <span className="seriescard__seed">{series.seeds[i]}</span>
               ) : null}
+              <TeamLogo team={team} season="2023-24" size={20} fallback="none" />
               {team.abbreviation}
             </b>
             <em className="num">{series.wins[i]}</em>

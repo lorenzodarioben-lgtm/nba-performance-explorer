@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
+import { PlayerAvatar } from '../../ui/PlayerAvatar';
+import { TeamLogo } from '../../ui/TeamLogo';
 import { z } from 'zod';
 import {
   CanonicalTeamIdSchema,
@@ -165,6 +167,13 @@ export function LeagueLineupsPage() {
       </div>
       {data ? (
         <>
+          <p className="season-mark">
+            <TeamLogo team={data.team} season={data.season} size={44} fallback="abbr" />
+            <span>
+              <b>{data.team.name}</b> {seasonDisplay(data.season)}
+              <small>{data.totalLineups} five-player units on NBA.com</small>
+            </span>
+          </p>
           <ul className="league-unavailable">
             {data.definitions.map((d) => (
               <li key={d}>{d}</li>
@@ -265,7 +274,10 @@ export function LeagueLineupsPage() {
                 {data.onOff.map((p) => (
                   <tr key={p.playerId}>
                     <th scope="row">
-                      <Link to={`/players/${p.playerId}`}>{p.name}</Link>
+                      <Link to={`/players/${p.playerId}`} className="withface">
+                        <PlayerAvatar playerId={p.playerId} name={p.name} size={28} />
+                        {p.name}
+                      </Link>
                     </th>
                     <td>{Math.round(p.on.minutes)}</td>
                     <td>{Math.round(p.on.possessions)}</td>

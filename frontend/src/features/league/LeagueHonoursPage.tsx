@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import { PlayerAvatar } from '../../ui/PlayerAvatar';
+import { TeamLogo } from '../../ui/TeamLogo';
 import { Link, useSearchParams } from 'react-router';
 import {
   LeagueHonoursResponseSchema,
@@ -102,11 +104,20 @@ export function LeagueHonoursPage() {
                       </Link>
                     </th>
                     <td>
-                      <Link to={`/teams/${c.champion.id}?season=${c.season}`}>
+                      <Link
+                        to={`/teams/${c.champion.id}?season=${c.season}`}
+                        className="withlogo"
+                      >
+                        <TeamLogo team={c.champion} season={c.season} size={28} />
                         {c.champion.name}
                       </Link>
                     </td>
-                    <td>{c.runnerUp.name}</td>
+                    <td>
+                      <span className="withlogo">
+                        <TeamLogo team={c.runnerUp} season={c.season} size={20} />
+                        {c.runnerUp.name}
+                      </span>
+                    </td>
                     <td>
                       <Link to={`/games/${c.lastGame}`}>
                         {c.wins}–{c.losses}
@@ -114,7 +125,15 @@ export function LeagueHonoursPage() {
                     </td>
                     <td>
                       {c.finalsMvp ? (
-                        <Link to={`/players/${c.finalsMvp.playerId}/records`}>
+                        <Link
+                          to={`/players/${c.finalsMvp.playerId}/records`}
+                          className="withface"
+                        >
+                          <PlayerAvatar
+                            playerId={c.finalsMvp.playerId}
+                            name={c.finalsMvp.name}
+                            size={28}
+                          />
                           {c.finalsMvp.name}
                         </Link>
                       ) : (
@@ -176,7 +195,13 @@ export function LeagueHonoursPage() {
                     <tr key={`${w.season}-${w.playerId}`}>
                       <th scope="row">{seasonDisplay(w.season)}</th>
                       <td>
-                        <Link to={`/players/${w.playerId}/records`}>{w.name}</Link>
+                        <Link
+                          to={`/players/${w.playerId}/records`}
+                          className="withface"
+                        >
+                          <PlayerAvatar playerId={w.playerId} name={w.name} size={32} />
+                          {w.name}
+                        </Link>
                       </td>
                       <td>{w.team}</td>
                     </tr>

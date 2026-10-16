@@ -14,9 +14,15 @@ import { easings } from '../../motion/tokens';
 import { SECTIONS } from '../../shell/sections';
 import { Icon } from '../../ui/Icon';
 import { PlayerSearch } from '../player-search/PlayerSearch';
+import { getPlayerImage, getPortraitImage } from '../players/playerImages';
 import { HomePreviews } from './HomePreviews';
 import { NewRooms } from './NewRooms';
 import { useHealthQuery } from './useHealthQuery';
+
+// The home photography comes from the one player-image registry, keyed by NBA person id.
+const WEMBANYAMA = '1641705';
+const LEBRON = '2544';
+const HERO = getPlayerImage(WEMBANYAMA)!;
 
 // The public landing: the Arena front door. Every block maps to a real capability and every
 // preview reads a genuine, labelled archive; nothing here claims to be live.
@@ -72,13 +78,18 @@ function Hero({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null>
           style={allowed ? { y: lift, opacity: fade } : {}}
         >
           <motion.img
-            src="/images/wembanyama-hero.webp"
-            width={1140}
-            height={760}
-            alt="Victor Wembanyama of the San Antonio Spurs holding the ball above a defender"
+            src={HERO.src}
+            srcSet={HERO.srcSet}
+            sizes="(max-width: 767px) 100vw, min(72vw, 1200px)"
+            width={HERO.width}
+            height={HERO.height}
+            alt={HERO.alt}
             fetchPriority="high"
             decoding="async"
-            style={allowed ? { x: photoX, y: photoY } : {}}
+            style={{
+              objectPosition: HERO.objectPosition,
+              ...(allowed ? { x: photoX, y: photoY } : {}),
+            }}
             initial={
               allowed ? { clipPath: 'inset(0% 0% 0% 100%)', scale: 1.08 } : false
             }
@@ -213,20 +224,34 @@ function OnTape() {
   );
 }
 
+function ComparePhoto({ playerId }: { playerId: string }) {
+  const image = getPortraitImage(playerId);
+  if (!image) return null;
+  // The frame is 3:4; a wider photo is cropped to it, so the browser needs proportionally more
+  // pixels across than the frame's width.
+  const across = Math.max(1, image.width / image.height / 0.75);
+  return (
+    <img
+      src={image.src}
+      srcSet={image.srcSet}
+      sizes={`(max-width: 767px) ${Math.round(45 * across)}vw, ${Math.round(340 * across)}px`}
+      width={image.width}
+      height={image.height}
+      loading="lazy"
+      decoding="async"
+      alt={image.alt}
+      style={{ objectPosition: image.objectPosition }}
+    />
+  );
+}
+
 function CompareSection() {
   const allowed = useMotionAllowed();
   return (
     <section className="homecmp" aria-labelledby="homecmp-title">
       <div className="wrap homecmp__inner">
         <Reveal variant="from-left" className="homecmp__photo">
-          <img
-            src="/images/shai-gilgeous-alexander.webp"
-            width={1067}
-            height={1600}
-            loading="lazy"
-            decoding="async"
-            alt="Shai Gilgeous-Alexander"
-          />
+          <ComparePhoto playerId={WEMBANYAMA} />
         </Reveal>
         <div className="homecmp__copy">
           <motion.span
@@ -256,14 +281,7 @@ function CompareSection() {
           </Reveal>
         </div>
         <Reveal variant="from-right" className="homecmp__photo">
-          <img
-            src="/images/harden.avif"
-            width={980}
-            height={1174}
-            loading="lazy"
-            decoding="async"
-            alt="James Harden"
-          />
+          <ComparePhoto playerId={LEBRON} />
         </Reveal>
       </div>
     </section>

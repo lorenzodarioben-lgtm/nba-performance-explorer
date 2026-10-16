@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
+import { PlayerAvatar } from '../../ui/PlayerAvatar';
 import { z } from 'zod';
 import {
   LeagueEraPlayersResponseSchema,
@@ -429,7 +430,10 @@ function PlayerEras({
             {data.players.map((p) => (
               <tr key={p.playerId}>
                 <th scope="row">
-                  <Link to={`/players/${p.playerId}/records`}>{p.name}</Link>
+                  <Link to={`/players/${p.playerId}/records`} className="withface">
+                    <PlayerAvatar playerId={p.playerId} name={p.name} size={32} />
+                    {p.name}
+                  </Link>
                   {p.mayPredateArchive ? (
                     <small> (career may start before 1983–84)</small>
                   ) : null}

@@ -199,6 +199,7 @@ export function LeagueArchivePage({ mode }: { mode: 'standings' | 'leaders' }) {
               standings={standings}
               sort={q.sort}
               conference={q.conference}
+              season="2023-24"
             />
           ) : null}
           {mode === 'leaders' && leaders.length ? (

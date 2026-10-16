@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 
 import { RankBars } from '../../charts/RankBars';
 import { Stagger, StaggerItem } from '../../motion/choreography';
+import { PlayerAvatar } from '../../ui/PlayerAvatar';
 
 export interface RankedRow {
   playerId: string;
@@ -45,6 +46,12 @@ export function RankedBoard({
               key={row.playerId}
               className={`podium__step podium__step--${row.rank}`}
             >
+              <PlayerAvatar
+                playerId={row.playerId}
+                name={row.name}
+                size={72}
+                className="podium__face"
+              />
               <span className="podium__rank">{formatRank(row, rows)}</span>
               <Link to={`/players/${row.playerId}`} className="podium__name">
                 {row.name}

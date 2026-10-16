@@ -2,13 +2,18 @@ import { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router';
 
 import { PlayerCombobox } from '../features/player-search/PlayerCombobox';
-import { getPlayerImage } from '../features/players/playerImages';
+import {
+  getPlayerImage,
+  playerImageIds,
+  type PlayerImage,
+} from '../features/players/playerImages';
 import { KineticHeadline, Reveal, Stagger, StaggerItem } from '../motion/choreography';
 import { Icon } from '../ui/Icon';
 import { Tape, type TapeSpec } from '../ui/Tape';
 
-// Players with licensed editorial photography (ids verified in playerImages.ts). This is a
-// doorway, not a ranking: the board makes no claim about who is best or most searched.
+// Players with editorial game photography (ids verified in playerImages.ts; usage rights as
+// recorded in docs/visual-assets). This is a doorway, not a ranking: the board makes no claim
+// about who is best or most searched.
 const ON_THE_BOARD = [
   { id: '201939', name: 'Stephen Curry' },
   { id: '2544', name: 'LeBron James' },
@@ -24,7 +29,61 @@ const ON_THE_BOARD = [
   { id: '201935', name: 'James Harden' },
   { id: '202695', name: 'Kawhi Leonard' },
   { id: '1630595', name: 'Cade Cunningham' },
+  { id: '202681', name: 'Kyrie Irving' },
 ] as const;
+
+/** Players with an NBA.com headshot in one group, alphabetical by surname. */
+function headshotGroup(group: PlayerImage['group']) {
+  const surname = (name: string) => name.split(' ').slice(1).join(' ') || name;
+  return playerImageIds()
+    .map((id) => ({ id, image: getPlayerImage(id)! }))
+    .filter((p) => p.image.group === group && p.image.kind === 'headshot')
+    .sort((a, b) => surname(a.image.name).localeCompare(surname(b.image.name)));
+}
+
+function FaceWall({
+  id,
+  title,
+  meta,
+  players,
+  to,
+}: {
+  id: string;
+  title: string;
+  meta: string;
+  players: { id: string; image: PlayerImage }[];
+  to: (playerId: string) => string;
+}) {
+  return (
+    <section className="wrap landing__section" aria-labelledby={id}>
+      <div className="landing__sechead">
+        <h2 id={id} className="t-section">
+          {title}
+        </h2>
+        <p className="t-meta">{meta}</p>
+      </div>
+      <Stagger as="ul" className="facewall" gap={0.02}>
+        {players.map(({ id: playerId, image }) => (
+          <StaggerItem as="li" key={playerId} className="facewall__item">
+            <Link to={to(playerId)} className="facewall__card">
+              <img
+                src={image.src}
+                srcSet={image.srcSet}
+                sizes="(max-width: 767px) 45vw, 220px"
+                alt=""
+                width={image.width}
+                height={image.height}
+                loading="lazy"
+                decoding="async"
+              />
+              <span className="facewall__name">{image.name}</span>
+            </Link>
+          </StaggerItem>
+        ))}
+      </Stagger>
+    </section>
+  );
+}
 
 const QUERIED: TapeSpec = { code: 'NBA.com', source: 'Queried', variant: 'queried' };
 
@@ -111,6 +170,8 @@ export function PlayersLanding() {
                   {image ? (
                     <img
                       src={image.src}
+                      srcSet={image.srcSet}
+                      sizes="(max-width: 767px) 50vw, 260px"
                       alt=""
                       width={image.width}
                       height={image.height}
@@ -130,6 +191,22 @@ export function PlayersLanding() {
           })}
         </Stagger>
       </section>
+
+      <FaceWall
+        id="stars-title"
+        title="Around the league"
+        meta="NBA.com headshots · opens the player hub"
+        players={headshotGroup('current')}
+        to={(id) => `/players/${id}`}
+      />
+
+      <FaceWall
+        id="legends-title"
+        title="Legends in the archive"
+        meta="NBA.com headshots · opens the record room, works offline"
+        players={headshotGroup('legend')}
+        to={(id) => `/players/${id}/records`}
+      />
 
       <section className="wrap landing__section" aria-labelledby="rooms-title">
         <div className="landing__sechead">

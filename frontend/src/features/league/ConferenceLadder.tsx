@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { useSeen } from '../../motion/choreography';
 import { useMotionAllowed } from '../../motion/MotionPreference';
 import { easings, springs } from '../../motion/tokens';
+import { TeamLogo } from '../../ui/TeamLogo';
 import { FORMAT_2023_24, type PostseasonFormat } from './postseason-format';
 
 /** The fields a ladder row needs; both the Wikipedia and the NBA.com standings provide them. */
@@ -27,12 +28,15 @@ export function ConferenceLadders({
   sort,
   conference,
   format = FORMAT_2023_24,
+  season,
 }: {
   standings: readonly Standing[];
   sort: LadderSort;
   conference?: 'East' | 'West' | undefined;
   /** Where the cut lines go; defaults to the 2023–24 format. */
   format?: PostseasonFormat;
+  /** The season shown, so each team carries the mark it used then. */
+  season?: string;
 }) {
   const maxGb = Math.max(1, ...standings.map((row) => row.gamesBehind ?? 0));
   const conferences = (['East', 'West'] as const).filter(
@@ -59,6 +63,7 @@ export function ConferenceLadders({
             maxGb={maxGb}
             showCuts={sort === 'rank'}
             format={format}
+            season={season}
           />
         );
       })}
@@ -72,12 +77,14 @@ function Ladder({
   maxGb,
   showCuts,
   format,
+  season,
 }: {
   name: string;
   rows: readonly Standing[];
   maxGb: number;
   showCuts: boolean;
   format: PostseasonFormat;
+  season: string | undefined;
 }) {
   const allowed = useMotionAllowed();
   const [ref, seen] = useSeen<HTMLElement>();
@@ -104,6 +111,7 @@ function Ladder({
           >
             <span className="ladder__rank">{row.rank}</span>
             <Link to={`/teams/${row.team.id}`} className="ladder__team">
+              <TeamLogo team={row.team} season={season} size={24} />
               <b>{row.team.abbreviation}</b>
               <span>{row.team.name}</span>
             </Link>

@@ -8,6 +8,7 @@ import {
 import { ResearchShell, ResearchTable } from '../research/ResearchShell';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
+import { TeamLogo } from '../../ui/TeamLogo';
 import { ConferenceLadders, type LadderSort } from './ConferenceLadder';
 import { postseasonFormat } from './postseason-format';
 import {
@@ -157,6 +158,7 @@ export function LeagueStandingsPage() {
               sort={q.sort as LadderSort}
               conference={q.conference}
               format={postseasonFormat(data.season)}
+              season={data.season}
             />
           ) : null}
           <ResearchTable label="Standings table">
@@ -203,7 +205,11 @@ export function LeagueStandingsPage() {
                       <td>{r.conference}</td>
                       <td>{noGames ? '—' : r.rank}</td>
                       <th scope="row">
-                        <Link to={`/teams/${r.team.id}?season=${data.season}`}>
+                        <Link
+                          to={`/teams/${r.team.id}?season=${data.season}`}
+                          className="withlogo"
+                        >
+                          <TeamLogo team={r.team} season={data.season} size={20} />
                           {r.team.name}
                         </Link>
                       </th>

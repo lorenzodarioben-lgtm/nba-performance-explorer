@@ -126,7 +126,20 @@ describe('champions and awards page', () => {
       'href',
       '/players/2544/records',
     );
+    // The Finals MVP shows his verified face; the 2015-16 Cavaliers had a different mark from the
+    // current one supplied, so none is shown, while the Lakers' mark spans the archive.
+    expect(cle.querySelector('img[data-player-photo="2544"]')).toHaveAttribute(
+      'src',
+      '/images/players/thumbs/2544.webp',
+    );
+    expect(cle.querySelector('img.tlogo')?.getAttribute('src')).toBe(
+      '/images/teams/1610612744-64.webp',
+    );
     const lal = within(table).getByRole('row', { name: /1984–85/ });
+    expect(lal.querySelector('img.tlogo')).toHaveAttribute(
+      'src',
+      '/images/teams/1610612747-64.webp',
+    );
     expect(lal).toHaveTextContent('Not confirmed');
     expect(lal).toHaveTextContent('Disagrees');
     expect(

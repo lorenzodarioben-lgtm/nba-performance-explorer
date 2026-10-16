@@ -6,6 +6,8 @@ import { Stagger, StaggerItem, useSeen } from '../../motion/choreography';
 import { useMotionAllowed } from '../../motion/MotionPreference';
 import { easings } from '../../motion/tokens';
 import { Tape } from '../../ui/Tape';
+import { TeamLogo } from '../../ui/TeamLogo';
+import { seasonOfDate } from '../teams/teamLogos';
 
 const MONTHS = [
   'Jan',
@@ -47,12 +49,18 @@ export function ScoreCards({ games }: { games: readonly ArchiveGame[] }) {
                 Final{ot ? ` · ${ot} OT` : ''}
                 <span>{calendarLabel(game.date)}</span>
               </span>
-              <span className={`scorecard__team ${awayWon ? 'is-won' : ''}`}>
+              <span
+                className={`scorecard__team scorecard__team--logo ${awayWon ? 'is-won' : ''}`}
+              >
+                <TeamLogo team={game.away} season={seasonOfDate(game.date)} size={22} />
                 <b>{game.away.abbreviation}</b>
                 <span>{game.away.name}</span>
                 <em className="num">{game.awayScore}</em>
               </span>
-              <span className={`scorecard__team ${awayWon ? '' : 'is-won'}`}>
+              <span
+                className={`scorecard__team scorecard__team--logo ${awayWon ? '' : 'is-won'}`}
+              >
+                <TeamLogo team={game.home} season={seasonOfDate(game.date)} size={22} />
                 <b>{game.home.abbreviation}</b>
                 <span>{game.home.name}</span>
                 <em className="num">{game.homeScore}</em>
@@ -70,9 +78,9 @@ export function GameHero({ game }: { game: ArchiveGame }) {
   const allowed = useMotionAllowed();
   const awayWon = game.awayScore > game.homeScore;
   const ot = game.quarters.length > 4 ? game.quarters.length - 4 : 0;
+  const season = seasonOfDate(game.date);
   const side = (
-    abbr: string,
-    name: string,
+    team: ArchiveGame['home'],
     score: number,
     won: boolean,
     delay: number,
@@ -83,8 +91,11 @@ export function GameHero({ game }: { game: ArchiveGame }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: easings.arena, delay }}
     >
-      <span className="gamehero__abbr">{abbr}</span>
-      <span className="gamehero__name">{name}</span>
+      <span className="gamehero__mark">
+        <TeamLogo team={team} season={season} size={64} fallback="none" priority />
+        <span className="gamehero__abbr">{team.abbreviation}</span>
+      </span>
+      <span className="gamehero__name">{team.name}</span>
       <span className="gamehero__score num">{score}</span>
     </motion.div>
   );
@@ -97,11 +108,11 @@ export function GameHero({ game }: { game: ArchiveGame }) {
         <Tape code="Archive" source="Wikipedia · CC BY-SA" variant="archive" />
       </div>
       <div className="gamehero__board">
-        {side(game.away.abbreviation, game.away.name, game.awayScore, awayWon, 0.05)}
+        {side(game.away, game.awayScore, awayWon, 0.05)}
         <span className="gamehero__at" aria-hidden="true">
           at
         </span>
-        {side(game.home.abbreviation, game.home.name, game.homeScore, !awayWon, 0.15)}
+        {side(game.home, game.homeScore, !awayWon, 0.15)}
       </div>
     </section>
   );

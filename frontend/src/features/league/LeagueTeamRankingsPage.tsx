@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { TeamLogo } from '../../ui/TeamLogo';
 import { Link, useSearchParams } from 'react-router';
 import {
   LeagueTeamMetricSchema,
@@ -174,8 +175,10 @@ export function LeagueTeamRankingsPage() {
               rows={data.rows.map((r) => ({
                 key: r.team.id,
                 label: (
-                  <span>
-                    <b>{r.rank}</b> {r.team.name}
+                  <span className="withlogo">
+                    <b>{r.rank}</b>
+                    <TeamLogo team={r.team} season={data.query.season} size={20} />
+                    {r.team.name}
                   </span>
                 ),
                 value: r.value,
@@ -201,7 +204,15 @@ export function LeagueTeamRankingsPage() {
                     <tr key={r.team.id}>
                       <td>{r.rank}</td>
                       <th scope="row">
-                        <Link to={`/teams/${r.team.id}?season=${data.query.season}`}>
+                        <Link
+                          to={`/teams/${r.team.id}?season=${data.query.season}`}
+                          className="withlogo"
+                        >
+                          <TeamLogo
+                            team={r.team}
+                            season={data.query.season}
+                            size={20}
+                          />
                           {r.team.name}
                         </Link>
                       </th>

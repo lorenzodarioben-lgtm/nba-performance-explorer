@@ -1,5 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
+import { PlayerAvatar } from '../../ui/PlayerAvatar';
 import {
   LeagueMovementQuerySchema,
   LeagueMovementResponseSchema,
@@ -237,7 +238,13 @@ export function LeagueMovementPage() {
                         )}
                       </td>
                       <th scope="row">
-                        <Link to={`/players/${r.playerId}/records`}>{r.name}</Link>
+                        <Link
+                          to={`/players/${r.playerId}/records`}
+                          className="withface"
+                        >
+                          <PlayerAvatar playerId={r.playerId} name={r.name} size={24} />
+                          {r.name}
+                        </Link>
                       </th>
                       <td>{r.team}</td>
                       <td>{r.gamesPlayed}</td>

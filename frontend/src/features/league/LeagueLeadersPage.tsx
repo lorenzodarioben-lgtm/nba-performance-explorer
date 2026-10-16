@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router';
+import { PlayerAvatar } from '../../ui/PlayerAvatar';
 import {
   LeagueLeadersQuerySchema,
   LeagueLeadersResponseSchema,
@@ -365,7 +366,10 @@ export function LeagueLeadersPage() {
                   <tr key={r.playerId}>
                     <td>{r.rank}</td>
                     <th scope="row">
-                      <Link to={`/players/${r.playerId}`}>{r.name}</Link>
+                      <Link to={`/players/${r.playerId}`} className="withface">
+                        <PlayerAvatar playerId={r.playerId} name={r.name} size={28} />
+                        {r.name}
+                      </Link>
                     </th>
                     <td>{r.teams.map((t) => t.abbreviation).join(' / ')}</td>
                     <td>{r.gamesPlayed}</td>

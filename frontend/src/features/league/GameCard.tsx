@@ -1,5 +1,7 @@
 import { Link } from 'react-router';
 import type { LeagueGameSummary } from '@nba-performance-explorer/contracts';
+import { TeamLogo } from '../../ui/TeamLogo';
+import { seasonOfDate } from '../teams/teamLogos';
 import { longDate, statusLine } from './game-format';
 
 export function GameCard({
@@ -12,8 +14,10 @@ export function GameCard({
   const scored = g.home.score !== null && g.away.score !== null;
   const awayWon = scored && g.status === 'final' && g.away.score! > g.home.score!;
   const homeWon = scored && g.status === 'final' && g.home.score! > g.away.score!;
+  const season = seasonOfDate(g.date);
   const side = (s: LeagueGameSummary['home'], won: boolean) => (
-    <span className={`scorecard__team ${won ? 'is-won' : ''}`}>
+    <span className={`scorecard__team scorecard__team--logo ${won ? 'is-won' : ''}`}>
+      <TeamLogo team={s.team} season={season} size={22} />
       <b>{s.team.abbreviation}</b>
       <span>
         {s.team.name}

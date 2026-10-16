@@ -6,6 +6,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router';
+import { TeamLogo } from '../../ui/TeamLogo';
 
 import { BasketballCourt } from '../../charts/BasketballCourt';
 import { Reveal } from '../../motion/choreography';
@@ -178,7 +179,10 @@ function StandingsPreview() {
                 .map((row) => (
                   <li key={row.team.id}>
                     <span>{row.rank}</span>
-                    <b>{row.team.abbreviation}</b>
+                    <b className="withlogo">
+                      <TeamLogo team={row.team} season="2023-24" size={18} />
+                      {row.team.abbreviation}
+                    </b>
                     <em className="num">
                       {row.wins}–{row.losses}
                     </em>
@@ -231,7 +235,10 @@ function FinalPreview() {
                 key={side}
                 className={`preview__side ${score > other ? 'is-won' : ''}`}
               >
-                <b>{last[side].abbreviation}</b>
+                <b className="withlogo">
+                  <TeamLogo team={last[side]} season="2023-24" size={28} />
+                  {last[side].abbreviation}
+                </b>
                 <em className="num">{score}</em>
               </span>
             );

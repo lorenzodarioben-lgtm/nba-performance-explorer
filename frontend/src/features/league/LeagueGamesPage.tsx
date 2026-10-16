@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
+import { PlayerAvatar } from '../../ui/PlayerAvatar';
+import { TeamLogo } from '../../ui/TeamLogo';
 import { z } from 'zod';
 import {
   CanonicalTeamIdSchema,
@@ -205,8 +207,15 @@ export function LeagueGamesPage() {
                     <ol>
                       {p.rows.map((r) => (
                         <li key={`${r.playerId}-${r.gameId}`}>
-                          <Link to={`/players/${r.playerId}`}>{r.name}</Link> ({r.team}){' '}
-                          <b>{r.value}</b>{' '}
+                          <Link to={`/players/${r.playerId}`} className="withface">
+                            <PlayerAvatar
+                              playerId={r.playerId}
+                              name={r.name}
+                              size={24}
+                            />
+                            {r.name}
+                          </Link>{' '}
+                          ({r.team}) <b>{r.value}</b>{' '}
                           <Link to={`/games/${r.gameId}`}>vs {r.opponent}</Link>
                         </li>
                       ))}
@@ -262,7 +271,11 @@ function Snapshot({ data }: { data: LeagueSnapshotResponse }) {
             <ol>
               {c.teams.map((t) => (
                 <li key={t.team.id}>
-                  <Link to={`/teams/${t.team.id}?season=${data.season}`}>
+                  <Link
+                    to={`/teams/${t.team.id}?season=${data.season}`}
+                    className="withlogo"
+                  >
+                    <TeamLogo team={t.team} season={data.season} size={20} />
                     {t.team.name}
                   </Link>{' '}
                   {t.wins}–{t.losses}
@@ -276,8 +289,12 @@ function Snapshot({ data }: { data: LeagueSnapshotResponse }) {
           <ul>
             {data.statLeaders.map((l) => (
               <li key={l.metric}>
-                {l.label}: <Link to={`/players/${l.playerId}`}>{l.name}</Link> ({l.team}
-                ) {l.value.toFixed(1)}
+                {l.label}:{' '}
+                <Link to={`/players/${l.playerId}`} className="withface">
+                  <PlayerAvatar playerId={l.playerId} name={l.name} size={24} />
+                  {l.name}
+                </Link>{' '}
+                ({l.team}) {l.value.toFixed(1)}
               </li>
             ))}
           </ul>

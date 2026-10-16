@@ -1,0 +1,2990 @@
+[
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/101108_chris_paul.png",
+    "sourceSha256": "f88991d9e75d6ab08de38c3e473564dcd2eed33d84c98990a8c0f986ecac1e90",
+    "sourceBytes": 230502,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/101108-1040.webp",
+        "bytes": 73046,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/101108-520.webp",
+        "bytes": 25678,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/101108.webp",
+        "bytes": 7490,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Oklahoma City Thunder"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/1122_wilkins.png",
+    "sourceSha256": "0a52fbe9c783504b1e12629fa867fbe87f569b1f2f9fb206686ba14af84a3f2b",
+    "sourceBytes": 254706,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1122-1040.webp",
+        "bytes": 73064,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1122-520.webp",
+        "bytes": 32592,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1122.webp",
+        "bytes": 10082,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Atlanta Hawks, 1980s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/1449_bird.png",
+    "sourceSha256": "0fa0aca52300143196f03c6a67180dbaced9dc9fe8da7b302a882452b43e635a",
+    "sourceBytes": 197332,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1449-1040.webp",
+        "bytes": 93272,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1449-520.webp",
+        "bytes": 29472,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1449.webp",
+        "bytes": 9162,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Boston Celtics, 1980s"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/1495_tim_duncan.png",
+    "sourceSha256": "bd88a0c76b237529d32ed66d7ca013e45ff48245b6fd4362bb45846aec8313a2",
+    "sourceBytes": 212789,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1495-1040.webp",
+        "bytes": 73274,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1495-520.webp",
+        "bytes": 26400,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1495.webp",
+        "bytes": 7730,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Spurs"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/1503_tracy_mcgrady.png",
+    "sourceSha256": "70120ea6981d22fb8d09820793dcc693dddf18b4071d4d6a9d9f6c7211882e13",
+    "sourceBytes": 148367,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1503-1040.webp",
+        "bytes": 50302,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1503-520.webp",
+        "bytes": 23350,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1503.webp",
+        "bytes": 7852,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Houston Rockets"
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1626157_towns.png",
+    "sourceSha256": "a693c63b2b50b56994e8da454928b9f569f6050a1cf1c637915614d6e852972d",
+    "sourceBytes": 241871,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1626157-1040.webp",
+        "bytes": 75156,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1626157-520.webp",
+        "bytes": 28106,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1626157.webp",
+        "bytes": 10462,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1626164_booker.png",
+    "sourceSha256": "b29bed0cf90429aa78db58a6efba19e28cba7a8f49cd6587ce0e413ca82bbfe1",
+    "sourceBytes": 231247,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1626164-1040.webp",
+        "bytes": 65984,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1626164-520.webp",
+        "bytes": 24920,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1626164.webp",
+        "bytes": 8968,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1627734_sabonis.png",
+    "sourceSha256": "068bc39988361d32403aaf130e8d6f7b3d0aef03b59bbd23be9daf597414e4e2",
+    "sourceBytes": 242795,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1627734-1040.webp",
+        "bytes": 72276,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1627734-520.webp",
+        "bytes": 27178,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1627734.webp",
+        "bytes": 10548,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1627759_brown.png",
+    "sourceSha256": "2859eb124038680ccf47988cd334b4e93208ea8fa2a81d7a8513337c29fae618",
+    "sourceBytes": 256891,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1627759-1040.webp",
+        "bytes": 77596,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1627759-520.webp",
+        "bytes": 30198,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1627759.webp",
+        "bytes": 9048,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1628369_tatum.png",
+    "sourceSha256": "d9e543baf691145f7955df56ab1c198f38d0b08d60169f177e3dfa659a7a3f11",
+    "sourceBytes": 280335,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1628369-1040.webp",
+        "bytes": 94168,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1628369-520.webp",
+        "bytes": 30430,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1628369.webp",
+        "bytes": 9812,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1628389_adebayo.png",
+    "sourceSha256": "e1eb9322d0a005b8bf23ed8b6a423b6b5eda6c040dbda77b8e4ff068f8bd2530",
+    "sourceBytes": 216877,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1628389-1040.webp",
+        "bytes": 50518,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1628389-520.webp",
+        "bytes": 21506,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1628389.webp",
+        "bytes": 7568,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1628973_brunson.png",
+    "sourceSha256": "961fb161016bcbef42978b08eb7e206c370d7b904d08d3235996bffb6788e980",
+    "sourceBytes": 275093,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1628973-1040.webp",
+        "bytes": 93158,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1628973-520.webp",
+        "bytes": 30388,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1628973.webp",
+        "bytes": 10362,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1629027_young.png",
+    "sourceSha256": "056047d5ce34116c4cc88e10f9af34e6a0588117008043747ef42915d9b7efd5",
+    "sourceBytes": 296242,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1629027-1040.webp",
+        "bytes": 117186,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1629027-520.webp",
+        "bytes": 34662,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1629027.webp",
+        "bytes": 13008,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1629627_williamson.png",
+    "sourceSha256": "a07cffeabb0302b262d59ab91ff917cd8650c0a70bf12cd73f577e5fd2d95665",
+    "sourceBytes": 254770,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1629627-1040.webp",
+        "bytes": 50382,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1629627-520.webp",
+        "bytes": 21762,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1629627.webp",
+        "bytes": 7518,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1629630_morant.png",
+    "sourceSha256": "1329d0abdc6f7fa345e0a739fd798b6d4ac91e64628501f14eb15ea94ce7167f",
+    "sourceBytes": 309378,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1629630-1040.webp",
+        "bytes": 84556,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1629630-520.webp",
+        "bytes": 27634,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1629630.webp",
+        "bytes": 9092,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1630162_edwards.png",
+    "sourceSha256": "459652dc703386d30eb4d3b5621871a532d379e449df7dde154a29928f50801b",
+    "sourceBytes": 266146,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1630162-1040.webp",
+        "bytes": 75842,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1630162-520.webp",
+        "bytes": 26264,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1630162.webp",
+        "bytes": 8096,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1630163_ball.png",
+    "sourceSha256": "210da5318ebf9140b5de7c4965d65bd150f8daa2f0276b52b43a86adb77115c3",
+    "sourceBytes": 236375,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1630163-1040.webp",
+        "bytes": 81664,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1630163-520.webp",
+        "bytes": 29314,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1630163.webp",
+        "bytes": 8322,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1630178_maxey.png",
+    "sourceSha256": "58567efafc9cfa2f6682205d0c54151ad4595296bc055f00e0ea7cd9e7739a3f",
+    "sourceBytes": 301447,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1630178-1040.webp",
+        "bytes": 98692,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1630178-520.webp",
+        "bytes": 33346,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1630178.webp",
+        "bytes": 10188,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1630532_wagner.png",
+    "sourceSha256": "0715fa108d2d60dae5b7384b11124e91249272e730ce6037c61a2ec55ebceed4",
+    "sourceBytes": 223998,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1630532-1040.webp",
+        "bytes": 89084,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1630532-520.webp",
+        "bytes": 30118,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1630532.webp",
+        "bytes": 11416,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1631094_banchero.png",
+    "sourceSha256": "be5934073f95de04c3f70f6be23c90233751521d2ee2cb77ed1e9e5c40fc80ac",
+    "sourceBytes": 240390,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1631094-1040.webp",
+        "bytes": 90818,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1631094-520.webp",
+        "bytes": 33000,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1631094.webp",
+        "bytes": 12608,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/1631096_holmgren.png",
+    "sourceSha256": "c9c8c7949143a9a50ca50b6d7813668da17f0b832c2732ca5e71f1d06f3f9b3e",
+    "sourceBytes": 234677,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1631096-1040.webp",
+        "bytes": 84396,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1631096-520.webp",
+        "bytes": 30594,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1631096.webp",
+        "bytes": 10818,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/165_olajuwon.png",
+    "sourceSha256": "65f6a3b95ce44f7dc051fee5165f23645e31a5f8af9f30eabb745bfe6a2bc30b",
+    "sourceBytes": 274239,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/165-1040.webp",
+        "bytes": 85980,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/165-520.webp",
+        "bytes": 29708,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/165.webp",
+        "bytes": 7036,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Houston Rockets, 1990s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/17_drexler.png",
+    "sourceSha256": "8fbe7658b89ee2b2aef01ae0969dac707fbb758d4c626ae9446f9ae941c06c93",
+    "sourceBytes": 247917,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/17-1040.webp",
+        "bytes": 89052,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/17-520.webp",
+        "bytes": 23914,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/17.webp",
+        "bytes": 10092,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Post-playing-era portrait; no team uniform"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/1713_vince_carter.png",
+    "sourceSha256": "722afe1b0f695ec46f9a0bf358ee983b781412770f205371070e119c2c2a8002",
+    "sourceBytes": 247575,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1713-1040.webp",
+        "bytes": 57516,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1713-520.webp",
+        "bytes": 23614,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1713.webp",
+        "bytes": 7672,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Atlanta Hawks"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/1717_dirk_nowitzki.png",
+    "sourceSha256": "f555fcde805f90fac1b16790e337b7ee4e3eb8e19418e32a7b266a21c5cd997e",
+    "sourceBytes": 274576,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1717-1040.webp",
+        "bytes": 77818,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1717-520.webp",
+        "bytes": 27326,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1717.webp",
+        "bytes": 10156,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Dallas Mavericks"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/1718_paul_pierce.png",
+    "sourceSha256": "9aebcbc1d69111c1565b1ba60c80c375b1056544150451da63457ecfe3f35d9e",
+    "sourceBytes": 257679,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1718-1040.webp",
+        "bytes": 92722,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1718-520.webp",
+        "bytes": 30838,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1718.webp",
+        "bytes": 9090,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Boston Celtics"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/1938_manu_ginobili.png",
+    "sourceSha256": "a2a2ec32a227c8fd9067fc4052b733a9bc66f8e965f0fd0155494128a3a2b25c",
+    "sourceBytes": 167883,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/1938-1040.webp",
+        "bytes": 53952,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/1938-520.webp",
+        "bytes": 22388,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1938.webp",
+        "bytes": 7254,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "San Antonio Spurs"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/201565_derrick_rose.png",
+    "sourceSha256": "758526bc68d161294d8123b2bf6f79ec8d2d00cfad7d88331b89d6d9d298bffd",
+    "sourceBytes": 276354,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/201565-1040.webp",
+        "bytes": 75250,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/201565-520.webp",
+        "bytes": 26530,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/201565.webp",
+        "bytes": 9302,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Minnesota Timberwolves"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/201566_russell_westbrook.png",
+    "sourceSha256": "5b9a3eb4bf46cd7bb102102d9cf5a552f48242e2f8b166a021233ead9ca35114",
+    "sourceBytes": 303592,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/201566-1040.webp",
+        "bytes": 102126,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/201566-520.webp",
+        "bytes": 29068,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/201566.webp",
+        "bytes": 8996,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Sacramento Kings"
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/202681_irving.png",
+    "sourceSha256": "5ebf60a9ef445eff1b637b0c2ff458e1ae365d14ae56243dd925d986a0802e42",
+    "sourceBytes": 276849,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/thumbs/202681.webp",
+        "bytes": 8598,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/202710_butler.png",
+    "sourceSha256": "404e209dc5bb485b5cdb0f4ccc7285c45be3c23c4d222b21b00ef730e572fd68",
+    "sourceBytes": 249287,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/202710-1040.webp",
+        "bytes": 72166,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/202710-520.webp",
+        "bytes": 24918,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/202710.webp",
+        "bytes": 8424,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/203076_davis.png",
+    "sourceSha256": "9b362ba52d4716ddbee8da010d6d431e2059e33a7511f6f1775a9531ea3d92f8",
+    "sourceBytes": 287303,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/203076-1040.webp",
+        "bytes": 108206,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/203076-520.webp",
+        "bytes": 31282,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/203076.webp",
+        "bytes": 10788,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/02_CURRENT_NBA_STARS/203081_lillard.png",
+    "sourceSha256": "563c64ae3ede5bd8b022ae303945eef64c0451b86d605589b5582bf11a541d29",
+    "sourceBytes": 237263,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/203081-1040.webp",
+        "bytes": 72738,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/203081-520.webp",
+        "bytes": 23956,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/203081.webp",
+        "bytes": 7564,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/2200_pau_gasol.png",
+    "sourceSha256": "405d800810dfdd71dc05e758b091183f0b5a6919d8d415f0fec22da51c65675d",
+    "sourceBytes": 170937,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/2200-1040.webp",
+        "bytes": 71076,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/2200-520.webp",
+        "bytes": 25526,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/2200.webp",
+        "bytes": 9202,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "San Antonio Spurs"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/2225_tony_parker.png",
+    "sourceSha256": "3c3ed1cdc3c892d33bb2bea3e7f62ead85f8f836dec76c32e748f7b790b53264",
+    "sourceBytes": 253000,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/2225-1040.webp",
+        "bytes": 86874,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/2225-520.webp",
+        "bytes": 25288,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/2225.webp",
+        "bytes": 7964,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Charlotte Hornets"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/23_rodman.png",
+    "sourceSha256": "3d91a02ef5ab6de4b194d33fbbb04673f66fbca2023a20738c036b61096894b2",
+    "sourceBytes": 170789,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/23-1040.webp",
+        "bytes": 58942,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/23-520.webp",
+        "bytes": 26890,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/23.webp",
+        "bytes": 9604,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Chicago Bulls, 1990s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/252_malone.png",
+    "sourceSha256": "26fb564dcd76dc7b5dd04d1b2c56638d9b8bce3fa638bbe8ac3ad21b0c47a2f3",
+    "sourceBytes": 180461,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/252-1040.webp",
+        "bytes": 53598,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/252-520.webp",
+        "bytes": 23828,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/252.webp",
+        "bytes": 7946,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Utah Jazz, 1990s"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/2546_carmelo_anthony.png",
+    "sourceSha256": "89e712ec1ff79e7b13ec51f461fd8980788de1a3d72fff904b97aae178c3133c",
+    "sourceBytes": 267164,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/2546-1040.webp",
+        "bytes": 83148,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/2546-520.webp",
+        "bytes": 30416,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/2546.webp",
+        "bytes": 9350,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Los Angeles Lakers"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/2547_chris_bosh.png",
+    "sourceSha256": "a405426905e5d1bc7851a747cabf9afe52fbdb5834763060727d7978cb777b76",
+    "sourceBytes": 162511,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/2547-1040.webp",
+        "bytes": 47216,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/2547-520.webp",
+        "bytes": 19536,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/2547.webp",
+        "bytes": 6800,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Miami Heat"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/2548_dwyane_wade.png",
+    "sourceSha256": "a9e630f06081d902bbbdca098e5d9762f95ad5f4d356e0569d43cf0d18294ba7",
+    "sourceBytes": 190983,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/2548-1040.webp",
+        "bytes": 47672,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/2548-520.webp",
+        "bytes": 21064,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/2548.webp",
+        "bytes": 7580,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Heat"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/2730_dwight_howard.png",
+    "sourceSha256": "a405e3f0a1fd002a581c8e3309a80896d3de5093e8b0a0320b4da816ec799a38",
+    "sourceBytes": 285026,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/2730-1040.webp",
+        "bytes": 99402,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/2730-520.webp",
+        "bytes": 31562,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/2730.webp",
+        "bytes": 8332,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Los Angeles Lakers"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/304_stockton.png",
+    "sourceSha256": "6b5786b4f32cafa32931edf3967cb48b0975c38ac96fb2e2b95947b5345bf046",
+    "sourceBytes": 245222,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/304-1040.webp",
+        "bytes": 69848,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/304-520.webp",
+        "bytes": 27646,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/304.webp",
+        "bytes": 7676,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Utah Jazz, 1990s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/397_miller.png",
+    "sourceSha256": "e85d28ee96b936a23e3d5fc6b013d91276a718ded7dca9030e96527c4984b7d4",
+    "sourceBytes": 203362,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/397-1040.webp",
+        "bytes": 80942,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/397-520.webp",
+        "bytes": 30100,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/397.webp",
+        "bytes": 7530,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Indiana Pacers, late 1990s/2000s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/406_oneal.png",
+    "sourceSha256": "afaa8f67544e5a3be22cf4b065a5a93af6ced1476b10db1d979a9562aaf797aa",
+    "sourceBytes": 161752,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/406-1040.webp",
+        "bytes": 35692,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/406-520.webp",
+        "bytes": 18018,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/406.webp",
+        "bytes": 6434,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Los Angeles Lakers, 2000s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/431_kemp.png",
+    "sourceSha256": "6077dbde430658a32547b86217f669748c622a4cef89d38667d39f597efeef5e",
+    "sourceBytes": 187346,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/431-1040.webp",
+        "bytes": 46992,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/431-520.webp",
+        "bytes": 23450,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/431.webp",
+        "bytes": 8350,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Orlando Magic, early 2000s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/56_payton.png",
+    "sourceSha256": "1511463d6709fab5100cc28645b54c2a4a88c2792780f64ebdb42f0e8810656a",
+    "sourceBytes": 180222,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/56-1040.webp",
+        "bytes": 46608,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/56-520.webp",
+        "bytes": 20700,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/56.webp",
+        "bytes": 6868,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Los Angeles Lakers, early 2000s"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/708_kevin_garnett.png",
+    "sourceSha256": "3e1bb4814eb57ca2f3f14848280b7a43c30a48f8fdd7286e7b7bd1ee057146a9",
+    "sourceBytes": 189991,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/708-1040.webp",
+        "bytes": 72844,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/708-520.webp",
+        "bytes": 24480,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/708.webp",
+        "bytes": 6696,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Minnesota Timberwolves"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/76003_kareem.png",
+    "sourceSha256": "87f5fea345ef2f8b4f361e41899fc5e291f1694b5d816127c558a277660f80c4",
+    "sourceBytes": 221386,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/76003-1040.webp",
+        "bytes": 63082,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/76003-520.webp",
+        "bytes": 20454,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/76003.webp",
+        "bytes": 8448,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Post-playing-era portrait; no team uniform"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/764_robinson.png",
+    "sourceSha256": "3afa6a74522257007ba103dac18f008ac1c12846efff50e981c78c0f924ad486",
+    "sourceBytes": 236996,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/764-1040.webp",
+        "bytes": 56586,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/764-520.webp",
+        "bytes": 20448,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/764.webp",
+        "bytes": 6128,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "San Antonio Spurs, 1990s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/77142_magic_johnson.png",
+    "sourceSha256": "061f81235c74f4346ad0d0a02810f947eca60f15cf235dd75f3d5cbbd735a4a5",
+    "sourceBytes": 261037,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/77142-1040.webp",
+        "bytes": 111102,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/77142-520.webp",
+        "bytes": 37086,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/77142.webp",
+        "bytes": 10640,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Los Angeles Lakers, 1980s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/78318_isiah_thomas.png",
+    "sourceSha256": "a071d0d7e2af827cd68eb0cb33143df481302e7c0688ad1ef9f898ebe95395c9",
+    "sourceBytes": 320380,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/78318-1040.webp",
+        "bytes": 130652,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/78318-520.webp",
+        "bytes": 37228,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/78318.webp",
+        "bytes": 11508,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Detroit Pistons, 1980s/1990s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/787_barkley.png",
+    "sourceSha256": "772d1d207d1a2e11cfe11d4dbee58ec25b72921e12904b878902db33f1361064",
+    "sourceBytes": 216553,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/787-1040.webp",
+        "bytes": 89144,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/787-520.webp",
+        "bytes": 30956,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/787.webp",
+        "bytes": 10142,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Philadelphia 76ers, late 1980s/early 1990s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/87_mutombo.png",
+    "sourceSha256": "146f6709f443272211997504281a7363da9d777205eaafc6ed29b76fc9fcd6e5",
+    "sourceBytes": 178289,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/87-1040.webp",
+        "bytes": 51564,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/87-520.webp",
+        "bytes": 23624,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/87.webp",
+        "bytes": 7148,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Houston Rockets, 2000s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/893_jordan.png",
+    "sourceSha256": "9838ec330691ec92fec49f88e461cf6533e3f44190d56a048a70085c0f2577a1",
+    "sourceBytes": 276957,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/893-1040.webp",
+        "bytes": 142124,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/893-520.webp",
+        "bytes": 35622,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/893.webp",
+        "bytes": 9440,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Chicago Bulls, 1990s"
+  },
+  {
+    "source": "NBA_ASSETS/03_NBA_LEGENDS_80S_90S/937_pippen.png",
+    "sourceSha256": "1a53184dc9954cfc9234e3ba3eabf6e422a4685e1324edae91effb9f0a8fa073",
+    "sourceBytes": 147746,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/937-1040.webp",
+        "bytes": 56334,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/937-520.webp",
+        "bytes": 27500,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/937.webp",
+        "bytes": 7582,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Chicago Bulls, 1990s"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/947_allen_iverson.png",
+    "sourceSha256": "016edfec7a9a221ca51ca9e8505f648251e7ee4f3fac78b74a9ee616dfcdbacf",
+    "sourceBytes": 186989,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/947-1040.webp",
+        "bytes": 75182,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/947-520.webp",
+        "bytes": 31888,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/947.webp",
+        "bytes": 10770,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Philadelphia 76ers"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/951_ray_allen.png",
+    "sourceSha256": "305563f2840e901ad7e325ac27cf71c9546990a0c2bf10b5ef020cc31018fb78",
+    "sourceBytes": 281473,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/951-1040.webp",
+        "bytes": 75082,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/951-520.webp",
+        "bytes": 24266,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/951.webp",
+        "bytes": 6622,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Milwaukee Bucks"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/959_steve_nash.png",
+    "sourceSha256": "087d2ad792f49535da2b7b898d766cd1c44fb27b71adc067f95368f490057b78",
+    "sourceBytes": 225093,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/959-1040.webp",
+        "bytes": 64080,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/959-520.webp",
+        "bytes": 20428,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/959.webp",
+        "bytes": 9616,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "No NBA uniform (Brooklyn Nets coaching polo)"
+  },
+  {
+    "source": "NBA_ASSETS/04_NBA_LEGENDS_2000S_2010S/977_kobe_bryant.png",
+    "sourceSha256": "d75f717fb2cc8e5482fe018dea50119abb8b2c3f5465c0320452f05689700506",
+    "sourceBytes": 187522,
+    "role": "headshot",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/headshots/977-1040.webp",
+        "bytes": 56410,
+        "width": 1040,
+        "height": 760
+      },
+      {
+        "path": "frontend/public/images/players/headshots/977-520.webp",
+        "bytes": 22906,
+        "width": 520,
+        "height": 380
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/977.webp",
+        "bytes": 5976,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "Lakers"
+  },
+  {
+    "source": "NBA_ASSETS/UPgradedWembyuseasnewhero.png",
+    "sourceSha256": "0ca682ef819e86baf0d22de2bb92199aec27ee57b8df1bcdace9826106f4ffaf",
+    "sourceBytes": 2127761,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/wembanyama-960.webp",
+        "bytes": 97044,
+        "width": 960,
+        "height": 1050
+      },
+      {
+        "path": "frontend/public/images/players/action/wembanyama-1199.webp",
+        "bytes": 127718,
+        "width": 1199,
+        "height": 1312
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1641705.webp",
+        "bytes": 7124,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces wembanyama-hero.webp"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedWembyFOrcomparing.png",
+    "sourceSha256": "156f08a1a98f00907a66943f4ded48437d1d2a45e34bfa7377e35abec9a09c37",
+    "sourceBytes": 2142943,
+    "role": "portrait",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/portrait/wembanyama-640.webp",
+        "bytes": 71826,
+        "width": 640,
+        "height": 853
+      },
+      {
+        "path": "frontend/public/images/players/portrait/wembanyama-1086.webp",
+        "bytes": 136740,
+        "width": 1086,
+        "height": 1448
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedSteph2.png",
+    "sourceSha256": "207edeff204568b5d59cac4c2743fd540630c41667ed6c8fda572d2a90706bbd",
+    "sourceBytes": 2147822,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/curry-960.webp",
+        "bytes": 87012,
+        "width": 960,
+        "height": 569
+      },
+      {
+        "path": "frontend/public/images/players/action/curry-1600.webp",
+        "bytes": 161050,
+        "width": 1600,
+        "height": 948
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/201939.webp",
+        "bytes": 7150,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces curry-action.avif"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedSteph.png",
+    "sourceSha256": "261c58d8dcb6af3c70f9cb25d1ead6434e28c579d79acf2264d70baa97c2a2e0",
+    "sourceBytes": 1894173,
+    "role": "portrait",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/portrait/curry-640.webp",
+        "bytes": 26840,
+        "width": 640,
+        "height": 427
+      },
+      {
+        "path": "frontend/public/images/players/portrait/curry-1100.webp",
+        "bytes": 57298,
+        "width": 1100,
+        "height": 733
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedLebrondunk.png",
+    "sourceSha256": "a4590b005085a84b3255cc1ca2ba872e42fb1c43d843e9c8bd918b6768a6a45d",
+    "sourceBytes": 2117353,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/lebron-960.webp",
+        "bytes": 124614,
+        "width": 960,
+        "height": 960
+      },
+      {
+        "path": "frontend/public/images/players/action/lebron-1254.webp",
+        "bytes": 175098,
+        "width": 1254,
+        "height": 1254
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/2544.webp",
+        "bytes": 6088,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces lebron-dunk.avif"
+  },
+  {
+    "source": "NBA_ASSETS/Upgraded_Lebron_comparison.jpg",
+    "sourceSha256": "67bec2b781c6c8e3dcca22ee9fc0b1d9daaed9cf96a2e7f62f1fead8167000b6",
+    "sourceBytes": 643831,
+    "role": "portrait",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/portrait/lebron-640.webp",
+        "bytes": 36320,
+        "width": 640,
+        "height": 427
+      },
+      {
+        "path": "frontend/public/images/players/portrait/lebron-1100.webp",
+        "bytes": 71084,
+        "width": 1100,
+        "height": 733
+      }
+    ],
+    "note": ""
+  },
+  {
+    "source": "scripts/assets/originals/durant.avif",
+    "sourceSha256": "8192aa3b005ced9cfc296a16bd8986ba8fcc5ec18c070cbc0a91edc4b10236a2",
+    "sourceBytes": 571902,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/durant-960.webp",
+        "bytes": 44108,
+        "width": 960,
+        "height": 640
+      },
+      {
+        "path": "frontend/public/images/players/action/durant-1600.webp",
+        "bytes": 98226,
+        "width": 1600,
+        "height": 1067
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/201142.webp",
+        "bytes": 7126,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "kept original"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedGiannis.png",
+    "sourceSha256": "2baa48bf6883e3d87e15d09e187fbe698ec3bbbfc789795561baa97fdf8fde85",
+    "sourceBytes": 1987820,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/giannis-960.webp",
+        "bytes": 50676,
+        "width": 960,
+        "height": 540
+      },
+      {
+        "path": "frontend/public/images/players/action/giannis-1600.webp",
+        "bytes": 106186,
+        "width": 1600,
+        "height": 900
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/203507.webp",
+        "bytes": 7778,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces giannis.avif"
+  },
+  {
+    "source": "scripts/assets/originals/shai-gilgeous-alexander.webp",
+    "sourceSha256": "b8c952b93de3c066e9ec942f44d119f5dc9ba1162bcd1450e8ef1bf48683ca5e",
+    "sourceBytes": 114728,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/gilgeous-alexander-960.webp",
+        "bytes": 107970,
+        "width": 960,
+        "height": 1440
+      },
+      {
+        "path": "frontend/public/images/players/action/gilgeous-alexander-1067.webp",
+        "bytes": 122676,
+        "width": 1067,
+        "height": 1600
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1628983.webp",
+        "bytes": 7290,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "kept original"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedDmitch.png",
+    "sourceSha256": "f910cad0407d1cf18a38e54b8e75ea0d383e3754e53a17e7952cba33d87bad35",
+    "sourceBytes": 1971915,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/mitchell-960.webp",
+        "bytes": 51094,
+        "width": 960,
+        "height": 640
+      },
+      {
+        "path": "frontend/public/images/players/action/mitchell-1536.webp",
+        "bytes": 107512,
+        "width": 1536,
+        "height": 1024
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1628378.webp",
+        "bytes": 7478,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces donovan-mitchell.jpg"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedLuka.png",
+    "sourceSha256": "4e60518aaef637d78a4e9df209450cd7ab0cfb0801d5909e25f1880a8c2162b2",
+    "sourceBytes": 2069939,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/doncic-960.webp",
+        "bytes": 80608,
+        "width": 960,
+        "height": 732
+      },
+      {
+        "path": "frontend/public/images/players/action/doncic-1436.webp",
+        "bytes": 143840,
+        "width": 1436,
+        "height": 1095
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1629029.webp",
+        "bytes": 8410,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces luka-doncic.jpg"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedJokic.png",
+    "sourceSha256": "38ffec4250d0527a0cccb47c6a797adc7e31f174117bf047bd48267f6020bd2a",
+    "sourceBytes": 2130229,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/jokic-960.webp",
+        "bytes": 85720,
+        "width": 960,
+        "height": 640
+      },
+      {
+        "path": "frontend/public/images/players/action/jokic-1536.webp",
+        "bytes": 159720,
+        "width": 1536,
+        "height": 1024
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/203999.webp",
+        "bytes": 9060,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces jokic.webp"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedEmbiid.png",
+    "sourceSha256": "20798c6323618fcd6d2a0c11c266ab302db8a08742f067640b48f7e225236d30",
+    "sourceBytes": 2145577,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/embiid-960.webp",
+        "bytes": 82406,
+        "width": 960,
+        "height": 720
+      },
+      {
+        "path": "frontend/public/images/players/action/embiid-1448.webp",
+        "bytes": 149612,
+        "width": 1448,
+        "height": 1086
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/203954.webp",
+        "bytes": 9466,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces embiid.webp"
+  },
+  {
+    "source": "scripts/assets/originals/haliburton.webp",
+    "sourceSha256": "e8cb02ad7546a7be9cc98d8141c0c5d9dc39cc7c1f5f9bc7faa91389f80b9803",
+    "sourceBytes": 269962,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/haliburton-960.webp",
+        "bytes": 91866,
+        "width": 960,
+        "height": 640
+      },
+      {
+        "path": "frontend/public/images/players/action/haliburton-1600.webp",
+        "bytes": 170078,
+        "width": 1600,
+        "height": 1067
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1630169.webp",
+        "bytes": 7386,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "kept original"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedHarden.png",
+    "sourceSha256": "06f1c8ee961f334f64ab94f09b9662f5781c9836907585f4e06f9cf34dd584e9",
+    "sourceBytes": 2305119,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/harden-960.webp",
+        "bytes": 126874,
+        "width": 960,
+        "height": 1150
+      },
+      {
+        "path": "frontend/public/images/players/action/harden-1146.webp",
+        "bytes": 166020,
+        "width": 1146,
+        "height": 1373
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/201935.webp",
+        "bytes": 9176,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces harden.avif"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedKawhi.png",
+    "sourceSha256": "522fab256bd95d54c5943a01857f769754562f85f0d29858ad60523af80299f9",
+    "sourceBytes": 2317389,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/leonard-960.webp",
+        "bytes": 67270,
+        "width": 960,
+        "height": 540
+      },
+      {
+        "path": "frontend/public/images/players/action/leonard-1600.webp",
+        "bytes": 136828,
+        "width": 1600,
+        "height": 900
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/202695.webp",
+        "bytes": 10084,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces kawhi-leonard.jpg"
+  },
+  {
+    "source": "NBA_ASSETS/Upgradedcade.png",
+    "sourceSha256": "e8a853f6df46ec7ec1f96582ce9d9ae0140cd6a8dd25bdc20f229d61af4f8e9c",
+    "sourceBytes": 2252637,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/cunningham-960.webp",
+        "bytes": 103420,
+        "width": 960,
+        "height": 640
+      },
+      {
+        "path": "frontend/public/images/players/action/cunningham-1536.webp",
+        "bytes": 198488,
+        "width": 1536,
+        "height": 1024
+      },
+      {
+        "path": "frontend/public/images/players/thumbs/1630595.webp",
+        "bytes": 11802,
+        "width": 192,
+        "height": 192
+      }
+    ],
+    "note": "replaces cade-cunningham.jpg"
+  },
+  {
+    "source": "NBA_ASSETS/UpgradedKyrie.png",
+    "sourceSha256": "a67a27776579d9498a5998ab5e6e56c52e738a6675c903552b9cee9ba4735de4",
+    "sourceBytes": 2270861,
+    "role": "action",
+    "outputs": [
+      {
+        "path": "frontend/public/images/players/action/irving-960.webp",
+        "bytes": 95082,
+        "width": 960,
+        "height": 640
+      },
+      {
+        "path": "frontend/public/images/players/action/irving-1536.webp",
+        "bytes": 178664,
+        "width": 1536,
+        "height": 1024
+      }
+    ],
+    "note": "new subject"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Atlanta Hawks/atlanta-hawks_big_circle.png",
+    "sourceSha256": "709e5445311f28fa62ceb0cb119dcc0f609fc9f55b4caff820d0c0cf5d400a9e",
+    "sourceBytes": 38871,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612737-64.webp",
+        "bytes": 2816,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612737-256.webp",
+        "bytes": 12878,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Atlanta Hawks"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Boston Celtics/boston-celtics_big_circle.png",
+    "sourceSha256": "0600728ab0a3c712785c2a2412abf4e83e6395afd7ec861b2534c9e3b07cf1de",
+    "sourceBytes": 44692,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612738-64.webp",
+        "bytes": 2524,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612738-256.webp",
+        "bytes": 12100,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Boston Celtics"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Brooklyn Nets/brooklyn-nets_big_circle.png",
+    "sourceSha256": "e0d4d351ea9b2399b8167e0b3d7bd78bdaa7e988d046596718fc9a61cbfa267e",
+    "sourceBytes": 32802,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612751-64.webp",
+        "bytes": 2330,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612751-256.webp",
+        "bytes": 9200,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Brooklyn Nets"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Charlotte Hornets/charlotte-hornets_big_circle.png",
+    "sourceSha256": "777cff4ae86cfdb71cabf70c0f568cb32635a8607843b5f98ffde4e949ab1998",
+    "sourceBytes": 71327,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612766-64.webp",
+        "bytes": 2734,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612766-256.webp",
+        "bytes": 17386,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Charlotte Hornets"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Chicago Bulls/chicago-bulls_big_circle.png",
+    "sourceSha256": "5466fb7210861bb9cd3fa9c854d434b862faf509d4a97b518376ed90b1426db0",
+    "sourceBytes": 42473,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612741-64.webp",
+        "bytes": 2154,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612741-256.webp",
+        "bytes": 10864,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Chicago Bulls"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Cleveland Cavaliers/cleveland-cavaliers_big_circle.png",
+    "sourceSha256": "59859b0f60f82116be043bc57eaa66e6d47dcf0e83014a977124024e13ec51ea",
+    "sourceBytes": 42748,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612739-64.webp",
+        "bytes": 2694,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612739-256.webp",
+        "bytes": 13064,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Cleveland Cavaliers"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Dallas Mavericks/dallas-mavericks_big_circle.png",
+    "sourceSha256": "e585b29d7d188c829a76b0aaf4d3a2ed8cbfbd8916197df74de941909ded46f9",
+    "sourceBytes": 66463,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612742-64.webp",
+        "bytes": 2976,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612742-256.webp",
+        "bytes": 17874,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Dallas Mavericks"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Denver Nuggets/denver-nuggets_big_circle.png",
+    "sourceSha256": "6df9fb7d5d95680019120e5d6517a3dec9cb59635de19ada27749a91c35ebb35",
+    "sourceBytes": 67606,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612743-64.webp",
+        "bytes": 3470,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612743-256.webp",
+        "bytes": 19914,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Denver Nuggets"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Detroit Pistons/detroit-pistons_big_circle.png",
+    "sourceSha256": "a5d8378f0123b703f8efd36778b0336901790d694a26e63086d94ede864d496e",
+    "sourceBytes": 68483,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612765-64.webp",
+        "bytes": 3410,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612765-256.webp",
+        "bytes": 18634,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Detroit Pistons"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Golden State Warriors/golden-state-warriors_big_circle.png",
+    "sourceSha256": "def7080505144e736f42016a568a26435bbc2557f799a9a1494946945459d599",
+    "sourceBytes": 70660,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612744-64.webp",
+        "bytes": 2994,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612744-256.webp",
+        "bytes": 18026,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Golden State Warriors"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Houston Rockets/houston-rockets_big_circle.png",
+    "sourceSha256": "2ee67486fea3af3f9490a3c63872212d0aad615e9910a9e69768eac389332390",
+    "sourceBytes": 30532,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612745-64.webp",
+        "bytes": 1872,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612745-256.webp",
+        "bytes": 8898,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Houston Rockets"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Indiana Pacers/indiana-pacers_big_circle.png",
+    "sourceSha256": "8c33e3fcc8f2611afaad56a76c86c7d4d3c4fe2c04d677c3c481570f3988cee5",
+    "sourceBytes": 45983,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612754-64.webp",
+        "bytes": 2324,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612754-256.webp",
+        "bytes": 11244,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Indiana Pacers"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/LA Clippers/la-clippers_big_circle.png",
+    "sourceSha256": "5496da5ce7dae4210c2d3f8260fb51658dd9deb73e5c7d4bfd9f7991e4447564",
+    "sourceBytes": 53924,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612746-64.webp",
+        "bytes": 3072,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612746-256.webp",
+        "bytes": 14926,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "LA Clippers"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Los Angeles Lakers/los-angeles-lakers_big_circle.png",
+    "sourceSha256": "3a29a4a1c75dc0c8e5e10335d5d9d6813384bac4313e54180cdb409f68cdc381",
+    "sourceBytes": 63581,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612747-64.webp",
+        "bytes": 2304,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612747-256.webp",
+        "bytes": 14268,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Los Angeles Lakers"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Memphis Grizzlies/memphis-grizzlies_big_circle.png",
+    "sourceSha256": "b101abc3c0493f6f735548622a52f0d26ca2976b4aabf26ccac86683534f4168",
+    "sourceBytes": 56294,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612763-64.webp",
+        "bytes": 2260,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612763-256.webp",
+        "bytes": 12268,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Memphis Grizzlies"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Miami Heat/miami-heat_big_circle.png",
+    "sourceSha256": "f14a0fb71ea79fc0007dfe8b5252ff7da175f7ecdba7c7c6eb7dce0b77a5370a",
+    "sourceBytes": 45765,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612748-64.webp",
+        "bytes": 2568,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612748-256.webp",
+        "bytes": 13034,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Miami Heat"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Milwaukee Bucks/milwaukee-bucks_big_circle.png",
+    "sourceSha256": "c83bfe98f29abf6d4676e813318f5c4ba7bd531e33cbf7affd93a9979b5043b8",
+    "sourceBytes": 75989,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612749-64.webp",
+        "bytes": 2896,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612749-256.webp",
+        "bytes": 16934,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Milwaukee Bucks"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Minnesota Timberwolves/minnesota-timberwolves_big_circle.png",
+    "sourceSha256": "b3a532fb0447352035c4056baafd4aac71df85b42b5a595606cbf3d55b7e859b",
+    "sourceBytes": 69198,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612750-64.webp",
+        "bytes": 2568,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612750-256.webp",
+        "bytes": 14898,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Minnesota Timberwolves"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/New Orleans Pelicans/new-orleans-pelicans_big_circle.png",
+    "sourceSha256": "a065e6c8749ba1abda6f42cda1977ea8c7b3ea49afafe3cfb66099ff10b862b8",
+    "sourceBytes": 71384,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612740-64.webp",
+        "bytes": 1664,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612740-256.webp",
+        "bytes": 11274,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "New Orleans Pelicans"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/New York Knicks/new-york-knicks_big_circle.png",
+    "sourceSha256": "1f0d70c380bda80b1d4d88c94d55bc5860dd1e38c7ce84084ce0e9b8fbfafa8f",
+    "sourceBytes": 80500,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612752-64.webp",
+        "bytes": 2732,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612752-256.webp",
+        "bytes": 17746,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "New York Knicks"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Oklahoma City Thunder/oklahoma-city-thunder_big_circle.png",
+    "sourceSha256": "5f90bc86f5cc42acd3d4731077a6b2a9a91fa7050c458794828e80497ffa6559",
+    "sourceBytes": 63302,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612760-64.webp",
+        "bytes": 2214,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612760-256.webp",
+        "bytes": 13884,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Oklahoma City Thunder"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Orlando Magic/orlando-magic_big_circle.png",
+    "sourceSha256": "3ca5a530ee26556218341858a9996b5e8e141b4bdb2f69755ab6581675442933",
+    "sourceBytes": 65738,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612753-64.webp",
+        "bytes": 2588,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612753-256.webp",
+        "bytes": 14384,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Orlando Magic"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Philadelphia 76ers/philadelphia-76ers_big_circle.png",
+    "sourceSha256": "ade70b3b742938bc1762864617fb795c1d32f8bf37c82f8c8d33eab620936d1d",
+    "sourceBytes": 36761,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612755-64.webp",
+        "bytes": 2716,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612755-256.webp",
+        "bytes": 13464,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Philadelphia 76ers"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Phoenix Suns/phoenix-suns_big_circle.png",
+    "sourceSha256": "7a2393b005e84541a165585f384a92e67bcc37b2ad530dcccfa27c191a07d123",
+    "sourceBytes": 45116,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612756-64.webp",
+        "bytes": 3044,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612756-256.webp",
+        "bytes": 17060,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Phoenix Suns"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Portland Trail Blazers/portland-trail-blazers_big_circle.png",
+    "sourceSha256": "a9d417948e289aa25ada39e8824d12a3fbcf4c73b69b8a7164f157cd81585c0c",
+    "sourceBytes": 55795,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612757-64.webp",
+        "bytes": 2684,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612757-256.webp",
+        "bytes": 15744,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Portland Trail Blazers"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Sacramento Kings/sacramento-kings_big_circle.png",
+    "sourceSha256": "e3ee560c25e678013051943d5a478999f86830c89c10b571bcb93f80de9bf223",
+    "sourceBytes": 37922,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612758-64.webp",
+        "bytes": 2712,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612758-256.webp",
+        "bytes": 12536,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Sacramento Kings"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/San Antonio Spurs/san-antonio-spurs_big_circle.png",
+    "sourceSha256": "f984b81d67ca2320f86eb5a90672becf25a0baf23a702e6959c46ca6aca35556",
+    "sourceBytes": 37704,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612759-64.webp",
+        "bytes": 2230,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612759-256.webp",
+        "bytes": 10922,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "San Antonio Spurs"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Toronto Raptors/toronto-raptors_big_circle.png",
+    "sourceSha256": "6894c0bac658963ad0f8cbc5418e73ac381732c2ab35d3788aca64ebb428bbce",
+    "sourceBytes": 39107,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612761-64.webp",
+        "bytes": 3210,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612761-256.webp",
+        "bytes": 16384,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Toronto Raptors"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Western Conference/Utah Jazz/utah-jazz_big_circle.png",
+    "sourceSha256": "bbb6c28fe6b3185c50e5ba5827017231e6d7493f6267ebef6064756c8a72fabc",
+    "sourceBytes": 19172,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612762-64.webp",
+        "bytes": 1322,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612762-256.webp",
+        "bytes": 5808,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Utah Jazz"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_LOGO/Eastern Conference/Washington Wizards/washington-wizards_big_circle.png",
+    "sourceSha256": "d98212e43420c8857b9955c7a214672e7f34de4c1395a2fb7500fe462ec2d7e1",
+    "sourceBytes": 57885,
+    "role": "current-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/1610612764-64.webp",
+        "bytes": 2832,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/1610612764-256.webp",
+        "bytes": 15046,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "Washington Wizards"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/clippers_sandiego_1978_1984.png",
+    "sourceSha256": "987947fdd22f38d4f4e601eedd019143ac8db85168adbf8f94d6064fe2cc4920",
+    "sourceBytes": 481969,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/clippers-sandiego-1978-1984-64.webp",
+        "bytes": 3542,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/clippers-sandiego-1978-1984-256.webp",
+        "bytes": 19378,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "clippers_sandiego_1978_1984"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/jazz_neworleans_1974_1979.png",
+    "sourceSha256": "894f6cb0f509a9262d53dd32c24c73ac8871d73cb119a97c335516b7ae5cc283",
+    "sourceBytes": 162856,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/jazz-neworleans-1974-1979-64.webp",
+        "bytes": 2124,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/jazz-neworleans-1974-1979-256.webp",
+        "bytes": 13388,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "jazz_neworleans_1974_1979"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/supersonics_1975_1995.png",
+    "sourceSha256": "46aad235ae4645ca71ae72285f5e8656939f75588c39252a907e3afeca421ceb",
+    "sourceBytes": 151712,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/supersonics-1975-1995-64.webp",
+        "bytes": 2654,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/supersonics-1975-1995-256.webp",
+        "bytes": 13600,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "supersonics_1975_1995"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/supersonics_1995_2008.png",
+    "sourceSha256": "0e90499046ce7a168b5914186b3b8c4a2df4348f02157cfade974e0848b42109",
+    "sourceBytes": 348641,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/supersonics-1995-2008-64.webp",
+        "bytes": 2788,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/supersonics-1995-2008-256.webp",
+        "bytes": 16866,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "supersonics_1995_2008"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/bullets_1973_1997.png",
+    "sourceSha256": "c98e16bebb9d510db89b652b9ebdd0595e7a096a22fe08cd645bfbee0a255d3d",
+    "sourceBytes": 94006,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/bullets-1973-1997-64.webp",
+        "bytes": 1542,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/bullets-1973-1997-256.webp",
+        "bytes": 8342,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "bullets_1973_1997"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/nets_newjersey_1990_2012.png",
+    "sourceSha256": "70ac0f5a4a8411efdd72291f6a0ec86a9a8cf349aec381498fabdcf008db8c47",
+    "sourceBytes": 373392,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/nets-newjersey-1990-2012-64.webp",
+        "bytes": 2990,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/nets-newjersey-1990-2012-256.webp",
+        "bytes": 18454,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "nets_newjersey_1990_2012"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/grizzlies_vancouver_1995_2001.png",
+    "sourceSha256": "864e4080d2af3dad6d7e275f38b91f918c16690b2af31853bedc8a7fb2e5bcca",
+    "sourceBytes": 703566,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/grizzlies-vancouver-1995-2001-64.webp",
+        "bytes": 2890,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/grizzlies-vancouver-1995-2001-256.webp",
+        "bytes": 20214,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "grizzlies_vancouver_1995_2001"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/bobcats_2004_2014.png",
+    "sourceSha256": "6b109afce4623274a2577449d3dc70434a167e20ad01ead55657413b017452c7",
+    "sourceBytes": 206422,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/bobcats-2004-2014-64.webp",
+        "bytes": 2198,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/bobcats-2004-2014-256.webp",
+        "bytes": 12630,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "bobcats_2004_2014"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/hornets_charlotte_1988_2002.png",
+    "sourceSha256": "9e8bd570401eea453432c3085cd440fb3410294a7417d746a3cee0262591d3da",
+    "sourceBytes": 389504,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/hornets-charlotte-1988-2002-64.webp",
+        "bytes": 3794,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/hornets-charlotte-1988-2002-256.webp",
+        "bytes": 25442,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "hornets_charlotte_1988_2002"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/hornets_neworleans_2002_2013.png",
+    "sourceSha256": "61b0c4e1d360c524f73ed4e221e5b4ad8bff5ab8069a79307cd28bb0afb4052e",
+    "sourceBytes": 469579,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/hornets-neworleans-2002-2013-64.webp",
+        "bytes": 4828,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/hornets-neworleans-2002-2013-256.webp",
+        "bytes": 30786,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "hornets_neworleans_2002_2013"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/hornets_nookc_2005_2007.png",
+    "sourceSha256": "c63330172862fdc2fdcaef9698e285e9e7531dcc0f6cab0cb4291fbe1b144493",
+    "sourceBytes": 275110,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/hornets-nookc-2005-2007-64.webp",
+        "bytes": 3464,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/hornets-nookc-2005-2007-256.webp",
+        "bytes": 22574,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "hornets_nookc_2005_2007"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/kings_kansascity_1975_1985.png",
+    "sourceSha256": "801f1e7453f226429afb847f5b1e19ebe5bb6969d3ac1226079e06b6770ae73a",
+    "sourceBytes": 184365,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/kings-kansascity-1975-1985-64.webp",
+        "bytes": 3138,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/kings-kansascity-1975-1985-256.webp",
+        "bytes": 15428,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "kings_kansascity_1975_1985"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/spurs_classic_1976_2002.png",
+    "sourceSha256": "946ba5c42447129005ecfccdb1619400721790a7d199016e83ee8a2f2eb8725a",
+    "sourceBytes": 216719,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/spurs-classic-1976-2002-64.webp",
+        "bytes": 1716,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/spurs-classic-1976-2002-256.webp",
+        "bytes": 8860,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "spurs_classic_1976_2002"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/suns_classic_1992_2000.png",
+    "sourceSha256": "4a38edbc604573af862a9971c9e929784c00190ae37fc80b86ae16e35d936c6e",
+    "sourceBytes": 369306,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/suns-classic-1992-2000-64.webp",
+        "bytes": 3062,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/suns-classic-1992-2000-256.webp",
+        "bytes": 16994,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "suns_classic_1992_2000"
+  },
+  {
+    "source": "NBA_ASSETS/NBA_HISTORICAL_FRANCHISE_LOGOS/rockets_classic_1995_2003.png",
+    "sourceSha256": "740b20e4b4289a3abe39830f5d79d34329a9d8018dc8217ec5b3e4ac56d685d6",
+    "sourceBytes": 377937,
+    "role": "historical-logo",
+    "outputs": [
+      {
+        "path": "frontend/public/images/teams/rockets-classic-1995-2003-64.webp",
+        "bytes": 2690,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "path": "frontend/public/images/teams/rockets-classic-1995-2003-256.webp",
+        "bytes": 18542,
+        "width": 256,
+        "height": 256
+      }
+    ],
+    "note": "rockets_classic_1995_2003"
+  }
+]

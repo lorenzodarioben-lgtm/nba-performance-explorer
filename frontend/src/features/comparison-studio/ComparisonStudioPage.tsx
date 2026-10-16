@@ -2,6 +2,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'motion/react';
 import { useRef } from 'react';
 import { Link, useSearchParams } from 'react-router';
+import { PlayerAvatar } from '../../ui/PlayerAvatar';
 import { z } from 'zod';
 import {
   RecordedDirectorySchema,
@@ -116,6 +117,7 @@ export function ComparisonStudioPage() {
             <CastChip
               key={id}
               index={i}
+              playerId={id}
               name={nameOf(id)}
               teams={
                 directory.data?.players
@@ -175,6 +177,7 @@ export function ComparisonStudioPage() {
 
 function CastChip({
   index,
+  playerId,
   name,
   teams,
   first,
@@ -183,6 +186,7 @@ function CastChip({
   onRemove,
 }: {
   index: number;
+  playerId: string;
   name: string;
   teams: readonly string[];
   first: boolean;
@@ -205,6 +209,7 @@ function CastChip({
       <svg width="16" height="16" aria-hidden="true">
         <path d={markerPath(style.shape, 8, 8, 6)} fill={style.color} />
       </svg>
+      <PlayerAvatar playerId={playerId} name={name} size={40} />
       <span className="cs-chip__name">
         {name}
         <small>{teams.join(' / ')}</small>

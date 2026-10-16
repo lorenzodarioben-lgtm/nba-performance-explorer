@@ -1,5 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router';
+import { PlayerAvatar } from '../../ui/PlayerAvatar';
 import {
   RecordedDirectorySchema,
   RecordedSimilarityResponseSchema,
@@ -255,11 +256,14 @@ function Result({
             {data.neighbours.map((n) => (
               <li key={n.playerId} className="sim-row">
                 <span className="sim-row__rank">{n.rank}</span>
-                <span className="sim-row__who">
-                  <Link to={`/players/${n.playerId}/archive`}>{n.name}</Link>
-                  <small>
-                    {n.teams.join(' / ')} · {n.gamesPlayed} games
-                  </small>
+                <span className="sim-row__who sim-row__who--face">
+                  <PlayerAvatar playerId={n.playerId} name={n.name} size={36} />
+                  <span>
+                    <Link to={`/players/${n.playerId}/archive`}>{n.name}</Link>
+                    <small>
+                      {n.teams.join(' / ')} · {n.gamesPlayed} games
+                    </small>
+                  </span>
                 </span>
                 <span
                   className="sim-row__dist"

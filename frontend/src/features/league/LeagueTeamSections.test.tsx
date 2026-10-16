@@ -239,7 +239,17 @@ describe('team page NBA.com sections', () => {
     expect(
       screen.getByText(/NBA.com lists 11 players for this season/),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Charlotte Bobcats/)).toBeInTheDocument();
+    // The name periods and the marks on file both list the Bobcats identity.
+    expect(screen.getAllByText(/Charlotte Bobcats/)).toHaveLength(2);
+    expect(screen.getByRole('img', { name: 'Charlotte Bobcats logo' })).toHaveAttribute(
+      'src',
+      '/images/teams/bobcats-2004-2014-64.webp',
+    );
+    // The 1997-98 season shows the Charlotte Hornets mark of that time, not today's.
+    expect(document.querySelector('.season-mark img')).toHaveAttribute(
+      'src',
+      '/images/teams/hornets-charlotte-1988-2002-64.webp',
+    );
     const seasons = screen.getByRole('group', { name: 'Franchise seasons' });
     expect(within(seasons).getByText('Champion')).toBeInTheDocument();
     // Archived seasons open in place; others are plain text.
