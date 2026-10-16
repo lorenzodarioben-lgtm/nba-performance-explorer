@@ -111,6 +111,30 @@ export const LeaguePlayerResponseSchema = z
   .strict();
 export type LeaguePlayerResponse = z.infer<typeof LeaguePlayerResponseSchema>;
 
+// ---- Player search ------------------------------------------------------------------------
+export const LeaguePlayerSearchQuerySchema = z
+  .object({ q: z.string().trim().min(2).max(60) })
+  .strict();
+export const LeaguePlayerSearchResponseSchema = z
+  .object({
+    results: z
+      .array(
+        z
+          .object({
+            playerId: ResearchPlayerIdSchema,
+            name: z.string().max(80),
+            firstSeason: LeagueSeasonLabelSchema,
+            lastSeason: LeagueSeasonLabelSchema,
+          })
+          .strict(),
+      )
+      .max(12),
+  })
+  .strict();
+export type LeaguePlayerSearchResponse = z.infer<
+  typeof LeaguePlayerSearchResponseSchema
+>;
+
 // ---- Rank movement ------------------------------------------------------------------------
 export const LeagueMovementQuerySchema = z
   .object({

@@ -150,6 +150,13 @@ export const SECTIONS: readonly Section[] = [
         match: exact('/leaders/teams'),
       },
       {
+        to: '/history/eras',
+        label: 'Eras',
+        blurb:
+          'The league season by season since 1983–84, and players against their own league.',
+        match: exact('/history/eras'),
+      },
+      {
         to: '/history/record-book',
         label: 'Record book',
         blurb:

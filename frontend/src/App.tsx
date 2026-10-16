@@ -92,6 +92,11 @@ const LeagueMovementPage = lazy(() =>
     default: m.LeagueMovementPage,
   })),
 );
+const LeagueErasPage = lazy(() =>
+  import('./features/league/LeagueErasPage').then((m) => ({
+    default: m.LeagueErasPage,
+  })),
+);
 const LeagueRecordBookPage = lazy(() =>
   import('./features/league/LeagueRecordBookPage').then((m) => ({
     default: m.LeagueRecordBookPage,
@@ -396,6 +401,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/leaders/teams',
     element: lazyRoute('Loading team rankings…', <LeagueTeamRankingsPage />),
+  },
+  {
+    path: '/history/eras',
+    element: lazyRoute('Loading the eras…', <LeagueErasPage />),
   },
   {
     path: '/history/record-book',

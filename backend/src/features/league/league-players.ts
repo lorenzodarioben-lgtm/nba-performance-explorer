@@ -256,6 +256,45 @@ export class LeaguePlayers {
     return response;
   }
 
+  private index:
+    | { id: number; name: string; key: string; first: string; last: string }[]
+    | null = null;
+  /** Archive players whose name contains every typed word (accents ignored), most recent first. */
+  search(text: string) {
+    const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    if (!this.index) {
+      const byId = new Map<
+        number,
+        { id: number; name: string; key: string; first: string; last: string }
+      >();
+      for (const season of this.league.archive.seasons)
+        for (const p of this.league.archive.summary(season).players) {
+          const hit = byId.get(p.playerId);
+          if (hit) hit.last = season;
+          else
+            byId.set(p.playerId, {
+              id: p.playerId,
+              name: p.name,
+              key: fold(p.name),
+              first: season,
+              last: season,
+            });
+        }
+      this.index = [...byId.values()];
+    }
+    const words = fold(text).split(/\s+/).filter(Boolean);
+    return this.index
+      .filter((p) => words.every((w) => p.key.includes(w)))
+      .sort((a, b) => b.last.localeCompare(a.last) || a.name.localeCompare(b.name))
+      .slice(0, 12)
+      .map((p) => ({
+        playerId: String(p.id),
+        name: p.name,
+        firstSeason: p.first,
+        lastSeason: p.last,
+      }));
+  }
+
   movement(q: {
     season?: string | undefined;
     scope: LeagueScope;

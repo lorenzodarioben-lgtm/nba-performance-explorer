@@ -12,6 +12,9 @@ import {
   LeagueMovementQuerySchema,
   LeagueDistributionQuerySchema,
   ResearchPlayerIdSchema,
+  LeagueEraPlayersQuerySchema,
+  LeaguePlayerSearchQuerySchema,
+  LeaguePlayerSearchResponseSchema,
 } from '@nba-performance-explorer/contracts';
 import { methodNotAllowedHandler, sendApiError } from '../../middleware/errors.js';
 import { LeagueRequestError, type LeagueService } from './league-service.js';
@@ -21,6 +24,7 @@ import { LeagueRecords } from './league-records.js';
 import { LeagueGames, leagueStatus } from './league-games.js';
 import type { NbaLiveClient } from './league-live.js';
 import { LeaguePlayers } from './league-players.js';
+import { LeagueEras } from './league-eras.js';
 
 /** Runs a handler and maps league request errors to their documented status codes. */
 export function respond(res: Response, run: () => unknown) {
@@ -71,6 +75,7 @@ export function createLeagueRouter(
   const records = service ? new LeagueRecords(service) : undefined;
   const games = service ? new LeagueGames(service, live) : undefined;
   const players = service ? new LeaguePlayers(service) : undefined;
+  const eras = service ? new LeagueEras(service) : undefined;
   router.use((_req, res, next) => {
     if (!service)
       return sendApiError(
@@ -223,6 +228,20 @@ export function createLeagueRouter(
     return respondAsync(res, () => leagueStatus(service!, live));
   });
   router.all('/status', methodNotAllowedHandler);
+  router.get('/player-search', (req, res) => {
+    const q = LeaguePlayerSearchQuerySchema.safeParse(req.query);
+    if (!q.success || repeated(req.query))
+      return sendApiError(
+        res,
+        400,
+        'INVALID_LEAGUE_PLAYER_SEARCH',
+        'Type at least two letters of a name.',
+      );
+    return respond(res, () =>
+      LeaguePlayerSearchResponseSchema.parse({ results: players!.search(q.data.q) }),
+    );
+  });
+  router.all('/player-search', methodNotAllowedHandler);
   router.get('/players/:playerId', (req, res) => {
     const id = ResearchPlayerIdSchema.safeParse(req.params.playerId);
     if (!id.success || Object.keys(req.query).length)
@@ -259,6 +278,29 @@ export function createLeagueRouter(
     return respond(res, () => players!.distribution(q.data));
   });
   router.all('/distribution', methodNotAllowedHandler);
+  router.get('/eras', (req, res) => {
+    if (Object.keys(req.query).length)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_LEAGUE_ERAS',
+        'This endpoint takes no parameters.',
+      );
+    return respond(res, () => eras!.eras());
+  });
+  router.all('/eras', methodNotAllowedHandler);
+  router.get('/era-players', (req, res) => {
+    const q = LeagueEraPlayersQuerySchema.safeParse(req.query);
+    if (!q.success || repeated(req.query))
+      return sendApiError(
+        res,
+        400,
+        'INVALID_LEAGUE_ERA_PLAYERS',
+        'Choose one to four unique NBA player IDs and an optional minutes minimum.',
+      );
+    return respond(res, () => eras!.players(q.data.players, q.data.minMinutes));
+  });
+  router.all('/era-players', methodNotAllowedHandler);
   router.get('/teams/:teamId', (req, res) => {
     const id = CanonicalTeamIdSchema.safeParse(req.params.teamId);
     const q = LeagueTeamQuerySchema.safeParse(req.query);

@@ -329,3 +329,21 @@
     grid-column: 1;
   }
 }
+
+/* Eras: the model statement and the archive player picker. */
+.fr .era-model {
+  padding: 12px 16px;
+  border-left: 3px solid var(--red-hi);
+  background: var(--coal);
+}
+.fr .archive-picker {
+  display: grid;
+  gap: 6px;
+  min-width: min(100%, 18rem);
+}
+.fr .archive-picker__results {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding-left: 18px;
+}

@@ -33,6 +33,7 @@ export * from './recorded-similarity.js';
 export * from './league.js';
 export * from './league-games.js';
 export * from './league-players.js';
+export * from './league-eras.js';
 
 export {
   PlayerSearchResponseSchema,
