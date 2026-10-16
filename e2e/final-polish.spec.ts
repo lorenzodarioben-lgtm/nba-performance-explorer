@@ -220,8 +220,9 @@ test('liquid surface deforms with real pointer velocity, settles, pauses and fal
   const idle = await sample();
   await page.waitForTimeout(200);
   expect((await sample()).draws).toBe(idle.draws);
-  await page.mouse.move(cx - 65, cy);
-  await page.mouse.move(cx + 65, cy);
+  await page.mouse.move(cx - 150, cy);
+  await page.mouse.move(cx + 150, cy);
+  await expect(ball).toHaveAttribute('data-active', 'true');
   await page.evaluate(() => window.scrollTo(0, 0));
   await expect(ball).toHaveAttribute('data-active', 'false');
   await page.emulateMedia({ reducedMotion: 'reduce' });

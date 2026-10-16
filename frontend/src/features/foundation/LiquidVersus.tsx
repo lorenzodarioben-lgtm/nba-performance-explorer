@@ -118,9 +118,13 @@ export function LiquidVersus() {
         time: event.timeStamp,
       };
       if (previous) {
+        // Test the swept bounds, not just endpoints: a very fast cursor can cross
+        // the whole object between events while both endpoints sit outside it.
         const near =
-          Math.min(Math.hypot(point.x, point.y), Math.hypot(previous.x, previous.y)) <
-          110;
+          Math.min(point.x, previous.x) < 110 &&
+          Math.max(point.x, previous.x) > -110 &&
+          Math.min(point.y, previous.y) < 110 &&
+          Math.max(point.y, previous.y) > -110;
         if (near) model.disturb(previous, point, (point.time - previous.time) / 1000);
         if (!frame && model.energy() > 0.002) {
           lastTime = 0;
