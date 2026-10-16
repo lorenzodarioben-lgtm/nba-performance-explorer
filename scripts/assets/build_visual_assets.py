@@ -7,7 +7,7 @@ committed (see .gitignore). Outputs, all committed:
 
   frontend/public/images/players/action/<slug>-<w>.webp      editorial action photos
   frontend/public/images/players/portrait/<slug>-<w>.webp    portrait-frame alternates
-  frontend/public/images/players/headshots/<id>-<w>.webp     transparent NBA.com headshots
+  frontend/public/images/players/headshots/<id>-<w>.webp     transparent NBA.com headshots (360/520/1040)
   frontend/public/images/players/thumbs/<id>.webp            192 px face crops for lists
   frontend/public/images/teams/<key>-<s>.webp                team marks (64 and 256 px)
   frontend/src/features/players/playerImageData.ts           generated registry data
@@ -199,7 +199,7 @@ def main():
         im = Image.open(path).convert('RGBA')
         outs = []
         # A player with an editorial photo uses the headshot only for the face thumbnail.
-        for w in () if pid in action_ids else (1040, 520):
+        for w in () if pid in action_ids else (1040, 520, 360):
             p = os.path.join(out_img, 'players', 'headshots', f'{pid}-{w}.webp')
             v = im if w == im.width else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
             outs.append({'path': p, 'bytes': save_webp(v, p, quality=88), 'width': v.width, 'height': v.height})
@@ -212,7 +212,7 @@ def main():
             'id': pid, 'name': name, 'kind': 'headshot',
             'group': 'current' if pack.startswith('02_') else 'legend',
             'src': f'/images/players/headshots/{pid}-1040.webp',
-            'srcSet': f'/images/players/headshots/{pid}-520.webp 520w, /images/players/headshots/{pid}-1040.webp 1040w',
+            'srcSet': ', '.join(f'/images/players/headshots/{pid}-{w}.webp {w}w' for w in (360, 520, 1040)),
             'width': im.width, 'height': im.height,
             'objectPosition': 'center top',
             'alt': f'{name}, NBA.com headshot',
@@ -224,7 +224,7 @@ def main():
         src = resolve(src_ref, assets)
         im = Image.open(src).convert('RGB')
         outs = []
-        ws = widths_for(im.width, (1600, 960))
+        ws = widths_for(im.width, (1600, 960, 640))
         for w in ws:
             p = os.path.join(out_img, 'players', 'action', f'{slug}-{w}.webp')
             v = im if w == im.width else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)

@@ -150,7 +150,7 @@ function FilmRoom({
                     team={team}
                     season="2023-24"
                     size={56}
-                    fallback="none"
+                    fallback="blank"
                     priority
                   />
                   {team.abbreviation}

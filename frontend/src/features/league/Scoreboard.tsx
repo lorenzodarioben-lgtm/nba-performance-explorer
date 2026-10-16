@@ -92,7 +92,7 @@ export function GameHero({ game }: { game: ArchiveGame }) {
       transition={{ duration: 0.7, ease: easings.arena, delay }}
     >
       <span className="gamehero__mark">
-        <TeamLogo team={team} season={season} size={64} fallback="none" priority />
+        <TeamLogo team={team} season={season} size={64} fallback="blank" priority />
         <span className="gamehero__abbr">{team.abbreviation}</span>
       </span>
       <span className="gamehero__name">{team.name}</span>

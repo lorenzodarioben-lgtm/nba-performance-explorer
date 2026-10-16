@@ -10,7 +10,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/947-1040.webp',
     srcSet:
-      '/images/players/headshots/947-520.webp 520w, /images/players/headshots/947-1040.webp 1040w',
+      '/images/players/headshots/947-360.webp 360w, /images/players/headshots/947-520.webp 520w, /images/players/headshots/947-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -24,7 +24,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/203076-1040.webp',
     srcSet:
-      '/images/players/headshots/203076-520.webp 520w, /images/players/headshots/203076-1040.webp 1040w',
+      '/images/players/headshots/203076-360.webp 360w, /images/players/headshots/203076-520.webp 520w, /images/players/headshots/203076-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -38,7 +38,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1630162-1040.webp',
     srcSet:
-      '/images/players/headshots/1630162-520.webp 520w, /images/players/headshots/1630162-1040.webp 1040w',
+      '/images/players/headshots/1630162-360.webp 360w, /images/players/headshots/1630162-520.webp 520w, /images/players/headshots/1630162-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -52,7 +52,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1628389-1040.webp',
     srcSet:
-      '/images/players/headshots/1628389-520.webp 520w, /images/players/headshots/1628389-1040.webp 1040w',
+      '/images/players/headshots/1628389-360.webp 360w, /images/players/headshots/1628389-520.webp 520w, /images/players/headshots/1628389-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -66,7 +66,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/cunningham-1536.webp',
     srcSet:
-      '/images/players/action/cunningham-960.webp 960w, /images/players/action/cunningham-1536.webp 1536w',
+      '/images/players/action/cunningham-640.webp 640w, /images/players/action/cunningham-960.webp 960w, /images/players/action/cunningham-1536.webp 1536w',
     width: 1536,
     height: 1024,
     objectPosition: 'center 18%',
@@ -80,7 +80,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/2546-1040.webp',
     srcSet:
-      '/images/players/headshots/2546-520.webp 520w, /images/players/headshots/2546-1040.webp 1040w',
+      '/images/players/headshots/2546-360.webp 360w, /images/players/headshots/2546-520.webp 520w, /images/players/headshots/2546-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -94,7 +94,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/787-1040.webp',
     srcSet:
-      '/images/players/headshots/787-520.webp 520w, /images/players/headshots/787-1040.webp 1040w',
+      '/images/players/headshots/787-360.webp 360w, /images/players/headshots/787-520.webp 520w, /images/players/headshots/787-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -108,7 +108,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1631096-1040.webp',
     srcSet:
-      '/images/players/headshots/1631096-520.webp 520w, /images/players/headshots/1631096-1040.webp 1040w',
+      '/images/players/headshots/1631096-360.webp 360w, /images/players/headshots/1631096-520.webp 520w, /images/players/headshots/1631096-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -122,7 +122,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/2547-1040.webp',
     srcSet:
-      '/images/players/headshots/2547-520.webp 520w, /images/players/headshots/2547-1040.webp 1040w',
+      '/images/players/headshots/2547-360.webp 360w, /images/players/headshots/2547-520.webp 520w, /images/players/headshots/2547-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -136,7 +136,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/101108-1040.webp',
     srcSet:
-      '/images/players/headshots/101108-520.webp 520w, /images/players/headshots/101108-1040.webp 1040w',
+      '/images/players/headshots/101108-360.webp 360w, /images/players/headshots/101108-520.webp 520w, /images/players/headshots/101108-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -150,7 +150,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/17-1040.webp',
     srcSet:
-      '/images/players/headshots/17-520.webp 520w, /images/players/headshots/17-1040.webp 1040w',
+      '/images/players/headshots/17-360.webp 360w, /images/players/headshots/17-520.webp 520w, /images/players/headshots/17-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -164,7 +164,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/203081-1040.webp',
     srcSet:
-      '/images/players/headshots/203081-520.webp 520w, /images/players/headshots/203081-1040.webp 1040w',
+      '/images/players/headshots/203081-360.webp 360w, /images/players/headshots/203081-520.webp 520w, /images/players/headshots/203081-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -178,7 +178,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/764-1040.webp',
     srcSet:
-      '/images/players/headshots/764-520.webp 520w, /images/players/headshots/764-1040.webp 1040w',
+      '/images/players/headshots/764-360.webp 360w, /images/players/headshots/764-520.webp 520w, /images/players/headshots/764-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -192,7 +192,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/23-1040.webp',
     srcSet:
-      '/images/players/headshots/23-520.webp 520w, /images/players/headshots/23-1040.webp 1040w',
+      '/images/players/headshots/23-360.webp 360w, /images/players/headshots/23-520.webp 520w, /images/players/headshots/23-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -206,7 +206,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/201565-1040.webp',
     srcSet:
-      '/images/players/headshots/201565-520.webp 520w, /images/players/headshots/201565-1040.webp 1040w',
+      '/images/players/headshots/201565-360.webp 360w, /images/players/headshots/201565-520.webp 520w, /images/players/headshots/201565-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -220,7 +220,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1626164-1040.webp',
     srcSet:
-      '/images/players/headshots/1626164-520.webp 520w, /images/players/headshots/1626164-1040.webp 1040w',
+      '/images/players/headshots/1626164-360.webp 360w, /images/players/headshots/1626164-520.webp 520w, /images/players/headshots/1626164-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -234,7 +234,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/87-1040.webp',
     srcSet:
-      '/images/players/headshots/87-520.webp 520w, /images/players/headshots/87-1040.webp 1040w',
+      '/images/players/headshots/87-360.webp 360w, /images/players/headshots/87-520.webp 520w, /images/players/headshots/87-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -248,7 +248,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1717-1040.webp',
     srcSet:
-      '/images/players/headshots/1717-520.webp 520w, /images/players/headshots/1717-1040.webp 1040w',
+      '/images/players/headshots/1717-360.webp 360w, /images/players/headshots/1717-520.webp 520w, /images/players/headshots/1717-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -262,7 +262,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1627734-1040.webp',
     srcSet:
-      '/images/players/headshots/1627734-520.webp 520w, /images/players/headshots/1627734-1040.webp 1040w',
+      '/images/players/headshots/1627734-360.webp 360w, /images/players/headshots/1627734-520.webp 520w, /images/players/headshots/1627734-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -276,7 +276,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1122-1040.webp',
     srcSet:
-      '/images/players/headshots/1122-520.webp 520w, /images/players/headshots/1122-1040.webp 1040w',
+      '/images/players/headshots/1122-360.webp 360w, /images/players/headshots/1122-520.webp 520w, /images/players/headshots/1122-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -290,7 +290,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/mitchell-1536.webp',
     srcSet:
-      '/images/players/action/mitchell-960.webp 960w, /images/players/action/mitchell-1536.webp 1536w',
+      '/images/players/action/mitchell-640.webp 640w, /images/players/action/mitchell-960.webp 960w, /images/players/action/mitchell-1536.webp 1536w',
     width: 1536,
     height: 1024,
     objectPosition: 'center 24%',
@@ -304,7 +304,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/2730-1040.webp',
     srcSet:
-      '/images/players/headshots/2730-520.webp 520w, /images/players/headshots/2730-1040.webp 1040w',
+      '/images/players/headshots/2730-360.webp 360w, /images/players/headshots/2730-520.webp 520w, /images/players/headshots/2730-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -318,7 +318,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/2548-1040.webp',
     srcSet:
-      '/images/players/headshots/2548-520.webp 520w, /images/players/headshots/2548-1040.webp 1040w',
+      '/images/players/headshots/2548-360.webp 360w, /images/players/headshots/2548-520.webp 520w, /images/players/headshots/2548-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -332,7 +332,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1630532-1040.webp',
     srcSet:
-      '/images/players/headshots/1630532-520.webp 520w, /images/players/headshots/1630532-1040.webp 1040w',
+      '/images/players/headshots/1630532-360.webp 360w, /images/players/headshots/1630532-520.webp 520w, /images/players/headshots/1630532-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -346,7 +346,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/56-1040.webp',
     srcSet:
-      '/images/players/headshots/56-520.webp 520w, /images/players/headshots/56-1040.webp 1040w',
+      '/images/players/headshots/56-360.webp 360w, /images/players/headshots/56-520.webp 520w, /images/players/headshots/56-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -360,7 +360,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/giannis-1600.webp',
     srcSet:
-      '/images/players/action/giannis-960.webp 960w, /images/players/action/giannis-1600.webp 1600w',
+      '/images/players/action/giannis-640.webp 640w, /images/players/action/giannis-960.webp 960w, /images/players/action/giannis-1600.webp 1600w',
     width: 1600,
     height: 900,
     objectPosition: 'center 22%',
@@ -374,7 +374,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/165-1040.webp',
     srcSet:
-      '/images/players/headshots/165-520.webp 520w, /images/players/headshots/165-1040.webp 1040w',
+      '/images/players/headshots/165-360.webp 360w, /images/players/headshots/165-520.webp 520w, /images/players/headshots/165-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -388,7 +388,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/78318-1040.webp',
     srcSet:
-      '/images/players/headshots/78318-520.webp 520w, /images/players/headshots/78318-1040.webp 1040w',
+      '/images/players/headshots/78318-360.webp 360w, /images/players/headshots/78318-520.webp 520w, /images/players/headshots/78318-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -402,7 +402,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1629630-1040.webp',
     srcSet:
-      '/images/players/headshots/1629630-520.webp 520w, /images/players/headshots/1629630-1040.webp 1040w',
+      '/images/players/headshots/1629630-360.webp 360w, /images/players/headshots/1629630-520.webp 520w, /images/players/headshots/1629630-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -416,7 +416,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1628973-1040.webp',
     srcSet:
-      '/images/players/headshots/1628973-520.webp 520w, /images/players/headshots/1628973-1040.webp 1040w',
+      '/images/players/headshots/1628973-360.webp 360w, /images/players/headshots/1628973-520.webp 520w, /images/players/headshots/1628973-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -430,7 +430,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/harden-1146.webp',
     srcSet:
-      '/images/players/action/harden-960.webp 960w, /images/players/action/harden-1146.webp 1146w',
+      '/images/players/action/harden-640.webp 640w, /images/players/action/harden-960.webp 960w, /images/players/action/harden-1146.webp 1146w',
     width: 1146,
     height: 1373,
     objectPosition: 'center 18%',
@@ -444,7 +444,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1627759-1040.webp',
     srcSet:
-      '/images/players/headshots/1627759-520.webp 520w, /images/players/headshots/1627759-1040.webp 1040w',
+      '/images/players/headshots/1627759-360.webp 360w, /images/players/headshots/1627759-520.webp 520w, /images/players/headshots/1627759-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -458,7 +458,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1628369-1040.webp',
     srcSet:
-      '/images/players/headshots/1628369-520.webp 520w, /images/players/headshots/1628369-1040.webp 1040w',
+      '/images/players/headshots/1628369-360.webp 360w, /images/players/headshots/1628369-520.webp 520w, /images/players/headshots/1628369-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -472,7 +472,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/202710-1040.webp',
     srcSet:
-      '/images/players/headshots/202710-520.webp 520w, /images/players/headshots/202710-1040.webp 1040w',
+      '/images/players/headshots/202710-360.webp 360w, /images/players/headshots/202710-520.webp 520w, /images/players/headshots/202710-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -486,7 +486,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/embiid-1448.webp',
     srcSet:
-      '/images/players/action/embiid-960.webp 960w, /images/players/action/embiid-1448.webp 1448w',
+      '/images/players/action/embiid-640.webp 640w, /images/players/action/embiid-960.webp 960w, /images/players/action/embiid-1448.webp 1448w',
     width: 1448,
     height: 1086,
     objectPosition: 'center 20%',
@@ -500,7 +500,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/304-1040.webp',
     srcSet:
-      '/images/players/headshots/304-520.webp 520w, /images/players/headshots/304-1040.webp 1040w',
+      '/images/players/headshots/304-360.webp 360w, /images/players/headshots/304-520.webp 520w, /images/players/headshots/304-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -514,7 +514,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/76003-1040.webp',
     srcSet:
-      '/images/players/headshots/76003-520.webp 520w, /images/players/headshots/76003-1040.webp 1040w',
+      '/images/players/headshots/76003-360.webp 360w, /images/players/headshots/76003-520.webp 520w, /images/players/headshots/76003-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -528,7 +528,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/252-1040.webp',
     srcSet:
-      '/images/players/headshots/252-520.webp 520w, /images/players/headshots/252-1040.webp 1040w',
+      '/images/players/headshots/252-360.webp 360w, /images/players/headshots/252-520.webp 520w, /images/players/headshots/252-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -542,7 +542,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1626157-1040.webp',
     srcSet:
-      '/images/players/headshots/1626157-520.webp 520w, /images/players/headshots/1626157-1040.webp 1040w',
+      '/images/players/headshots/1626157-360.webp 360w, /images/players/headshots/1626157-520.webp 520w, /images/players/headshots/1626157-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -556,7 +556,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/leonard-1600.webp',
     srcSet:
-      '/images/players/action/leonard-960.webp 960w, /images/players/action/leonard-1600.webp 1600w',
+      '/images/players/action/leonard-640.webp 640w, /images/players/action/leonard-960.webp 960w, /images/players/action/leonard-1600.webp 1600w',
     width: 1600,
     height: 900,
     objectPosition: 'center 20%',
@@ -570,7 +570,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/durant-1600.webp',
     srcSet:
-      '/images/players/action/durant-960.webp 960w, /images/players/action/durant-1600.webp 1600w',
+      '/images/players/action/durant-640.webp 640w, /images/players/action/durant-960.webp 960w, /images/players/action/durant-1600.webp 1600w',
     width: 1600,
     height: 1067,
     objectPosition: 'center 28%',
@@ -584,7 +584,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/708-1040.webp',
     srcSet:
-      '/images/players/headshots/708-520.webp 520w, /images/players/headshots/708-1040.webp 1040w',
+      '/images/players/headshots/708-360.webp 360w, /images/players/headshots/708-520.webp 520w, /images/players/headshots/708-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -598,7 +598,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/977-1040.webp',
     srcSet:
-      '/images/players/headshots/977-520.webp 520w, /images/players/headshots/977-1040.webp 1040w',
+      '/images/players/headshots/977-360.webp 360w, /images/players/headshots/977-520.webp 520w, /images/players/headshots/977-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -612,7 +612,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/irving-1536.webp',
     srcSet:
-      '/images/players/action/irving-960.webp 960w, /images/players/action/irving-1536.webp 1536w',
+      '/images/players/action/irving-640.webp 640w, /images/players/action/irving-960.webp 960w, /images/players/action/irving-1536.webp 1536w',
     width: 1536,
     height: 1024,
     objectPosition: '28% 30%',
@@ -626,7 +626,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1630163-1040.webp',
     srcSet:
-      '/images/players/headshots/1630163-520.webp 520w, /images/players/headshots/1630163-1040.webp 1040w',
+      '/images/players/headshots/1630163-360.webp 360w, /images/players/headshots/1630163-520.webp 520w, /images/players/headshots/1630163-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -640,7 +640,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1449-1040.webp',
     srcSet:
-      '/images/players/headshots/1449-520.webp 520w, /images/players/headshots/1449-1040.webp 1040w',
+      '/images/players/headshots/1449-360.webp 360w, /images/players/headshots/1449-520.webp 520w, /images/players/headshots/1449-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -654,7 +654,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/lebron-1254.webp',
     srcSet:
-      '/images/players/action/lebron-960.webp 960w, /images/players/action/lebron-1254.webp 1254w',
+      '/images/players/action/lebron-640.webp 640w, /images/players/action/lebron-960.webp 960w, /images/players/action/lebron-1254.webp 1254w',
     width: 1254,
     height: 1254,
     objectPosition: 'center 30%',
@@ -677,7 +677,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/doncic-1436.webp',
     srcSet:
-      '/images/players/action/doncic-960.webp 960w, /images/players/action/doncic-1436.webp 1436w',
+      '/images/players/action/doncic-640.webp 640w, /images/players/action/doncic-960.webp 960w, /images/players/action/doncic-1436.webp 1436w',
     width: 1436,
     height: 1095,
     objectPosition: 'center 20%',
@@ -691,7 +691,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/77142-1040.webp',
     srcSet:
-      '/images/players/headshots/77142-520.webp 520w, /images/players/headshots/77142-1040.webp 1040w',
+      '/images/players/headshots/77142-360.webp 360w, /images/players/headshots/77142-520.webp 520w, /images/players/headshots/77142-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -705,7 +705,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1938-1040.webp',
     srcSet:
-      '/images/players/headshots/1938-520.webp 520w, /images/players/headshots/1938-1040.webp 1040w',
+      '/images/players/headshots/1938-360.webp 360w, /images/players/headshots/1938-520.webp 520w, /images/players/headshots/1938-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -719,7 +719,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/893-1040.webp',
     srcSet:
-      '/images/players/headshots/893-520.webp 520w, /images/players/headshots/893-1040.webp 1040w',
+      '/images/players/headshots/893-360.webp 360w, /images/players/headshots/893-520.webp 520w, /images/players/headshots/893-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -733,7 +733,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/jokic-1536.webp',
     srcSet:
-      '/images/players/action/jokic-960.webp 960w, /images/players/action/jokic-1536.webp 1536w',
+      '/images/players/action/jokic-640.webp 640w, /images/players/action/jokic-960.webp 960w, /images/players/action/jokic-1536.webp 1536w',
     width: 1536,
     height: 1024,
     objectPosition: 'center 28%',
@@ -747,7 +747,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1631094-1040.webp',
     srcSet:
-      '/images/players/headshots/1631094-520.webp 520w, /images/players/headshots/1631094-1040.webp 1040w',
+      '/images/players/headshots/1631094-360.webp 360w, /images/players/headshots/1631094-520.webp 520w, /images/players/headshots/1631094-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -761,7 +761,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/2200-1040.webp',
     srcSet:
-      '/images/players/headshots/2200-520.webp 520w, /images/players/headshots/2200-1040.webp 1040w',
+      '/images/players/headshots/2200-360.webp 360w, /images/players/headshots/2200-520.webp 520w, /images/players/headshots/2200-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -775,7 +775,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1718-1040.webp',
     srcSet:
-      '/images/players/headshots/1718-520.webp 520w, /images/players/headshots/1718-1040.webp 1040w',
+      '/images/players/headshots/1718-360.webp 360w, /images/players/headshots/1718-520.webp 520w, /images/players/headshots/1718-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -789,7 +789,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/951-1040.webp',
     srcSet:
-      '/images/players/headshots/951-520.webp 520w, /images/players/headshots/951-1040.webp 1040w',
+      '/images/players/headshots/951-360.webp 360w, /images/players/headshots/951-520.webp 520w, /images/players/headshots/951-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -803,7 +803,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/397-1040.webp',
     srcSet:
-      '/images/players/headshots/397-520.webp 520w, /images/players/headshots/397-1040.webp 1040w',
+      '/images/players/headshots/397-360.webp 360w, /images/players/headshots/397-520.webp 520w, /images/players/headshots/397-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -817,7 +817,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/201566-1040.webp',
     srcSet:
-      '/images/players/headshots/201566-520.webp 520w, /images/players/headshots/201566-1040.webp 1040w',
+      '/images/players/headshots/201566-360.webp 360w, /images/players/headshots/201566-520.webp 520w, /images/players/headshots/201566-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -831,7 +831,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/937-1040.webp',
     srcSet:
-      '/images/players/headshots/937-520.webp 520w, /images/players/headshots/937-1040.webp 1040w',
+      '/images/players/headshots/937-360.webp 360w, /images/players/headshots/937-520.webp 520w, /images/players/headshots/937-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -845,7 +845,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/gilgeous-alexander-1067.webp',
     srcSet:
-      '/images/players/action/gilgeous-alexander-960.webp 960w, /images/players/action/gilgeous-alexander-1067.webp 1067w',
+      '/images/players/action/gilgeous-alexander-640.webp 640w, /images/players/action/gilgeous-alexander-960.webp 960w, /images/players/action/gilgeous-alexander-1067.webp 1067w',
     width: 1067,
     height: 1600,
     objectPosition: 'center 18%',
@@ -859,7 +859,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/406-1040.webp',
     srcSet:
-      '/images/players/headshots/406-520.webp 520w, /images/players/headshots/406-1040.webp 1040w',
+      '/images/players/headshots/406-360.webp 360w, /images/players/headshots/406-520.webp 520w, /images/players/headshots/406-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -873,7 +873,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/431-1040.webp',
     srcSet:
-      '/images/players/headshots/431-520.webp 520w, /images/players/headshots/431-1040.webp 1040w',
+      '/images/players/headshots/431-360.webp 360w, /images/players/headshots/431-520.webp 520w, /images/players/headshots/431-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -887,7 +887,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/curry-1600.webp',
     srcSet:
-      '/images/players/action/curry-960.webp 960w, /images/players/action/curry-1600.webp 1600w',
+      '/images/players/action/curry-640.webp 640w, /images/players/action/curry-960.webp 960w, /images/players/action/curry-1600.webp 1600w',
     width: 1600,
     height: 948,
     objectPosition: 'center 20%',
@@ -910,7 +910,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/959-1040.webp',
     srcSet:
-      '/images/players/headshots/959-520.webp 520w, /images/players/headshots/959-1040.webp 1040w',
+      '/images/players/headshots/959-360.webp 360w, /images/players/headshots/959-520.webp 520w, /images/players/headshots/959-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -924,7 +924,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1495-1040.webp',
     srcSet:
-      '/images/players/headshots/1495-520.webp 520w, /images/players/headshots/1495-1040.webp 1040w',
+      '/images/players/headshots/1495-360.webp 360w, /images/players/headshots/1495-520.webp 520w, /images/players/headshots/1495-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -938,7 +938,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/2225-1040.webp',
     srcSet:
-      '/images/players/headshots/2225-520.webp 520w, /images/players/headshots/2225-1040.webp 1040w',
+      '/images/players/headshots/2225-360.webp 360w, /images/players/headshots/2225-520.webp 520w, /images/players/headshots/2225-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -952,7 +952,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1503-1040.webp',
     srcSet:
-      '/images/players/headshots/1503-520.webp 520w, /images/players/headshots/1503-1040.webp 1040w',
+      '/images/players/headshots/1503-360.webp 360w, /images/players/headshots/1503-520.webp 520w, /images/players/headshots/1503-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -966,7 +966,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1629027-1040.webp',
     srcSet:
-      '/images/players/headshots/1629027-520.webp 520w, /images/players/headshots/1629027-1040.webp 1040w',
+      '/images/players/headshots/1629027-360.webp 360w, /images/players/headshots/1629027-520.webp 520w, /images/players/headshots/1629027-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -980,7 +980,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/haliburton-1600.webp',
     srcSet:
-      '/images/players/action/haliburton-960.webp 960w, /images/players/action/haliburton-1600.webp 1600w',
+      '/images/players/action/haliburton-640.webp 640w, /images/players/action/haliburton-960.webp 960w, /images/players/action/haliburton-1600.webp 1600w',
     width: 1600,
     height: 1067,
     objectPosition: 'center 20%',
@@ -994,7 +994,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1630178-1040.webp',
     srcSet:
-      '/images/players/headshots/1630178-520.webp 520w, /images/players/headshots/1630178-1040.webp 1040w',
+      '/images/players/headshots/1630178-360.webp 360w, /images/players/headshots/1630178-520.webp 520w, /images/players/headshots/1630178-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -1008,7 +1008,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'action',
     src: '/images/players/action/wembanyama-1199.webp',
     srcSet:
-      '/images/players/action/wembanyama-960.webp 960w, /images/players/action/wembanyama-1199.webp 1199w',
+      '/images/players/action/wembanyama-640.webp 640w, /images/players/action/wembanyama-960.webp 960w, /images/players/action/wembanyama-1199.webp 1199w',
     width: 1199,
     height: 1312,
     objectPosition: 'center 3%',
@@ -1031,7 +1031,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1713-1040.webp',
     srcSet:
-      '/images/players/headshots/1713-520.webp 520w, /images/players/headshots/1713-1040.webp 1040w',
+      '/images/players/headshots/1713-360.webp 360w, /images/players/headshots/1713-520.webp 520w, /images/players/headshots/1713-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',
@@ -1045,7 +1045,7 @@ export const PLAYER_IMAGE_DATA: Record<string, PlayerImage> = {
     kind: 'headshot',
     src: '/images/players/headshots/1629627-1040.webp',
     srcSet:
-      '/images/players/headshots/1629627-520.webp 520w, /images/players/headshots/1629627-1040.webp 1040w',
+      '/images/players/headshots/1629627-360.webp 360w, /images/players/headshots/1629627-520.webp 520w, /images/players/headshots/1629627-1040.webp 1040w',
     width: 1040,
     height: 760,
     objectPosition: 'center top',

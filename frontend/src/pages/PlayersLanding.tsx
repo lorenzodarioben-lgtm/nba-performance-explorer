@@ -32,6 +32,13 @@ const ON_THE_BOARD = [
   { id: '202681', name: 'Kyrie Irving' },
 ] as const;
 
+// Board cards are 4:5 and crop wider photos to fit, so the browser needs proportionally more
+// pixels across than the card's width.
+function boardSizes(image: PlayerImage) {
+  const across = Math.max(1, image.width / image.height / 0.8);
+  return `(max-width: 767px) ${Math.round(48 * across)}vw, ${Math.round(250 * across)}px`;
+}
+
 /** Players with an NBA.com headshot in one group, alphabetical by surname. */
 function headshotGroup(group: PlayerImage['group']) {
   const surname = (name: string) => name.split(' ').slice(1).join(' ') || name;
@@ -69,7 +76,7 @@ function FaceWall({
               <img
                 src={image.src}
                 srcSet={image.srcSet}
-                sizes="(max-width: 767px) 45vw, 220px"
+                sizes="(max-width: 767px) 44vw, 200px"
                 alt=""
                 width={image.width}
                 height={image.height}
@@ -171,7 +178,7 @@ export function PlayersLanding() {
                     <img
                       src={image.src}
                       srcSet={image.srcSet}
-                      sizes="(max-width: 767px) 50vw, 260px"
+                      sizes={boardSizes(image)}
                       alt=""
                       width={image.width}
                       height={image.height}

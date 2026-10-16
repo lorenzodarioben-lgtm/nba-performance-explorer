@@ -80,7 +80,7 @@ function Hero({ data }: { data: LeagueGameDetailResponse }) {
     <div
       className={`gamehero__side ${g.status === 'final' && s.score !== null && s.score === Math.max(g.home.score ?? 0, g.away.score ?? 0) ? 'is-won' : ''}`}
     >
-      <TeamLogo team={s.team} season={season} size={64} fallback="none" priority />
+      <TeamLogo team={s.team} season={season} size={64} fallback="blank" priority />
       <span className="gamehero__abbr">{s.team.abbreviation}</span>
       <Link to={`/teams/${s.team.id}`} className="gamehero__name">
         {s.team.name}

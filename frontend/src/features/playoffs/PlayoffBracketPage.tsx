@@ -312,7 +312,7 @@ function SeriesCard({
               {series.seeds ? (
                 <span className="seriescard__seed">{series.seeds[i]}</span>
               ) : null}
-              <TeamLogo team={team} season="2023-24" size={20} fallback="none" />
+              <TeamLogo team={team} season="2023-24" size={20} />
               {team.abbreviation}
             </b>
             <em className="num">{series.wins[i]}</em>
