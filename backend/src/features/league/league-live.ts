@@ -22,7 +22,8 @@ export type LiveSourceId =
   | 'scoreboard'
   | 'boxscore'
   | 'playbyplay'
-  | 'standings';
+  | 'standings'
+  | 'lineups';
 export interface LiveSourceStatus {
   id: LiveSourceId;
   lastSuccessAt: string | null;
@@ -68,6 +69,7 @@ export class NbaLiveClient {
       ['boxscore', 20],
       ['playbyplay', 20],
       ['standings', 300],
+      ['lineups', 3600],
     ] as const)
       this.status.set(id, {
         id,
@@ -251,6 +253,86 @@ export class NbaLiveClient {
       StartPeriod: '0',
     }).toString();
     return this.get<unknown>('playbyplay', `pbp3:${gameId}`, url, () => 86_400);
+  }
+
+  /** A team's five-player lineup table (NBA.com, 2007-08 on), source-calculated ratings. */
+  lineups(season: string, teamId: number) {
+    return this.statsTable('lineups', 'leaguedashlineups', season, teamId, {
+      Conference: '',
+      DateFrom: '',
+      DateTo: '',
+      Division: '',
+      GameSegment: '',
+      GroupQuantity: '5',
+      Height: '',
+      LastNGames: '0',
+      LeagueID: '00',
+      Location: '',
+      MeasureType: 'Advanced',
+      Month: '0',
+      OpponentTeamID: '0',
+      Outcome: '',
+      PORound: '0',
+      PaceAdjust: 'N',
+      PerMode: 'Totals',
+      Period: '0',
+      PlusMinus: 'N',
+      Rank: 'N',
+      SeasonSegment: '',
+      SeasonType: 'Regular Season',
+      ShotClockRange: '',
+      VsConference: '',
+      VsDivision: '',
+    });
+  }
+
+  /** A team's players on and off the floor (NBA.com), source-calculated ratings. */
+  onOff(season: string, teamId: number) {
+    return this.statsTable('lineups', 'teamplayeronoffdetails', season, teamId, {
+      DateFrom: '',
+      DateTo: '',
+      GameSegment: '',
+      LastNGames: '0',
+      LeagueID: '00',
+      Location: '',
+      MeasureType: 'Advanced',
+      Month: '0',
+      OpponentTeamID: '0',
+      Outcome: '',
+      PaceAdjust: 'N',
+      PerMode: 'Totals',
+      Period: '0',
+      PlusMinus: 'N',
+      Rank: 'N',
+      SeasonSegment: '',
+      SeasonType: 'Regular Season',
+      VsConference: '',
+      VsDivision: '',
+    });
+  }
+
+  private statsTable(
+    source: LiveSourceId,
+    endpoint: 'leaguedashlineups' | 'teamplayeronoffdetails',
+    season: string,
+    teamId: number,
+    params: Record<string, string>,
+  ) {
+    if (!/^\d{4}-\d{2}$/.test(season) || !Number.isInteger(teamId) || teamId <= 0)
+      throw providerInvalidResponse('Invalid season or team.');
+    const url = new URL(`https://stats.nba.com/stats/${endpoint}`);
+    url.search = new URLSearchParams({
+      ...params,
+      Season: season,
+      TeamID: String(teamId),
+    }).toString();
+    // Past seasons do not change; the season under way is refreshed hourly.
+    return this.get<unknown>(
+      source,
+      `${endpoint}:${season}:${teamId}`,
+      url,
+      () => 3600,
+    );
   }
 
   /** NBA.com Stats standings table for one season (used for the current season). */

@@ -42,6 +42,8 @@ const KEYWORDS: Record<string, string> = {
   '/standings/race': 'standings race replay timeline ladder date season animation',
   '/history/record-book':
     'record book most points game career high single season record progression tied',
+  '/lab/lineups/nba':
+    'lineups five man units on off net rating offensive defensive rating possessions',
   '/history/eras':
     'era adjusted cross era compare decades pace three point revolution league average normalized',
   '/leaders/movement':

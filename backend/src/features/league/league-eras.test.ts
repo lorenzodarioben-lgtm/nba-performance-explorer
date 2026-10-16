@@ -81,7 +81,9 @@ describe('league-relative player index', () => {
     expect(
       (await request(app).get('/api/league/era-players?players=1,2,3,4,5')).status,
     ).toBe(400);
-    const missing = await request(app).get('/api/league/era-players?players=893,999999999');
+    const missing = await request(app).get(
+      '/api/league/era-players?players=893,999999999',
+    );
     expect(missing.body.missing).toEqual(['999999999']);
     expect((await request(app).get('/api/league/player-search?q=j')).status).toBe(400);
     expect(

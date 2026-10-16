@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import {
   StudyLineupQuerySchema,
   StudyLineupResponseSchema,
@@ -153,6 +153,10 @@ export function LineupStudyPage() {
         Source-native BasketballReference identities and short aliases are retained.
         Player names are not used to guess NBA IDs; source links provide identity
         evidence.
+      </p>
+      <p>
+        For possessions and ratings from any season since 2007–08, see{' '}
+        <Link to="/lab/lineups/nba">NBA.com lineups</Link>.
       </p>
       {!valid ? (
         <p role="alert">

@@ -272,6 +272,12 @@ export const SECTIONS: readonly Section[] = [
         match: exact('/lab/lineups'),
       },
       {
+        to: '/lab/lineups/nba',
+        label: 'NBA.com lineups',
+        blurb: 'Five-player units and on/off splits for any team since 2007–08.',
+        match: exact('/lab/lineups/nba'),
+      },
+      {
         to: '/lab/analytics',
         label: 'Analytics',
         blurb: 'Player-season distributions and relationships.',

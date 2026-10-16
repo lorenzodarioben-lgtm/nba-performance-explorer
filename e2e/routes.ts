@@ -40,6 +40,7 @@ export const routeExamples: readonly RouteExample[] = [
     path: '/leaders/movement?season=2015-16&metric=threesMade',
   },
   { name: 'player-records', path: '/players/2544/records' },
+  { name: 'nba-lineups', path: '/lab/lineups/nba?season=2023-24&team=nba:1610612738' },
   { name: 'eras', path: '/history/eras?players=893,2544,201939&decade=1990s' },
   {
     name: 'team-rankings',

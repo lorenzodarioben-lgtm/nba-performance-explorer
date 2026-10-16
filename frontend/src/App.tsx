@@ -92,6 +92,11 @@ const LeagueMovementPage = lazy(() =>
     default: m.LeagueMovementPage,
   })),
 );
+const LeagueLineupsPage = lazy(() =>
+  import('./features/league/LeagueLineupsPage').then((m) => ({
+    default: m.LeagueLineupsPage,
+  })),
+);
 const LeagueErasPage = lazy(() =>
   import('./features/league/LeagueErasPage').then((m) => ({
     default: m.LeagueErasPage,
@@ -478,6 +483,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/lab/formulas',
     element: lazyRoute('Loading formula lab…', <FormulaLabPage />),
+  },
+  {
+    path: '/lab/lineups/nba',
+    element: lazyRoute('Loading NBA.com lineups…', <LeagueLineupsPage />),
   },
   {
     path: '/lab/lineups',

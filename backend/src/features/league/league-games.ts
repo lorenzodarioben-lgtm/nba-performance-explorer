@@ -992,6 +992,7 @@ export class LeagueGames {
 }
 
 const FRESHNESS: Record<string, number> = {
+  lineups: 3600,
   standings: 3600,
   schedule: 24 * 3600,
   scoreboard: 120,
@@ -1000,6 +1001,7 @@ const FRESHNESS: Record<string, number> = {
   playbyplay: 3600,
 };
 const LIVE_NAMES: Record<string, string> = {
+  lineups: 'NBA.com lineups and on/off (stats.nba.com)',
   standings: 'NBA.com current standings (stats.nba.com)',
   schedule: 'NBA.com season schedule (cdn.nba.com)',
   scoreboard: 'NBA.com today’s scoreboard (cdn.nba.com)',
@@ -1039,6 +1041,7 @@ export async function leagueStatus(
     'standings',
     'boxscore',
     'playbyplay',
+    'lineups',
   ] as const) {
     const st = live?.status.get(id);
     const ok = st?.lastSuccessAt ? Date.parse(st.lastSuccessAt) : null;
@@ -1062,11 +1065,13 @@ export async function leagueStatus(
       freshnessSeconds: FRESHNESS[id]!,
       note: !live
         ? 'This server does not contact NBA.com live sources.'
-        : id === 'standings'
-          ? 'Requested when the current season’s standings open; reused for 5 minutes. Current means it answered within the hour.'
-          : id === 'boxscore' || id === 'playbyplay'
-            ? 'Requested when a game page opens; finals are kept for a day, live games for 20 seconds. Current means it answered within the hour.'
-            : `Checked when this status was requested; reused for ${st?.cacheSeconds ?? 0} seconds.`,
+        : id === 'lineups'
+          ? 'Requested when a team’s lineups open; kept for an hour. Current means it answered within the hour.'
+          : id === 'standings'
+            ? 'Requested when the current season’s standings open; reused for 5 minutes. Current means it answered within the hour.'
+            : id === 'boxscore' || id === 'playbyplay'
+              ? 'Requested when a game page opens; finals are kept for a day, live games for 20 seconds. Current means it answered within the hour.'
+              : `Checked when this status was requested; reused for ${st?.cacheSeconds ?? 0} seconds.`,
     });
   }
   return LeagueStatusResponseSchema.parse({
