@@ -94,6 +94,9 @@ SCENES = [
      '58% 62%',
      "Kobe Bryant and Shaquille O'Neal of the Los Angeles Lakers against the Philadelphia 76ers",
      'historical season navigator header (index page only, never a specific season)'),
+    ('kawhi-buzzer', 'A:buzzerbeater.webp', (1920, 1280, 800), '48% 72%',
+     "Kawhi Leonard crouched on the baseline watching his 2019 playoff buzzer-beater against the Philadelphia 76ers",
+     'scoreboard (/games) header; editorial, not the selected game'),
 ]
 # Portrait-frame alternates (3:4 frames such as the home comparison band).
 PORTRAIT = {

@@ -3,6 +3,15 @@
 import type { SceneImage } from './sceneImages';
 
 export const SCENE_IMAGE_DATA: Record<string, SceneImage> = {
+  'kawhi-buzzer': {
+    src: '/images/scenes/kawhi-buzzer-1920.webp',
+    srcSet:
+      '/images/scenes/kawhi-buzzer-800.webp 800w, /images/scenes/kawhi-buzzer-1280.webp 1280w, /images/scenes/kawhi-buzzer-1920.webp 1920w',
+    width: 1920,
+    height: 1440,
+    objectPosition: '48% 72%',
+    alt: 'Kawhi Leonard crouched on the baseline watching his 2019 playoff buzzer-beater against the Philadelphia 76ers',
+  },
   'kobe-shaq': {
     src: '/images/scenes/kobe-shaq-1672.webp',
     srcSet:

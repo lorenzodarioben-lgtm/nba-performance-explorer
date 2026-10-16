@@ -12,6 +12,7 @@ import {
   type LeagueSnapshotResponse,
 } from '@nba-performance-explorer/contracts';
 import { ResearchShell } from '../research/ResearchShell';
+import { getSceneImage } from '../../ui/sceneImages';
 import { SaveResearchButton } from '../my-nba/SaveResearchButton';
 import styles from '../research/research.module.css';
 import { fetchLeague, seasonDisplay } from './league-api';
@@ -30,6 +31,34 @@ const QuerySchema = z
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 /** The scoreboard: any date in the archive or NBA.com's current schedule. */
+const BUZZER = getSceneImage('kawhi-buzzer');
+
+/**
+ * The scoreboard's header photograph: editorial imagery, captioned, never a picture of the date or
+ * game on screen.
+ */
+function ScoreboardBackdrop() {
+  if (!BUZZER) return null;
+  return (
+    <figure className="gameshot">
+      <img
+        src={BUZZER.src}
+        srcSet={BUZZER.srcSet}
+        sizes="(max-width: 767px) 100vw, min(66vw, 880px)"
+        width={BUZZER.width}
+        height={BUZZER.height}
+        alt=""
+        fetchPriority="high"
+        decoding="async"
+        style={{ objectPosition: BUZZER.objectPosition }}
+      />
+      <figcaption>
+        Pictured: Kawhi Leonard's 2019 playoff buzzer-beater, Raptors v 76ers
+      </figcaption>
+    </figure>
+  );
+}
+
 export function LeagueGamesPage() {
   const [params, setParams] = useSearchParams();
   const parsed = QuerySchema.safeParse(Object.fromEntries(params));
@@ -92,6 +121,7 @@ export function LeagueGamesPage() {
   return (
     <ResearchShell
       title="Scoreboard"
+      backdrop={<ScoreboardBackdrop />}
       lede={
         <p>
           Games on any date: every result since 1983–84 from the archive, and NBA.com’s

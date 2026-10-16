@@ -3478,5 +3478,32 @@
       }
     ],
     "note": "historical season navigator header (index page only, never a specific season)"
+  },
+  {
+    "source": "NBA_ASSETS/buzzerbeater.webp",
+    "sourceSha256": "bed5b78a840d4f0d784e423d26368be614fd3d10e2efd8438415c597ace0f19f",
+    "sourceBytes": 649194,
+    "role": "scene",
+    "outputs": [
+      {
+        "path": "frontend/public/images/scenes/kawhi-buzzer-800.webp",
+        "bytes": 93984,
+        "width": 800,
+        "height": 600
+      },
+      {
+        "path": "frontend/public/images/scenes/kawhi-buzzer-1280.webp",
+        "bytes": 209852,
+        "width": 1280,
+        "height": 960
+      },
+      {
+        "path": "frontend/public/images/scenes/kawhi-buzzer-1920.webp",
+        "bytes": 430424,
+        "width": 1920,
+        "height": 1440
+      }
+    ],
+    "note": "scoreboard (/games) header; editorial, not the selected game"
   }
 ]

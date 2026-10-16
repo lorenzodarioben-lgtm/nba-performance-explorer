@@ -16,6 +16,13 @@ describe('scene images', () => {
     expect(getPlayerImage('202681')?.src).not.toBe(scene?.src);
   });
 
+  it('keeps the Kawhi Leonard buzzer-beater as a scoreboard scene, not his profile photo', () => {
+    const scene = getSceneImage('kawhi-buzzer');
+    expect(scene?.src).toBe('/images/scenes/kawhi-buzzer-1920.webp');
+    expect(scene?.srcSet).toContain('kawhi-buzzer-800.webp 800w');
+    expect(getPlayerImage('202695')?.src).toMatch(/\/players\/action\/leonard-/);
+  });
+
   it('returns nothing for an unknown or inherited key', () => {
     expect(getSceneImage('nope')).toBeUndefined();
     expect(getSceneImage('toString')).toBeUndefined();
