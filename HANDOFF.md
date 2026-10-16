@@ -1,111 +1,72 @@
 # NBA Performance Explorer — 3.3 UX polish handoff (live)
 
-> Six priority-ordered polish tasks on top of the visual-assets branch. Read this first; the
-> visual-assets handoff below it and the 3.2, 3.1 and 3.0 handoffs describe everything earlier.
+> Final state of the 3.3 polish. Read this first; the visual-assets handoff below it and the
+> 3.2, 3.1 and 3.0 handoffs describe everything earlier. Full report with screenshots:
+> [`docs/visual-polish/FINAL_POLISH_REPORT.md`](docs/visual-polish/FINAL_POLISH_REPORT.md).
 
+- **Status:** ready for owner review, with the limitations below. Not merged, not deployed, no pull
+  request.
 - **Branch:** `claude/nba-explorer-3-ux-polish`, cut from `claude/nba-explorer-3-visual-assets` at
-  `1a2bb9c`. Not merged, not deployed, no pull request. Protected branches untouched.
-- **Commits, in task order:** `8b90f93` (P1), `7184970` (P2), `f54608c` (P4), `c714bbc` (P5),
-  `8c08edd` (P6), then this handoff commit (`git log -1` for HEAD).
+  `1a2bb9c` and pushed to `origin`. HEAD is the documentation commit that adds this text (see
+  `git log -1`).
+- **Working tree:** clean apart from local, untracked `.claude/` settings. `NBA_ASSETS` stays local
+  and git-ignored; it was never modified.
+- **Protected branches:** `main` (`cd557e4`) and the earlier branches are unchanged.
 
-## Task status
+## Completed
 
-| #   | Task                                     | Status                          |
-| --- | ---------------------------------------- | ------------------------------- |
-| 1   | Collapsible game log and career tables   | **Done**                        |
-| 2   | Kyrie Irving image replacement and reuse | **Done**                        |
-| 3   | Kawhi Leonard scoreboard hero            | **Blocked: photo not supplied** |
-| 4   | Kobe/Shaq historical seasons hero        | **Done**                        |
-| 5   | Team directory card refinement           | **Done**                        |
-| 6   | Navigation search polish                 | **Done**                        |
+| Work                                                                                                                                         | Commit        |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| Collapsible game log and career table                                                                                                        | `8b90f93`     |
+| Kyrie Irving: new profile photo; matchup photo moved to the home head-to-head band                                                           | `7184970`     |
+| Kobe/Shaq season navigator header (`/history` index only)                                                                                    | `f54608c`     |
+| Team directory plates (GSW collision fixed, about 13% wider, equal rows)                                                                     | `c714bbc`     |
+| Masthead search refinement                                                                                                                   | `8c08edd`     |
+| Kawhi Leonard buzzer-beater scoreboard header (`/games`)                                                                                     | `12c5cbf`     |
+| Home: moving ribbon, TIP OFF close, green breathing status dot, hero type −4%, shorter comparison copy, condensed COMPARE TWO PLAYERS button | `b6c6ad7`     |
+| Asset docs, polish report, screenshots and this handoff                                                                                      | final commits |
 
-1. **Collapsible tables** (`frontend/src/ui/RowCollapse.tsx`).
-   - The game log previews 6 games and career trends 5 seasons. A fade and a bar show the real
-     count ("6 of 74 games", "View all 74 games" / "Show less"). Charts stay fully visible.
-   - Hidden rows carry `hidden`, so screen readers match the screen. The button is a native
-     `button` with `aria-expanded` and `aria-controls`.
-   - Height animates (420 ms); reduced motion skips it. Collapsing from below the table's top
-     holds the button still under the pointer, so the page does not jump.
-   - Selecting a chart bar for a hidden game opens the log.
-   - Tables at most one row over the preview never collapse.
-2. **Kyrie Irving (202681).**
-   - The profile hero is now `NEWKYRIEPLAYERIMAGE.jpg` (1500, 960 and 640 px WebP).
-   - The old matchup photo (`UpgradedKyrie.png`) is now the `kyrie-matchup` scene above the VS mark
-     in the home head-to-head band. Its alt text does not name the Nets defender.
-   - Scenes have their own generated registry, `frontend/src/ui/sceneImageData.ts`, built by
-     `scripts/assets/build_visual_assets.py` (`SCENES`) and covered by
-     `check-visual-assets` (including orphans).
-   - The other 72 player mappings are byte-identical.
-3. **Kawhi Leonard: blocked.** `NBA_ASSETS` has no buzzer-beater photograph. The only Kawhi file
-   is `UpgradedKawhi.png`, a Clippers v Raptors dribble that is already his profile photo.
-   - Nothing was built for `/games`; no placeholder or substitute was used.
-   - To finish: add the photo to `NBA_ASSETS` and a `SCENES` row, run the pipeline, then compose
-     the `/games` header. Keep the large SCOREBOARD heading, place the photo right or behind,
-     add dark gradient masks, and change no scoreboard data.
-4. **Season navigator.** The `kobe-shaq` scene (1672, 1200 and 800 px) fills the right of the
-   `/history` head, masked into the page.
-   - A caption names who is pictured.
-   - It appears on the all-seasons index only, never on `/history/:season`, so it is never read
-     as that season's result. A test asserts this.
-   - Filters, links and the season grid are unchanged.
-5. **Team directory.** Each plate is now a column: the mark has its own top row.
-   - Two-line names (GSW, WAS, MIN, NOP, POR) can no longer push the abbreviation into the mark.
-     Measured on all 30 plates at 390, 1024, 1440 and 1920 px: no overlap.
-   - A pre-existing list indent made each plate 18 px narrower than its cell; that is removed.
-   - Plates are about 13% wider at 1440 px (147 px, 8 columns kept) and equal height per row.
-6. **Search control.**
-   - 36 px field, softer border, 3 px radius.
-   - Centred square "/" key chip.
-   - Restrained hover; red focus outline.
-   - Hairline divider before MY NBA.
-   - `/`, Ctrl/Cmd+K and click all open the overlay (checked in Chromium).
+Nothing is deferred. Tasks 7–12, earlier reserved for Codex, are done in `b6c6ad7`.
 
-## Verification
+## Assets changed
 
-- **Focused checks per task:**
-  - Vitest for RowCollapse, game log, career trends, profile, scene images, player images,
-    players landing, home, history, teams, header and shell.
-  - ESLint and Prettier on the touched files; `tsc --noEmit`; `check-visual-assets` (398 files).
-- **Rendered checks:** headless Chromium against the dev server at 1440, 1920, 1024 and 390 px.
-  The local backend runs in fixture mode, because NBA.com did not respond from this machine.
-  - The 74-game log was checked with fixture data enlarged in the page.
-  - The animation was checked through its CSS transition keyframes, which match the settled
-    heights.
-- **Full `npm run validate`:**
-  - Format, lint (0 errors, the same 13 warnings), module case, visual assets (398 files) and
-    typecheck all pass.
-  - Frontend: 514/514.
-  - Backend: 531/532. One timing test, `league-records.test.ts` (background warm-up), hit its
-    20 s timeout under full-suite load. It passes 8/8 when run alone, and this branch changes no
-    backend code.
-  - `npm run build`, run separately because validate stops at the first failure, passes.
-- **Not run (left for Codex):** the Playwright e2e suite, `npm audit`, and the production
-  (4310) and offline (4320) demos.
-- **Stale docs:** the visual-asset docs (`ASSET_INVENTORY.md`, `INTEGRATION_REPORT.md`) predate
-  the Kyrie swap and the two scenes. `docs/visual-assets/asset-map.json` is current.
+- **Kyrie Irving.** `NBA_ASSETS/NEWKYRIEPLAYERIMAGE.jpg` became
+  `/images/players/action/irving-{640,960,1500}.webp`, his profile photo.
+- **Scenes.** Three sources became section scenes. Their registry is
+  `frontend/src/ui/sceneImageData.ts`, generated by the `SCENES` list in
+  `scripts/assets/build_visual_assets.py`.
+  - `NBA_ASSETS/UpgradedKyrie.png` → `/images/scenes/kyrie-matchup-{640,960,1536}.webp`.
+  - `NBA_ASSETS/kobetoshaq…sectionimage.png` → `/images/scenes/kobe-shaq-{800,1200,1672}.webp`.
+  - `NBA_ASSETS/buzzerbeater.webp` → `/images/scenes/kawhi-buzzer-{800,1280,1920}.webp`.
+- **Docs updated.** `ASSET_INVENTORY.md`, `INTEGRATION_REPORT.md`, `IMAGE_QUALITY_AUDIT.md` and
+  `asset-map.json` are current.
+
+## Tests (final full runs)
+
+- `validate`:
+  - Format, lint (0 errors), module case, visual assets (401 files), typecheck and build pass.
+  - Frontend: 516/516.
+  - Backend: 531/532. One 20 s timeout under load; the test passes 8/8 alone, and there are no
+    backend changes on this branch.
+- e2e: 216 passed, 73 skipped, 1 failed. The failure is a desktop a11y contrast check on
+  player-career, reported once under load; it passes 2/2 when run alone.
+- `npm audit` and `npm audit --omit=dev`: 0 and 0 vulnerabilities.
+- Production build (4310) and offline simulation (4320): 8 routes at 1440 and 390 px with no
+  broken images, failed requests, external requests or overflow.
+
+## Known limitations
+
+- **Timing flakes.** Two tests can time out when the whole suite runs at once (see above). Neither
+  is caused by this branch.
+- **Fixture data.** NBA.com did not respond from this machine. Visual checks used the fixture
+  backend, and the 74-game log was checked with fixture data enlarged in the page.
+- **Image rights.** The scene photographs carry no supplied licence metadata. Publishing them is
+  the owner's decision, as recorded in `docs/visual-assets`.
 
 ## Exact next action
 
-1. Supply the Kawhi buzzer-beater photograph if P3 is still wanted.
-2. Otherwise, review the six commits on `claude/nba-explorer-3-ux-polish` in a browser.
-
-## Remaining tasks for Codex (deliberately untouched)
-
-7. Restore the original moving LandingMarquee ribbon.
-8. Restore the TIP OFF closing section from `main`.
-9. Restore the subtle green pulsing service-status dot.
-10. Slightly shrink the homepage hero typography.
-11. Shorten the comparison description to: "Compare two players, explore their numbers and career
-    arcs, then share the matchup."
-12. Restore the old condensed sports font on COMPARE TWO PLAYERS.
-
-Also for Codex:
-
-- run e2e (the home comparison band now has a photo above the VS mark, and the profile tables
-  start collapsed);
-- run the audits;
-- run the production and offline demos;
-- refresh the two stale visual-asset docs.
+Review `claude/nba-explorer-3-ux-polish` against the screenshots in `docs/visual-polish/screenshots`,
+then decide whether to open a pull request into `main`.
 
 ---
 

@@ -4,6 +4,25 @@ Branch `claude/nba-explorer-3-visual-assets`, cut from the 3.2 release candidate
 (`claude/nba-explorer-3-expansion` at `0e184db`). Nothing was merged or deployed, and the protected
 branches were not touched.
 
+## Update: 3.3 UX polish (branch `claude/nba-explorer-3-ux-polish`)
+
+- **Kyrie Irving (202681).**
+  - His profile photo is now `NEWKYRIEPLAYERIMAGE.jpg`, a free-throw-line portrait that frames his
+    face at every width.
+  - His previous photo, the on-court matchup against a Brooklyn Nets defender, became the
+    `kyrie-matchup` scene above the VS mark in the home head-to-head band. Its alt text does not
+    name the unidentified defender.
+- **Scenes.** Section imagery that is not a player's profile photo has its own generated registry,
+  `frontend/src/ui/sceneImageData.ts` (`getSceneImage(slug)`).
+  - It is built by the `SCENES` list in `scripts/assets/build_visual_assets.py`.
+  - `scripts/check-visual-assets.mjs` checks it, including dimensions and orphan files.
+- **`kobe-shaq`** sits in the `/history` header, on the all-seasons index only, captioned. It is
+  never shown on a single season, so it is not read as that season's result.
+- **`kawhi-buzzer`** sits in the `/games` scoreboard header, captioned as editorial imagery, never
+  the date or game on screen.
+- The other 72 player photo mappings are unchanged.
+- Details and screenshots: [`docs/visual-polish/FINAL_POLISH_REPORT.md`](../visual-polish/FINAL_POLISH_REPORT.md).
+
 ## Summary
 
 | Measure                      | Value                                                                                     |

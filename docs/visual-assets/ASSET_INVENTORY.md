@@ -36,7 +36,7 @@ the upgraded photos and the site photos they were made from.
 | `UpgradedJokic.png`              | 1536×1024 | 2,080 KB | accepted | Nikola Jokic (203999); replaces jokic.webp                                                                                                 |
 | `UpgradedKD.png`                 | 1536×1024 | 2,020 KB | rejected | Kevin Durant: AI over-texturing and haloing on the face; the existing 5000 px original is sharper and natural, so it was kept (re-encoded) |
 | `UpgradedKawhi.png`              | 1672×941  | 2,263 KB | accepted | Kawhi Leonard (202695); replaces kawhi-leonard.jpg (JPEG blur)                                                                             |
-| `UpgradedKyrie.png`              | 1536×1024 | 2,218 KB | accepted | Kyrie Irving (202681) main photo: new subject                                                                                              |
+| `UpgradedKyrie.png`              | 1536×1024 | 2,218 KB | accepted | Kyrie Irving matchup scene in the home head-to-head band (`/images/scenes/kyrie-matchup-*.webp`); his profile photo until 3.3              |
 | `UpgradedLebrondunk.png`         | 1254×1254 | 2,068 KB | accepted | LeBron James (2544) main photo; replaces lebron-dunk.avif                                                                                  |
 | `UpgradedLuka.png`               | 1436×1095 | 2,021 KB | accepted | Luka Doncic (1629029); replaces luka-doncic.jpg                                                                                            |
 | `UpgradedSteph.png`              | 1536×1024 | 1,850 KB | accepted | Stephen Curry portrait alternate and face thumbnail (new photo)                                                                            |
@@ -200,6 +200,22 @@ mark (a ball badge) that renders cropped. None of the SVGs are used.
 | `nba-logo.png`                 | 180×386   |  16 KB | kept                 | site header mark, unchanged                                    |
 | `shai-gilgeous-alexander.webp` | 1067×1600 | 112 KB | kept as build source | no upgrade supplied; moved to scripts/assets/originals         |
 | `wembanyama-hero.webp`         | 1140×760  |  83 KB | replaced             | superseded by the supplied upgrade; removed from public/images |
+
+## Added in the 3.3 UX polish (2026-10-17)
+
+Three more supplied images, all decoded and checked. Built by the same pipeline: profile photos go
+in `ACTION` and section imagery in `SCENES`, with outputs listed in
+[`asset-map.json`](asset-map.json).
+
+| File                                                            | Size           |    Bytes | SHA-256 (first 12) | Decision | Production files                                                                                                    |
+| --------------------------------------------------------------- | -------------- | -------: | ------------------ | -------- | ------------------------------------------------------------------------------------------------------------------- |
+| `NEWKYRIEPLAYERIMAGE.jpg`                                       | 1500×1000 JPEG |   135 KB | `6414f2a66508`     | accepted | Kyrie Irving (202681) profile photo: `/images/players/action/irving-{640,960,1500}.webp` (33, 57, 113 KB)           |
+| `kobetoshaquseastheimageforthehistoricalseasonsectionimage.png` | 1672×941 PNG   | 2,658 KB | `92f89d213915`     | accepted | Season navigator header (`/history` index only): `/images/scenes/kobe-shaq-{800,1200,1672}.webp` (113, 200, 299 KB) |
+| `buzzerbeater.webp`                                             | 2519×1889 WebP |   633 KB | `bed5b78a840d`     | accepted | Scoreboard (`/games`) header: `/images/scenes/kawhi-buzzer-{800,1280,1920}.webp` (91, 204, 420 KB)                  |
+
+`UpgradedKyrie.png` is no longer Kyrie Irving's profile photo. It is kept as the `kyrie-matchup`
+scene (`/images/scenes/kyrie-matchup-{640,960,1536}.webp`). Kawhi Leonard's profile photo
+(`UpgradedKawhi.png`) is unchanged.
 
 ## Supplied but not present
 
