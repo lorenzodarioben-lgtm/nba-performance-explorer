@@ -322,7 +322,12 @@
 @media (max-width: 1180px) {
   .mast__search {
     min-width: 0;
+    width: 38px;
+    padding: 0;
+    justify-content: center;
+    flex: none;
   }
+  .mast__search-label,
   .mast__search .kbd,
   .mast__mine span {
     display: none;

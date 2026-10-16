@@ -148,9 +148,6 @@ function GameLogChart({
   );
 }
 
-/** Games shown before the log is opened; the chart above always covers the whole season. */
-const GAME_PREVIEW = 6;
-
 function highlightIndex(games: PlayerGame[], highlight: string | null): number | null {
   if (highlight === null) return null;
   const index = games.findIndex((game) => game.id === highlight);
@@ -206,7 +203,6 @@ export function PlayerGameLog({
         <RowCollapse
           key={season}
           total={gameLogQuery.data.games.length}
-          preview={GAME_PREVIEW}
           noun="games"
           reveal={highlightIndex(gameLogQuery.data.games, highlight)}
         >

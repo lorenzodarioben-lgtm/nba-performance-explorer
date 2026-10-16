@@ -25,7 +25,7 @@ function prefersReducedMotion(): boolean {
  */
 export function RowCollapse({
   total,
-  preview,
+  preview = 7,
   noun,
   reveal = null,
   children,
@@ -33,7 +33,7 @@ export function RowCollapse({
   /** Every row in the table. */
   total: number;
   /** Rows shown while collapsed. */
-  preview: number;
+  preview?: number;
   /** Plural name for the rows, used in the button: "games", "seasons". */
   noun: string;
   /** A row index that must be visible; a hidden one opens the table. */
@@ -41,8 +41,7 @@ export function RowCollapse({
   /** Renders the table; rows at or after `visibleRows` must be `hidden`. */
   children: (visibleRows: number) => ReactNode;
 }) {
-  // Hiding a single row saves nothing, so a table at most one row over the preview stays open.
-  const collapsible = total > preview + 1;
+  const collapsible = total > preview;
   const [open, setOpen] = useState(false); // what the button says and the fade shows
   const [rowsShown, setRowsShown] = useState(false); // whether the extra rows are in the table
   const bodyRef = useRef<HTMLDivElement>(null);

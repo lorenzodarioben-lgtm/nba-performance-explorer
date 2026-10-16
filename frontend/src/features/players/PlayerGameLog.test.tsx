@@ -120,6 +120,23 @@ async function getSeasonSelect(): Promise<HTMLSelectElement> {
 }
 
 describe('player game log', () => {
+  it('previews seven games and reveals the full fixture log', async () => {
+    const games = Array.from({ length: 12 }, (_, i) => ({
+      ...currentGames[0],
+      id: `layout-game-${i}`,
+      date: `2024-04-${String(20 - i).padStart(2, '0')}`,
+    }));
+    server.use(
+      http.get(gamesUrl, () => HttpResponse.json({ season: '2023-24', games })),
+    );
+    renderApp('/players/2544');
+    const table = await screen.findByRole('table', {
+      name: 'Game log for the 2023-24 season.',
+    });
+    expect(within(table).getAllByRole('rowheader')).toHaveLength(7);
+    fireEvent.click(screen.getByRole('button', { name: 'View all 12 games' }));
+    expect(within(table).getAllByRole('rowheader')).toHaveLength(12);
+  });
   it('requests the routed player and effective season without adding another selector', async () => {
     let requestedPlayerId = '';
     let requestedSeason = '';

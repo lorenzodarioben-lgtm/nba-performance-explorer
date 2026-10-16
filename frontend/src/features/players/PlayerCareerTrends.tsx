@@ -39,12 +39,9 @@ function buildTrendRows(seasons: PlayerSeasonStats[]): TrendRow[] {
   }));
 }
 
-/** Seasons shown before the table is opened; the chart above always covers the whole career. */
-const SEASON_PREVIEW = 5;
-
 function TrendTable({ rows }: { rows: TrendRow[] }) {
   return (
-    <RowCollapse total={rows.length} preview={SEASON_PREVIEW} noun="seasons">
+    <RowCollapse total={rows.length} noun="seasons">
       {(visibleRows) => <TrendRows rows={rows} visibleRows={visibleRows} />}
     </RowCollapse>
   );

@@ -5,7 +5,7 @@ import { RowCollapse } from './RowCollapse';
 
 function Table({ total, reveal = null }: { total: number; reveal?: number | null }) {
   return (
-    <RowCollapse total={total} preview={6} noun="games" reveal={reveal}>
+    <RowCollapse total={total} noun="games" reveal={reveal}>
       {(visibleRows) => (
         <table>
           <tbody>
@@ -25,8 +25,8 @@ describe('RowCollapse', () => {
   it('shows a preview, then every row, then the preview again', async () => {
     render(<Table total={20} />);
     const table = screen.getByRole('table');
-    expect(within(table).getAllByRole('rowheader')).toHaveLength(6);
-    expect(screen.getByText('6 of 20 games')).toBeInTheDocument();
+    expect(within(table).getAllByRole('rowheader')).toHaveLength(7);
+    expect(screen.getByText('7 of 20 games')).toBeInTheDocument();
 
     const toggle = screen.getByRole('button', { name: 'View all 20 games' });
     expect(toggle).toHaveAttribute('aria-expanded', 'false');
@@ -42,19 +42,30 @@ describe('RowCollapse', () => {
     fireEvent.click(toggle);
     expect(toggle).toHaveAttribute('aria-expanded', 'false');
     await waitFor(() =>
-      expect(within(table).getAllByRole('rowheader')).toHaveLength(6),
+      expect(within(table).getAllByRole('rowheader')).toHaveLength(7),
     );
   });
 
-  it('leaves a table that is barely over the preview open, with no button', () => {
+  it('leaves exactly seven rows open, with no button', () => {
     render(<Table total={7} />);
     expect(screen.getAllByRole('rowheader')).toHaveLength(7);
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
+  it('shows fewer than seven naturally and collapses even an eighth row', () => {
+    const { rerender } = render(<Table total={4} />);
+    expect(screen.getAllByRole('rowheader')).toHaveLength(4);
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    rerender(<Table total={8} />);
+    expect(screen.getAllByRole('rowheader')).toHaveLength(7);
+    expect(
+      screen.getByRole('button', { name: 'View all 8 games' }),
+    ).toBeInTheDocument();
+  });
+
   it('opens when a hidden row is selected elsewhere', () => {
     const { rerender } = render(<Table total={20} reveal={3} />);
-    expect(screen.getAllByRole('rowheader')).toHaveLength(6);
+    expect(screen.getAllByRole('rowheader')).toHaveLength(7);
     rerender(<Table total={20} reveal={14} />);
     expect(screen.getAllByRole('rowheader')).toHaveLength(20);
     expect(screen.getByRole('button', { name: 'Show less' })).toBeInTheDocument();

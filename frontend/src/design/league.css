@@ -721,7 +721,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 62% 65% !important;
+  object-position: 62% 65%;
   filter: saturate(0.85) contrast(1.08);
 }
 .gameshot::after {
@@ -747,7 +747,7 @@
     left: 16px;
   }
   .gameshot img {
-    object-position: 60% 65% !important;
+    object-position: 60% 65%;
   }
   .gameshot::after {
     background: linear-gradient(

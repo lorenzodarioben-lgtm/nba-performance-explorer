@@ -317,6 +317,72 @@
   }
 }
 
+/* No verified photograph: an editorial identity block instead of a reserved photo stage.
+   These rules are scoped so the photographic hero keeps its existing composition. */
+.phero--plain {
+  min-height: 0;
+  align-items: center;
+}
+.phero--plain .phero__content {
+  padding-block: 48px 32px;
+}
+.phero--plain .phero__name {
+  max-width: 78%;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+}
+.phero--plain .phero__court {
+  width: min(46%, 580px);
+  bottom: -22%;
+  right: 1%;
+  opacity: 0.8;
+}
+.phero--plain .phero__ghost {
+  top: 30px;
+  right: 7%;
+  font-size: clamp(12rem, 23vw, 20rem);
+}
+.phero--plain .phero__shade {
+  background: linear-gradient(
+    90deg,
+    var(--night),
+    rgb(10 10 11 / 0.65) 44%,
+    transparent 78%
+  );
+}
+.phero--plain .phero__glow {
+  background: radial-gradient(
+    ellipse at 85% 80%,
+    rgb(185 28 28 / 0.15),
+    transparent 60%
+  );
+}
+.phero--plain .phero__bio {
+  margin-top: 24px;
+}
+.phero--plain .phero__actions {
+  margin-top: 24px;
+}
+@media (max-width: 760px) {
+  .phero--plain .phero__content {
+    padding-block: 32px 28px;
+  }
+  .phero--plain .phero__name {
+    max-width: 100%;
+    font-size: clamp(3rem, 12.5vw, 5rem);
+  }
+  .phero--plain .phero__court {
+    width: 80%;
+    right: -24%;
+    bottom: -6%;
+    opacity: 0.5;
+  }
+  .phero--plain .phero__ghost {
+    font-size: 10rem;
+    top: 24px;
+    right: 3%;
+  }
+}
+
 /* --------------------------------------------------------- profile body */
 
 .pprofile__body {

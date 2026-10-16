@@ -1,5 +1,5 @@
 import { motion, useInView, useScroll, useTransform } from 'motion/react';
-import { useEffect, useRef, type ReactNode, type RefObject } from 'react';
+import { useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
 
 import type { PlayerProfile } from '@nba-performance-explorer/contracts';
 
@@ -81,7 +81,9 @@ export function PlayerProfileHero({
   headingRef: RefObject<HTMLHeadingElement | null>;
   actions?: ReactNode;
 }) {
-  const image = getPlayerImage(profile.id);
+  const registeredImage = getPlayerImage(profile.id);
+  const [failedSource, setFailedSource] = useState<string | null>(null);
+  const image = registeredImage?.src === failedSource ? undefined : registeredImage;
   const rows = buildProfileRows(profile);
   const jersey = profile.jerseyNumber;
   const allowed = useMotionAllowed();
@@ -139,6 +141,7 @@ export function PlayerProfileHero({
               alt={image.alt}
               fetchPriority="high"
               decoding="async"
+              onError={() => setFailedSource(image.src)}
               style={{
                 objectPosition: image.objectPosition,
                 ...(allowed ? { x: photoX, y: photoY, scale: scrollScale } : {}),

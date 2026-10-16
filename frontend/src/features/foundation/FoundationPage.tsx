@@ -17,6 +17,7 @@ import { PlayerSearch } from '../player-search/PlayerSearch';
 import { getPlayerImage, getPortraitImage } from '../players/playerImages';
 import { HomePreviews } from './HomePreviews';
 import { LandingMarquee } from './LandingMarquee';
+import { LiquidVersus } from './LiquidVersus';
 import { NewRooms } from './NewRooms';
 import { useHealthQuery } from './useHealthQuery';
 
@@ -247,7 +248,6 @@ function ComparePhoto({ playerId }: { playerId: string }) {
 }
 
 function CompareSection() {
-  const allowed = useMotionAllowed();
   return (
     <section className="homecmp" aria-labelledby="homecmp-title">
       <div className="wrap homecmp__inner">
@@ -255,16 +255,7 @@ function CompareSection() {
           <ComparePhoto playerId={WEMBANYAMA} />
         </Reveal>
         <div className="homecmp__copy">
-          <motion.span
-            className="homecmp__vs"
-            aria-hidden="true"
-            initial={allowed ? { scale: 1.8, opacity: 0 } : false}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 0.7, ease: easings.arena }}
-          >
-            VS
-          </motion.span>
+          <LiquidVersus />
           <Reveal variant="mask">
             <h2 id="homecmp-title" className="homecmp__title">
               Put two players side by side

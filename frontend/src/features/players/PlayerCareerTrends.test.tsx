@@ -76,6 +76,19 @@ function trendTable() {
 }
 
 describe('player career trends', () => {
+  it('previews seven career seasons without shortening the chart', async () => {
+    const seasons = Array.from({ length: 12 }, (_, i) =>
+      statsFor(`${2010 + i}-${String(11 + i).padStart(2, '0')}`),
+    );
+    server.use(http.get(trendsUrl, () => HttpResponse.json({ seasons })));
+    renderApp('/players/2544');
+    await screen.findByText('Career trends');
+    await waitFor(() =>
+      expect(within(trendTable()).getAllByRole('rowheader')).toHaveLength(7),
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'View all 12 seasons' }));
+    expect(within(trendTable()).getAllByRole('rowheader')).toHaveLength(12);
+  });
   it('requests the trends for the routed player', async () => {
     let receivedId = '';
     server.use(

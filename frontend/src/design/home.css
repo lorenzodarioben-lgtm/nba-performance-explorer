@@ -560,17 +560,42 @@
 .homecmp__vs {
   position: relative;
   margin-top: -44px;
-}
-.homecmp__vs {
   display: inline-grid;
   place-items: center;
   width: 88px;
   height: 88px;
   border-radius: 50%;
-  background: var(--red);
-  box-shadow: 0 0 48px var(--red-glow);
   font: 800 2.5rem/1 var(--display);
   color: #fff;
+}
+.homecmp__vs::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 30% 24%, #f45b48, #d02a2a 45%, #9d101b 85%);
+  box-shadow:
+    inset 0 1px 2px rgb(255 194 166 / 0.5),
+    0 5px 26px rgb(228 39 37 / 0.23);
+}
+.homecmp__vs[data-liquid='ready']::before {
+  opacity: 0;
+}
+.homecmp__liquid {
+  position: absolute;
+  width: 152px;
+  height: 152px;
+  left: -32px;
+  top: -32px;
+  pointer-events: none;
+  opacity: 0;
+}
+.homecmp__vs[data-liquid='ready'] .homecmp__liquid {
+  opacity: 1;
+}
+.homecmp__vs-label {
+  position: relative;
+  pointer-events: none;
 }
 .homecmp__title {
   margin: 22px 0 0;

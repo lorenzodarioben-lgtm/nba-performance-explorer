@@ -50,7 +50,6 @@ function ScoreboardBackdrop() {
         alt={BUZZER.alt}
         fetchPriority="high"
         decoding="async"
-        style={{ objectPosition: BUZZER.objectPosition }}
       />
     </figure>
   );
