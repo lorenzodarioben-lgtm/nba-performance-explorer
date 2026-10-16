@@ -1,3 +1,116 @@
+# Homepage refinement — owner correction pass
+
+READY FOR OWNER REVIEW · 17 October 2026 · `codex/nba-explorer-final-polish`
+
+This focused pass starts from `bfb241c` and addresses the four subsequent homepage
+corrections. The commit containing this report update is the delivery commit; resolve it
+with `git log -1 --oneline`. The earlier eleven-item polish record is retained below.
+
+## Changes and fidelity
+
+| Correction                        | Implementation                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Approved home comparison restored | `home.css` restores the original 88 × 88px native CSS circle, `#b91c1c` fill, white 40px Saira Condensed VS and `0 0 48px var(--red-glow)` shadow from `5cc481a`. The section, Wembanyama/LeBron imagery, relative geometry, line breaks, copy, button and hover/focus styles are unchanged. No Kyrie image appears in this section.                                                                                                                             |
+| Refined homepage search           | Homepage-scoped rules use translucent charcoal at 58% opacity, a 1px restrained border, 3px corners, 16px icon, 54px input height and a modest 4px backdrop blur. Hover and focus retain transparency and visible edges. The homepage placeholder is “Search by player name”; the shared combobox keeps its existing default elsewhere. Search queries, states, keyboard navigation and selection are unchanged. Masthead and other search styles are untouched. |
+| Slightly wider visible hero bleed | Earlier opacity stops in both horizontal masks and a lighter, earlier horizontal shade reveal more detail to the left. Image frame width, source, object-fit, focal point, responsive assets and crop are unchanged. The previously approved 4% headline reduction and existing motion remain. Mobile retains its original bottom mask and image frame.                                                                                                          |
+| Smaller solid status core         | The exact `#50f493` core is now a centred 7px pseudo-element: 30% smaller in diameter. Its inset highlight moves with it. The existing 10px indicator footprint carries the same outer shadows; the 20px ring, colour, opacity, easing and 2.8-second timing are unchanged. Connecting, unavailable and reduced-motion logic are untouched.                                                                                                                      |
+
+Relevant application files: `frontend/src/design/home.css`,
+`frontend/src/features/foundation/LiquidVersus.tsx`, `FoundationPage.tsx`,
+`frontend/src/features/player-search/PlayerSearch.tsx` and `PlayerCombobox.tsx`.
+No dependency, registry, NBA data, other-page layout or deployment changes.
+
+## Liquid interaction preserved
+
+`liquidModel.ts` is unchanged. The same 64-node velocity-sensitive, directional surface
+simulation supplies only the contour. Canvas now uses the original flat red with no
+specular lighting, extra halo or texture. During interaction the CSS fill gives way to
+that contour; at rest, the native original CSS circle takes over exactly. The white
+HTML label is stationary. Bounded integration, swept pointer bounds, passive listeners,
+DPR cap, idle stop, offscreen/hidden-tab stop and cleanup remain.
+
+The real Chromium mouse check measured slow/fast deformation of **37,981 / 202,056**
+alpha-difference units (5.32×) in the focused run. It also verifies no movement in the
+VS label, heading or images, recovery to the original CSS surface, no idle drawing,
+whole-object cursor jumps, offscreen pause, reduced motion and the working comparison
+CTA. The unit physics tests cover reversed direction and return to the circular boundary.
+Touch and reduced motion use the original static circle; a missing canvas also falls back.
+
+## Browser comparison and evidence
+
+Captured the working pre-correction state, the revised homepage and the actual archived
+`5cc481a` comparison in Chromium at **1920 × 1080, 1440 × 900, 1024 × 900 and 390 × 844**.
+The archived source used the same public assets and fixture API. Its temporary source
+copy and asset/dependency junctions were removed after capture.
+
+All measured comparison geometry and styles match the baseline at every width. The
+88px circle pixels match exactly at 1920, 1440 and 1024px. At 390px, an element-screenshot
+crop rounds one pixel differently; after accounting for that offset, mean channel
+difference is 0.000904 on a 0–255 scale. Whole-section images are pixel-identical at
+1920 and 1024px. At 1440px only the LeBron image has minor browser raster differences;
+at mobile the crop origin differs by one pixel. These are capture differences, with
+identical measured component geometry. See [comparison measurements](screenshots/home-refinement/baseline-comparison.json).
+
+All four homepage sizes were visually reviewed: the hero face remains dominant, the
+headline legible, the feather smooth, search text and results readable, and the smaller
+LED equally lively. Each size has zero horizontal page overflow and no console or
+uncaught page errors. At a paused 1.4-second pulse phase, the outer shadow and ring
+computed values are exactly unchanged at all four widths.
+
+All before/after files are in [`screenshots/home-refinement`](screenshots/home-refinement).
+Each viewport has hero, empty/focused/typed/results search, status and comparison captures.
+
+| Evidence                  | Before / approved                                                                                                                                         | After                                                                      |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Hero, 1440px              | [Before](screenshots/home-refinement/before-hero-1440.png)                                                                                                | [After](screenshots/home-refinement/after-hero-1440.png)                   |
+| Hero, 1920px              | [Before](screenshots/home-refinement/before-hero-1920.png)                                                                                                | [After](screenshots/home-refinement/after-hero-1920.png)                   |
+| Hero, tablet              | [Before](screenshots/home-refinement/before-hero-1024.png)                                                                                                | [After](screenshots/home-refinement/after-hero-1024.png)                   |
+| Hero, mobile              | [Before](screenshots/home-refinement/before-hero-390.png)                                                                                                 | [After](screenshots/home-refinement/after-hero-390.png)                    |
+| Empty search              | [Before](screenshots/home-refinement/before-search-empty-1440.png)                                                                                        | [After](screenshots/home-refinement/after-search-empty-1440.png)           |
+| Focused search            | [Before](screenshots/home-refinement/before-search-focused-1440.png)                                                                                      | [After](screenshots/home-refinement/after-search-focused-1440.png)         |
+| Typed search              | [Before](screenshots/home-refinement/before-search-typed-1440.png)                                                                                        | [After](screenshots/home-refinement/after-search-typed-1440.png)           |
+| Open results              | [Before](screenshots/home-refinement/before-search-results-1440.png)                                                                                      | [After](screenshots/home-refinement/after-search-results-1440.png)         |
+| Core and preserved halo   | [Before](screenshots/home-refinement/before-status-1440.png)                                                                                              | [After](screenshots/home-refinement/after-status-1440.png)                 |
+| Home comparison           | [Before correction](screenshots/home-refinement/before-comparison-1440.png), [approved 5cc481a](screenshots/home-refinement/approved-comparison-1440.png) | [Restored](screenshots/home-refinement/after-comparison-1440.png)          |
+| Actual cursor interaction | [Original resting circle](screenshots/home-refinement/approved-comparison-1440.png)                                                                       | [Moving contour](screenshots/home-refinement/after-cursor-interaction.png) |
+
+Reproduce working/final captures with the fixture backend running:
+`node scripts/capture-home-refinement.mjs before` or `after`. The `approved` phase expects
+an archived `5cc481a` frontend on port 5174. Set `PW_CHROMIUM_PATH` for a non-default browser.
+`e2e/final-polish.spec.ts` accepts `POLISH_EVIDENCE_DIR` so new runs preserve the earlier
+pass's historical captures.
+
+## Verification and boundaries
+
+Focused component/physics tests: **31/31 passed**. Focused browser suite: **13 passed,
+1 intentional touch skip, zero failures**. `npm run validate` completed with exit 0:
+formatting, lint (zero errors, the same 13 existing warnings), module casing, visual assets,
+TypeScript, **527 frontend tests**, **532 backend tests** and both production builds passed.
+The separate `npm run check:visual-assets` passed: 401 files, 73 players, 45 team marks and
+1,257 matched team-seasons. `npm run e2e` completed with exit 0: **230 passed,
+74 intentionally skipped, zero failed**, in 6.9 minutes. Skips are the 73 duplicate
+mobile axe cases and the desktop-only mouse simulation on touch. The full-run mouse
+check recorded slow/fast disturbance of 27,631 / 213,533, with idle rendering stopped.
+[Validation log](verification/home-refinement-validate.txt),
+[asset log](verification/home-refinement-assets.txt),
+[E2E log](verification/home-refinement-e2e.txt).
+
+No new hook suppressions. The three previously triaged baseline side accents remain
+intentional and retain their existing narrow file-scoped exceptions; this pass does not
+modify them or their configuration.
+
+Verification uses the explicit fixture provider and bundled archives, not live NBA.com
+connectivity. Hardware-specific touch/GPU performance was not measured. The liquid remains
+a bounded surface-wave simulation. Main, other branches, source imagery, dependencies,
+route structure and deployment configuration are unchanged. No merge, deployment or PR.
+
+**Next action:** review the four homepage corrections on this feature branch, starting with
+the resting VS comparison and then a gentle/fast mouse pass through the circle.
+
+---
+
+## Previous cinematic polish record (preserved)
+
 # NBA Performance Explorer — final cinematic polish
 
 READY FOR OWNER REVIEW · 17 October 2026 · `codex/nba-explorer-final-polish`

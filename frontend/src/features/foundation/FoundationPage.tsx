@@ -148,7 +148,11 @@ function Hero({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null>
         </Reveal>
 
         <Reveal delay={0.7} variant="rise" className="homehero__search">
-          <PlayerSearch tone="dark" className="w-full" />
+          <PlayerSearch
+            tone="dark"
+            className="w-full"
+            placeholder="Search by player name"
+          />
           <ServiceStatus />
         </Reveal>
       </motion.div>

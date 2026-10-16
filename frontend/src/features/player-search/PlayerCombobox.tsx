@@ -68,6 +68,7 @@ interface PlayerComboboxProps {
   // Optional class for the outer container so callers control layout without affecting the
   // combobox internals.
   className?: string;
+  placeholder?: string | undefined;
   // When set, this player id is excluded from selectable results (used to prevent picking the
   // player already chosen in the other comparison slot). If the excluded player is the only
   // match, an accessible "already selected" message is announced.
@@ -85,6 +86,7 @@ export function PlayerCombobox({
   className,
   excludePlayerId,
   tone = 'light',
+  placeholder = 'Enter at least 2 characters',
 }: PlayerComboboxProps) {
   const t = TONES[tone];
   const generatedId = useId().replaceAll(':', '');
@@ -210,7 +212,7 @@ export function PlayerCombobox({
               : undefined
           }
           className="searchfield w-full"
-          placeholder="Enter at least 2 characters"
+          placeholder={placeholder}
           onBlur={() => {
             setIsOpen(false);
           }}

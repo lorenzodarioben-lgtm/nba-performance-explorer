@@ -8,9 +8,11 @@ import { PlayerCombobox } from './PlayerCombobox';
 export function PlayerSearch({
   tone = 'light',
   className = 'mt-8 max-w-xl',
+  placeholder,
 }: {
   tone?: 'light' | 'dark';
   className?: string;
+  placeholder?: string;
 }) {
   const navigate = useNavigate();
 
@@ -19,6 +21,7 @@ export function PlayerSearch({
       label="Search NBA players"
       tone={tone}
       className={className}
+      placeholder={placeholder}
       onSelect={(player) => {
         navigate(`/players/${encodeURIComponent(player.id)}`);
       }}

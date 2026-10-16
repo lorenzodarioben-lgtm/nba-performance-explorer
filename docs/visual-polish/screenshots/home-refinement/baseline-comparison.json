@@ -1,0 +1,46 @@
+[
+  {
+    "width": 1920,
+    "comparisonStylesAndGeometryMatch": true,
+    "approvedScreenshotSize": [1920, 649],
+    "finalScreenshotSize": [1920, 649],
+    "restingCircleMeanChannelDifference": 0.0,
+    "screenshotCropRoundingOffsetY": 0,
+    "circleDifferenceBounds": null,
+    "horizontalOverflow": 0,
+    "browserErrors": []
+  },
+  {
+    "width": 1440,
+    "comparisonStylesAndGeometryMatch": true,
+    "approvedScreenshotSize": [1440, 649],
+    "finalScreenshotSize": [1440, 649],
+    "restingCircleMeanChannelDifference": 0.0,
+    "screenshotCropRoundingOffsetY": 0,
+    "circleDifferenceBounds": null,
+    "horizontalOverflow": 0,
+    "browserErrors": []
+  },
+  {
+    "width": 1024,
+    "comparisonStylesAndGeometryMatch": true,
+    "approvedScreenshotSize": [1024, 543],
+    "finalScreenshotSize": [1024, 543],
+    "restingCircleMeanChannelDifference": 0.0,
+    "screenshotCropRoundingOffsetY": 0,
+    "circleDifferenceBounds": null,
+    "horizontalOverflow": 0,
+    "browserErrors": []
+  },
+  {
+    "width": 390,
+    "comparisonStylesAndGeometryMatch": true,
+    "approvedScreenshotSize": [390, 651],
+    "finalScreenshotSize": [390, 652],
+    "restingCircleMeanChannelDifference": 0.0009039256198347108,
+    "screenshotCropRoundingOffsetY": 1,
+    "circleDifferenceBounds": [0, 1, 88, 85],
+    "horizontalOverflow": 0,
+    "browserErrors": []
+  }
+]

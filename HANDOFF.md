@@ -1,3 +1,51 @@
+# Homepage refinement — latest handoff
+
+17 October 2026 · `codex/nba-explorer-final-polish` · correction pass from `bfb241c`.
+Resolve the delivery commit with `git log -1 --oneline` (the commit containing this update).
+The prior cinematic-polish handoff remains below as history.
+
+- **Four corrections implemented:** original home comparison appearance from `5cc481a`;
+  homepage-only translucent charcoal search; slightly earlier hero mask/shade fade; 7px
+  green core (30% smaller) inside the existing 10px halo footprint.
+- **Fidelity:** all comparison geometry/styles match at four widths. Resting circle pixels
+  are exact at 1920/1440/1024; mobile differs only at the screenshot crop/antialias level.
+  Same Wembanyama/LeBron composition, typography, line breaks, copy and button. Kyrie stays
+  in `/compare`. Hero source geometry and the approved smaller headline are preserved.
+- **Physics:** `liquidModel.ts` unchanged; flat-red contour only while active, exact native
+  CSS circle at rest. Stationary label; existing velocity/direction response and idle,
+  offscreen, hidden-tab, touch and reduced-motion protections remain.
+- **Status:** exact green and highlight, outer shadows, 20px ring and 2.8s animation retained.
+  Only the centred solid core shrank. Connecting/unavailable logic is unchanged.
+- **Affected files:** `home.css`, `LiquidVersus.tsx`, `FoundationPage.tsx`, `PlayerSearch.tsx`,
+  `PlayerCombobox.tsx`; browser assertions and the dedicated capture script support QA.
+- **Visual checks:** actual Chromium at 1920×1080, 1440×900, 1024×900 and 390×844; empty,
+  focused, typed and results-open search; zero overflow or browser errors. Halo/ring
+  measurements match before/after. Slow/fast mouse disturbance 37,981 / 202,056 in the
+  focused run; label/heading/images fixed, exact recovery and idle pause verified.
+- **Focused tests:** 31 unit tests passed; browser suite 13 passed, 1 intentional touch skip.
+  Full `npm run validate` passed: frontend 527/527, backend 532/532, types, assets and
+  production builds; lint has zero errors and the same 13 existing warnings. Separate
+  asset check passed (401 files). Full `npm run e2e`: **230 passed, 74 intentional skips,
+  zero failures**, 6.9 minutes. Skips: 73 duplicate mobile axe cases and mouse physics on touch.
+- **Evidence/report:** [full correction report](docs/visual-polish/FINAL_POLISH_REPORT.md),
+  [before/after/approved screenshots](docs/visual-polish/screenshots/home-refinement),
+  [baseline measurements](docs/visual-polish/screenshots/home-refinement/baseline-comparison.json).
+- **Limits:** fixture API/bundled archives; production NBA connectivity and physical touch/GPU
+  performance not certified. Same surface-wave simulation. No new dependencies or application assets.
+- **Git boundaries:** same feature branch; main and source UX branch untouched. No PR, merge,
+  deployment or history rewriting. Existing `.claude/` and raw `NBA_ASSETS` stay unstaged.
+  Correction committed and pushed on this feature branch; only pre-existing `.claude/`
+  settings remain untracked. Temporary baseline source/junctions removed. No new hook
+  suppressions; prior intentional
+  side-accent exceptions remain unchanged.
+
+**Exact next action:** owner reviews the four homepage corrections on this feature branch,
+including gentle and fast mouse passes through the restored VS circle.
+
+---
+
+## Previous cinematic polish handoff (preserved)
+
 # NBA Performance Explorer — final cinematic polish (latest)
 
 Owner specification implemented on `codex/nba-explorer-final-polish`, based on the verified

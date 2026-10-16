@@ -5,7 +5,12 @@ import { LiquidModel, type Point } from './liquidModel';
 const SIZE = 152;
 const CENTER = SIZE / 2;
 
-function paint(ctx: CanvasRenderingContext2D, model: LiquidModel, dpr: number) {
+function paint(
+  ctx: CanvasRenderingContext2D,
+  model: LiquidModel,
+  dpr: number,
+  color: string,
+) {
   ctx.setTransform(dpr, 0, 0, dpr, CENTER * dpr, CENTER * dpr);
   ctx.clearRect(-CENTER, -CENTER, SIZE, SIZE);
   const points = model.boundary();
@@ -18,29 +23,10 @@ function paint(ctx: CanvasRenderingContext2D, model: LiquidModel, dpr: number) {
     path.quadraticCurveTo(p.x, p.y, (p.x + next.x) / 2, (p.y + next.y) / 2);
   });
   path.closePath();
-  ctx.save();
-  ctx.shadowColor = 'rgba(228, 39, 37, 0.28)';
-  ctx.shadowBlur = 17;
-  ctx.shadowOffsetY = 5;
-  const body = ctx.createRadialGradient(-17, -23, 2, 5, 8, 65);
-  body.addColorStop(0, '#ff6752');
-  body.addColorStop(0.38, '#e0322c');
-  body.addColorStop(0.73, '#b4141e');
-  body.addColorStop(1, '#740b15');
-  ctx.fillStyle = body;
+  // The simulation changes only the contour. Colour and glow belong to the
+  // original circle; the native CSS surface takes over again at rest.
+  ctx.fillStyle = color;
   ctx.fill(path);
-  ctx.shadowBlur = 0;
-  ctx.shadowOffsetY = 0;
-  ctx.clip(path);
-  ctx.strokeStyle = 'rgba(255, 157, 128, 0.32)';
-  ctx.lineWidth = 2;
-  ctx.stroke(path);
-  const light = ctx.createRadialGradient(-18, -25, 0, -18, -25, 28);
-  light.addColorStop(0, 'rgba(255, 214, 185, 0.28)');
-  light.addColorStop(1, 'rgba(255, 214, 185, 0)');
-  ctx.fillStyle = light;
-  ctx.fillRect(-70, -70, 140, 140);
-  ctx.restore();
 }
 
 /** Decorative liquid surface. No React renders in the animation loop; no idle rendering. */
@@ -62,6 +48,7 @@ export function LiquidVersus() {
     }
     if (!ctx) return;
     const context = ctx;
+    const color = getComputedStyle(host).getPropertyValue('--red').trim();
     const model = new LiquidModel();
     let dpr = 1,
       frame = 0,
@@ -72,7 +59,7 @@ export function LiquidVersus() {
 
     function render() {
       try {
-        paint(context, model, dpr);
+        paint(context, model, dpr, color);
         host!.dataset.liquid = 'ready';
       } catch {
         delete host!.dataset.liquid;

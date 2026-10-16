@@ -1,7 +1,8 @@
 import { mkdirSync } from 'node:fs';
 import { expect, test } from '@playwright/test';
 
-const evidence = 'docs/visual-polish/screenshots/final';
+const evidence =
+  process.env.POLISH_EVIDENCE_DIR ?? 'docs/visual-polish/screenshots/final';
 mkdirSync(evidence, { recursive: true });
 
 test('polished search keeps shortcuts, Escape, keyboard selection and focus', async ({
@@ -20,6 +21,16 @@ test('polished search keeps shortcuts, Escape, keyboard selection and focus', as
     await expect(search).toBeHidden();
   }
   const input = page.getByRole('combobox', { name: 'Search NBA players' });
+  await expect(input).toHaveAttribute('placeholder', 'Search by player name');
+  const heroField = page.locator('.homehero__search .searchfield-wrap');
+  expect(await heroField.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(
+    'rgba(14, 14, 16, 0.58)',
+  );
+  await input.focus();
+  await expect(input).toBeFocused();
+  await expect
+    .poll(() => heroField.evaluate((el) => getComputedStyle(el).backgroundColor))
+    .toBe('rgba(14, 14, 16, 0.72)');
   await input.fill('LeBron');
   await expect(page.getByRole('option', { name: /LeBron James/ })).toBeVisible();
   await input.press('ArrowDown');
@@ -160,6 +171,34 @@ test('liquid surface deforms with real pointer velocity, settles, pauses and fal
   await ball.scrollIntoViewIfNeeded();
   await expect(ball).toHaveAttribute('data-liquid', 'ready');
   await page.waitForTimeout(1200);
+  const originalCircle = {
+    width: '88px',
+    height: '88px',
+    background: 'rgb(185, 28, 28)',
+    shadow: 'rgba(185, 28, 28, 0.32) 0px 0px 48px 0px',
+    color: 'rgb(255, 255, 255)',
+    canvasOpacity: '0',
+  };
+  async function restingStyle() {
+    return ball.evaluate((el) => {
+      const css = getComputedStyle(el);
+      return {
+        width: css.width,
+        height: css.height,
+        background: css.backgroundColor,
+        shadow: css.boxShadow,
+        color: css.color,
+        canvasOpacity: getComputedStyle(el.querySelector('canvas')!).opacity,
+      };
+    });
+  }
+  expect(await restingStyle()).toEqual(originalCircle);
+  const stationary = page.locator(
+    '.homecmp__vs-label, .homecmp__title, .homecmp__photo img',
+  );
+  const positions = await stationary.evaluateAll((elements) =>
+    elements.map((el) => el.getBoundingClientRect().toJSON()),
+  );
   await page
     .locator('.homecmp__liquid')
     .screenshot({ path: `${evidence}/after-liquid-rest.png` });
@@ -210,6 +249,11 @@ test('liquid surface deforms with real pointer velocity, settles, pauses and fal
   await page.waitForTimeout(65);
   const fast = (await sample()).difference;
   expect(fast).toBeGreaterThan(slow * 1.35);
+  expect(
+    await stationary.evaluateAll((elements) =>
+      elements.map((el) => el.getBoundingClientRect().toJSON()),
+    ),
+  ).toEqual(positions);
   await page
     .locator('.homecmp__liquid')
     .screenshot({ path: `${evidence}/after-liquid-fast.png` });
@@ -217,6 +261,7 @@ test('liquid surface deforms with real pointer velocity, settles, pauses and fal
     .locator('.homecmp__copy')
     .screenshot({ path: `${evidence}/after-liquid-swipe.png` });
   await expect(ball).toHaveAttribute('data-active', 'false', { timeout: 6000 });
+  expect(await restingStyle()).toEqual(originalCircle);
   const idle = await sample();
   await page.waitForTimeout(200);
   expect((await sample()).draws).toBe(idle.draws);
@@ -227,6 +272,7 @@ test('liquid surface deforms with real pointer velocity, settles, pauses and fal
   await expect(ball).toHaveAttribute('data-active', 'false');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(ball).not.toHaveAttribute('data-liquid', 'ready');
+  expect(await restingStyle()).toEqual(originalCircle);
   await ball.scrollIntoViewIfNeeded();
   await page.getByRole('link', { name: 'Compare two players', exact: true }).click();
   await expect(page).toHaveURL(/\/compare$/);
@@ -251,6 +297,23 @@ test('brand and confirmed service status provide visible feedback', async ({
     ring: getComputedStyle(dot, '::after').animationName,
   }));
   expect(pulse).toEqual({ core: 'home-status-glow', ring: 'home-status-ring' });
+  const indicator = await page.locator('.home-status__dot').evaluate((dot) => {
+    const area = getComputedStyle(dot),
+      core = getComputedStyle(dot, '::before'),
+      ring = getComputedStyle(dot, '::after');
+    return {
+      area: [area.width, area.height],
+      core: [core.width, core.height, core.backgroundColor],
+      ring: [ring.width, ring.height],
+      duration: [area.animationDuration, ring.animationDuration],
+    };
+  });
+  expect(indicator).toEqual({
+    area: ['10px', '10px'],
+    core: ['7px', '7px', 'rgb(80, 244, 147)'],
+    ring: ['20px', '20px'],
+    duration: ['2.8s', '2.8s'],
+  });
   await brand.focus();
   await expect
     .poll(() => brand.evaluate((el) => getComputedStyle(el, '::after').transform))
