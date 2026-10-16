@@ -1,160 +1,34 @@
 {
- "kind": "nba-stats-shot-league-averages",
- "version": 1,
- "season": "2017-18",
- "scope": "playoffs",
- "source": "NBA.com Stats shotchartdetail, LeagueAverages result set (SeasonType=Playoffs, Season=2017-18, PlayerID=0, TeamID=0, ContextMeasure=FGA)",
- "retrievedAt": "2026-10-16T01:44:06.000Z",
- "responseSha256": "fadb8b64d4edd5f6557874ba37f74796155b626e7b2ba934f232bdc5d0ba408f",
- "games": 82,
- "verification": "Totals equal NBA.com shot-chart detail (13,816 attempts, 6,294 makes) and the archive box scores on all 164 team-game lines (FGA, FGM, 3PA, 3PM); the 20 zone rows equal the detail regrouped.",
- "headers": [
-  "SHOT_ZONE_BASIC",
-  "SHOT_ZONE_AREA",
-  "SHOT_ZONE_RANGE",
-  "FGA",
-  "FGM"
- ],
- "rows": [
-  [
-   "Above the Break 3",
-   "Back Court(BC)",
-   "Back Court Shot",
-   4,
-   0
-  ],
-  [
-   "Above the Break 3",
-   "Center(C)",
-   "24+ ft.",
-   980,
-   322
-  ],
-  [
-   "Above the Break 3",
-   "Left Side Center(LC)",
-   "24+ ft.",
-   1358,
-   447
-  ],
-  [
-   "Above the Break 3",
-   "Right Side Center(RC)",
-   "24+ ft.",
-   1414,
-   494
-  ],
-  [
-   "Backcourt",
-   "Back Court(BC)",
-   "Back Court Shot",
-   41,
-   2
-  ],
-  [
-   "In The Paint (Non-RA)",
-   "Center(C)",
-   "8-16 ft.",
-   713,
-   303
-  ],
-  [
-   "In The Paint (Non-RA)",
-   "Center(C)",
-   "Less Than 8 ft.",
-   1090,
-   388
-  ],
-  [
-   "In The Paint (Non-RA)",
-   "Left Side(L)",
-   "8-16 ft.",
-   151,
-   62
-  ],
-  [
-   "In The Paint (Non-RA)",
-   "Right Side(R)",
-   "8-16 ft.",
-   129,
-   49
-  ],
-  [
-   "Left Corner 3",
-   "Left Side(L)",
-   "24+ ft.",
-   524,
-   213
-  ],
-  [
-   "Mid-Range",
-   "Center(C)",
-   "16-24 ft.",
-   361,
-   160
-  ],
-  [
-   "Mid-Range",
-   "Center(C)",
-   "8-16 ft.",
-   136,
-   51
-  ],
-  [
-   "Mid-Range",
-   "Left Side Center(LC)",
-   "16-24 ft.",
-   334,
-   117
-  ],
-  [
-   "Mid-Range",
-   "Left Side(L)",
-   "8-16 ft.",
-   454,
-   179
-  ],
-  [
-   "Mid-Range",
-   "Left Side(L)",
-   "16-24 ft.",
-   181,
-   42
-  ],
-  [
-   "Mid-Range",
-   "Right Side Center(RC)",
-   "16-24 ft.",
-   386,
-   162
-  ],
-  [
-   "Mid-Range",
-   "Right Side(R)",
-   "16-24 ft.",
-   147,
-   64
-  ],
-  [
-   "Mid-Range",
-   "Right Side(R)",
-   "8-16 ft.",
-   398,
-   160
-  ],
-  [
-   "Restricted Area",
-   "Center(C)",
-   "Less Than 8 ft.",
-   4437,
-   2835
-  ],
-  [
-   "Right Corner 3",
-   "Right Side(R)",
-   "24+ ft.",
-   578,
-   244
+  "kind": "nba-stats-shot-league-averages",
+  "version": 1,
+  "season": "2017-18",
+  "scope": "playoffs",
+  "source": "NBA.com Stats shotchartdetail, LeagueAverages result set (SeasonType=Playoffs, Season=2017-18, PlayerID=0, TeamID=0, ContextMeasure=FGA)",
+  "retrievedAt": "2026-10-16T01:44:06.000Z",
+  "responseSha256": "fadb8b64d4edd5f6557874ba37f74796155b626e7b2ba934f232bdc5d0ba408f",
+  "games": 82,
+  "verification": "Totals equal NBA.com shot-chart detail (13,816 attempts, 6,294 makes) and the archive box scores on all 164 team-game lines (FGA, FGM, 3PA, 3PM); the 20 zone rows equal the detail regrouped.",
+  "headers": ["SHOT_ZONE_BASIC", "SHOT_ZONE_AREA", "SHOT_ZONE_RANGE", "FGA", "FGM"],
+  "rows": [
+    ["Above the Break 3", "Back Court(BC)", "Back Court Shot", 4, 0],
+    ["Above the Break 3", "Center(C)", "24+ ft.", 980, 322],
+    ["Above the Break 3", "Left Side Center(LC)", "24+ ft.", 1358, 447],
+    ["Above the Break 3", "Right Side Center(RC)", "24+ ft.", 1414, 494],
+    ["Backcourt", "Back Court(BC)", "Back Court Shot", 41, 2],
+    ["In The Paint (Non-RA)", "Center(C)", "8-16 ft.", 713, 303],
+    ["In The Paint (Non-RA)", "Center(C)", "Less Than 8 ft.", 1090, 388],
+    ["In The Paint (Non-RA)", "Left Side(L)", "8-16 ft.", 151, 62],
+    ["In The Paint (Non-RA)", "Right Side(R)", "8-16 ft.", 129, 49],
+    ["Left Corner 3", "Left Side(L)", "24+ ft.", 524, 213],
+    ["Mid-Range", "Center(C)", "16-24 ft.", 361, 160],
+    ["Mid-Range", "Center(C)", "8-16 ft.", 136, 51],
+    ["Mid-Range", "Left Side Center(LC)", "16-24 ft.", 334, 117],
+    ["Mid-Range", "Left Side(L)", "8-16 ft.", 454, 179],
+    ["Mid-Range", "Left Side(L)", "16-24 ft.", 181, 42],
+    ["Mid-Range", "Right Side Center(RC)", "16-24 ft.", 386, 162],
+    ["Mid-Range", "Right Side(R)", "16-24 ft.", 147, 64],
+    ["Mid-Range", "Right Side(R)", "8-16 ft.", 398, 160],
+    ["Restricted Area", "Center(C)", "Less Than 8 ft.", 4437, 2835],
+    ["Right Corner 3", "Right Side(R)", "24+ ft.", 578, 244]
   ]
- ]
 }
