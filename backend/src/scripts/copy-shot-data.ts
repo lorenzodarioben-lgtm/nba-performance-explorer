@@ -12,7 +12,7 @@ const files = [
   // The league archive: its index pins every file's digest, so copy the bytes unchanged.
   ...readdirSync(new URL('league/data/', sourceRoot))
     .filter((name) =>
-      /^((extras-)?index\.json|franchises\.json\.gz|\d{4}-\d{2}\.(summary|games|rosters)\.json\.gz)$/.test(
+      /^((extras-)?index\.json|honours\.json|franchises\.json\.gz|\d{4}-\d{2}\.(summary|games|rosters)\.json\.gz)$/.test(
         name,
       ),
     )

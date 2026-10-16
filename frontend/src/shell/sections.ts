@@ -27,6 +27,8 @@ const SEASON_BOOK = new Set([
   'draft',
   'calendar',
   'record-book',
+  'eras',
+  'champions',
 ]);
 
 export const SECTIONS: readonly Section[] = [
@@ -162,6 +164,13 @@ export const SECTIONS: readonly Section[] = [
         blurb:
           'Best single games and seasons since 1983–84, and how each record moved.',
         match: exact('/history/record-book'),
+      },
+      {
+        to: '/history/champions',
+        label: 'Champions and awards',
+        blurb:
+          'Every champion since 1983–84 and the major award winners, checked against two sources.',
+        match: exact('/history/champions'),
       },
       {
         to: '/leaders/recorded',

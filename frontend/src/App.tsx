@@ -97,6 +97,11 @@ const LeagueLineupsPage = lazy(() =>
     default: m.LeagueLineupsPage,
   })),
 );
+const LeagueHonoursPage = lazy(() =>
+  import('./features/league/LeagueHonoursPage').then((m) => ({
+    default: m.LeagueHonoursPage,
+  })),
+);
 const LeagueErasPage = lazy(() =>
   import('./features/league/LeagueErasPage').then((m) => ({
     default: m.LeagueErasPage,
@@ -406,6 +411,10 @@ const ROUTES: readonly { path: string; element: ReactNode }[] = [
   {
     path: '/leaders/teams',
     element: lazyRoute('Loading team rankings…', <LeagueTeamRankingsPage />),
+  },
+  {
+    path: '/history/champions',
+    element: lazyRoute('Loading champions and awards…', <LeagueHonoursPage />),
   },
   {
     path: '/history/eras',

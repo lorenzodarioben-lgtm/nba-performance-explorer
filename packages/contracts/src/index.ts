@@ -35,6 +35,7 @@ export * from './league-games.js';
 export * from './league-players.js';
 export * from './league-eras.js';
 export * from './league-lineups.js';
+export * from './league-honours.js';
 
 export {
   PlayerSearchResponseSchema,

@@ -27,6 +27,7 @@ import type { NbaLiveClient } from './league-live.js';
 import { LeaguePlayers } from './league-players.js';
 import { LeagueEras } from './league-eras.js';
 import { LeagueLineups } from './league-lineups.js';
+import { LeagueHonours } from './league-honours.js';
 
 /** Runs a handler and maps league request errors to their documented status codes. */
 export function respond(res: Response, run: () => unknown) {
@@ -79,6 +80,7 @@ export function createLeagueRouter(
   const players = service ? new LeaguePlayers(service) : undefined;
   const eras = service ? new LeagueEras(service) : undefined;
   const lineups = service ? new LeagueLineups(service, live) : undefined;
+  const honours = service ? new LeagueHonours(service) : undefined;
   router.use((_req, res, next) => {
     if (!service)
       return sendApiError(
@@ -295,6 +297,17 @@ export function createLeagueRouter(
     );
   });
   router.all('/lineups', methodNotAllowedHandler);
+  router.get('/honours', (req, res) => {
+    if (Object.keys(req.query).length)
+      return sendApiError(
+        res,
+        400,
+        'INVALID_LEAGUE_HONOURS',
+        'This endpoint takes no parameters.',
+      );
+    return respond(res, () => honours!.honours());
+  });
+  router.all('/honours', methodNotAllowedHandler);
   router.get('/eras', (req, res) => {
     if (Object.keys(req.query).length)
       return sendApiError(

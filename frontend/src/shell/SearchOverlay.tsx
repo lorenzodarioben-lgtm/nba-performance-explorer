@@ -44,6 +44,8 @@ const KEYWORDS: Record<string, string> = {
     'record book most points game career high single season record progression tied',
   '/lab/lineups/nba':
     'lineups five man units on off net rating offensive defensive rating possessions',
+  '/history/champions':
+    'champions titles finals mvp rookie of the year defensive player sixth man most improved clutch awards',
   '/history/eras':
     'era adjusted cross era compare decades pace three point revolution league average normalized',
   '/leaders/movement':
