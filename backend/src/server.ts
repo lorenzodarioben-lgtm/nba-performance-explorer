@@ -18,6 +18,7 @@ import {
 import { WikiArchiveClient } from './features/wiki-archive/wiki-client.js';
 import { RecordedArchiveProvider } from './features/recorded-archive/recorded-provider.js';
 import { LeagueService } from './features/league/league-service.js';
+import { LeagueHonours } from './features/league/league-honours.js';
 import { NbaLiveClient } from './features/league/league-live.js';
 import { createShotArchiveProvider } from './features/shot-archive/shot-provider.js';
 import { WikipediaAwardsProvider } from './features/history/history-awards-provider.js';
@@ -60,6 +61,7 @@ const wikiClient =
       )
     : new WikiArchiveClient();
 const recordedProvider = new RecordedArchiveProvider();
+const leagueService = new LeagueService();
 const app = createApp(createPlayerProvider(config), {
   playerSource: config.mode,
   historyProvider: new WikidataHistoryProvider(),
@@ -77,7 +79,7 @@ const app = createApp(createPlayerProvider(config), {
     },
   ),
   recordedArchiveProvider: recordedProvider,
-  leagueService: new LeagueService(),
+  leagueService,
   leagueLive: new NbaLiveClient({ timeoutMs: 8000 }),
   shotArchiveProvider: await createShotArchiveProvider(),
   awardsProvider: new WikipediaAwardsProvider(wikiClient),
@@ -103,4 +105,12 @@ app.listen(port, () => {
   console.log(
     `NBA Performance Explorer API listening on http://localhost:${port} (provider: ${config.mode})`,
   );
+  // Derive the champions once in the background, so the first visitor does not wait for it.
+  setTimeout(() => {
+    try {
+      new LeagueHonours(leagueService).honours();
+    } catch {
+      // A missing honours file is reported by the route itself.
+    }
+  }, 1000).unref();
 });

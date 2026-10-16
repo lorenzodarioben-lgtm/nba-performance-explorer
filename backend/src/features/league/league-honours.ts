@@ -16,8 +16,11 @@ import {
 } from './league-honours-data.js';
 import { LeagueRequestError, teamRef, type LeagueService } from './league-service.js';
 
+// Champions are derived by reading every season's games, so the result is shared by every
+// LeagueHonours over the same archive (the server warms it once at start-up).
+const shared = new WeakMap<object, LeagueHonoursResponse>();
+
 export class LeagueHonours {
-  private cached: LeagueHonoursResponse | null = null;
   private readonly file: HonoursFile | null;
 
   constructor(
@@ -32,11 +35,6 @@ export class LeagueHonours {
   }
 
   honours(): LeagueHonoursResponse {
-    if (this.cached)
-      return {
-        ...this.cached,
-        provenance: { ...this.cached.provenance, servedAt: new Date().toISOString() },
-      };
     const archive = this.league.archive;
     const franchises = this.extras.franchises();
     if (!this.file || !franchises)
@@ -45,6 +43,12 @@ export class LeagueHonours {
         'LEAGUE_HONOURS_UNAVAILABLE',
         'The honours archive is not installed on this server.',
       );
+    const hit = shared.get(archive);
+    if (hit)
+      return {
+        ...hit,
+        provenance: { ...hit.provenance, servedAt: new Date().toISOString() },
+      };
     const file = this.file;
     const champions: LeagueHonoursResponse['champions'] = [];
     const unsettled: string[] = [];
@@ -172,7 +176,7 @@ export class LeagueHonours {
         ],
       },
     });
-    this.cached = response;
+    shared.set(archive, response);
     return response;
   }
 }
