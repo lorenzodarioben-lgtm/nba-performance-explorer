@@ -96,6 +96,7 @@ describe('historical navigator', () => {
       }),
     );
     renderApp('/history?from=1990&to=2005');
+    fireEvent.click(await screen.findByText('View all 2 season records'));
     await screen.findByRole('table');
     fireEvent.change(screen.getByLabelText('Champion source entity'), {
       target: { value: 'wd:Q10' },
@@ -106,6 +107,87 @@ describe('historical navigator', () => {
     expect(screen.getByText(/source seasons lack/)).toHaveTextContent(
       '1 source seasons lack champion statements',
     );
+  });
+  it('derives the range from returned records and switches accessible decade chapters', async () => {
+    server.use(
+      http.get('http://localhost/api/history/seasons', () => HttpResponse.json(body)),
+    );
+    renderApp('/history');
+    expect(
+      await screen.findByText('2 matching seasons · 1999–00 to 2001–02'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('DEMO FIXTURES — not real NBA results'),
+    ).toBeInTheDocument();
+    const chapters = screen.getByRole('navigation', { name: 'Explore decades' });
+    expect(
+      within(chapters).getByRole('button', { name: '1990s · 1 season' }),
+    ).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.click(within(chapters).getByRole('button', { name: '2000s · 1 season' }));
+    expect(
+      screen.getByRole('link', {
+        name: '2001-02 season: champion unavailable in source',
+      }),
+    ).toHaveAttribute('href', '/history/2001-02');
+    expect(screen.getByRole('button', { name: 'Next decade' })).toBeDisabled();
+    fireEvent.click(screen.getByRole('button', { name: 'Previous decade' }));
+    expect(
+      screen.getByRole('link', {
+        name: '1999-00 season: Fixture modern franchise name',
+      }),
+    ).toHaveAttribute('href', '/history/1999-00');
+    expect(screen.getByRole('table').closest('details')).not.toHaveAttribute('open');
+    fireEvent.click(screen.getByText('View all 2 season records'));
+    expect(screen.getByRole('table').closest('details')).toHaveAttribute('open');
+    expect(screen.getByRole('table')).toBeVisible();
+    expect(
+      within(screen.getByRole('table')).getByRole('link', {
+        name: 'Fixture modern franchise name',
+      }),
+    ).toHaveAttribute('href', 'https://www.wikidata.org/wiki/Q10');
+  });
+  it('resets URL filters and input values together without changing source meanings', async () => {
+    let last = '';
+    server.use(
+      http.get('http://localhost/api/history/seasons', ({ request }) => {
+        last = new URL(request.url).search;
+        return HttpResponse.json(body);
+      }),
+    );
+    renderApp('/history?from=1990&to=2005&champion=wd%3AQ10');
+    await screen.findByText('2 matching seasons · 1999–00 to 2001–02');
+    fireEvent.click(screen.getByRole('button', { name: 'Reset filters' }));
+    await waitFor(() => expect(last).toBe(''));
+    expect(screen.getByLabelText('First season start year')).toHaveValue(null);
+    expect(screen.getByLabelText('Champion source entity')).toHaveValue('');
+  });
+  it('keeps source failure and empty selections honest and usable', async () => {
+    server.use(
+      http.get(
+        'http://localhost/api/history/seasons',
+        () => new HttpResponse(null, { status: 503 }),
+      ),
+    );
+    const { unmount } = renderApp('/history');
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'No substitute facts are shown',
+    );
+    expect(screen.queryByRole('table')).toBeNull();
+    expect(
+      screen.getByRole('button', { name: 'Apply historical filters' }),
+    ).toBeEnabled();
+    unmount();
+    server.use(
+      http.get('http://localhost/api/history/seasons', () =>
+        HttpResponse.json({ ...body, status: 'records-unavailable', seasons: [] }),
+      ),
+    );
+    renderApp('/history');
+    expect(
+      await screen.findByText('No recorded historical facts match this selection.'),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('navigation', { name: 'Explore decades' })).toBeNull();
+    expect(screen.getByText(/Source status: records-unavailable/)).toBeInTheDocument();
   });
   it('blocks invalid direct state before fetching and renders source failure without invented facts', async () => {
     renderApp('/history?champion=evil');

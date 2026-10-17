@@ -20,12 +20,14 @@ export function ResearchShell({
   children,
   lede,
   backdrop,
+  className = '',
 }: {
   title: string;
   children: ReactNode;
   lede?: ReactNode;
   /** Decorative art behind the page head (hidden from assistive technology). */
   backdrop?: ReactNode;
+  className?: string;
 }) {
   const heading = useRef<HTMLHeadingElement>(null);
   const location = useLocation();
@@ -42,7 +44,7 @@ export function ResearchShell({
     heading.current?.focus({ preventScroll: true });
   }, [title]);
   return (
-    <main className={`fr frpage wrap ${styles.page}`}>
+    <main className={`fr frpage wrap ${styles.page} ${className}`}>
       <div className="frpage__head">
         {backdrop ? (
           <div className="frpage__backdrop" aria-hidden="true">
