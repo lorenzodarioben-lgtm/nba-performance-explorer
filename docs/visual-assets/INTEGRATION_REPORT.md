@@ -215,6 +215,10 @@ The other boundaries are `high` confidence. All eras are listed with notes in `t
 
 No rights were established or are claimed. This records what the supplied files say.
 
+The 17 October 2026 [3.3 rights review](../release/RIGHTS_REVIEW_3.3.md) carries these
+unresolved items into the draft release. Design approval and integrity checks do not grant
+publication rights. No approved images or marks were removed during release preparation.
+
 - **Headshots.** The manifests say "NBA official CDN image; copyright/reuse permission not
   verified".
 - **Historical marks.** Identified from SportsLogos.Net. The manifest notes that marks are

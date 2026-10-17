@@ -1,13 +1,15 @@
-# NBA Performance Explorer
+# NBA Performance Explorer 3.3
 
 A basketball research site with a broadcast-style "Arena & Film Room" interface: ask a precise
 question of real NBA records, see the answer as an interactive chart, and see exactly which
 cohort, source and formula produced it.
 
-> **Two versions exist.** The **public site** at https://nba-performance-explorer.onrender.com is
-> deployed from `main` and still runs the **original release**. This branch,
-> `claude/nba-explorer-3-expansion`, is the **unmerged NBA Performance Explorer 3.2 release
-> candidate** (3.0, the 3.1 completion sprint and the 3.2 completion project) described below. It has not been merged or deployed; see
+> **Two versions exist.** The **public site** at https://nba-performance-explorer.onrender.com
+> is the **existing public release**, not evidence that 3.3 is live. Confirm its current
+> Render branch/settings before approving deployment.
+> `release/nba-performance-explorer-3.3` contains the **design-finalized NBA 3.3 release candidate**.
+> The approved visual baseline is `8e2b38b6b3c5569c2700cd041bcb9b6d0e3818ce`.
+> Publication rights and Render-host checks still require owner review; see
 > [the deployment runbook](docs/release/DEPLOYMENT_RUNBOOK.md) for the planned, owner-approved
 > release.
 
@@ -38,7 +40,24 @@ cohort, source and formula produced it.
 
 All screenshots are of the real application (production build, historical data).
 
-## What 3.0 contains
+## What 3.3 contains
+
+The complete release combines the capabilities below with NBA player photography and team
+marks, responsive page/navigation layouts, player and global search, the historical season
+navigator, the interactive liquid VS comparison band, keyboard access and reduced-motion
+fallbacks. Player analytics include profiles, season statistics, careers, game logs and research
+rooms; source-backed historical tools cover league seasons, teams, recorded games and research.
+The scoreboard also requests NBA.com's current schedule when available. Saved research and
+stories remain local to the browser. The final homepage preserves its approved headline,
+Wembanyama image, transparent search and logo hover.
+
+See [3.3 release notes](docs/release/RELEASE_NOTES_3.3.md),
+[the current audit](docs/release/RELEASE_READINESS.md), and
+[publication rights](docs/release/RIGHTS_REVIEW_3.3.md).
+The screenshots above document earlier research tools; the
+[final visual report](docs/visual-polish/FINAL_POLISH_REPORT.md) shows the approved 3.3 surface.
+
+### Capabilities inherited from 3.0 through 3.2
 
 - **Playoff Series Film Room** (`/games/series/:id`): any 2024 series game by game, with a
   keyboard-navigable game tape, line scores, running margin, period bars and series
@@ -107,7 +126,7 @@ Prerequisites: Node.js `>=22.12.0 <23`, npm, Git.
 ```powershell
 git clone https://github.com/lorenzodarioben-lgtm/nba-performance-explorer.git
 cd nba-performance-explorer
-git checkout claude/nba-explorer-3-expansion
+git checkout release/nba-performance-explorer-3.3
 npm ci
 ```
 
@@ -130,10 +149,11 @@ are documented in [backend/.env.example](backend/.env.example), including
 
 ```powershell
 npm run validate
+npm run check:visual-assets
 npm run e2e
 ```
 
-`validate` runs Prettier, ESLint, a Windows/Linux module-case check, TypeScript, about 900
+`validate` runs Prettier, ESLint, a Windows/Linux module-case check, TypeScript, over 1,000
 frontend and backend tests (Vitest, Testing Library, MSW, Supertest) and the production builds.
 `e2e` runs Playwright smoke and axe accessibility checks on every listed route, desktop and
 mobile, against running servers. CI runs `npm run validate` on every push. The latest recorded
@@ -166,7 +186,9 @@ Express 5, Zod, parse5, Vitest, Testing Library, MSW, Supertest, Playwright, axe
 
 The public site is one Render web service ([render.yaml](render.yaml)): build
 `npm ci && npm run build`, start `node backend/dist/server.js`, health check `/api/health`,
-`NBA_DATA_PROVIDER=nba-stats`, fixtures disabled. NBA.com Stats is an undocumented service and
+`NBA_DATA_PROVIDER=nba-stats`, fixtures disabled. **Merging into the linked `main` branch
+can automatically deploy the release (`autoDeploy: true`); merging needs explicit owner
+approval after rights and deployment checks.** NBA.com Stats is an undocumented service and
 may block or slow cloud hosts; the player pages then show an unavailable state, never substitute
 data. Release and rollback steps: [deployment runbook](docs/release/DEPLOYMENT_RUNBOOK.md).
 

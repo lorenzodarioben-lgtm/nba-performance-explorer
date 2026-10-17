@@ -1,3 +1,45 @@
+# NBA 3.3 final release audit - latest handoff
+
+17 October 2026. Release PR branch `release/nba-performance-explorer-3.3`.
+Original development branch `codex/nba-explorer-final-polish` and its ancestry are preserved.
+Approved application baseline: `8e2b38b6b3c5569c2700cd041bcb9b6d0e3818ce`.
+Main at audit start: `cd557e4d3cf75e44f930ba75de4ea149a80ccdda`; fetched comparison 0/132.
+
+- Design finalized; no frontend/backend implementation, imagery or physics changes.
+- Release verdict: **READY WITH BLOCKERS for public deployment; draft owner review only**.
+  Image/data publication rights and actual Render-host settings/connectivity need owner review.
+- Updated README, product overview, deployment runbook, 3.3 release notes, rights review and
+  current readiness report. Earlier engineering/visual reports remain preserved.
+- Live Stats parser gate: 4/4 passed today. npm audits: zero all/production vulnerabilities.
+  Secret-pattern scan: no findings in 715 tracked text files, feature-history patches or
+  client bundle; no emitted source maps, tracked real env files or raw NBA_ASSETS files.
+- Full validation passed: 541 frontend and 532 backend tests, types, builds, formatting,
+  lint (0 errors, 13 existing warnings), module case and asset integrity. Separate asset
+  check passed: 401 files, 73 players, 45 marks and 1,257 archive/franchise team-seasons.
+- Local production acceptance: 15/15 passed with real live providers and fixtures disabled,
+  desktop/mobile keyboard flows, no page/console errors, and a separately simulated outage.
+  Valid empty current schedule did not permit acceptance of an in-progress game.
+- Browser completion: 242 unique passes and 78 intentional skips. Local servers stopped
+  after 157 passes; only the 85 connection-refused failures were rerun, all successfully.
+  The new validation evidence records both runs; no successful case was repeated.
+- Publication sequence: commit verified work on the original branch, create one neutral
+  snapshot parented by unchanged main, prove full-tree equality, push both branches, then
+  open a draft PR into main. The final delivery report and PR record the resulting SHAs,
+  tree comparison, URL and final-head CI. No historical commit is rewritten.
+- Metadata audit found historical assistant authors/trailers/session links, which remain
+  intact. New commits use the genuinely configured owner identity without co-author or
+  promotional footers. Public checkout instructions now use the neutral release branch;
+  see `docs/release/ATTRIBUTION_REVIEW_3.3.md` for counts, scope and preserved attribution.
+- **MERGE METHOD: SQUASH AND MERGE ONLY. This entire release must enter main as one new commit.**
+  Squash title: `feat: release NBA Performance Explorer 3.3`. Retain development history.
+- **Render warning:** `autoDeploy: true` means a later approved main merge can deploy.
+  Dashboard configuration was not read or changed. No merge, deployment, preview or approval
+  is performed by this audit. Preserve `.claude/`; raw `NBA_ASSETS/` remains untracked/ignored.
+
+---
+
+## Previous homepage micro-polish handoff (preserved)
+
 # Homepage micro-polish — latest handoff
 
 17 October 2026 · `codex/nba-explorer-final-polish` · starts from `dafff91`.
