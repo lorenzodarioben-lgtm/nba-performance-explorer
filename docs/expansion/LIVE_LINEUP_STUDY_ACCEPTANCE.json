@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-14T10:05:04.961471+00:00",
+  "status": "PASS",
+  "environment": "local-genuine-recorded-research-source",
+  "productionHostTested": false,
+  "runtimeUpstreamRequests": 0,
+  "requests": 6,
+  "nativeIdentities": 540,
+  "teams": 30,
+  "usableSourceGames": 1229,
+  "usableFivePersonGroups": 13867,
+  "quarantinedGame": "nba:0021700421",
+  "longestSharedGroup": "study:MIN_2017_001",
+  "longestSharedSeconds": 67892,
+  "longestJointPlusMinus": 165,
+  "curryQualifiedGroups": 5,
+  "comparisonRawBelowMinimumPreserved": true,
+  "possessionRatingsAndNBAIdentitiesWithheld": true,
+  "signedNumericSortVerified": true,
+  "packagedSourceHashExact": true,
+  "directSpaRefreshes": 1
+}

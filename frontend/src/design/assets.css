@@ -1,0 +1,366 @@
+/* Team marks and player faces: shared by every page that shows them. */
+
+.tlogo {
+  display: inline-block;
+  flex: none;
+  object-fit: contain;
+  vertical-align: middle;
+}
+/* Dark historical marks (navy, charcoal) read against the night background through a soft halo. */
+.tlogo--halo {
+  filter: drop-shadow(0 0 1px rgb(255 255 255 / 0.85))
+    drop-shadow(0 0 3px rgb(255 255 255 / 0.35));
+}
+.tlogo--blank {
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.tlogo--abbr {
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--line-2);
+  font: 700 0.6rem/1 var(--display);
+  letter-spacing: 0.02em;
+  color: var(--chalk-3);
+}
+
+/* A mark beside a team name or abbreviation. */
+.withlogo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  vertical-align: middle;
+}
+
+.pavatar {
+  display: inline-block;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+  vertical-align: middle;
+  background: var(--film-2);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.pavatar--initials {
+  display: inline-grid;
+  place-items: center;
+  font: 700 0.7rem/1 var(--display);
+  letter-spacing: 0.03em;
+  color: var(--chalk-3);
+}
+.withface {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  vertical-align: middle;
+}
+
+/* Score cards: the mark takes its own column so abbreviations keep their alignment. */
+.scorecard__team--logo {
+  grid-template-columns: 22px 3.25rem minmax(0, 1fr) auto;
+}
+.scorecard__team--logo .tlogo {
+  align-self: center;
+}
+
+/* Game headers: the mark sits on each side's outer edge, above or beside the abbreviation. */
+.gamehero__mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.gamehero__side:last-child .gamehero__mark {
+  flex-direction: row-reverse;
+}
+.fr .gamehero__side > .tlogo {
+  display: block;
+  margin-bottom: 10px;
+}
+@media (max-width: 640px) {
+  .gamehero__mark .tlogo {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.ladder__team .tlogo {
+  align-self: center;
+}
+
+/* Team directory plates and the team page head. A plate with a mark is a column: the mark takes
+   its own top row and the abbreviation, name and record sit at the foot, so a name that wraps to
+   two lines grows the plate instead of pushing the abbreviation into the mark. */
+.teamwall:has(.teamwall__logo) {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 12px;
+}
+/* Without the list's bullet indent and item spacing, each plate fills its grid cell, and every
+   plate in a row matches the tallest. */
+.fr .teamwall > li {
+  display: grid;
+  margin: 0;
+  padding: 0;
+}
+.fr .teamwall__plate:has(.teamwall__logo) {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 5px;
+  min-height: 164px;
+  padding: 14px;
+}
+.fr .teamwall__plate .teamwall__logo {
+  align-self: flex-end;
+  flex: none;
+  width: 62px;
+  height: 62px;
+  margin-bottom: auto;
+  transition: transform var(--dur-base) var(--ease-film);
+}
+.fr .teamwall__plate:has(.teamwall__logo) b {
+  margin-top: 2px;
+  font-size: 2.9rem;
+}
+.fr .teamwall__plate:has(.teamwall__logo) > span:not(.teamwall__rec) {
+  min-height: 2.6em;
+  font-size: 13.5px;
+  line-height: 1.3;
+  color: var(--chalk-2);
+}
+.fr .teamwall__plate:hover .teamwall__logo {
+  transform: scale(1.06);
+}
+.teamhead {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 2vw, 24px);
+}
+.teamhead__logo {
+  filter: drop-shadow(0 10px 30px rgb(0 0 0 / 0.55));
+}
+@media (max-width: 640px) {
+  .teamhead__logo {
+    width: 84px;
+    height: 84px;
+  }
+}
+
+.season-mark {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 14px 0 6px;
+}
+.season-mark b {
+  font: 700 1.05rem/1.2 var(--display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.season-mark small {
+  display: block;
+  font: 500 11px/1.4 var(--mono);
+  color: var(--chalk-3);
+}
+.franchise-marks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: 10px;
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+}
+.franchise-marks > li::before {
+  content: none !important;
+}
+.franchise-marks li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--coal);
+  font: 500 12px/1.4 var(--mono);
+  color: var(--chalk-3);
+}
+.franchise-marks b {
+  display: block;
+  font: 600 13px/1.3 var(--ui);
+  color: var(--chalk);
+}
+
+/* 2024 bracket and series film room. */
+.champion__logo {
+  align-self: center;
+  filter: drop-shadow(0 8px 24px rgb(0 0 0 / 0.5));
+}
+.fr-hero__abbr--logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.fr-hero__side:last-child .fr-hero__abbr--logo {
+  flex-direction: row-reverse;
+}
+@media (max-width: 640px) {
+  .fr-hero__abbr--logo .tlogo {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Player heroes with an NBA.com headshot cutout: contained and standing on the hero floor rather
+   than cropped like an action photograph. */
+.phero__photo--headshot img {
+  object-fit: contain;
+  object-position: right bottom !important;
+  filter: none;
+}
+.phero__photo--headshot {
+  -webkit-mask-image: linear-gradient(0deg, transparent 0%, #000 22%);
+  mask-image: linear-gradient(0deg, transparent 0%, #000 22%);
+}
+@media (max-width: 767px) {
+  .phero__photo--headshot img {
+    object-position: center bottom !important;
+  }
+}
+
+/* Players landing: NBA.com headshot walls. */
+.facewall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.facewall > li::before {
+  content: none !important;
+}
+.facewall__card {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3.4;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background:
+    radial-gradient(70% 70% at 50% 100%, rgb(185 28 28 / 0.18), transparent 70%),
+    var(--film);
+  color: var(--chalk);
+  text-decoration: none;
+}
+.facewall__card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  transition: transform var(--dur-slow) var(--ease-arena);
+  transform-origin: center bottom;
+}
+.facewall__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgb(10 10 11 / 0.92) 0%, transparent 42%);
+}
+.facewall__name {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  z-index: 1;
+  font: 700 0.95rem/1.1 var(--display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.facewall__card:hover img,
+.facewall__card:focus-visible img {
+  transform: scale(1.04);
+}
+.facewall__card:hover {
+  border-color: var(--line-3);
+}
+@media (prefers-reduced-motion: reduce) {
+  .facewall__card img {
+    transition: none;
+  }
+}
+
+/* Leaderboard podium: the face sits in the step's corner so the rank and value keep their places. */
+.podium__step {
+  position: relative;
+}
+.podium__face {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  box-shadow:
+    inset 0 0 0 1px var(--line-2),
+    0 6px 18px rgb(0 0 0 / 0.45);
+}
+.podium__step--1 .podium__face {
+  box-shadow:
+    0 0 0 2px var(--red-hi),
+    0 6px 18px rgb(0 0 0 / 0.45);
+}
+
+/* A player's photo behind a page head (record rooms). */
+.roomshot {
+  display: block;
+  width: clamp(170px, 30vw, 380px);
+  height: clamp(150px, 20vw, 250px);
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 30%),
+    linear-gradient(0deg, transparent 0%, #000 30%);
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 30%),
+    linear-gradient(0deg, transparent 0%, #000 30%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  opacity: 0.85;
+}
+.roomshot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.roomshot--headshot img {
+  object-fit: contain;
+  object-position: right bottom;
+}
+@media (max-width: 640px) {
+  .roomshot {
+    opacity: 0.45;
+  }
+}
+
+/* Global search: faces and marks in the result badge. */
+.search__badge--photo {
+  padding: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.search__badge--logo {
+  background: transparent;
+  border-color: transparent;
+}
+
+.sim-row__who--face {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.sim-row__who--face > span {
+  display: grid;
+  min-width: 0;
+}

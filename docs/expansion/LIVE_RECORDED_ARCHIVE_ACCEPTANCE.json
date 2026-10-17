@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-13T22:49:10.303Z",
+  "status": "PASS",
+  "environment": "local-genuine-licensed-recorded-dataset",
+  "productionHostTested": false,
+  "runtimeUpstreamRequests": 0,
+  "requests": 6,
+  "regularSourceRows": 639,
+  "qualifiedPlayers": 363,
+  "missingIdentityRows": 17,
+  "unsupportedMetricPlayers": 59,
+  "unknownScopeRows": 18,
+  "reconciledGames": 1219,
+  "quarantinedConflicts": 9,
+  "quarantinedUnpaired": 2,
+  "qualificationAndFixedRankingVerified": true,
+  "directSpaRefreshes": 2
+}

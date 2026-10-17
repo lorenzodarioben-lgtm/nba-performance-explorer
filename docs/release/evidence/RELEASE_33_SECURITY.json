@@ -1,0 +1,68 @@
+{
+  "textFilesScanned": 715,
+  "trackedEnvFiles": ["backend/.env.example", "frontend/.env.example"],
+  "trackedRawAssetFiles": 0,
+  "currentFindings": [],
+  "featureHistoryPatternCounts": {
+    "github-token": 0,
+    "aws-access-key": 0,
+    "private-key": 0,
+    "openai-key": 0,
+    "slack-token": 0
+  },
+  "bundleFindings": [],
+  "publicSourceMaps": [],
+  "limit": "Pattern scan, not a guarantee against all possible secret formats.",
+  "checkedAt": "2026-10-17T09:16:22.132619+00:00",
+  "dependencyAudits": {
+    "all": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "production": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "newTabLinks": {
+    "checked": 29,
+    "missingOpenerProtection": 0
+  },
+  "approvedApplicationBaseline": "8e2b38b6b3c5569c2700cd041bcb9b6d0e3818ce",
+  "frontendSourceTree": "47a1deef64a316d671f60641e8574631537bd1d0",
+  "backendSourceTree": "5ed01b7adb0be988865796fcc935f9aeb71582eb",
+  "renderDashboardVerified": false,
+  "existingPublicHealth": {
+    "status": 200,
+    "returnedTimestamp": "2026-10-17T09:04:04.772Z",
+    "deployedCommitVerified": false
+  },
+  "liveStatsGate": {
+    "checks": 4,
+    "passed": 4,
+    "endpoints": [
+      "commonallplayers",
+      "commonplayerinfo",
+      "playercareerstats",
+      "playergamelog"
+    ],
+    "timeoutMs": 10000,
+    "retries": 0,
+    "host": "local development machine",
+    "renderConnectivityProven": false
+  },
+  "finalIntendedTreeScan": {
+    "checkedAt": "2026-10-17T09:41:57.786772+00:00",
+    "textFilesScanned": 722,
+    "findings": [],
+    "scope": "Tracked files and intended release additions; UTF-8 files smaller than 5MB. Raw assets and private local settings excluded."
+  }
+}

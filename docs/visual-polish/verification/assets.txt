@@ -1,0 +1,5 @@
+
+> nba-performance-explorer@0.1.0 check:visual-assets
+> node scripts/check-visual-assets.mjs
+
+Visual asset check passed: 73 players, 45 team marks, 604 archive and 653 franchise-record team-seasons matched by name, 401 files, metadata and icons.

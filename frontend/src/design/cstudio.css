@@ -1,0 +1,181 @@
+/* Comparison studio: the cast of players, the finder, the gap board and the statements. */
+
+.cs-cast {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+.cs-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 210px;
+  padding: 10px 10px 10px 12px;
+  border: 1px solid var(--line-2);
+  border-top: 3px solid;
+  background: var(--coal);
+}
+.cs-chip__name {
+  display: grid;
+  flex: 1;
+  font: 800 1.25rem/1 var(--display);
+  text-transform: uppercase;
+}
+.cs-chip__name small {
+  margin-top: 3px;
+  font: 500 10.5px/1 var(--mono);
+  letter-spacing: 0.08em;
+  color: var(--chalk-3);
+}
+.cs-chip__tools {
+  display: flex;
+  gap: 2px;
+}
+.fr .cs-tool {
+  width: 30px;
+  min-height: 30px;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--chalk-2);
+  font: 600 14px/1 var(--ui);
+  cursor: pointer;
+}
+.fr .cs-tool:hover:not(:disabled) {
+  border-color: var(--red-hi);
+  color: var(--chalk);
+}
+.fr .cs-tool:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.cs-finder {
+  position: relative;
+  flex: 1 1 240px;
+  max-width: 340px;
+}
+.cs-finder__list {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin: 4px 0 0;
+  padding: 4px;
+  border: 1px solid var(--line-2);
+  background: var(--film);
+  box-shadow: 0 16px 40px -18px rgb(0 0 0 / 0.8);
+}
+.fr .cs-finder__list > li {
+  padding: 0;
+}
+.cs-finder__list > li::before {
+  content: none !important;
+}
+.fr .cs-finder__pick {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  padding: 8px 10px;
+  border: 0;
+  background: none;
+  color: var(--chalk);
+  font: 500 14px/1.2 var(--ui);
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: left;
+  cursor: pointer;
+}
+.fr .cs-finder__pick:hover,
+.fr .cs-finder__pick:focus-visible {
+  background: var(--film-3);
+}
+.cs-finder__pick small,
+.fr .cs-finder__none {
+  font: 500 11px/1 var(--mono);
+  color: var(--chalk-3);
+}
+.fr .cs-empty {
+  font-size: 15px;
+  color: var(--chalk-2);
+}
+.cs-result[data-updating] .gapboard {
+  opacity: 0.55;
+}
+.cs-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+  font: 600 12px/1 var(--mono);
+  color: var(--chalk-2);
+}
+.fr .cs-legend > li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+}
+.cs-legend > li::before {
+  content: none !important;
+}
+.cs-legend > li.is-out {
+  color: var(--chalk-3);
+  text-decoration: line-through;
+}
+.gapboard__label {
+  font: 800 15px/1 var(--display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  fill: var(--chalk);
+}
+.gapboard__track {
+  stroke: var(--line-3);
+  stroke-width: 1;
+}
+.cs-statements {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fr .cs-statement {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--line-3);
+  background: var(--coal);
+  font-size: 15px;
+  color: var(--chalk-2);
+}
+.cs-statement::before {
+  content: none !important;
+}
+.cs-statement__kind {
+  font: 600 10px/1.6 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.cs-statement--leader {
+  border-left-color: var(--s1);
+}
+.cs-statement--gap {
+  border-left-color: var(--red-hi);
+}
+.cs-statement--sample,
+.cs-statement--missing {
+  border-left-color: var(--amber);
+}
+@media (max-width: 560px) {
+  .fr .cs-statement {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}

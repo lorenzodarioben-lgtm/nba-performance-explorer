@@ -1,0 +1,141 @@
+{
+  "checkedAt": "2026-10-17T09:21:04.823Z",
+  "localProductionOnly": true,
+  "configuration": {
+    "nodeEnv": "production",
+    "provider": "nba-stats",
+    "fixturesAllowed": false,
+    "wikiMode": "live",
+    "timeoutMs": 10000
+  },
+  "deployed": false,
+  "checks": [
+    {
+      "name": "production fixture safeguards",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "production health",
+      "ok": true,
+      "detail": {
+        "status": "ok",
+        "timestamp": "2026-10-17T09:20:36.820Z",
+        "service": "nba-performance-explorer-api"
+      }
+    },
+    {
+      "name": "live provider selected",
+      "ok": true,
+      "detail": {
+        "playerSource": "nba-stats"
+      }
+    },
+    {
+      "name": "live player search",
+      "ok": true,
+      "detail": {
+        "contractValid": true,
+        "rows": 1,
+        "source": null
+      }
+    },
+    {
+      "name": "live player profile",
+      "ok": true,
+      "detail": {
+        "contractValid": true,
+        "rows": null,
+        "source": null
+      }
+    },
+    {
+      "name": "live career seasons",
+      "ok": true,
+      "detail": {
+        "contractValid": true,
+        "rows": 23,
+        "source": null
+      }
+    },
+    {
+      "name": "live game log",
+      "ok": true,
+      "detail": {
+        "contractValid": true,
+        "rows": 71,
+        "source": null
+      }
+    },
+    {
+      "name": "current scoreboard schedule",
+      "ok": true,
+      "detail": {
+        "contractValid": true,
+        "rows": 0,
+        "source": "nba-stats"
+      }
+    },
+    {
+      "name": "historical standings",
+      "ok": true,
+      "detail": {
+        "contractValid": true,
+        "rows": null,
+        "source": "nba-stats"
+      }
+    },
+    {
+      "name": "historical season navigation",
+      "ok": true,
+      "detail": {
+        "contractValid": true,
+        "rows": 1,
+        "source": "wikidata"
+      }
+    },
+    {
+      "name": "unknown API stays a structured 404",
+      "ok": true,
+      "detail": {
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "Route not found.",
+          "status": 404
+        }
+      }
+    },
+    {
+      "name": "SPA refresh and built assets",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "production browser 1440",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "consoleErrors": [],
+        "livePlayerKeyboardNavigation": true
+      }
+    },
+    {
+      "name": "production browser 390",
+      "ok": true,
+      "detail": {
+        "pageErrors": [],
+        "consoleErrors": [],
+        "livePlayerKeyboardNavigation": true
+      }
+    },
+    {
+      "name": "controlled outage stays unavailable, without fixtures",
+      "ok": true,
+      "detail": {
+        "status": 503,
+        "code": "PROVIDER_UNAVAILABLE",
+        "simulatedOutage": true
+      }
+    }
+  ]
+}

@@ -2,11 +2,47 @@ import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 import express, { type Express } from 'express';
+import type { DataSource } from '@nba-performance-explorer/contracts';
 
 import type { PlayerProvider } from './features/players/player-provider.js';
+import { fixturePlayerProvider } from './features/players/fixture-player-provider.js';
+import { createResearchRouter } from './features/research/research-router.js';
+import { createTeamsRouter } from './features/teams/teams-router.js';
+import type { SeasonTotalsProvider } from './features/research/season-totals-provider.js';
+import { createCohortRouter } from './features/research/cohort-router.js';
+import { SourceWorkBudget } from './features/research/source-work-budget.js';
+import { createCareerRouter } from './features/research/career-router.js';
+import { createGameResearchRouter } from './features/research/game-research-router.js';
+import type { GameResearchProvider } from './features/research/game-research-provider.js';
+import { createHistoryRouter } from './features/history/history-router.js';
+import type { HistoryProvider } from './features/history/history-provider.js';
+import type { PlayerBioProvider } from './features/research/player-bio-provider.js';
+import { createArchiveRouter } from './features/wiki-archive/archive-router.js';
+import type { ArchiveProvider } from './features/wiki-archive/archive-provider.js';
+import { createTeamArchiveRouter } from './features/wiki-archive/team-archive-router.js';
+import type { TeamArchiveProvider } from './features/wiki-archive/team-archive-provider.js';
 import { createPlayersRouter } from './features/players/players-router.js';
-import { errorHandler, notFoundHandler } from './middleware/errors.js';
+import { createRecordedRouter } from './features/recorded-archive/recorded-router.js';
+import type { RecordedArchiveProvider } from './features/recorded-archive/recorded-provider.js';
+import type { ShotArchiveProvider } from './features/shot-archive/shot-provider.js';
+import { createShotRouter } from './features/shot-archive/shot-router.js';
+import { createAwardsRouter } from './features/history/history-awards-router.js';
+import type { HistoricalAwardsProvider } from './features/history/history-awards-provider.js';
+import type { LineupStudyProvider } from './features/lineup-study/lineup-study-provider.js';
+import { createLineupStudyRouter } from './features/lineup-study/lineup-study-router.js';
+import type { DraftProvider } from './features/history/history-draft-provider.js';
+import { createDraftRouter } from './features/history/history-draft-router.js';
+import {
+  errorHandler,
+  methodNotAllowedHandler,
+  notFoundHandler,
+  sendApiError,
+} from './middleware/errors.js';
 import { healthRouter } from './routes/health.js';
+import { createLeagueRouter } from './features/league/league-router.js';
+import type { LeagueService } from './features/league/league-service.js';
+import type { NbaLiveClient } from './features/league/league-live.js';
+import { buildCoverage } from './features/coverage/coverage.js';
 
 // Optional same-origin static hosting for the built frontend. When `FRONTEND_DIST` points to a
 // built frontend, serve its assets and an SPA fallback from the same origin as the API; this is
@@ -47,13 +83,132 @@ function configureFrontend(application: Express): void {
 
 // The provider is injected at the composition root (server.ts). When omitted, the players router
 // falls back to the fixture provider, which keeps the exported test `app` deterministic.
-export function createApp(playerProvider?: PlayerProvider): Express {
+export function createApp(
+  playerProvider?: PlayerProvider,
+  options: {
+    playerSource?: DataSource;
+    totalsProvider?: SeasonTotalsProvider;
+    gamesProvider?: GameResearchProvider;
+    historyProvider?: HistoryProvider;
+    bioProvider?: PlayerBioProvider;
+    archiveProvider?: ArchiveProvider;
+    teamArchiveProvider?: TeamArchiveProvider;
+    recordedArchiveProvider?: RecordedArchiveProvider;
+    shotArchiveProvider?: ShotArchiveProvider;
+    awardsProvider?: HistoricalAwardsProvider;
+    lineupStudyProvider?: LineupStudyProvider;
+    draftProvider?: DraftProvider;
+    leagueService?: LeagueService;
+    /** NBA.com live sources for current games; omitted, game pages use the archive only. */
+    leagueLive?: NbaLiveClient;
+    /** How the Wikipedia archives are served (reported by the coverage explorer). */
+    archiveMode?: 'live' | 'bundled';
+  } = {},
+): Express {
   const application = express();
+  const researchBudget = new SourceWorkBudget();
 
   application.disable('x-powered-by');
   application.use(express.json());
   application.use('/api/health', healthRouter);
+  application.get('/api/coverage', (request, response) => {
+    if (Object.keys(request.query).length)
+      return sendApiError(
+        response,
+        400,
+        'INVALID_COVERAGE_QUERY',
+        'The coverage summary takes no parameters.',
+      );
+    response.json(
+      buildCoverage({
+        recorded: options.recordedArchiveProvider,
+        shots: options.shotArchiveProvider,
+        lineups: options.lineupStudyProvider,
+        playerSource: options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
+        archiveMode: options.archiveMode ?? 'live',
+      }),
+    );
+  });
+  application.all('/api/coverage', methodNotAllowedHandler);
+  application.use(
+    '/api/league',
+    createLeagueRouter(options.leagueService, options.leagueLive),
+  );
+  application.use('/api/shots', createShotRouter(options.shotArchiveProvider));
+  application.use(
+    '/api/history',
+    createDraftRouter(options.draftProvider, researchBudget),
+  );
+  application.use(
+    '/api/research-lineups',
+    createLineupStudyRouter(options.lineupStudyProvider),
+  );
+  application.use(
+    '/api/history',
+    createAwardsRouter(options.awardsProvider, researchBudget),
+  );
+  application.use(
+    '/api/recorded',
+    createRecordedRouter(options.recordedArchiveProvider),
+  );
   application.use('/api/players', createPlayersRouter(playerProvider));
+  application.use('/api/teams', createTeamsRouter());
+  application.use(
+    '/api/teams',
+    createTeamArchiveRouter(options.teamArchiveProvider, researchBudget),
+  );
+  application.use('/api', createArchiveRouter(options.archiveProvider, researchBudget));
+  application.use(
+    '/api/history',
+    createHistoryRouter(options.historyProvider, researchBudget),
+  );
+  application.use(
+    '/api',
+    createGameResearchRouter(
+      playerProvider ?? fixturePlayerProvider,
+      options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
+      options.gamesProvider,
+      options.totalsProvider,
+      researchBudget,
+    ),
+  );
+  application.use(
+    '/api',
+    createCareerRouter(
+      playerProvider ?? fixturePlayerProvider,
+      options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
+      options.totalsProvider,
+      researchBudget,
+      options.bioProvider,
+    ),
+  );
+  application.use(
+    '/api/analytics/cohort',
+    createCohortRouter(
+      playerProvider ?? fixturePlayerProvider,
+      options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
+      options.totalsProvider,
+      researchBudget,
+    ),
+  );
+  application.use(
+    '/api',
+    createResearchRouter(
+      playerProvider ?? fixturePlayerProvider,
+      options.playerSource ?? (playerProvider ? 'unknown' : 'fixture'),
+      options.totalsProvider,
+      researchBudget,
+      {
+        history: !!options.historyProvider,
+        games: !!options.gamesProvider,
+        archive: !!options.archiveProvider,
+        teamArchive: !!options.teamArchiveProvider,
+        shots: !!options.shotArchiveProvider,
+        recorded: !!options.recordedArchiveProvider,
+        lineupStudy: !!options.lineupStudyProvider,
+      },
+    ),
+  );
   configureFrontend(application);
   application.use(notFoundHandler);
   application.use(errorHandler);

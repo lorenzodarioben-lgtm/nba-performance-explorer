@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "environment": "local-engineering-host",
+  "checkedAt": "2026-10-13T17:21:54.742Z",
+  "publicApiAndSpaRequests": 16,
+  "observedGames": 74,
+  "recentSample": 10,
+  "opponentFilteredGames": 2,
+  "rawSeasonGames": 74,
+  "rawInputsAndFormulasVerified": true,
+  "comparedSlots": 3,
+  "availableSlots": 3,
+  "qualifiedCohort": 3,
+  "qualifiedRawMetricCohort": 3,
+  "weightsChangedResult": true,
+  "currentTeams": 30,
+  "spaDirectRefreshRoutes": 6,
+  "productionHostTested": false,
+  "deployed": false,
+  "note": "Actual smoke output; subsequent small-sample/saved-season/identity hardening verified with deterministic tests. No raw traffic archived."
+}

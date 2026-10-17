@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-10-13T19:44:31.083Z",
+  "status": "PASS",
+  "environment": "local-genuine-nba-provider",
+  "productionHostTested": false,
+  "requests": 6,
+  "evidence": [
+    {
+      "playerId": "201939",
+      "reportedSeasons": 17,
+      "qualifiedSeasons": 16,
+      "peakSeasons": ["2020-21"],
+      "rawSumAndPeakVerified": true
+    },
+    {
+      "playerId": "2544",
+      "reportedSeasons": 23,
+      "qualifiedSeasons": 23,
+      "peakSeasons": ["2005-06"],
+      "rawSumAndPeakVerified": true
+    },
+    {
+      "playerId": "893",
+      "reportedSeasons": 15,
+      "qualifiedSeasons": 13,
+      "peakSeasons": ["1986-87"],
+      "rawSumAndPeakVerified": true
+    }
+  ],
+  "careerComparisonRows": 2,
+  "directSpaRefreshes": 2
+}

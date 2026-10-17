@@ -1,0 +1,86 @@
+{
+  "checkedAt": "2026-10-17T09:41:15.250755+00:00",
+  "approvedApplicationBaseline": "8e2b38b6b3c5569c2700cd041bcb9b6d0e3818ce",
+  "environment": {
+    "os": "Windows",
+    "node": "22.19.0",
+    "npm": "10.9.3",
+    "browser": "Chromium",
+    "viewports": ["1440x900 desktop", "390x844 mobile emulation"]
+  },
+  "validate": {
+    "command": "npm run validate",
+    "passed": true,
+    "frontendTests": 541,
+    "frontendFiles": 85,
+    "backendTests": 532,
+    "backendFiles": 60,
+    "lintErrors": 0,
+    "preexistingLintWarnings": 13,
+    "formatting": true,
+    "moduleCase": true,
+    "typecheck": true,
+    "buildFrontend": true,
+    "buildBackend": true
+  },
+  "separateVisualAssets": {
+    "command": "npm run check:visual-assets",
+    "passed": true,
+    "files": 401,
+    "players": 73,
+    "marks": 45,
+    "archiveTeamSeasons": 604,
+    "franchiseRecordTeamSeasons": 653
+  },
+  "browser": {
+    "command": "npm run e2e",
+    "uniquePassed": 242,
+    "intentionalSkipped": 78,
+    "initial": {
+      "passed": 157,
+      "failed": 85,
+      "duration": "10.3m",
+      "failureCause": "Local servers stopped; all 85 failures were page.goto net::ERR_CONNECTION_REFUSED."
+    },
+    "recovery": {
+      "command": "npm run e2e -- --last-failed",
+      "passed": 85,
+      "failed": 0,
+      "duration": "4.9m",
+      "repeatedSuccessfulCases": 0,
+      "lastRunStatus": "passed"
+    },
+    "testAssertionsChanged": false,
+    "applicationCodeChanged": false,
+    "limitations": "Fixture/archive browser acceptance; not live-provider evidence. No Safari, Firefox or physical-device certification."
+  },
+  "productionAcceptance": {
+    "report": "RELEASE_33_SMOKE.json",
+    "passed": 15,
+    "failed": 0,
+    "realLiveProvider": true,
+    "outageSimulationSeparate": true
+  },
+  "liveStatsGate": {
+    "passed": 4,
+    "failed": 0,
+    "retries": 0,
+    "renderHostVerified": false
+  },
+  "postValidateExecutableChange": {
+    "path": "scripts/smoke-release.mjs",
+    "change": "New harness waits for search-dialog exit and verifies restored focus before typing.",
+    "relevantChecks": [
+      "ESLint passed",
+      "Prettier passed",
+      "Production acceptance 15/15 passed"
+    ],
+    "existingTestsWeakened": false
+  },
+  "publicDeploymentCleared": false,
+  "blockers": [
+    "Unresolved image/data publication rights",
+    "Render dashboard settings and host-specific connectivity need owner verification"
+  ],
+  "deployed": false
+}

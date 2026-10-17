@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-10-14T11:18:08.171066+00:00",
+  "status": "PASS",
+  "environment": "local-genuine-recorded-source",
+  "productionHostTested": false,
+  "requests": 5,
+  "runtimeUpstreamRequests": 0,
+  "commonGP20Population": 363,
+  "categories": 5,
+  "curryPTS": 26.4,
+  "curryScoringMidrankPercentile": 96.96969696969697,
+  "comparisonDoesNotChangePopulation": true,
+  "excludedTargetWithheld": true,
+  "playoffSupportedPopulation": 8,
+  "emptyScopeNoFabricatedCategories": true,
+  "directSpaRefreshes": 1
+}

@@ -3,25 +3,24 @@ import { Link, useParams } from 'react-router';
 
 import type { PlayerProfile } from '@nba-performance-explorer/contracts';
 
+import { Icon } from '../../ui/Icon';
+import { LoadingLine, Notice } from '../../ui/DataState';
+import { SaveResearchButton } from '../my-nba/SaveResearchButton';
+import { useHubIdentity } from '../player-hub/hub-context';
 import { PlayerProfileError } from './api';
 import { PlayerCareerTrends } from './PlayerCareerTrends';
 import { PlayerProfileHero } from './PlayerProfileHero';
 import { PlayerSeasonStatistics } from './PlayerSeasonStatistics';
 import { isValidPlayerId, usePlayerProfileQuery } from './usePlayerProfileQuery';
 
-// A shared dark link treatment for the profile's navigation links: white text with a red underline
-// keeps strong contrast on the near-black surfaces (the brand red alone is too dark for text here).
-const darkLinkClass =
-  'font-semibold text-chalk underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:decoration-accent-strong';
-
-// Focus the page heading once the terminal route state mounts so keyboard and screen-reader users
-// land on the profile (or its message) after client-side navigation. The empty dependency list means
-// it runs on mount only and never steals focus on a background rerender.
+// Focus the page heading once the terminal route state mounts so keyboard and screen-reader
+// users land on the profile (or its message) after client-side navigation. The empty
+// dependency list means it runs on mount only and never steals focus on a background rerender.
 function useHeadingFocus() {
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    headingRef.current?.focus();
+    headingRef.current?.focus({ preventScroll: true });
   }, []);
 
   return headingRef;
@@ -29,21 +28,19 @@ function useHeadingFocus() {
 
 function BackToSearchLink() {
   return (
-    <Link to="/" className={darkLinkClass}>
+    <Link to="/" className="link-arrow">
+      <Icon name="arrowLeft" size={15} />
       Back to search
     </Link>
   );
 }
 
-// A dark, padded shell for the non-success states (loading, invalid, not found, error). It clears the
-// fixed masthead and keeps a single <main> and route heading.
+// The frame for the non-success states (loading, invalid, not found, error): a single <main>
+// and route heading, placed under the masthead.
 function StateShell({ children }: { children: ReactNode }) {
   return (
-    <main className="bg-night text-chalk">
-      <section
-        aria-labelledby="player-profile-heading"
-        className="mx-auto min-h-[60svh] max-w-[72rem] px-4 pb-16 pt-28 sm:px-8 sm:pt-32"
-      >
+    <main className="pstate">
+      <section aria-labelledby="player-profile-heading" className="wrap pstate__inner">
         {children}
       </section>
     </main>
@@ -63,26 +60,19 @@ function ProfileStatus({
 
   return (
     <StateShell>
-      <p className="eyebrow text-accent">Player profile</p>
+      <p className="t-eyebrow is-red">Player profile</p>
       <h1
         id="player-profile-heading"
         ref={headingRef}
         tabIndex={-1}
-        className="display mt-3 text-4xl font-extrabold uppercase leading-[0.9] text-chalk outline-none sm:text-6xl"
+        className="pstate__title"
       >
         {heading}
       </h1>
-      <p
-        role={role}
-        className={`mt-6 max-w-prose rounded-sm border px-4 py-3 ${
-          role === 'alert'
-            ? 'border-white/10 bg-accent/15 text-red-100'
-            : 'border-white/10 bg-coal text-white/80'
-        }`}
-      >
+      <Notice tone={role === 'alert' ? 'error' : 'info'} role={role}>
         {message}
-      </p>
-      <div className="mt-8">
+      </Notice>
+      <div className="pstate__actions">
         <BackToSearchLink />
       </div>
     </StateShell>
@@ -92,42 +82,58 @@ function ProfileStatus({
 function ProfileLoading() {
   return (
     <StateShell>
-      <p className="eyebrow text-accent">Player profile</p>
-      <h1
-        id="player-profile-heading"
-        className="display mt-3 text-4xl font-extrabold uppercase leading-[0.9] text-chalk sm:text-6xl"
-      >
+      <p className="t-eyebrow is-red">Player profile</p>
+      <h1 id="player-profile-heading" className="pstate__title pstate__title--ghost">
         Player profile
       </h1>
-      <p role="status" aria-live="polite" className="mt-6 text-white/70">
-        Loading player profile...
-      </p>
+      <LoadingLine>Loading player profile...</LoadingLine>
     </StateShell>
   );
 }
 
 function ProfileView({ profile }: { profile: PlayerProfile }) {
   const headingRef = useHeadingFocus();
+  useHubIdentity({
+    playerId: profile.id,
+    name: profile.fullName,
+    team: profile.team?.abbreviation,
+    jersey: profile.jerseyNumber,
+  });
 
   return (
-    <main className="bg-night text-chalk">
-      <PlayerProfileHero profile={profile} headingRef={headingRef} />
+    <main className="pprofile">
+      <PlayerProfileHero
+        profile={profile}
+        headingRef={headingRef}
+        actions={
+          <>
+            <Link
+              to={`/compare?player1=${encodeURIComponent(profile.id)}`}
+              className="btn btn--primary"
+            >
+              <Icon name="compare" size={16} />
+              Compare {profile.fullName} with another player
+            </Link>
+            <SaveResearchButton
+              kind="player"
+              label={profile.fullName}
+              path={`/players/${profile.id}`}
+            />
+          </>
+        }
+      />
 
-      <div className="mx-auto max-w-[72rem] px-4 sm:px-8">
-        {/* All profile data surfaces are now dark: scoreboard statistics and game log, then the
-            career-trend chart and its equivalent table. No light band remains. */}
+      <div className="wrap pprofile__body">
         <PlayerSeasonStatistics playerId={profile.id} />
 
         <PlayerCareerTrends playerId={profile.id} />
 
-        <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/10 pb-20 pt-6">
-          <Link
-            to={`/compare?player1=${encodeURIComponent(profile.id)}`}
-            className={darkLinkClass}
-          >
-            Compare {profile.fullName} with another player
-          </Link>
+        <div className="pprofile__foot">
           <BackToSearchLink />
+          <Link to={`/players/${profile.id}/career`} className="link-arrow">
+            Full reported career
+            <Icon name="arrowRight" size={15} />
+          </Link>
         </div>
       </div>
     </main>
@@ -172,7 +178,7 @@ export function PlayerProfilePage() {
       <ProfileStatus
         role="alert"
         heading="Player profile unavailable"
-        message="Something went wrong loading this player. Please try again."
+        message="NBA.com player data could not be loaded right now, so nothing is shown in its place. Try again later; recorded 2023–24 rooms and every archive tool keep working."
       />
     );
   }

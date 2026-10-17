@@ -1,0 +1,1086 @@
+[
+  {
+    "width": 1920,
+    "height": 1080,
+    "errors": [],
+    "idle": {
+      "layers": [
+        {
+          "class": "homehero__search",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield-wrap searchfield--arena",
+          "background": "rgba(14, 14, 16, 0.36)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "blur(3px)",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        }
+      ],
+      "photo": {
+        "bounds": {
+          "x": 920,
+          "y": 64,
+          "width": 1000,
+          "height": 1015,
+          "top": 64,
+          "right": 1920,
+          "bottom": 1079,
+          "left": 920
+        },
+        "mask": "linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 6%, rgba(0, 0, 0, 0.42) 16%, rgba(0, 0, 0, 0.82) 28%, rgb(0, 0, 0) 40%), linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 26%)",
+        "imageBounds": {
+          "x": 920,
+          "y": 64,
+          "width": 1000,
+          "height": 1015,
+          "top": 64,
+          "right": 1920,
+          "bottom": 1079,
+          "left": 920
+        },
+        "fit": "cover",
+        "position": "50% 3%",
+        "source": "http://localhost:5173/images/players/action/wembanyama-1199.webp",
+        "natural": [1000, 1094]
+      },
+      "headline": "192.945px",
+      "overflow": 0
+    },
+    "focus": {
+      "layers": [
+        {
+          "class": "homehero__search",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield-wrap searchfield--arena",
+          "background": "rgba(14, 14, 16, 0.5)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "blur(3px)",
+          "shadow": "rgba(239, 68, 68, 0.18) 0px 0px 0px 1px",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        }
+      ],
+      "photo": {
+        "bounds": {
+          "x": 920,
+          "y": 64,
+          "width": 1000,
+          "height": 1015,
+          "top": 64,
+          "right": 1920,
+          "bottom": 1079,
+          "left": 920
+        },
+        "mask": "linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 6%, rgba(0, 0, 0, 0.42) 16%, rgba(0, 0, 0, 0.82) 28%, rgb(0, 0, 0) 40%), linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 26%)",
+        "imageBounds": {
+          "x": 920,
+          "y": 64,
+          "width": 1000,
+          "height": 1015,
+          "top": 64,
+          "right": 1920,
+          "bottom": 1079,
+          "left": 920
+        },
+        "fit": "cover",
+        "position": "50% 3%",
+        "source": "http://localhost:5173/images/players/action/wembanyama-1199.webp",
+        "natural": [1000, 1094]
+      },
+      "headline": "192.945px",
+      "overflow": 0
+    }
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "errors": [],
+    "idle": {
+      "layers": [
+        {
+          "class": "homehero__search",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield-wrap searchfield--arena",
+          "background": "rgba(14, 14, 16, 0.36)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "blur(3px)",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        }
+      ],
+      "photo": {
+        "bounds": {
+          "x": 590.40625,
+          "y": 64,
+          "width": 849.59375,
+          "height": 835,
+          "top": 64,
+          "right": 1440,
+          "bottom": 899,
+          "left": 590.40625
+        },
+        "mask": "linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 6%, rgba(0, 0, 0, 0.42) 16%, rgba(0, 0, 0, 0.82) 28%, rgb(0, 0, 0) 40%), linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 26%)",
+        "imageBounds": {
+          "x": 590.40625,
+          "y": 64,
+          "width": 849.59375,
+          "height": 835,
+          "top": 64,
+          "right": 1440,
+          "bottom": 899,
+          "left": 590.40625
+        },
+        "fit": "cover",
+        "position": "50% 3%",
+        "source": "http://localhost:5173/images/players/action/wembanyama-960.webp",
+        "natural": [849, 929]
+      },
+      "headline": "192.945px",
+      "overflow": 0
+    },
+    "focus": {
+      "layers": [
+        {
+          "class": "homehero__search",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield-wrap searchfield--arena",
+          "background": "rgba(14, 14, 16, 0.5)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "blur(3px)",
+          "shadow": "rgba(239, 68, 68, 0.18) 0px 0px 0px 1px",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        }
+      ],
+      "photo": {
+        "bounds": {
+          "x": 590.40625,
+          "y": 64,
+          "width": 849.59375,
+          "height": 835,
+          "top": 64,
+          "right": 1440,
+          "bottom": 899,
+          "left": 590.40625
+        },
+        "mask": "linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 6%, rgba(0, 0, 0, 0.42) 16%, rgba(0, 0, 0, 0.82) 28%, rgb(0, 0, 0) 40%), linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 26%)",
+        "imageBounds": {
+          "x": 590.40625,
+          "y": 64,
+          "width": 849.59375,
+          "height": 835,
+          "top": 64,
+          "right": 1440,
+          "bottom": 899,
+          "left": 590.40625
+        },
+        "fit": "cover",
+        "position": "50% 3%",
+        "source": "http://localhost:5173/images/players/action/wembanyama-960.webp",
+        "natural": [849, 929]
+      },
+      "headline": "192.945px",
+      "overflow": 0
+    }
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "errors": [],
+    "idle": {
+      "layers": [
+        {
+          "class": "homehero__search",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield-wrap searchfield--arena",
+          "background": "rgba(14, 14, 16, 0.36)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "blur(3px)",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        }
+      ],
+      "photo": {
+        "bounds": {
+          "x": 419.84375,
+          "y": 64,
+          "width": 604.15625,
+          "height": 835,
+          "top": 64,
+          "right": 1024,
+          "bottom": 899,
+          "left": 419.84375
+        },
+        "mask": "linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 6%, rgba(0, 0, 0, 0.42) 16%, rgba(0, 0, 0, 0.82) 28%, rgb(0, 0, 0) 40%), linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 26%)",
+        "imageBounds": {
+          "x": 419.84375,
+          "y": 64,
+          "width": 604.15625,
+          "height": 835,
+          "top": 64,
+          "right": 1024,
+          "bottom": 899,
+          "left": 419.84375
+        },
+        "fit": "cover",
+        "position": "50% 3%",
+        "source": "http://localhost:5173/images/players/action/wembanyama-640.webp",
+        "natural": [604, 660]
+      },
+      "headline": "142.079px",
+      "overflow": 0
+    },
+    "focus": {
+      "layers": [
+        {
+          "class": "homehero__search",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield-wrap searchfield--arena",
+          "background": "rgba(14, 14, 16, 0.5)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "blur(3px)",
+          "shadow": "rgba(239, 68, 68, 0.18) 0px 0px 0px 1px",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        }
+      ],
+      "photo": {
+        "bounds": {
+          "x": 419.84375,
+          "y": 64,
+          "width": 604.15625,
+          "height": 835,
+          "top": 64,
+          "right": 1024,
+          "bottom": 899,
+          "left": 419.84375
+        },
+        "mask": "linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.12) 6%, rgba(0, 0, 0, 0.42) 16%, rgba(0, 0, 0, 0.82) 28%, rgb(0, 0, 0) 40%), linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 26%)",
+        "imageBounds": {
+          "x": 419.84375,
+          "y": 64,
+          "width": 604.15625,
+          "height": 835,
+          "top": 64,
+          "right": 1024,
+          "bottom": 899,
+          "left": 419.84375
+        },
+        "fit": "cover",
+        "position": "50% 3%",
+        "source": "http://localhost:5173/images/players/action/wembanyama-640.webp",
+        "natural": [604, 660]
+      },
+      "headline": "142.079px",
+      "overflow": 0
+    }
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "idle": {
+      "layers": [
+        {
+          "class": "homehero__search",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield-wrap searchfield--arena",
+          "background": "rgba(14, 14, 16, 0.36)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "blur(3px)",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        }
+      ],
+      "photo": {
+        "bounds": {
+          "x": 0,
+          "y": 64,
+          "width": 390,
+          "height": 300,
+          "top": 64,
+          "right": 390,
+          "bottom": 364,
+          "left": 0
+        },
+        "mask": "linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 45%)",
+        "imageBounds": {
+          "x": -7.796875,
+          "y": 56.203125,
+          "width": 405.59375,
+          "height": 312,
+          "top": 56.203125,
+          "right": 397.796875,
+          "bottom": 368.203125,
+          "left": -7.796875
+        },
+        "fit": "cover",
+        "position": "50% 3%",
+        "source": "http://localhost:5173/images/players/action/wembanyama-640.webp",
+        "natural": [390, 426]
+      },
+      "headline": "71.5162px",
+      "overflow": 0
+    },
+    "focus": {
+      "layers": [
+        {
+          "class": "homehero__search",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield-wrap searchfield--arena",
+          "background": "rgba(14, 14, 16, 0.5)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "blur(3px)",
+          "shadow": "rgba(239, 68, 68, 0.18) 0px 0px 0px 1px",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        },
+        {
+          "class": "searchfield w-full",
+          "background": "rgba(0, 0, 0, 0)",
+          "image": "none",
+          "opacity": "1",
+          "backdrop": "none",
+          "shadow": "none",
+          "content": "normal",
+          "before": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          },
+          "after": {
+            "background": "rgba(0, 0, 0, 0)",
+            "image": "none",
+            "opacity": "1",
+            "backdrop": "none",
+            "shadow": "none",
+            "content": "none"
+          }
+        }
+      ],
+      "photo": {
+        "bounds": {
+          "x": 0,
+          "y": 64,
+          "width": 390,
+          "height": 300,
+          "top": 64,
+          "right": 390,
+          "bottom": 364,
+          "left": 0
+        },
+        "mask": "linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 45%)",
+        "imageBounds": {
+          "x": -7.796875,
+          "y": 56.203125,
+          "width": 405.59375,
+          "height": 312,
+          "top": 56.203125,
+          "right": 397.796875,
+          "bottom": 368.203125,
+          "left": -7.796875
+        },
+        "fit": "cover",
+        "position": "50% 3%",
+        "source": "http://localhost:5173/images/players/action/wembanyama-640.webp",
+        "natural": [390, 426]
+      },
+      "headline": "71.5162px",
+      "overflow": 0
+    }
+  }
+]

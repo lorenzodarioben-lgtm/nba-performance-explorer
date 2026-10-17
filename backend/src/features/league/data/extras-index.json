@@ -1,0 +1,179 @@
+{
+ "kind": "nba-stats-league-extras",
+ "version": 1,
+ "franchisesSha256": "61abf0af2d719977db212c670952151b8fed7ea0c80fe1789cec9689e503149f",
+ "rosters": [
+  {
+   "season": "1983-84",
+   "sha256": "838ea6d9656f5728e4e307a2512f9da9dfca03cf1f54a3c6da467799852b488c"
+  },
+  {
+   "season": "1984-85",
+   "sha256": "52803638810fef92135e79f5ab7e904a0fc6847d6478fbc316cd0926664a926d"
+  },
+  {
+   "season": "1985-86",
+   "sha256": "04adfa321953b4939d66d30a17e73d643edd695267e957a8a9bc75e594ea4733"
+  },
+  {
+   "season": "1986-87",
+   "sha256": "4f581367089bfa3c91a6a868aa01e05d685a70b1585e8a9a18e473c55f506b9e"
+  },
+  {
+   "season": "1987-88",
+   "sha256": "3f900629e089fcaa54e1d2360c6fb83d45c0bf97b2852cd16d76ce618e662367"
+  },
+  {
+   "season": "1988-89",
+   "sha256": "aae110fe3f456439f5110e13158ff6036d927aa2a7c403d27c6d8dfb6b1aed36"
+  },
+  {
+   "season": "1989-90",
+   "sha256": "8859aa36dca58e970aa4dea472ef4dcde0ad2c7eb6da212fda41613bbe821e70"
+  },
+  {
+   "season": "1990-91",
+   "sha256": "b0e852915cfb85f69e16ce65904441c462d60c5fa7a3f51c51b4da7e4d5bf4ea"
+  },
+  {
+   "season": "1991-92",
+   "sha256": "d4859d0ce9719b1ff30ece3ca5a0f9433486d72833ceea37baba2c3ef0509656"
+  },
+  {
+   "season": "1992-93",
+   "sha256": "8ea133500eda49c21ce433503a443e7cfebfb6ec886167a2118424c4b7c81ea5"
+  },
+  {
+   "season": "1993-94",
+   "sha256": "c4e7bb6d4627e871997be4766a7f5ccf2ba4ac5805c333d5abb8dd367b0e2422"
+  },
+  {
+   "season": "1994-95",
+   "sha256": "2528df05fa14c15652e9f41f7f66ab99bc930655878a659238075460d13c9bf1"
+  },
+  {
+   "season": "1995-96",
+   "sha256": "d3f549a71dcc0f12baaf9e1d983f052d179bdb0a2b897b93a0f087f370be1269"
+  },
+  {
+   "season": "1996-97",
+   "sha256": "0c5b10af2154ec0f52d99bd003946d193cba554061c5e1765693ea6697eb7d93"
+  },
+  {
+   "season": "1997-98",
+   "sha256": "186a07ff17151148300d8a97da5512bbb903a5d7fcbb4b605abb24d6476f0f33"
+  },
+  {
+   "season": "1998-99",
+   "sha256": "faea5b53b9c2e6143871fcdab0923e2b3cc6e623e9f2b99739e3a53ccff2051d"
+  },
+  {
+   "season": "1999-00",
+   "sha256": "d9ca7d82a21d9d8d9f863da92ad827bb45e4a8984f216f695f2c2654dbd8f6c1"
+  },
+  {
+   "season": "2000-01",
+   "sha256": "ba65209eb41f03e47def10437a36f6e18a21b2e7a51a1d261f2bec8fe61eb225"
+  },
+  {
+   "season": "2001-02",
+   "sha256": "7afbc19a2847b18a06cf14ea143e171a9d93fbcf5261a67cc3764182cfc5ef42"
+  },
+  {
+   "season": "2002-03",
+   "sha256": "1b69af3f559f4699f16c60e0cc1cd1153841d532af07393d8c4e811e994721e5"
+  },
+  {
+   "season": "2003-04",
+   "sha256": "b1b001c526a34e9a307ff64aa9780f68999e9d9a73218ed627014bfa1341d753"
+  },
+  {
+   "season": "2004-05",
+   "sha256": "6c01475862bf623d5b8851c4544e5f4c9636b5c195b940064bda90e9b6f414b2"
+  },
+  {
+   "season": "2005-06",
+   "sha256": "54099e0e542a429a69036a19a20c4987b567bb1fc750a1232d90f8eed216e631"
+  },
+  {
+   "season": "2006-07",
+   "sha256": "131e6ad715f440124c62f2ce58ddc91e3c1e5a27c713c3b4d66c2b1f8256e242"
+  },
+  {
+   "season": "2007-08",
+   "sha256": "0db6e09e1b2a47e713c66e4684c2919ad986d9199c9b0f0df9b5e4d5db1fa7ce"
+  },
+  {
+   "season": "2008-09",
+   "sha256": "78184d67f92be2963e963dd1196ccb5febad1af8cc805f529baef8d24bcfca1d"
+  },
+  {
+   "season": "2009-10",
+   "sha256": "47a12eedbef067780ad9b593ef8da84cc6f1aa41eedd2dc366c53bb09d62950a"
+  },
+  {
+   "season": "2010-11",
+   "sha256": "9d6bc6d58734ac8397aee25f101fc35416c02e1c12acd429c5a887426155e09b"
+  },
+  {
+   "season": "2011-12",
+   "sha256": "40b3096535965f67a6941c33acaaa3f6d0ffcfb7ed84f0a4486133c7386bfc6e"
+  },
+  {
+   "season": "2012-13",
+   "sha256": "cdd5091e32de1c444a84ca374d88746eb0c2fb9a6f9fbbe0d338404a0dbee1be"
+  },
+  {
+   "season": "2013-14",
+   "sha256": "a54f044b0db1c5b9b571630afe7f219a9a18857c729ca38bc2808f5848d24cfb"
+  },
+  {
+   "season": "2014-15",
+   "sha256": "ca2f16fe3b26e020a4899d4aa5661046e922db3d9f47b61c2973eca7bec69d60"
+  },
+  {
+   "season": "2015-16",
+   "sha256": "85f1900485b9b1a6addc94e1e7da6912b1b59efef5144009eb565a2e2769bdf1"
+  },
+  {
+   "season": "2016-17",
+   "sha256": "f31c465805c49c4429c30c2a01f2fa9ee1feb7fe8f4187ef61b978008c15584c"
+  },
+  {
+   "season": "2017-18",
+   "sha256": "2c7e60805f920d1107d283f04fb447583abb0dd5961059d5bfb5f9067967c0be"
+  },
+  {
+   "season": "2018-19",
+   "sha256": "1f705efc0bcd34cb47a9057c8e1c8940e5619abf766e9979693b15c4fe40c468"
+  },
+  {
+   "season": "2019-20",
+   "sha256": "9a9951d21bd2855cb20c56eef14ce1415bace40795edc0a65b4c8112d0cf3126"
+  },
+  {
+   "season": "2020-21",
+   "sha256": "128cdaf606406aa78696d28762ae2c4a92b7d5f59cbc24536b0ec5abcbc2220b"
+  },
+  {
+   "season": "2021-22",
+   "sha256": "5167704c49ac7a5eda65cb9deadfe698f2cb88b4703fcc860fbdd4160a04c018"
+  },
+  {
+   "season": "2022-23",
+   "sha256": "ce14054fbb565294ca31052c74f04ac5fb96267092d865add8c75124ef6fa8e2"
+  },
+  {
+   "season": "2023-24",
+   "sha256": "9aaf4a01c2ef02deae4119f9212f16a6ddf255305b8dc9716bb2c23164b98ecc"
+  },
+  {
+   "season": "2024-25",
+   "sha256": "b14d89648b5bbc4b2165b723b815a6926058b0c6809bdbc488a991fafed8a513"
+  },
+  {
+   "season": "2025-26",
+   "sha256": "2828c358f6a3d1504a02ee103f9427598475c473637d518aa9c92d8821eda51b"
+  }
+ ]
+}

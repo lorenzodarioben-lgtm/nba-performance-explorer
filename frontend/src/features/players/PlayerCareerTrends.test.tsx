@@ -4,6 +4,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './PlayerCareerTrends';
 
 const profileUrl = 'http://localhost/api/players/:playerId';
 const seasonsUrl = 'http://localhost/api/players/:playerId/seasons';
@@ -74,6 +76,19 @@ function trendTable() {
 }
 
 describe('player career trends', () => {
+  it('previews seven career seasons without shortening the chart', async () => {
+    const seasons = Array.from({ length: 12 }, (_, i) =>
+      statsFor(`${2010 + i}-${String(11 + i).padStart(2, '0')}`),
+    );
+    server.use(http.get(trendsUrl, () => HttpResponse.json({ seasons })));
+    renderApp('/players/2544');
+    await screen.findByText('Career trends');
+    await waitFor(() =>
+      expect(within(trendTable()).getAllByRole('rowheader')).toHaveLength(7),
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'View all 12 seasons' }));
+    expect(within(trendTable()).getAllByRole('rowheader')).toHaveLength(12);
+  });
   it('requests the trends for the routed player', async () => {
     let receivedId = '';
     server.use(
@@ -149,10 +164,11 @@ describe('player career trends', () => {
         .map((cell) => cell.textContent),
     ).toEqual(['27.5', '8.6', '9.1']);
 
-    // The chart renders inside an assistive-tech-hidden wrapper, using the same seasons.
-    const chart = container.querySelector('[aria-hidden="true"]');
+    // The chart draws an assistive-tech-hidden SVG (the table is the equivalent) inside a
+    // keyboard-readable chart surface, using the same seasons.
+    const chart = container.querySelector('[data-chart="career-trends"]');
     expect(chart).not.toBeNull();
-    expect(chart?.querySelector('svg')).not.toBeNull();
+    expect(chart?.querySelector('svg[aria-hidden="true"]')).not.toBeNull();
     expect(
       within(chart as HTMLElement).getAllByText('Points per game').length,
     ).toBeGreaterThan(0);
@@ -183,7 +199,9 @@ describe('player career trends', () => {
       name: /points, rebounds, and assists per game by season/i,
     });
 
-    const dashPatterns = [...container.querySelectorAll('[aria-hidden="true"] path')]
+    const dashPatterns = [
+      ...container.querySelectorAll('[data-chart="career-trends"] path'),
+    ]
       .map((node) => node.getAttribute('stroke-dasharray'))
       .filter((value): value is string => value !== null);
     expect(dashPatterns).toContain('6 3');
@@ -223,7 +241,7 @@ describe('player career trends', () => {
       ),
     ).toBeInTheDocument();
     // No chart for one season, but the value remains available in the table.
-    expect(container.querySelector('[aria-hidden="true"] svg')).toBeNull();
+    expect(container.querySelector('[data-chart="career-trends"] svg')).toBeNull();
     expect(within(trendTable()).getByText('25.7')).toBeInTheDocument();
   });
 

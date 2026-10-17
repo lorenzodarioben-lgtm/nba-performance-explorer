@@ -1,43 +1,64 @@
 import { Link } from 'react-router';
 
-// The closing frame of the editorial experience (contentinfo landmark), present on every route. A
-// large condensed sign-off, a short set of real destinations, and the single non-affiliation notice
-// and source attribution, which stay plainly readable.
+import { SECTIONS } from './shell/sections';
+
+// The closing frame of every route (contentinfo landmark): the sign-off, the sections, the
+// sources and the single non-affiliation notice, which stays plainly readable. Nothing here
+// claims live data: player statistics are queried on request and archives are fixed snapshots.
 export function AppFooter() {
+  const columns = [
+    SECTIONS.filter((section) => ['players', 'teams', 'games'].includes(section.id)),
+    SECTIONS.filter((section) => ['seasons', 'compare', 'labs'].includes(section.id)),
+  ];
   return (
-    <footer className="border-t border-white/10 bg-night text-chalk">
-      <div className="mx-auto max-w-[80rem] px-6 py-16 sm:px-8">
-        <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
+    <footer className="foot">
+      <span className="foot__ghost" aria-hidden="true">
+        NBA
+      </span>
+      <div className="wrap">
+        <div className="foot__grid">
           <div>
-            <p className="eyebrow text-white/55">NBA Performance Explorer</p>
-            <p className="display mt-4 text-5xl font-extrabold uppercase leading-[0.88] text-chalk sm:text-6xl">
+            <p className="t-eyebrow">NBA Performance Explorer</p>
+            <p className="foot__sign" aria-hidden="true">
               Read
-              <br />
-              the game.
+              <span>the game.</span>
             </p>
           </div>
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-8 gap-y-3">
-            <Link
-              to="/"
-              className="eyebrow link-slide text-white/65 transition-colors hover:text-white"
-            >
-              Search
-            </Link>
-            <Link
-              to="/compare"
-              className="eyebrow link-slide text-white/65 transition-colors hover:text-white"
-            >
-              Compare
-            </Link>
-          </nav>
+          {columns.map((group, index) => (
+            <nav key={index} aria-label={index === 0 ? 'Footer' : 'Footer research'}>
+              <p className="foot__head">{index === 0 ? 'Explore' : 'Study'}</p>
+              <ul className="foot__links">
+                {group.map((section) => (
+                  <li key={section.id}>
+                    <Link to={section.to}>{section.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+          <div>
+            <p className="foot__head">Sources</p>
+            <ul className="foot__links">
+              <li>
+                <Link to="/explore">What&rsquo;s on tape</Link>
+              </li>
+              <li>
+                <Link to="/explore/coverage">Data coverage</Link>
+              </li>
+              <li>
+                <Link to="/my-nba">My NBA</Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-white/70 sm:flex-row sm:items-center sm:justify-between">
+        <div className="foot__legal">
           <p>
             Unofficial project, not affiliated with the NBA. Statistics sourced from
-            NBA.com.
+            NBA.com on request, plus labelled historical archives (Wikipedia, Wikidata,
+            CC0 and open research datasets). Nothing on this site is a live feed.
           </p>
-          <p className="font-mono uppercase tracking-[0.14em]">Live NBA.com data</p>
+          <p className="t-meta">Every module names its source tape</p>
         </div>
       </div>
     </footer>

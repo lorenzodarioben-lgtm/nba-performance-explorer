@@ -1,0 +1,186 @@
+/* Similarity finder: target picker, metric toggles, ranked neighbours and difference bars. */
+.sim-setup {
+  display: grid;
+  gap: 14px;
+  margin: 8px 0 18px;
+}
+.fr .sim-target__name {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 18px;
+}
+.fr .sim-target__name b {
+  font: 700 26px/1 var(--display);
+  text-transform: uppercase;
+  color: var(--chalk);
+}
+.fr .sim-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 0;
+}
+.fr .sim-metric {
+  gap: 6px;
+  padding: 2px 0;
+}
+.sim-knobs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.sim-knobs label {
+  flex: 0 1 160px;
+}
+.sim-result[aria-busy='true'] .sim-list {
+  opacity: 0.55;
+}
+.fr .sim-cohort,
+.fr .sim-method {
+  max-width: 78ch;
+  font-size: 14px;
+  color: var(--chalk-3);
+}
+.fr .sim-outside {
+  padding: 10px 12px;
+  border-left: 2px solid var(--amber);
+  background: rgb(251 191 36 / 0.06);
+  color: var(--chalk-2);
+}
+.sim-list {
+  display: grid;
+  gap: 2px;
+  margin: 12px 0 20px;
+  padding: 0;
+  list-style: none;
+}
+.sim-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.6fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--film);
+  border-left: 2px solid transparent;
+  transition: border-color var(--dur-quick) var(--ease-film);
+}
+.sim-row:hover,
+.sim-row:focus-within {
+  border-left-color: var(--red-hi);
+}
+.sim-row__rank {
+  font: 700 22px/1 var(--display);
+  color: var(--chalk-3);
+}
+.sim-row__who {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.fr .sim-row__who a {
+  font: 700 17px/1.1 var(--display);
+  text-transform: uppercase;
+  color: var(--chalk);
+  text-decoration: none;
+}
+.sim-row__who small,
+.sim-row__dist small {
+  font: 500 11px/1.2 var(--mono);
+  color: var(--chalk-3);
+}
+.sim-row__dist {
+  display: grid;
+  grid-template-columns: minmax(40px, 1fr) auto;
+  align-items: center;
+  column-gap: 8px;
+}
+.sim-row__dist b {
+  font: 700 15px/1 var(--mono);
+  color: var(--chalk);
+}
+.sim-row__dist small {
+  grid-column: 2;
+}
+.sim-row__meter {
+  grid-row: span 2;
+  height: 6px;
+  background: var(--line);
+}
+.sim-row__meter i {
+  display: block;
+  height: 100%;
+  background: var(--chalk-2);
+}
+.fr .sim-row__why {
+  font-size: 13px;
+  color: var(--chalk-2);
+}
+.fr .sim-row__compare {
+  font: 600 12px/1 var(--ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.sim-table__target th,
+.sim-table__target td {
+  color: var(--chalk);
+  font-weight: 700;
+}
+.sim-diff {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sim-diff__track {
+  position: relative;
+  width: 54px;
+  height: 8px;
+  background: var(--line);
+}
+.sim-diff__track::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--chalk-3);
+}
+.sim-diff__track i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.sim-diff[data-sign='up'] i {
+  background: var(--s1);
+}
+.sim-diff[data-sign='down'] i {
+  background: var(--s2);
+}
+.sim-diff small {
+  font: 500 11px/1 var(--mono);
+  color: var(--chalk-2);
+}
+.sim-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0 14px;
+}
+@media (max-width: 720px) {
+  .sim-row {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+  }
+  .sim-row__dist {
+    grid-column: 2 / -1;
+  }
+  .sim-row__why {
+    grid-column: 2 / -1;
+  }
+  .sim-row__compare {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}

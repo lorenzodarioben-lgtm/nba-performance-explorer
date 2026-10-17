@@ -4,6 +4,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './PlayerProfilePage';
 
 const profileUrl = 'http://localhost/api/players/:playerId';
 const seasonsUrl = 'http://localhost/api/players/:playerId/seasons';
@@ -245,7 +247,9 @@ describe('player profile page', () => {
 
     renderApp('/players/2544');
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Something went wrong');
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'NBA.com player data could not be loaded',
+    );
     expect(
       screen.getByRole('heading', { name: 'Player profile unavailable' }),
     ).toBeInTheDocument();

@@ -1,0 +1,290 @@
+/*
+ * The research workbench: a control deck for the question, a stage pairing the chart with the
+ * selected entity, and the exact-values table. Existing tokens and modules only.
+ */
+
+.wb-deck {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 8px;
+  padding: 16px 18px;
+  border: 1px solid var(--line-2);
+  border-left: 3px solid var(--red-hi);
+  background: var(--coal);
+}
+.wb-deck__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 18px;
+}
+.fr .wb-field {
+  display: grid;
+  gap: 6px;
+  min-width: 140px;
+  font: 500 10.5px/1.2 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.fr .wb-field--wide {
+  min-width: 220px;
+}
+.wb-results[data-updating] .wb-stage {
+  opacity: 0.55;
+  transition: opacity var(--dur-quick) var(--ease-film);
+}
+.fr .wb-cohort {
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: var(--chalk-2);
+}
+.wb-excl b {
+  color: var(--amber);
+}
+.wb-stats {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0 0 18px;
+}
+@media (max-width: 760px) {
+  .wb-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.wb-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(240px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 980px) {
+  .wb-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.wb-rank {
+  display: inline-block;
+  min-width: 1.8em;
+  font: 700 1rem/1 var(--display);
+  color: var(--chalk-3);
+}
+.wb-pick {
+  position: sticky;
+  top: calc(var(--mast-h) + var(--subnav-h) + 16px);
+}
+.fr .wb-pick__hint {
+  margin: 0;
+  padding: 16px;
+  border: 1px dashed var(--line-2);
+  font-size: 14px;
+  color: var(--chalk-3);
+}
+.wb-card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--line-2);
+  border-top: 3px solid var(--red-hi);
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgb(185 28 28 / 0.14), transparent 60%),
+    var(--coal);
+}
+.wb-card__kicker {
+  font: 600 10.5px/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red-hi);
+}
+.wb-card__name {
+  font: 800 2rem/0.95 var(--display);
+  text-transform: uppercase;
+}
+.wb-card__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.wb-card__facts dt {
+  font: 500 10px/1.2 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.wb-card__facts dd {
+  margin: 4px 0 0;
+  font: 700 1.5rem/1 var(--display);
+}
+.fr .wb-card__z {
+  margin: 0;
+  font-size: 14px;
+  color: var(--chalk-2);
+}
+.fr .wb-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 14px;
+}
+.fr .wb-rowpick {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--chalk);
+  font: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--line-3);
+  text-underline-offset: 3px;
+}
+.fr .wb-rowpick:hover {
+  color: var(--red-hi);
+}
+/* On the highlighted row the fill is lighter: the picked name stays white (red would fall
+   below text contrast) and the red moves to its underline. */
+.fr .wb-rowpick[aria-pressed='true'] {
+  color: var(--chalk);
+  font-weight: 700;
+  text-decoration-color: var(--red-hi);
+  text-decoration-thickness: 2px;
+}
+.fr tr.is-picked {
+  background: var(--film-2);
+  box-shadow: inset 3px 0 0 var(--red-hi);
+}
+.wb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 18px;
+  margin: 16px 0;
+}
+.wb-share {
+  flex: 1 1 320px;
+}
+
+/* --------------------------------------------------------------- spread strip */
+
+.spread {
+  margin: 14px 0 8px;
+}
+.spread__track {
+  position: relative;
+  height: 22px;
+  margin: 0 6px;
+  border-left: 1px solid var(--chalk-3);
+  border-right: 1px solid var(--chalk-3);
+}
+.spread__track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--chalk-3);
+}
+.spread__box {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  border: 1px solid var(--chalk-2);
+  background: var(--film-2);
+}
+.spread__median,
+.spread__marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--chalk);
+}
+.spread__marker {
+  width: 3px;
+  background: var(--red-hi);
+}
+.spread__mean {
+  position: absolute;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+.spread__caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 8px;
+  font: 500 11px/1.3 var(--mono);
+  color: var(--chalk-3);
+}
+.spread__you {
+  color: var(--red-hi);
+}
+
+/* Furthest from the fit line: two ranked columns of residuals, each a pick button. */
+.wb-trend {
+  margin-top: 14px;
+}
+.fr .wb-trend__lede {
+  max-width: 76ch;
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--chalk-3);
+}
+.wb-trend__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px 18px;
+}
+.fr .wb-trend__col h3 {
+  margin: 0 0 6px;
+  font: 500 10.5px/1.3 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.wb-trend__col ol {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fr .wb-trend__pick {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 8px;
+  border-left: 2px solid transparent;
+  background: var(--film);
+  font-size: 13.5px;
+  color: var(--chalk-2);
+  cursor: pointer;
+  text-align: left;
+}
+.fr .wb-trend__pick:hover,
+.fr .wb-trend__pick:focus-visible,
+.fr .wb-trend__pick[aria-pressed='true'] {
+  border-left-color: var(--red-hi);
+  color: var(--chalk);
+}
+.wb-trend__num {
+  font: 600 12.5px/1.3 var(--mono);
+  white-space: nowrap;
+}
+.wb-trend__num small {
+  color: var(--chalk-3);
+}
+.fr .wb-trend__none {
+  font-size: 13px;
+  color: var(--chalk-3);
+}

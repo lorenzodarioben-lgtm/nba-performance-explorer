@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest';
 
 import { renderApp } from '../../test/renderApp';
 import { server } from '../../test/server';
+// Compile the subject before assertion timers; the app still renders its actual lazy route.
+import './FoundationPage';
 
 const healthUrl = 'http://localhost/api/health';
 
@@ -22,9 +24,13 @@ describe('landing page', () => {
     renderApp();
 
     expect(
-      screen.getByRole('heading', { level: 1, name: 'NBA Performance Explorer' }),
+      // The h1 carries the product name with the "Read the game." headline.
+      screen.getByRole('heading', { level: 1, name: /NBA Performance Explorer/ }),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Search any NBA player and explore/i)).toBeInTheDocument();
+    expect(screen.getByText(/Search any NBA player and explore/i)).toHaveTextContent(
+      'Search any NBA player and explore their profile, form, career and shooting. Compare careers, study recorded games and seasons, and explore archived shot charts.',
+    );
+    expect(screen.queryByText(/Player figures are queried/)).not.toBeInTheDocument();
     // The supported capabilities are listed.
     expect(screen.getByText('Two-player season comparisons')).toBeInTheDocument();
   });
@@ -54,7 +60,7 @@ describe('landing page', () => {
 
     const heading = screen.getByRole('heading', {
       level: 1,
-      name: 'NBA Performance Explorer',
+      name: /NBA Performance Explorer/,
     });
     await waitFor(() => expect(heading).toHaveFocus());
     // The heading is programmatically focusable but must not be a permanent tab stop.
@@ -71,12 +77,28 @@ describe('landing page', () => {
     );
   });
 
+  it('restores the ribbon below the hero and the TIP OFF close above the footer', () => {
+    const { container } = renderApp();
+    const ribbon = container.querySelector('.marquee');
+    expect(ribbon).toHaveAttribute('aria-hidden', 'true');
+    expect(ribbon).toHaveTextContent('Head-to-head comparison');
+    expect(container.querySelector('#top + .marquee')).not.toBeNull();
+    const tip = screen.getByRole('link', { name: /Search a player/ });
+    expect(tip).toHaveAttribute('href', '#top');
+    expect(
+      screen.getByText(
+        'Compare two players, explore their numbers and career arcs, then share the matchup.',
+      ),
+    ).toBeInTheDocument();
+  });
+
   it('shows an accessible connecting state while the data service responds', () => {
     mockHealthPending();
     renderApp();
 
     const status = screen.getByRole('status');
-    expect(status).toHaveTextContent('Connecting to live data');
+    // Plain-language status: the data service, never "live data".
+    expect(status).toHaveTextContent('Connecting to the data service');
     expect(status).toHaveAttribute('aria-live', 'polite');
   });
 
@@ -93,7 +115,10 @@ describe('landing page', () => {
 
     renderApp();
 
-    expect(await screen.findByText('Live data service available')).toBeInTheDocument();
+    const ok = await screen.findByText('Data service available');
+    // Healthy: the green dot, never the neutral connecting ring.
+    expect(ok.querySelector('.home-status__dot')).not.toBeNull();
+    expect(ok.querySelector('.home-status__ring')).toBeNull();
     // The raw service identifier is never rendered, even though the response contains it.
     expect(screen.queryByText(/nba-performance-explorer-api/)).not.toBeInTheDocument();
   });
@@ -116,9 +141,9 @@ describe('landing page', () => {
 
     renderApp();
 
-    expect(
-      await screen.findByText(/Live data service temporarily unavailable/),
-    ).toBeInTheDocument();
+    const down = await screen.findByText(/Data service temporarily unavailable/);
+    expect(down).toBeInTheDocument();
+    expect(down.querySelector('.home-status__dot')).toBeNull();
     // A failed health check must not block or disable the player search.
     expect(
       screen.getByRole('combobox', { name: 'Search NBA players' }),

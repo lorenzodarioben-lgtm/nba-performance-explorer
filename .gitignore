@@ -12,8 +12,10 @@ out/
 .vite/
 *.tsbuildinfo
 
-# Test coverage
-coverage/
+# Test coverage output (anchored: backend/src/features/coverage is source code)
+/coverage/
+/*/coverage/
+/packages/*/coverage/
 *.lcov
 .nyc_output/
 
@@ -58,3 +60,12 @@ desktop.ini
 # reference screenshot must never ship; production-shipped player imagery is copied into
 # frontend/public/ and tracked there instead.
 /Images/
+
+# Regenerable local design-hook cache; scoped detector decisions remain tracked.
+.impeccable/hook.cache.json
+
+# Local browser-check artifacts (screenshots, traces)
+e2e/.artifacts/
+
+# Owner-supplied raw image staging folder: read by scripts/assets, never committed
+/NBA_ASSETS/
