@@ -1,0 +1,331 @@
+
+> nba-performance-explorer@0.1.0 e2e
+> playwright test -c e2e/playwright.config.ts
+
+
+Running 312 tests using 2 workers
+
+(node:45800) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:44384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok   2 [desktop] › e2e\a11y.spec.ts:9:3 › home has no serious accessibility violations (3.5s)
+  ok   1 [desktop] › e2e\final-polish.spec.ts:8:1 › polished search keeps shortcuts, Escape, keyboard selection and focus (5.1s)
+  ok   3 [desktop] › e2e\a11y.spec.ts:9:3 › players-landing has no serious accessibility violations (3.5s)
+  ok   4 [desktop] › e2e\final-polish.spec.ts:45:1 › all thirty directory marks have their own space above team identity (2.8s)
+  ok   6 [desktop] › e2e\final-polish.spec.ts:89:1 › the three editorial headers retain images without visible captions (2.6s)
+  ok   5 [desktop] › e2e\a11y.spec.ts:9:3 › player-profile has no serious accessibility violations (3.9s)
+  ok   7 [desktop] › e2e\final-polish.spec.ts:106:1 › no-photo hero is compact while a mapped photograph retains its frame (1.9s)
+  ok   9 [desktop] › e2e\final-polish.spec.ts:122:1 › game and career disclosures show seven rows and retain keyboard expansion (1.6s)
+  ok   8 [desktop] › e2e\a11y.spec.ts:9:3 › player-insights has no serious accessibility violations (7.5s)
+Liquid surface: slow pixel disturbance 38545; fast 161125; idle rendering stopped.
+  ok  10 [desktop] › e2e\final-polish.spec.ts:164:1 › liquid surface deforms with real pointer velocity, settles, pauses and falls back (7.9s)
+  ok  12 [desktop] › e2e\final-polish.spec.ts:288:1 › brand and confirmed service status provide visible feedback (2.0s)
+  ok  13 [desktop] › e2e\liquid-archive.spec.ts:19:1 › home keeps the two-line headline at 97% of the approved current size (3.3s)
+  ok  11 [desktop] › e2e\a11y.spec.ts:9:3 › player-games has no serious accessibility violations (9.7s)
+  ok  14 [desktop] › e2e\liquid-archive.spec.ts:48:1 › transparent home search retains loading, results, contrast and keyboard selection (2.4s)
+  ok  15 [desktop] › e2e\a11y.spec.ts:9:3 › player-career has no serious accessibility violations (4.7s)
+  ok  16 [desktop] › e2e\liquid-archive.spec.ts:97:1 › archive filters, decade chapters, source index and season pages retain honest navigation (3.5s)
+  ok  17 [desktop] › e2e\a11y.spec.ts:9:3 › player-shooting has no serious accessibility violations (2.6s)
+  ok  19 [desktop] › e2e\a11y.spec.ts:9:3 › compare has no serious accessibility violations (2.4s)
+  ok  20 [desktop] › e2e\a11y.spec.ts:9:3 › explore has no serious accessibility violations (2.8s)
+  ok  21 [desktop] › e2e\a11y.spec.ts:9:3 › teams has no serious accessibility violations (3.4s)
+  ok  18 [desktop] › e2e\liquid-archive.spec.ts:197:1 › real swipes separate visible liquid droplets, stay bounded and stop at rest (11.3s)
+  ok  23 [desktop] › e2e\smoke.spec.ts:10:3 › home renders a complete page (2.5s)
+  ok  24 [desktop] › e2e\smoke.spec.ts:10:3 › players-landing renders a complete page (2.3s)
+  ok  22 [desktop] › e2e\a11y.spec.ts:9:3 › team-detail has no serious accessibility violations (6.2s)
+  ok  25 [desktop] › e2e\smoke.spec.ts:10:3 › player-profile renders a complete page (2.2s)
+  ok  27 [desktop] › e2e\smoke.spec.ts:10:3 › player-insights renders a complete page (2.6s)
+  ok  26 [desktop] › e2e\a11y.spec.ts:9:3 › games has no serious accessibility violations (3.9s)
+  ok  28 [desktop] › e2e\smoke.spec.ts:10:3 › player-games renders a complete page (3.2s)
+  ok  29 [desktop] › e2e\a11y.spec.ts:9:3 › games-archive-day has no serious accessibility violations (4.9s)
+  ok  30 [desktop] › e2e\smoke.spec.ts:10:3 › player-career renders a complete page (2.5s)
+  ok  32 [desktop] › e2e\smoke.spec.ts:10:3 › player-shooting renders a complete page (2.2s)
+  ok  31 [desktop] › e2e\a11y.spec.ts:9:3 › games-recorded has no serious accessibility violations (3.4s)
+  ok  33 [desktop] › e2e\smoke.spec.ts:10:3 › compare renders a complete page (2.4s)
+  ok  35 [desktop] › e2e\smoke.spec.ts:10:3 › explore renders a complete page (2.2s)
+  ok  36 [desktop] › e2e\smoke.spec.ts:10:3 › teams renders a complete page (2.3s)
+  ok  34 [desktop] › e2e\a11y.spec.ts:9:3 › league-game has no serious accessibility violations (7.1s)
+  ok  37 [desktop] › e2e\smoke.spec.ts:10:3 › team-detail renders a complete page (3.0s)
+  ok  39 [desktop] › e2e\smoke.spec.ts:10:3 › games renders a complete page (2.6s)
+  ok  38 [desktop] › e2e\a11y.spec.ts:9:3 › team-franchise has no serious accessibility violations (6.1s)
+  ok  40 [desktop] › e2e\smoke.spec.ts:10:3 › games-archive-day renders a complete page (2.8s)
+  ok  42 [desktop] › e2e\smoke.spec.ts:10:3 › games-recorded renders a complete page (1.9s)
+  ok  43 [desktop] › e2e\smoke.spec.ts:10:3 › league-game renders a complete page (2.5s)
+  ok  41 [desktop] › e2e\a11y.spec.ts:9:3 › game-detail has no serious accessibility violations (8.6s)
+  ok  44 [desktop] › e2e\smoke.spec.ts:10:3 › team-franchise renders a complete page (2.8s)
+  ok  45 [desktop] › e2e\a11y.spec.ts:9:3 › games-shooting has no serious accessibility violations (2.8s)
+  ok  46 [desktop] › e2e\smoke.spec.ts:10:3 › game-detail renders a complete page (3.4s)
+  ok  48 [desktop] › e2e\smoke.spec.ts:10:3 › games-shooting renders a complete page (1.9s)
+  ok  49 [desktop] › e2e\smoke.spec.ts:10:3 › standings renders a complete page (2.4s)
+  ok  47 [desktop] › e2e\a11y.spec.ts:9:3 › standings has no serious accessibility violations (5.7s)
+  ok  50 [desktop] › e2e\smoke.spec.ts:10:3 › standings-recorded renders a complete page (2.8s)
+  ok  52 [desktop] › e2e\smoke.spec.ts:10:3 › leaders renders a complete page (2.5s)
+  ok  51 [desktop] › e2e\a11y.spec.ts:9:3 › standings-recorded has no serious accessibility violations (6.3s)
+  ok  53 [desktop] › e2e\smoke.spec.ts:10:3 › leaders-history renders a complete page (2.8s)
+  ok  55 [desktop] › e2e\smoke.spec.ts:10:3 › standings-history renders a complete page (2.5s)
+  ok  54 [desktop] › e2e\a11y.spec.ts:9:3 › leaders has no serious accessibility violations (5.5s)
+  ok  56 [desktop] › e2e\smoke.spec.ts:10:3 › standings-wikipedia renders a complete page (2.4s)
+  ok  58 [desktop] › e2e\smoke.spec.ts:10:3 › record-book renders a complete page (2.1s)
+  ok  57 [desktop] › e2e\a11y.spec.ts:9:3 › leaders-history has no serious accessibility violations (4.7s)
+  ok  59 [desktop] › e2e\smoke.spec.ts:10:3 › leader-movement renders a complete page (3.2s)
+  ok  60 [desktop] › e2e\a11y.spec.ts:9:3 › standings-history has no serious accessibility violations (5.7s)
+  ok  61 [desktop] › e2e\smoke.spec.ts:10:3 › player-records renders a complete page (6.7s)
+  ok  63 [desktop] › e2e\smoke.spec.ts:10:3 › nba-lineups renders a complete page (2.3s)
+  ok  62 [desktop] › e2e\a11y.spec.ts:9:3 › standings-wikipedia has no serious accessibility violations (5.5s)
+  ok  64 [desktop] › e2e\smoke.spec.ts:10:3 › champions renders a complete page (3.3s)
+  ok  65 [desktop] › e2e\a11y.spec.ts:9:3 › record-book has no serious accessibility violations (4.0s)
+  ok  66 [desktop] › e2e\smoke.spec.ts:10:3 › eras renders a complete page (2.3s)
+  ok  68 [desktop] › e2e\smoke.spec.ts:10:3 › team-rankings renders a complete page (2.6s)
+  ok  67 [desktop] › e2e\a11y.spec.ts:9:3 › leader-movement has no serious accessibility violations (5.2s)
+  ok  69 [desktop] › e2e\smoke.spec.ts:10:3 › leaders-wikipedia renders a complete page (3.0s)
+  ok  71 [desktop] › e2e\smoke.spec.ts:10:3 › leaders-recorded renders a complete page (3.2s)
+  ok  72 [desktop] › e2e\smoke.spec.ts:10:3 › history renders a complete page (2.7s)
+  ok  70 [desktop] › e2e\a11y.spec.ts:9:3 › player-records has no serious accessibility violations (8.0s)
+  ok  73 [desktop] › e2e\smoke.spec.ts:10:3 › history-season renders a complete page (3.2s)
+  ok  75 [desktop] › e2e\smoke.spec.ts:10:3 › history-records renders a complete page (2.1s)
+  ok  74 [desktop] › e2e\a11y.spec.ts:9:3 › nba-lineups has no serious accessibility violations (5.3s)
+  ok  76 [desktop] › e2e\smoke.spec.ts:10:3 › history-calendar renders a complete page (2.1s)
+  ok  78 [desktop] › e2e\smoke.spec.ts:10:3 › history-awards renders a complete page (2.3s)
+  ok  77 [desktop] › e2e\a11y.spec.ts:9:3 › champions has no serious accessibility violations (6.4s)
+  ok  79 [desktop] › e2e\smoke.spec.ts:10:3 › history-draft renders a complete page (5.7s)
+  ok  80 [desktop] › e2e\a11y.spec.ts:9:3 › eras has no serious accessibility violations (3.7s)
+  ok  81 [desktop] › e2e\smoke.spec.ts:10:3 › history-progression renders a complete page (3.2s)
+  ok  83 [desktop] › e2e\smoke.spec.ts:10:3 › labs-landing renders a complete page (2.2s)
+  ok  82 [desktop] › e2e\a11y.spec.ts:9:3 › team-rankings has no serious accessibility violations (5.2s)
+  ok  84 [desktop] › e2e\smoke.spec.ts:10:3 › lab-compare renders a complete page (3.1s)
+  ok  85 [desktop] › e2e\a11y.spec.ts:9:3 › leaders-wikipedia has no serious accessibility violations (4.3s)
+  ok  86 [desktop] › e2e\smoke.spec.ts:10:3 › lab-analytics renders a complete page (2.6s)
+  ok  88 [desktop] › e2e\smoke.spec.ts:10:3 › lab-careers renders a complete page (2.5s)
+  ok  87 [desktop] › e2e\a11y.spec.ts:9:3 › leaders-recorded has no serious accessibility violations (5.4s)
+  ok  89 [desktop] › e2e\smoke.spec.ts:10:3 › lab-teams renders a complete page (2.4s)
+  ok  91 [desktop] › e2e\smoke.spec.ts:10:3 › lab-groups renders a complete page (2.4s)
+  ok  90 [desktop] › e2e\a11y.spec.ts:9:3 › history has no serious accessibility violations (4.1s)
+  ok  93 [desktop] › e2e\a11y.spec.ts:9:3 › history-season has no serious accessibility violations (4.6s)
+  ok  92 [desktop] › e2e\smoke.spec.ts:10:3 › lab-recorded renders a complete page (6.8s)
+  ok  94 [desktop] › e2e\a11y.spec.ts:9:3 › history-records has no serious accessibility violations (4.0s)
+  ok  95 [desktop] › e2e\smoke.spec.ts:10:3 › lab-profiles renders a complete page (4.2s)
+  ok  96 [desktop] › e2e\a11y.spec.ts:9:3 › history-calendar has no serious accessibility violations (3.4s)
+  ok  97 [desktop] › e2e\smoke.spec.ts:10:3 › lab-shots renders a complete page (4.5s)
+  ok  98 [desktop] › e2e\a11y.spec.ts:9:3 › history-awards has no serious accessibility violations (3.7s)
+  ok  99 [desktop] › e2e\smoke.spec.ts:10:3 › lab-lineups renders a complete page (3.4s)
+  ok 101 [desktop] › e2e\smoke.spec.ts:10:3 › discover renders a complete page (2.4s)
+  ok 100 [desktop] › e2e\a11y.spec.ts:9:3 › history-draft has no serious accessibility violations (6.0s)
+  ok 102 [desktop] › e2e\smoke.spec.ts:10:3 › discover-recorded renders a complete page (3.7s)
+  ok 104 [desktop] › e2e\smoke.spec.ts:10:3 › my-nba renders a complete page (2.1s)
+  ok 105 [desktop] › e2e\smoke.spec.ts:10:3 › team-season renders a complete page (3.0s)
+  ok 103 [desktop] › e2e\a11y.spec.ts:9:3 › history-progression has no serious accessibility violations (8.4s)
+  ok 106 [desktop] › e2e\smoke.spec.ts:10:3 › standings-race renders a complete page (2.4s)
+  ok 107 [desktop] › e2e\a11y.spec.ts:9:3 › labs-landing has no serious accessibility violations (3.3s)
+  ok 108 [desktop] › e2e\smoke.spec.ts:10:3 › playoff-bracket renders a complete page (3.0s)
+  ok 109 [desktop] › e2e\a11y.spec.ts:9:3 › lab-compare has no serious accessibility violations (3.4s)
+  ok 110 [desktop] › e2e\smoke.spec.ts:10:3 › player-archive renders a complete page (3.1s)
+  ok 111 [desktop] › e2e\a11y.spec.ts:9:3 › lab-analytics has no serious accessibility violations (3.1s)
+  ok 112 [desktop] › e2e\smoke.spec.ts:10:3 › lab-shots-zones renders a complete page (4.1s)
+  ok 113 [desktop] › e2e\a11y.spec.ts:9:3 › lab-careers has no serious accessibility violations (3.9s)
+  ok 114 [desktop] › e2e\smoke.spec.ts:10:3 › lab-formulas renders a complete page (2.3s)
+  ok 115 [desktop] › e2e\a11y.spec.ts:9:3 › lab-teams has no serious accessibility violations (3.1s)
+  ok 116 [desktop] › e2e\smoke.spec.ts:10:3 › compare-studio renders a complete page (3.5s)
+  ok 117 [desktop] › e2e\a11y.spec.ts:9:3 › lab-groups has no serious accessibility violations (4.0s)
+  ok 118 [desktop] › e2e\smoke.spec.ts:10:3 › lab-workbench renders a complete page (3.5s)
+  ok 120 [desktop] › e2e\smoke.spec.ts:10:3 › lab-workbench-teams renders a complete page (2.7s)
+  ok 121 [desktop] › e2e\smoke.spec.ts:10:3 › lab-shots-efficiency renders a complete page (4.0s)
+  ok 122 [desktop] › e2e\smoke.spec.ts:10:3 › lab-shots-region renders a complete page (3.6s)
+  ok 123 [desktop] › e2e\smoke.spec.ts:10:3 › lab-teams-duel renders a complete page (2.3s)
+  ok 124 [desktop] › e2e\smoke.spec.ts:10:3 › discover-similar renders a complete page (3.0s)
+  ok 125 [desktop] › e2e\smoke.spec.ts:10:3 › series-film-room renders a complete page (2.7s)
+  ok 126 [desktop] › e2e\smoke.spec.ts:10:3 › series-film-room-game renders a complete page (2.8s)
+  ok 119 [desktop] › e2e\a11y.spec.ts:9:3 › lab-recorded has no serious accessibility violations (22.3s)
+  ok 127 [desktop] › e2e\smoke.spec.ts:10:3 › stories renders a complete page (2.0s)
+  ok 129 [desktop] › e2e\smoke.spec.ts:10:3 › tour renders a complete page (2.1s)
+  ok 128 [desktop] › e2e\a11y.spec.ts:9:3 › lab-profiles has no serious accessibility violations (5.9s)
+  ok 130 [desktop] › e2e\smoke.spec.ts:10:3 › coverage renders a complete page (4.1s)
+  ok 132 [desktop] › e2e\smoke.spec.ts:10:3 › not-found renders a complete page (1.8s)
+(node:43256) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  133 [mobile] › e2e\a11y.spec.ts:9:3 › home has no serious accessibility violations
+  -  134 [mobile] › e2e\a11y.spec.ts:9:3 › players-landing has no serious accessibility violations
+  -  135 [mobile] › e2e\a11y.spec.ts:9:3 › player-profile has no serious accessibility violations
+  -  136 [mobile] › e2e\a11y.spec.ts:9:3 › player-insights has no serious accessibility violations
+  -  137 [mobile] › e2e\a11y.spec.ts:9:3 › player-games has no serious accessibility violations
+  -  138 [mobile] › e2e\a11y.spec.ts:9:3 › player-career has no serious accessibility violations
+  -  139 [mobile] › e2e\a11y.spec.ts:9:3 › player-shooting has no serious accessibility violations
+  -  140 [mobile] › e2e\a11y.spec.ts:9:3 › compare has no serious accessibility violations
+  -  141 [mobile] › e2e\a11y.spec.ts:9:3 › explore has no serious accessibility violations
+  -  142 [mobile] › e2e\a11y.spec.ts:9:3 › teams has no serious accessibility violations
+  -  143 [mobile] › e2e\a11y.spec.ts:9:3 › team-detail has no serious accessibility violations
+  -  144 [mobile] › e2e\a11y.spec.ts:9:3 › games has no serious accessibility violations
+  -  145 [mobile] › e2e\a11y.spec.ts:9:3 › games-archive-day has no serious accessibility violations
+  -  146 [mobile] › e2e\a11y.spec.ts:9:3 › games-recorded has no serious accessibility violations
+  -  147 [mobile] › e2e\a11y.spec.ts:9:3 › league-game has no serious accessibility violations
+  -  148 [mobile] › e2e\a11y.spec.ts:9:3 › team-franchise has no serious accessibility violations
+  -  149 [mobile] › e2e\a11y.spec.ts:9:3 › game-detail has no serious accessibility violations
+  -  150 [mobile] › e2e\a11y.spec.ts:9:3 › games-shooting has no serious accessibility violations
+  -  151 [mobile] › e2e\a11y.spec.ts:9:3 › standings has no serious accessibility violations
+  -  152 [mobile] › e2e\a11y.spec.ts:9:3 › standings-recorded has no serious accessibility violations
+  -  153 [mobile] › e2e\a11y.spec.ts:9:3 › leaders has no serious accessibility violations
+  -  154 [mobile] › e2e\a11y.spec.ts:9:3 › leaders-history has no serious accessibility violations
+  -  155 [mobile] › e2e\a11y.spec.ts:9:3 › standings-history has no serious accessibility violations
+  -  156 [mobile] › e2e\a11y.spec.ts:9:3 › standings-wikipedia has no serious accessibility violations
+  -  157 [mobile] › e2e\a11y.spec.ts:9:3 › record-book has no serious accessibility violations
+  -  158 [mobile] › e2e\a11y.spec.ts:9:3 › leader-movement has no serious accessibility violations
+  ok 131 [desktop] › e2e\a11y.spec.ts:9:3 › lab-shots has no serious accessibility violations (12.6s)
+  -  159 [mobile] › e2e\a11y.spec.ts:9:3 › player-records has no serious accessibility violations
+  -  161 [mobile] › e2e\a11y.spec.ts:9:3 › nba-lineups has no serious accessibility violations
+  -  162 [mobile] › e2e\a11y.spec.ts:9:3 › champions has no serious accessibility violations
+  -  163 [mobile] › e2e\a11y.spec.ts:9:3 › eras has no serious accessibility violations
+  -  164 [mobile] › e2e\a11y.spec.ts:9:3 › team-rankings has no serious accessibility violations
+  -  165 [mobile] › e2e\a11y.spec.ts:9:3 › leaders-wikipedia has no serious accessibility violations
+  -  166 [mobile] › e2e\a11y.spec.ts:9:3 › leaders-recorded has no serious accessibility violations
+  -  167 [mobile] › e2e\a11y.spec.ts:9:3 › history has no serious accessibility violations
+  -  168 [mobile] › e2e\a11y.spec.ts:9:3 › history-season has no serious accessibility violations
+  -  169 [mobile] › e2e\a11y.spec.ts:9:3 › history-records has no serious accessibility violations
+  -  170 [mobile] › e2e\a11y.spec.ts:9:3 › history-calendar has no serious accessibility violations
+  -  171 [mobile] › e2e\a11y.spec.ts:9:3 › history-awards has no serious accessibility violations
+  -  172 [mobile] › e2e\a11y.spec.ts:9:3 › history-draft has no serious accessibility violations
+  -  173 [mobile] › e2e\a11y.spec.ts:9:3 › history-progression has no serious accessibility violations
+  -  174 [mobile] › e2e\a11y.spec.ts:9:3 › labs-landing has no serious accessibility violations
+  -  175 [mobile] › e2e\a11y.spec.ts:9:3 › lab-compare has no serious accessibility violations
+  -  176 [mobile] › e2e\a11y.spec.ts:9:3 › lab-analytics has no serious accessibility violations
+  -  177 [mobile] › e2e\a11y.spec.ts:9:3 › lab-careers has no serious accessibility violations
+  -  178 [mobile] › e2e\a11y.spec.ts:9:3 › lab-teams has no serious accessibility violations
+  -  179 [mobile] › e2e\a11y.spec.ts:9:3 › lab-groups has no serious accessibility violations
+  -  180 [mobile] › e2e\a11y.spec.ts:9:3 › lab-recorded has no serious accessibility violations
+  -  181 [mobile] › e2e\a11y.spec.ts:9:3 › lab-profiles has no serious accessibility violations
+  -  182 [mobile] › e2e\a11y.spec.ts:9:3 › lab-shots has no serious accessibility violations
+  -  183 [mobile] › e2e\a11y.spec.ts:9:3 › lab-lineups has no serious accessibility violations
+  -  184 [mobile] › e2e\a11y.spec.ts:9:3 › discover has no serious accessibility violations
+  -  185 [mobile] › e2e\a11y.spec.ts:9:3 › discover-recorded has no serious accessibility violations
+  -  186 [mobile] › e2e\a11y.spec.ts:9:3 › my-nba has no serious accessibility violations
+  -  187 [mobile] › e2e\a11y.spec.ts:9:3 › team-season has no serious accessibility violations
+  -  188 [mobile] › e2e\a11y.spec.ts:9:3 › standings-race has no serious accessibility violations
+  -  189 [mobile] › e2e\a11y.spec.ts:9:3 › playoff-bracket has no serious accessibility violations
+  -  190 [mobile] › e2e\a11y.spec.ts:9:3 › player-archive has no serious accessibility violations
+  -  191 [mobile] › e2e\a11y.spec.ts:9:3 › lab-shots-zones has no serious accessibility violations
+  -  192 [mobile] › e2e\a11y.spec.ts:9:3 › lab-formulas has no serious accessibility violations
+  -  193 [mobile] › e2e\a11y.spec.ts:9:3 › compare-studio has no serious accessibility violations
+  -  194 [mobile] › e2e\a11y.spec.ts:9:3 › lab-workbench has no serious accessibility violations
+  -  195 [mobile] › e2e\a11y.spec.ts:9:3 › lab-workbench-teams has no serious accessibility violations
+  -  196 [mobile] › e2e\a11y.spec.ts:9:3 › lab-shots-efficiency has no serious accessibility violations
+  ok 160 [desktop] › e2e\a11y.spec.ts:9:3 › lab-lineups has no serious accessibility violations (11.6s)
+  -  197 [mobile] › e2e\a11y.spec.ts:9:3 › lab-shots-region has no serious accessibility violations
+  -  199 [mobile] › e2e\a11y.spec.ts:9:3 › lab-teams-duel has no serious accessibility violations
+  -  200 [mobile] › e2e\a11y.spec.ts:9:3 › discover-similar has no serious accessibility violations
+  -  201 [mobile] › e2e\a11y.spec.ts:9:3 › series-film-room has no serious accessibility violations
+  -  202 [mobile] › e2e\a11y.spec.ts:9:3 › series-film-room-game has no serious accessibility violations
+  -  203 [mobile] › e2e\a11y.spec.ts:9:3 › stories has no serious accessibility violations
+  -  204 [mobile] › e2e\a11y.spec.ts:9:3 › tour has no serious accessibility violations
+  -  205 [mobile] › e2e\a11y.spec.ts:9:3 › coverage has no serious accessibility violations
+  -  206 [mobile] › e2e\a11y.spec.ts:9:3 › not-found has no serious accessibility violations
+  -  207 [mobile] › e2e\a11y.spec.ts:35:1 › home with previews still loading has no serious accessibility violations
+  ok 198 [desktop] › e2e\a11y.spec.ts:9:3 › discover has no serious accessibility violations (3.6s)
+  ok 209 [desktop] › e2e\a11y.spec.ts:9:3 › discover-recorded has no serious accessibility violations (3.8s)
+  ok 208 [mobile] › e2e\final-polish.spec.ts:8:1 › polished search keeps shortcuts, Escape, keyboard selection and focus (4.9s)
+  ok 210 [desktop] › e2e\a11y.spec.ts:9:3 › my-nba has no serious accessibility violations (3.1s)
+  ok 211 [mobile] › e2e\final-polish.spec.ts:45:1 › all thirty directory marks have their own space above team identity (3.6s)
+  ok 213 [mobile] › e2e\final-polish.spec.ts:89:1 › the three editorial headers retain images without visible captions (3.3s)
+  ok 212 [desktop] › e2e\a11y.spec.ts:9:3 › team-season has no serious accessibility violations (5.4s)
+  ok 214 [mobile] › e2e\final-polish.spec.ts:106:1 › no-photo hero is compact while a mapped photograph retains its frame (2.5s)
+  ok 216 [mobile] › e2e\final-polish.spec.ts:122:1 › game and career disclosures show seven rows and retain keyboard expansion (2.4s)
+  ok 215 [desktop] › e2e\a11y.spec.ts:9:3 › standings-race has no serious accessibility violations (3.9s)
+  -  217 [mobile] › e2e\final-polish.spec.ts:164:1 › liquid surface deforms with real pointer velocity, settles, pauses and falls back
+  ok 219 [mobile] › e2e\final-polish.spec.ts:288:1 › brand and confirmed service status provide visible feedback (1.9s)
+  -  220 [mobile] › e2e\liquid-archive.spec.ts:19:1 › home keeps the two-line headline at 97% of the approved current size
+  ok 221 [mobile] › e2e\liquid-archive.spec.ts:48:1 › transparent home search retains loading, results, contrast and keyboard selection (2.4s)
+  ok 218 [desktop] › e2e\a11y.spec.ts:9:3 › playoff-bracket has no serious accessibility violations (5.0s)
+  ok 223 [desktop] › e2e\a11y.spec.ts:9:3 › player-archive has no serious accessibility violations (4.5s)
+  ok 222 [mobile] › e2e\liquid-archive.spec.ts:97:1 › archive filters, decade chapters, source index and season pages retain honest navigation (5.3s)
+  -  225 [mobile] › e2e\liquid-archive.spec.ts:197:1 › real swipes separate visible liquid droplets, stay bounded and stop at rest
+  ok 226 [mobile] › e2e\smoke.spec.ts:10:3 › home renders a complete page (3.7s)
+  ok 227 [mobile] › e2e\smoke.spec.ts:10:3 › players-landing renders a complete page (4.0s)
+  ok 224 [desktop] › e2e\a11y.spec.ts:9:3 › lab-shots-zones has no serious accessibility violations (10.8s)
+  ok 228 [mobile] › e2e\smoke.spec.ts:10:3 › player-profile renders a complete page (2.8s)
+  ok 229 [desktop] › e2e\a11y.spec.ts:9:3 › lab-formulas has no serious accessibility violations (3.9s)
+  ok 230 [mobile] › e2e\smoke.spec.ts:10:3 › player-insights renders a complete page (3.9s)
+  ok 231 [desktop] › e2e\a11y.spec.ts:9:3 › compare-studio has no serious accessibility violations (4.8s)
+  ok 232 [mobile] › e2e\smoke.spec.ts:10:3 › player-games renders a complete page (5.1s)
+  ok 234 [mobile] › e2e\smoke.spec.ts:10:3 › player-career renders a complete page (2.9s)
+  ok 233 [desktop] › e2e\a11y.spec.ts:9:3 › lab-workbench has no serious accessibility violations (6.1s)
+  ok 235 [mobile] › e2e\smoke.spec.ts:10:3 › player-shooting renders a complete page (2.5s)
+  ok 237 [mobile] › e2e\smoke.spec.ts:10:3 › compare renders a complete page (3.2s)
+  ok 236 [desktop] › e2e\a11y.spec.ts:9:3 › lab-workbench-teams has no serious accessibility violations (4.5s)
+  ok 238 [mobile] › e2e\smoke.spec.ts:10:3 › explore renders a complete page (3.2s)
+  ok 240 [mobile] › e2e\smoke.spec.ts:10:3 › teams renders a complete page (2.9s)
+  ok 241 [mobile] › e2e\smoke.spec.ts:10:3 › team-detail renders a complete page (4.0s)
+  ok 242 [mobile] › e2e\smoke.spec.ts:10:3 › games renders a complete page (3.6s)
+  ok 239 [desktop] › e2e\a11y.spec.ts:9:3 › lab-shots-efficiency has no serious accessibility violations (14.2s)
+  ok 243 [mobile] › e2e\smoke.spec.ts:10:3 › games-archive-day renders a complete page (3.8s)
+  ok 245 [mobile] › e2e\smoke.spec.ts:10:3 › games-recorded renders a complete page (2.2s)
+  ok 246 [mobile] › e2e\smoke.spec.ts:10:3 › league-game renders a complete page (3.6s)
+  ok 244 [desktop] › e2e\a11y.spec.ts:9:3 › lab-shots-region has no serious accessibility violations (10.6s)
+  ok 247 [mobile] › e2e\smoke.spec.ts:10:3 › team-franchise renders a complete page (3.8s)
+  ok 248 [desktop] › e2e\a11y.spec.ts:9:3 › lab-teams-duel has no serious accessibility violations (4.2s)
+  ok 249 [mobile] › e2e\smoke.spec.ts:10:3 › game-detail renders a complete page (4.3s)
+  ok 251 [mobile] › e2e\smoke.spec.ts:10:3 › games-shooting renders a complete page (2.1s)
+  ok 250 [desktop] › e2e\a11y.spec.ts:9:3 › discover-similar has no serious accessibility violations (5.1s)
+  ok 252 [mobile] › e2e\smoke.spec.ts:10:3 › standings renders a complete page (3.1s)
+  ok 253 [desktop] › e2e\a11y.spec.ts:9:3 › series-film-room has no serious accessibility violations (4.1s)
+  ok 254 [mobile] › e2e\smoke.spec.ts:10:3 › standings-recorded renders a complete page (4.1s)
+  ok 255 [desktop] › e2e\a11y.spec.ts:9:3 › series-film-room-game has no serious accessibility violations (4.3s)
+  ok 256 [mobile] › e2e\smoke.spec.ts:10:3 › leaders renders a complete page (3.4s)
+  ok 257 [desktop] › e2e\a11y.spec.ts:9:3 › stories has no serious accessibility violations (2.6s)
+  ok 258 [mobile] › e2e\smoke.spec.ts:10:3 › leaders-history renders a complete page (3.2s)
+  ok 259 [desktop] › e2e\a11y.spec.ts:9:3 › tour has no serious accessibility violations (2.6s)
+  ok 260 [mobile] › e2e\smoke.spec.ts:10:3 › standings-history renders a complete page (2.8s)
+  ok 262 [mobile] › e2e\smoke.spec.ts:10:3 › standings-wikipedia renders a complete page (2.7s)
+  ok 261 [desktop] › e2e\a11y.spec.ts:9:3 › coverage has no serious accessibility violations (6.4s)
+  ok 263 [mobile] › e2e\smoke.spec.ts:10:3 › record-book renders a complete page (2.4s)
+  ok 264 [desktop] › e2e\a11y.spec.ts:9:3 › not-found has no serious accessibility violations (2.5s)
+  ok 265 [mobile] › e2e\smoke.spec.ts:10:3 › leader-movement renders a complete page (3.3s)
+  ok 266 [desktop] › e2e\a11y.spec.ts:35:1 › home with previews still loading has no serious accessibility violations (3.0s)
+  ok 267 [mobile] › e2e\smoke.spec.ts:10:3 › player-records renders a complete page (3.4s)
+  ok 268 [mobile] › e2e\smoke.spec.ts:10:3 › nba-lineups renders a complete page (2.4s)
+  ok 269 [mobile] › e2e\smoke.spec.ts:10:3 › champions renders a complete page (2.9s)
+  ok 270 [mobile] › e2e\smoke.spec.ts:10:3 › eras renders a complete page (2.3s)
+  ok 271 [mobile] › e2e\smoke.spec.ts:10:3 › team-rankings renders a complete page (2.5s)
+  ok 272 [mobile] › e2e\smoke.spec.ts:10:3 › leaders-wikipedia renders a complete page (2.4s)
+  ok 273 [mobile] › e2e\smoke.spec.ts:10:3 › leaders-recorded renders a complete page (2.6s)
+  ok 274 [mobile] › e2e\smoke.spec.ts:10:3 › history renders a complete page (2.4s)
+  ok 275 [mobile] › e2e\smoke.spec.ts:10:3 › history-season renders a complete page (2.5s)
+  ok 276 [mobile] › e2e\smoke.spec.ts:10:3 › history-records renders a complete page (2.0s)
+  ok 277 [mobile] › e2e\smoke.spec.ts:10:3 › history-calendar renders a complete page (1.9s)
+  ok 278 [mobile] › e2e\smoke.spec.ts:10:3 › history-awards renders a complete page (2.4s)
+  ok 279 [mobile] › e2e\smoke.spec.ts:10:3 › history-draft renders a complete page (2.5s)
+  ok 280 [mobile] › e2e\smoke.spec.ts:10:3 › history-progression renders a complete page (3.0s)
+  ok 281 [mobile] › e2e\smoke.spec.ts:10:3 › labs-landing renders a complete page (2.0s)
+  ok 282 [mobile] › e2e\smoke.spec.ts:10:3 › lab-compare renders a complete page (2.3s)
+  ok 283 [mobile] › e2e\smoke.spec.ts:10:3 › lab-analytics renders a complete page (2.2s)
+  ok 284 [mobile] › e2e\smoke.spec.ts:10:3 › lab-careers renders a complete page (2.4s)
+  ok 285 [mobile] › e2e\smoke.spec.ts:10:3 › lab-teams renders a complete page (1.9s)
+  ok 286 [mobile] › e2e\smoke.spec.ts:10:3 › lab-groups renders a complete page (2.0s)
+  ok 287 [mobile] › e2e\smoke.spec.ts:10:3 › lab-recorded renders a complete page (5.4s)
+  ok 288 [mobile] › e2e\smoke.spec.ts:10:3 › lab-profiles renders a complete page (3.2s)
+  ok 289 [mobile] › e2e\smoke.spec.ts:10:3 › lab-shots renders a complete page (4.4s)
+  ok 290 [mobile] › e2e\smoke.spec.ts:10:3 › lab-lineups renders a complete page (3.8s)
+  ok 291 [mobile] › e2e\smoke.spec.ts:10:3 › discover renders a complete page (2.0s)
+  ok 292 [mobile] › e2e\smoke.spec.ts:10:3 › discover-recorded renders a complete page (2.3s)
+  ok 293 [mobile] › e2e\smoke.spec.ts:10:3 › my-nba renders a complete page (2.4s)
+  ok 294 [mobile] › e2e\smoke.spec.ts:10:3 › team-season renders a complete page (2.9s)
+  ok 295 [mobile] › e2e\smoke.spec.ts:10:3 › standings-race renders a complete page (2.1s)
+  ok 296 [mobile] › e2e\smoke.spec.ts:10:3 › playoff-bracket renders a complete page (2.6s)
+  ok 297 [mobile] › e2e\smoke.spec.ts:10:3 › player-archive renders a complete page (2.8s)
+  ok 298 [mobile] › e2e\smoke.spec.ts:10:3 › lab-shots-zones renders a complete page (4.1s)
+  ok 299 [mobile] › e2e\smoke.spec.ts:10:3 › lab-formulas renders a complete page (3.1s)
+  ok 300 [mobile] › e2e\smoke.spec.ts:10:3 › compare-studio renders a complete page (3.0s)
+  ok 301 [mobile] › e2e\smoke.spec.ts:10:3 › lab-workbench renders a complete page (3.1s)
+  ok 302 [mobile] › e2e\smoke.spec.ts:10:3 › lab-workbench-teams renders a complete page (2.3s)
+  ok 303 [mobile] › e2e\smoke.spec.ts:10:3 › lab-shots-efficiency renders a complete page (4.9s)
+  ok 304 [mobile] › e2e\smoke.spec.ts:10:3 › lab-shots-region renders a complete page (4.1s)
+  ok 305 [mobile] › e2e\smoke.spec.ts:10:3 › lab-teams-duel renders a complete page (2.7s)
+  ok 306 [mobile] › e2e\smoke.spec.ts:10:3 › discover-similar renders a complete page (3.0s)
+  ok 307 [mobile] › e2e\smoke.spec.ts:10:3 › series-film-room renders a complete page (2.9s)
+  ok 308 [mobile] › e2e\smoke.spec.ts:10:3 › series-film-room-game renders a complete page (3.0s)
+  ok 309 [mobile] › e2e\smoke.spec.ts:10:3 › stories renders a complete page (1.8s)
+  ok 310 [mobile] › e2e\smoke.spec.ts:10:3 › tour renders a complete page (1.9s)
+  ok 311 [mobile] › e2e\smoke.spec.ts:10:3 › coverage renders a complete page (3.6s)
+  ok 312 [mobile] › e2e\smoke.spec.ts:10:3 › not-found renders a complete page (1.6s)
+
+  Slow test file: [desktop] › e2e\a11y.spec.ts (6.6m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  76 skipped
+  236 passed (8.7m)

@@ -1,3 +1,152 @@
+# Liquid physics 2.0 and the historical archive
+
+READY FOR OWNER REVIEW · 17 October 2026 · `codex/nba-explorer-final-polish`
+
+This pass starts from `699e5ac`. Checkpoints: `ea38eca` (homepage/liquid) and `4958260`
+(archive). The commit containing this report update is the final delivery commit;
+resolve it with `git log -1 --oneline`. Earlier reports remain below as history.
+
+## Four delivered improvements
+
+| Request                                   | Result                                                                                                                                                                                                                                                                                                                                                      |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Headline 3% smaller than its current size | Every bound of the current `.homehero__line` clamp is multiplied by 0.97: `4.608rem / 14.304vw / 12.432rem` becomes `4.46976rem / 13.87488vw / 12.05904rem`. Browser tests compare against captures from `699e5ac`, not an older historical size. Saira Condensed, white/red, two lines, entrance, paragraph and Wembanyama geometry remain.                |
+| More transparent homepage search          | Background alpha is 0.36 instead of 0.58 at rest, 0.44 instead of 0.66 on hover, and 0.50 instead of 0.72 on focus. Blur is 3px instead of 4px. Text/icons retain full opacity; the result dropdown retains opaque coal `#111114`. The scope is `.homehero__search`; masthead and other searches are unchanged.                                             |
+| Genuine detachable liquid                 | The existing 64-node wave model now emits bounded liquid masses only on sufficiently energetic, fast boundary crossings. A brief narrowing neck precedes independent flight. Droplets have varied size-dependent momentum, drag, cohesion, gravity, stretching, finite life and smooth disappearance. Rest remains the original native 88px red CSS circle. |
+| Whole-page historical archive             | The Kobe/Shaq archival introduction leads into a coherent filter deck, real returned range/count, selectable decade chapters, chronological season spines, licensed research links, a clearly linked source index and save/share controls. Source records, champion entity semantics, missing statements, provenance and detail pages remain intact.        |
+
+Application changes are in `home.css`, `history.css`, `LiquidVersus.tsx`, `liquidModel.ts`,
+`HistoryArchive.tsx`, `HistoryPage.tsx` and `SeasonTimeline.tsx`. `ResearchShell.tsx` gains
+an optional root class to scope the archive without changing other research pages.
+`PRODUCT.md` records only the explicit owner constraints and verified incumbent purpose;
+unconfirmed audience/business decisions remain open. No dependencies or production assets changed.
+
+## Liquid architecture and parameters
+
+The proven neighbour tension, restoring pressure, directional impulses and swept-pointer
+influence remain. Reusable node history/outline buffers and a preallocated droplet pool
+avoid per-frame object churn. Canvas changes only the contour and liquid masses; original
+red, glow, position and crisp stationary HTML VS remain authoritative.
+
+| Safeguard / physical influence | Implementation                                                                                                                                                                                                                               |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Detachment                     | Pointer speed at least **900 CSS px/s**, actual downstream circle intersection, influence above 0.65, model energy above 12 and local outward crest velocity at least 65. Near misses and gentle passes cannot emit droplets.                |
+| Count and size                 | **12 active maximum**; 2–5 per eligible crossing according to speed. Radii 2.1–4.4 CSS px. Deterministic variation, without random explosions or decorative emitters.                                                                        |
+| Mechanical connection          | Launch follows swipe and boundary direction, scaled by radius. Separation reduces nearby crest velocity to 62% and applies 2 units of recoil per emitted mass. A neck narrows over the first 75ms.                                           |
+| Flight                         | Drag coefficient 3.2/s; gravity 26 px/s²; inward cohesion 85 px/s² after 120ms. Velocity-aligned stretch relaxes; radius shrinks smoothly during the last 40% of life.                                                                       |
+| Bounds                         | Lifetime **0.64–0.82 seconds**; flight culled beyond 94px from centre; emission cooldown 120ms. The transparent 208px canvas gives room around the unchanged 88px host. Description, CTA and page width stay untouched.                      |
+| Integration                    | Stable substeps at up to 120Hz, elapsed cap 50ms, DPR cap 2, pointer speed cap 2400px/s. No React state changes per frame.                                                                                                                   |
+| Idle / fallbacks               | The loop ends after surface energy and droplets settle; reset clears the pool. Offscreen/hidden-tab stops, passive pointer listeners, observers and cleanup remain. Touch, reduced motion and canvas failure use the original static circle. |
+
+Actual Chromium mouse tests cover gentle and medium movement, sparse fast horizontal
+crossing, fast diagonal crossing, repeated swipes, leaving the area, recovery, offscreen
+pause, reduced motion and idle draw counts. Canvas connected-component analysis verifies
+detached pixels, rather than relying only on particle counters. The reviewed sequence
+contains **five detached components** on fast frames and no droplets on gentle movement.
+The label, heading and photograph positions remain fixed.
+
+![Actual Chromium frame sequence: rest, gentle deformation, detachment, flight and recovery](screenshots/liquid-archive/liquid-sequence.png)
+
+The 4× CDP CPU-throttled focused run measured median frame interval **16.7ms**, p95 **33ms**,
+with no new canvas draws during the final idle observation. This is a synthetic JavaScript
+throttle, not physical laptop/GPU certification; screenshot/measurement work is included.
+See [motion measurements](screenshots/liquid-archive/motion-checks.json).
+
+The original circle crop is **pixel-identical at all four widths** against the archived
+`5cc481a` screenshots: [resting comparison](screenshots/liquid-archive/resting-baseline-checks.json).
+
+## Archive decisions and source honesty
+
+The former small photo/plain form/dense all-decade grid becomes an editorial photo stage,
+an exploration deck and a focused decade chapter. The most recent ten-season decade in
+the response opens first; otherwise the first available chapter opens. Selecting a decade
+changes only the view, never URL filters or response contents. The rail keeps the active
+decade visible on mobile. Seasons run chronologically down each desktop column and in one
+mobile spine; previous/next decade buttons and individual season links are keyboard usable.
+
+The overview count and earliest/latest labels come only from `data.seasons`. Champion
+labels remain Wikidata statements; missing winners say so. The `from`, `to` and `champion`
+query semantics, validation, entity-ID pattern and native form constraints are preserved.
+Apply/reset and the share URL stay synchronized. The full table is one native disclosure
+away through both a timeline anchor and a named source-index section. It retains captions,
+row/column headers, original labels and source links, with an accessible horizontal scroll
+region on mobile. Source coverage and limitations remain outside the disclosure.
+
+`/history/:season` retains its heading, champion summary, source notes, share URL and
+query-preserving previous/next navigation. The 2023–24 research hub is retained. The
+Kobe/Shaq image is used only for the general index, never as a particular season's event.
+The shared data model, backend, registries, Scoreboard/Compare headers and other layouts
+are unchanged.
+
+## Visual review and evidence
+
+Before captures are from the actual `699e5ac` state. Final captures cover `/`, `/history`
+and `/history/2023-24` at **1920×1080, 1440×900, 1024×900 and 390×844**. All 12 combinations
+have one h1, zero horizontal page overflow and no console/uncaught browser errors.
+See [before](screenshots/liquid-archive/before-checks.json) and
+[after](screenshots/liquid-archive/after-checks.json) measurements.
+
+The first visual pass identified a too-dark tablet photo fade, timeline dash encoding and
+an offscreen active mobile decade. One refinement batch corrected them and confirmed the
+four widths. The liquid launch was also refined from an even fan to size-dependent flight
+and a short neck. No open-ended polish loop or new imagery was introduced.
+
+| Evidence                     | Before                                                              | After                                                                                                                                                                                                                                                        |
+| ---------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Homepage, desktop            | [1440](screenshots/liquid-archive/before-home-1440.png)             | [1440](screenshots/liquid-archive/after-home-1440.png)                                                                                                                                                                                                       |
+| Homepage, mobile             | [390](screenshots/liquid-archive/before-home-390.png)               | [390](screenshots/liquid-archive/after-home-390.png)                                                                                                                                                                                                         |
+| Entire historical archive    | [1440](screenshots/liquid-archive/before-history-1440.png)          | [1440](screenshots/liquid-archive/after-history-1440.png)                                                                                                                                                                                                    |
+| Mobile archive               | [390](screenshots/liquid-archive/before-history-390.png)            | [390](screenshots/liquid-archive/after-history-390.png)                                                                                                                                                                                                      |
+| Wide archive                 | [1920](screenshots/liquid-archive/before-history-1920.png)          | [1920](screenshots/liquid-archive/after-history-1920.png)                                                                                                                                                                                                    |
+| Tablet archive               | [1024](screenshots/liquid-archive/before-history-1024.png)          | [1024](screenshots/liquid-archive/after-history-1024.png)                                                                                                                                                                                                    |
+| Season detail / retained hub | [1440](screenshots/liquid-archive/before-season-1440.png)           | [1440](screenshots/liquid-archive/after-season-1440.png)                                                                                                                                                                                                     |
+| Original resting section     | [Before](screenshots/liquid-archive/before-comparison-1440.png)     | [After](screenshots/liquid-archive/after-comparison-1440.png)                                                                                                                                                                                                |
+| Search interaction           | [Earlier hero](screenshots/liquid-archive/before-home-1440.png)     | [Idle](screenshots/liquid-archive/search-idle-desktop.png), [focus](screenshots/liquid-archive/search-focus-desktop.png), [loading](screenshots/liquid-archive/search-loading-desktop.png), [results](screenshots/liquid-archive/search-results-desktop.png) |
+| Detailed records             | [Original page](screenshots/liquid-archive/before-history-1440.png) | [Desktop index open](screenshots/liquid-archive/archive-index-open-desktop.png), [mobile](screenshots/liquid-archive/archive-index-open-mobile.png)                                                                                                          |
+
+All native files, including the other viewport captures and individual motion frames,
+are in [`screenshots/liquid-archive`](screenshots/liquid-archive). Reproduce page captures
+with `node scripts/capture-liquid-archive.mjs after` while the fixture-backed app runs.
+`PW_CHROMIUM_PATH` selects an installed browser. `e2e/liquid-archive.spec.ts` captures actual
+mouse and keyboard interaction; `LIQUID_ARCHIVE_EVIDENCE_DIR` lets full reruns preserve
+the reviewed captures. `POLISH_EVIDENCE_DIR` does the same for the earlier regression suite.
+
+Independent Impeccable finish review: **ship**, no material fixes. The review checked
+source and all required screenshots; it did not independently rerun browser tests.
+The documenter confirmed preservation of incumbent tokens/components and wrote no design
+metadata. Existing absent DESIGN.md/design.json were left as pre-existing metadata gaps,
+without inventing a global system change. No new hook suppressions were added.
+
+## Verification and limits
+
+Affected component/model tests: **44 passed**. The final homepage/model checkpoint also
+passed **35/35** after the last physical refinement. Focused browser suite: **19 passed,
+3 intentional skips, zero failures**. Full `npm run validate` passed: **534 frontend tests
+and 532 backend tests**, formatting, module-case/asset checks, frontend/backend types and
+production builds. Lint has zero errors and the same 13 existing warnings.
+Full `npm run e2e` passed: **236 passed, 76 intentional skips, zero failures**, 8.7 minutes.
+Skips are 73 duplicate mobile axe cases, two mouse-only physics cases on touch and the
+duplicate mobile four-width headline check. See the
+[validation log](verification/liquid-archive-validate.txt) and
+[full browser log](verification/liquid-archive-e2e.txt). Final formatting also passed.
+Separate asset integrity check passed: **401 files, 73 players, 45 marks and 1,257 matched
+team-seasons** ([asset log](verification/liquid-archive-assets.txt)). No dependency changes,
+so no dependency/security scope was introduced.
+
+Browser checks use the explicit fixture player provider and existing source-backed
+archives. Fixture history tests visibly identify their DEMO provenance; screenshots of
+the archive use the actual source response. NBA.com production connectivity and physical
+touch/GPU devices were not certified. The liquid is a bounded physically inspired
+surface/droplet simulation, not a volume-conserving fluid solver.
+
+**Next action:** open the running local preview at `http://localhost:5173/history` for
+owner review. The fixture backend and existing frontend remain available; use `npm run dev`
+to restart the app if needed later. No merge, deployment or PR.
+
+---
+
+## Previous homepage correction record (preserved)
+
 # Homepage refinement — owner correction pass
 
 READY FOR OWNER REVIEW · 17 October 2026 · `codex/nba-explorer-final-polish`

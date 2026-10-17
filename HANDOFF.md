@@ -1,3 +1,68 @@
+# Liquid physics 2.0 and historical archive — latest handoff
+
+17 October 2026 · `codex/nba-explorer-final-polish` · starts from `699e5ac`.
+Implementation checkpoints: `ea38eca` (home/liquid), `4958260` (archive).
+The commit containing this update is the final delivery commit; resolve with `git log -1`.
+The earlier handoffs below are retained as history.
+
+- **Status:** READY FOR OWNER REVIEW. Implementation, independent visual review,
+  full validation and full desktop/mobile browser regression complete.
+- **Headline:** exactly 3% smaller than the current `699e5ac` clamp at every width; same
+  font, two-line white/red composition, paragraph, motion and photographic geometry.
+- **Search:** hero-only charcoal alpha 0.36 idle / 0.44 hover / 0.50 focus; blur 3px.
+  Foreground opacity and opaque results are preserved. Loading, Escape, arrow keys,
+  Enter selection and existing masthead shortcuts pass browser checks.
+- **Liquid:** original 64-node model extended with a 12-slot reusable droplet pool.
+  Detachment needs speed ≥900px/s, an actual swept boundary crossing, sufficient energy
+  and an outward-moving crest. 2–5 varied masses launch with directional momentum;
+  separation drains crest velocity and applies recoil. A 75ms neck pinches off; drag,
+  cohesion and slight gravity lead to reabsorption/disappearance within 0.64–0.82s.
+  Flight is local to a 208px decorative canvas. Original 88px CSS circle, colour,
+  restrained glow and stationary VS return exactly at rest. Idle/offscreen/hidden-tab
+  stops, DPR cap, touch/reduced-motion fallback and cleanup remain.
+- **Archive:** dramatic true-subject Kobe/Shaq photo stage; refined year/entity filter
+  deck and reset; derived range/count; selectable decade chapters and chronological
+  spines; recorded research links; accessible source-index disclosure; save/share.
+  URL validation/semantics, source labels/links, missing champions and provenance remain.
+  Detail pages, query-preserving adjacent seasons and the 2023–24 hub are retained;
+  no index photograph is used as a specific season image. No invented historical facts.
+- **Visual verification:** homepage/index/2023–24 detail at 1920×1080, 1440×900,
+  1024×900 and 390×844: one h1, zero overflow/browser errors. Original resting circle
+  pixels match `5cc481a` exactly at all four widths. Fast mouse frames contain five
+  disconnected red regions; gentle passes have none. Repeated/diagonal swipes, recovery
+  and idle draw stop pass. Focused 4× CDP CPU throttle: median 16.7ms, p95 33ms frame
+  intervals; this is a synthetic proxy, not physical laptop/GPU certification.
+- **Focused tests:** 44 affected unit tests pass; final home/model checkpoint 35/35;
+  browser suite 19 passed, 3 intentional skips. Full `npm run validate` passed: 534/534
+  frontend tests, 532/532 backend tests, formatting, types, assets and production builds.
+  Lint has zero errors and the same 13 existing warnings. Full `npm run e2e`: **236 passed,
+  76 intentional skips, zero failures**, 8.7 minutes. Skips: 73 duplicate mobile axe cases,
+  two mouse-only physics cases on touch and the duplicate mobile four-width headline check.
+  Final formatting check also passed.
+  Separate asset check passed: 401 files, 73 players, 45 marks, 1,257 matched team-seasons.
+- **Independent review:** Impeccable finish disposition **ship**, no material fixes.
+  Documenter confirms incumbent system preservation; no DESIGN.md/design.json or hook
+  configuration changes. PRODUCT.md now persists explicit owner constraints and verified
+  purpose, with unconfirmed audience/business fields left open.
+- **Evidence:** [full report](docs/visual-polish/FINAL_POLISH_REPORT.md),
+  [native screenshots](docs/visual-polish/screenshots/liquid-archive),
+  [real motion sequence](docs/visual-polish/screenshots/liquid-archive/liquid-sequence.png),
+  [motion measurements](docs/visual-polish/screenshots/liquid-archive/motion-checks.json).
+- **Limits:** fixture player API and existing source-backed archives; production NBA
+  connectivity and physical touch/GPU hardware not certified. Liquid approximates
+  surface tension and droplet motion rather than solving full fluid volume conservation.
+- **Boundaries:** no backend/contracts, global token, imagery/registry, other-page layout,
+  dependency or deployment changes. Main/source UX branches untouched; no PR/merge/deploy.
+  Raw NBA_ASSETS and local `.claude/` stay unstaged. Temporary review/first-pass captures
+  are removed; all historical evidence from previous passes is preserved.
+
+**Exact next action:** open `http://localhost:5173/history` for owner review. The existing
+frontend and fixture backend remain running. Use `npm run dev` to restart if needed later.
+
+---
+
+## Previous homepage refinement handoff (preserved)
+
 # Homepage refinement — latest handoff
 
 17 October 2026 · `codex/nba-explorer-final-polish` · correction pass from `bfb241c`.

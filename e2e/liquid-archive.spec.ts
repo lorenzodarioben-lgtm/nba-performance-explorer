@@ -1,9 +1,16 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 
-const evidence = 'docs/visual-polish/screenshots/liquid-archive';
+const evidence =
+  process.env.LIQUID_ARCHIVE_EVIDENCE_DIR ??
+  'docs/visual-polish/screenshots/liquid-archive';
 mkdirSync(evidence, { recursive: true });
-const baseline = JSON.parse(readFileSync(`${evidence}/before-checks.json`, 'utf8')) as {
+const baseline = JSON.parse(
+  readFileSync(
+    'docs/visual-polish/screenshots/liquid-archive/before-checks.json',
+    'utf8',
+  ),
+) as {
   width: number;
   route: string;
   headline?: string;
