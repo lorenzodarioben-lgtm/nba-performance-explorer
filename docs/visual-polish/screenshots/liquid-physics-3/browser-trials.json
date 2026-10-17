@@ -1,0 +1,347 @@
+{
+  "trialsPerGroup": 20,
+  "source": "Unseeded production model; actual Playwright mouse events; total new detachments including zeros.",
+  "summary": {
+    "slow": {
+      "counts": [1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 1, 1, 1],
+      "histogram": {
+        "1": 12,
+        "2": 8
+      },
+      "meanCount": 1.4,
+      "meanMass": 2.3748999999999993,
+      "meanWallSpeed": 188.79500000000002
+    },
+    "medium": {
+      "counts": [3, 4, 4, 3, 3, 4, 3, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3, 4, 3, 3],
+      "histogram": {
+        "2": 3,
+        "3": 13,
+        "4": 4
+      },
+      "meanCount": 3.05,
+      "meanMass": 6.111949999999998,
+      "meanWallSpeed": 441.41999999999996
+    },
+    "fast": {
+      "counts": [5, 3, 4, 4, 4, 6, 4, 4, 6, 5, 4, 6, 5, 6, 5, 5, 6, 6, 6, 6],
+      "histogram": {
+        "3": 1,
+        "4": 6,
+        "5": 5,
+        "6": 8
+      },
+      "meanCount": 5,
+      "meanMass": 18.446900000000003,
+      "meanWallSpeed": 1281.5299999999997
+    }
+  },
+  "groups": {
+    "slow": [
+      {
+        "count": 1,
+        "mass": 1.839,
+        "wallSpeed": 187
+      },
+      {
+        "count": 1,
+        "mass": 2.752,
+        "wallSpeed": 182.9
+      },
+      {
+        "count": 2,
+        "mass": 3.689,
+        "wallSpeed": 192.7
+      },
+      {
+        "count": 1,
+        "mass": 1.556,
+        "wallSpeed": 183.9
+      },
+      {
+        "count": 2,
+        "mass": 2.849,
+        "wallSpeed": 186.5
+      },
+      {
+        "count": 1,
+        "mass": 1.568,
+        "wallSpeed": 186.3
+      },
+      {
+        "count": 1,
+        "mass": 2.015,
+        "wallSpeed": 181
+      },
+      {
+        "count": 1,
+        "mass": 1.336,
+        "wallSpeed": 186.5
+      },
+      {
+        "count": 2,
+        "mass": 2.915,
+        "wallSpeed": 186.6
+      },
+      {
+        "count": 1,
+        "mass": 2.356,
+        "wallSpeed": 196.1
+      },
+      {
+        "count": 1,
+        "mass": 1.356,
+        "wallSpeed": 189.6
+      },
+      {
+        "count": 2,
+        "mass": 2.901,
+        "wallSpeed": 192.9
+      },
+      {
+        "count": 1,
+        "mass": 2.119,
+        "wallSpeed": 189.6
+      },
+      {
+        "count": 2,
+        "mass": 3.037,
+        "wallSpeed": 186.5
+      },
+      {
+        "count": 2,
+        "mass": 2.875,
+        "wallSpeed": 189.8
+      },
+      {
+        "count": 2,
+        "mass": 2.723,
+        "wallSpeed": 186.5
+      },
+      {
+        "count": 2,
+        "mass": 2.985,
+        "wallSpeed": 196.1
+      },
+      {
+        "count": 1,
+        "mass": 1.806,
+        "wallSpeed": 189.8
+      },
+      {
+        "count": 1,
+        "mass": 1.539,
+        "wallSpeed": 192.7
+      },
+      {
+        "count": 1,
+        "mass": 3.282,
+        "wallSpeed": 192.9
+      }
+    ],
+    "medium": [
+      {
+        "count": 3,
+        "mass": 8.391,
+        "wallSpeed": 452.4
+      },
+      {
+        "count": 4,
+        "mass": 6.417,
+        "wallSpeed": 435.8
+      },
+      {
+        "count": 4,
+        "mass": 7.165,
+        "wallSpeed": 471.5
+      },
+      {
+        "count": 3,
+        "mass": 4.77,
+        "wallSpeed": 452.4
+      },
+      {
+        "count": 3,
+        "mass": 5.35,
+        "wallSpeed": 420.4
+      },
+      {
+        "count": 4,
+        "mass": 7.184,
+        "wallSpeed": 435.8
+      },
+      {
+        "count": 3,
+        "mass": 3.995,
+        "wallSpeed": 453.5
+      },
+      {
+        "count": 3,
+        "mass": 5.473,
+        "wallSpeed": 419.4
+      },
+      {
+        "count": 2,
+        "mass": 7.007,
+        "wallSpeed": 435.8
+      },
+      {
+        "count": 3,
+        "mass": 6.676,
+        "wallSpeed": 452.4
+      },
+      {
+        "count": 3,
+        "mass": 5.093,
+        "wallSpeed": 471.5
+      },
+      {
+        "count": 2,
+        "mass": 5.252,
+        "wallSpeed": 390.9
+      },
+      {
+        "count": 3,
+        "mass": 5.941,
+        "wallSpeed": 454.5
+      },
+      {
+        "count": 3,
+        "mass": 7.863,
+        "wallSpeed": 436.8
+      },
+      {
+        "count": 2,
+        "mass": 5.184,
+        "wallSpeed": 405.1
+      },
+      {
+        "count": 3,
+        "mass": 7.178,
+        "wallSpeed": 454.5
+      },
+      {
+        "count": 3,
+        "mass": 4.756,
+        "wallSpeed": 406
+      },
+      {
+        "count": 4,
+        "mass": 8.223,
+        "wallSpeed": 470.3
+      },
+      {
+        "count": 3,
+        "mass": 4.482,
+        "wallSpeed": 472.6
+      },
+      {
+        "count": 3,
+        "mass": 5.839,
+        "wallSpeed": 436.8
+      }
+    ],
+    "fast": [
+      {
+        "count": 5,
+        "mass": 20.775,
+        "wallSpeed": 1241.8
+      },
+      {
+        "count": 3,
+        "mass": 18.031,
+        "wallSpeed": 1407.4
+      },
+      {
+        "count": 4,
+        "mass": 19.923,
+        "wallSpeed": 1241.8
+      },
+      {
+        "count": 4,
+        "mass": 17.507,
+        "wallSpeed": 1386.9
+      },
+      {
+        "count": 4,
+        "mass": 18.777,
+        "wallSpeed": 1250
+      },
+      {
+        "count": 6,
+        "mass": 17.138,
+        "wallSpeed": 1217.9
+      },
+      {
+        "count": 4,
+        "mass": 25.076,
+        "wallSpeed": 1225.8
+      },
+      {
+        "count": 4,
+        "mass": 18.624,
+        "wallSpeed": 1233.8
+      },
+      {
+        "count": 6,
+        "mass": 17.657,
+        "wallSpeed": 1397.1
+      },
+      {
+        "count": 5,
+        "mass": 17.718,
+        "wallSpeed": 1397.1
+      },
+      {
+        "count": 4,
+        "mass": 17.6,
+        "wallSpeed": 1250
+      },
+      {
+        "count": 6,
+        "mass": 13.829,
+        "wallSpeed": 1241.8
+      },
+      {
+        "count": 5,
+        "mass": 14.405,
+        "wallSpeed": 1250
+      },
+      {
+        "count": 6,
+        "mass": 15.553,
+        "wallSpeed": 1250
+      },
+      {
+        "count": 5,
+        "mass": 21.671,
+        "wallSpeed": 1233.8
+      },
+      {
+        "count": 5,
+        "mass": 18.386,
+        "wallSpeed": 1250
+      },
+      {
+        "count": 6,
+        "mass": 19.821,
+        "wallSpeed": 1250
+      },
+      {
+        "count": 6,
+        "mass": 19.426,
+        "wallSpeed": 1250
+      },
+      {
+        "count": 6,
+        "mass": 19.886,
+        "wallSpeed": 1397.1
+      },
+      {
+        "count": 6,
+        "mass": 17.135,
+        "wallSpeed": 1258.3
+      }
+    ]
+  }
+}

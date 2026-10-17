@@ -1,0 +1,10 @@
+[
+  { "route": "/", "consoleErrors": [], "httpErrors": [] },
+  { "route": "/teams", "consoleErrors": [], "httpErrors": [] },
+  { "route": "/games?date=2024-06-17", "consoleErrors": [], "httpErrors": [] },
+  { "route": "/history", "consoleErrors": [], "httpErrors": [] },
+  { "route": "/compare", "consoleErrors": [], "httpErrors": [] },
+  { "route": "/players/2544", "consoleErrors": [], "httpErrors": [] },
+  { "route": "/players/1629611", "consoleErrors": [], "httpErrors": [] },
+  { "route": "/players/2544/career", "consoleErrors": [], "httpErrors": [] }
+]

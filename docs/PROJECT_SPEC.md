@@ -96,3 +96,15 @@ A feature or task is "done" only when all of the following hold:
 - Any significant decision made during the work is recorded in `docs/DECISIONS.md`.
 - The complete git diff has been reviewed.
 - Nothing is claimed to pass unless it was actually run and verified.
+
+## 2.0 engine expansion — authorized 2026-10-14
+
+The Shot 1 brief supplied by the human supersedes MVP exclusions only for this
+additive engineering phase: teams/games/league research and new labs are desired
+when genuine free usable sources support them. Preserve the original site, existing
+NBA provider and zero mandatory costs; no main merge or production deployment.
+This branch implements player insights/raw totals, multi-player/selected-cohort
+analysis, sourced current identity directory and local preferences under fresh routes.
+Games, rosters, standings, league populations, shots and archives remain gated.
+See HANDOFF.md and docs/expansion for verified scope, source constraints, incomplete
+minimums and future work. No authentication/social/betting/ML/cloud sync introduced.

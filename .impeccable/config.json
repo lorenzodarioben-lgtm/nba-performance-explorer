@@ -1,0 +1,31 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "C:/Users/lorenzodario/Documents/PersonalProjects/NBA_APP/backend/src/features/wiki-archive/archive.test.ts"
+        ],
+        "createdAt": "2026-10-13T21:22:00.441Z",
+        "reason": "Codex: literal synthetic HTML parser fixture verifies media is ignored; no image is rendered or shipped."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": ["frontend/src/design/shell.css"],
+        "createdAt": "2026-10-16T21:06:57.967Z",
+        "reason": "Agent review: search__head entry rail and aria-selected result indicator are unchanged from 5cc481a; intentional command-palette and keyboard-selection cues in the preserved Arena and Film Room system."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": ["frontend/src/design/player.css"],
+        "createdAt": "2026-10-16T21:06:58.034Z",
+        "reason": "Agent review: peakboard red edge is unchanged from 5cc481a and intentionally distinguishes the qualified career peak summary; preserve the existing research interface outside the owner-requested refinements."
+      }
+    ]
+  }
+}

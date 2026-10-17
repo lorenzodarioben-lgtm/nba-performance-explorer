@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-13T22:11:18.254Z",
+  "status": "PASS",
+  "environment": "local-genuine-wikipedia-wikidata-source",
+  "productionHostTested": false,
+  "requests": 4,
+  "sourceScopesSeparated": true,
+  "directSpaRefresh": true,
+  "results": [
+    {
+      "team": "LAL",
+      "revision": 1358934092,
+      "roster": 18,
+      "mappedIds": 18,
+      "regularResults": 82,
+      "regularParticipants": 21,
+      "unspecifiedParticipants": 0,
+      "identityStatus": "available"
+    },
+    {
+      "team": "BOS",
+      "revision": 1364965269,
+      "roster": 17,
+      "mappedIds": 17,
+      "regularResults": 82,
+      "regularParticipants": 19,
+      "unspecifiedParticipants": 0,
+      "identityStatus": "available"
+    },
+    {
+      "team": "CHI",
+      "revision": 1356365642,
+      "roster": 18,
+      "mappedIds": 18,
+      "regularResults": 82,
+      "regularParticipants": 0,
+      "unspecifiedParticipants": 18,
+      "identityStatus": "available"
+    }
+  ]
+}

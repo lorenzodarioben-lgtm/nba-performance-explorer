@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-10-13T21:34:23.264Z",
+  "status": "PASS",
+  "environment": "local-genuine-wikipedia-source",
+  "productionHostTested": false,
+  "requests": 10,
+  "standings": 30,
+  "leaders": 27,
+  "recordedGames": 82,
+  "overtimeGames": 3,
+  "sourceRevisions": {
+    "season": 1347383197,
+    "playoffs": 1376206465
+  },
+  "quarterSumsReconciled": true,
+  "sourceGameIdsVerified": true,
+  "unknownTimezonePreserved": true,
+  "filteredDateAndTeamVerified": true,
+  "directSpaRefreshes": 4
+}

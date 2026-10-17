@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-14T07:46:43.735620+00:00",
+  "status": "PASS",
+  "environment": "local-genuine-recorded-source",
+  "productionHostTested": false,
+  "runtimeUpstreamRequests": 0,
+  "requests": 4,
+  "commonQualifiedPlayers": 363,
+  "histogramCountConservation": true,
+  "sourceRows": 639,
+  "curryPointsPerGame": 26.4,
+  "missingTargetWithheld": true,
+  "negativeWeightChangesRank": true,
+  "correlation": 0.6034018697279607,
+  "directSpaRefreshes": 1
+}

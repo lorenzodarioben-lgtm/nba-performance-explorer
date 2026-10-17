@@ -1,0 +1,372 @@
+/*
+ * The 2024 playoff bracket: a mirrored West · Finals · East tree of series cards joined by
+ * bracket rules, a champion banner and the series story panel. Existing tokens only.
+ */
+
+.fr .champion {
+  position: relative;
+  margin: 8px 0;
+  padding: 28px 28px 22px;
+  border: 1px solid var(--line-2);
+  background:
+    radial-gradient(90% 160% at 0% 0%, var(--red-glow), transparent 55%),
+    linear-gradient(180deg, var(--film), var(--coal));
+  overflow: hidden;
+}
+.champion::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red-hi), transparent 70%);
+}
+.champion__kicker {
+  font: 600 11px/1 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red-hi);
+}
+.champion__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 18px;
+  margin: 10px 0 16px;
+  font: 800 clamp(1.75rem, 4vw, 3rem) / 0.9 var(--display);
+  text-transform: uppercase;
+}
+.champion__abbr {
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  color: var(--chalk);
+}
+.champion__facts .statgrid__cell {
+  background: rgb(10 10 11 / 0.6);
+}
+@media (max-width: 760px) {
+  .champion__facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ------------------------------------------------------------ bracket tree */
+
+.bracket {
+  --gap: 22px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0 var(--gap);
+  padding-bottom: 8px;
+}
+.bracket__col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.fr .bracket__head {
+  min-height: 2.6em;
+  margin: 0 0 10px;
+  font: 600 10px/1.3 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.bracket__col--finals .bracket__head {
+  color: var(--red-hi);
+}
+.bracket__slots {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 14px;
+}
+.bracket__pair {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 14px;
+}
+/* The bracket rule joins the middles of a pair of cards and reaches towards the next round:
+   West rules open to the right, East rules to the left. */
+.bracket__col--west .bracket__pair:has(> :nth-child(2))::after,
+.bracket__col--east .bracket__pair:has(> :nth-child(2))::after {
+  content: '';
+  position: absolute;
+  top: 25%;
+  bottom: 25%;
+  width: calc(var(--gap) / 2);
+  border: 1px solid var(--line-3);
+  pointer-events: none;
+}
+.bracket__col--west .bracket__pair::after {
+  right: calc(var(--gap) / -2);
+  border-left: 0;
+}
+.bracket__col--east .bracket__pair::after {
+  left: calc(var(--gap) / -2);
+  border-right: 0;
+}
+.bracket__col--finals .bracket__slots {
+  justify-content: center;
+}
+.fr .bracket__col--finals .seriescard {
+  border-color: var(--red);
+  box-shadow:
+    0 0 0 1px var(--red-glow),
+    0 18px 40px -20px var(--red-glow);
+}
+
+.fr .seriescard {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  min-height: 0;
+  padding: 10px 10px 8px;
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  background: var(--coal);
+  color: var(--chalk);
+  font: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-quick) var(--ease-film),
+    background-color var(--dur-quick) var(--ease-film),
+    transform var(--dur-quick) var(--ease-snap);
+}
+.fr .seriescard:hover {
+  border-color: var(--line-3);
+  background: var(--film-2);
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fr .seriescard:hover {
+    transform: none;
+  }
+}
+.fr .seriescard.is-on {
+  border-color: var(--red-hi);
+  background: var(--film-2);
+  box-shadow: inset 3px 0 0 var(--red-hi);
+}
+.seriescard__team {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.seriescard__team b {
+  font: 800 1.25rem/1 var(--display);
+}
+.seriescard__team em {
+  font: 700 1.125rem/1 var(--display);
+  font-style: normal;
+}
+.seriescard__team.is-won b,
+.seriescard__team.is-won em {
+  color: var(--red-hi);
+}
+.seriescard__team.is-out {
+  color: var(--chalk-3);
+}
+.seriescard__pips {
+  display: flex;
+  gap: 3px;
+  margin-top: 4px;
+}
+.seriescard__pips .pip {
+  width: 10px;
+  height: 4px;
+}
+
+@media (max-width: 1080px) {
+  .bracket {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .bracket__col--finals {
+    order: 1;
+  }
+  .bracket__col--r3 {
+    order: 2;
+  }
+  .bracket__col--r2 {
+    order: 3;
+  }
+  .bracket__col--r1 {
+    order: 4;
+  }
+  .bracket__slots {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .bracket__pair {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+  }
+  .bracket__col--west .bracket__pair::after,
+  .bracket__col--east .bracket__pair::after {
+    display: none;
+  }
+  .fr .bracket__head {
+    min-height: 0;
+  }
+}
+
+.bracket__partial {
+  margin-bottom: 20px;
+}
+.bracket__plist {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px;
+}
+.fr .bracket__hint {
+  margin: 4px 0 20px;
+}
+
+/* ------------------------------------------------------------ series story */
+
+.seriespanel .statgrid {
+  margin: 0 0 18px;
+}
+@media (max-width: 760px) {
+  .seriespanel .statgrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.seriesgames {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+  margin: 16px 0;
+  padding: 0;
+  list-style: none;
+}
+.fr .seriesgames > li {
+  padding: 0;
+}
+.seriesgames > li::before {
+  content: none !important;
+}
+.fr .seriesgame {
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: var(--coal);
+  color: var(--chalk);
+  text-decoration: none;
+  transition:
+    border-color var(--dur-quick) var(--ease-film),
+    transform var(--dur-quick) var(--ease-snap);
+}
+.fr .seriesgame:hover {
+  border-color: var(--red-hi);
+  transform: translateY(-2px);
+}
+.seriesgame__no {
+  font: 600 10.5px/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red-hi);
+}
+.seriesgame__date,
+.seriesgame__state {
+  font: 500 11px/1.3 var(--mono);
+  color: var(--chalk-3);
+}
+.seriesgame__score {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font: 700 1.2rem/1 var(--display);
+  color: var(--chalk-2);
+}
+.seriesgame__score .is-won {
+  color: var(--chalk);
+}
+
+/* ------------------------------------------------------------ series context on game pages */
+
+.seriesctx {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin: 14px 0 18px;
+  padding: 12px 16px;
+  border: 1px solid var(--line-2);
+  border-left: 3px solid var(--red-hi);
+  background: var(--coal);
+}
+.seriesctx__round {
+  font: 600 10.5px/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chalk-3);
+}
+.seriesctx__state {
+  font: 800 1.35rem/1 var(--display);
+  text-transform: uppercase;
+}
+.seriesctx__games {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fr .seriesctx__games > li {
+  padding: 0;
+}
+.seriesctx__games > li::before {
+  content: none !important;
+}
+.fr .seriesctx__games a {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 44px;
+  padding: 5px 6px;
+  border: 1px solid var(--line-2);
+  font: 600 10px/1 var(--mono);
+  color: var(--chalk-2);
+  text-decoration: none;
+}
+.seriesctx__games a span {
+  font: 700 0.95rem/1 var(--display);
+}
+.fr .seriesctx__games a.is-a span {
+  color: var(--red-hi);
+}
+/* The current game is marked by its frame only: a lighter fill would drop the red winner
+   label below text contrast. */
+.fr .seriesctx__games a[aria-current='page'] {
+  border-color: var(--chalk);
+  box-shadow: inset 0 0 0 1px var(--chalk);
+  color: var(--chalk);
+}
+.fr .seriesctx__go {
+  margin-left: auto;
+  font-size: 14px;
+}
+
+.seriescard__seed {
+  display: inline-block;
+  min-width: 1.1em;
+  margin-right: 6px;
+  font: 600 10px/1 var(--mono);
+  color: var(--chalk-3);
+  vertical-align: 3px;
+}

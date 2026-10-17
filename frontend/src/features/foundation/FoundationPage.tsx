@@ -1,337 +1,335 @@
-import { useEffect, useRef, type RefObject } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
+import { useEffect, useRef, type MouseEvent, type RefObject } from 'react';
 import { Link } from 'react-router';
 
+import { BasketballCourt } from '../../charts/BasketballCourt';
+import {
+  Reveal,
+  Stagger,
+  StaggerItem,
+  usePointerDepth,
+} from '../../motion/choreography';
+import { useMotionAllowed } from '../../motion/MotionPreference';
+import { easings } from '../../motion/tokens';
+import { SECTIONS } from '../../shell/sections';
+import { Icon } from '../../ui/Icon';
 import { PlayerSearch } from '../player-search/PlayerSearch';
-import { CourtLines } from './CourtLines';
+import { getPlayerImage, getPortraitImage } from '../players/playerImages';
+import { HomePreviews } from './HomePreviews';
 import { LandingMarquee } from './LandingMarquee';
-import { Reveal } from './Reveal';
+import { LiquidVersus } from './LiquidVersus';
+import { NewRooms } from './NewRooms';
 import { useHealthQuery } from './useHealthQuery';
 
-// The public landing page: a dark, broadcast-editorial experience built entirely around the app's
-// real features. The player search is the primary action inside the hero; every section maps to an
-// existing capability (profiles, season statistics, career trends, game logs, comparison). No
-// fabricated data or invented features appear.
-const capabilities = [
-  'Player profiles with bio and team details',
-  'Regular-season statistics for any season',
-  'Career trends for points, rebounds, and assists',
-  'Game-by-game logs',
-  'Two-player season comparisons',
-  'Shareable comparison links',
-];
+// The home photography comes from the one player-image registry, keyed by NBA person id.
+const WEMBANYAMA = '1641705';
+const LEBRON = '2544';
+const HERO = getPlayerImage(WEMBANYAMA)!;
 
-// A small, unobtrusive service-status line. It reflects whether the application's data API is
-// responding — which also gives useful feedback during a free-tier cold start — and never exposes
-// internal service identifiers. Loading and failure states stay accessible (polite live region).
+// The public landing: the Arena front door. Every block maps to a real capability and every
+// preview reads a genuine, labelled archive; nothing here claims to be live.
+
+// A small service-status line. It reflects whether the application's data API is responding
+// (useful during a free-tier cold start) and never exposes internal service identifiers.
 function ServiceStatus() {
   const healthQuery = useHealthQuery();
 
   if (healthQuery.isPending) {
     return (
-      <p role="status" aria-live="polite" className="text-sm text-white/60">
-        Connecting to live data…
+      <p role="status" aria-live="polite" className="home-status">
+        <span aria-hidden="true" className="home-status__ring" />
+        Connecting to the data service…
       </p>
     );
   }
 
   if (healthQuery.isError) {
     return (
-      <p role="status" aria-live="polite" className="text-sm text-white/60">
-        Live data service temporarily unavailable. You can still try a search.
+      <p role="status" aria-live="polite" className="home-status">
+        Data service temporarily unavailable. You can still try a search.
       </p>
     );
   }
 
   return (
-    <p
-      role="status"
-      aria-live="polite"
-      className="flex items-center gap-2 text-sm text-white/70"
-    >
-      <span aria-hidden="true" className="inline-block h-2 w-2 rounded-full bg-ok" />
-      Live data service available
+    <p role="status" aria-live="polite" className="home-status is-ok">
+      <span aria-hidden="true" className="home-status__dot" />
+      Data service available
     </p>
   );
 }
 
 function Hero({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null> }) {
+  const allowed = useMotionAllowed();
+  const stage = useRef<HTMLElement>(null);
+  const depth = usePointerDepth(stage);
+  const { scrollYProgress } = useScroll({
+    target: stage,
+    offset: ['start start', 'end start'],
+  });
+  const photoX = useTransform(depth.x, [-1, 1], [18, -18]);
+  const photoY = useTransform(depth.y, [-1, 1], [12, -12]);
+  const lift = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0.2]);
+  const typeLift = useTransform(scrollYProgress, [0, 1], [0, -60]);
+
   return (
-    <section
-      id="top"
-      className="relative min-h-[100svh] overflow-hidden bg-night text-chalk"
-    >
-      {/* Background: the athlete photograph, masked so its edges dissolve into the night, plus a
-          left-to-dark scrim for headline legibility and a restrained red broadcast glow. */}
-      <div className="absolute inset-0">
-        <img
-          src="/images/wembanyama-hero.webp"
-          width={1140}
-          height={760}
-          alt="Victor Wembanyama of the San Antonio Spurs holding the ball above a defender"
-          fetchPriority="high"
-          decoding="async"
-          className="hero-photo absolute inset-0 h-full w-full object-cover object-[62%_18%] sm:left-auto sm:right-0 sm:w-[64%] sm:object-[center_22%]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-night via-night/85 to-night/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-night via-transparent to-night/60" />
-        <div className="absolute inset-0 bg-[radial-gradient(58%_48%_at_74%_36%,rgba(185,28,28,0.30),transparent_62%)]" />
+    <section ref={stage} id="top" className="homehero">
+      <div className="homehero__stage">
+        <motion.div
+          className="homehero__photo"
+          style={allowed ? { y: lift, opacity: fade } : {}}
+        >
+          <motion.img
+            src={HERO.src}
+            srcSet={HERO.srcSet}
+            sizes="(max-width: 760px) 100vw, min(64vw, 1120px)"
+            width={HERO.width}
+            height={HERO.height}
+            alt={HERO.alt}
+            fetchPriority="high"
+            decoding="async"
+            style={{
+              objectPosition: HERO.objectPosition,
+              ...(allowed ? { x: photoX, y: photoY } : {}),
+            }}
+            initial={
+              allowed ? { clipPath: 'inset(0% 0% 0% 100%)', scale: 1.08 } : false
+            }
+            animate={{ clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
+            transition={{ duration: 1.4, ease: easings.arena, delay: 0.15 }}
+          />
+        </motion.div>
+        <span className="homehero__glow" aria-hidden="true" />
+        <span className="homehero__shade" aria-hidden="true" />
+        <span className="homehero__lines" aria-hidden="true">
+          <BasketballCourt side="bottom" depth={300} floor={false} />
+        </span>
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[80rem] flex-col justify-center px-6 pb-24 pt-28 sm:px-8">
-        <p className="eyebrow text-white/60">Live NBA.com data / 2025-26 season</p>
-
-        <h1
-          ref={headingRef}
-          tabIndex={-1}
-          className="display mt-5 text-[clamp(2.75rem,11vw,9rem)] font-extrabold uppercase leading-[0.84] text-chalk outline-none"
+      <motion.div
+        className="wrap homehero__content"
+        style={allowed ? { y: typeLift } : {}}
+      >
+        <motion.p
+          className="t-eyebrow is-red"
+          initial={allowed ? { opacity: 0, y: 10 } : false}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: easings.arena }}
         >
-          <span className="hero-line">
-            <span>NBA</span>
-          </span>{' '}
-          <span className="hero-line">
-            <span>Performance</span>
-          </span>{' '}
-          <span className="hero-line">
-            <span>Explorer</span>
-          </span>
+          NBA.com player data · historical archives · nothing live
+        </motion.p>
+        <h1 ref={headingRef} tabIndex={-1} className="homehero__title">
+          <span className="homehero__brand">NBA Performance Explorer</span>{' '}
+          {['Read', 'the game.'].map((line, index) => (
+            <span key={line} className="kinetic-line homehero__line">
+              <motion.span
+                className="kinetic-line__inner"
+                initial={allowed ? { y: '108%', rotate: 3 } : false}
+                animate={{ y: '0%', rotate: 0 }}
+                transition={{
+                  duration: 1.1,
+                  ease: easings.arena,
+                  delay: 0.2 + index * 0.13,
+                }}
+              >
+                {line}
+              </motion.span>{' '}
+            </span>
+          ))}
         </h1>
 
-        <p className="mt-6 max-w-xl text-lg text-white/75 sm:text-xl">
-          Search any NBA player and explore their profile, season statistics, career
-          trends, game logs, and head-to-head comparisons.
-        </p>
+        <Reveal delay={0.55} variant="fade">
+          <p className="homehero__lede">
+            Search any NBA player and explore their profile, form, career and shooting.
+            Compare careers, study recorded games and seasons, and explore archived shot
+            charts.
+          </p>
+        </Reveal>
 
-        <div className="mt-10 w-full max-w-2xl border-l-2 border-accent pl-5">
-          <PlayerSearch tone="dark" className="w-full" />
-          <div className="mt-4">
-            <ServiceStatus />
-          </div>
-        </div>
-      </div>
+        <Reveal delay={0.7} variant="rise" className="homehero__search">
+          <PlayerSearch
+            tone="dark"
+            className="w-full"
+            placeholder="Search by player name"
+          />
+          <ServiceStatus />
+        </Reveal>
+      </motion.div>
 
-      {/* Scroll affordance. */}
-      <a
-        href="#explore"
-        className="eyebrow absolute inset-x-0 bottom-6 z-10 mx-auto flex w-max flex-col items-center gap-2 text-white/45 transition-colors hover:text-white"
-      >
-        Scroll
-        <span
-          aria-hidden="true"
-          className="scroll-cue-dot block h-2 w-2 rounded-full bg-accent"
-        />
+      <a href="#rundown" className="homehero__cue">
+        The rundown
+        <span aria-hidden="true" />
       </a>
     </section>
   );
 }
 
-function ExploreSection() {
+const capabilities = [
+  'Player hubs: profile, form, game research, career and shooting',
+  'Two-player season comparisons',
+  'Career curves and percentile profiles',
+  'Archived 2018 playoff shot charts',
+  'Recorded 2023–24 standings, leaders and playoff games',
+  'Season archive: champions, awards, drafts and records',
+];
+
+function Rundown() {
   return (
-    <section
-      id="explore"
-      className="relative bg-night px-6 py-24 text-chalk sm:px-8 sm:py-32"
-    >
-      <div className="mx-auto max-w-[80rem]">
-        <Reveal>
-          <h2 className="display text-5xl font-extrabold uppercase leading-[0.9] sm:text-7xl">
-            Profiles built
-            <br />
-            like a box score
+    <section id="rundown" className="rundown wrap" aria-labelledby="rundown-title">
+      <div className="rundown__head">
+        <Reveal variant="mask">
+          <h2 id="rundown-title" className="rundown__title">
+            The rundown
           </h2>
         </Reveal>
-
-        <div className="mt-14 grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <Reveal>
-            <p className="max-w-xl text-lg text-white/70">
-              Open any player to read their bio, team, and a full season line: points,
-              rebounds, assists, and the complete shooting splits. Then move season by
-              season through their career.
-            </p>
-            <ul className="mt-8 border-y border-white/10">
-              {capabilities.map((capability, index) => (
-                <li
-                  key={capability}
-                  className="flex items-baseline gap-4 border-b border-white/10 py-3 last:border-b-0"
-                >
-                  <span className="font-mono text-xs text-white/35">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span className="text-base text-chalk">{capability}</span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-
-          <Reveal delayMs={120}>
-            <figure className="relative">
-              <div className="absolute -left-3 -top-3 h-16 w-16 border-l-2 border-t-2 border-accent" />
-              <img
-                src="/images/luka-doncic.jpg"
-                width={1200}
-                height={915}
-                loading="lazy"
-                decoding="async"
-                alt="Luka Doncic during an NBA game"
-                className="aspect-[4/5] w-full rounded-sm object-cover object-[center_25%] grayscale-[0.15] sm:aspect-[4/3]"
-              />
-            </figure>
-          </Reveal>
-        </div>
+        <Reveal variant="fade" delay={0.2}>
+          <ul className="rundown__caps" aria-label="What you can do">
+            {capabilities.map((capability) => (
+              <li key={capability}>{capability}</li>
+            ))}
+          </ul>
+        </Reveal>
       </div>
+      <Stagger as="ol" className="rundown__list" gap={0.07}>
+        {SECTIONS.map((section, index) => (
+          <StaggerItem as="li" key={section.id} variant="from-left">
+            <Link to={section.to} className="rundown__row">
+              <span className="rundown__num">{String(index + 1).padStart(2, '0')}</span>
+              <span className="rundown__name">{section.label}</span>
+              <span className="rundown__blurb">{section.blurb}</span>
+              <span className="rundown__go" aria-hidden="true">
+                <Icon name="arrowRight" size={20} />
+              </span>
+            </Link>
+          </StaggerItem>
+        ))}
+      </Stagger>
     </section>
   );
 }
 
-function TrendsSection() {
+function OnTape() {
   return (
-    <section
-      id="trends"
-      className="relative overflow-hidden bg-coal px-6 py-24 text-chalk sm:px-8 sm:py-32"
-    >
-      {/* Cinematic depth on the dark surface: a restrained red broadcast glow plus the court-line
-          motif, both decorative. The section is charcoal (coal) so it reads as its own beat between
-          the near-black sections without leaving the dark theme. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_18%_30%,rgba(185,28,28,0.14),transparent_62%)]"
-      />
-      <Reveal className="pointer-events-none absolute -right-16 top-1/2 hidden h-[560px] -translate-y-1/2 text-white/[0.06] lg:block">
-        <CourtLines className="h-full w-auto" />
-      </Reveal>
-
-      <div className="relative mx-auto max-w-[80rem]">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <Reveal>
-            <figure className="relative">
-              <img
-                src="/images/giannis.avif"
-                width={1920}
-                height={1080}
-                loading="lazy"
-                decoding="async"
-                alt="Giannis Antetokounmpo during an NBA game"
-                className="aspect-square w-full rounded-sm object-cover object-[center_25%]"
-              />
-            </figure>
-          </Reveal>
-
-          <Reveal delayMs={120}>
-            <h2 className="display text-5xl font-extrabold uppercase leading-[0.9] text-chalk sm:text-7xl">
-              Watch a career
-              <br />
-              take shape
-            </h2>
-            <p className="mt-6 max-w-lg text-lg text-white/70">
-              Points, rebounds, and assists per game across every season, drawn as an
-              interactive chart and mirrored in a full data table so the same numbers
-              are available to screen readers and keyboards.
-            </p>
-            <p className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.14em] text-white/55">
-              <span>Points per game</span>
-              <span>Rebounds per game</span>
-              <span>Assists per game</span>
-            </p>
-          </Reveal>
-        </div>
+    <section className="ontape wrap" aria-labelledby="ontape-title">
+      <div className="ontape__head">
+        <Reveal variant="mask">
+          <h2 id="ontape-title" className="rundown__title">
+            On tape now
+          </h2>
+        </Reveal>
+        <Reveal variant="fade" delay={0.15}>
+          <p className="ontape__note">
+            Three real archives, read straight from the sources the platform labels.
+            None of it is live.
+          </p>
+        </Reveal>
       </div>
+      <HomePreviews />
     </section>
+  );
+}
+
+function ComparePhoto({ playerId }: { playerId: string }) {
+  const image = getPortraitImage(playerId);
+  if (!image) return null;
+  // The frame is 3:4; a wider photo is cropped to it, so the browser needs proportionally more
+  // pixels across than the frame's width.
+  const across = Math.max(1, image.width / image.height / 0.75);
+  return (
+    <img
+      src={image.src}
+      srcSet={image.srcSet}
+      sizes={`(max-width: 767px) ${Math.round(45 * across)}vw, ${Math.round(340 * across)}px`}
+      width={image.width}
+      height={image.height}
+      loading="lazy"
+      decoding="async"
+      alt={image.alt}
+      style={{ objectPosition: image.objectPosition }}
+    />
   );
 }
 
 function CompareSection() {
   return (
-    <section className="relative overflow-hidden bg-night px-6 py-24 text-chalk sm:px-8 sm:py-32">
-      <div className="mx-auto max-w-[80rem]">
-        <Reveal className="text-center">
-          <p className="eyebrow text-white/60">Head to head</p>
-
-          <div className="mt-10 flex items-center justify-center gap-5 sm:gap-10">
-            <figure className="h-36 w-32 overflow-hidden rounded-sm border border-white/10 sm:h-56 sm:w-48">
-              <img
-                src="/images/shai-gilgeous-alexander.webp"
-                width={1067}
-                height={1600}
-                loading="lazy"
-                decoding="async"
-                alt="Shai Gilgeous-Alexander"
-                className="h-full w-full object-cover object-top"
-              />
-            </figure>
-            <span className="display text-6xl font-extrabold uppercase leading-none text-accent-bright sm:text-8xl">
-              VS
-            </span>
-            <figure className="h-36 w-32 overflow-hidden rounded-sm border border-white/10 sm:h-56 sm:w-48">
-              <img
-                src="/images/harden.avif"
-                width={980}
-                height={1174}
-                loading="lazy"
-                decoding="async"
-                alt="James Harden"
-                className="h-full w-full object-cover object-top"
-              />
-            </figure>
-          </div>
-
-          <h2 className="display mx-auto mt-12 text-5xl font-extrabold uppercase leading-[0.9] sm:text-7xl">
-            Put two players
-            <br />
-            side by side
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-white/70">
-            Line up a season they both played, compare every number in a neutral table,
-            and share the link.
-          </p>
-          <Link
-            to="/compare"
-            className="display mt-10 inline-flex items-center gap-3 bg-accent px-8 py-4 text-lg font-bold uppercase tracking-wide text-white transition-colors hover:bg-accent-strong"
-          >
-            Compare two players
-            <span aria-hidden="true">&rarr;</span>
-          </Link>
+    <section className="homecmp" aria-labelledby="homecmp-title">
+      <div className="wrap homecmp__inner">
+        <Reveal variant="from-left" className="homecmp__photo">
+          <ComparePhoto playerId={WEMBANYAMA} />
+        </Reveal>
+        <div className="homecmp__copy">
+          <LiquidVersus />
+          <Reveal variant="mask">
+            <h2 id="homecmp-title" className="homecmp__title">
+              Put two players side by side
+            </h2>
+          </Reveal>
+          <Reveal variant="fade" delay={0.15}>
+            <p className="homecmp__lede">
+              Compare two players, explore their numbers and career arcs, then share the
+              matchup.
+            </p>
+            <Link to="/compare" className="btn btn--primary homecmp__cta">
+              Compare two players
+              <Icon name="arrowRight" size={16} />
+            </Link>
+          </Reveal>
+        </div>
+        <Reveal variant="from-right" className="homecmp__photo">
+          <ComparePhoto playerId={LEBRON} />
         </Reveal>
       </div>
     </section>
   );
 }
 
+// The closing call back to the top: an oversized TIP OFF and a bordered button that returns the
+// visitor to the hero search field and focuses it.
 function ClosingSection() {
+  const backToSearch = (event: MouseEvent<HTMLAnchorElement>) => {
+    const input = document.querySelector<HTMLInputElement>('#top input');
+    if (!input) return;
+    event.preventDefault();
+    const smooth = !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    document
+      .getElementById('top')
+      ?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+    input.focus({ preventScroll: true });
+  };
   return (
-    <section className="relative overflow-hidden border-t border-white/10 bg-night px-6 py-28 text-chalk sm:px-8">
-      <div className="mx-auto max-w-[80rem] text-center">
-        <Reveal>
-          <p className="display text-[clamp(3rem,14vw,10rem)] font-extrabold uppercase leading-[0.82]">
-            Tip
-            <br />
-            off
-          </p>
-          <a
-            href="#top"
-            className="display mt-10 inline-flex items-center gap-3 border border-white/25 px-8 py-4 text-lg font-bold uppercase tracking-wide text-chalk transition-colors hover:border-white hover:bg-white/5"
-          >
-            Search a player
-            <span aria-hidden="true">&uarr;</span>
-          </a>
-        </Reveal>
-      </div>
+    <section className="hometip" aria-label="Tip off">
+      <Reveal className="wrap hometip__inner">
+        <p className="hometip__word" aria-hidden="true">
+          Tip
+          <br />
+          off
+        </p>
+        <a href="#top" className="hometip__cta" onClick={backToSearch}>
+          Search a player
+          <span aria-hidden="true">&uarr;</span>
+        </a>
+      </Reveal>
     </section>
   );
 }
 
 export function FoundationPage() {
-  // Move focus to the page heading on entry, matching the profile and comparison routes, so keyboard
-  // and screen-reader users land on the <h1> after client-side navigation to the landing. Runs on
-  // mount only, so it never steals focus during a search or on a background rerender.
+  // Move focus to the page heading on entry, matching the profile and comparison routes, so
+  // keyboard and screen-reader users land on the <h1> after client-side navigation to the
+  // landing. Runs on mount only, so it never steals focus during a search.
   const headingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
-    headingRef.current?.focus();
+    headingRef.current?.focus({ preventScroll: true });
   }, []);
 
   return (
-    <main className="bg-night">
+    <main className="home">
       <Hero headingRef={headingRef} />
       <LandingMarquee />
-      <ExploreSection />
-      <TrendsSection />
+      <Rundown />
+      <OnTape />
+      <NewRooms />
       <CompareSection />
       <ClosingSection />
     </main>

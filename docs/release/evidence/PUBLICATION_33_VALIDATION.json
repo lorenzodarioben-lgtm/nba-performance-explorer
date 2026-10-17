@@ -1,0 +1,118 @@
+{
+  "checkedAt": "2026-10-17T13:07:02.116193+00:00",
+  "localDate": "18 October 2026, Australia/Sydney; checks began 17 October",
+  "preparationParent": "92d2d7e65fc71b7a5ff35cac12128af21d3a8b2e",
+  "approvedApplicationBaseline": "8e2b38b6b3c5569c2700cd041bcb9b6d0e3818ce",
+  "environment": {
+    "os": "Windows",
+    "node": "22.19.0",
+    "npm": "10.9.3",
+    "browser": "Chromium",
+    "viewports": ["1440x900 desktop", "390x844 mobile emulation"]
+  },
+  "validate": {
+    "command": "npm run validate",
+    "passed": true,
+    "frontendTests": 541,
+    "frontendFiles": 85,
+    "backendTests": 532,
+    "backendFiles": 60,
+    "lintErrors": 0,
+    "existingLintWarnings": 13,
+    "formatting": true,
+    "moduleCase": true,
+    "typecheck": true,
+    "frontendBuild": true,
+    "backendBuild": true
+  },
+  "separateVisualAssets": {
+    "command": "npm run check:visual-assets",
+    "passed": true,
+    "files": 401,
+    "players": 73,
+    "marks": 45,
+    "archiveTeamSeasons": 604,
+    "franchiseRecordTeamSeasons": 653
+  },
+  "browser": {
+    "command": "npm run e2e",
+    "passed": 242,
+    "intentionalSkipped": 78,
+    "failed": 0,
+    "duration": "9.4m",
+    "runs": 1,
+    "retries": 0,
+    "assertionsChanged": false,
+    "source": "Explicit fixture player provider and bundled genuine archives; separate from live evidence.",
+    "evidenceLocation": "Ignored local e2e/.artifacts/publication-33 paths; original committed historical evidence preserved."
+  },
+  "production": {
+    "report": "RELEASE_33_SMOKE.json",
+    "passed": 15,
+    "failed": 0,
+    "provider": "nba-stats",
+    "fixturesAllowed": false,
+    "wikiMode": "live",
+    "separatelySimulatedOutage": true,
+    "pageErrors": 0,
+    "consoleErrors": 0
+  },
+  "localLiveStatsGate": {
+    "passed": 4,
+    "failed": 0,
+    "endpoints": [
+      "commonallplayers",
+      "commonplayerinfo",
+      "playercareerstats",
+      "playergamelog"
+    ],
+    "timeoutMs": 10000,
+    "retries": 0,
+    "host": "Local development machine; current application production parsers"
+  },
+  "existingRenderHost": {
+    "report": "PUBLICATION_33_RENDER_CHECK.json",
+    "passed": 5,
+    "failed": 0,
+    "liveCommit": "cd557e4d3cf75e44f930ba75de4ea149a80ccdda",
+    "liveDeployId": "dep-d94imfp9rddc73aodnt0",
+    "release33Deployed": false
+  },
+  "readme": {
+    "renderer": "GitHub Markdown API, GFM repository context; inspected in browser",
+    "localReferencesVerified": 59,
+    "embeddedImagesLoaded": 12,
+    "captureFilesVerified": 13,
+    "galleryBytes": 1667967,
+    "horizontalOverflow": false,
+    "allGalleryFixturesDisabled": true,
+    "manifest": "../screenshots/3.3/capture-manifest.json"
+  },
+  "security": {
+    "report": "PUBLICATION_33_SECURITY.json",
+    "allDependencyVulnerabilities": 0,
+    "productionDependencyVulnerabilities": 0,
+    "publicSourceMaps": 0,
+    "patternFindings": 0,
+    "captureMetadataFindings": 0
+  },
+  "executablePreparationChange": {
+    "file": "scripts/smoke-release.mjs",
+    "change": "One additional screenshot save after existing keyboard selection; no assertions or product code changed.",
+    "fullValidationAndProductionAcceptancePassed": true
+  },
+  "applicationChangesSinceApprovedBaseline": [],
+  "publicationDecision": {
+    "ownerExplicitlyAcceptsDocumentedRightsRisks": true,
+    "formalLicencesOrPermissionsClaimed": false,
+    "technicalPreparationCommitPushAndExistingPrUpdateAuthorized": true,
+    "finalSquashMergeAndDeployApprovalPending": true
+  },
+  "finalHeadCi": "Checked after push and recorded with immutable head/run links in existing PR #29; no self-referential commit SHA is claimed in this pre-commit report.",
+  "limitations": [
+    "Current-date schedule was valid but empty; in-progress live score/box score/play-by-play updates not accepted in this run.",
+    "Safari, Firefox and physical devices not certified.",
+    "Exact existing Render Node patch unavailable because retained logs expired and Shell requires a paid plan.",
+    "No merge, deployment or Render configuration change performed; post-deploy 3.3 acceptance remains pending."
+  ]
+}

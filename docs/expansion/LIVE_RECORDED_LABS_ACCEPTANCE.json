@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-14T07:06:15.912Z",
+  "status": "PASS",
+  "environment": "local-genuine-recorded-source",
+  "productionHostTested": false,
+  "runtimeUpstreamRequests": 0,
+  "requests": 5,
+  "knownDirectoryPlayers": 564,
+  "teams": 30,
+  "hypotheticalIndependentMembers": 5,
+  "jointPerformance": null,
+  "missingRawTotalsPreserved": true,
+  "headToHeadGames": 2,
+  "quarantinedGameIds": 11,
+  "observedSamples": [
+    {
+      "team": "LAL",
+      "GP": 82,
+      "wins": 47,
+      "losses": 35
+    },
+    {
+      "team": "BOS",
+      "GP": 81,
+      "wins": 63,
+      "losses": 18
+    }
+  ],
+  "directSpaRefreshes": 2
+}

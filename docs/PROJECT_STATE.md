@@ -3,9 +3,28 @@
 > This file is the live status of the project. It must be updated after every completed
 > task. Contributors read this to understand where things stand before starting work.
 
-_Last updated: 2026-07-04_
+_Last updated: 2026-10-14_
 
-## Current State
+## Current state — unmerged 2.0 engine branch
+
+- Branch codex/nba-explorer-2-engine; base cd557e4d3cf75e44f930ba75de4ea149a80ccdda.
+- Implementation checkpoint a20fcf23ec81f59ef758ec91e131f99f07d71dc0.
+- Status WORKING_BUT_INCOMPLETE; no production deploy, main merge or remote push.
+- Seven new page patterns / seven GET API patterns: explore, player insights/raw
+  totals, independent season comparison, selected-cohort analytics, current text-only
+  team identities and local research preferences. Original visual sources unchanged.
+- Genuine local NBA probes and 16-check API acceptance passed; raw data and formulas
+  verified, no fabricated stats, fixture runtime clearly separated. Render untested.
+- Final full gate PASS: 247 frontend + 320 backend = 567; identity-focused suite and strict
+  typechecks pass. Final gate/evidence and exact counts in HANDOFF.md
+  and docs/expansion/VERIFICATION_LOG.md; retain prior production history below.
+- Fan games/rosters/standings/league datasets, history, shots and lineups remain
+  unavailable pending suitable free source rights/access. B/F/L supported minimums
+  and H selected-cohort minimum work. Full-platform design readiness NO.
+- Next task: reported-career totals/explicit peak selection from the verified cached
+  raw records; source-rights resolution for league/game foundation remains separate.
+
+## Previous production state (preserved history)
 
 - **Current milestone:** Comparison-page polish: detailed-table disclosure and career-arc trend chart (complete, merged, and deployed)
 - **Current task:** None - the comparison-page polish (detailed-table disclosure, grouped and refined statistical-matchup graph, and the career-arc trend chart, ADR-023) is merged to `main` and live in production
@@ -361,7 +380,7 @@ the Stage D branch passed with:
 - The five README screenshots resolving to tracked files under `docs/assets/`.
 - Automated tests remaining offline and not contacting NBA.com.
 
-## Immediate Next Action
+## Previous immediate next action (historical)
 
 No required work remains for this comparison-polish enhancement. Future changes should be handled as a new,
 separately scoped maintenance or feature task.
@@ -374,3 +393,14 @@ state, and set the immediate next action to the next concrete step.
 
 Keep this file truthful. Do not describe a feature, deployment, test result, provider
 mode, or connectivity result as complete unless it has actually been verified.
+
+## Immediate Next Action
+
+Follow HANDOFF.md: expose a reported-career summary and explicit minimum-games
+peak-season selection from the validated raw record cache; test missing coverage
+and ties. Resolve rights/host access for league/game sources independently.
+Do not treat the preserved previous production history as this branch's live status.
+
+## Final Shot 1 closeout scope (2026-10-14)
+
+Feature expansion is closed. The historical team ranking/split continuation is completed with guarded source agreement, native metadata and source attribution. Broad new feeds remain blocked; they are not part of Claude design implementation. The current audited ledger uses VERIFIED/PARTIAL/BLOCKED/DEFERRED, superseding older milestone vocabulary. Cloud handoff is self-contained in DESIGN_HANDOFF_FOR_CLAUDE.md and API_CATALOG.md; previous restart notes are archived separately. Supervised design can begin on the working foundation without claiming all134features or production readiness.

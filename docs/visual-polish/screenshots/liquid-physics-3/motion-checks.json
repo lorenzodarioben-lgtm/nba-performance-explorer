@@ -1,0 +1,100 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "clip": {
+    "x": 615.984375,
+    "y": 345.5625,
+    "width": 208,
+    "height": 208
+  },
+  "records": [
+    {
+      "name": "very-slow",
+      "requestedSpeed": 40,
+      "wallSpeed": 38.24476650563607,
+      "segments": 8,
+      "count": 0,
+      "mass": 0
+    },
+    {
+      "name": "gentle",
+      "requestedSpeed": 100,
+      "wallSpeed": 89.45386064030131,
+      "segments": 8,
+      "count": 0,
+      "mass": 0
+    },
+    {
+      "name": "slow",
+      "requestedSpeed": 220,
+      "wallSpeed": 186.09206660137122,
+      "segments": 8,
+      "count": 1,
+      "mass": 2.48
+    },
+    {
+      "name": "medium",
+      "requestedSpeed": 650,
+      "wallSpeed": 465.686274509804,
+      "segments": 8,
+      "count": 4,
+      "mass": 5.439
+    },
+    {
+      "name": "fast-horizontal",
+      "requestedSpeed": 1500,
+      "wallSpeed": 1250,
+      "segments": 1,
+      "count": 5,
+      "mass": 20.887999999999998
+    },
+    {
+      "name": "fast-vertical",
+      "requestedSpeed": 1500,
+      "wallSpeed": 1397.0588235294117,
+      "segments": 1,
+      "count": 3,
+      "mass": 19.993
+    },
+    {
+      "name": "fast-diagonal",
+      "requestedSpeed": 1500,
+      "wallSpeed": 1407.4074074074074,
+      "segments": 1,
+      "count": 6,
+      "mass": 18.313000000000002
+    },
+    {
+      "name": "fast-edge",
+      "requestedSpeed": 1500,
+      "wallSpeed": 1241.8300653594772,
+      "segments": 1,
+      "count": 2,
+      "mass": 3.0250000000000057
+    },
+    {
+      "name": "fast-variation",
+      "requestedSpeed": 1500,
+      "wallSpeed": 1407.4074074074074,
+      "segments": 1,
+      "count": 4,
+      "mass": 22.536999999999992
+    },
+    {
+      "name": "repeated-during-recovery",
+      "count": 37,
+      "mass": 125.30300000000001
+    }
+  ],
+  "cpuThrottle": 4,
+  "performance": {
+    "draws": 176,
+    "frames": 229,
+    "medianMs": 16.700000000000728,
+    "p95Ms": 16.799999999999272
+  },
+  "idleDrawsStable": true,
+  "errors": []
+}

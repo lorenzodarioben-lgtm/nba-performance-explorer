@@ -1,4 +1,24 @@
 @import 'tailwindcss';
+@import './design/system.css' layer(components);
+@import './design/charts.css' layer(components);
+@import './design/shell.css' layer(components);
+@import './design/pages.css' layer(components);
+@import './design/player.css' layer(components);
+@import './design/studio.css' layer(components);
+@import './design/compare.css' layer(components);
+@import './design/league.css' layer(components);
+@import './design/history.css' layer(components);
+@import './design/home.css' layer(components);
+@import './design/intel.css' layer(components);
+@import './design/playoffs.css' layer(components);
+@import './design/filmroom.css' layer(components);
+@import './design/stories.css' layer(components);
+@import './design/coverage.css' layer(components);
+@import './design/workbench.css' layer(components);
+@import './design/cstudio.css' layer(components);
+@import './design/similarity.css' layer(components);
+@import './design/seasons.css' layer(components);
+@import './design/assets.css' layer(components);
 
 /*
  * Self-hosted web fonts (latin subset, woff2). The condensed grotesque (Saira Condensed) is the
@@ -68,8 +88,22 @@
    * the light tokens above until their own redesign stage.
    */
   --color-night: #0a0a0b;
-  --color-coal: #131317;
+  --color-coal: #111114;
   --color-chalk: #f4f3f1;
+  --color-chalk-2: rgb(244 243 241 / 0.78);
+  --color-chalk-3: rgb(244 243 241 / 0.62);
+  --color-chalk-4: rgb(244 243 241 / 0.36);
+  --color-film: #17171c;
+  --color-film-2: #1d1e24;
+  --color-line: rgb(255 255 255 / 0.085);
+  --color-line-2: rgb(255 255 255 / 0.16);
+  --color-red-hi: #ef4444;
+  --color-amber: #fbbf24;
+  /* Validated categorical chart series on coal (blue, amber, teal, violet). */
+  --color-s1: #3b82f6;
+  --color-s2: #bd8008;
+  --color-s3: #0ea594;
+  --color-s4: #9b6be8;
 
   --color-accent: #b91c1c;
   --color-accent-strong: #991b1b;
@@ -88,7 +122,8 @@
 
   --color-ok: #15803d;
   --color-danger: #991b1b;
-  --color-focus: #1d4ed8;
+  /* Light blue focus ring: 3:1+ against every dark surface. */
+  --color-focus: #60a5fa;
 
   --radius-sm: 2px;
   --radius-md: 4px;
@@ -103,6 +138,7 @@
    * utilities used across the editorial surfaces. Body legibility is never traded for display.
    */
   --font-display: 'Saira Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --font-ui: 'Barlow', 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
   --font-mono:
     'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 }
@@ -388,7 +424,7 @@ html.js [data-reveal].is-visible {
 }
 @media (prefers-reduced-motion: no-preference) {
   .marquee-track {
-    animation: marquee 40s linear infinite;
+    animation: marquee 80s linear infinite;
   }
   .marquee:hover .marquee-track {
     animation-play-state: paused;

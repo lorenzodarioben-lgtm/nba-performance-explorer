@@ -1,0 +1,45 @@
+/* Film Room page frame for every research route. Most of the look comes from the global `.fr`
+   scope (design/system.css); this module keeps the class names the research pages share. */
+
+/* Layered with the design system so page-specific overrides can refine these defaults. */
+@layer components {
+  .page {
+    min-height: 70vh;
+    overflow-wrap: anywhere;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 14px 18px;
+    margin: 20px 0;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--coal);
+  }
+
+  .controls > :where(button) {
+    align-self: end;
+  }
+
+  /* A row of page-level actions (related links, save, share). */
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 20px;
+    margin: 16px 0;
+  }
+
+  .scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+
+  .note {
+    margin: 20px 0;
+  }
+}

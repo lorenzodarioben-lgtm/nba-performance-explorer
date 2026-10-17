@@ -1,0 +1,132 @@
+{
+  "source": {
+    "title": "2023–24 NBA season",
+    "revision": 1347383197,
+    "url": "https://en.wikipedia.org/w/index.php?oldid=1347383197",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "adapted": true
+  },
+  "teams": [
+    {
+      "id": "nba:1610612738",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612752",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612749",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612739",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612753",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612754",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612755",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612748",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612741",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612737",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612751",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612761",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612766",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612764",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612765",
+      "conference": "East"
+    },
+    {
+      "id": "nba:1610612760",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612743",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612750",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612746",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612742",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612756",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612740",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612747",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612758",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612744",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612745",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612762",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612763",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612759",
+      "conference": "West"
+    },
+    {
+      "id": "nba:1610612757",
+      "conference": "West"
+    }
+  ]
+}

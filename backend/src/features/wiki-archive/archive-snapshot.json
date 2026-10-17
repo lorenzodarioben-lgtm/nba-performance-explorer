@@ -1,0 +1,4542 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-15T09:24:34.241Z",
+  "licence": "CC BY-SA 4.0",
+  "league": {
+    "page": {
+      "title": "2023–24 NBA season",
+      "revision": 1347383197,
+      "retrievedAt": "2026-10-15T09:24:30.517Z"
+    },
+    "standings": [
+      {
+        "rank": 1,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "wins": 64,
+        "losses": 18,
+        "gamesPlayed": 82,
+        "winPercentage": 0.7804878048780488,
+        "sourcePercentage": 0.78,
+        "gamesBehind": 0
+      },
+      {
+        "rank": 2,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "wins": 50,
+        "losses": 32,
+        "gamesPlayed": 82,
+        "winPercentage": 0.6097560975609756,
+        "sourcePercentage": 0.61,
+        "gamesBehind": 14
+      },
+      {
+        "rank": 3,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612749",
+          "sourceId": "1610612749",
+          "abbreviation": "MIL",
+          "name": "Milwaukee Bucks"
+        },
+        "wins": 49,
+        "losses": 33,
+        "gamesPlayed": 82,
+        "winPercentage": 0.5975609756097561,
+        "sourcePercentage": 0.598,
+        "gamesBehind": 15
+      },
+      {
+        "rank": 4,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "wins": 48,
+        "losses": 34,
+        "gamesPlayed": 82,
+        "winPercentage": 0.5853658536585366,
+        "sourcePercentage": 0.585,
+        "gamesBehind": 16
+      },
+      {
+        "rank": 5,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612753",
+          "sourceId": "1610612753",
+          "abbreviation": "ORL",
+          "name": "Orlando Magic"
+        },
+        "wins": 47,
+        "losses": 35,
+        "gamesPlayed": 82,
+        "winPercentage": 0.573170731707317,
+        "sourcePercentage": 0.573,
+        "gamesBehind": 17
+      },
+      {
+        "rank": 6,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "wins": 47,
+        "losses": 35,
+        "gamesPlayed": 82,
+        "winPercentage": 0.573170731707317,
+        "sourcePercentage": 0.573,
+        "gamesBehind": 17
+      },
+      {
+        "rank": 7,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612755",
+          "sourceId": "1610612755",
+          "abbreviation": "PHI",
+          "name": "Philadelphia 76ers"
+        },
+        "wins": 47,
+        "losses": 35,
+        "gamesPlayed": 82,
+        "winPercentage": 0.573170731707317,
+        "sourcePercentage": 0.573,
+        "gamesBehind": 17
+      },
+      {
+        "rank": 8,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612748",
+          "sourceId": "1610612748",
+          "abbreviation": "MIA",
+          "name": "Miami Heat"
+        },
+        "wins": 46,
+        "losses": 36,
+        "gamesPlayed": 82,
+        "winPercentage": 0.5609756097560976,
+        "sourcePercentage": 0.561,
+        "gamesBehind": 18
+      },
+      {
+        "rank": 9,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612741",
+          "sourceId": "1610612741",
+          "abbreviation": "CHI",
+          "name": "Chicago Bulls"
+        },
+        "wins": 39,
+        "losses": 43,
+        "gamesPlayed": 82,
+        "winPercentage": 0.47560975609756095,
+        "sourcePercentage": 0.476,
+        "gamesBehind": 25
+      },
+      {
+        "rank": 10,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612737",
+          "sourceId": "1610612737",
+          "abbreviation": "ATL",
+          "name": "Atlanta Hawks"
+        },
+        "wins": 36,
+        "losses": 46,
+        "gamesPlayed": 82,
+        "winPercentage": 0.43902439024390244,
+        "sourcePercentage": 0.439,
+        "gamesBehind": 28
+      },
+      {
+        "rank": 11,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612751",
+          "sourceId": "1610612751",
+          "abbreviation": "BKN",
+          "name": "Brooklyn Nets"
+        },
+        "wins": 32,
+        "losses": 50,
+        "gamesPlayed": 82,
+        "winPercentage": 0.3902439024390244,
+        "sourcePercentage": 0.39,
+        "gamesBehind": 32
+      },
+      {
+        "rank": 12,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612761",
+          "sourceId": "1610612761",
+          "abbreviation": "TOR",
+          "name": "Toronto Raptors"
+        },
+        "wins": 25,
+        "losses": 57,
+        "gamesPlayed": 82,
+        "winPercentage": 0.3048780487804878,
+        "sourcePercentage": 0.305,
+        "gamesBehind": 39
+      },
+      {
+        "rank": 13,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612766",
+          "sourceId": "1610612766",
+          "abbreviation": "CHA",
+          "name": "Charlotte Hornets"
+        },
+        "wins": 21,
+        "losses": 61,
+        "gamesPlayed": 82,
+        "winPercentage": 0.25609756097560976,
+        "sourcePercentage": 0.256,
+        "gamesBehind": 43
+      },
+      {
+        "rank": 14,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612764",
+          "sourceId": "1610612764",
+          "abbreviation": "WAS",
+          "name": "Washington Wizards"
+        },
+        "wins": 15,
+        "losses": 67,
+        "gamesPlayed": 82,
+        "winPercentage": 0.18292682926829268,
+        "sourcePercentage": 0.183,
+        "gamesBehind": 49
+      },
+      {
+        "rank": 15,
+        "conference": "East",
+        "team": {
+          "id": "nba:1610612765",
+          "sourceId": "1610612765",
+          "abbreviation": "DET",
+          "name": "Detroit Pistons"
+        },
+        "wins": 14,
+        "losses": 68,
+        "gamesPlayed": 82,
+        "winPercentage": 0.17073170731707318,
+        "sourcePercentage": 0.171,
+        "gamesBehind": 50
+      },
+      {
+        "rank": 1,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "wins": 57,
+        "losses": 25,
+        "gamesPlayed": 82,
+        "winPercentage": 0.6951219512195121,
+        "sourcePercentage": 0.695,
+        "gamesBehind": 0
+      },
+      {
+        "rank": 2,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "wins": 57,
+        "losses": 25,
+        "gamesPlayed": 82,
+        "winPercentage": 0.6951219512195121,
+        "sourcePercentage": 0.695,
+        "gamesBehind": 0
+      },
+      {
+        "rank": 3,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "wins": 56,
+        "losses": 26,
+        "gamesPlayed": 82,
+        "winPercentage": 0.6829268292682927,
+        "sourcePercentage": 0.683,
+        "gamesBehind": 1
+      },
+      {
+        "rank": 4,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612746",
+          "sourceId": "1610612746",
+          "abbreviation": "LAC",
+          "name": "Los Angeles Clippers"
+        },
+        "wins": 51,
+        "losses": 31,
+        "gamesPlayed": 82,
+        "winPercentage": 0.6219512195121951,
+        "sourcePercentage": 0.622,
+        "gamesBehind": 6
+      },
+      {
+        "rank": 5,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "wins": 50,
+        "losses": 32,
+        "gamesPlayed": 82,
+        "winPercentage": 0.6097560975609756,
+        "sourcePercentage": 0.61,
+        "gamesBehind": 7
+      },
+      {
+        "rank": 6,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612756",
+          "sourceId": "1610612756",
+          "abbreviation": "PHX",
+          "name": "Phoenix Suns"
+        },
+        "wins": 49,
+        "losses": 33,
+        "gamesPlayed": 82,
+        "winPercentage": 0.5975609756097561,
+        "sourcePercentage": 0.598,
+        "gamesBehind": 8
+      },
+      {
+        "rank": 7,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612740",
+          "sourceId": "1610612740",
+          "abbreviation": "NOP",
+          "name": "New Orleans Pelicans"
+        },
+        "wins": 49,
+        "losses": 33,
+        "gamesPlayed": 82,
+        "winPercentage": 0.5975609756097561,
+        "sourcePercentage": 0.598,
+        "gamesBehind": 8
+      },
+      {
+        "rank": 8,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612747",
+          "sourceId": "1610612747",
+          "abbreviation": "LAL",
+          "name": "Los Angeles Lakers"
+        },
+        "wins": 47,
+        "losses": 35,
+        "gamesPlayed": 82,
+        "winPercentage": 0.573170731707317,
+        "sourcePercentage": 0.573,
+        "gamesBehind": 10
+      },
+      {
+        "rank": 9,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612758",
+          "sourceId": "1610612758",
+          "abbreviation": "SAC",
+          "name": "Sacramento Kings"
+        },
+        "wins": 46,
+        "losses": 36,
+        "gamesPlayed": 82,
+        "winPercentage": 0.5609756097560976,
+        "sourcePercentage": 0.561,
+        "gamesBehind": 11
+      },
+      {
+        "rank": 10,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612744",
+          "sourceId": "1610612744",
+          "abbreviation": "GSW",
+          "name": "Golden State Warriors"
+        },
+        "wins": 46,
+        "losses": 36,
+        "gamesPlayed": 82,
+        "winPercentage": 0.5609756097560976,
+        "sourcePercentage": 0.561,
+        "gamesBehind": 11
+      },
+      {
+        "rank": 11,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612745",
+          "sourceId": "1610612745",
+          "abbreviation": "HOU",
+          "name": "Houston Rockets"
+        },
+        "wins": 41,
+        "losses": 41,
+        "gamesPlayed": 82,
+        "winPercentage": 0.5,
+        "sourcePercentage": 0.5,
+        "gamesBehind": 16
+      },
+      {
+        "rank": 12,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612762",
+          "sourceId": "1610612762",
+          "abbreviation": "UTA",
+          "name": "Utah Jazz"
+        },
+        "wins": 31,
+        "losses": 51,
+        "gamesPlayed": 82,
+        "winPercentage": 0.3780487804878049,
+        "sourcePercentage": 0.378,
+        "gamesBehind": 26
+      },
+      {
+        "rank": 13,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612763",
+          "sourceId": "1610612763",
+          "abbreviation": "MEM",
+          "name": "Memphis Grizzlies"
+        },
+        "wins": 27,
+        "losses": 55,
+        "gamesPlayed": 82,
+        "winPercentage": 0.32926829268292684,
+        "sourcePercentage": 0.329,
+        "gamesBehind": 30
+      },
+      {
+        "rank": 14,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612759",
+          "sourceId": "1610612759",
+          "abbreviation": "SAS",
+          "name": "San Antonio Spurs"
+        },
+        "wins": 22,
+        "losses": 60,
+        "gamesPlayed": 82,
+        "winPercentage": 0.2682926829268293,
+        "sourcePercentage": 0.268,
+        "gamesBehind": 35
+      },
+      {
+        "rank": 15,
+        "conference": "West",
+        "team": {
+          "id": "nba:1610612757",
+          "sourceId": "1610612757",
+          "abbreviation": "POR",
+          "name": "Portland Trail Blazers"
+        },
+        "wins": 21,
+        "losses": 61,
+        "gamesPlayed": 82,
+        "winPercentage": 0.25609756097560976,
+        "sourcePercentage": 0.256,
+        "gamesBehind": 36
+      }
+    ],
+    "leaders": [
+      {
+        "scope": "player",
+        "category": "Points per game",
+        "name": "Luka Doncic",
+        "teamLabel": "Dallas Mavericks",
+        "value": 33.9,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "Rebounds per game",
+        "name": "Domantas Sabonis",
+        "teamLabel": "Sacramento Kings",
+        "value": 13.7,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "Assists per game",
+        "name": "Tyrese Haliburton",
+        "teamLabel": "Indiana Pacers",
+        "value": 10.9,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "Steals per game",
+        "name": "De'Aaron Fox",
+        "teamLabel": "Sacramento Kings",
+        "value": 2,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "Blocks per game",
+        "name": "Victor Wembanyama",
+        "teamLabel": "San Antonio Spurs",
+        "value": 3.6,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "Turnovers per game",
+        "name": "Trae Young",
+        "teamLabel": "Atlanta Hawks",
+        "value": 4.4,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "Fouls per game",
+        "name": "Jaren Jackson Jr.",
+        "teamLabel": "Memphis Grizzlies",
+        "value": 3.6,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "Minutes per game",
+        "name": "DeMar DeRozan",
+        "teamLabel": "Chicago Bulls",
+        "value": 37.8,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "FG%",
+        "name": "Daniel Gafford",
+        "teamLabel": "Washington/Dallas",
+        "value": 72.5,
+        "unit": "%",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "FT%",
+        "name": "Klay Thompson",
+        "teamLabel": "Golden State Warriors",
+        "value": 92.7,
+        "unit": "%",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "3P%",
+        "name": "Grayson Allen",
+        "teamLabel": "Phoenix Suns",
+        "value": 46.1,
+        "unit": "%",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "Efficiency per game",
+        "name": "Nikola Jokić",
+        "teamLabel": "Denver Nuggets",
+        "value": 38.5,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "Double-doubles",
+        "name": "Domantas Sabonis",
+        "teamLabel": "Sacramento Kings",
+        "value": 77,
+        "unit": "count",
+        "articleUrl": null
+      },
+      {
+        "scope": "player",
+        "category": "Triple-doubles",
+        "name": "Domantas Sabonis",
+        "teamLabel": "Sacramento Kings",
+        "value": 26,
+        "unit": "count",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "Points per game",
+        "name": "Indiana Pacers",
+        "teamLabel": null,
+        "value": 123.3,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "Rebounds per game",
+        "name": "Golden State Warriors",
+        "teamLabel": null,
+        "value": 46.7,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "Assists per game",
+        "name": "Indiana Pacers",
+        "teamLabel": null,
+        "value": 30.8,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "Steals per game",
+        "name": "Oklahoma City Thunder",
+        "teamLabel": null,
+        "value": 8.5,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "Steals per game",
+        "name": "Philadelphia 76ers",
+        "teamLabel": null,
+        "value": 8.5,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "Blocks per game",
+        "name": "Boston Celtics",
+        "teamLabel": null,
+        "value": 6.6,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "Blocks per game",
+        "name": "Oklahoma City Thunder",
+        "teamLabel": null,
+        "value": 6.6,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "Turnovers per game",
+        "name": "Utah Jazz",
+        "teamLabel": null,
+        "value": 15.7,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "Fouls per game",
+        "name": "Indiana Pacers",
+        "teamLabel": null,
+        "value": 21.4,
+        "unit": "per game",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "FG%",
+        "name": "Indiana Pacers",
+        "teamLabel": null,
+        "value": 50.7,
+        "unit": "%",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "FT%",
+        "name": "Utah Jazz",
+        "teamLabel": null,
+        "value": 83,
+        "unit": "%",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "3P%",
+        "name": "Oklahoma City Thunder",
+        "teamLabel": null,
+        "value": 38.9,
+        "unit": "%",
+        "articleUrl": null
+      },
+      {
+        "scope": "team",
+        "category": "+/−",
+        "name": "Boston Celtics",
+        "teamLabel": null,
+        "value": 11.3,
+        "unit": "source-defined",
+        "articleUrl": null
+      }
+    ]
+  },
+  "playoffs": {
+    "page": {
+      "title": "2024 NBA playoffs",
+      "revision": 1376206465,
+      "retrievedAt": "2026-10-15T09:24:33.517Z"
+    },
+    "games": [
+      {
+        "id": "nba:0042300405",
+        "sourceId": "0042300405",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-06-17",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 88,
+        "homeScore": 106,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 18, "home": 28 },
+          { "period": 2, "away": 28, "home": 39 },
+          { "period": 3, "away": 21, "home": 19 },
+          { "period": 4, "away": 21, "home": 20 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 28",
+            "rebounds": "Luka Dončić 12",
+            "assists": "Kyrie Irving 9"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jayson Tatum 31",
+            "rebounds": "Jrue Holiday 11",
+            "assists": "Jayson Tatum 11"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/0042300405"
+      },
+      {
+        "id": "nba:0042300404",
+        "sourceId": "0042300404",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-06-14",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "home": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "awayScore": 84,
+        "homeScore": 122,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (7:30 pm CDT)",
+        "venue": "American Airlines Center, Dallas, TX",
+        "quarters": [
+          { "period": 1, "away": 21, "home": 34 },
+          { "period": 2, "away": 14, "home": 27 },
+          { "period": 3, "away": 25, "home": 31 },
+          { "period": 4, "away": 24, "home": 30 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jayson Tatum 15",
+            "rebounds": "Jayson Tatum 5",
+            "assists": "Al Horford 4"
+          },
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 29",
+            "rebounds": "Dereck Lively II 12",
+            "assists": "Kyrie Irving 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/bos-vs-dal-0042300404"
+      },
+      {
+        "id": "nba:0042300403",
+        "sourceId": "0042300403",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-06-12",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "home": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "awayScore": 106,
+        "homeScore": 99,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (7:30 pm CDT)",
+        "venue": "American Airlines Center, Dallas, TX",
+        "quarters": [
+          { "period": 1, "away": 30, "home": 31 },
+          { "period": 2, "away": 20, "home": 20 },
+          { "period": 3, "away": 35, "home": 19 },
+          { "period": 4, "away": 21, "home": 29 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jayson Tatum 31",
+            "rebounds": "Jaylen Brown 8",
+            "assists": "Jaylen Brown 8"
+          },
+          {
+            "teamId": "nba:1610612742",
+            "points": "Kyrie Irving 35",
+            "rebounds": "Dereck Lively II 13",
+            "assists": "Luka Dončić 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/bos-vs-dal-0042300403"
+      },
+      {
+        "id": "nba:0042300402",
+        "sourceId": "0042300402",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-06-09",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 98,
+        "homeScore": 105,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 28, "home": 25 },
+          { "period": 2, "away": 23, "home": 29 },
+          { "period": 3, "away": 23, "home": 29 },
+          { "period": 4, "away": 24, "home": 22 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 32",
+            "rebounds": "Luka Dončić 11",
+            "assists": "Luka Dončić 11"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jrue Holiday 26",
+            "rebounds": "Jrue Holiday 11",
+            "assists": "Jayson Tatum 12"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-bos-0042300402"
+      },
+      {
+        "id": "nba:0042300401",
+        "sourceId": "0042300401",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-06-06",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 89,
+        "homeScore": 107,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 20, "home": 37 },
+          { "period": 2, "away": 22, "home": 26 },
+          { "period": 3, "away": 24, "home": 23 },
+          { "period": 4, "away": 23, "home": 21 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 30",
+            "rebounds": "Luka Dončić 10",
+            "assists": "Kyrie Irving 2"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jaylen Brown 22",
+            "rebounds": "Jayson Tatum 11",
+            "assists": "three players 5 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-bos-0042300401"
+      },
+      {
+        "id": "nba:0042300315",
+        "sourceId": "0042300315",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-30",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "awayScore": 124,
+        "homeScore": 103,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (7:30 pm CDT)",
+        "venue": "Target Center, Minneapolis, MN",
+        "quarters": [
+          { "period": 1, "away": 35, "home": 19 },
+          { "period": 2, "away": 34, "home": 21 },
+          { "period": 3, "away": 28, "home": 33 },
+          { "period": 4, "away": 27, "home": 30 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Dončić, Irving 36 each",
+            "rebounds": "Luka Dončić 10",
+            "assists": "Dončić, Irving 5 each"
+          },
+          {
+            "teamId": "nba:1610612750",
+            "points": "Edwards, Towns 28 each",
+            "rebounds": "Karl-Anthony Towns 12",
+            "assists": "Anthony Edwards 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-min-0042300315"
+      },
+      {
+        "id": "nba:0042300314",
+        "sourceId": "0042300314",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-28",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "home": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "awayScore": 105,
+        "homeScore": 100,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (7:30 pm CDT)",
+        "venue": "American Airlines Center, Dallas, TX",
+        "quarters": [
+          { "period": 1, "away": 27, "home": 20 },
+          { "period": 2, "away": 22, "home": 29 },
+          { "period": 3, "away": 29, "home": 24 },
+          { "period": 4, "away": 27, "home": 27 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612750",
+            "points": "Anthony Edwards 29",
+            "rebounds": "Edwards, Gobert 10 each",
+            "assists": "Anthony Edwards 9"
+          },
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 28",
+            "rebounds": "Luka Dončić 15",
+            "assists": "Luka Dončić 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-min-0042300314"
+      },
+      {
+        "id": "nba:0042300304",
+        "sourceId": "0042300304",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-27",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "home": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "awayScore": 105,
+        "homeScore": 102,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm",
+        "venue": "Gainbridge Fieldhouse, Indianapolis, IN",
+        "quarters": [
+          { "period": 1, "away": 29, "home": 27 },
+          { "period": 2, "away": 29, "home": 30 },
+          { "period": 3, "away": 22, "home": 26 },
+          { "period": 4, "away": 25, "home": 19 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jaylen Brown 29",
+            "rebounds": "Jayson Tatum 13",
+            "assists": "Jayson Tatum 8"
+          },
+          {
+            "teamId": "nba:1610612754",
+            "points": "Andrew Nembhard 24",
+            "rebounds": "Pascal Siakam 10",
+            "assists": "Andrew Nembhard 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/bos-vs-ind-0042300304"
+      },
+      {
+        "id": "nba:0042300313",
+        "sourceId": "0042300313",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-26",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "home": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "awayScore": 107,
+        "homeScore": 116,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm (7:00 pm CDT)",
+        "venue": "American Airlines Center, Dallas, TX",
+        "quarters": [
+          { "period": 1, "away": 28, "home": 33 },
+          { "period": 2, "away": 24, "home": 27 },
+          { "period": 3, "away": 35, "home": 27 },
+          { "period": 4, "away": 20, "home": 29 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612750",
+            "points": "Anthony Edwards 26",
+            "rebounds": "Karl-Anthony Towns 11",
+            "assists": "Anthony Edwards 9"
+          },
+          {
+            "teamId": "nba:1610612742",
+            "points": "Dončić, Irving 33 each",
+            "rebounds": "P. J. Washington 8",
+            "assists": "Luka Dončić 5"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-min-0042300313"
+      },
+      {
+        "id": "nba:0042300303",
+        "sourceId": "0042300303",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-25",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "home": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "awayScore": 114,
+        "homeScore": 111,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm",
+        "venue": "Gainbridge Fieldhouse, Indianapolis, IN",
+        "quarters": [
+          { "period": 1, "away": 32, "home": 31 },
+          { "period": 2, "away": 25, "home": 38 },
+          { "period": 3, "away": 24, "home": 21 },
+          { "period": 4, "away": 33, "home": 21 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jayson Tatum 36",
+            "rebounds": "Jayson Tatum 10",
+            "assists": "Jayson Tatum 8"
+          },
+          {
+            "teamId": "nba:1610612754",
+            "points": "Andrew Nembhard 32",
+            "rebounds": "Myles Turner 10",
+            "assists": "Andrew Nembhard 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/bos-vs-ind-0042300303"
+      },
+      {
+        "id": "nba:0042300312",
+        "sourceId": "0042300312",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-24",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "awayScore": 109,
+        "homeScore": 108,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (7:30 pm CDT)",
+        "venue": "Target Center, Minneapolis, MN",
+        "quarters": [
+          { "period": 1, "away": 26, "home": 32 },
+          { "period": 2, "away": 22, "home": 28 },
+          { "period": 3, "away": 31, "home": 26 },
+          { "period": 4, "away": 30, "home": 22 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 32",
+            "rebounds": "Luka Dončić 10",
+            "assists": "Luka Dončić 13"
+          },
+          {
+            "teamId": "nba:1610612750",
+            "points": "Naz Reid 23",
+            "rebounds": "Rudy Gobert 10",
+            "assists": "Anthony Edwards 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-min-0042300312"
+      },
+      {
+        "id": "nba:0042300302",
+        "sourceId": "0042300302",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-23",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 110,
+        "homeScore": 126,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 27, "home": 25 },
+          { "period": 2, "away": 24, "home": 32 },
+          { "period": 3, "away": 29, "home": 36 },
+          { "period": 4, "away": 30, "home": 33 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612754",
+            "points": "Pascal Siakam 28",
+            "rebounds": "three players 5 each",
+            "assists": "Tyrese Haliburton 8"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jaylen Brown 40",
+            "rebounds": "Al Horford 10",
+            "assists": "Jrue Holiday 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/ind-vs-bos-0042300302"
+      },
+      {
+        "id": "nba:0042300311",
+        "sourceId": "0042300311",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-22",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "awayScore": 108,
+        "homeScore": 105,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (7:30 pm CDT)",
+        "venue": "Target Center, Minneapolis, MN",
+        "quarters": [
+          { "period": 1, "away": 27, "home": 33 },
+          { "period": 2, "away": 32, "home": 29 },
+          { "period": 3, "away": 23, "home": 21 },
+          { "period": 4, "away": 26, "home": 22 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 33",
+            "rebounds": "Dereck Lively II 11",
+            "assists": "Luka Dončić 8"
+          },
+          {
+            "teamId": "nba:1610612750",
+            "points": "Jaden McDaniels 24",
+            "rebounds": "Anthony Edwards 11",
+            "assists": "Anthony Edwards 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-min-0042300311"
+      },
+      {
+        "id": "nba:0042300301",
+        "sourceId": "0042300301",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-21",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 128,
+        "homeScore": 133,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 31, "home": 34 },
+          { "period": 2, "away": 33, "home": 30 },
+          { "period": 3, "away": 29, "home": 30 },
+          { "period": 4, "away": 24, "home": 23 },
+          { "period": 5, "away": 11, "home": 16 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612754",
+            "points": "Tyrese Haliburton 25",
+            "rebounds": "Pascal Siakam 12",
+            "assists": "Tyrese Haliburton 10"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jayson Tatum 36",
+            "rebounds": "Jayson Tatum 12",
+            "assists": "Derrick White 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/ind-vs-bos-0042300301"
+      },
+      {
+        "id": "nba:0042300217",
+        "sourceId": "0042300217",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-19",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "home": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "awayScore": 130,
+        "homeScore": 109,
+        "tipoffUtc": null,
+        "reportedTime": "3:30 pm",
+        "venue": "Madison Square Garden, New York, NY",
+        "quarters": [
+          { "period": 1, "away": 39, "home": 27 },
+          { "period": 2, "away": 31, "home": 28 },
+          { "period": 3, "away": 31, "home": 29 },
+          { "period": 4, "away": 29, "home": 25 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612754",
+            "points": "Tyrese Haliburton 26",
+            "rebounds": "three players 5 each",
+            "assists": "T. J. McConnell 7"
+          },
+          {
+            "teamId": "nba:1610612752",
+            "points": "Donte DiVincenzo 39",
+            "rebounds": "Hart, Hartenstein 8 each",
+            "assists": "Jalen Brunson 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/ind-vs-nyk-0042300217"
+      },
+      {
+        "id": "nba:0042300237",
+        "sourceId": "0042300237",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-19",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "home": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "awayScore": 98,
+        "homeScore": 90,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm (6:00 pm MDT)",
+        "venue": "Ball Arena, Denver, CO",
+        "quarters": [
+          { "period": 1, "away": 19, "home": 24 },
+          { "period": 2, "away": 19, "home": 29 },
+          { "period": 3, "away": 28, "home": 14 },
+          { "period": 4, "away": 32, "home": 23 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612750",
+            "points": "McDaniels, Towns 23 each",
+            "rebounds": "Karl-Anthony Towns 12",
+            "assists": "Anthony Edwards 7"
+          },
+          {
+            "teamId": "nba:1610612743",
+            "points": "Jamal Murray 35",
+            "rebounds": "Nikola Jokić 19",
+            "assists": "Nikola Jokić 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/min-vs-den-0042300237"
+      },
+      {
+        "id": "nba:0042300226",
+        "sourceId": "0042300226",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-18",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "home": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "awayScore": 116,
+        "homeScore": 117,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm (7:00 pm CDT)",
+        "venue": "American Airlines Center, Dallas, TX",
+        "quarters": [
+          { "period": 1, "away": 30, "home": 23 },
+          { "period": 2, "away": 34, "home": 25 },
+          { "period": 3, "away": 26, "home": 35 },
+          { "period": 4, "away": 26, "home": 34 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612760",
+            "points": "Shai Gilgeous-Alexander 36",
+            "rebounds": "Jalen Williams 9",
+            "assists": "Gilgeous-Alexander, Williams 8 each"
+          },
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 29",
+            "rebounds": "Dereck Lively II 15",
+            "assists": "Luka Dončić 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/okc-vs-dal-0042300226"
+      },
+      {
+        "id": "nba:0042300216",
+        "sourceId": "0042300216",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-17",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "home": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "awayScore": 103,
+        "homeScore": 116,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm",
+        "venue": "Gainbridge Fieldhouse, Indianapolis, IN",
+        "quarters": [
+          { "period": 1, "away": 30, "home": 29 },
+          { "period": 2, "away": 21, "home": 32 },
+          { "period": 3, "away": 24, "home": 27 },
+          { "period": 4, "away": 28, "home": 28 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612752",
+            "points": "Jalen Brunson 31",
+            "rebounds": "Achiuwa, Hart 8 each",
+            "assists": "Isaiah Hartenstein 6"
+          },
+          {
+            "teamId": "nba:1610612754",
+            "points": "Pascal Siakam 25",
+            "rebounds": "Myles Turner 8",
+            "assists": "Tyrese Haliburton 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/nyk-vs-ind-0042300216"
+      },
+      {
+        "id": "nba:0042300236",
+        "sourceId": "0042300236",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-16",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "home": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "awayScore": 70,
+        "homeScore": 115,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (7:30 pm CDT)",
+        "venue": "Target Center, Minneapolis, MN",
+        "quarters": [
+          { "period": 1, "away": 14, "home": 31 },
+          { "period": 2, "away": 26, "home": 28 },
+          { "period": 3, "away": 21, "home": 27 },
+          { "period": 4, "away": 9, "home": 29 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612743",
+            "points": "Nikola Jokić 22",
+            "rebounds": "Nikola Jokić 9",
+            "assists": "Jamal Murray 5"
+          },
+          {
+            "teamId": "nba:1610612750",
+            "points": "Anthony Edwards 27",
+            "rebounds": "Rudy Gobert 14",
+            "assists": "Conley, Towns 5 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/den-vs-min-0042300236"
+      },
+      {
+        "id": "nba:0042300205",
+        "sourceId": "0042300205",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-15",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 98,
+        "homeScore": 113,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 28, "home": 28 },
+          { "period": 2, "away": 24, "home": 30 },
+          { "period": 3, "away": 26, "home": 27 },
+          { "period": 4, "away": 20, "home": 28 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612739",
+            "points": "Evan Mobley 33",
+            "rebounds": "Mobley, Strus 7 each",
+            "assists": "Garland, Strus 9 each"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jayson Tatum 25",
+            "rebounds": "Al Horford 15",
+            "assists": "Jayson Tatum 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/0042300205"
+      },
+      {
+        "id": "nba:0042300225",
+        "sourceId": "0042300225",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-15",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "awayScore": 104,
+        "homeScore": 92,
+        "tipoffUtc": null,
+        "reportedTime": "9:30 pm (8:30 pm CDT)",
+        "venue": "Paycom Center, Oklahoma City, OK",
+        "quarters": [
+          { "period": 1, "away": 24, "home": 22 },
+          { "period": 2, "away": 30, "home": 22 },
+          { "period": 3, "away": 25, "home": 23 },
+          { "period": 4, "away": 25, "home": 25 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 31",
+            "rebounds": "three players 10 each",
+            "assists": "Luka Dončić 11"
+          },
+          {
+            "teamId": "nba:1610612760",
+            "points": "Shai Gilgeous-Alexander 30",
+            "rebounds": "three players 6 each",
+            "assists": "Shai Gilgeous-Alexander 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-okc-0042300225"
+      },
+      {
+        "id": "nba:0042300215",
+        "sourceId": "0042300215",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-14",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "home": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "awayScore": 91,
+        "homeScore": 121,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm",
+        "venue": "Madison Square Garden, New York, NY",
+        "quarters": [
+          { "period": 1, "away": 32, "home": 38 },
+          { "period": 2, "away": 22, "home": 31 },
+          { "period": 3, "away": 21, "home": 27 },
+          { "period": 4, "away": 16, "home": 25 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612754",
+            "points": "Pascal Siakam 22",
+            "rebounds": "Pascal Siakam 8",
+            "assists": "Haliburton, McConnell 5 each"
+          },
+          {
+            "teamId": "nba:1610612752",
+            "points": "Jalen Brunson 44",
+            "rebounds": "Isaiah Hartenstein 17",
+            "assists": "Jalen Brunson 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/0042300215"
+      },
+      {
+        "id": "nba:0042300235",
+        "sourceId": "0042300235",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-14",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "home": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "awayScore": 97,
+        "homeScore": 112,
+        "tipoffUtc": null,
+        "reportedTime": "10:30 pm (8:30 pm MDT)",
+        "venue": "Ball Arena, Denver, CO",
+        "quarters": [
+          { "period": 1, "away": 26, "home": 28 },
+          { "period": 2, "away": 18, "home": 22 },
+          { "period": 3, "away": 30, "home": 38 },
+          { "period": 4, "away": 23, "home": 24 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612750",
+            "points": "Karl-Anthony Towns 23",
+            "rebounds": "Rudy Gobert 11",
+            "assists": "Anthony Edwards 9"
+          },
+          {
+            "teamId": "nba:1610612743",
+            "points": "Nikola Jokić 40",
+            "rebounds": "Aaron Gordon 10",
+            "assists": "Nikola Jokić 13"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/min-vs-den-0042300235"
+      },
+      {
+        "id": "nba:0042300204",
+        "sourceId": "0042300204",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-13",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "home": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "awayScore": 109,
+        "homeScore": 102,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "Rocket Mortgage FieldHouse, Cleveland, OH",
+        "quarters": [
+          { "period": 1, "away": 37, "home": 30 },
+          { "period": 2, "away": 25, "home": 27 },
+          { "period": 3, "away": 26, "home": 21 },
+          { "period": 4, "away": 21, "home": 24 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jayson Tatum 33",
+            "rebounds": "Jayson Tatum 11",
+            "assists": "Holiday, Tatum 5 each"
+          },
+          {
+            "teamId": "nba:1610612739",
+            "points": "Darius Garland 30",
+            "rebounds": "Evan Mobley 9",
+            "assists": "Garland, Strus 7 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/bos-vs-cle-0042300204"
+      },
+      {
+        "id": "nba:0042300224",
+        "sourceId": "0042300224",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-13",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "home": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "awayScore": 100,
+        "homeScore": 96,
+        "tipoffUtc": null,
+        "reportedTime": "9:30 pm (8:30 pm CDT)",
+        "venue": "American Airlines Center, Dallas, TX",
+        "quarters": [
+          { "period": 1, "away": 20, "home": 30 },
+          { "period": 2, "away": 23, "home": 24 },
+          { "period": 3, "away": 22, "home": 15 },
+          { "period": 4, "away": 35, "home": 27 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612760",
+            "points": "Shai Gilgeous-Alexander 34",
+            "rebounds": "Holmgren, Williams 9 each",
+            "assists": "Jalen Williams 6"
+          },
+          {
+            "teamId": "nba:1610612742",
+            "points": "P. J. Washington 21",
+            "rebounds": "Dončić, Washington 12 each",
+            "assists": "Luka Dončić 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/okc-vs-dal-0042300224"
+      },
+      {
+        "id": "nba:0042300214",
+        "sourceId": "0042300214",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-12",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "home": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "awayScore": 89,
+        "homeScore": 121,
+        "tipoffUtc": null,
+        "reportedTime": "3:30 pm",
+        "venue": "Gainbridge Fieldhouse, Indianapolis, IN",
+        "quarters": [
+          { "period": 1, "away": 14, "home": 34 },
+          { "period": 2, "away": 27, "home": 35 },
+          { "period": 3, "away": 22, "home": 32 },
+          { "period": 4, "away": 26, "home": 20 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612752",
+            "points": "Alec Burks 20",
+            "rebounds": "Achiuwa, Sims 6 each",
+            "assists": "Jalen Brunson 5"
+          },
+          {
+            "teamId": "nba:1610612754",
+            "points": "Tyrese Haliburton 20",
+            "rebounds": "Aaron Nesmith 12",
+            "assists": "T. J. McConnell 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/nyk-vs-ind-0042300214"
+      },
+      {
+        "id": "nba:0042300234",
+        "sourceId": "0042300234",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-12",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "home": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "awayScore": 115,
+        "homeScore": 107,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm (7:00 pm CDT)",
+        "venue": "Target Center, Minneapolis, MN",
+        "quarters": [
+          { "period": 1, "away": 29, "home": 24 },
+          { "period": 2, "away": 35, "home": 25 },
+          { "period": 3, "away": 26, "home": 30 },
+          { "period": 4, "away": 25, "home": 28 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612743",
+            "points": "Nikola Jokić 35",
+            "rebounds": "Gordon, Jokić 7 each",
+            "assists": "Jamal Murray 8"
+          },
+          {
+            "teamId": "nba:1610612750",
+            "points": "Anthony Edwards 44",
+            "rebounds": "Rudy Gobert 14",
+            "assists": "Mike Conley 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/den-vs-min-0042300234"
+      },
+      {
+        "id": "nba:0042300203",
+        "sourceId": "0042300203",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-11",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "home": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "awayScore": 106,
+        "homeScore": 93,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm",
+        "venue": "Rocket Mortgage FieldHouse, Cleveland, OH",
+        "quarters": [
+          { "period": 1, "away": 30, "home": 28 },
+          { "period": 2, "away": 27, "home": 20 },
+          { "period": 3, "away": 27, "home": 21 },
+          { "period": 4, "away": 22, "home": 24 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jayson Tatum 33",
+            "rebounds": "Jayson Tatum 13",
+            "assists": "Jayson Tatum 6"
+          },
+          {
+            "teamId": "nba:1610612739",
+            "points": "Donovan Mitchell 33",
+            "rebounds": "Evan Mobley 8",
+            "assists": "Darius Garland 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/bos-vs-cle-0042300203"
+      },
+      {
+        "id": "nba:0042300223",
+        "sourceId": "0042300223",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-11",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "home": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "awayScore": 101,
+        "homeScore": 105,
+        "tipoffUtc": null,
+        "reportedTime": "3:30 pm (2:30 pm CDT)",
+        "venue": "American Airlines Center, Dallas, TX",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 26 },
+          { "period": 2, "away": 29, "home": 25 },
+          { "period": 3, "away": 26, "home": 31 },
+          { "period": 4, "away": 23, "home": 23 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612760",
+            "points": "Shai Gilgeous-Alexander 31",
+            "rebounds": "Shai Gilgeous-Alexander 10",
+            "assists": "Jalen Williams 8"
+          },
+          {
+            "teamId": "nba:1610612742",
+            "points": "P. J. Washington 27",
+            "rebounds": "Luka Dončić 15",
+            "assists": "Kyrie Irving 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/0042300223"
+      },
+      {
+        "id": "nba:0042300213",
+        "sourceId": "0042300213",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-10",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "home": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "awayScore": 106,
+        "homeScore": 111,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "Gainbridge Fieldhouse, Indianapolis, IN",
+        "quarters": [
+          { "period": 1, "away": 20, "home": 29 },
+          { "period": 2, "away": 38, "home": 34 },
+          { "period": 3, "away": 32, "home": 22 },
+          { "period": 4, "away": 16, "home": 26 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612752",
+            "points": "Donte DiVincenzo 35",
+            "rebounds": "Josh Hart 18",
+            "assists": "Jalen Brunson 6"
+          },
+          {
+            "teamId": "nba:1610612754",
+            "points": "Tyrese Haliburton 35",
+            "rebounds": "Myles Turner 10",
+            "assists": "Tyrese Haliburton 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/nyk-vs-ind-0042300213"
+      },
+      {
+        "id": "nba:0042300233",
+        "sourceId": "0042300233",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-10",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "home": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "awayScore": 117,
+        "homeScore": 90,
+        "tipoffUtc": null,
+        "reportedTime": "9:30 pm (8:30 pm CDT)",
+        "venue": "Target Center, Minneapolis, MN",
+        "quarters": [
+          { "period": 1, "away": 28, "home": 20 },
+          { "period": 2, "away": 28, "home": 21 },
+          { "period": 3, "away": 37, "home": 25 },
+          { "period": 4, "away": 24, "home": 24 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612743",
+            "points": "Jokić, Murray 24 each",
+            "rebounds": "Nikola Jokić 14",
+            "assists": "Nikola Jokić 9"
+          },
+          {
+            "teamId": "nba:1610612750",
+            "points": "Anthony Edwards 19",
+            "rebounds": "Conley, Edwards 6 each",
+            "assists": "Mike Conley 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/den-vs-min-0042300233"
+      },
+      {
+        "id": "nba:0042300202",
+        "sourceId": "0042300202",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-09",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 118,
+        "homeScore": 94,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 30, "home": 24 },
+          { "period": 2, "away": 24, "home": 30 },
+          { "period": 3, "away": 36, "home": 24 },
+          { "period": 4, "away": 28, "home": 16 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612739",
+            "points": "Donovan Mitchell 29",
+            "rebounds": "Evan Mobley 10",
+            "assists": "Donovan Mitchell 8"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jayson Tatum 25",
+            "rebounds": "Jayson Tatum 7",
+            "assists": "Jayson Tatum 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/cle-vs-bos-0042300202"
+      },
+      {
+        "id": "nba:0042300222",
+        "sourceId": "0042300222",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-09",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "awayScore": 119,
+        "homeScore": 110,
+        "tipoffUtc": null,
+        "reportedTime": "9:30 pm (8:30 pm CDT)",
+        "venue": "Paycom Center, Oklahoma City, OK",
+        "quarters": [
+          { "period": 1, "away": 36, "home": 32 },
+          { "period": 2, "away": 32, "home": 30 },
+          { "period": 3, "away": 31, "home": 27 },
+          { "period": 4, "away": 20, "home": 21 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Dončić, Washington 29 each",
+            "rebounds": "P. J. Washington 11",
+            "assists": "Kyrie Irving 11"
+          },
+          {
+            "teamId": "nba:1610612760",
+            "points": "Shai Gilgeous-Alexander 33",
+            "rebounds": "Shai Gilgeous-Alexander 12",
+            "assists": "Shai Gilgeous-Alexander 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-okc-0042300222"
+      },
+      {
+        "id": "nba:0042300212",
+        "sourceId": "0042300212",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-08",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "home": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "awayScore": 121,
+        "homeScore": 130,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm",
+        "venue": "Madison Square Garden, New York, NY",
+        "quarters": [
+          { "period": 1, "away": 36, "home": 36 },
+          { "period": 2, "away": 37, "home": 27 },
+          { "period": 3, "away": 18, "home": 36 },
+          { "period": 4, "away": 30, "home": 31 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612754",
+            "points": "Tyrese Haliburton 34",
+            "rebounds": "Pascal Siakam 9",
+            "assists": "T. J. McConnell 12"
+          },
+          {
+            "teamId": "nba:1610612752",
+            "points": "Jalen Brunson 29",
+            "rebounds": "Josh Hart 15",
+            "assists": "Isaiah Hartenstein 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/ind-vs-nyk-0042300212"
+      },
+      {
+        "id": "nba:0042300201",
+        "sourceId": "0042300201",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-07",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 95,
+        "homeScore": 120,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 34, "home": 40 },
+          { "period": 2, "away": 15, "home": 19 },
+          { "period": 3, "away": 28, "home": 33 },
+          { "period": 4, "away": 18, "home": 28 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612739",
+            "points": "Donovan Mitchell 33",
+            "rebounds": "Evan Mobley 13",
+            "assists": "Garland, Mitchell 5 each"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jaylen Brown 32",
+            "rebounds": "Jayson Tatum 11",
+            "assists": "Tatum, White 5 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/cle-vs-bos-0042300201"
+      },
+      {
+        "id": "nba:0042300221",
+        "sourceId": "0042300221",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-07",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "awayScore": 95,
+        "homeScore": 117,
+        "tipoffUtc": null,
+        "reportedTime": "9:30 pm (8:30 pm CDT)",
+        "venue": "Paycom Center, Oklahoma City, OK",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 23 },
+          { "period": 2, "away": 30, "home": 39 },
+          { "period": 3, "away": 26, "home": 27 },
+          { "period": 4, "away": 16, "home": 28 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Kyrie Irving 20",
+            "rebounds": "Daniel Gafford 11",
+            "assists": "Luka Dončić 9"
+          },
+          {
+            "teamId": "nba:1610612760",
+            "points": "Shai Gilgeous-Alexander 29",
+            "rebounds": "Gilgeous-Alexander, Williams 9 each",
+            "assists": "Shai Gilgeous-Alexander 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-okc-0042300221"
+      },
+      {
+        "id": "nba:0042300211",
+        "sourceId": "0042300211",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-06",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "home": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "awayScore": 117,
+        "homeScore": 121,
+        "tipoffUtc": null,
+        "reportedTime": "7:30 pm",
+        "venue": "Madison Square Garden, New York, NY",
+        "quarters": [
+          { "period": 1, "away": 24, "home": 27 },
+          { "period": 2, "away": 31, "home": 22 },
+          { "period": 3, "away": 32, "home": 33 },
+          { "period": 4, "away": 30, "home": 39 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612754",
+            "points": "Myles Turner 23",
+            "rebounds": "three players 6 each",
+            "assists": "Tyrese Haliburton 8"
+          },
+          {
+            "teamId": "nba:1610612752",
+            "points": "Jalen Brunson 43",
+            "rebounds": "Josh Hart 13",
+            "assists": "Josh Hart 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/ind-vs-nyk-0042300211"
+      },
+      {
+        "id": "nba:0042300232",
+        "sourceId": "0042300232",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-06",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "home": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "awayScore": 106,
+        "homeScore": 80,
+        "tipoffUtc": null,
+        "reportedTime": "10:00 pm (8:00 pm MDT)",
+        "venue": "Ball Arena, Denver, CO",
+        "quarters": [
+          { "period": 1, "away": 28, "home": 20 },
+          { "period": 2, "away": 33, "home": 15 },
+          { "period": 3, "away": 21, "home": 25 },
+          { "period": 4, "away": 24, "home": 20 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612750",
+            "points": "Edwards, Towns 27 each",
+            "rebounds": "Karl-Anthony Towns 12",
+            "assists": "Kyle Anderson 8"
+          },
+          {
+            "teamId": "nba:1610612743",
+            "points": "Aaron Gordon 20",
+            "rebounds": "Nikola Jokić 16",
+            "assists": "Nikola Jokić 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/min-vs-den-0042300232"
+      },
+      {
+        "id": "nba:0042300137",
+        "sourceId": "0042300137",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-05",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612753",
+          "sourceId": "1610612753",
+          "abbreviation": "ORL",
+          "name": "Orlando Magic"
+        },
+        "home": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "awayScore": 94,
+        "homeScore": 106,
+        "tipoffUtc": null,
+        "reportedTime": "1:00 pm",
+        "venue": "Rocket Mortgage FieldHouse, Cleveland, OH",
+        "quarters": [
+          { "period": 1, "away": 24, "home": 18 },
+          { "period": 2, "away": 29, "home": 25 },
+          { "period": 3, "away": 15, "home": 33 },
+          { "period": 4, "away": 26, "home": 30 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612753",
+            "points": "Paolo Banchero 38",
+            "rebounds": "Paolo Banchero 16",
+            "assists": "Franz Wagner 6"
+          },
+          {
+            "teamId": "nba:1610612739",
+            "points": "Donovan Mitchell 39",
+            "rebounds": "Evan Mobley 16",
+            "assists": "Donovan Mitchell 5"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/orl-vs-cle-0042300137"
+      },
+      {
+        "id": "nba:0042300231",
+        "sourceId": "0042300231",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-04",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "home": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "awayScore": 106,
+        "homeScore": 99,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm (5:00 pm MDT)",
+        "venue": "Ball Arena, Denver, CO",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 25 },
+          { "period": 2, "away": 17, "home": 19 },
+          { "period": 3, "away": 33, "home": 27 },
+          { "period": 4, "away": 33, "home": 28 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612750",
+            "points": "Anthony Edwards 43",
+            "rebounds": "Rudy Gobert 13",
+            "assists": "Mike Conley 10"
+          },
+          {
+            "teamId": "nba:1610612743",
+            "points": "Nikola Jokić 32",
+            "rebounds": "Nikola Jokić 8",
+            "assists": "Nikola Jokić 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/min-vs-den-0042300231"
+      },
+      {
+        "id": "nba:0042300136",
+        "sourceId": "0042300136",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-03",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "home": {
+          "id": "nba:1610612753",
+          "sourceId": "1610612753",
+          "abbreviation": "ORL",
+          "name": "Orlando Magic"
+        },
+        "awayScore": 96,
+        "homeScore": 103,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "Kia Center, Orlando, FL",
+        "quarters": [
+          { "period": 1, "away": 25, "home": 29 },
+          { "period": 2, "away": 24, "home": 24 },
+          { "period": 3, "away": 29, "home": 20 },
+          { "period": 4, "away": 18, "home": 30 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612739",
+            "points": "Donovan Mitchell 50",
+            "rebounds": "Morris, Strus 8 each",
+            "assists": "Darius Garland 5"
+          },
+          {
+            "teamId": "nba:1610612753",
+            "points": "Paolo Banchero 27",
+            "rebounds": "Carter, Isaac 9 each",
+            "assists": "three players 4 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/cle-vs-orl-0042300136"
+      },
+      {
+        "id": "nba:0042300176",
+        "sourceId": "0042300176",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-03",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612746",
+          "sourceId": "1610612746",
+          "abbreviation": "LAC",
+          "name": "Los Angeles Clippers"
+        },
+        "home": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "awayScore": 101,
+        "homeScore": 114,
+        "tipoffUtc": null,
+        "reportedTime": "9:30 pm (8:30 pm CDT)",
+        "venue": "American Airlines Center, Dallas, TX",
+        "quarters": [
+          { "period": 1, "away": 26, "home": 34 },
+          { "period": 2, "away": 26, "home": 18 },
+          { "period": 3, "away": 20, "home": 35 },
+          { "period": 4, "away": 29, "home": 27 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612746",
+            "points": "Norman Powell 20",
+            "rebounds": "George, Zubac 11 each",
+            "assists": "James Harden 13"
+          },
+          {
+            "teamId": "nba:1610612742",
+            "points": "Kyrie Irving 30",
+            "rebounds": "Dereck Lively II 9",
+            "assists": "Luka Dončić 13"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/lac-vs-dal-0042300176"
+      },
+      {
+        "id": "nba:0042300116",
+        "sourceId": "0042300116",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-02",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "home": {
+          "id": "nba:1610612755",
+          "sourceId": "1610612755",
+          "abbreviation": "PHI",
+          "name": "Philadelphia 76ers"
+        },
+        "awayScore": 118,
+        "homeScore": 115,
+        "tipoffUtc": null,
+        "reportedTime": "9:00 pm",
+        "venue": "Wells Fargo Center, Philadelphia, PA",
+        "quarters": [
+          { "period": 1, "away": 36, "home": 22 },
+          { "period": 2, "away": 15, "home": 32 },
+          { "period": 3, "away": 32, "home": 29 },
+          { "period": 4, "away": 35, "home": 32 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612752",
+            "points": "Jalen Brunson 41",
+            "rebounds": "Josh Hart 14",
+            "assists": "Jalen Brunson 12"
+          },
+          {
+            "teamId": "nba:1610612755",
+            "points": "Joel Embiid 39",
+            "rebounds": "Joel Embiid 13",
+            "assists": "Tyrese Maxey 5"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/nyk-vs-phi-0042300116"
+      },
+      {
+        "id": "nba:0042300126",
+        "sourceId": "0042300126",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-02",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612749",
+          "sourceId": "1610612749",
+          "abbreviation": "MIL",
+          "name": "Milwaukee Bucks"
+        },
+        "home": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "awayScore": 98,
+        "homeScore": 120,
+        "tipoffUtc": null,
+        "reportedTime": "6:30 pm",
+        "venue": "Gainbridge Fieldhouse, Indianapolis, IN",
+        "quarters": [
+          { "period": 1, "away": 24, "home": 33 },
+          { "period": 2, "away": 23, "home": 26 },
+          { "period": 3, "away": 31, "home": 34 },
+          { "period": 4, "away": 20, "home": 27 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612749",
+            "points": "Damian Lillard 28",
+            "rebounds": "Bobby Portis 15",
+            "assists": "Patrick Beverley 5"
+          },
+          {
+            "teamId": "nba:1610612754",
+            "points": "Obi Toppin 21",
+            "rebounds": "Obi Toppin 8",
+            "assists": "Tyrese Haliburton 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/mil-vs-ind-0042300126"
+      },
+      {
+        "id": "nba:0042300105",
+        "sourceId": "0042300105",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-01",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612748",
+          "sourceId": "1610612748",
+          "abbreviation": "MIA",
+          "name": "Miami Heat"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 84,
+        "homeScore": 118,
+        "tipoffUtc": null,
+        "reportedTime": "7:30 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 41 },
+          { "period": 2, "away": 23, "home": 27 },
+          { "period": 3, "away": 20, "home": 30 },
+          { "period": 4, "away": 18, "home": 20 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612748",
+            "points": "Bam Adebayo 23",
+            "rebounds": "Nikola Jović 7",
+            "assists": "Bam Adebayo 6"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Brown, White 25 each",
+            "rebounds": "Jayson Tatum 12",
+            "assists": "Jrue Holiday 5"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/mia-vs-bos-0042300105"
+      },
+      {
+        "id": "nba:0042300175",
+        "sourceId": "0042300175",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-05-01",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612746",
+          "sourceId": "1610612746",
+          "abbreviation": "LAC",
+          "name": "Los Angeles Clippers"
+        },
+        "awayScore": 123,
+        "homeScore": 93,
+        "tipoffUtc": null,
+        "reportedTime": "10:00 pm (7:00 pm PDT)",
+        "venue": "Crypto.com Arena, Los Angeles, CA",
+        "quarters": [
+          { "period": 1, "away": 25, "home": 24 },
+          { "period": 2, "away": 31, "home": 22 },
+          { "period": 3, "away": 33, "home": 23 },
+          { "period": 4, "away": 34, "home": 24 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 35",
+            "rebounds": "Dončić, Lively II 7 each",
+            "assists": "Luka Dončić 10"
+          },
+          {
+            "teamId": "nba:1610612746",
+            "points": "George, Zubac 15 each",
+            "rebounds": "Paul George 11",
+            "assists": "James Harden 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-lac-0042300175"
+      },
+      {
+        "id": "nba:0042300115",
+        "sourceId": "0042300115",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-30",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612755",
+          "sourceId": "1610612755",
+          "abbreviation": "PHI",
+          "name": "Philadelphia 76ers"
+        },
+        "home": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "awayScore": 112,
+        "homeScore": 106,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "Madison Square Garden, New York, NY",
+        "quarters": [
+          { "period": 1, "away": 26, "home": 17 },
+          { "period": 2, "away": 17, "home": 32 },
+          { "period": 3, "away": 26, "home": 21 },
+          { "period": 4, "away": 28, "home": 27 },
+          { "period": 5, "away": 15, "home": 9 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612755",
+            "points": "Tyrese Maxey 46",
+            "rebounds": "Joel Embiid 16",
+            "assists": "Joel Embiid 10"
+          },
+          {
+            "teamId": "nba:1610612752",
+            "points": "Jalen Brunson 40",
+            "rebounds": "Josh Hart 9",
+            "assists": "Jalen Brunson 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/phi-vs-nyk-0042300115"
+      },
+      {
+        "id": "nba:0042300125",
+        "sourceId": "0042300125",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-30",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "home": {
+          "id": "nba:1610612749",
+          "sourceId": "1610612749",
+          "abbreviation": "MIL",
+          "name": "Milwaukee Bucks"
+        },
+        "awayScore": 92,
+        "homeScore": 115,
+        "tipoffUtc": null,
+        "reportedTime": "9:30 pm (8:30 pm CDT)",
+        "venue": "Fiserv Forum, Milwaukee, WI",
+        "quarters": [
+          { "period": 1, "away": 31, "home": 23 },
+          { "period": 2, "away": 17, "home": 30 },
+          { "period": 3, "away": 19, "home": 34 },
+          { "period": 4, "away": 25, "home": 28 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612754",
+            "points": "Tyrese Haliburton 16",
+            "rebounds": "Obi Toppin 6",
+            "assists": "Tyrese Haliburton 6"
+          },
+          {
+            "teamId": "nba:1610612749",
+            "points": "Middleton, Portis 29 each",
+            "rebounds": "Khris Middleton 12",
+            "assists": "Patrick Beverley 12"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/ind-vs-mil-0042300125"
+      },
+      {
+        "id": "nba:0042300135",
+        "sourceId": "0042300135",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-30",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612753",
+          "sourceId": "1610612753",
+          "abbreviation": "ORL",
+          "name": "Orlando Magic"
+        },
+        "home": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "awayScore": 103,
+        "homeScore": 104,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm",
+        "venue": "Rocket Mortgage FieldHouse, Cleveland, OH",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 33 },
+          { "period": 2, "away": 24, "home": 15 },
+          { "period": 3, "away": 23, "home": 27 },
+          { "period": 4, "away": 33, "home": 29 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612753",
+            "points": "Paolo Banchero 39",
+            "rebounds": "Wendell Carter 11",
+            "assists": "Franz Wagner 6"
+          },
+          {
+            "teamId": "nba:1610612739",
+            "points": "Donovan Mitchell 28",
+            "rebounds": "Evan Mobley 13",
+            "assists": "Garland, Strus 5 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/orl-vs-cle-0042300135"
+      },
+      {
+        "id": "nba:0042300104",
+        "sourceId": "0042300104",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-29",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "home": {
+          "id": "nba:1610612748",
+          "sourceId": "1610612748",
+          "abbreviation": "MIA",
+          "name": "Miami Heat"
+        },
+        "awayScore": 102,
+        "homeScore": 88,
+        "tipoffUtc": null,
+        "reportedTime": "7:30 pm",
+        "venue": "Kaseya Center, Miami, FL",
+        "quarters": [
+          { "period": 1, "away": 34, "home": 24 },
+          { "period": 2, "away": 19, "home": 12 },
+          { "period": 3, "away": 28, "home": 23 },
+          { "period": 4, "away": 21, "home": 29 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612738",
+            "points": "Derrick White 38",
+            "rebounds": "Jayson Tatum 11",
+            "assists": "Jrue Holiday 6"
+          },
+          {
+            "teamId": "nba:1610612748",
+            "points": "Bam Adebayo 25",
+            "rebounds": "Bam Adebayo 17",
+            "assists": "Bam Adebayo 5"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/bos-vs-mia-0042300104"
+      },
+      {
+        "id": "nba:0042300144",
+        "sourceId": "0042300144",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-29",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "home": {
+          "id": "nba:1610612740",
+          "sourceId": "1610612740",
+          "abbreviation": "NOP",
+          "name": "New Orleans Pelicans"
+        },
+        "awayScore": 97,
+        "homeScore": 89,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (7:30 pm CDT)",
+        "venue": "Smoothie King Center, New Orleans, LA",
+        "quarters": [
+          { "period": 1, "away": 21, "home": 21 },
+          { "period": 2, "away": 23, "home": 22 },
+          { "period": 3, "away": 26, "home": 28 },
+          { "period": 4, "away": 27, "home": 18 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612760",
+            "points": "Gilgeous-Alexander, Williams 24 each",
+            "rebounds": "Shai Gilgeous-Alexander 10",
+            "assists": "Chet Holmgren 5"
+          },
+          {
+            "teamId": "nba:1610612740",
+            "points": "CJ McCollum 20",
+            "rebounds": "Jonas Valančiūnas 13",
+            "assists": "Brandon Ingram 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/okc-vs-nop-0042300144"
+      },
+      {
+        "id": "nba:0042300155",
+        "sourceId": "0042300155",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-29",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612747",
+          "sourceId": "1610612747",
+          "abbreviation": "LAL",
+          "name": "Los Angeles Lakers"
+        },
+        "home": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "awayScore": 106,
+        "homeScore": 108,
+        "tipoffUtc": null,
+        "reportedTime": "10:00 pm (8:00 pm MDT)",
+        "venue": "Ball Arena, Denver, CO",
+        "quarters": [
+          { "period": 1, "away": 24, "home": 28 },
+          { "period": 2, "away": 29, "home": 22 },
+          { "period": 3, "away": 26, "home": 31 },
+          { "period": 4, "away": 27, "home": 27 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612747",
+            "points": "LeBron James 30",
+            "rebounds": "Anthony Davis 15",
+            "assists": "LeBron James 11"
+          },
+          {
+            "teamId": "nba:1610612743",
+            "points": "Jamal Murray 32",
+            "rebounds": "Nikola Jokić 20",
+            "assists": "Nikola Jokić 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/lal-vs-den-0042300155"
+      },
+      {
+        "id": "nba:0042300114",
+        "sourceId": "0042300114",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-28",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "home": {
+          "id": "nba:1610612755",
+          "sourceId": "1610612755",
+          "abbreviation": "PHI",
+          "name": "Philadelphia 76ers"
+        },
+        "awayScore": 97,
+        "homeScore": 92,
+        "tipoffUtc": null,
+        "reportedTime": "1:00 pm",
+        "venue": "Wells Fargo Center, Philadelphia, PA",
+        "quarters": [
+          { "period": 1, "away": 17, "home": 27 },
+          { "period": 2, "away": 30, "home": 22 },
+          { "period": 3, "away": 30, "home": 27 },
+          { "period": 4, "away": 20, "home": 16 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612752",
+            "points": "Jalen Brunson 47",
+            "rebounds": "Josh Hart 17",
+            "assists": "Jalen Brunson 10"
+          },
+          {
+            "teamId": "nba:1610612755",
+            "points": "Joel Embiid 27",
+            "rebounds": "Joel Embiid 10",
+            "assists": "Kyle Lowry 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/nyk-vs-phi-0042300114"
+      },
+      {
+        "id": "nba:0042300124",
+        "sourceId": "0042300124",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-28",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612749",
+          "sourceId": "1610612749",
+          "abbreviation": "MIL",
+          "name": "Milwaukee Bucks"
+        },
+        "home": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "awayScore": 113,
+        "homeScore": 126,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "Gainbridge Fieldhouse, Indianapolis, IN",
+        "quarters": [
+          { "period": 1, "away": 33, "home": 33 },
+          { "period": 2, "away": 31, "home": 34 },
+          { "period": 3, "away": 21, "home": 31 },
+          { "period": 4, "away": 28, "home": 28 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612749",
+            "points": "Brook Lopez 27",
+            "rebounds": "Khris Middleton 10",
+            "assists": "Andre Jackson Jr. 7"
+          },
+          {
+            "teamId": "nba:1610612754",
+            "points": "Myles Turner 29",
+            "rebounds": "Siakam, Turner 9 each",
+            "assists": "Andrew Nembhard 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/mil-vs-ind-0042300124"
+      },
+      {
+        "id": "nba:0042300164",
+        "sourceId": "0042300164",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-28",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "home": {
+          "id": "nba:1610612756",
+          "sourceId": "1610612756",
+          "abbreviation": "PHX",
+          "name": "Phoenix Suns"
+        },
+        "awayScore": 122,
+        "homeScore": 116,
+        "tipoffUtc": null,
+        "reportedTime": "9:30 pm (6:30 pm MST)",
+        "venue": "Footprint Center, Phoenix, AZ",
+        "quarters": [
+          { "period": 1, "away": 25, "home": 26 },
+          { "period": 2, "away": 31, "home": 35 },
+          { "period": 3, "away": 34, "home": 31 },
+          { "period": 4, "away": 32, "home": 24 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612750",
+            "points": "Anthony Edwards 40",
+            "rebounds": "Karl-Anthony Towns 10",
+            "assists": "Mike Conley 7"
+          },
+          {
+            "teamId": "nba:1610612756",
+            "points": "Devin Booker 49",
+            "rebounds": "Kevin Durant 9",
+            "assists": "Devin Booker 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/min-vs-phx-0042300164"
+      },
+      {
+        "id": "nba:0042300174",
+        "sourceId": "0042300174",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-28",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612746",
+          "sourceId": "1610612746",
+          "abbreviation": "LAC",
+          "name": "Los Angeles Clippers"
+        },
+        "home": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "awayScore": 116,
+        "homeScore": 111,
+        "tipoffUtc": null,
+        "reportedTime": "3:30 pm (2:30 pm CDT)",
+        "venue": "American Airlines Center, Dallas, TX",
+        "quarters": [
+          { "period": 1, "away": 39, "home": 16 },
+          { "period": 2, "away": 27, "home": 33 },
+          { "period": 3, "away": 16, "home": 29 },
+          { "period": 4, "away": 34, "home": 33 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612746",
+            "points": "George, Harden 33 each",
+            "rebounds": "George, Harden 6 each",
+            "assists": "Paul George 8"
+          },
+          {
+            "teamId": "nba:1610612742",
+            "points": "Kyrie Irving 40",
+            "rebounds": "Luka Dončić 10",
+            "assists": "Luka Dončić 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/lac-vs-dal-0042300174"
+      },
+      {
+        "id": "nba:0042300103",
+        "sourceId": "0042300103",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-27",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "home": {
+          "id": "nba:1610612748",
+          "sourceId": "1610612748",
+          "abbreviation": "MIA",
+          "name": "Miami Heat"
+        },
+        "awayScore": 104,
+        "homeScore": 84,
+        "tipoffUtc": null,
+        "reportedTime": "6:00 pm",
+        "venue": "Kaseya Center, Miami, FL",
+        "quarters": [
+          { "period": 1, "away": 21, "home": 12 },
+          { "period": 2, "away": 42, "home": 27 },
+          { "period": 3, "away": 24, "home": 22 },
+          { "period": 4, "away": 17, "home": 23 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612738",
+            "points": "Brown, Tatum 22 each",
+            "rebounds": "Jayson Tatum 11",
+            "assists": "Holiday, Tatum 6 each"
+          },
+          {
+            "teamId": "nba:1610612748",
+            "points": "Bam Adebayo 20",
+            "rebounds": "Bam Adebayo 9",
+            "assists": "Highsmith, Jaquez Jr. 5 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/bos-vs-mia-0042300103"
+      },
+      {
+        "id": "nba:0042300134",
+        "sourceId": "0042300134",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-27",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "home": {
+          "id": "nba:1610612753",
+          "sourceId": "1610612753",
+          "abbreviation": "ORL",
+          "name": "Orlando Magic"
+        },
+        "awayScore": 89,
+        "homeScore": 112,
+        "tipoffUtc": null,
+        "reportedTime": "1:00 pm",
+        "venue": "Kia Center, Orlando, FL",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 22 },
+          { "period": 2, "away": 37, "home": 29 },
+          { "period": 3, "away": 10, "home": 37 },
+          { "period": 4, "away": 19, "home": 24 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612739",
+            "points": "Jarrett Allen 21",
+            "rebounds": "Allen, Mobley 9 each",
+            "assists": "Garland, Mitchell 6 each"
+          },
+          {
+            "teamId": "nba:1610612753",
+            "points": "Franz Wagner 34",
+            "rebounds": "Franz Wagner 13",
+            "assists": "Paolo Banchero 5"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/cle-vs-orl-0042300134"
+      },
+      {
+        "id": "nba:0042300143",
+        "sourceId": "0042300143",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-27",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "home": {
+          "id": "nba:1610612740",
+          "sourceId": "1610612740",
+          "abbreviation": "NOP",
+          "name": "New Orleans Pelicans"
+        },
+        "awayScore": 106,
+        "homeScore": 85,
+        "tipoffUtc": null,
+        "reportedTime": "3:30 pm (2:30 pm CDT)",
+        "venue": "Smoothie King Center, New Orleans, LA",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 19 },
+          { "period": 2, "away": 37, "home": 27 },
+          { "period": 3, "away": 25, "home": 23 },
+          { "period": 4, "away": 21, "home": 16 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612760",
+            "points": "Shai Gilgeous-Alexander 24",
+            "rebounds": "Jalen Williams 9",
+            "assists": "Shai Gilgeous-Alexander 8"
+          },
+          {
+            "teamId": "nba:1610612740",
+            "points": "Brandon Ingram 19",
+            "rebounds": "Larry Nance Jr. 13",
+            "assists": "CJ McCollum 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/okc-vs-nop-0042300143"
+      },
+      {
+        "id": "nba:0042300154",
+        "sourceId": "0042300154",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-27",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "home": {
+          "id": "nba:1610612747",
+          "sourceId": "1610612747",
+          "abbreviation": "LAL",
+          "name": "Los Angeles Lakers"
+        },
+        "awayScore": 108,
+        "homeScore": 119,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (5:30 pm PDT)",
+        "venue": "Crypto.com Arena, Los Angeles, CA",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 28 },
+          { "period": 2, "away": 25, "home": 33 },
+          { "period": 3, "away": 32, "home": 30 },
+          { "period": 4, "away": 28, "home": 28 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612743",
+            "points": "Nikola Jokić 33",
+            "rebounds": "Nikola Jokić 14",
+            "assists": "Nikola Jokić 14"
+          },
+          {
+            "teamId": "nba:1610612747",
+            "points": "LeBron James 30",
+            "rebounds": "Anthony Davis 23",
+            "assists": "Davis, Reaves 6 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/den-vs-lal-0042300154"
+      },
+      {
+        "id": "nba:0042300123",
+        "sourceId": "0042300123",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-26",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612749",
+          "sourceId": "1610612749",
+          "abbreviation": "MIL",
+          "name": "Milwaukee Bucks"
+        },
+        "home": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "awayScore": 118,
+        "homeScore": 121,
+        "tipoffUtc": null,
+        "reportedTime": "5:30 pm",
+        "venue": "Gainbridge Fieldhouse, Indianapolis, IN",
+        "quarters": [
+          { "period": 1, "away": 22, "home": 39 },
+          { "period": 2, "away": 33, "home": 28 },
+          { "period": 3, "away": 28, "home": 23 },
+          { "period": 4, "away": 28, "home": 21 },
+          { "period": 5, "away": 7, "home": 10 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612749",
+            "points": "Khris Middleton 42",
+            "rebounds": "Bobby Portis 18",
+            "assists": "Damian Lillard 8"
+          },
+          {
+            "teamId": "nba:1610612754",
+            "points": "Myles Turner 29",
+            "rebounds": "Tyrese Haliburton 10",
+            "assists": "Tyrese Haliburton 16"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/mil-vs-ind-0042300123"
+      },
+      {
+        "id": "nba:0042300163",
+        "sourceId": "0042300163",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-26",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "home": {
+          "id": "nba:1610612756",
+          "sourceId": "1610612756",
+          "abbreviation": "PHX",
+          "name": "Phoenix Suns"
+        },
+        "awayScore": 126,
+        "homeScore": 109,
+        "tipoffUtc": null,
+        "reportedTime": "10:30 pm (7:30 pm MST)",
+        "venue": "Footprint Center, Phoenix, AZ",
+        "quarters": [
+          { "period": 1, "away": 34, "home": 32 },
+          { "period": 2, "away": 25, "home": 21 },
+          { "period": 3, "away": 36, "home": 20 },
+          { "period": 4, "away": 31, "home": 36 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612750",
+            "points": "Anthony Edwards 36",
+            "rebounds": "Rudy Gobert 14",
+            "assists": "Mike Conley 7"
+          },
+          {
+            "teamId": "nba:1610612756",
+            "points": "Bradley Beal 28",
+            "rebounds": "Jusuf Nurkić 7",
+            "assists": "Devin Booker 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/min-vs-phx-0042300163"
+      },
+      {
+        "id": "nba:0042300173",
+        "sourceId": "0042300173",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-26",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612746",
+          "sourceId": "1610612746",
+          "abbreviation": "LAC",
+          "name": "Los Angeles Clippers"
+        },
+        "home": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "awayScore": 90,
+        "homeScore": 101,
+        "tipoffUtc": null,
+        "reportedTime": "8:00 pm (7:00 pm CDT)",
+        "venue": "American Airlines Center, Dallas, TX",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 18 },
+          { "period": 2, "away": 18, "home": 36 },
+          { "period": 3, "away": 26, "home": 24 },
+          { "period": 4, "away": 23, "home": 23 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612746",
+            "points": "Harden, Powell 21 each",
+            "rebounds": "Kawhi Leonard 9",
+            "assists": "George, Harden 5 each"
+          },
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 22",
+            "rebounds": "Luka Dončić 10",
+            "assists": "Luka Dončić 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/lac-vs-dal-0042300173"
+      },
+      {
+        "id": "nba:0042300113",
+        "sourceId": "0042300113",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-25",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "home": {
+          "id": "nba:1610612755",
+          "sourceId": "1610612755",
+          "abbreviation": "PHI",
+          "name": "Philadelphia 76ers"
+        },
+        "awayScore": 114,
+        "homeScore": 125,
+        "tipoffUtc": null,
+        "reportedTime": "7:30 pm",
+        "venue": "Wells Fargo Center, Philadelphia, PA",
+        "quarters": [
+          { "period": 1, "away": 29, "home": 27 },
+          { "period": 2, "away": 29, "home": 28 },
+          { "period": 3, "away": 27, "home": 43 },
+          { "period": 4, "away": 29, "home": 27 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612752",
+            "points": "Jalen Brunson 39",
+            "rebounds": "Mitchell Robinson 7",
+            "assists": "Jalen Brunson 13"
+          },
+          {
+            "teamId": "nba:1610612755",
+            "points": "Joel Embiid 50",
+            "rebounds": "Joel Embiid 8",
+            "assists": "Tyrese Maxey 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/nyk-vs-phi-0042300113"
+      },
+      {
+        "id": "nba:0042300133",
+        "sourceId": "0042300133",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-25",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "home": {
+          "id": "nba:1610612753",
+          "sourceId": "1610612753",
+          "abbreviation": "ORL",
+          "name": "Orlando Magic"
+        },
+        "awayScore": 83,
+        "homeScore": 121,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "Kia Center, Orlando, FL",
+        "quarters": [
+          { "period": 1, "away": 21, "home": 31 },
+          { "period": 2, "away": 24, "home": 30 },
+          { "period": 3, "away": 16, "home": 35 },
+          { "period": 4, "away": 22, "home": 25 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612739",
+            "points": "Allen, LeVert 15 each",
+            "rebounds": "Jarrett Allen 8",
+            "assists": "Donovan Mitchell 7"
+          },
+          {
+            "teamId": "nba:1610612753",
+            "points": "Paolo Banchero 31",
+            "rebounds": "Paolo Banchero 14",
+            "assists": "Franz Wagner 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/0042300133"
+      },
+      {
+        "id": "nba:0042300153",
+        "sourceId": "0042300153",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-25",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "home": {
+          "id": "nba:1610612747",
+          "sourceId": "1610612747",
+          "abbreviation": "LAL",
+          "name": "Los Angeles Lakers"
+        },
+        "awayScore": 112,
+        "homeScore": 105,
+        "tipoffUtc": null,
+        "reportedTime": "10:00 pm (7:00 pm PDT)",
+        "venue": "Crypto.com Arena, Los Angeles, CA",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 33 },
+          { "period": 2, "away": 26, "home": 20 },
+          { "period": 3, "away": 34, "home": 22 },
+          { "period": 4, "away": 29, "home": 30 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612743",
+            "points": "Aaron Gordon 29",
+            "rebounds": "Gordon, Jokić 15 each",
+            "assists": "Jokić, Murray 9 each"
+          },
+          {
+            "teamId": "nba:1610612747",
+            "points": "Anthony Davis 33",
+            "rebounds": "Anthony Davis 15",
+            "assists": "LeBron James 9"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/0042300153"
+      },
+      {
+        "id": "nba:0042300102",
+        "sourceId": "0042300102",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-24",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612748",
+          "sourceId": "1610612748",
+          "abbreviation": "MIA",
+          "name": "Miami Heat"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 111,
+        "homeScore": 101,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 28, "home": 27 },
+          { "period": 2, "away": 30, "home": 34 },
+          { "period": 3, "away": 27, "home": 18 },
+          { "period": 4, "away": 26, "home": 22 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612748",
+            "points": "Tyler Herro 24",
+            "rebounds": "Bam Adebayo 10",
+            "assists": "Tyler Herro 14"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jaylen Brown 33",
+            "rebounds": "four players 8 each",
+            "assists": "Porziņģis, White 4 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/mia-vs-bos-0042300102"
+      },
+      {
+        "id": "nba:0042300142",
+        "sourceId": "0042300142",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-24",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612740",
+          "sourceId": "1610612740",
+          "abbreviation": "NOP",
+          "name": "New Orleans Pelicans"
+        },
+        "home": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "awayScore": 92,
+        "homeScore": 124,
+        "tipoffUtc": null,
+        "reportedTime": "9:30 pm (8:30 pm CDT)",
+        "venue": "Paycom Center, Oklahoma City, OK",
+        "quarters": [
+          { "period": 1, "away": 22, "home": 35 },
+          { "period": 2, "away": 28, "home": 28 },
+          { "period": 3, "away": 24, "home": 29 },
+          { "period": 4, "away": 18, "home": 32 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612740",
+            "points": "Jonas Valančiūnas 19",
+            "rebounds": "Jonas Valančiūnas 7",
+            "assists": "CJ McCollum 4"
+          },
+          {
+            "teamId": "nba:1610612760",
+            "points": "Shai Gilgeous-Alexander 33",
+            "rebounds": "Chet Holmgren 7",
+            "assists": "Jalen Williams 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/nop-vs-okc-0042300142"
+      },
+      {
+        "id": "nba:0042300122",
+        "sourceId": "0042300122",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-23",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "home": {
+          "id": "nba:1610612749",
+          "sourceId": "1610612749",
+          "abbreviation": "MIL",
+          "name": "Milwaukee Bucks"
+        },
+        "awayScore": 125,
+        "homeScore": 108,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (7:30 pm CDT)",
+        "venue": "Fiserv Forum, Milwaukee, WI",
+        "quarters": [
+          { "period": 1, "away": 30, "home": 26 },
+          { "period": 2, "away": 30, "home": 29 },
+          { "period": 3, "away": 32, "home": 28 },
+          { "period": 4, "away": 33, "home": 25 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612754",
+            "points": "Pascal Siakam 37",
+            "rebounds": "Pascal Siakam 11",
+            "assists": "Tyrese Haliburton 12"
+          },
+          {
+            "teamId": "nba:1610612749",
+            "points": "Damian Lillard 34",
+            "rebounds": "Bobby Portis 11",
+            "assists": "Khris Middleton 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/ind-vs-mil-0042300122"
+      },
+      {
+        "id": "nba:0042300162",
+        "sourceId": "0042300162",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-23",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612756",
+          "sourceId": "1610612756",
+          "abbreviation": "PHX",
+          "name": "Phoenix Suns"
+        },
+        "home": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "awayScore": 93,
+        "homeScore": 105,
+        "tipoffUtc": null,
+        "reportedTime": "7:30 pm (6:30 pm CDT)",
+        "venue": "Target Center, Minneapolis, MN",
+        "quarters": [
+          { "period": 1, "away": 21, "home": 24 },
+          { "period": 2, "away": 30, "home": 26 },
+          { "period": 3, "away": 20, "home": 28 },
+          { "period": 4, "away": 22, "home": 27 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612756",
+            "points": "Devin Booker 20",
+            "rebounds": "Jusuf Nurkić 14",
+            "assists": "Bradley Beal 6"
+          },
+          {
+            "teamId": "nba:1610612750",
+            "points": "Jaden McDaniels 25",
+            "rebounds": "Rudy Gobert 9",
+            "assists": "Anthony Edwards 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/phx-vs-min-0042300162"
+      },
+      {
+        "id": "nba:0042300172",
+        "sourceId": "0042300172",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-23",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612746",
+          "sourceId": "1610612746",
+          "abbreviation": "LAC",
+          "name": "Los Angeles Clippers"
+        },
+        "awayScore": 96,
+        "homeScore": 93,
+        "tipoffUtc": null,
+        "reportedTime": "10:00 pm (7:00 pm PDT)",
+        "venue": "Crypto.com Arena, Los Angeles, CA",
+        "quarters": [
+          { "period": 1, "away": 23, "home": 19 },
+          { "period": 2, "away": 22, "home": 22 },
+          { "period": 3, "away": 20, "home": 25 },
+          { "period": 4, "away": 31, "home": 27 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 32",
+            "rebounds": "Dereck Lively II 9",
+            "assists": "Luka Dončić 9"
+          },
+          {
+            "teamId": "nba:1610612746",
+            "points": "George, Harden 22 each",
+            "rebounds": "Ivica Zubac 12",
+            "assists": "James Harden 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-lac-0042300172"
+      },
+      {
+        "id": "nba:0042300112",
+        "sourceId": "0042300112",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-22",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612755",
+          "sourceId": "1610612755",
+          "abbreviation": "PHI",
+          "name": "Philadelphia 76ers"
+        },
+        "home": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "awayScore": 101,
+        "homeScore": 104,
+        "tipoffUtc": null,
+        "reportedTime": "7:30 pm",
+        "venue": "Madison Square Garden, New York, NY",
+        "quarters": [
+          { "period": 1, "away": 25, "home": 18 },
+          { "period": 2, "away": 28, "home": 31 },
+          { "period": 3, "away": 21, "home": 30 },
+          { "period": 4, "away": 27, "home": 25 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612755",
+            "points": "Tyrese Maxey 35",
+            "rebounds": "Joel Embiid 10",
+            "assists": "Tyrese Maxey 10"
+          },
+          {
+            "teamId": "nba:1610612752",
+            "points": "Jalen Brunson 24",
+            "rebounds": "Josh Hart 15",
+            "assists": "Jalen Brunson 6"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/phi-vs-nyk-0042300112"
+      },
+      {
+        "id": "nba:0042300132",
+        "sourceId": "0042300132",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-22",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612753",
+          "sourceId": "1610612753",
+          "abbreviation": "ORL",
+          "name": "Orlando Magic"
+        },
+        "home": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "awayScore": 86,
+        "homeScore": 96,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm",
+        "venue": "Rocket Mortgage FieldHouse, Cleveland, OH",
+        "quarters": [
+          { "period": 1, "away": 18, "home": 30 },
+          { "period": 2, "away": 26, "home": 28 },
+          { "period": 3, "away": 21, "home": 22 },
+          { "period": 4, "away": 21, "home": 16 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612753",
+            "points": "Paolo Banchero 21",
+            "rebounds": "Franz Wagner 7",
+            "assists": "Jalen Suggs 5"
+          },
+          {
+            "teamId": "nba:1610612739",
+            "points": "Donovan Mitchell 23",
+            "rebounds": "Jarrett Allen 20",
+            "assists": "three players 4 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/orl-vs-cle-0042300132"
+      },
+      {
+        "id": "nba:0042300152",
+        "sourceId": "0042300152",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-22",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612747",
+          "sourceId": "1610612747",
+          "abbreviation": "LAL",
+          "name": "Los Angeles Lakers"
+        },
+        "home": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "awayScore": 99,
+        "homeScore": 101,
+        "tipoffUtc": null,
+        "reportedTime": "10:00 pm (8:00 pm MDT)",
+        "venue": "Ball Arena, Denver, CO",
+        "quarters": [
+          { "period": 1, "away": 28, "home": 24 },
+          { "period": 2, "away": 31, "home": 20 },
+          { "period": 3, "away": 20, "home": 25 },
+          { "period": 4, "away": 20, "home": 32 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612747",
+            "points": "Anthony Davis 32",
+            "rebounds": "Anthony Davis 11",
+            "assists": "LeBron James 12"
+          },
+          {
+            "teamId": "nba:1610612743",
+            "points": "Nikola Jokić 27",
+            "rebounds": "Nikola Jokić 20",
+            "assists": "Nikola Jokić 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/0042300152"
+      },
+      {
+        "id": "nba:0042300101",
+        "sourceId": "0042300101",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-21",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612748",
+          "sourceId": "1610612748",
+          "abbreviation": "MIA",
+          "name": "Miami Heat"
+        },
+        "home": {
+          "id": "nba:1610612738",
+          "sourceId": "1610612738",
+          "abbreviation": "BOS",
+          "name": "Boston Celtics"
+        },
+        "awayScore": 94,
+        "homeScore": 114,
+        "tipoffUtc": null,
+        "reportedTime": "1:00 pm",
+        "venue": "TD Garden, Boston, MA",
+        "quarters": [
+          { "period": 1, "away": 21, "home": 26 },
+          { "period": 2, "away": 24, "home": 34 },
+          { "period": 3, "away": 14, "home": 31 },
+          { "period": 4, "away": 35, "home": 23 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612748",
+            "points": "Bam Adebayo 24",
+            "rebounds": "Adebayo, Jović 6 each",
+            "assists": "Herro, Jaquez Jr. 4 each"
+          },
+          {
+            "teamId": "nba:1610612738",
+            "points": "Jayson Tatum 23",
+            "rebounds": "Jayson Tatum 10",
+            "assists": "Jayson Tatum 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/mia-vs-bos-0042300101"
+      },
+      {
+        "id": "nba:0042300121",
+        "sourceId": "0042300121",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-21",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612754",
+          "sourceId": "1610612754",
+          "abbreviation": "IND",
+          "name": "Indiana Pacers"
+        },
+        "home": {
+          "id": "nba:1610612749",
+          "sourceId": "1610612749",
+          "abbreviation": "MIL",
+          "name": "Milwaukee Bucks"
+        },
+        "awayScore": 94,
+        "homeScore": 109,
+        "tipoffUtc": null,
+        "reportedTime": "7:00 pm (6:00 pm CDT)",
+        "venue": "Fiserv Forum, Milwaukee, WI",
+        "quarters": [
+          { "period": 1, "away": 21, "home": 30 },
+          { "period": 2, "away": 21, "home": 39 },
+          { "period": 3, "away": 29, "home": 14 },
+          { "period": 4, "away": 23, "home": 26 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612754",
+            "points": "Pascal Siakam 36",
+            "rebounds": "Pascal Siakam 13",
+            "assists": "Tyrese Haliburton 8"
+          },
+          {
+            "teamId": "nba:1610612749",
+            "points": "Damian Lillard 35",
+            "rebounds": "Bobby Portis 11",
+            "assists": "Patrick Beverley 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/ind-vs-mil-0042300121"
+      },
+      {
+        "id": "nba:0042300141",
+        "sourceId": "0042300141",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-21",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612740",
+          "sourceId": "1610612740",
+          "abbreviation": "NOP",
+          "name": "New Orleans Pelicans"
+        },
+        "home": {
+          "id": "nba:1610612760",
+          "sourceId": "1610612760",
+          "abbreviation": "OKC",
+          "name": "Oklahoma City Thunder"
+        },
+        "awayScore": 92,
+        "homeScore": 94,
+        "tipoffUtc": null,
+        "reportedTime": "9:30 pm (8:30 pm CDT)",
+        "venue": "Paycom Center, Oklahoma City, OK",
+        "quarters": [
+          { "period": 1, "away": 17, "home": 17 },
+          { "period": 2, "away": 26, "home": 26 },
+          { "period": 3, "away": 25, "home": 31 },
+          { "period": 4, "away": 24, "home": 20 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612740",
+            "points": "Trey Murphy III 21",
+            "rebounds": "Jonas Valančiūnas 20",
+            "assists": "CJ McCollum 6"
+          },
+          {
+            "teamId": "nba:1610612760",
+            "points": "Shai Gilgeous-Alexander 28",
+            "rebounds": "Chet Holmgren 11",
+            "assists": "Gilgeous-Alexander, Williams 4 each"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/nop-vs-okc-0042300141"
+      },
+      {
+        "id": "nba:0042300171",
+        "sourceId": "0042300171",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-21",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612742",
+          "sourceId": "1610612742",
+          "abbreviation": "DAL",
+          "name": "Dallas Mavericks"
+        },
+        "home": {
+          "id": "nba:1610612746",
+          "sourceId": "1610612746",
+          "abbreviation": "LAC",
+          "name": "Los Angeles Clippers"
+        },
+        "awayScore": 97,
+        "homeScore": 109,
+        "tipoffUtc": null,
+        "reportedTime": "3:30 pm (12:30 pm PDT)",
+        "venue": "Crypto.com Arena, Los Angeles, CA",
+        "quarters": [
+          { "period": 1, "away": 22, "home": 34 },
+          { "period": 2, "away": 8, "home": 22 },
+          { "period": 3, "away": 34, "home": 31 },
+          { "period": 4, "away": 33, "home": 22 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612742",
+            "points": "Luka Dončić 33",
+            "rebounds": "Luka Dončić 13",
+            "assists": "Luka Dončić 6"
+          },
+          {
+            "teamId": "nba:1610612746",
+            "points": "James Harden 28",
+            "rebounds": "Ivica Zubac 15",
+            "assists": "James Harden 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/dal-vs-lac-0042300171"
+      },
+      {
+        "id": "nba:0042300111",
+        "sourceId": "0042300111",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-20",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612755",
+          "sourceId": "1610612755",
+          "abbreviation": "PHI",
+          "name": "Philadelphia 76ers"
+        },
+        "home": {
+          "id": "nba:1610612752",
+          "sourceId": "1610612752",
+          "abbreviation": "NYK",
+          "name": "New York Knicks"
+        },
+        "awayScore": 104,
+        "homeScore": 111,
+        "tipoffUtc": null,
+        "reportedTime": "6:00 pm",
+        "venue": "Madison Square Garden, New York, NY",
+        "quarters": [
+          { "period": 1, "away": 34, "home": 25 },
+          { "period": 2, "away": 12, "home": 33 },
+          { "period": 3, "away": 36, "home": 21 },
+          { "period": 4, "away": 22, "home": 32 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612755",
+            "points": "Tyrese Maxey 33",
+            "rebounds": "Tobias Harris 9",
+            "assists": "Joel Embiid 6"
+          },
+          {
+            "teamId": "nba:1610612752",
+            "points": "Brunson, Hart 22 each",
+            "rebounds": "Josh Hart 13",
+            "assists": "Jalen Brunson 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/phi-vs-nyk-0042300111"
+      },
+      {
+        "id": "nba:0042300131",
+        "sourceId": "0042300131",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-20",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612753",
+          "sourceId": "1610612753",
+          "abbreviation": "ORL",
+          "name": "Orlando Magic"
+        },
+        "home": {
+          "id": "nba:1610612739",
+          "sourceId": "1610612739",
+          "abbreviation": "CLE",
+          "name": "Cleveland Cavaliers"
+        },
+        "awayScore": 83,
+        "homeScore": 97,
+        "tipoffUtc": null,
+        "reportedTime": "1:00 pm",
+        "venue": "Rocket Mortgage FieldHouse, Cleveland, OH",
+        "quarters": [
+          { "period": 1, "away": 26, "home": 33 },
+          { "period": 2, "away": 15, "home": 20 },
+          { "period": 3, "away": 17, "home": 20 },
+          { "period": 4, "away": 25, "home": 24 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612753",
+            "points": "Paolo Banchero 24",
+            "rebounds": "Banchero, Wagner 7 each",
+            "assists": "Paolo Banchero 5"
+          },
+          {
+            "teamId": "nba:1610612739",
+            "points": "Donovan Mitchell 30",
+            "rebounds": "Jarrett Allen 18",
+            "assists": "Darius Garland 8"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/orl-vs-cle-0042300131"
+      },
+      {
+        "id": "nba:0042300151",
+        "sourceId": "0042300151",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-20",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612747",
+          "sourceId": "1610612747",
+          "abbreviation": "LAL",
+          "name": "Los Angeles Lakers"
+        },
+        "home": {
+          "id": "nba:1610612743",
+          "sourceId": "1610612743",
+          "abbreviation": "DEN",
+          "name": "Denver Nuggets"
+        },
+        "awayScore": 103,
+        "homeScore": 114,
+        "tipoffUtc": null,
+        "reportedTime": "8:30 pm (6:30 pm MDT)",
+        "venue": "Ball Arena, Denver, CO",
+        "quarters": [
+          { "period": 1, "away": 33, "home": 25 },
+          { "period": 2, "away": 27, "home": 32 },
+          { "period": 3, "away": 18, "home": 32 },
+          { "period": 4, "away": 25, "home": 25 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612747",
+            "points": "Anthony Davis 32",
+            "rebounds": "Anthony Davis 14",
+            "assists": "LeBron James 8"
+          },
+          {
+            "teamId": "nba:1610612743",
+            "points": "Nikola Jokić 32",
+            "rebounds": "Nikola Jokić 12",
+            "assists": "Jamal Murray 10"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/lal-vs-den-0042300151"
+      },
+      {
+        "id": "nba:0042300161",
+        "sourceId": "0042300161",
+        "season": "2023-24",
+        "scope": "playoffs",
+        "date": "2024-04-20",
+        "status": "final",
+        "away": {
+          "id": "nba:1610612756",
+          "sourceId": "1610612756",
+          "abbreviation": "PHX",
+          "name": "Phoenix Suns"
+        },
+        "home": {
+          "id": "nba:1610612750",
+          "sourceId": "1610612750",
+          "abbreviation": "MIN",
+          "name": "Minnesota Timberwolves"
+        },
+        "awayScore": 95,
+        "homeScore": 120,
+        "tipoffUtc": null,
+        "reportedTime": "3:30 pm (2:30 pm CDT)",
+        "venue": "Target Center, Minneapolis, MN",
+        "quarters": [
+          { "period": 1, "away": 28, "home": 27 },
+          { "period": 2, "away": 23, "home": 34 },
+          { "period": 3, "away": 21, "home": 31 },
+          { "period": 4, "away": 23, "home": 28 }
+        ],
+        "leaders": [
+          {
+            "teamId": "nba:1610612756",
+            "points": "Kevin Durant 31",
+            "rebounds": "Kevin Durant 7",
+            "assists": "Bradley Beal 6"
+          },
+          {
+            "teamId": "nba:1610612750",
+            "points": "Anthony Edwards 33",
+            "rebounds": "Rudy Gobert 16",
+            "assists": "Mike Conley 7"
+          }
+        ],
+        "recapUrl": "https://www.nba.com/game/phx-vs-min-0042300161"
+      }
+    ],
+    "seeds": {
+      "nba:1610612738": 1,
+      "nba:1610612748": 8,
+      "nba:1610612752": 2,
+      "nba:1610612755": 7,
+      "nba:1610612749": 3,
+      "nba:1610612754": 6,
+      "nba:1610612739": 4,
+      "nba:1610612753": 5,
+      "nba:1610612760": 1,
+      "nba:1610612740": 8,
+      "nba:1610612743": 2,
+      "nba:1610612747": 7,
+      "nba:1610612750": 3,
+      "nba:1610612756": 6,
+      "nba:1610612746": 4,
+      "nba:1610612742": 5
+    },
+    "seedIssue": null
+  }
+}

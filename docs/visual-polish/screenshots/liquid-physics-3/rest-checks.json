@@ -1,0 +1,58 @@
+[
+  {
+    "width": 1920,
+    "height": 1080,
+    "errors": [],
+    "overflow": 0,
+    "rest": {
+      "width": "88px",
+      "height": "88px",
+      "background": "rgb(185, 28, 28)",
+      "color": "rgb(255, 255, 255)",
+      "shadow": "rgba(185, 28, 28, 0.32) 0px 0px 48px 0px",
+      "canvasOpacity": "0"
+    }
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "errors": [],
+    "overflow": 0,
+    "rest": {
+      "width": "88px",
+      "height": "88px",
+      "background": "rgb(185, 28, 28)",
+      "color": "rgb(255, 255, 255)",
+      "shadow": "rgba(185, 28, 28, 0.32) 0px 0px 48px 0px",
+      "canvasOpacity": "0"
+    }
+  },
+  {
+    "width": 1024,
+    "height": 900,
+    "errors": [],
+    "overflow": 0,
+    "rest": {
+      "width": "88px",
+      "height": "88px",
+      "background": "rgb(185, 28, 28)",
+      "color": "rgb(255, 255, 255)",
+      "shadow": "rgba(185, 28, 28, 0.32) 0px 0px 48px 0px",
+      "canvasOpacity": "0"
+    }
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "errors": [],
+    "overflow": 0,
+    "rest": {
+      "width": "88px",
+      "height": "88px",
+      "background": "rgb(185, 28, 28)",
+      "color": "rgb(255, 255, 255)",
+      "shadow": "rgba(185, 28, 28, 0.32) 0px 0px 48px 0px",
+      "canvasOpacity": "0"
+    }
+  }
+]

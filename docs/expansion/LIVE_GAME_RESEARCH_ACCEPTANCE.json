@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-10-13T19:59:14.333Z",
+  "status": "PASS",
+  "environment": "local-genuine-nba-provider",
+  "productionHostTested": false,
+  "requests": 6,
+  "regularObserved": 74,
+  "rawWeightedShootingVerified": true,
+  "threshold": {
+    "minimumPoints": 40,
+    "matchingGames": 6,
+    "filteredRollingVerified": true
+  },
+  "playoffsObserved": 13,
+  "scopeSeparationVerified": true,
+  "playoffCareerSeasons": 10,
+  "directSpaRefreshes": 1
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "width": 1920,
+    "circleCrop": [908, 66, 1012, 170],
+    "meanChannelDifference": 0.0,
+    "circlePixelIdentical": true
+  },
+  {
+    "width": 1440,
+    "circleCrop": [668, 66, 772, 170],
+    "meanChannelDifference": 0.0,
+    "circlePixelIdentical": true
+  },
+  {
+    "width": 1024,
+    "circleCrop": [460, 37, 564, 141],
+    "meanChannelDifference": 0.0,
+    "circlePixelIdentical": true
+  },
+  {
+    "width": 390,
+    "circleCrop": [143, 10, 247, 114],
+    "meanChannelDifference": 0.0,
+    "circlePixelIdentical": true
+  }
+]

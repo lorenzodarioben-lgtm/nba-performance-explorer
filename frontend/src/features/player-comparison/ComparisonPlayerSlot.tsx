@@ -116,12 +116,19 @@ export function ComparisonPlayerSlot({
             <>
               <img
                 src={image.src}
+                srcSet={image.srcSet}
+                sizes="(max-width: 767px) 100vw, 50vw"
                 width={image.width}
                 height={image.height}
                 alt=""
                 decoding="async"
-                style={{ objectPosition: image.objectPosition }}
-                className="hero-photo absolute inset-0 h-full w-full object-cover"
+                style={{
+                  objectPosition:
+                    image.kind === 'headshot' ? 'right bottom' : image.objectPosition,
+                }}
+                className={`hero-photo absolute inset-0 h-full w-full ${
+                  image.kind === 'headshot' ? 'object-contain' : 'object-cover'
+                }`}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-coal via-coal/85 to-coal/25" />
               <div className="absolute inset-0 bg-[radial-gradient(70%_60%_at_72%_18%,rgba(185,28,28,0.24),transparent_62%)]" />

@@ -1,0 +1,274 @@
+[
+  {
+    "width": 1920,
+    "comparison": {
+      ".homecmp__photo:first-child img": {
+        "x": 332,
+        "y": 97,
+        "width": 340.5625,
+        "height": 454.078125,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__vs": {
+        "x": 915.984375,
+        "y": 73.34375,
+        "width": 88,
+        "height": 88,
+        "font": "800 40px / 40px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(185, 28, 28)",
+        "shadow": "rgba(185, 28, 28, 0.32) 0px 0px 48px 0px"
+      },
+      ".homecmp__vs-label": null,
+      ".homecmp__title": {
+        "x": 704.5625,
+        "y": 183.34375,
+        "width": 510.859375,
+        "height": 206.390625,
+        "font": "800 80px / 68.8px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__lede": {
+        "x": 761.109375,
+        "y": 407.734375,
+        "width": 397.75,
+        "height": 48,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgba(244, 243, 241, 0.78)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__cta": {
+        "x": 831.171875,
+        "y": 483.734375,
+        "width": 257.640625,
+        "height": 52,
+        "font": "700 18px / 18px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(185, 28, 28)",
+        "shadow": "none"
+      },
+      ".homecmp__photo:last-child img": {
+        "x": 1247.421875,
+        "y": 97,
+        "width": 340.578125,
+        "height": 454.09375,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      }
+    },
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "comparison": {
+      ".homecmp__photo:first-child img": {
+        "x": 92,
+        "y": 97,
+        "width": 340.5625,
+        "height": 454.078125,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__vs": {
+        "x": 675.984375,
+        "y": 73.34375,
+        "width": 88,
+        "height": 88,
+        "font": "800 40px / 40px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(185, 28, 28)",
+        "shadow": "rgba(185, 28, 28, 0.32) 0px 0px 48px 0px"
+      },
+      ".homecmp__vs-label": null,
+      ".homecmp__title": {
+        "x": 464.5625,
+        "y": 183.34375,
+        "width": 510.859375,
+        "height": 206.390625,
+        "font": "800 80px / 68.8px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__lede": {
+        "x": 521.109375,
+        "y": 407.734375,
+        "width": 397.75,
+        "height": 48,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgba(244, 243, 241, 0.78)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__cta": {
+        "x": 591.171875,
+        "y": 483.734375,
+        "width": 257.640625,
+        "height": 52,
+        "font": "700 18px / 18px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(185, 28, 28)",
+        "shadow": "none"
+      },
+      ".homecmp__photo:last-child img": {
+        "x": 1007.421875,
+        "y": 97,
+        "width": 340.578125,
+        "height": 454.09375,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      }
+    },
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "comparison": {
+      ".homecmp__photo:first-child img": {
+        "x": 32,
+        "y": 99.984375,
+        "width": 256,
+        "height": 341.328125,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__vs": {
+        "x": 468,
+        "y": 43.90625,
+        "width": 88,
+        "height": 88,
+        "font": "800 40px / 40px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(185, 28, 28)",
+        "shadow": "rgba(185, 28, 28, 0.32) 0px 0px 48px 0px"
+      },
+      ".homecmp__vs-label": null,
+      ".homecmp__title": {
+        "x": 320,
+        "y": 153.90625,
+        "width": 384,
+        "height": 158.484375,
+        "font": "800 61.44px / 52.8384px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__lede": {
+        "x": 320,
+        "y": 330.390625,
+        "width": 384,
+        "height": 48,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgba(244, 243, 241, 0.78)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__cta": {
+        "x": 383.171875,
+        "y": 406.390625,
+        "width": 257.640625,
+        "height": 52,
+        "font": "700 18px / 18px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(185, 28, 28)",
+        "shadow": "none"
+      },
+      ".homecmp__photo:last-child img": {
+        "x": 736,
+        "y": 99.984375,
+        "width": 256,
+        "height": 341.328125,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      }
+    },
+    "overflow": 0,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "comparison": {
+      ".homecmp__photo:first-child img": {
+        "x": 20,
+        "y": 381.65625,
+        "width": 159,
+        "height": 212,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__vs": {
+        "x": 151,
+        "y": 18,
+        "width": 88,
+        "height": 88,
+        "font": "800 40px / 40px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(185, 28, 28)",
+        "shadow": "rgba(185, 28, 28, 0.32) 0px 0px 48px 0px"
+      },
+      ".homecmp__vs-label": null,
+      ".homecmp__title": {
+        "x": 20,
+        "y": 128,
+        "width": 350,
+        "height": 75.65625,
+        "font": "800 44px / 37.84px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__lede": {
+        "x": 20,
+        "y": 221.65625,
+        "width": 350,
+        "height": 48,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgba(244, 243, 241, 0.78)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      },
+      ".homecmp__cta": {
+        "x": 66.171875,
+        "y": 297.65625,
+        "width": 257.640625,
+        "height": 52,
+        "font": "700 18px / 18px \"Saira Condensed\", \"Arial Narrow\", sans-serif",
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(185, 28, 28)",
+        "shadow": "none"
+      },
+      ".homecmp__photo:last-child img": {
+        "x": 211,
+        "y": 381.65625,
+        "width": 159,
+        "height": 212,
+        "font": "16px / 24px Barlow, \"Segoe UI\", system-ui, -apple-system, Roboto, sans-serif",
+        "color": "rgb(244, 243, 241)",
+        "background": "rgba(0, 0, 0, 0)",
+        "shadow": "none"
+      }
+    },
+    "overflow": 0,
+    "errors": []
+  }
+]

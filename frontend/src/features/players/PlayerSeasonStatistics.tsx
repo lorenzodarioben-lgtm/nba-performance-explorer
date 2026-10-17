@@ -2,7 +2,15 @@ import { useId, useState } from 'react';
 
 import type { PlayerSeasonStats } from '@nba-performance-explorer/contracts';
 
-import { Reveal } from '../foundation/Reveal';
+import { motion } from 'motion/react';
+
+import { FlipValue, Reveal, Stagger, StaggerItem } from '../../motion/choreography';
+import { useMotionAllowed } from '../../motion/MotionPreference';
+import { springs } from '../../motion/tokens';
+import { LoadingLine, Notice } from '../../ui/DataState';
+import { Slate } from '../../ui/Slate';
+import type { TapeSpec } from '../../ui/Tape';
+import { formatSeason } from '../player-hub/seasons';
 import { formatPercentage, formatPerGame } from './format';
 import { PlayerGameLog } from './PlayerGameLog';
 import { PlayerSeasonError } from './season-api';
@@ -54,51 +62,77 @@ function buildSecondaryRows(stats: PlayerSeasonStats): StatRow[] {
   ];
 }
 
+const QUERIED: TapeSpec = { code: 'NBA.com', source: 'Queried', variant: 'queried' };
+
+// Percentages carry a quiet meter (0–100%) under the figure; the figure stays the reading.
+const PERCENT_LABELS = new Set([
+  'Field-goal percentage',
+  'Three-point percentage',
+  'Free-throw percentage',
+]);
+
 function StatList({ stats }: { stats: PlayerSeasonStats }) {
+  const ratios: Record<string, number> = {
+    'Field-goal percentage': stats.fieldGoalPercentage,
+    'Three-point percentage': stats.threePointPercentage,
+    'Free-throw percentage': stats.freeThrowPercentage,
+  };
   return (
-    <div className="mt-6">
-      <dl className="flex flex-wrap gap-x-8 gap-y-2">
+    <div className="statsheet">
+      <dl className="statsheet__context">
         {buildContextRows(stats).map((row) => (
-          <div key={row.label} className="flex items-baseline gap-2">
-            <dt className="eyebrow text-white/55">{row.label}</dt>
-            <dd className="text-sm font-semibold tabular-nums text-chalk">
-              {row.value}
-            </dd>
+          <div key={row.label}>
+            <dt>{row.label}</dt>
+            <dd>{row.value}</dd>
           </div>
         ))}
       </dl>
 
-      {/* Headline scoreboard: points, rebounds, and assists as oversized figures. */}
-      <Reveal>
-        <dl className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
-          {buildHeadlineRows(stats).map((row) => (
-            <div
-              key={row.label}
-              className="border border-white/10 bg-coal px-4 py-5 sm:px-6 sm:py-7"
-            >
-              <dt className="eyebrow text-white/55">{row.label}</dt>
-              <dd className="display mt-2 text-4xl font-extrabold leading-none tabular-nums text-chalk sm:text-7xl">
-                {row.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </Reveal>
+      {/* Headline scoreboard: points, rebounds and assists as oversized figures. A change
+          between two loaded seasons flips the figure; no intermediate number is drawn. */}
+      <Stagger as="dl" className="scoreboard" gap={0.08}>
+        {buildHeadlineRows(stats).map((row) => (
+          <StaggerItem key={row.label} className="scoreboard__cell" variant="rise">
+            <dt>{row.label}</dt>
+            <dd>
+              <FlipValue value={row.value} />
+            </dd>
+          </StaggerItem>
+        ))}
+      </Stagger>
 
-      {/* Supporting statistics: a calm dark stat-sheet with hairline separators, not cards. */}
-      <Reveal delayMs={100}>
-        <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 sm:grid-cols-3 lg:grid-cols-4">
+      {/* Supporting statistics: a calm stat sheet with hairline separators, not cards. */}
+      <Reveal delay={0.1}>
+        <dl className="statgrid">
           {buildSecondaryRows(stats).map((row) => (
-            <div key={row.label} className="bg-coal px-4 py-4">
-              <dt className="eyebrow text-white/55">{row.label}</dt>
-              <dd className="mt-1.5 text-xl font-semibold tabular-nums text-chalk">
-                {row.value}
+            <div key={row.label} className="statgrid__cell">
+              <dt>{row.label}</dt>
+              <dd>
+                <FlipValue value={row.value} />
               </dd>
+              {PERCENT_LABELS.has(row.label) ? (
+                <span className="meter" aria-hidden="true">
+                  <MeterFill ratio={ratios[row.label] ?? 0} />
+                </span>
+              ) : null}
             </div>
           ))}
         </dl>
       </Reveal>
     </div>
+  );
+}
+
+function MeterFill({ ratio }: { ratio: number }) {
+  const allowed = useMotionAllowed();
+  const clamped = Math.max(0, Math.min(1, ratio));
+  return (
+    <motion.i
+      style={{ originX: 0 }}
+      initial={allowed ? { scaleX: 0 } : false}
+      animate={{ scaleX: clamped }}
+      transition={{ ...springs.data, delay: allowed ? 0.25 : 0 }}
+    />
   );
 }
 
@@ -110,11 +144,7 @@ function StatsRegion({
   selectedSeason: string;
 }) {
   if (statsQuery.isPending) {
-    return (
-      <p role="status" aria-live="polite" className="mt-6 text-sm text-white/70">
-        Loading season statistics...
-      </p>
-    );
+    return <LoadingLine>Loading season statistics...</LoadingLine>;
   }
 
   if (statsQuery.isError) {
@@ -122,25 +152,18 @@ function StatsRegion({
       statsQuery.error instanceof PlayerSeasonError ? statsQuery.error.kind : 'error';
 
     return (
-      <p
-        role="alert"
-        className="mt-6 rounded-sm border border-white/10 bg-accent/15 px-3 py-2 text-sm text-red-100"
-      >
+      <Notice tone="error" role="alert">
         {kind === 'season-not-found'
           ? 'That season is unavailable.'
           : 'Season statistics are unavailable. Please try again.'}
-      </p>
+      </Notice>
     );
   }
 
   // Only render statistics that belong to the currently selected season; while a newly
   // selected season is loading the query is re-keyed, so this never shows stale numbers.
   if (statsQuery.data.season !== selectedSeason) {
-    return (
-      <p role="status" aria-live="polite" className="mt-6 text-sm text-white/70">
-        Loading season statistics...
-      </p>
-    );
+    return <LoadingLine>Loading season statistics...</LoadingLine>;
   }
 
   return <StatList stats={statsQuery.data} />;
@@ -166,58 +189,50 @@ export function PlayerSeasonStatistics({ playerId }: { playerId: string }) {
   const selectId = useId();
 
   return (
-    <section
-      aria-labelledby={headingId}
-      className="mt-12 border-t border-white/10 pt-10"
-    >
-      <h2
+    <section aria-labelledby={headingId} className="pmod">
+      <Slate
+        title="Season statistics"
         id={headingId}
-        className="display text-3xl font-extrabold uppercase text-chalk sm:text-4xl"
-      >
-        Season statistics
-      </h2>
+        tapes={[QUERIED]}
+        meta={effectiveSeason ? [formatSeason(effectiveSeason), 'Per game'] : []}
+      />
 
-      {seasonsQuery.isPending ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-white/70">
-          Loading seasons...
-        </p>
-      ) : null}
+      {seasonsQuery.isPending ? <LoadingLine>Loading seasons...</LoadingLine> : null}
 
       {seasonsQuery.isError ? (
-        <p
-          role="alert"
-          className="mt-3 rounded-sm border border-white/10 bg-accent/15 px-3 py-2 text-sm text-red-100"
-        >
+        <Notice tone="error" role="alert">
           Season statistics are unavailable. Please try again.
-        </p>
+        </Notice>
       ) : null}
 
       {seasonsQuery.isSuccess && seasons.length === 0 ? (
-        <p role="status" aria-live="polite" className="mt-3 text-sm text-white/70">
+        <p role="status" aria-live="polite" className="pmod__empty">
           No season statistics are available for this player.
         </p>
       ) : null}
 
       {seasonsQuery.isSuccess && seasons.length > 0 && effectiveSeason !== null ? (
-        <div className="mt-6">
-          <label htmlFor={selectId} className="block text-sm font-semibold text-chalk">
-            Season
-          </label>
-          <select
-            id={selectId}
-            value={effectiveSeason}
-            onChange={(event) => {
-              setChosenSeason(event.target.value);
-            }}
-            className="field-dark mt-2 w-full max-w-xs sm:w-auto"
-          >
-            {seasons.map((entry) => (
-              <option key={entry.season} value={entry.season}>
-                {entry.season} ·{' '}
-                {entry.team ? entry.team.abbreviation : 'Multiple teams'}
-              </option>
-            ))}
-          </select>
+        <div>
+          <div className="pmod__controls">
+            <label htmlFor={selectId} className="field-label">
+              Season
+            </label>
+            <select
+              id={selectId}
+              value={effectiveSeason}
+              onChange={(event) => {
+                setChosenSeason(event.target.value);
+              }}
+              className="select"
+            >
+              {seasons.map((entry) => (
+                <option key={entry.season} value={entry.season}>
+                  {entry.season} ·{' '}
+                  {entry.team ? entry.team.abbreviation : 'Multiple teams'}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <StatsRegion statsQuery={statsQuery} selectedSeason={effectiveSeason} />
 

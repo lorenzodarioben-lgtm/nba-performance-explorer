@@ -1,0 +1,227 @@
+
+> nba-performance-explorer@0.1.0 validate
+> npm run format:check && npm run lint && npm run check:module-case && npm run check:visual-assets && npm run typecheck && npm run test && npm run build
+
+
+> nba-performance-explorer@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> nba-performance-explorer@0.1.0 lint
+> eslint .
+
+
+C:\Users\lorenzodario\Documents\PersonalProjects\NBA_APP_CLAUDE_3\frontend\src\charts\markers.tsx
+  4:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\lorenzodario\Documents\PersonalProjects\NBA_APP_CLAUDE_3\frontend\src\features\league\Scoreboard.tsx
+  26:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\lorenzodario\Documents\PersonalProjects\NBA_APP_CLAUDE_3\frontend\src\features\shot-archive\ShotCourt.tsx
+  36:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\lorenzodario\Documents\PersonalProjects\NBA_APP_CLAUDE_3\frontend\src\motion\MotionPreference.tsx
+   95:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  100:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\lorenzodario\Documents\PersonalProjects\NBA_APP_CLAUDE_3\frontend\src\motion\choreography.tsx
+  267:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  282:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  355:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\lorenzodario\Documents\PersonalProjects\NBA_APP_CLAUDE_3\frontend\src\ui\DataMode.tsx
+  23:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  30:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\lorenzodario\Documents\PersonalProjects\NBA_APP_CLAUDE_3\frontend\src\ui\Tape.tsx
+  22:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  58:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+C:\Users\lorenzodario\Documents\PersonalProjects\NBA_APP_CLAUDE_3\frontend\src\ui\Toast.tsx
+  73:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+✖ 13 problems (0 errors, 13 warnings)
+
+
+> nba-performance-explorer@0.1.0 check:module-case
+> node scripts/check-module-case.mjs --self-test && node scripts/check-module-case.mjs
+
+self-test ok: Court.tsx beside court.ts is reported
+self-test ok: the import of ./Court is reported as resolving to court.ts
+self-test ok: the renamed layout passes
+self-test ok: a mis-cased specifier is reported
+self-test ok: a module beside a same-named folder is reported
+Module case check passed (scanned 81 folders, 555 source files, 1823 relative imports): no case-only name collisions, and every relative import resolves to the same file on case-sensitive and case-insensitive filesystems.
+
+> nba-performance-explorer@0.1.0 check:visual-assets
+> node scripts/check-visual-assets.mjs
+
+Visual asset check passed: 73 players, 45 team marks, 604 archive and 653 franchise-record team-seasons matched by name, 401 files, metadata and icons.
+
+> nba-performance-explorer@0.1.0 typecheck
+> npm run build --workspace @nba-performance-explorer/contracts && npm run typecheck --workspace frontend && npm run typecheck --workspace backend
+
+
+> @nba-performance-explorer/contracts@1.0.0 build
+> tsc --project tsconfig.json
+
+
+> frontend@0.1.0 typecheck
+> tsc --noEmit
+
+
+> backend@0.1.0 typecheck
+> tsc --project tsconfig.json --noEmit
+
+
+> nba-performance-explorer@0.1.0 test
+> npm run build --workspace @nba-performance-explorer/contracts && npm run test --workspace frontend && npm run test --workspace backend
+
+
+> @nba-performance-explorer/contracts@1.0.0 build
+> tsc --project tsconfig.json
+
+
+> frontend@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 C:/Users/lorenzodario/Documents/PersonalProjects/NBA_APP_CLAUDE_3/frontend
+
+
+ Test Files  85 passed (85)
+      Tests  527 passed (527)
+   Start at  10:00:34
+   Duration  159.36s (transform 6.68s, setup 71.04s, import 39.25s, tests 97.50s, environment 92.36s)
+
+
+> backend@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 C:/Users/lorenzodario/Documents/PersonalProjects/NBA_APP_CLAUDE_3/backend
+
+
+ Test Files  60 passed (60)
+      Tests  532 passed (532)
+   Start at  10:03:15
+   Duration  36.10s (transform 18.68s, setup 0ms, import 133.56s, tests 68.30s, environment 12ms)
+
+
+> nba-performance-explorer@0.1.0 build
+> npm run build --workspace @nba-performance-explorer/contracts && npm run build --workspace frontend && npm run build --workspace backend
+
+
+> @nba-performance-explorer/contracts@1.0.0 build
+> tsc --project tsconfig.json
+
+
+> frontend@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v8.0.16 building client environment for production...
+[2K
+transforming...✓ 810 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                     2.97 kB │ gzip:   0.95 kB
+dist/assets/ResearchShell-DY5zbgo2.css              0.48 kB │ gzip:   0.30 kB
+dist/assets/index-KRQ5AucA.css                    197.01 kB │ gzip:  36.64 kB
+dist/assets/fold-DkPfr_D_.js                        0.09 kB │ gzip:   0.11 kB
+dist/assets/metrics-By4s68Hj.js                     0.33 kB │ gzip:   0.23 kB
+dist/assets/useCareerResearch-CDVIUNST.js           0.42 kB │ gzip:   0.32 kB
+dist/assets/shot-region-BkPhA3-f.js                 0.57 kB │ gzip:   0.35 kB
+dist/assets/PlayerAvatar-DIBrDOWu.js                0.61 kB │ gzip:   0.41 kB
+dist/assets/WikiAttribution-D08X357i.js             0.61 kB │ gzip:   0.36 kB
+dist/assets/Segmented-U43n0h-J.js                   0.64 kB │ gzip:   0.39 kB
+dist/assets/team-season-format-BGcSkyKf.js          0.71 kB │ gzip:   0.37 kB
+dist/assets/game-format-Cn-JQDks.js                 0.79 kB │ gzip:   0.48 kB
+dist/assets/PlayerFinder-CJVdgj_k.js                0.99 kB │ gzip:   0.57 kB
+dist/assets/bracket-layout-DYst4sIa.js              1.11 kB │ gzip:   0.62 kB
+dist/assets/NotFoundPage-90DIETAs.js                1.13 kB │ gzip:   0.60 kB
+dist/assets/LeaderText-htp3xl0P.js                  1.24 kB │ gzip:   0.68 kB
+dist/assets/RankBars-3YRx-gi_.js                    1.28 kB │ gzip:   0.64 kB
+dist/assets/MirrorBars-C6l_lJSy.js                  1.37 kB │ gzip:   0.56 kB
+dist/assets/RankedBoard-UPIHV1GT.js                 1.38 kB │ gzip:   0.71 kB
+dist/assets/similarity-config-BH7dptzv.js           1.77 kB │ gzip:   0.97 kB
+dist/assets/SavedViews-DIDAfuzS.js                  2.13 kB │ gzip:   1.08 kB
+dist/assets/comparison-export-BDQb_e3J.js           2.17 kB │ gzip:   1.02 kB
+dist/assets/shot-export-hUUmXuez.js                 2.22 kB │ gzip:   1.10 kB
+dist/assets/LeagueSourceNote-ZIReL_Wg.js            2.27 kB │ gzip:   1.15 kB
+dist/assets/ConferenceLadder-CHduByNU.js            2.63 kB │ gzip:   1.13 kB
+dist/assets/workbench-config-D29xOyXG.js            2.92 kB │ gzip:   1.38 kB
+dist/assets/GapBoard-D-m09qo8.js                    3.10 kB │ gzip:   1.51 kB
+dist/assets/LabsLanding-CMbdKWa0.js                 3.32 kB │ gzip:   1.41 kB
+dist/assets/TourPage-BBB58TL4.js                    3.40 kB │ gzip:   1.62 kB
+dist/assets/HistoricalAwardsPage-ltIgrQ90.js        3.80 kB │ gzip:   1.57 kB
+dist/assets/StoryReaderPage-BcQaKBFF.js             4.14 kB │ gzip:   1.68 kB
+dist/assets/StoriesPage-BTZ3rnMN.js                 4.32 kB │ gzip:   1.67 kB
+dist/assets/ResearchShell-D66C8JYm.js               4.66 kB │ gzip:   1.95 kB
+dist/assets/Scoreboard-CGv1w4P5.js                  4.83 kB │ gzip:   1.58 kB
+dist/assets/LeagueTeamRankingsPage-DatDWBsb.js      4.87 kB │ gzip:   2.02 kB
+dist/assets/RecordedCalendarPage-WAAgn3xB.js        5.05 kB │ gzip:   2.01 kB
+dist/assets/ScatterPlot-ctkoeRbG.js                 5.15 kB │ gzip:   2.27 kB
+dist/assets/LeagueHonoursPage-B91SiqfO.js           5.17 kB │ gzip:   1.99 kB
+dist/assets/ShotBoxPage-BTpmnPdb.js                 5.35 kB │ gzip:   2.04 kB
+dist/assets/PlayersLanding-DOGKTEcz.js              5.42 kB │ gzip:   2.13 kB
+dist/assets/LeagueMovementPage-cZIQyVKu.js          5.62 kB │ gzip:   2.33 kB
+dist/assets/LeagueStandingsPage-BabvNXhr.js         5.68 kB │ gzip:   2.27 kB
+dist/assets/use-stories-9ZPFJgOY.js                 5.77 kB │ gzip:   2.42 kB
+dist/assets/RecordedProgressionPage-DAxOYfN3.js     5.87 kB │ gzip:   2.29 kB
+dist/assets/HistoricalDraftPage-wjqObmwT.js         6.06 kB │ gzip:   2.33 kB
+dist/assets/LeagueRecordBookPage-CoBBFLQ2.js        6.61 kB │ gzip:   2.45 kB
+dist/assets/RecordedTeamRankingsPage-CPw48owt.js    6.97 kB │ gzip:   2.57 kB
+dist/assets/RecordedDiscoveryPage-CKCvZ-Y2.js       7.13 kB │ gzip:   2.68 kB
+dist/assets/DiscoverPage-BKjtPlqL.js                7.29 kB │ gzip:   3.05 kB
+dist/assets/LeagueLineupsPage-BZrsfika.js           7.30 kB │ gzip:   2.70 kB
+dist/assets/AnalyticsLabPage-CKy1pURs.js            7.37 kB │ gzip:   2.98 kB
+dist/assets/LeagueArchivePage-CiwHlepr.js           7.88 kB │ gzip:   2.76 kB
+dist/assets/StoryEmbed-cRJ3g7Ig.js                  7.97 kB │ gzip:   2.97 kB
+dist/assets/ShootingResearchPage-Cdm4V8fQ.js        8.15 kB │ gzip:   3.03 kB
+dist/assets/CareerComparisonPage-DfCwa3lm.js        8.15 kB │ gzip:   3.16 kB
+dist/assets/RecordedAnalyticsPage-DU2v8SOt.js       8.22 kB │ gzip:   3.05 kB
+dist/assets/StoryEditorPage-DaF8sa6Y.js             8.23 kB │ gzip:   2.79 kB
+dist/assets/CareerResearchPage-C3bDuale.js          8.29 kB │ gzip:   3.02 kB
+dist/assets/RecordedProfilesPage-CBNJLkcy.js        8.54 kB │ gzip:   3.37 kB
+dist/assets/LeagueGamesPage-De7bcrcn.js             8.68 kB │ gzip:   3.25 kB
+dist/assets/ComparisonLabPage-CYdPIuUH.js           8.83 kB │ gzip:   3.26 kB
+dist/assets/ComparisonStudioPage-DUXsj26H.js        8.95 kB │ gzip:   3.54 kB
+dist/assets/SimilarityPage-CV4zXXDl.js              9.05 kB │ gzip:   3.41 kB
+dist/assets/RecordedSeasonRoom-DDWEeX5x.js          9.05 kB │ gzip:   3.56 kB
+dist/assets/GamesArchivePage-CevkxlTX.js            9.61 kB │ gzip:   3.42 kB
+dist/assets/LeaguePlayerRoom-D4HJELMI.js            9.66 kB │ gzip:   3.37 kB
+dist/assets/StandingsRacePage-C2MWVEUk.js           9.86 kB │ gzip:   4.23 kB
+dist/assets/PlayoffBracketPage-9T-XvkBA.js         10.37 kB │ gzip:   3.58 kB
+dist/assets/LeagueErasPage-CdfrQHwJ.js             10.38 kB │ gzip:   3.81 kB
+dist/assets/ExplorerPage-DlgC07SO.js               10.73 kB │ gzip:   3.75 kB
+dist/assets/LeagueLeadersPage-CHKwr2we.js          11.07 kB │ gzip:   4.07 kB
+dist/assets/SearchOverlay-C9kAt8Ks.js              11.08 kB │ gzip:   4.46 kB
+dist/assets/LineupStudyPage-DbeAkNdv.js            11.58 kB │ gzip:   3.91 kB
+dist/assets/RecordedArchivePage-HfafbJWW.js        11.98 kB │ gzip:   4.21 kB
+dist/assets/HistoryPage-by4WUGE2.js                12.43 kB │ gzip:   4.43 kB
+dist/assets/PlayerInsightsPage-BZvuWI_f.js         13.51 kB │ gzip:   4.24 kB
+dist/assets/GameResearchPage-DaHsv_5s.js           14.18 kB │ gzip:   4.52 kB
+dist/assets/FormulaLabPage-CWPSUXRb.js             14.33 kB │ gzip:   5.24 kB
+dist/assets/MyNbaPage--e2a8UCB.js                  14.39 kB │ gzip:   4.68 kB
+dist/assets/SeriesFilmRoomPage-aWE6TbGK.js         15.79 kB │ gzip:   5.07 kB
+dist/assets/CoveragePage-DaVj_g32.js               15.86 kB │ gzip:   5.12 kB
+dist/assets/LeagueGamePage-CemSLskm.js             16.03 kB │ gzip:   4.73 kB
+dist/assets/TeamSeasonPage-Bnkt8ybZ.js             17.43 kB │ gzip:   5.62 kB
+dist/assets/WorkbenchPage-CgfEhaL4.js              17.62 kB │ gzip:   5.78 kB
+dist/assets/RecordedLabsPage-xY8N-dPe.js           17.95 kB │ gzip:   6.07 kB
+dist/assets/createApiUrl-BM-NTxqC.js               23.79 kB │ gzip:   7.92 kB
+dist/assets/ShotArchivePage-CnAgFJvN.js            32.15 kB │ gzip:  10.35 kB
+dist/assets/TeamsPage-C4uA88ZJ.js                  33.27 kB │ gzip:   9.27 kB
+dist/assets/dist-z4O2iVT_.js                      147.69 kB │ gzip:  37.45 kB
+dist/assets/Icon-BIBjy0EK.js                      182.23 kB │ gzip:  61.06 kB
+dist/assets/index-Dam8LcpA.js                     382.31 kB │ gzip: 113.77 kB
+
+✓ built in 1.57s
+> backend@0.1.0 build
+> npm run clean && tsc --project tsconfig.json && node dist/scripts/copy-shot-data.js
+
+
+> backend@0.1.0 clean
+> node --input-type=module -e "import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });"

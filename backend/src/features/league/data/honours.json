@@ -1,0 +1,3099 @@
+{
+ "kind": "nba-honours",
+ "version": 1,
+ "builtAt": "2026-10-16T02:05:32.000Z",
+ "sources": [
+  {
+   "award": "mvp",
+   "title": "NBA Most Valuable Player",
+   "revision": 1376809534,
+   "retrievedAt": "2026-10-16T01:54:38.463Z"
+  },
+  {
+   "award": "finals-mvp",
+   "title": "NBA Finals Most Valuable Player",
+   "revision": 1377263699,
+   "retrievedAt": "2026-10-16T01:57:01.475Z"
+  },
+  {
+   "award": "dpoy",
+   "title": "NBA Defensive Player of the Year",
+   "revision": 1375234415,
+   "retrievedAt": "2026-10-16T01:56:35.672Z"
+  },
+  {
+   "award": "roy",
+   "title": "NBA Rookie of the Year",
+   "revision": 1379227531,
+   "retrievedAt": "2026-10-16T01:54:40.653Z"
+  },
+  {
+   "award": "sixth-man",
+   "title": "NBA Sixth Man of the Year",
+   "revision": 1368446412,
+   "retrievedAt": "2026-10-16T01:56:43.967Z"
+  },
+  {
+   "award": "mip",
+   "title": "NBA Most Improved Player",
+   "revision": 1373853364,
+   "retrievedAt": "2026-10-16T01:56:52.584Z"
+  },
+  {
+   "award": "clutch",
+   "title": "NBA Clutch Player of the Year",
+   "revision": 1362738564,
+   "retrievedAt": "2026-10-16T01:57:09.715Z"
+  }
+ ],
+ "requests": [
+  {
+   "source": "wikipedia",
+   "url": "https://en.wikipedia.org/w/index.php?title=NBA%20Most%20Valuable%20Player&oldid=1376809534",
+   "retrievedAt": "2026-10-16T01:54:38.463Z",
+   "sha256": "476f4179ad2b7673a39a1dda2b85bf505400b83c0bb211438c44f5545c8df965"
+  },
+  {
+   "source": "wikipedia",
+   "url": "https://en.wikipedia.org/w/index.php?title=NBA%20Finals%20Most%20Valuable%20Player&oldid=1377263699",
+   "retrievedAt": "2026-10-16T01:57:01.475Z",
+   "sha256": "59b3c9f4b736b017dccd9506c9499dc57c1e0ced2360e77817ac47e803882a96"
+  },
+  {
+   "source": "wikipedia",
+   "url": "https://en.wikipedia.org/w/index.php?title=NBA%20Defensive%20Player%20of%20the%20Year&oldid=1375234415",
+   "retrievedAt": "2026-10-16T01:56:35.672Z",
+   "sha256": "a2120c769d4ef60b10ad58ade415ddb710c3d7572ff394519225d211bc6c242c"
+  },
+  {
+   "source": "wikipedia",
+   "url": "https://en.wikipedia.org/w/index.php?title=NBA%20Rookie%20of%20the%20Year&oldid=1379227531",
+   "retrievedAt": "2026-10-16T01:54:40.653Z",
+   "sha256": "ad322c9a39770b40f97f6047bb6721bf2ceb5471c4b03b0df745ff97d9228749"
+  },
+  {
+   "source": "wikipedia",
+   "url": "https://en.wikipedia.org/w/index.php?title=NBA%20Sixth%20Man%20of%20the%20Year&oldid=1368446412",
+   "retrievedAt": "2026-10-16T01:56:43.967Z",
+   "sha256": "1841c47c9c63bf74fd384dc455746991edabe323a5a7283c6a001d47c7c6b41f"
+  },
+  {
+   "source": "wikipedia",
+   "url": "https://en.wikipedia.org/w/index.php?title=NBA%20Most%20Improved%20Player&oldid=1373853364",
+   "retrievedAt": "2026-10-16T01:56:52.584Z",
+   "sha256": "46ec24fa00e887e8264dfa37b32dcc59442ed6dabe8ad58c339e328f712e1c4e"
+  },
+  {
+   "source": "wikipedia",
+   "url": "https://en.wikipedia.org/w/index.php?title=NBA%20Clutch%20Player%20of%20the%20Year&oldid=1362738564",
+   "retrievedAt": "2026-10-16T01:57:09.715Z",
+   "sha256": "6c626ca72800b9eb743c695504d399c259419a68dc7863243f2e7a0b6617b0cd"
+  },
+  {
+   "source": "wikipedia",
+   "url": "https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&ppprop=wikibase_item&redirects=1&format=json&formatversion=2&titles=Ron+Artest%7CMahmoud+Abdul-Rauf%7CIsaac+Austin",
+   "retrievedAt": "2026-10-16T02:05:05.659Z",
+   "sha256": "9ec7493bceb58c6cd8918127824b71a8273ab76b5dbd90d07acfe4c7a79c53c8"
+  },
+  {
+   "source": "wikidata",
+   "url": "https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q295322%7CQ922355%7CQ2309877&props=claims&format=json",
+   "retrievedAt": "2026-10-16T02:05:13.189Z",
+   "sha256": "35682cb426aa20a53f137c71da6e039a1957fba5d3341f27068f7f05335889ff"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1449",
+   "retrievedAt": "2026-10-16T01:58:21.355Z",
+   "sha256": "269f092270628574d343126a8a63b40f6e141d26a2287df0413c6b133a44270c"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=77142",
+   "retrievedAt": "2026-10-16T01:58:23.383Z",
+   "sha256": "7f67a695e0d2673bf436955731a9f9ef482c9d705fa357549236f0892e11062a"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=893",
+   "retrievedAt": "2026-10-16T01:58:25.409Z",
+   "sha256": "16fbfb2460579a83e7374cb2b6018bac8e2a2f4112f5619cf11bb3d27ea69506"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=787",
+   "retrievedAt": "2026-10-16T01:58:27.395Z",
+   "sha256": "73fc7c8f0c5db80121f32556e531a55d020e61afcdaeb30eb2ea9ec91ca3a4db"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=165",
+   "retrievedAt": "2026-10-16T01:58:29.348Z",
+   "sha256": "ac0cf4d590d763f209972b65174954d3389cd69b1355845a2eed634a149903b2"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=764",
+   "retrievedAt": "2026-10-16T01:58:31.380Z",
+   "sha256": "72acb2af6db21130eb27c13d023da1e06da685735ae1c9dcd9bcf9eacc9171c6"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=252",
+   "retrievedAt": "2026-10-16T01:58:33.373Z",
+   "sha256": "edecb7be01097c6602747186857d53cf43b7fb3d2ea6cc8714ee5bc5eaa5b6c0"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=406",
+   "retrievedAt": "2026-10-16T01:58:35.371Z",
+   "sha256": "14762b1fa3dcb1ce7fed7860ae997c96e3ea222895816ffe24f1b49a02696ebc"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=947",
+   "retrievedAt": "2026-10-16T01:58:37.372Z",
+   "sha256": "e042b6d024e98612020a0f926b0f1bcb370d366dab591cd0df9de6b62b3c5b57"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1495",
+   "retrievedAt": "2026-10-16T01:58:39.048Z",
+   "sha256": "be02516b8fdc43a21d59cae8b0dda11ba733da1ab9200172523aedd6497bf87e"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=708",
+   "retrievedAt": "2026-10-16T01:58:41.016Z",
+   "sha256": "2dd35e354ff68ed4c6875058e512ebbfdea2d105089fb5d615e9f3669258f6b8"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=959",
+   "retrievedAt": "2026-10-16T01:58:43.684Z",
+   "sha256": "73a7d0529ed6909eb3faaf9e6e32fb8197868c5e38675f659dd622cebbe371b8"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1717",
+   "retrievedAt": "2026-10-16T01:58:45.690Z",
+   "sha256": "7a3adaf03be48b93cbb78067a8ff071b2e2bb0a888a8ade835e759b109b924f2"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=977",
+   "retrievedAt": "2026-10-16T01:58:47.713Z",
+   "sha256": "a115cbd355fcc6eca08fc49a4cb348337aa4ccac786c88bbb632dedfa3146579"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2544",
+   "retrievedAt": "2026-10-16T01:58:49.402Z",
+   "sha256": "154b4f2ebbcf5b936c06c0446eff298b7b24a290549103ff4634bd78090c909e"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201565",
+   "retrievedAt": "2026-10-16T01:58:51.410Z",
+   "sha256": "b0aa8ecdf9a925ec98c3d04a3ebbe879905691c2f79f84ee7a07c4116c399668"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201142",
+   "retrievedAt": "2026-10-16T01:58:53.365Z",
+   "sha256": "a839f4b197e101a67461e84103db6412576eaaaa72a8603db88161500df8318e"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201939",
+   "retrievedAt": "2026-10-16T01:58:55.533Z",
+   "sha256": "3d5d53bbd244d36b9990e67015e9b37b570b87db6dcc49b8596ef9d7ad88a9e0"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201566",
+   "retrievedAt": "2026-10-16T01:58:57.522Z",
+   "sha256": "bda8b6efeba7d1986a7af8e04a9868d39211e2ed1b1fffd9994b25c312a2092a"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201935",
+   "retrievedAt": "2026-10-16T01:58:59.560Z",
+   "sha256": "619228c65a35e29c7a41603afc8d3e3e6ca95e7137f01f631c70e6130fe36409"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203507",
+   "retrievedAt": "2026-10-16T01:59:01.575Z",
+   "sha256": "bd733c1c0822df92fb622a59b23c95b7a80cb30334e8e89118f10c610be92186"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203999",
+   "retrievedAt": "2026-10-16T01:59:03.564Z",
+   "sha256": "820ca48c9713b09181db2eb540c57900166751ce5e4eb94926433aff0bfeca90"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203954",
+   "retrievedAt": "2026-10-16T01:59:05.576Z",
+   "sha256": "0ab991fc9e641ee93ca03d44103fa0ef9cd491a72dd2f8b8ac7d1af630aebc30"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1628983",
+   "retrievedAt": "2026-10-16T01:59:07.541Z",
+   "sha256": "070343fefea71cff332b124677f9e876f99ef8105b265a0047b607b047d09de0"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=76003",
+   "retrievedAt": "2026-10-16T01:59:09.608Z",
+   "sha256": "d9e320c0ba57a6cbbac54b25d888001cebcbaf50606b53af5f1da73b8ab2d6bc"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1460",
+   "retrievedAt": "2026-10-16T01:59:11.584Z",
+   "sha256": "cb6e42f6ab5a34597574bcb22dfa5c91cb9818488f86b557d77fadabd7406700"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=247",
+   "retrievedAt": "2026-10-16T01:59:13.580Z",
+   "sha256": "ff163e4c7cefd09d67498ef7c424564ccf773a1f5442e22bf8207c825ecfdb7a"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=78318",
+   "retrievedAt": "2026-10-16T01:59:15.544Z",
+   "sha256": "303851ce438b9bca72ad463d93751863638366ad1c2a54b902e691e5ec7628f1"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1497",
+   "retrievedAt": "2026-10-16T01:59:17.516Z",
+   "sha256": "e14f3f00c3330b88e15fc5c0dec5312a8640896ddab1745fc60b92731d883ddd"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2548",
+   "retrievedAt": "2026-10-16T01:59:19.505Z",
+   "sha256": "a5c18debdb43d11b8f683a99f46a36647c6a10618c4fe9e7cf362050170f0245"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2225",
+   "retrievedAt": "2026-10-16T01:59:21.533Z",
+   "sha256": "3a936ea918e507a203e4f80b60d13cd2c044550ce32646e4c88c972cb0640787"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1718",
+   "retrievedAt": "2026-10-16T01:59:23.578Z",
+   "sha256": "e728f81e25ffd6beb1511c4b7debb661c6de57fbbcd8932f4f98b52983cbaab2"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=202695",
+   "retrievedAt": "2026-10-16T01:59:25.588Z",
+   "sha256": "9da0cc40ee4783aecbd14cc6224f23bb1cba81d6ccefccbee10e36c2b04384b4"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2738",
+   "retrievedAt": "2026-10-16T01:59:27.546Z",
+   "sha256": "e55a4bdf177e24bb1eacc66011d7ffb5424bfac2f12e1505146e4e191530a72a"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1627759",
+   "retrievedAt": "2026-10-16T01:59:29.556Z",
+   "sha256": "d6653f12a2ce056f68063f9d1de7e06337a78042d9c4dd1863e73a9485363388"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1628973",
+   "retrievedAt": "2026-10-16T01:59:31.505Z",
+   "sha256": "aafd093152f31a7331694766390e981b0363209bb95bf62713a12b91a5494586"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=77626",
+   "retrievedAt": "2026-10-16T01:59:33.473Z",
+   "sha256": "fe511d901761af5cb041da247538d139188f40c263621d24c4bdbd1f5943ecf0"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=76631",
+   "retrievedAt": "2026-10-16T01:59:35.480Z",
+   "sha256": "b58b10c283684f87773cdbf60df10c9717696e7883ffdbb7822de4dcce5d9631"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=926",
+   "retrievedAt": "2026-10-16T01:59:37.467Z",
+   "sha256": "b81f219511a1a6f842f7c9c419bde263d51277ba9b37c2d27bfb89de6463e7a5"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=76444",
+   "retrievedAt": "2026-10-16T01:59:39.446Z",
+   "sha256": "a033fac9f5f16206a65823a6f836c83059bf187b8eff1156c9561be72bd7bca5"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=23",
+   "retrievedAt": "2026-10-16T01:59:41.491Z",
+   "sha256": "cb2c4eb8842eb0742801e06f3a7989c12a3580efd3afc945ff8d7adf04ecf7ac"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=87",
+   "retrievedAt": "2026-10-16T01:59:43.621Z",
+   "sha256": "c5a4443c5727836fad34649294f6b9dd4eea72cf429b3eb8169f56fcb1ea2f14"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=56",
+   "retrievedAt": "2026-10-16T01:59:45.630Z",
+   "sha256": "d5d89a530d779128873c88f7fb83ac9965e14e20b497e607a5d959914a2b83e9"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=297",
+   "retrievedAt": "2026-10-16T01:59:47.621Z",
+   "sha256": "2520da479de9aff4487c4216a07e279fffd0979d35a0ad987c20f7a98825dbcc"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1112",
+   "retrievedAt": "2026-10-16T01:59:49.832Z",
+   "sha256": "ea5ffb6c0d7e6e67f9f502d7cce3090f7d1e35f4663ce3440543c7f5e7e64a35"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=948",
+   "retrievedAt": "2026-10-16T01:59:52.065Z",
+   "sha256": "3f2cbdee10b9b72e3dad58d110309455207dc145725827c75eaaae2c2fe00001"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2730",
+   "retrievedAt": "2026-10-16T01:59:54.098Z",
+   "sha256": "8e7a3d1f6b7f072ab5abfa40a02503376617cd86ed3ad99b26bb8f72bf6ec36c"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2199",
+   "retrievedAt": "2026-10-16T01:59:56.396Z",
+   "sha256": "6f770847604cc4dc8a889362f072aa07f6c3e3131c8639334e89bd9ad2349e7b"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201188",
+   "retrievedAt": "2026-10-16T01:59:58.404Z",
+   "sha256": "2c03259de96f10acdff4c8dd430e84c85612085adb7c0a74ef47d762b9fcda55"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201149",
+   "retrievedAt": "2026-10-16T02:00:00.561Z",
+   "sha256": "ba87a5ea8436675fcce9709a555b8d87ad3c15aaf5f41d63b2dcf4b9c021c702"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203110",
+   "retrievedAt": "2026-10-16T02:00:02.504Z",
+   "sha256": "d7f3b1bdfe8de661b2745760af694a791eda620b45dae8d8fb737c1baee2bdcc"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203497",
+   "retrievedAt": "2026-10-16T02:00:04.648Z",
+   "sha256": "54d77a7a023ee1ad882f500980967ea3357654655c7eb452de31ad19f8381f43"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203935",
+   "retrievedAt": "2026-10-16T02:00:06.781Z",
+   "sha256": "1e91eb82768c08fcee0ade85dbbbffc545a7a91f4637a8ac574ad2dfce1a27d5"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1628991",
+   "retrievedAt": "2026-10-16T02:00:08.745Z",
+   "sha256": "da4fc667bce89ef8dfb26232401b2d9c5540e86ad3fbfb1aff229fc6842346e1"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1630596",
+   "retrievedAt": "2026-10-16T02:00:10.705Z",
+   "sha256": "ad64b603578ce8d423ad0d429bd5f4380630f64fd92df1b40e8b08c49736f6be"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1641705",
+   "retrievedAt": "2026-10-16T02:00:12.422Z",
+   "sha256": "6e29503476900c596b817a6b6ef1e9c08b542c69db145bd0cc3d6a1c0b7b5ecd"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=78055",
+   "retrievedAt": "2026-10-16T02:00:14.531Z",
+   "sha256": "91924d0b9b3131cd814ba8b680805a0090ceb04fa6d34d1aa8dbbfdc297bd283"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=121",
+   "retrievedAt": "2026-10-16T02:00:16.489Z",
+   "sha256": "fff5e428f82128c152f262d0d4cf1dcf8d1aea1dbc032facbf5db453719863a2"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=456",
+   "retrievedAt": "2026-10-16T02:00:18.472Z",
+   "sha256": "b899761cd8eb3667f209ea37da7890bcb2bc63efa3b3bcb218178eabf526672d"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=349",
+   "retrievedAt": "2026-10-16T02:00:20.553Z",
+   "sha256": "a081f65a75a1033d4192e35fdb815521e4aeb5c3e028b5ec773239dc6878045f"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=782",
+   "retrievedAt": "2026-10-16T02:00:22.718Z",
+   "sha256": "1d16f4cee8301c437a36d9ca923ae0f695f6826f0ac17f3c51e4a4b52d9f1092"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=934",
+   "retrievedAt": "2026-10-16T02:00:24.688Z",
+   "sha256": "a195417898f3d638aacc16fdaf9fc6e9b4b166b3f388bfa39dd2d0d85ca10a41"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=913",
+   "retrievedAt": "2026-10-16T02:00:26.786Z",
+   "sha256": "5d0913e24ed9a0f1aa57d4b674bd253ee7ca5b147290fbcc2d1e9c47caab45f4"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=185",
+   "retrievedAt": "2026-10-16T02:00:28.797Z",
+   "sha256": "fa82b732ef67ffb98aebc3689ab2f56d9de2309d1eb464d3b74e6816bb3d0a90"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=255",
+   "retrievedAt": "2026-10-16T02:00:30.811Z",
+   "sha256": "2a14e0519a34f36ca015d35f3a555c8a16506e7ba99dc1ac2b3f8edf786ab3de"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=467",
+   "retrievedAt": "2026-10-16T02:00:32.777Z",
+   "sha256": "cde6172182a879e8d7f6ef7a639eac1001ce66523c494936af1fa6ee0f9539a5"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=757",
+   "retrievedAt": "2026-10-16T02:00:34.785Z",
+   "sha256": "0e38f8b8ead551ea5cd9901117505c12d4c12f744a2ed499c2edfa696e67c54e"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1713",
+   "retrievedAt": "2026-10-16T02:00:36.812Z",
+   "sha256": "1b0da1cc1b532da8a406f98c54e482b204d67267d3a7507b771f5a219ae7445f"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1882",
+   "retrievedAt": "2026-10-16T02:00:38.818Z",
+   "sha256": "9c89a0d94527dd2b9c32362d941e63d8598641f89d63c7cacef68c1aea36f922"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1883",
+   "retrievedAt": "2026-10-16T02:00:40.813Z",
+   "sha256": "dee14f086984de245e56e36eada292bc5b3c94503b7980117cd436f63bc42980"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2034",
+   "retrievedAt": "2026-10-16T02:00:42.830Z",
+   "sha256": "fb963613b5b170588feac808ed62cc438f9b192c0f80efc80a1374fb87101647"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2200",
+   "retrievedAt": "2026-10-16T02:00:44.835Z",
+   "sha256": "ae5d5613a2f49e5520d625815604f9ed13256128ac60124dfe96d8dda6b6e956"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2405",
+   "retrievedAt": "2026-10-16T02:00:46.855Z",
+   "sha256": "1c616a29072f53b4094a6981c7d554ca04d45fae79c34ef5f3bbc2d96b5d0a97"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2731",
+   "retrievedAt": "2026-10-16T02:00:49.018Z",
+   "sha256": "5eef35f1aa06ac0ecc1bb5e3b77d36baf041f47ba5fa275f179b86e19240631e"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=101108",
+   "retrievedAt": "2026-10-16T02:00:51.030Z",
+   "sha256": "28212d26488b9bb58247a316fa8dd9fab66689ae41c32c1d3592e2506312a7af"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=200750",
+   "retrievedAt": "2026-10-16T02:00:52.871Z",
+   "sha256": "72ed58739ef89b2f224344c16deb1b4c8c289a5effcf2620ba8a354ac6377baa"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201936",
+   "retrievedAt": "2026-10-16T02:00:54.929Z",
+   "sha256": "89e8c5e1488e1436d659baa96de5680726214162793b011ecc794fb47a7f1127"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201933",
+   "retrievedAt": "2026-10-16T02:00:57.011Z",
+   "sha256": "373f39c0727f93a60791d55ffae40e3ae369649a90506945332e3c583e747e70"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=202681",
+   "retrievedAt": "2026-10-16T02:00:59.073Z",
+   "sha256": "373582d763ff9c1e1219559a775ecfa0d4e6037dcf637cb407f09a7b8233b0b9"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203081",
+   "retrievedAt": "2026-10-16T02:01:01.068Z",
+   "sha256": "979af43c555b44189eae27fb48e6b0ed241108054db2b322f97e623dcca4020c"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203487",
+   "retrievedAt": "2026-10-16T02:01:03.185Z",
+   "sha256": "1ee4372fd795d06fbfb2ac0309f5cd653fabb4769477617d1e3c0ab2b7f3c6b9"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203952",
+   "retrievedAt": "2026-10-16T02:01:05.138Z",
+   "sha256": "b5d3c0a91fcd0a36f8f15612148e6b094785fbb8944a057a4d0556c7eb03fde5"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1626157",
+   "retrievedAt": "2026-10-16T02:01:07.143Z",
+   "sha256": "08a1fb0feb3e2f7a7f0d88ea7b7b4c9500bca946d120a37637300d0824320882"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1627763",
+   "retrievedAt": "2026-10-16T02:01:09.159Z",
+   "sha256": "ddc6a214b55a0bb382f156b9a48cfe4792d552708e5fddbce015ef1ae6625665"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1627732",
+   "retrievedAt": "2026-10-16T02:01:11.147Z",
+   "sha256": "645ad0d2075aad16110abbdec52a7bf04a3904a928a43431515e6ed99e4f543d"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1629029",
+   "retrievedAt": "2026-10-16T02:01:13.094Z",
+   "sha256": "c6d2bab600bd73ba9d69df7e1676ffca3fbed16f5dcc77c9e4094c1a8c7eb74e"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1629630",
+   "retrievedAt": "2026-10-16T02:01:15.226Z",
+   "sha256": "8e712d73d8b5f77648c5b17be8764356a337dca9d5d7583d8a485227a3e5e1c0"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1630163",
+   "retrievedAt": "2026-10-16T02:01:16.947Z",
+   "sha256": "6b95cac747a7b20d1d3b76213c415a18bcdca4394e72e6d642b3f40457cd4e89"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1630567",
+   "retrievedAt": "2026-10-16T02:01:18.742Z",
+   "sha256": "075723096850003f61a0276ea9ab374b40f47531c341d8f63513ed14f812a159"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1631094",
+   "retrievedAt": "2026-10-16T02:01:20.534Z",
+   "sha256": "fd6fce718d0ae2bade438fe238bbeef55dd36580f3e3d568cd6d96b8cd52c3d6"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1642264",
+   "retrievedAt": "2026-10-16T02:01:22.528Z",
+   "sha256": "4e03c4c300ae2e5497e6f149ad10c6db9f3cc91f103007cb8b14ae1feb91a004"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1642843",
+   "retrievedAt": "2026-10-16T02:01:24.494Z",
+   "sha256": "523e9cf43ca08a92342416d2a352f6580800a71e6a32d36853d780381dbfc523"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1450",
+   "retrievedAt": "2026-10-16T02:01:26.555Z",
+   "sha256": "716e610e048729d1e308334e50376c42b7f745cb74983743a02ee79f5d457def"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=78450",
+   "retrievedAt": "2026-10-16T02:01:28.581Z",
+   "sha256": "e648270cd355c1ae7b7224e008943aaf4b400e581f4b1f441b6d73acd98f5578"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=894",
+   "retrievedAt": "2026-10-16T02:01:30.715Z",
+   "sha256": "4dd19cd4dcb0d42b0f44a49337dbe1b55c4326eea1f323cd4de436888b9a1f98"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=78293",
+   "retrievedAt": "2026-10-16T02:01:32.782Z",
+   "sha256": "364a1f5572a848fa8c19ff2195f917bc91588587243f286daa8a8fcb86abbb39"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=698",
+   "retrievedAt": "2026-10-16T02:01:34.871Z",
+   "sha256": "d229f5e54103858f3c9cef670ea77b03d0955cfca8712f18353bc3f862fb5257"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=96",
+   "retrievedAt": "2026-10-16T02:01:36.946Z",
+   "sha256": "43577d36d8463c08db9864715f2b6c0efeea6ae5b70164eec944e68f3f426c98"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=361",
+   "retrievedAt": "2026-10-16T02:01:38.996Z",
+   "sha256": "8a8b5ba70f674e0e1de148ce3766cdd57b7a7987cf95ed3a816539fabd2859fb"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=209",
+   "retrievedAt": "2026-10-16T02:01:40.960Z",
+   "sha256": "a54bb33ad4adfeef522ee7e3e5021d98ca25c32c50794499b801f015ecf2dd4c"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=193",
+   "retrievedAt": "2026-10-16T02:01:42.894Z",
+   "sha256": "50c1c02895125066cedddc6ea80df451c6941cb170d7b1acadf00781c0b38cb1"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=389",
+   "retrievedAt": "2026-10-16T02:01:45.021Z",
+   "sha256": "9b5afc65dd34c9c5e7e5620aee3e42b588b1325dadd92531ca34bd4b5134bcee"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=317",
+   "retrievedAt": "2026-10-16T02:01:46.998Z",
+   "sha256": "2efdc9bc0ee761dd32a66e4b682340f749a2c29d831385b61b3fcce0ea20fa1c"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=330",
+   "retrievedAt": "2026-10-16T02:01:49.044Z",
+   "sha256": "9c9b4b097f9fd800b49bf74f261c1acb3ed53a2c898a52bf889756b3d0af9c24"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=353",
+   "retrievedAt": "2026-10-16T02:01:51.186Z",
+   "sha256": "0f4313f22d152654866dd50ab8f317aa1ef9d418853f7c69d699e0ca081339ea"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=915",
+   "retrievedAt": "2026-10-16T02:01:53.316Z",
+   "sha256": "3c901bc3c03593ae55e0941c5261331360c059abb4445e85e72c163cdaf43300"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=243",
+   "retrievedAt": "2026-10-16T02:01:55.671Z",
+   "sha256": "5dbbf809a839a6cddd50e0b9f012da44db473b26bb033077f137c33ddd265fe8"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=722",
+   "retrievedAt": "2026-10-16T02:01:57.662Z",
+   "sha256": "035bb93f5820806399d0a3b4b2d3ffe5bedc167d94853e57844dab98ade08cdb"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1517",
+   "retrievedAt": "2026-10-16T02:01:59.755Z",
+   "sha256": "2ac68256e18de2311e8bb741a4ebcbb537dc471a466e7cf28f3b138a58a1537b"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1712",
+   "retrievedAt": "2026-10-16T02:02:01.830Z",
+   "sha256": "b057d60c8dff0068febfa69d7249722c6d8e7868bfbde56ac766d65c0338f0c9"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2732",
+   "retrievedAt": "2026-10-16T02:02:03.902Z",
+   "sha256": "5a3ac9417ad00158d9a05a0b8fa24624b8a8a63f45d6d5f7ed0d949d73c1c7bb"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2571",
+   "retrievedAt": "2026-10-16T02:02:05.853Z",
+   "sha256": "fe44dd2271d99851f5ef0bc7da041c26ff4233adb6a317895af997df33e4303e"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1938",
+   "retrievedAt": "2026-10-16T02:02:07.920Z",
+   "sha256": "0eadb31c35fad06b4576a519556a3d795c7429519775aaec87e866a45b67ce5d"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1891",
+   "retrievedAt": "2026-10-16T02:02:09.970Z",
+   "sha256": "3458ad0fa01557544b5db495bcc53b2578eef5c5e65d34bd6bab5e527a9dfebf"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2037",
+   "retrievedAt": "2026-10-16T02:02:11.905Z",
+   "sha256": "6b6e5b786688580633345001a84accef16852b19574250ea1014bd427ff78688"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1885",
+   "retrievedAt": "2026-10-16T02:02:14.014Z",
+   "sha256": "38db9131cc6db71dbc83198a8d308ec0cde6b4ae13b405eaa73b2d63920adae8"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2747",
+   "retrievedAt": "2026-10-16T02:05:15.323Z",
+   "sha256": "ea10a9e127a20f7a8e418fd844901a72002a79408e09973145fa10d0e8069d90"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=101150",
+   "retrievedAt": "2026-10-16T02:02:16.161Z",
+   "sha256": "8fb73f2da0e385525e1660c75c3d0d887e99695049bd2fc6427100bbce563e3a"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201569",
+   "retrievedAt": "2026-10-16T02:02:18.137Z",
+   "sha256": "d67524d85a6f93a9c9e2e5ca0effd8dff318d007abbc03002a873de1f48be990"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1626149",
+   "retrievedAt": "2026-10-16T02:02:20.124Z",
+   "sha256": "6f6eac63d7457376ec14d222d42da34b70d9c87321b4fd1c7d96f850a3df2335"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203903",
+   "retrievedAt": "2026-10-16T02:02:22.296Z",
+   "sha256": "332e1ef6b925da05aba5f4099615659daeb71295891c1793efb9f74d0784c74f"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1629639",
+   "retrievedAt": "2026-10-16T02:02:24.014Z",
+   "sha256": "f5337ce14ad4b755422d35ce0c98e0995038c1cb3f956b98b752a2d209252fd4"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1629675",
+   "retrievedAt": "2026-10-16T02:02:26.071Z",
+   "sha256": "f704c74a0e85bb79e939b98f5f7e44821d0f89ab2aabea1b2dda09f67d1a7766"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1630202",
+   "retrievedAt": "2026-10-16T02:02:28.018Z",
+   "sha256": "b36b7e1744be521066667510596ea6fcb0f8c587456df985aae44d26a1fbae91"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1629640",
+   "retrievedAt": "2026-10-16T02:02:29.734Z",
+   "sha256": "95d6a0a5b1b430f23ee0be5ad09848f97bbb3c85734a1358b2852bcbbc429b07"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=107",
+   "retrievedAt": "2026-10-16T02:02:31.706Z",
+   "sha256": "97a834c84a9d87f924e75bb15d885b583cc5143fd705e8e499bb955d03899c8a"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=404",
+   "retrievedAt": "2026-10-16T02:02:33.788Z",
+   "sha256": "e0bed71bf91c68f5e7cc0acaac1b6304a7370b81bd89ab73770c9f72a47ebe53"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=134",
+   "retrievedAt": "2026-10-16T02:02:35.960Z",
+   "sha256": "e602d196b6538e4ebe5ad55de433e684abcbd8328bb7e6147d1e5b5a5c3cc53b"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=938",
+   "retrievedAt": "2026-10-16T02:02:38.033Z",
+   "sha256": "89b718aaff55eaaf6bb4d605f94b5ae9d240932555553f14872dccadb241ba7c"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=101",
+   "retrievedAt": "2026-10-16T02:02:40.044Z",
+   "sha256": "71194c78baff8d52a49c2c193fae33d544e5fd53e4f0a0693d9f69d3b44048de"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=442",
+   "retrievedAt": "2026-10-16T02:02:42.037Z",
+   "sha256": "fb72cb737b60bdc8bd3c000a934b051e96fde7190f28c2473e229ac95bfa57a9"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=931",
+   "retrievedAt": "2026-10-16T02:02:44.047Z",
+   "sha256": "948db52c22e0628ec0c5a7060e311f091fcfc87d6e967ae1927d2e9554071538"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=344",
+   "retrievedAt": "2026-10-16T02:02:46.051Z",
+   "sha256": "98c13118a70bbed750204c0e397e499c010193dcaa319c579383a32d6f300cb8"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=49",
+   "retrievedAt": "2026-10-16T02:02:48.037Z",
+   "sha256": "3258d3169a62b14579d52168086e78472be1a336844af348cd7cb7bdfd82578d"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=673",
+   "retrievedAt": "2026-10-16T02:02:49.995Z",
+   "sha256": "b7b9291a2ffbae81d12a9aa0182cfbd854e84525d169ed29e4840488fba666ea"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=147",
+   "retrievedAt": "2026-10-16T02:02:51.985Z",
+   "sha256": "886254af1be494889107f5c50d57cad3f6b1bf07a82b278f06da69c9514b733f"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1503",
+   "retrievedAt": "2026-10-16T02:02:53.952Z",
+   "sha256": "b1571419eab4174ebd555f4b2c77f5dc94a6108a12dac3fd9b8ad38a0d5802db"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=979",
+   "retrievedAt": "2026-10-16T02:02:56.001Z",
+   "sha256": "4c58655ce5664bf0876abd14c85c2e9a19b83311d6c2f79be150382c734d2de2"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2240",
+   "retrievedAt": "2026-10-16T02:02:58.029Z",
+   "sha256": "15648612aa74beebb8479397cc00aa6131f46b8d421b6bb128c9968f5d0e408e"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2216",
+   "retrievedAt": "2026-10-16T02:03:00.067Z",
+   "sha256": "90087f28d984d48f1f6cc3ba7062e262768f88a4d09bc154b6b9bf70cf4a6227"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2250",
+   "retrievedAt": "2026-10-16T02:03:02.052Z",
+   "sha256": "01523533b539ee62f6ff34bdf41ded9a7ac95f8e01a78b6119a0ee6676a2b0f4"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2564",
+   "retrievedAt": "2026-10-16T02:03:04.158Z",
+   "sha256": "4f806f16b2eea0c60114d5255d2b1edfcaec8eecd3759354b418095b6a709bbe"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=101145",
+   "retrievedAt": "2026-10-16T02:03:06.184Z",
+   "sha256": "d0685bc208413a3514b2e0fd5526991853d66f8ba6c393a2208bb8ee29d27b3a"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=2045",
+   "retrievedAt": "2026-10-16T02:03:08.260Z",
+   "sha256": "1a9e7f66297342a20304503a51784eb5aededcef20713c00c86735d1ae8aec67"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=101122",
+   "retrievedAt": "2026-10-16T02:03:10.383Z",
+   "sha256": "83620de259e4b6babd448388a2b106a9f0cc60083975b94a86122fef54e8e135"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201166",
+   "retrievedAt": "2026-10-16T02:03:12.502Z",
+   "sha256": "30ec5ff8acb9db82f0f857904f6a2d2c5f71e5452759e2414b26216e9c86a76a"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201567",
+   "retrievedAt": "2026-10-16T02:03:14.549Z",
+   "sha256": "69245c2355e13fbeb4e9aca0eeedf2d3014cc10d4169a985d22cd6ada6543c28"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201583",
+   "retrievedAt": "2026-10-16T02:03:16.609Z",
+   "sha256": "a1bfc5e235cd8f4c6ba4a90f80046f319f7357753b0075450390ef1a484bb9bc"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=202331",
+   "retrievedAt": "2026-10-16T02:03:18.609Z",
+   "sha256": "ae35019ace1b87ee8a9061a6ebd4d5211837d0019bf039c6c8725746da2b3fb7"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=201609",
+   "retrievedAt": "2026-10-16T02:03:20.669Z",
+   "sha256": "554c2d4f65eb533c013eb1a8ac3e8a8613f12e89cb17384b9010e9f06112682b"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=202710",
+   "retrievedAt": "2026-10-16T02:03:22.698Z",
+   "sha256": "ea9ef8f0290f6c2f167031e62d155b06319806bd3d4af6a08c88b2601ef17b1b"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203468",
+   "retrievedAt": "2026-10-16T02:03:24.443Z",
+   "sha256": "1368fc7e3a21d0b0d0a5a79e7d71188f6505a6889d038e83de8d2c4146835f9a"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203506",
+   "retrievedAt": "2026-10-16T02:03:26.466Z",
+   "sha256": "5b11e4eead5cce02acad7445d35ae63b94e238f085c41cea51938938c34f6fba"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1627783",
+   "retrievedAt": "2026-10-16T02:03:28.669Z",
+   "sha256": "6c55ddc02afd9e014d5201026c9198d310b2ea33ea50de15c591a219b06a1adf"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1627742",
+   "retrievedAt": "2026-10-16T02:03:30.665Z",
+   "sha256": "e45017c68a49365fe649cf38c46de3e23867e4220a177f40aed630643865d998"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=203944",
+   "retrievedAt": "2026-10-16T02:03:32.767Z",
+   "sha256": "fb7bc93ef6f788a1a4187926900595ca06851ca872905dfc041692a827277b74"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1628374",
+   "retrievedAt": "2026-10-16T02:03:34.750Z",
+   "sha256": "f4c4c316f8f510f4d4e9cee82a1a6ef7c6c4fd6fb9ee8e482bcdeaf9a9ca02e2"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1630178",
+   "retrievedAt": "2026-10-16T02:03:36.766Z",
+   "sha256": "05795096ce8f65d2c534342f5da1a980fab29c293f0a1d770f61207d89e88909"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1630700",
+   "retrievedAt": "2026-10-16T02:03:38.811Z",
+   "sha256": "868eb79e521bba4d61c97a98ad3560c44ead3b1146be986a354eac758a3021a4"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1629638",
+   "retrievedAt": "2026-10-16T02:03:40.575Z",
+   "sha256": "eb02417755947ed8f5e8988446ad64040a893325e5c67149fbbadeaf04072ec6"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1628368",
+   "retrievedAt": "2026-10-16T02:03:42.610Z",
+   "sha256": "d73e0a2201efbaecb7c549b4f36ae9ae5fe7d73d737c5abd777fb992f02ef126"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1897",
+   "retrievedAt": "2026-10-16T02:05:17.324Z",
+   "sha256": "c7143c40834599d48fedbe562237491a75f948548357b00360352a8690727fdd"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=51",
+   "retrievedAt": "2026-10-16T02:05:19.280Z",
+   "sha256": "ccf08cecdb7462d66559b4f81c66e024ba496dd5f959e38d9481a21d31440db4"
+  },
+  {
+   "source": "nba-stats",
+   "url": "https://stats.nba.com/stats/playerawards?PlayerID=1134",
+   "retrievedAt": "2026-10-16T02:05:21.231Z",
+   "sha256": "4ef1a8d52c3681d4543e5e2cf2585c5559556a482982dca7ce48ce834f5cec38"
+  }
+ ],
+ "winners": [
+  {
+   "season": "1983-84",
+   "award": "dpoy",
+   "playerId": "77626",
+   "name": "Sidney Moncrief",
+   "team": "Milwaukee Bucks"
+  },
+  {
+   "season": "1983-84",
+   "award": "finals-mvp",
+   "playerId": "1449",
+   "name": "Larry Bird",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "1983-84",
+   "award": "mvp",
+   "playerId": "1449",
+   "name": "Larry Bird",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "1983-84",
+   "award": "roy",
+   "playerId": "78055",
+   "name": "Ralph Sampson",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "1983-84",
+   "award": "sixth-man",
+   "playerId": "1450",
+   "name": "Kevin McHale",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "1984-85",
+   "award": "dpoy",
+   "playerId": "76631",
+   "name": "Mark Eaton",
+   "team": "Utah Jazz"
+  },
+  {
+   "season": "1984-85",
+   "award": "finals-mvp",
+   "playerId": "76003",
+   "name": "Kareem Abdul-Jabbar",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1984-85",
+   "award": "mvp",
+   "playerId": "1449",
+   "name": "Larry Bird",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "1984-85",
+   "award": "roy",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1984-85",
+   "award": "sixth-man",
+   "playerId": "1450",
+   "name": "Kevin McHale",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "1985-86",
+   "award": "dpoy",
+   "playerId": "926",
+   "name": "Alvin Robertson",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "1985-86",
+   "award": "finals-mvp",
+   "playerId": "1449",
+   "name": "Larry Bird",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "1985-86",
+   "award": "mip",
+   "playerId": "926",
+   "name": "Alvin Robertson",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "1985-86",
+   "award": "mvp",
+   "playerId": "1449",
+   "name": "Larry Bird",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "1985-86",
+   "award": "roy",
+   "playerId": "121",
+   "name": "Patrick Ewing",
+   "team": "New York Knicks"
+  },
+  {
+   "season": "1985-86",
+   "award": "sixth-man",
+   "playerId": "78450",
+   "name": "Bill Walton",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "1986-87",
+   "award": "dpoy",
+   "playerId": "76444",
+   "name": "Michael Cooper",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1986-87",
+   "award": "finals-mvp",
+   "playerId": "77142",
+   "name": "Magic Johnson",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1986-87",
+   "award": "mip",
+   "playerId": "107",
+   "name": "Dale Ellis",
+   "team": "Seattle SuperSonics"
+  },
+  {
+   "season": "1986-87",
+   "award": "mvp",
+   "playerId": "77142",
+   "name": "Magic Johnson",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1986-87",
+   "award": "roy",
+   "playerId": "456",
+   "name": "Chuck Person",
+   "team": "Indiana Pacers"
+  },
+  {
+   "season": "1986-87",
+   "award": "sixth-man",
+   "playerId": "894",
+   "name": "Ricky Pierce",
+   "team": "Milwaukee Bucks"
+  },
+  {
+   "season": "1987-88",
+   "award": "dpoy",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1987-88",
+   "award": "finals-mvp",
+   "playerId": "1460",
+   "name": "James Worthy",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1987-88",
+   "award": "mip",
+   "playerId": "404",
+   "name": "Kevin Duckworth",
+   "team": "Portland Trail Blazers"
+  },
+  {
+   "season": "1987-88",
+   "award": "mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1987-88",
+   "award": "roy",
+   "playerId": "349",
+   "name": "Mark Jackson",
+   "team": "New York Knicks"
+  },
+  {
+   "season": "1987-88",
+   "award": "sixth-man",
+   "playerId": "78293",
+   "name": "Roy Tarpley",
+   "team": "Dallas Mavericks"
+  },
+  {
+   "season": "1988-89",
+   "award": "dpoy",
+   "playerId": "76631",
+   "name": "Mark Eaton",
+   "team": "Utah Jazz"
+  },
+  {
+   "season": "1988-89",
+   "award": "finals-mvp",
+   "playerId": "247",
+   "name": "Joe Dumars",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "1988-89",
+   "award": "mip",
+   "playerId": "134",
+   "name": "Kevin Johnson",
+   "team": "Phoenix Suns"
+  },
+  {
+   "season": "1988-89",
+   "award": "mvp",
+   "playerId": "77142",
+   "name": "Magic Johnson",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1988-89",
+   "award": "roy",
+   "playerId": "782",
+   "name": "Mitch Richmond",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "1989-90",
+   "award": "dpoy",
+   "playerId": "23",
+   "name": "Dennis Rodman",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "1989-90",
+   "award": "finals-mvp",
+   "playerId": "78318",
+   "name": "Isiah Thomas",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "1989-90",
+   "award": "mip",
+   "playerId": "938",
+   "name": "Rony Seikaly",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "1989-90",
+   "award": "mvp",
+   "playerId": "77142",
+   "name": "Magic Johnson",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1989-90",
+   "award": "roy",
+   "playerId": "764",
+   "name": "David Robinson",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "1989-90",
+   "award": "sixth-man",
+   "playerId": "894",
+   "name": "Ricky Pierce",
+   "team": "Milwaukee Bucks"
+  },
+  {
+   "season": "1990-91",
+   "award": "dpoy",
+   "playerId": "23",
+   "name": "Dennis Rodman",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "1990-91",
+   "award": "finals-mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1990-91",
+   "award": "mip",
+   "playerId": "101",
+   "name": "Scott Skiles",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "1990-91",
+   "award": "mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1990-91",
+   "award": "roy",
+   "playerId": "934",
+   "name": "Derrick Coleman",
+   "team": "New Jersey Nets"
+  },
+  {
+   "season": "1990-91",
+   "award": "sixth-man",
+   "playerId": "96",
+   "name": "Detlef Schrempf",
+   "team": "Indiana Pacers"
+  },
+  {
+   "season": "1991-92",
+   "award": "dpoy",
+   "playerId": "764",
+   "name": "David Robinson",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "1991-92",
+   "award": "finals-mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1991-92",
+   "award": "mip",
+   "playerId": "442",
+   "name": "Pervis Ellison",
+   "team": "Washington Wizards"
+  },
+  {
+   "season": "1991-92",
+   "award": "mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1991-92",
+   "award": "roy",
+   "playerId": "913",
+   "name": "Larry Johnson",
+   "team": "Charlotte Hornets"
+  },
+  {
+   "season": "1991-92",
+   "award": "sixth-man",
+   "playerId": "96",
+   "name": "Detlef Schrempf",
+   "team": "Indiana Pacers"
+  },
+  {
+   "season": "1992-93",
+   "award": "dpoy",
+   "playerId": "165",
+   "name": "Hakeem Olajuwon",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "1992-93",
+   "award": "finals-mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1992-93",
+   "award": "mip",
+   "playerId": "51",
+   "name": "Mahmoud Abdul-Rauf",
+   "team": "Denver Nuggets"
+  },
+  {
+   "season": "1992-93",
+   "award": "mvp",
+   "playerId": "787",
+   "name": "Charles Barkley",
+   "team": "Phoenix Suns"
+  },
+  {
+   "season": "1992-93",
+   "award": "roy",
+   "playerId": "406",
+   "name": "Shaquille O'Neal",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "1992-93",
+   "award": "sixth-man",
+   "playerId": "361",
+   "name": "Clifford Robinson",
+   "team": "Portland Trail Blazers"
+  },
+  {
+   "season": "1993-94",
+   "award": "dpoy",
+   "playerId": "165",
+   "name": "Hakeem Olajuwon",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "1993-94",
+   "award": "finals-mvp",
+   "playerId": "165",
+   "name": "Hakeem Olajuwon",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "1993-94",
+   "award": "mip",
+   "playerId": "931",
+   "name": "Don MacLean",
+   "team": "Washington Bullets"
+  },
+  {
+   "season": "1993-94",
+   "award": "mvp",
+   "playerId": "165",
+   "name": "Hakeem Olajuwon",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "1993-94",
+   "award": "roy",
+   "playerId": "185",
+   "name": "Chris Webber",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "1993-94",
+   "award": "sixth-man",
+   "playerId": "209",
+   "name": "Dell Curry",
+   "team": "Charlotte Hornets"
+  },
+  {
+   "season": "1994-95",
+   "award": "dpoy",
+   "playerId": "87",
+   "name": "Dikembe Mutombo",
+   "team": "Denver Nuggets"
+  },
+  {
+   "season": "1994-95",
+   "award": "finals-mvp",
+   "playerId": "165",
+   "name": "Hakeem Olajuwon",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "1994-95",
+   "award": "mip",
+   "playerId": "344",
+   "name": "Dana Barros",
+   "team": "Philadelphia 76ers"
+  },
+  {
+   "season": "1994-95",
+   "award": "mvp",
+   "playerId": "764",
+   "name": "David Robinson",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "1994-95",
+   "award": "roy",
+   "playerId": "255",
+   "name": "Grant Hill",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "1994-95",
+   "award": "roy",
+   "playerId": "467",
+   "name": "Jason Kidd",
+   "team": "Dallas Mavericks"
+  },
+  {
+   "season": "1994-95",
+   "award": "sixth-man",
+   "playerId": "193",
+   "name": "Anthony Mason",
+   "team": "New York Knicks"
+  },
+  {
+   "season": "1995-96",
+   "award": "dpoy",
+   "playerId": "56",
+   "name": "Gary Payton",
+   "team": "Seattle SuperSonics"
+  },
+  {
+   "season": "1995-96",
+   "award": "finals-mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1995-96",
+   "award": "mip",
+   "playerId": "49",
+   "name": "Gheorghe Muresan",
+   "team": "Washington Bullets"
+  },
+  {
+   "season": "1995-96",
+   "award": "mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1995-96",
+   "award": "roy",
+   "playerId": "757",
+   "name": "Damon Stoudamire",
+   "team": "Toronto Raptors"
+  },
+  {
+   "season": "1995-96",
+   "award": "sixth-man",
+   "playerId": "389",
+   "name": "Toni Kukoc",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1996-97",
+   "award": "dpoy",
+   "playerId": "87",
+   "name": "Dikembe Mutombo",
+   "team": "Atlanta Hawks"
+  },
+  {
+   "season": "1996-97",
+   "award": "finals-mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1996-97",
+   "award": "mip",
+   "playerId": "1134",
+   "name": "Isaac Austin",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "1996-97",
+   "award": "mvp",
+   "playerId": "252",
+   "name": "Karl Malone",
+   "team": "Utah Jazz"
+  },
+  {
+   "season": "1996-97",
+   "award": "roy",
+   "playerId": "947",
+   "name": "Allen Iverson",
+   "team": "Philadelphia 76ers"
+  },
+  {
+   "season": "1996-97",
+   "award": "sixth-man",
+   "playerId": "317",
+   "name": "John Starks",
+   "team": "New York Knicks"
+  },
+  {
+   "season": "1997-98",
+   "award": "dpoy",
+   "playerId": "87",
+   "name": "Dikembe Mutombo",
+   "team": "Atlanta Hawks"
+  },
+  {
+   "season": "1997-98",
+   "award": "finals-mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1997-98",
+   "award": "mip",
+   "playerId": "673",
+   "name": "Alan Henderson",
+   "team": "Atlanta Hawks"
+  },
+  {
+   "season": "1997-98",
+   "award": "mvp",
+   "playerId": "893",
+   "name": "Michael Jordan",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1997-98",
+   "award": "roy",
+   "playerId": "1495",
+   "name": "Tim Duncan",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "1997-98",
+   "award": "sixth-man",
+   "playerId": "330",
+   "name": "Danny Manning",
+   "team": "Phoenix Suns"
+  },
+  {
+   "season": "1998-99",
+   "award": "dpoy",
+   "playerId": "297",
+   "name": "Alonzo Mourning",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "1998-99",
+   "award": "finals-mvp",
+   "playerId": "1495",
+   "name": "Tim Duncan",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "1998-99",
+   "award": "mip",
+   "playerId": "353",
+   "name": "Darrell Armstrong",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "1998-99",
+   "award": "mvp",
+   "playerId": "252",
+   "name": "Karl Malone",
+   "team": "Utah Jazz"
+  },
+  {
+   "season": "1998-99",
+   "award": "roy",
+   "playerId": "1713",
+   "name": "Vince Carter",
+   "team": "Toronto Raptors"
+  },
+  {
+   "season": "1998-99",
+   "award": "sixth-man",
+   "playerId": "353",
+   "name": "Darrell Armstrong",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "1999-00",
+   "award": "dpoy",
+   "playerId": "297",
+   "name": "Alonzo Mourning",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "1999-00",
+   "award": "finals-mvp",
+   "playerId": "406",
+   "name": "Shaquille O'Neal",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1999-00",
+   "award": "mip",
+   "playerId": "147",
+   "name": "Jalen Rose",
+   "team": "Indiana Pacers"
+  },
+  {
+   "season": "1999-00",
+   "award": "mvp",
+   "playerId": "406",
+   "name": "Shaquille O'Neal",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1999-00",
+   "award": "roy",
+   "playerId": "1882",
+   "name": "Elton Brand",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1999-00",
+   "award": "roy",
+   "playerId": "1883",
+   "name": "Steve Francis",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "1999-00",
+   "award": "sixth-man",
+   "playerId": "915",
+   "name": "Rodney Rogers",
+   "team": "Phoenix Suns"
+  },
+  {
+   "season": "2000-01",
+   "award": "dpoy",
+   "playerId": "87",
+   "name": "Dikembe Mutombo",
+   "team": "Atlanta Hawks-Philadelphia 76ers"
+  },
+  {
+   "season": "2000-01",
+   "award": "finals-mvp",
+   "playerId": "406",
+   "name": "Shaquille O'Neal",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2000-01",
+   "award": "mip",
+   "playerId": "1503",
+   "name": "Tracy McGrady",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "2000-01",
+   "award": "mvp",
+   "playerId": "947",
+   "name": "Allen Iverson",
+   "team": "Philadelphia 76ers"
+  },
+  {
+   "season": "2000-01",
+   "award": "roy",
+   "playerId": "2034",
+   "name": "Mike Miller",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "2000-01",
+   "award": "sixth-man",
+   "playerId": "243",
+   "name": "Aaron McKie",
+   "team": "Philadelphia 76ers"
+  },
+  {
+   "season": "2001-02",
+   "award": "dpoy",
+   "playerId": "1112",
+   "name": "Ben Wallace",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "2001-02",
+   "award": "finals-mvp",
+   "playerId": "406",
+   "name": "Shaquille O'Neal",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2001-02",
+   "award": "mip",
+   "playerId": "979",
+   "name": "Jermaine O'Neal",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2001-02",
+   "award": "mvp",
+   "playerId": "1495",
+   "name": "Tim Duncan",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2001-02",
+   "award": "roy",
+   "playerId": "2200",
+   "name": "Pau Gasol",
+   "team": "Memphis Grizzlies"
+  },
+  {
+   "season": "2001-02",
+   "award": "sixth-man",
+   "playerId": "722",
+   "name": "Corliss Williamson",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "2002-03",
+   "award": "dpoy",
+   "playerId": "1112",
+   "name": "Ben Wallace",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "2002-03",
+   "award": "finals-mvp",
+   "playerId": "1495",
+   "name": "Tim Duncan",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2002-03",
+   "award": "mip",
+   "playerId": "2240",
+   "name": "Gilbert Arenas",
+   "team": "Washington Wizards"
+  },
+  {
+   "season": "2002-03",
+   "award": "mvp",
+   "playerId": "1495",
+   "name": "Tim Duncan",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2002-03",
+   "award": "roy",
+   "playerId": "2405",
+   "name": "Amare Stoudemire",
+   "team": "Phoenix Suns"
+  },
+  {
+   "season": "2002-03",
+   "award": "sixth-man",
+   "playerId": "1517",
+   "name": "Bobby Jackson",
+   "team": "Sacramento Kings"
+  },
+  {
+   "season": "2003-04",
+   "award": "dpoy",
+   "playerId": "1897",
+   "name": "Metta World Peace",
+   "team": "Indiana Pacers"
+  },
+  {
+   "season": "2003-04",
+   "award": "finals-mvp",
+   "playerId": "1497",
+   "name": "Chauncey Billups",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "2003-04",
+   "award": "mip",
+   "playerId": "2216",
+   "name": "Zach Randolph",
+   "team": "Memphis Grizzlies"
+  },
+  {
+   "season": "2003-04",
+   "award": "mvp",
+   "playerId": "708",
+   "name": "Kevin Garnett",
+   "team": "Minnesota Timberwolves"
+  },
+  {
+   "season": "2003-04",
+   "award": "roy",
+   "playerId": "2544",
+   "name": "LeBron James",
+   "team": "Cleveland Cavaliers"
+  },
+  {
+   "season": "2003-04",
+   "award": "sixth-man",
+   "playerId": "1712",
+   "name": "Antawn Jamison",
+   "team": "Dallas Mavericks"
+  },
+  {
+   "season": "2004-05",
+   "award": "dpoy",
+   "playerId": "1112",
+   "name": "Ben Wallace",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "2004-05",
+   "award": "finals-mvp",
+   "playerId": "1495",
+   "name": "Tim Duncan",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2004-05",
+   "award": "mip",
+   "playerId": "2250",
+   "name": "Bobby Simmons",
+   "team": "Los Angeles Clippers"
+  },
+  {
+   "season": "2004-05",
+   "award": "mvp",
+   "playerId": "959",
+   "name": "Steve Nash",
+   "team": "Phoenix Suns"
+  },
+  {
+   "season": "2004-05",
+   "award": "roy",
+   "playerId": "2731",
+   "name": "Emeka Okafor",
+   "team": "Charlotte Bobcats"
+  },
+  {
+   "season": "2004-05",
+   "award": "sixth-man",
+   "playerId": "2732",
+   "name": "Ben Gordon",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "2005-06",
+   "award": "dpoy",
+   "playerId": "1112",
+   "name": "Ben Wallace",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "2005-06",
+   "award": "finals-mvp",
+   "playerId": "2548",
+   "name": "Dwyane Wade",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "2005-06",
+   "award": "mip",
+   "playerId": "2564",
+   "name": "Boris Diaw",
+   "team": "Phoenix Suns"
+  },
+  {
+   "season": "2005-06",
+   "award": "mvp",
+   "playerId": "959",
+   "name": "Steve Nash",
+   "team": "Phoenix Suns"
+  },
+  {
+   "season": "2005-06",
+   "award": "roy",
+   "playerId": "101108",
+   "name": "Chris Paul",
+   "team": "New Orleans/Okla. City Hornets"
+  },
+  {
+   "season": "2005-06",
+   "award": "sixth-man",
+   "playerId": "2034",
+   "name": "Mike Miller",
+   "team": "Memphis Grizzlies"
+  },
+  {
+   "season": "2006-07",
+   "award": "dpoy",
+   "playerId": "948",
+   "name": "Marcus Camby",
+   "team": "Denver Nuggets"
+  },
+  {
+   "season": "2006-07",
+   "award": "finals-mvp",
+   "playerId": "2225",
+   "name": "Tony Parker",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2006-07",
+   "award": "mip",
+   "playerId": "101145",
+   "name": "Monta Ellis",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2006-07",
+   "award": "mvp",
+   "playerId": "1717",
+   "name": "Dirk Nowitzki",
+   "team": "Dallas Mavericks"
+  },
+  {
+   "season": "2006-07",
+   "award": "roy",
+   "playerId": "200750",
+   "name": "Brandon Roy",
+   "team": "Portland Trail Blazers"
+  },
+  {
+   "season": "2006-07",
+   "award": "sixth-man",
+   "playerId": "2571",
+   "name": "Leandro Barbosa",
+   "team": "Phoenix Suns"
+  },
+  {
+   "season": "2007-08",
+   "award": "dpoy",
+   "playerId": "708",
+   "name": "Kevin Garnett",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "2007-08",
+   "award": "finals-mvp",
+   "playerId": "1718",
+   "name": "Paul Pierce",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "2007-08",
+   "award": "mip",
+   "playerId": "2045",
+   "name": "Hedo Turkoglu",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "2007-08",
+   "award": "mvp",
+   "playerId": "977",
+   "name": "Kobe Bryant",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2007-08",
+   "award": "roy",
+   "playerId": "201142",
+   "name": "Kevin Durant",
+   "team": "Seattle SuperSonics"
+  },
+  {
+   "season": "2007-08",
+   "award": "sixth-man",
+   "playerId": "1938",
+   "name": "Manu Ginobili",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2008-09",
+   "award": "dpoy",
+   "playerId": "2730",
+   "name": "Dwight Howard",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "2008-09",
+   "award": "finals-mvp",
+   "playerId": "977",
+   "name": "Kobe Bryant",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2008-09",
+   "award": "mip",
+   "playerId": "101122",
+   "name": "Danny Granger",
+   "team": "Indiana Pacers"
+  },
+  {
+   "season": "2008-09",
+   "award": "mvp",
+   "playerId": "2544",
+   "name": "LeBron James",
+   "team": "Cleveland Cavaliers"
+  },
+  {
+   "season": "2008-09",
+   "award": "roy",
+   "playerId": "201565",
+   "name": "Derrick Rose",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "2008-09",
+   "award": "sixth-man",
+   "playerId": "1891",
+   "name": "Jason Terry",
+   "team": "Dallas Mavericks"
+  },
+  {
+   "season": "2009-10",
+   "award": "dpoy",
+   "playerId": "2730",
+   "name": "Dwight Howard",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "2009-10",
+   "award": "finals-mvp",
+   "playerId": "977",
+   "name": "Kobe Bryant",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2009-10",
+   "award": "mip",
+   "playerId": "201166",
+   "name": "Aaron Brooks",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "2009-10",
+   "award": "mvp",
+   "playerId": "2544",
+   "name": "LeBron James",
+   "team": "Cleveland Cavaliers"
+  },
+  {
+   "season": "2009-10",
+   "award": "roy",
+   "playerId": "201936",
+   "name": "Tyreke Evans",
+   "team": "Sacramento Kings"
+  },
+  {
+   "season": "2009-10",
+   "award": "sixth-man",
+   "playerId": "2037",
+   "name": "Jamal Crawford",
+   "team": "Atlanta Hawks"
+  },
+  {
+   "season": "2010-11",
+   "award": "dpoy",
+   "playerId": "2730",
+   "name": "Dwight Howard",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "2010-11",
+   "award": "finals-mvp",
+   "playerId": "1717",
+   "name": "Dirk Nowitzki",
+   "team": "Dallas Mavericks"
+  },
+  {
+   "season": "2010-11",
+   "award": "mip",
+   "playerId": "201567",
+   "name": "Kevin Love",
+   "team": "Minnesota Timberwolves"
+  },
+  {
+   "season": "2010-11",
+   "award": "mvp",
+   "playerId": "201565",
+   "name": "Derrick Rose",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "2010-11",
+   "award": "roy",
+   "playerId": "201933",
+   "name": "Blake Griffin",
+   "team": "Los Angeles Clippers"
+  },
+  {
+   "season": "2010-11",
+   "award": "sixth-man",
+   "playerId": "1885",
+   "name": "Lamar Odom",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2011-12",
+   "award": "dpoy",
+   "playerId": "2199",
+   "name": "Tyson Chandler",
+   "team": "New York Knicks"
+  },
+  {
+   "season": "2011-12",
+   "award": "finals-mvp",
+   "playerId": "2544",
+   "name": "LeBron James",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "2011-12",
+   "award": "mip",
+   "playerId": "201583",
+   "name": "Ryan Anderson",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "2011-12",
+   "award": "mvp",
+   "playerId": "2544",
+   "name": "LeBron James",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "2011-12",
+   "award": "roy",
+   "playerId": "202681",
+   "name": "Kyrie Irving",
+   "team": "Cleveland Cavaliers"
+  },
+  {
+   "season": "2011-12",
+   "award": "sixth-man",
+   "playerId": "201935",
+   "name": "James Harden",
+   "team": "Oklahoma City Thunder"
+  },
+  {
+   "season": "2012-13",
+   "award": "dpoy",
+   "playerId": "201188",
+   "name": "Marc Gasol",
+   "team": "Memphis Grizzlies"
+  },
+  {
+   "season": "2012-13",
+   "award": "finals-mvp",
+   "playerId": "2544",
+   "name": "LeBron James",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "2012-13",
+   "award": "mip",
+   "playerId": "202331",
+   "name": "Paul George",
+   "team": "Indiana Pacers"
+  },
+  {
+   "season": "2012-13",
+   "award": "mvp",
+   "playerId": "2544",
+   "name": "LeBron James",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "2012-13",
+   "award": "roy",
+   "playerId": "203081",
+   "name": "Damian Lillard",
+   "team": "Portland Trail Blazers"
+  },
+  {
+   "season": "2012-13",
+   "award": "sixth-man",
+   "playerId": "2747",
+   "name": "J.R. Smith",
+   "team": "New York Knicks"
+  },
+  {
+   "season": "2013-14",
+   "award": "dpoy",
+   "playerId": "201149",
+   "name": "Joakim Noah",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "2013-14",
+   "award": "finals-mvp",
+   "playerId": "202695",
+   "name": "Kawhi Leonard",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2013-14",
+   "award": "mip",
+   "playerId": "201609",
+   "name": "Goran Dragic",
+   "team": "Phoenix Suns"
+  },
+  {
+   "season": "2013-14",
+   "award": "mvp",
+   "playerId": "201142",
+   "name": "Kevin Durant",
+   "team": "Oklahoma City Thunder"
+  },
+  {
+   "season": "2013-14",
+   "award": "roy",
+   "playerId": "203487",
+   "name": "Michael Carter-Williams",
+   "team": "Philadelphia 76ers"
+  },
+  {
+   "season": "2013-14",
+   "award": "sixth-man",
+   "playerId": "2037",
+   "name": "Jamal Crawford",
+   "team": "Los Angeles Clippers"
+  },
+  {
+   "season": "2014-15",
+   "award": "dpoy",
+   "playerId": "202695",
+   "name": "Kawhi Leonard",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2014-15",
+   "award": "finals-mvp",
+   "playerId": "2738",
+   "name": "Andre Iguodala",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2014-15",
+   "award": "mip",
+   "playerId": "202710",
+   "name": "Jimmy Butler",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "2014-15",
+   "award": "mvp",
+   "playerId": "201939",
+   "name": "Stephen Curry",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2014-15",
+   "award": "roy",
+   "playerId": "203952",
+   "name": "Andrew Wiggins",
+   "team": "Minnesota Timberwolves"
+  },
+  {
+   "season": "2014-15",
+   "award": "sixth-man",
+   "playerId": "101150",
+   "name": "Lou Williams",
+   "team": "Toronto Raptors"
+  },
+  {
+   "season": "2015-16",
+   "award": "dpoy",
+   "playerId": "202695",
+   "name": "Kawhi Leonard",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2015-16",
+   "award": "finals-mvp",
+   "playerId": "2544",
+   "name": "LeBron James",
+   "team": "Cleveland Cavaliers"
+  },
+  {
+   "season": "2015-16",
+   "award": "mip",
+   "playerId": "203468",
+   "name": "CJ McCollum",
+   "team": "Portland Trail Blazers"
+  },
+  {
+   "season": "2015-16",
+   "award": "mvp",
+   "playerId": "201939",
+   "name": "Stephen Curry",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2015-16",
+   "award": "roy",
+   "playerId": "1626157",
+   "name": "Karl-Anthony Towns",
+   "team": "Minnesota Timberwolves"
+  },
+  {
+   "season": "2015-16",
+   "award": "sixth-man",
+   "playerId": "2037",
+   "name": "Jamal Crawford",
+   "team": "LA Clippers"
+  },
+  {
+   "season": "2016-17",
+   "award": "dpoy",
+   "playerId": "203110",
+   "name": "Draymond Green",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2016-17",
+   "award": "finals-mvp",
+   "playerId": "201142",
+   "name": "Kevin Durant",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2016-17",
+   "award": "mip",
+   "playerId": "203507",
+   "name": "Giannis Antetokounmpo",
+   "team": "Milwaukee Bucks"
+  },
+  {
+   "season": "2016-17",
+   "award": "mvp",
+   "playerId": "201566",
+   "name": "Russell Westbrook",
+   "team": "Oklahoma City Thunder"
+  },
+  {
+   "season": "2016-17",
+   "award": "roy",
+   "playerId": "1627763",
+   "name": "Malcolm Brogdon",
+   "team": "Milwaukee Bucks"
+  },
+  {
+   "season": "2016-17",
+   "award": "sixth-man",
+   "playerId": "201569",
+   "name": "Eric Gordan",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "2017-18",
+   "award": "dpoy",
+   "playerId": "203497",
+   "name": "Rudy Gobert",
+   "team": "Utah Jazz"
+  },
+  {
+   "season": "2017-18",
+   "award": "finals-mvp",
+   "playerId": "201142",
+   "name": "Kevin Durant",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2017-18",
+   "award": "mip",
+   "playerId": "203506",
+   "name": "Victor Oladipo",
+   "team": "Indiana Pacers"
+  },
+  {
+   "season": "2017-18",
+   "award": "mvp",
+   "playerId": "201935",
+   "name": "James Harden",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "2017-18",
+   "award": "roy",
+   "playerId": "1627732",
+   "name": "Ben Simmons",
+   "team": "Philadelphia 76ers"
+  },
+  {
+   "season": "2017-18",
+   "award": "sixth-man",
+   "playerId": "101150",
+   "name": "Lou Williams",
+   "team": "LA Clippers"
+  },
+  {
+   "season": "2018-19",
+   "award": "dpoy",
+   "playerId": "203497",
+   "name": "Rudy Gobert",
+   "team": "Utah Jazz"
+  },
+  {
+   "season": "2018-19",
+   "award": "finals-mvp",
+   "playerId": "202695",
+   "name": "Kawhi Leonard",
+   "team": "Toronto Raptors"
+  },
+  {
+   "season": "2018-19",
+   "award": "mip",
+   "playerId": "1627783",
+   "name": "Pascal Siakam",
+   "team": "Toronto Raptors"
+  },
+  {
+   "season": "2018-19",
+   "award": "mvp",
+   "playerId": "203507",
+   "name": "Giannis Antetokounmpo",
+   "team": "Milwaukee Bucks"
+  },
+  {
+   "season": "2018-19",
+   "award": "roy",
+   "playerId": "1629029",
+   "name": "Luka Doncic",
+   "team": "Dallas Mavericks"
+  },
+  {
+   "season": "2018-19",
+   "award": "sixth-man",
+   "playerId": "101150",
+   "name": "Lou Williams",
+   "team": "LA Clippers"
+  },
+  {
+   "season": "2019-20",
+   "award": "dpoy",
+   "playerId": "203507",
+   "name": "Giannis Antetokounmpo",
+   "team": "Milwaukee Bucks"
+  },
+  {
+   "season": "2019-20",
+   "award": "finals-mvp",
+   "playerId": "2544",
+   "name": "LeBron James",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2019-20",
+   "award": "mip",
+   "playerId": "1627742",
+   "name": "Brandon Ingram",
+   "team": "New Orleans Pelicans"
+  },
+  {
+   "season": "2019-20",
+   "award": "mvp",
+   "playerId": "203507",
+   "name": "Giannis Antetokounmpo",
+   "team": "Milwaukee Bucks"
+  },
+  {
+   "season": "2019-20",
+   "award": "roy",
+   "playerId": "1629630",
+   "name": "Ja Morant",
+   "team": "Memphis Grizzlies"
+  },
+  {
+   "season": "2019-20",
+   "award": "sixth-man",
+   "playerId": "1626149",
+   "name": "Montrezl Harrell",
+   "team": "LA Clippers"
+  },
+  {
+   "season": "2020-21",
+   "award": "dpoy",
+   "playerId": "203497",
+   "name": "Rudy Gobert",
+   "team": "Utah Jazz"
+  },
+  {
+   "season": "2020-21",
+   "award": "finals-mvp",
+   "playerId": "203507",
+   "name": "Giannis Antetokounmpo",
+   "team": "Milwaukee Bucks"
+  },
+  {
+   "season": "2020-21",
+   "award": "mip",
+   "playerId": "203944",
+   "name": "Julius Randle",
+   "team": "New York Knicks"
+  },
+  {
+   "season": "2020-21",
+   "award": "mvp",
+   "playerId": "203999",
+   "name": "Nikola Jokic",
+   "team": "Denver Nuggets"
+  },
+  {
+   "season": "2020-21",
+   "award": "roy",
+   "playerId": "1630163",
+   "name": "Lamelo Ball",
+   "team": "Charlotte Hornets"
+  },
+  {
+   "season": "2020-21",
+   "award": "sixth-man",
+   "playerId": "203903",
+   "name": "Jordan Clarkson",
+   "team": "Utah Jazz"
+  },
+  {
+   "season": "2021-22",
+   "award": "dpoy",
+   "playerId": "203935",
+   "name": "Marcus Smart",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "2021-22",
+   "award": "finals-mvp",
+   "playerId": "201939",
+   "name": "Stephen Curry",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2021-22",
+   "award": "mip",
+   "playerId": "1629630",
+   "name": "Ja Morant",
+   "team": "Memphis Grizzlies"
+  },
+  {
+   "season": "2021-22",
+   "award": "mvp",
+   "playerId": "203999",
+   "name": "Nikola Jokic",
+   "team": "Denver Nuggets"
+  },
+  {
+   "season": "2021-22",
+   "award": "roy",
+   "playerId": "1630567",
+   "name": "Scottie Barnes",
+   "team": "Toronto Raptors"
+  },
+  {
+   "season": "2021-22",
+   "award": "sixth-man",
+   "playerId": "1629639",
+   "name": "Tyler Herro",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "2022-23",
+   "award": "clutch",
+   "playerId": "1628368",
+   "name": "De'Aaron Fox",
+   "team": "Sacramento Kings"
+  },
+  {
+   "season": "2022-23",
+   "award": "dpoy",
+   "playerId": "1628991",
+   "name": "Jaren Jackson Jr.",
+   "team": "Memphis Grizzlies"
+  },
+  {
+   "season": "2022-23",
+   "award": "finals-mvp",
+   "playerId": "203999",
+   "name": "Nikola Jokic",
+   "team": "Denver Nuggets"
+  },
+  {
+   "season": "2022-23",
+   "award": "mip",
+   "playerId": "1628374",
+   "name": "Lauri Markkanen",
+   "team": "Utah Jazz"
+  },
+  {
+   "season": "2022-23",
+   "award": "mvp",
+   "playerId": "203954",
+   "name": "Joel Embiid",
+   "team": "Philadelphia 76ers"
+  },
+  {
+   "season": "2022-23",
+   "award": "roy",
+   "playerId": "1631094",
+   "name": "Paolo Banchero",
+   "team": "Orlando Magic"
+  },
+  {
+   "season": "2022-23",
+   "award": "sixth-man",
+   "playerId": "1627763",
+   "name": "Malcolm Brogdon",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "2023-24",
+   "award": "clutch",
+   "playerId": "201939",
+   "name": "Stephen Curry",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2023-24",
+   "award": "dpoy",
+   "playerId": "203497",
+   "name": "Rudy Gobert",
+   "team": "Minnesota Timberwolves"
+  },
+  {
+   "season": "2023-24",
+   "award": "finals-mvp",
+   "playerId": "1627759",
+   "name": "Jaylen Brown",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "2023-24",
+   "award": "mip",
+   "playerId": "1630178",
+   "name": "Tyrese Maxey",
+   "team": "Philadelphia 76ers"
+  },
+  {
+   "season": "2023-24",
+   "award": "mvp",
+   "playerId": "203999",
+   "name": "Nikola Jokic",
+   "team": "Denver Nuggets"
+  },
+  {
+   "season": "2023-24",
+   "award": "roy",
+   "playerId": "1641705",
+   "name": "Victor Wembanyama",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2023-24",
+   "award": "sixth-man",
+   "playerId": "1629675",
+   "name": "Naz Reid",
+   "team": "Minnesota Timberwolves"
+  },
+  {
+   "season": "2024-25",
+   "award": "clutch",
+   "playerId": "1628973",
+   "name": "Jalen Brunson",
+   "team": "New York Knicks"
+  },
+  {
+   "season": "2024-25",
+   "award": "dpoy",
+   "playerId": "1630596",
+   "name": "Evan Mobley",
+   "team": "Cleveland Cavaliers"
+  },
+  {
+   "season": "2024-25",
+   "award": "finals-mvp",
+   "playerId": "1628983",
+   "name": "Shai Gilgeous-Alexander",
+   "team": "Oklahoma City Thunder"
+  },
+  {
+   "season": "2024-25",
+   "award": "mip",
+   "playerId": "1630700",
+   "name": "Dyson Daniels",
+   "team": "Atlanta Hawks"
+  },
+  {
+   "season": "2024-25",
+   "award": "mvp",
+   "playerId": "1628983",
+   "name": "Shai Gilgeous-Alexander",
+   "team": "Oklahoma City Thunder"
+  },
+  {
+   "season": "2024-25",
+   "award": "roy",
+   "playerId": "1642264",
+   "name": "Stephon Castle",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2024-25",
+   "award": "sixth-man",
+   "playerId": "1630202",
+   "name": "Payton Pritchard",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "2025-26",
+   "award": "clutch",
+   "playerId": "1628983",
+   "name": "Shai Gilgeous-Alexander",
+   "team": "Oklahoma City Thunder"
+  },
+  {
+   "season": "2025-26",
+   "award": "dpoy",
+   "playerId": "1641705",
+   "name": "Victor Wembanyama",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2025-26",
+   "award": "finals-mvp",
+   "playerId": "1628973",
+   "name": "Jalen Brunson",
+   "team": "New York Knicks"
+  },
+  {
+   "season": "2025-26",
+   "award": "mip",
+   "playerId": "1629638",
+   "name": "Nickeil Alexander-Walker",
+   "team": "Atlanta Hawks"
+  },
+  {
+   "season": "2025-26",
+   "award": "mvp",
+   "playerId": "1628983",
+   "name": "Shai Gilgeous-Alexander",
+   "team": "Oklahoma City Thunder"
+  },
+  {
+   "season": "2025-26",
+   "award": "roy",
+   "playerId": "1642843",
+   "name": "Cooper Flagg",
+   "team": "Dallas Mavericks"
+  },
+  {
+   "season": "2025-26",
+   "award": "sixth-man",
+   "playerId": "1629640",
+   "name": "Keldon Johnson",
+   "team": "San Antonio Spurs"
+  }
+ ],
+ "finalsMvpTeams": [
+  {
+   "season": "1983-84",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "1984-85",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1985-86",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "1986-87",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1987-88",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "1988-89",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "1989-90",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "1990-91",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1991-92",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1992-93",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1993-94",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "1994-95",
+   "team": "Houston Rockets"
+  },
+  {
+   "season": "1995-96",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1996-97",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1997-98",
+   "team": "Chicago Bulls"
+  },
+  {
+   "season": "1998-99",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "1999-00",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2000-01",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2001-02",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2002-03",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2003-04",
+   "team": "Detroit Pistons"
+  },
+  {
+   "season": "2004-05",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2005-06",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "2006-07",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2007-08",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "2008-09",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2009-10",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2010-11",
+   "team": "Dallas Mavericks"
+  },
+  {
+   "season": "2011-12",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "2012-13",
+   "team": "Miami Heat"
+  },
+  {
+   "season": "2013-14",
+   "team": "San Antonio Spurs"
+  },
+  {
+   "season": "2014-15",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2015-16",
+   "team": "Cleveland Cavaliers"
+  },
+  {
+   "season": "2016-17",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2017-18",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2018-19",
+   "team": "Toronto Raptors"
+  },
+  {
+   "season": "2019-20",
+   "team": "Los Angeles Lakers"
+  },
+  {
+   "season": "2020-21",
+   "team": "Milwaukee Bucks"
+  },
+  {
+   "season": "2021-22",
+   "team": "Golden State Warriors"
+  },
+  {
+   "season": "2022-23",
+   "team": "Denver Nuggets"
+  },
+  {
+   "season": "2023-24",
+   "team": "Boston Celtics"
+  },
+  {
+   "season": "2024-25",
+   "team": "Oklahoma City Thunder"
+  },
+  {
+   "season": "2025-26",
+   "team": "New York Knicks"
+  }
+ ],
+ "notes": [
+  "2003-04 dpoy: Wikipedia lists Ron Artest; identified as NBA.com player 1897 through Wikidata’s NBA.com ID for “Ron Artest”.",
+  "1992-93 mip: Wikipedia lists Chris Jackson; identified as NBA.com player 51 through Wikidata’s NBA.com ID for “Mahmoud Abdul-Rauf”.",
+  "1996-97 mip: Wikipedia lists Isaac Austin; identified as NBA.com player 1134 through Wikidata’s NBA.com ID for “Isaac Austin”.",
+  "1988-89 sixth-man: Wikipedia names Eddie Johnson; NBA.com’s awards for player 698 do not list it (NBA.com lists no awards at all for this player), so it is not listed.",
+  "1988-89 sixth-man: no winner confirmed by both sources."
+ ]
+}

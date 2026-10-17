@@ -33,8 +33,24 @@ describe('document metadata', () => {
     expect(indexHtml).toContain('name="twitter:description"');
   });
 
-  it('does not reference an og:image (none committed yet)', () => {
-    expect(indexHtml).not.toContain('og:image');
+  it('declares a 1200 x 630 social preview at the production URL, never a local host', () => {
+    const meta = (attr: string, key: string) =>
+      new RegExp(`<meta\\s+${attr}="${key}"\\s+content="([^"]+)"`).exec(indexHtml)?.[1];
+    const image = meta('property', 'og:image');
+    expect(image).toBe('https://nba-performance-explorer.onrender.com/og-image.jpg');
+    expect(meta('property', 'og:image:width')).toBe('1200');
+    expect(meta('property', 'og:image:height')).toBe('630');
+    expect(meta('property', 'og:image:alt')?.length).toBeGreaterThan(20);
+    expect(meta('name', 'twitter:card')).toBe('summary_large_image');
+    expect(meta('name', 'twitter:image')).toBe(image);
+    expect(indexHtml).not.toMatch(/localhost|127\.0\.0\.1/);
+  });
+
+  it('declares app icons derived from the site mark', () => {
+    expect(indexHtml).toContain(
+      '<link rel="apple-touch-icon" href="/apple-touch-icon.png" />',
+    );
+    expect(indexHtml).toContain('<link rel="manifest" href="/site.webmanifest" />');
   });
 });
 

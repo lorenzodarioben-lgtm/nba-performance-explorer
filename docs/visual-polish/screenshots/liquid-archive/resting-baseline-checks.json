@@ -1,0 +1,22 @@
+[
+  {
+    "width": 1920,
+    "restingCircleMeanChannelDifference": 0.0,
+    "cropOffsetY": 0
+  },
+  {
+    "width": 1440,
+    "restingCircleMeanChannelDifference": 0.0,
+    "cropOffsetY": 0
+  },
+  {
+    "width": 1024,
+    "restingCircleMeanChannelDifference": 0.0,
+    "cropOffsetY": 0
+  },
+  {
+    "width": 390,
+    "restingCircleMeanChannelDifference": 0.0,
+    "cropOffsetY": 0
+  }
+]

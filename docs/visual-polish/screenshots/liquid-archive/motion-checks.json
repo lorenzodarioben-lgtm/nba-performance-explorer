@@ -1,0 +1,31 @@
+{
+  "cpuThrottle": 4,
+  "samples": [
+    {
+      "body": 5900,
+      "detached": [53, 41, 27, 15, 10],
+      "dpr": 1
+    },
+    {
+      "body": 6088,
+      "detached": [56, 45, 34, 16, 12],
+      "dpr": 1
+    },
+    {
+      "body": 6018,
+      "detached": [9],
+      "dpr": 1
+    },
+    {
+      "body": 6017,
+      "detached": [],
+      "dpr": 1
+    }
+  ],
+  "performance": {
+    "draws": 187,
+    "frames": 227,
+    "medianMs": 16.699999999999818,
+    "p95Ms": 33
+  }
+}

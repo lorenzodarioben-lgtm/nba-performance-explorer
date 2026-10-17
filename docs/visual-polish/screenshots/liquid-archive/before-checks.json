@@ -1,0 +1,94 @@
+[
+  {
+    "width": 1920,
+    "route": "/",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": [],
+    "headline": "198.912px",
+    "search": "rgba(14, 14, 16, 0.58)"
+  },
+  {
+    "width": 1920,
+    "route": "/history",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": []
+  },
+  {
+    "width": 1920,
+    "route": "/history/2023-24",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "route": "/",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": [],
+    "headline": "198.912px",
+    "search": "rgba(14, 14, 16, 0.58)"
+  },
+  {
+    "width": 1440,
+    "route": "/history",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "route": "/history/2023-24",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "route": "/",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": [],
+    "headline": "146.473px",
+    "search": "rgba(14, 14, 16, 0.58)"
+  },
+  {
+    "width": 1024,
+    "route": "/history",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "route": "/history/2023-24",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "route": "/",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": [],
+    "headline": "73.728px",
+    "search": "rgba(14, 14, 16, 0.58)"
+  },
+  {
+    "width": 390,
+    "route": "/history",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "route": "/history/2023-24",
+    "overflow": 0,
+    "h1Count": 1,
+    "errors": []
+  }
+]

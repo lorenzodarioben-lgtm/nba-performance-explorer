@@ -1,0 +1,116 @@
+// One representative URL for every registered route template, plus home and the catch-all.
+// Player routes use fixture identities that ship with demo mode; archive routes use the committed
+// genuine datasets, so every page renders deterministically without network access to NBA.com.
+export interface RouteExample {
+  name: string;
+  path: string;
+}
+
+export const routeExamples: readonly RouteExample[] = [
+  { name: 'home', path: '/' },
+  { name: 'players-landing', path: '/players' },
+  { name: 'player-profile', path: '/players/201939' },
+  { name: 'player-insights', path: '/players/2544/insights' },
+  { name: 'player-games', path: '/players/2544/games?season=2023-24' },
+  { name: 'player-career', path: '/players/201939/career' },
+  { name: 'player-shooting', path: '/players/201939/shooting' },
+  { name: 'compare', path: '/compare?player1=2544&player2=201939' },
+  { name: 'explore', path: '/explore' },
+  { name: 'teams', path: '/teams' },
+  { name: 'team-detail', path: '/teams/nba:1610612744' },
+  { name: 'games', path: '/games' },
+  { name: 'games-archive-day', path: '/games?date=2024-12-14' },
+  { name: 'games-recorded', path: '/games/recorded' },
+  { name: 'league-game', path: '/games/nba:0022401229' },
+  { name: 'team-franchise', path: '/teams/nba:1610612766?season=1997-98' },
+  { name: 'game-detail', path: '/games/nba:0042300405' },
+  { name: 'games-shooting', path: '/games/shooting' },
+  { name: 'standings', path: '/standings' },
+  { name: 'standings-recorded', path: '/standings/recorded' },
+  { name: 'leaders', path: '/leaders' },
+  {
+    name: 'leaders-history',
+    path: '/leaders?season=2015-16&metric=threesMade&mode=totals',
+  },
+  { name: 'standings-history', path: '/standings?season=1997-98' },
+  { name: 'standings-wikipedia', path: '/standings/wikipedia' },
+  { name: 'record-book', path: '/history/record-book?kind=season&mode=per-game' },
+  {
+    name: 'leader-movement',
+    path: '/leaders/movement?season=2015-16&metric=threesMade',
+  },
+  { name: 'player-records', path: '/players/2544/records' },
+  { name: 'nba-lineups', path: '/lab/lineups/nba?season=2023-24&team=nba:1610612738' },
+  { name: 'champions', path: '/history/champions?award=dpoy' },
+  { name: 'eras', path: '/history/eras?players=893,2544,201939&decade=1990s' },
+  {
+    name: 'team-rankings',
+    path: '/leaders/teams?season=2007-08&metric=defensiveRating',
+  },
+  { name: 'leaders-wikipedia', path: '/leaders/wikipedia' },
+  { name: 'leaders-recorded', path: '/leaders/recorded' },
+  { name: 'history', path: '/history' },
+  { name: 'history-season', path: '/history/2023-24' },
+  { name: 'history-records', path: '/history/records' },
+  { name: 'history-calendar', path: '/history/calendar' },
+  { name: 'history-awards', path: '/history/awards' },
+  { name: 'history-draft', path: '/history/draft' },
+  { name: 'history-progression', path: '/history/progression' },
+  { name: 'labs-landing', path: '/labs' },
+  {
+    name: 'lab-compare',
+    path: '/lab/compare?players=2544,201939&seasons=2023-24,2023-24',
+  },
+  {
+    name: 'lab-analytics',
+    path: '/lab/analytics?players=2544,201939&seasons=2023-24,2023-24',
+  },
+  { name: 'lab-careers', path: '/lab/careers?players=2544,201939' },
+  { name: 'lab-teams', path: '/lab/teams' },
+  { name: 'lab-groups', path: '/lab/groups' },
+  { name: 'lab-recorded', path: '/lab/recorded' },
+  { name: 'lab-profiles', path: '/lab/profiles' },
+  { name: 'lab-shots', path: '/lab/shots?players=201939,201935' },
+  { name: 'lab-lineups', path: '/lab/lineups' },
+  { name: 'discover', path: '/discover?players=2544,201939&seasons=2023-24,2023-24' },
+  { name: 'discover-recorded', path: '/discover/recorded' },
+  { name: 'my-nba', path: '/my-nba' },
+  // NBA 3.0
+  { name: 'team-season', path: '/teams/nba:1610612738/season?focus=close&game=3' },
+  { name: 'standings-race', path: '/standings/race?conference=West' },
+  { name: 'playoff-bracket', path: '/games/bracket?series=r2-DEN-MIN' },
+  { name: 'player-archive', path: '/players/203999/archive' },
+  { name: 'lab-shots-zones', path: '/lab/shots?players=201939,2544&view=zones' },
+  { name: 'lab-formulas', path: '/lab/formulas' },
+  {
+    name: 'compare-studio',
+    path: '/compare/recorded?players=203999,203507,1628983,1628384',
+  },
+  {
+    name: 'lab-workbench',
+    path: '/lab/workbench?view=relationship&metric=pointsPerGame&y=assistsPerGame&pick=203999',
+  },
+  {
+    name: 'lab-workbench-teams',
+    path: '/lab/workbench?entity=teams&metric=closeWinPercentage&view=distribution',
+  },
+  {
+    name: 'lab-shots-efficiency',
+    path: '/lab/shots?players=201939,2544&view=efficiency',
+  },
+  {
+    name: 'lab-shots-region',
+    path: '/lab/shots?players=201939,2544&view=zones&region=-8,-6,8,8',
+  },
+  { name: 'lab-teams-duel', path: '/lab/teams?teams=nba:1610612738,nba:1610612743' },
+  {
+    name: 'discover-similar',
+    path: '/discover/similar?player=203999&metrics=pointsPerGame,reboundsPerGame,assistsPerGame,fieldGoalPercentage',
+  },
+  { name: 'series-film-room', path: '/games/series/r4-BOS-DAL' },
+  { name: 'series-film-room-game', path: '/games/series/r1-BOS-MIA?game=2' },
+  { name: 'stories', path: '/my-nba/stories' },
+  { name: 'tour', path: '/tour' },
+  { name: 'coverage', path: '/explore/coverage?player=76003' },
+  { name: 'not-found', path: '/this-route-does-not-exist' },
+];

@@ -1,0 +1,86 @@
+{
+  "checkedAt": "2026-10-17T12:31:27.135Z",
+  "host": "https://nba-performance-explorer.onrender.com",
+  "dashboard": {
+    "serviceId": "srv-d8shjfho3t8c73bck8kg",
+    "branch": "main",
+    "autoDeploy": "On Commit",
+    "pullRequestPreviews": "Off",
+    "runtime": "Node",
+    "plan": "Free",
+    "region": "Oregon (US West)",
+    "build": "npm ci && npm run build",
+    "start": "node backend/dist/server.js",
+    "health": "/api/health",
+    "environment": {
+      "FRONTEND_DIST": "frontend/dist",
+      "NBA_ALLOW_FIXTURE_IN_PRODUCTION": "false",
+      "NBA_DATA_PROVIDER": "nba-stats",
+      "NBA_STATS_TIMEOUT_MS": "10000"
+    },
+    "nodeVersionOverridePresent": false,
+    "linkedEnvironmentGroups": false,
+    "liveCommit": "cd557e4d3cf75e44f930ba75de4ea149a80ccdda",
+    "liveDeployId": "dep-d94imfp9rddc73aodnt0",
+    "liveDeployDate": "2026-07-04T15:48:15Z",
+    "liveDeployStatus": "Deploy succeeded | Live",
+    "exactNodePatchVerified": false,
+    "nodePatchLimit": "Successful deployment logs are no longer retained. Render Shell is unavailable on this free plan. No runtime commands, upgrade or settings changes were made; exact patch remains unverified.",
+    "repositoryNodeSelection": {
+      "mainNvmrc": "22",
+      "releaseNvmrc": "22",
+      "engineRange": ">=22.12.0 <23",
+      "nodeVersionFilePresent": false
+    }
+  },
+  "checks": [
+    {
+      "name": "health",
+      "path": "/api/health",
+      "status": 200,
+      "contractValid": true,
+      "ok": true,
+      "elapsedMs": 21381,
+      "rows": null
+    },
+    {
+      "name": "player search",
+      "path": "/api/players?search=LeBron",
+      "status": 200,
+      "contractValid": true,
+      "ok": true,
+      "elapsedMs": 1959,
+      "rows": 1
+    },
+    {
+      "name": "player profile",
+      "path": "/api/players/2544",
+      "status": 200,
+      "contractValid": true,
+      "ok": true,
+      "elapsedMs": 572,
+      "rows": null
+    },
+    {
+      "name": "career seasons",
+      "path": "/api/players/2544/seasons",
+      "status": 200,
+      "contractValid": true,
+      "ok": true,
+      "elapsedMs": 407,
+      "rows": 23
+    },
+    {
+      "name": "historical game log",
+      "path": "/api/players/2544/seasons/2023-24/games",
+      "status": 200,
+      "contractValid": true,
+      "ok": true,
+      "elapsedMs": 389,
+      "rows": 71
+    }
+  ],
+  "release33Deployed": false,
+  "changesMadeToRender": false,
+  "limit": "Read-only requests to the currently deployed main build. These establish existing Render-host reachability, not deployment or acceptance of release 3.3."
+}
