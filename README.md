@@ -1,44 +1,102 @@
 # NBA Performance Explorer 3.3
 
-A basketball research site with a broadcast-style "Arena & Film Room" interface: ask a precise
-question of real NBA records, see the answer as an interactive chart, and see exactly which
-cohort, source and formula produced it.
+A basketball research site with an Arena & Film Room interface: explore NBA players,
+compare careers, follow historical seasons and study the records behind each chart.
+Every module identifies its source, cohort and coverage limits.
 
-> **Two versions exist.** The **public site** at https://nba-performance-explorer.onrender.com
-> is the **existing public release**, not evidence that 3.3 is live. Confirm its current
-> Render branch/settings before approving deployment.
-> `release/nba-performance-explorer-3.3` contains the **design-finalized NBA 3.3 release candidate**.
-> The approved visual baseline is `8e2b38b6b3c5569c2700cd041bcb9b6d0e3818ce`.
-> Publication rights and Render-host checks still require owner review; see
-> [the deployment runbook](docs/release/DEPLOYMENT_RUNBOOK.md) for the planned, owner-approved
-> release.
+[Live website](https://nba-performance-explorer.onrender.com) ·
+[3.3 release notes](docs/release/RELEASE_NOTES_3.3.md) ·
+[Data and publication rights](docs/release/RIGHTS_REVIEW_3.3.md)
 
-<img src="docs/release/screenshots/02-film-room.jpg" alt="The 2024 Finals film room: Boston 4, Dallas 1 on a broadcast scoreboard, above a tape of five game cards with margins and the series score after each game." width="100%" />
+> **Release record:** [PR #29](https://github.com/lorenzodarioben-lgtm/nba-performance-explorer/pull/29)
+> tracks 3.3 validation, final owner approval and deployment verification. At the Render
+> dashboard check on 17 October 2026, the public service served `cd557e4` and 3.3 had not
+> been deployed. Render watches `main` with **On Commit** deployment; merging requires
+> explicit owner approval. Outstanding rights limitations are documented, and the owner
+> accepts those risks for this personal, non-commercial portfolio without claiming licences.
+
+<img src="docs/release/screenshots/3.3/01-home-desktop.jpg" alt="Final NBA 3.3 homepage: READ THE GAME beside Victor Wembanyama, with the approved feathered photograph and transparent player search." width="100%" />
+
+The approved 3.3 homepage, captured from the actual local production build with fixtures disabled.
+
+<details>
+<summary>Explore the final desktop application</summary>
 
 <table role="presentation">
   <tr>
     <td width="50%">
-      <img src="docs/release/screenshots/04-shot-studio-region.jpg" alt="Shot Studio density view of Stephen Curry's 2018 playoff attempts with a dashed court region drawn around the paint and a note that every summary follows the region." width="100%" />
-      <br /><sub>Shot Studio: drag a region on the court</sub>
+      <img src="docs/release/screenshots/3.3/02-history-desktop.jpg" alt="Historical Season Navigator with Kobe Bryant and Shaquille O'Neal imagery, year filters and decade navigation, using genuine Wikidata records." width="100%" />
+      <br /><sub>Historical Season Navigator · Wikidata CC0</sub>
     </td>
     <td width="50%">
-      <img src="docs/release/screenshots/05-comparison-studio.jpg" alt="Comparison studio gap board: three players as distinct shapes on one standardised scale per category, widest gap first." width="100%" />
-      <br /><sub>Comparison studio: one shared scale, widest gaps first</sub>
+      <img src="docs/release/screenshots/3.3/03-player-desktop.jpg" alt="LeBron James player profile with the approved action photograph and the NBA.com queried-source label." width="100%" />
+      <br /><sub>Player profile · NBA.com queried on request</sub>
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img src="docs/release/screenshots/06-workbench.jpg" alt="Research workbench: points against assists for the recorded 2023-24 cohort, with a fit line, correlation and the cohort stated." width="100%" />
-      <br /><sub>Research workbench: relationship with fit line</sub>
+      <img src="docs/release/screenshots/3.3/04-teams-desktop.jpg" alt="NBA team directory with prominent individual team marks, team identities and explicitly recorded 2023-24 results." width="100%" />
+      <br /><sub>Team directory · static identities and recorded results</sub>
     </td>
     <td width="50%">
-      <img src="docs/release/screenshots/07-story-reader.jpg" alt="A statistical story about Boston's 2023-24 season: a live Finals margin chart and series facts above the reader's own written section." width="100%" />
-      <br /><sub>Statistical stories: notes between live charts</sub>
+      <img src="docs/release/screenshots/3.3/05-compare-desktop.jpg" alt="LeBron James and Stephen Curry head-to-head comparison with a VS control, selected season and statistical matchup section." width="100%" />
+      <br /><sub>Player comparison · genuine queried season and career data</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="docs/release/screenshots/3.3/06-scoreboard-desktop.jpg" alt="Scoreboard for December 14, 2024 showing the date navigator and the two archived NBA Cup semifinal final scores." width="100%" />
+      <br /><sub>Scoreboard · archived NBA.com finals, December 14, 2024</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/release/screenshots/3.3/07-game-desktop.jpg" alt="Atlanta versus Milwaukee game page with the genuine 102-110 final score, period totals and source-labelled box-score leaders." width="100%" />
+      <br /><sub>Game experience · archived final and NBA.com box score</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <img src="docs/release/screenshots/3.3/08-shot-studio-desktop.jpg" alt="Stephen Curry's partial 2018 playoff shot-density chart, with a selected court region and summaries computed from its recorded attempts." width="100%" />
+      <br /><sub>Shot Studio · partial 2018 playoff archive, Kaggle CC0</sub>
+    </td>
+    <td width="50%">
+      <img src="docs/release/screenshots/3.3/09-workbench-desktop.jpg" alt="Research Workbench plotting recorded 2023-24 points against assists, with the stated cohort, correlation, fitted line and Nikola Jokic selection." width="100%" />
+      <br /><sub>Research Workbench · recorded 2023-24 Wikipedia cohort</sub>
     </td>
   </tr>
 </table>
 
-All screenshots are of the real application (production build, historical data).
+<img src="docs/release/screenshots/3.3/10-liquid-vs-desktop.jpg" alt="The actual homepage comparison band with Wembanyama and LeBron photographs, the liquid VS control and the compare-players link." width="100%" />
+
+The liquid VS section is an actual rendered browser frame. Pointer motion, recovery and the
+reduced-motion/touch fallback are verified separately by the browser regression suite.
+[View the queried player-statistics detail](docs/release/screenshots/3.3/03b-player-statistics-desktop.jpg).
+
+</details>
+
+<details>
+<summary>View representative mobile layouts</summary>
+
+<table role="presentation">
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/release/screenshots/3.3/11-home-mobile.png" alt="Actual 390-pixel mobile production homepage with the final READ THE GAME typography, Wembanyama image and responsive player search." width="100%" />
+      <br /><sub>Mobile homepage · production acceptance, fixtures disabled</sub>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/release/screenshots/3.3/12-search-mobile.png" alt="Actual 390-pixel production mobile search with a genuine NBA.com LeBron James result selected using the keyboard." width="100%" />
+      <br /><sub>Mobile player search · genuine NBA.com result, fixtures disabled</sub>
+    </td>
+  </tr>
+</table>
+
+</details>
+
+These are authentic browser captures of the approved implementation, not mockups. Desktop
+and mobile production captures use the live NBA player provider with fixtures disabled;
+queried data is not a continuously live feed. Historical results retain their actual dates,
+source labels and partial-coverage notices. Every gallery frame uses production configuration
+with fixtures disabled. See [capture provenance](docs/release/screenshots/3.3/capture-manifest.json)
+and [the publication checklist](docs/release/PUBLICATION_CHECKLIST_3.3.md).
 
 ## What 3.3 contains
 
@@ -54,10 +112,10 @@ Wembanyama image, transparent search and logo hover.
 See [3.3 release notes](docs/release/RELEASE_NOTES_3.3.md),
 [the current audit](docs/release/RELEASE_READINESS.md), and
 [publication rights](docs/release/RIGHTS_REVIEW_3.3.md).
-The screenshots above document earlier research tools; the
-[final visual report](docs/visual-polish/FINAL_POLISH_REPORT.md) shows the approved 3.3 surface.
+The screenshots above show the approved 3.3 surface; the
+[final visual report](docs/visual-polish/FINAL_POLISH_REPORT.md) retains the detailed design verification.
 
-### Capabilities inherited from 3.0 through 3.2
+### Research tools and coverage
 
 - **Playoff Series Film Room** (`/games/series/:id`): any 2024 series game by game, with a
   keyboard-navigable game tape, line scores, running margin, period bars and series

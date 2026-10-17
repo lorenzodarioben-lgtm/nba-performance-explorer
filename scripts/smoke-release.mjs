@@ -220,6 +220,7 @@ try {
       await input.fill('LeBron');
       await page.getByRole('option', { name: /LeBron James/ }).waitFor();
       await input.press('ArrowDown');
+      await page.screenshot({ path: `${output}/production-search-${width}.png` });
       await input.press('Enter');
       await page.waitForURL('**/players/2544');
       assert.deepEqual(errors, []);

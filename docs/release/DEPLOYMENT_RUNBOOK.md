@@ -2,18 +2,18 @@
 
 **Future owner action only. This audit does not merge, deploy or change Render settings.**
 
-**AUTO-DEPLOY WARNING:** `render.yaml` has `autoDeploy: true`. If the existing Render
-service is still linked to `main`, an approved squash merge can automatically build and
-publish 3.3. A draft PR does not change main. Confirm the actual dashboard branch, auto-deploy
-mode and any preview-service settings before approval; dashboard state was not available to
-this audit. Do not enable a PR preview deployment during release preparation.
+**AUTO-DEPLOY WARNING:** the actual Render dashboard was inspected read-only on 17 October
+2026: this service watches `main`, uses **On Commit** auto-deployment, and has PR previews
+**Off**. An approved squash merge can automatically build and publish 3.3. A draft PR does
+not change main. No Render setting was changed. Do not enable a preview deployment during
+release preparation.
 
 The draft PR uses the `render-preview-skip` label to suppress automatic service previews.
 It is initially opened with a temporary `[skip preview]` title marker, then labelled before
 setting the exact requested release title. This avoids a preview before GitHub applies labels.
 Keep the label until an owner-approved preview or release decision. The repository Blueprint
-does not enable preview environments; any different dashboard-linked Blueprint still needs
-owner confirmation. See [service previews](https://render.com/docs/service-previews) and
+does not enable preview environments, and the actual service's PR previews are Off.
+See [service previews](https://render.com/docs/service-previews) and
 [Blueprint preview environments](https://render.com/docs/preview-environments).
 
 The release-preparation commit also uses Render's deploy-skip marker to suppress deployment
@@ -25,40 +25,49 @@ title and suggested description, excluding deploy-skip markers from the release 
 
 - Release source: `release/nba-performance-explorer-3.3`; approved application baseline
   `8e2b38b6b3c5569c2700cd041bcb9b6d0e3818ce`.
-- The neutral branch is a single snapshot with main as its parent and an identical tree to
-  the verified development tip. The original development branch and all its commits remain.
-- Existing public service: https://nba-performance-explorer.onrender.com. Its health endpoint
-  returned 200 on 17 October 2026; health does not expose or prove its deployed commit.
+- The neutral branch begins with a snapshot parented by main and an identical tree to the
+  verified development tip. Follow-up README, screenshot and evidence commits must preserve
+  the approved application and original development ancestry. Squash the entire final PR
+  into exactly one new main commit; do not rewrite or force-push branch history.
+- Existing public service: https://nba-performance-explorer.onrender.com. Render identifies
+  live commit `cd557e4d3cf75e44f930ba75de4ea149a80ccdda`, successful deployment
+  `dep-d94imfp9rddc73aodnt0`, created 4 July 2026 at 15:48:15 UTC. It is not release 3.3.
+- Five controlled public-host checks passed: health, real player search/profile, 23 career
+  seasons and 71 historical games. These verify the existing main deployment's connectivity,
+  not post-deployment acceptance of 3.3. See the [sanitized Render record](evidence/PUBLICATION_33_RENDER_CHECK.json).
 - Main at audit start: `cd557e4d3cf75e44f930ba75de4ea149a80ccdda`.
   Recheck main and the last good Render deploy immediately before any approved release.
 - The latest GitHub deployment record inspected is dated 4 July 2026, ref
   `feature/production-deployment`, SHA `00cf13bc57611a8a57ffacc3075e2c30ad06fe2b`.
-  This historical record does not establish the current dashboard linkage or deployed SHA.
+  The current dashboard inspection above now supplies direct branch/deploy evidence.
 - Read [release readiness](RELEASE_READINESS.md) and [rights review](RIGHTS_REVIEW_3.3.md).
-  Image reuse and NBA.com publication rights remain unresolved. Technical success does not
-  clear public distribution. Keep the PR draft until the owner resolves the listed approvals.
+  Image reuse and NBA.com publication rights remain unverified. The owner explicitly accepts
+  these risks for a personal, non-commercial portfolio without claiming licences. Preparation
+  and PR updates are authorized; keep the PR draft until final merge/deployment approval.
 
 ## 2. Verified repository settings versus dashboard checks
 
-| Setting       | Repository evidence / required dashboard check                                                          |
-| ------------- | ------------------------------------------------------------------------------------------------------- |
-| Runtime       | Node `>=22.12.0 <23`; local validation uses 22.19.0; CI uses Node 22                                    |
-| Install/build | `npm ci && npm run build` from repository root, including build-time dev dependencies                   |
-| Start         | `node backend/dist/server.js`                                                                           |
-| Port          | Render supplies `PORT`; server listens on it, defaulting locally to 3001                                |
-| Health        | `/api/health`; liveness only, not a guarantee of upstream NBA.com availability                          |
-| Frontend      | `FRONTEND_DIST=frontend/dist`; built SPA/assets served by the backend from one origin                   |
-| Live provider | `NBA_DATA_PROVIDER=nba-stats`                                                                           |
-| Fixture guard | `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`; absent production provider fails startup                       |
-| Stats timeout | `NBA_STATS_TIMEOUT_MS=10000`; valid range 1000-30000ms; zero retries                                    |
-| Diagnostics   | `NBA_STATS_DIAGNOSTICS=false` or unset; sanitized diagnostics are opt-in                                |
-| Wikipedia     | `WIKI_ARCHIVE_MODE` unset means `live`, with labelled committed fallback; `bundled` is optional         |
-| Browser API   | `VITE_API_BASE_URL` unset/empty for same-origin hosting; only a public API origin belongs here          |
-| Deployment    | Blueprint says free Node service, Oregon, automatic deployment; actual settings need owner confirmation |
+| Setting       | Repository evidence / required dashboard check                                                                                            |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Runtime       | `.nvmrc` selects Node 22; engines require `>=22.12.0 <23`; no dashboard `NODE_VERSION` override; exact running patch not retained in logs |
+| Install/build | `npm ci && npm run build` from repository root, including build-time dev dependencies                                                     |
+| Start         | `node backend/dist/server.js`                                                                                                             |
+| Port          | Render supplies `PORT`; server listens on it, defaulting locally to 3001                                                                  |
+| Health        | `/api/health`; liveness only, not a guarantee of upstream NBA.com availability                                                            |
+| Frontend      | `FRONTEND_DIST=frontend/dist`; built SPA/assets served by the backend from one origin                                                     |
+| Live provider | `NBA_DATA_PROVIDER=nba-stats`                                                                                                             |
+| Fixture guard | `NBA_ALLOW_FIXTURE_IN_PRODUCTION=false`; absent production provider fails startup                                                         |
+| Stats timeout | `NBA_STATS_TIMEOUT_MS=10000`; valid range 1000-30000ms; zero retries                                                                      |
+| Diagnostics   | `NBA_STATS_DIAGNOSTICS=false` or unset; sanitized diagnostics are opt-in                                                                  |
+| Wikipedia     | `WIKI_ARCHIVE_MODE` unset means `live`, with labelled committed fallback; `bundled` is optional                                           |
+| Browser API   | `VITE_API_BASE_URL` unset/empty for same-origin hosting; only a public API origin belongs here                                            |
+| Deployment    | Dashboard confirmed: free Node service, Oregon, `main`, On Commit auto-deployment, PR previews Off                                        |
 
-No new secret is required. Do not copy server credentials into `VITE_*` variables. Confirm a
-higher-priority Render `NODE_VERSION`, `.node-version` or `.nvmrc` is not overriding engines
-with an incompatible major. Use a currently patched compatible Node 22 release. Keep build
+No new secret is required. Do not copy server credentials into `VITE_*` variables. The
+dashboard has only the four expected provider/fixture/timeout/frontend variables and no
+linked environment groups. Both main and the release have `.nvmrc` set to `22`; no incompatible
+version file was found. Old build logs are no longer retained, so the exact running patch
+is not independently certified. Use a currently patched compatible Node 22 for release. Keep build
 installation from omitting TypeScript/Vite development dependencies. Render's default
 `NODE_ENV=production` applies at runtime; a custom build-time override can change npm omission.
 See [Node selection](https://render.com/docs/node-version) and
@@ -98,7 +107,8 @@ check because it would repeat many upstream requests and has older coverage assu
 
 **MERGE METHOD: SQUASH AND MERGE ONLY. This entire release must enter main as one new commit.**
 
-1. Resolve rights/publication review, confirm dashboard settings and approve the release window.
+1. Review the documented owner risk acceptance and technical evidence, confirm dashboard
+   settings, and obtain explicit final approval to squash-merge and deploy in the release window.
 2. Check the latest draft PR head and green CI; review the production smoke and current Render
    connectivity. Keep the approved development history intact.
 3. When ready, the owner marks the PR ready and selects GitHub **Squash and merge**.
@@ -114,8 +124,8 @@ settings or auto-merge settings were changed. See [GitHub merge methods](https:/
 
 ## 5. Deployment consequence and post-release acceptance
 
-With the reported main linkage and `autoDeploy: true`, the approved merge can trigger Render
-without a separate deploy command. Confirm the intended On Commit/After CI mode beforehand.
+With the verified main linkage and **On Commit** auto-deployment, the approved merge can
+trigger Render without a separate deploy command. Recheck this mode at the release window.
 Only the owner may approve a dashboard or live configuration change. No deploy hooks, manual
 builds, dashboard changes or deployment APIs are used by this preparation task.
 See [Render deploy behavior](https://render.com/docs/deploys).

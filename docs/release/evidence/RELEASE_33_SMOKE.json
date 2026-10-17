@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-17T09:21:04.823Z",
+  "checkedAt": "2026-10-17T12:45:44.432Z",
   "localProductionOnly": true,
   "configuration": {
     "nodeEnv": "production",
@@ -20,7 +20,7 @@
       "ok": true,
       "detail": {
         "status": "ok",
-        "timestamp": "2026-10-17T09:20:36.820Z",
+        "timestamp": "2026-10-17T12:45:11.904Z",
         "service": "nba-performance-explorer-api"
       }
     },

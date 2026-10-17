@@ -1,0 +1,239 @@
+{
+  "sourceCommit": "92d2d7e65fc71b7a5ff35cac12128af21d3a8b2e",
+  "applicationBaseline": "8e2b38b6b3c5569c2700cd041bcb9b6d0e3818ce",
+  "build": "Compiled frontend/backend, local production server",
+  "configuration": {
+    "nodeEnv": "production",
+    "playerProvider": "nba-stats",
+    "fixturesAllowed": false,
+    "wikipedia": "bundled genuine archive"
+  },
+  "captures": [
+    {
+      "file": "01-home-desktop.jpg",
+      "url": "http://localhost:4394/",
+      "source": "Live NBA player provider selected; homepage content and source-labelled historical previews. No fixtures.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:21:09.444Z",
+      "bytes": 97172,
+      "pixelSize": {
+        "width": 1265,
+        "height": 712
+      },
+      "format": "JPEG",
+      "sha256": "fe9645716c0b125ec22ac576dbe64fc9f762b9f6e89bf6e304d49ebd663f85dd"
+    },
+    {
+      "file": "02-history-desktop.jpg",
+      "url": "http://localhost:4394/history",
+      "source": "Genuine Wikidata CC0 historical season/champion statements; approved Kobe/Shaq archive imagery. No fixtures.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:21:37.893Z",
+      "bytes": 184516,
+      "pixelSize": {
+        "width": 1280,
+        "height": 1180
+      },
+      "format": "JPEG",
+      "sha256": "669b492bfb795e75e159af5e90837090d961ae8e12c5a384f84c07ff575a89c6"
+    },
+    {
+      "file": "03-player-desktop.jpg",
+      "url": "http://localhost:4394/players/2544",
+      "source": "Genuine NBA.com player profile, career seasons and 2025-26 statistics queried on request. No fixtures.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:22:09.574Z",
+      "bytes": 117185,
+      "pixelSize": {
+        "width": 1280,
+        "height": 1180
+      },
+      "format": "JPEG",
+      "sha256": "691db5f00dd6d3a327f202ba1649124da99f98aa647952156508997fdc6bfbd1"
+    },
+    {
+      "file": "04-teams-desktop.jpg",
+      "url": "http://localhost:4394/teams",
+      "source": "nba_api static MIT identity directory with source-labelled recorded 2023-24 records; genuine archived data, no fixtures.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:32:13.223Z",
+      "bytes": 139402,
+      "pixelSize": {
+        "width": 1280,
+        "height": 1050
+      },
+      "format": "JPEG",
+      "sha256": "5111783aa069729712cda0a1383c0b0af10dedf357a3bcc8dd944c35baab3dab"
+    },
+    {
+      "file": "05-compare-desktop.jpg",
+      "url": "http://localhost:4394/compare?player1=2544&player2=201939&season=2025-26",
+      "source": "Genuine NBA.com queried profiles and 2025-26 season/career statistics. No fixtures.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:22:58.327Z",
+      "bytes": 88838,
+      "pixelSize": {
+        "width": 1280,
+        "height": 1180
+      },
+      "format": "JPEG",
+      "sha256": "7848c215a41f5871d0892ae70105645866b12e5512b670dc456949d57aae2d7d"
+    },
+    {
+      "file": "06-scoreboard-desktop.jpg",
+      "url": "http://localhost:4394/games?date=2024-12-14",
+      "source": "Archived NBA.com finals for 2024-12-14; current schedule below is separately labelled. No fixtures.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:33:18.115Z",
+      "bytes": 130223,
+      "pixelSize": {
+        "width": 1280,
+        "height": 1161
+      },
+      "format": "JPEG",
+      "sha256": "fde097a1ba312b5b313e848b561351a3cad5e2afc0ac2437d3708b3156fb6089"
+    },
+    {
+      "file": "07-game-desktop.jpg",
+      "url": "http://localhost:4394/games/nba:0022401229",
+      "source": "Genuine archived NBA.com final, period totals and player box score for ATL-MIL on 2024-12-14. No fixtures.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:23:53.382Z",
+      "bytes": 83836,
+      "pixelSize": {
+        "width": 1280,
+        "height": 1180
+      },
+      "format": "JPEG",
+      "sha256": "1512ff6ca2d5c39ceb4bdbe3db110d9bc5497365abeaac48d68f4a6d3a117989"
+    },
+    {
+      "file": "08-shot-studio-desktop.jpg",
+      "url": "http://localhost:4394/lab/shots?players=201939&view=density&region=-8,-6,8,8",
+      "source": "Authentic partial 2018 playoff shots, Kaggle CC0; Stephen Curry density view and selected court region. Filters collapsed through the interface. No fixtures.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:27:48.467Z",
+      "bytes": 130123,
+      "pixelSize": {
+        "width": 1280,
+        "height": 1470
+      },
+      "format": "JPEG",
+      "sha256": "41411528c271d8228395e0620dfc21a3cd05a16989931472c8e14c7b044a03b0"
+    },
+    {
+      "file": "09-workbench-desktop.jpg",
+      "url": "http://localhost:4394/lab/workbench?view=relationship&metric=pointsPerGame&y=assistsPerGame&pick=203999",
+      "source": "Genuine recorded Wikipedia CC BY-SA 2023-24 player cohort; points versus assists, fit line and selected player. No fixtures.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:25:30.533Z",
+      "bytes": 169218,
+      "pixelSize": {
+        "width": 1280,
+        "height": 1400
+      },
+      "format": "JPEG",
+      "sha256": "1b7587b68601c9399942a545a97b6a84afa9386818bd12a14f50b1fe8b12f842"
+    },
+    {
+      "file": "10-liquid-vs-desktop.jpg",
+      "url": "http://localhost:4394/",
+      "source": "Approved homepage comparison section, actual rendered browser frame with player imagery and liquid VS control. No fixture-backed statistics.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:27:30.663Z",
+      "bytes": 90592,
+      "pixelSize": {
+        "width": 1280,
+        "height": 627
+      },
+      "format": "JPEG",
+      "sha256": "53310f06af226b08411440f0f6c947694f323e0b69f54278c3e4392e1ef5d382"
+    },
+    {
+      "file": "03b-player-statistics-desktop.jpg",
+      "url": "http://localhost:4394/players/2544",
+      "source": "Genuine NBA.com queried 2025-26 player statistics and game-log chart; a native document-region capture. No fixtures.",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      },
+      "capturedAt": "2026-10-17T12:28:14.034Z",
+      "bytes": 70954,
+      "pixelSize": {
+        "width": 1280,
+        "height": 920
+      },
+      "format": "JPEG",
+      "sha256": "d5649e020ea8293ba9d2c7fce15b8d14fb26f9867cb4a590f08653a16027ded3"
+    },
+    {
+      "file": "11-home-mobile.png",
+      "url": "http://localhost:4393/",
+      "source": "Approved mobile homepage in production configuration, genuine NBA.com player provider selected, fixtures disabled.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-10-17T12:45:44.432Z",
+      "producer": "scripts/smoke-release.mjs production browser acceptance",
+      "bytes": 182908,
+      "pixelSize": {
+        "width": 390,
+        "height": 844
+      },
+      "format": "PNG",
+      "sha256": "7ec8a486021a2325799028bba95a1127e320d8820a586b896dd000509fef9e03"
+    },
+    {
+      "file": "12-search-mobile.png",
+      "url": "http://localhost:4393/",
+      "source": "Genuine NBA.com player provider queried on request; production configuration, fixtures disabled. Search frame shows keyboard-selected LeBron James result.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "capturedAt": "2026-10-17T12:45:44.432Z",
+      "producer": "scripts/smoke-release.mjs production browser acceptance",
+      "bytes": 183000,
+      "pixelSize": {
+        "width": 390,
+        "height": 844
+      },
+      "format": "PNG",
+      "sha256": "e2eab17da54cdb22f284f0fb52141a59b5c86026e35bc82844070ea948b1e86b"
+    }
+  ],
+  "mobileCaptureNote": "Fresh production acceptance captures at 390x844. NBA.com player provider, fixtures disabled; home and keyboard-selected player search. No fixture-backed screenshot is included in this gallery.",
+  "totalBytes": 1667967,
+  "captureMethod": "Native JPEG browser screenshots and unmodified PNG output from production browser acceptance. No compositing, generated imagery, content edits or production UI changes."
+}

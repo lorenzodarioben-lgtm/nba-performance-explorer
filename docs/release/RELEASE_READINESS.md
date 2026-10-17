@@ -1,3 +1,43 @@
+# NBA 3.3 publication preparation - current status
+
+18 October 2026, Australia/Sydney. **Technically ready for final owner review; not merged or
+deployed.** The final README and authentic screenshot gallery preserve the approved 3.3
+application. Fresh validation passed: 541 frontend / 532 backend tests, both builds, types,
+formatting, module case, assets and lint (0 errors, 13 existing warnings). Separate assets
+passed. The complete browser suite passed in one run: **242 passed, 78 intentional skips,
+0 failures** in 9.4 minutes; no assertion was weakened.
+
+Production smoke passed **15/15** with genuine NBA.com/Wikipedia providers and fixtures disabled.
+The current local Stats parser gate passed **4/4**. Both npm audits found zero vulnerabilities;
+bounded text/bundle and screenshot metadata checks found no tested patterns or public maps.
+Browser fixture/archive acceptance remains separate from live-source evidence. No in-progress
+game was available to accept live score updates; Safari, Firefox and physical devices remain
+unverified. Final preparation-head push/PR CI is checked after publication and recorded with
+its exact SHA/run links in existing PR #29 before requesting release approval.
+
+Direct Render inspection confirmed `main`, **On Commit**, previews **Off**, the expected
+build/start/health and four provider/fixture variables. `.nvmrc` selects Node 22; no dashboard
+override or linked environment group. Exact old runtime patch is unavailable: logs expired
+and free-plan Shell is unsupported. Current deploy `dep-d94imfp9rddc73aodnt0`, SHA `cd557e4`,
+remains live; five real public-host API checks passed. No settings changed; 3.3 is unpublished.
+
+The owner explicitly accepts the documented copyright, trademark, imagery and NBA.com reuse
+risks for a personal, non-commercial portfolio, without claiming licences or permissions.
+Preparation, commit/push and PR #29 updates are explicitly authorized. Rights remain unverified;
+this informed decision is documented in the rights review. Do not repeat licensing questions
+absent a materially new issue. **Explicit final approval to squash-merge and deploy remains
+required.** Exactly one new main release commit must result from the approved squash.
+
+See the [current completion checklist](PUBLICATION_CHECKLIST_3.3.md),
+[fresh validation](evidence/PUBLICATION_33_VALIDATION.json),
+[security review](evidence/PUBLICATION_33_SECURITY.json),
+[Render evidence](evidence/PUBLICATION_33_RENDER_CHECK.json) and
+[capture manifest](screenshots/3.3/capture-manifest.json).
+
+---
+
+## Earlier release audit (preserved; Render and owner-decision assumptions superseded above)
+
 # Release readiness - NBA Performance Explorer 3.3
 
 17 October 2026. **Verdict: READY WITH BLOCKERS for public deployment; draft review only.**

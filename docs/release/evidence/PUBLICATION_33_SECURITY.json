@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-10-17T12:59:03.511773+00:00",
+  "scope": "Tracked files and intended release additions, UTF-8 text smaller than 5MB; raw assets and private local settings excluded. No credential values are stored in this report.",
+  "textFilesScanned": 725,
+  "findings": [],
+  "builtFrontendTextFilesScanned": 95,
+  "bundleFindings": [],
+  "publicSourceMaps": [],
+  "trackedEnvFiles": ["backend/.env.example", "frontend/.env.example"],
+  "trackedRawAssets": [],
+  "dependencyAudits": {
+    "all": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "production": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "captureImagesVerified": 13,
+  "imageAttributionMetadataFindings": [],
+  "approvedApplicationBaseline": "8e2b38b6b3c5569c2700cd041bcb9b6d0e3818ce",
+  "frontendSourceTree": "47a1deef64a316d671f60641e8574631537bd1d0",
+  "backendSourceTree": "5ed01b7adb0be988865796fcc935f9aeb71582eb",
+  "applicationBaselineDiff": [],
+  "history": "Earlier feature-history pattern scan preserved; no original commits rewritten. New commit metadata is checked separately before publication.",
+  "limit": "Bounded pattern scan, not a guarantee against every possible secret format."
+}

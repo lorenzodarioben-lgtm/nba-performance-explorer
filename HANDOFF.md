@@ -1,4 +1,47 @@
-# NBA 3.3 final release audit - latest handoff
+# NBA 3.3 publication preparation - latest handoff
+
+18 October 2026, Australia/Sydney (verification began 17 October).
+Working branch: `release/nba-performance-explorer-3.3`; initial neutral snapshot `92d2d7e`.
+Existing [PR #29](https://github.com/lorenzodarioben-lgtm/nba-performance-explorer/pull/29)
+records the final preparation head and its push/PR CI links. Main remains `cd557e4`.
+
+- **Technically ready for final owner review; not merged or deployed.** Approved application
+  baseline `8e2b38b` is unchanged across frontend, backend, contracts, assets, datasets,
+  deployment configuration and browser test assertions. The smoke helper adds one screenshot save.
+- Final README: 13 authentic browser captures, 1,667,967 bytes, with hashes/source provenance.
+  Every gallery frame uses production configuration with fixtures disabled, including fresh
+  mobile home/search. GitHub Markdown rendering, 59 local references and all embedded images
+  verified; no horizontal overflow. Historical screenshots remain preserved.
+- Fresh `npm run validate` passed: 541 frontend / 532 backend tests, formatting/lint/types,
+  module case, assets and both builds; 0 lint errors, 13 existing warnings. Separate assets
+  passed: 401 files, 73 players, 45 marks and 1,257 team-seasons.
+- Fresh full browser run passed once: 242 passes, 78 intentional skips, 0 failures, 9.4 minutes.
+  Explicit fixture/archive environment; source assertions unchanged. Separate production smoke
+  passed 15/15 with genuine providers, fixtures disabled, keyboard search and controlled outage.
+- Current production parser gate 4/4 passed; npm audits zero vulnerabilities. Bounded scan:
+  725 release text files and 95 built client files without tested patterns; no public maps.
+  Capture hashes and attribution metadata verified. No new promotional credits or co-authors.
+- Actual Render dashboard: `main`, **On Commit**, previews **Off**, free Node/Oregon;
+  build/start/health and four provider variables match the Blueprint. Node 22 selected via
+  `.nvmrc`; exact old patch unavailable (expired logs; Shell requires paid plan).
+- Existing live deployment `dep-d94imfp9rddc73aodnt0`, SHA `cd557e4`, from 4 July 2026.
+  Five real public-host API checks passed. These do not establish deployment of 3.3.
+- **Owner decision:** explicitly accepts documented copyright, trademark, imagery and NBA.com
+  reuse risks for a personal, non-commercial portfolio, without claiming licences or permission.
+  Preparation, commit/push and PR updates are authorized. Do not repeat the same licensing
+  questions absent a materially new issue. Rights limitations remain documented accurately.
+- **Final gate:** obtain explicit approval to squash-merge PR #29 and deploy. Use only
+  `feat: release NBA Performance Explorer 3.3`, exactly one new main commit; omit preparation
+  deploy-skip markers. No merge, deploy, preview, upgrade or Render settings change performed.
+- See `docs/release/PUBLICATION_CHECKLIST_3.3.md` and fresh publication evidence. Final-head CI
+  must be green before requesting approval; exact links/head are recorded externally in PR #29.
+  Original development history, local `.claude/` and raw assets remain preserved. No force push.
+
+---
+
+## Earlier 17 October release-audit handoff (preserved)
+
+# NBA 3.3 final release audit
 
 17 October 2026. Release PR branch `release/nba-performance-explorer-3.3`.
 Original development branch `codex/nba-explorer-final-polish` and its ancestry are preserved.
