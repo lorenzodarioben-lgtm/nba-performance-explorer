@@ -5,6 +5,35 @@ const evidence =
   process.env.LIQUID_ARCHIVE_EVIDENCE_DIR ??
   'docs/visual-polish/screenshots/liquid-archive';
 mkdirSync(evidence, { recursive: true });
+async function expectTransparentHero(page: Page) {
+  const layers = await page.locator('.homehero__search').evaluate((hero) => {
+    const input = hero.querySelector('input')!;
+    const wrap = input.parentElement!;
+    return [hero, wrap.parentElement!, wrap, input].flatMap((el) =>
+      [null, '::before', '::after'].map((pseudo) => {
+        const c = getComputedStyle(el, pseudo);
+        return {
+          background: c.backgroundColor,
+          image: c.backgroundImage,
+          opacity: c.opacity,
+          backdrop: c.backdropFilter,
+          shadow: c.boxShadow,
+          generated: pseudo ? c.content : 'none',
+        };
+      }),
+    );
+  });
+  for (const layer of layers) {
+    expect(layer).toEqual({
+      background: 'rgba(0, 0, 0, 0)',
+      image: 'none',
+      opacity: '1',
+      backdrop: 'none',
+      shadow: 'none',
+      generated: 'none',
+    });
+  }
+}
 const baseline = JSON.parse(
   readFileSync(
     'docs/visual-polish/screenshots/liquid-archive/before-checks.json',
@@ -27,6 +56,9 @@ test('home keeps the two-line headline at 97% of the approved current size', asy
     });
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
+    await expectTransparentHero(page);
+    await page.getByRole('combobox', { name: 'Search NBA players' }).focus();
+    await expectTransparentHero(page);
     const lines = page.locator('.homehero__line');
     await expect(lines).toHaveCount(2);
     await expect(lines).toHaveText(['Read', 'the game.']);
@@ -53,14 +85,18 @@ test('transparent home search retains loading, results, contrast and keyboard se
   const input = page.getByRole('combobox', { name: 'Search NBA players' });
   await expect(input).toHaveAttribute('placeholder', 'Search by player name');
   expect(await field.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(
-    'rgba(14, 14, 16, 0.36)',
+    'rgba(0, 0, 0, 0)',
   );
   expect(await input.evaluate((el) => getComputedStyle(el).opacity)).toBe('1');
+  await expectTransparentHero(page);
+  await field.hover();
+  await expectTransparentHero(page);
   await field.screenshot({ path: `${evidence}/search-idle-${info.project.name}.png` });
   await input.focus();
   await expect
     .poll(() => field.evaluate((el) => getComputedStyle(el).backgroundColor))
-    .toBe('rgba(14, 14, 16, 0.5)');
+    .toBe('rgba(0, 0, 0, 0)');
+  await expectTransparentHero(page);
   await field.screenshot({ path: `${evidence}/search-focus-${info.project.name}.png` });
   let release!: () => void;
   const gate = new Promise<void>((resolve) => {
@@ -72,6 +108,7 @@ test('transparent home search retains loading, results, contrast and keyboard se
   });
   await input.fill('LeBron');
   await expect(page.getByText('Searching players...')).toBeVisible();
+  await expectTransparentHero(page);
   await page
     .locator('.homehero__search')
     .screenshot({ path: `${evidence}/search-loading-${info.project.name}.png` });
@@ -81,6 +118,7 @@ test('transparent home search retains loading, results, contrast and keyboard se
     .getByRole('listbox')
     .evaluate((el) => getComputedStyle(el).backgroundColor);
   expect(resultSurface).toBe('rgb(17, 17, 20)');
+  await expectTransparentHero(page);
   await input.press('ArrowDown');
   await page
     .locator('.homehero__search')
@@ -92,6 +130,70 @@ test('transparent home search retains loading, results, contrast and keyboard se
   await input.press('ArrowDown');
   await input.press('Enter');
   await expect(page).toHaveURL(/\/players\/2544$/);
+});
+
+test('transparent hero search preserves empty and error feedback', async ({
+  page,
+}, info) => {
+  await page.route('**/api/players?*', async (route) => {
+    const search = new URL(route.request().url()).searchParams.get('search');
+    await route.fulfill({
+      status: search === 'failure' ? 503 : 200,
+      contentType: 'application/json',
+      body: JSON.stringify(
+        search === 'failure' ? { error: { message: 'Unavailable' } } : { players: [] },
+      ),
+    });
+  });
+  await page.goto('/');
+  const input = page.getByRole('combobox', { name: 'Search NBA players' });
+  await input.fill('no-match');
+  await expect(page.getByText('No players found.')).toBeVisible();
+  await expectTransparentHero(page);
+  await page
+    .locator('.homehero__search')
+    .screenshot({ path: `${evidence}/search-empty-${info.project.name}.png` });
+  await input.fill('failure');
+  await expect(page.getByRole('alert')).toHaveText(
+    'Player search is unavailable. Please try again.',
+  );
+  await expectTransparentHero(page);
+  await page
+    .locator('.homehero__search')
+    .screenshot({ path: `${evidence}/search-error-${info.project.name}.png` });
+  await input.press('Escape');
+  await expect(page.getByRole('alert')).toBeHidden();
+  await expect(input).toBeFocused();
+});
+
+test('hero transparency leaves navigation, directory and comparison search surfaces intact', async ({
+  page,
+}) => {
+  await page.goto('/');
+  expect(
+    await page
+      .locator('.mast__search')
+      .evaluate((el) => getComputedStyle(el).backgroundColor),
+  ).toBe('rgba(255, 255, 255, 0.024)');
+  await page.locator('.mast__search').click();
+  expect(
+    await page
+      .getByRole('dialog', { name: 'Search', exact: true })
+      .evaluate((el) => getComputedStyle(el).backgroundColor),
+  ).toBe('rgb(17, 17, 20)');
+  await page.keyboard.press('Escape');
+  for (const route of ['/players', '/compare']) {
+    await page.goto(route);
+    const field = page.locator('.searchfield-wrap').first();
+    await expect(field).toBeVisible();
+    expect(
+      await field.evaluate((el) => getComputedStyle(el).backgroundImage),
+    ).toContain('linear-gradient');
+    await field.locator('input').focus();
+    await expect
+      .poll(() => field.evaluate((el) => getComputedStyle(el).backgroundColor))
+      .toBe('rgb(23, 23, 28)');
+  }
 });
 
 test('archive filters, decade chapters, source index and season pages retain honest navigation', async ({

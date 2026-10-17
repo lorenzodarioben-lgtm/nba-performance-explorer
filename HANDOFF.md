@@ -1,3 +1,47 @@
+# Homepage micro-polish — latest handoff
+
+17 October 2026 · `codex/nba-explorer-final-polish` · starts from `dafff91`.
+The commit containing this correction is the delivery commit (`git log -1 --oneline`).
+
+- Strengthened the restored logo hover from `translateY(-1px) rotate(-3deg)` to
+  `translateY(-2px) rotate(-6deg)`. Same 220ms snap easing, image dimensions, home link,
+  keyboard outline, fine-pointer gate and system/in-app reduced-motion guards.
+- Expanded the right-anchored hero photo from `min(59%, 1000px)` to `min(64%, 1120px)`.
+  Its left edge moves 120px / 72px / 51.2px left at 1920 / 1440 / 1024 widths. Earlier
+  mask stops reveal more defender detail, dissolving from alpha zero to solid at 34%
+  instead of 40%. Cover fit and the registry's `center 3%` focal point remain. Updated
+  responsive `sizes`; mobile retains its approved full-width frame and bottom fade.
+- Hero search wrapper now uses `background: transparent` at idle, hover and focus.
+  Removed the 3px backdrop blur, focus shadow and fill transition. Thin border,
+  hover brightening, red focus border, label, icon, text and status indicator remain.
+  Input, both wrappers and pseudo-elements compute alpha zero with no background image,
+  blur or shadow. Their opacity stays 1. Results remain solid `#111114`.
+- Actual Chromium evidence: `docs/visual-polish/screenshots/home-micro-polish/` contains
+  before/after home and focused-search captures at 1920×1080, 1440×900, 1024×900,
+  390×844, plus computed layer/image measurements and search-state screenshots.
+  No overflow, uncaught errors or headline-size changes at those four sizes.
+- Focused header/home/search unit tests: **31 passed**. Direct logo hover/return,
+  fixed navbar geometry, focus, reduced motion, home link/mobile menu, search loading,
+  solid results, keyboard selection, empty/error feedback and other search scopes checked.
+- `npm run validate` passes: **541 frontend and 532 backend tests**, formatting,
+  module-case/assets, frontend/backend types and production builds. Lint: zero errors,
+  the same 13 existing warnings. Separate `npm run check:visual-assets` passes:
+  401 files, 73 players, 45 marks and 1,257 team-seasons.
+- Full `npm run e2e`: 240 passed, 78 intentional skips, two failures in the concurrent
+  run (unavailable health status and a 0.2px comparison entrance/layout sample).
+  `npm run e2e -- --last-failed --workers=1`: **2/2 passed unchanged** after validation.
+  All **242 unique browser tests pass across these runs**. Skips: 73 duplicate mobile
+  axe checks, four mouse-only liquid checks on touch and one duplicate headline check.
+  Initial frontend/backend timing failures also clear in the clean sequential full
+  validation. No test timeout, physics code or layout assertion was changed.
+- Production changes are limited to hero CSS, one logo transform and hero image `sizes`.
+  Shared combobox behavior, liquid physics, history, status LED, assets and other pages
+  remain unchanged. Preserve `.claude/`. No main changes, PR, merge or deployment.
+
+---
+
+## Previous logo-restoration handoff (preserved)
+
 # Original NBA logo hover restored — latest handoff
 
 17 October 2026 · `codex/nba-explorer-final-polish` · starts from `7b78d7f`.

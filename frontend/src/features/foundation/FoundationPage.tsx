@@ -83,7 +83,7 @@ function Hero({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null>
           <motion.img
             src={HERO.src}
             srcSet={HERO.srcSet}
-            sizes="(max-width: 760px) 100vw, min(59vw, 1000px)"
+            sizes="(max-width: 760px) 100vw, min(64vw, 1120px)"
             width={HERO.width}
             height={HERO.height}
             alt={HERO.alt}

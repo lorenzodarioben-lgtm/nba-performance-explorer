@@ -1,3 +1,81 @@
+# Homepage micro-polish
+
+17 October 2026 · `codex/nba-explorer-final-polish` · baseline `dafff91`.
+Delivery commit: `git log -1 --oneline`. Earlier reports/evidence are preserved below.
+
+The three corrections are restricted to the restored NBA logo hover, the hero photograph
+and the homepage search surface. No dependencies or shared combobox behavior changed.
+
+| Correction       | Before                                               | After                                                         |
+| ---------------- | ---------------------------------------------------- | ------------------------------------------------------------- |
+| Logo hover       | −1px / −3°                                           | −2px / −6°, same 220ms `cubic-bezier(0.2, 0.8, 0.2, 1)`       |
+| Photo frame      | `min(59%, 1000px)`                                   | `min(64%, 1120px)`, right anchored                            |
+| Horizontal mask  | α .12 at 6%, .42 at 16%, .82 at 28%, 1 at 40%        | α .24 at 5%, .6 at 13%, .9 at 23%, 1 at 34%; α 0 at left edge |
+| Hero search fill | Charcoal α .36 idle / .44 hover / .5 focus; 3px blur | Fully transparent in every state; no blur or focus shadow     |
+
+The photograph starts at x800 / 518.4 / 368.6 at the three larger widths, moving
+120 / 72 / 51.2px left. The actual source photograph, cover fit, `center 3%` focal point,
+bottom fade and desktop shade overlay remain. Wembanyama's face and ball stay clear;
+the defender's head, shoulder and arm are more visible. Mobile keeps its existing crop.
+The responsive image `sizes` attribute now matches the wider desktop frame.
+
+The search uses a hero-scoped transparent background shorthand to clear the shared
+gradient, plus a transparent focus override for the shared focus fill. Hover changes
+only the border. Computed checks cover the input, field wrapper, combobox wrapper,
+hero-search wrapper and their `::before`/`::after` layers: alpha zero, no background
+image, blur or shadow, opacity 1. Thin outline/red focus, label, icon, placeholder and
+typed text remain readable. Results retain solid coal `rgb(17, 17, 20)`.
+The global search, directory and comparison controls retain their existing surfaces.
+
+| Viewport  | Before                                                     | After                                                     |
+| --------- | ---------------------------------------------------------- | --------------------------------------------------------- |
+| 1920×1080 | [Home](screenshots/home-micro-polish/before-home-1920.png) | [Home](screenshots/home-micro-polish/after-home-1920.png) |
+| 1440×900  | [Home](screenshots/home-micro-polish/before-home-1440.png) | [Home](screenshots/home-micro-polish/after-home-1440.png) |
+| 1024×900  | [Home](screenshots/home-micro-polish/before-home-1024.png) | [Home](screenshots/home-micro-polish/after-home-1024.png) |
+| 390×844   | [Home](screenshots/home-micro-polish/before-home-390.png)  | [Home](screenshots/home-micro-polish/after-home-390.png)  |
+
+[Before measurements](screenshots/home-micro-polish/before-checks.json) and
+[after measurements](screenshots/home-micro-polish/after-checks.json) include focused
+states, image geometry and source URLs. The same folder includes focused-search
+before/after captures at all sizes; desktop/mobile loading, results, empty/error, keyboard
+focus and actual logo-hover evidence. Capture tool: `scripts/capture-home-micro-polish.mjs`.
+Run `before` only against the baseline revision; run `after` against the delivered revision.
+
+Actual inspection found no hard photo boundary, horizontal overflow, uncaught errors
+or headline-size changes. Logo tests hover the image directly, measure the −2px / −6°
+pose, sample the smooth return and compare unchanged logo/nav/search layout rectangles.
+Keyboard outline, system/in-app reduced motion and desktop/mobile home navigation pass.
+Search checks exercise idle, hover, focus, typed/loading/results, empty/error, Arrow keys,
+Enter and Escape with focus retention. Existing regression expectations changed only
+where the owner explicitly requested new visual values; new transparency/scope checks
+strengthen coverage. Physics assertions remain unchanged.
+
+Validation: **31 focused unit tests and 11 focused browser cases passed**, with one
+intentional duplicate mobile headline skip. Final `npm run validate` **exits 0**:
+541/541 frontend tests, 532/532 backend tests, formatting, module-case/assets, frontend
+and backend types, and both production builds. Lint: zero errors, the same 13 existing
+warnings. Separate `npm run check:visual-assets` passes: 401 files, 73 players, 45 marks,
+604 archive plus 653 franchise-record team-seasons.
+
+Full `npm run e2e`: **240 passed, 78 skipped, 2 failed** in the initial concurrent run
+(14.6 minutes). The two failures were unavailable health status before the logo test
+and a 0.2px entrance/layout sample in the comparison check. After validation completed,
+`npm run e2e -- --last-failed --workers=1`: **2 passed**, 34.8 seconds. All **242 unique
+browser tests pass across these runs**. The 78 skips are 73 duplicate mobile axe checks,
+four mouse-only liquid checks on touch and one duplicate four-width headline check.
+
+The initial concurrent validation also hit a frontend link-wait timeout and backend
+warm-up timeout. Both clear in the successful sequential full validation. The sandbox
+initially prevented focused Vitest cache-file renaming; normal local execution passes.
+No timeout, comparison/physics implementation or existing layout assertion was changed.
+
+Limits: Chromium desktop and emulated tablet/mobile verification; no physical-device,
+Safari or Firefox certification. Mobile search lies below the photograph and therefore
+shows the existing dark page beneath its transparent fill. All approved liquid, archive,
+typography, status and other-page implementation remains untouched.
+
+---
+
 # Liquid VS physics 3.0
 
 READY FOR OWNER REVIEW · 17 October 2026 · `codex/nba-explorer-final-polish` · starts from `8fef36c`.

@@ -24,13 +24,13 @@ test('polished search keeps shortcuts, Escape, keyboard selection and focus', as
   await expect(input).toHaveAttribute('placeholder', 'Search by player name');
   const heroField = page.locator('.homehero__search .searchfield-wrap');
   expect(await heroField.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(
-    'rgba(14, 14, 16, 0.36)',
+    'rgba(0, 0, 0, 0)',
   );
   await input.focus();
   await expect(input).toBeFocused();
   await expect
     .poll(() => heroField.evaluate((el) => getComputedStyle(el).backgroundColor))
-    .toBe('rgba(14, 14, 16, 0.5)');
+    .toBe('rgba(0, 0, 0, 0)');
   await input.fill('LeBron');
   await expect(page.getByRole('option', { name: /LeBron James/ })).toBeVisible();
   await input.press('ArrowDown');
@@ -359,7 +359,7 @@ test('brand and confirmed service status provide visible feedback', async ({
         };
       });
     await logo.hover();
-    await expect.poll(pose).toEqual({ x: 0, y: -1, angle: -3 });
+    await expect.poll(pose).toEqual({ x: 0, y: -2, angle: -6 });
     expect(await logo.evaluate((el) => getComputedStyle(el).filter)).toBe('none');
     expect(await layout()).toEqual(originalLayout);
     expect(await imageSize()).toEqual(originalSize);
@@ -367,7 +367,7 @@ test('brand and confirmed service status provide visible feedback', async ({
     await page.mouse.move(500, 140);
     await page.waitForTimeout(60);
     const returning = await pose();
-    expect(returning.angle).toBeGreaterThan(-3);
+    expect(returning.angle).toBeGreaterThan(-6);
     expect(returning.angle).toBeLessThan(0);
     await expect
       .poll(() => logo.evaluate((el) => getComputedStyle(el).transform))

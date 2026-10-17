@@ -44,7 +44,7 @@
 }
 @media (hover: hover) and (pointer: fine) {
   html:not([data-motion='reduced']) .brand:hover img {
-    transform: translateY(-1px) rotate(-3deg);
+    transform: translateY(-2px) rotate(-6deg);
   }
 }
 .brand:focus-visible {

@@ -19,33 +19,33 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(59%, 1000px);
+  width: min(64%, 1120px);
   -webkit-mask-image:
     linear-gradient(
       90deg,
       transparent 0%,
-      rgb(0 0 0 / 0.12) 6%,
-      rgb(0 0 0 / 0.42) 16%,
-      rgb(0 0 0 / 0.82) 28%,
-      #000 40%
+      rgb(0 0 0 / 0.24) 5%,
+      rgb(0 0 0 / 0.6) 13%,
+      rgb(0 0 0 / 0.9) 23%,
+      #000 34%
     ),
     linear-gradient(0deg, transparent 0%, #000 26%);
   mask-image:
     linear-gradient(
       90deg,
       transparent 0%,
-      rgb(0 0 0 / 0.12) 6%,
-      rgb(0 0 0 / 0.42) 16%,
-      rgb(0 0 0 / 0.82) 28%,
-      #000 40%
+      rgb(0 0 0 / 0.24) 5%,
+      rgb(0 0 0 / 0.6) 13%,
+      rgb(0 0 0 / 0.9) 23%,
+      #000 34%
     ),
     linear-gradient(0deg, transparent 0%, #000 26%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
 .homehero__photo img {
-  /* Match the image to the mask: an inset image creates a second, unfeathered edge.
-     The 1199 × 1312 source now displays about 90% of its height at 1440 × 900. */
+  /* Fill the feathered frame without a second inset edge. Cover preserves the
+     source aspect ratio; the registry's focal point keeps the face and ball in view. */
   width: 100%;
   max-width: none;
   height: 100%;
@@ -121,27 +121,22 @@
   max-width: 620px;
   margin-top: 30px;
 }
-/* The hero's photograph stays visible through this compact charcoal field. */
+/* Draw the hero control directly on the artwork; keep the results surface solid. */
 .homehero__search .searchfield-wrap {
   gap: 12px;
   padding: 0 16px;
   border: 1px solid rgb(244 243 241 / 0.18);
   border-radius: 3px;
-  background: rgb(14 14 16 / 0.36);
-  backdrop-filter: blur(3px);
+  background: transparent;
   box-shadow: none;
-  transition:
-    background-color var(--dur-quick) var(--ease-film),
-    border-color var(--dur-quick) var(--ease-film);
+  transition: border-color var(--dur-quick) var(--ease-film);
 }
 .homehero__search .searchfield-wrap:hover {
   border-color: rgb(244 243 241 / 0.32);
-  background: rgb(14 14 16 / 0.44);
 }
 .homehero__search .searchfield-wrap:focus-within {
   border-color: var(--red-hi);
-  background: rgb(14 14 16 / 0.5);
-  box-shadow: 0 0 0 1px rgb(239 68 68 / 0.18);
+  background: transparent;
 }
 .homehero__search .searchfield-wrap > svg {
   width: 16px;
