@@ -1,3 +1,43 @@
+# NBA 3.3 runtime recovery - current handoff
+
+18 October 2026, Australia/Sydney. **Production 3.3 acceptance failed. Previous application restored.**
+
+- Explicit owner approval was received. PR #29 was marked ready and squash-merged as exactly
+  one new main commit `cddbc102648fe33078673c6e9efec9ce8e388242`, exact requested title,
+  parent `cd557e4`, identical tree to approved `cf38acd`. Main CI passed.
+- Render `dep-db9nbh67bikc73dta55g` reported live at 00:20:48 but health checks timed out;
+  runtime logs show restarts at approximately 00:22, 00:24 and 00:27. Acceptance failed.
+- Retained rollback failed. The runbook fallback rebuilt exact known-good `cd557e4` as
+  `dep-db9nhgjbc2fs73cibglg`, live at 00:32:56. Actual health and genuine player search
+  returned 200 after recovery. Render automatically disabled auto-deploy; keep it disabled
+  until a corrected version is ready. No paid upgrade, fixture substitution or history rewrite.
+- Current isolated branch: `codex/fix-release-startup-warmup`, based on merged main. The
+  approved frontend, imagery, datasets, contracts and calculation algorithms remain unchanged.
+- Candidate fix computes honours and all 72 record variants during build, validates exact
+  parity and input/output digests, and skips global scans on the production HTTP thread.
+  Generated artifact is 549,170 bytes. Five focused tests and backend build/parity passed.
+- Full validation passed: 541 frontend / 537 backend tests, formatting/lint/types, module
+  case, assets and builds. Existing live production smoke passed 15/15 on the candidate,
+  including desktop/mobile images, keyboard search and honest controlled outage handling.
+- Cold local production regression passed nine archive checks and 69/69 concurrent health
+  probes over 35 seconds (maximum 5 ms). Post-readiness RSS peaked at 183 MB and event-loop
+  delay at 25 ms. These are local measurements, not Render certification. See
+  `docs/release/evidence/RECOVERY_33_VALIDATION.json` for the bounded validation record.
+- Original warm-up diagnostics: honours RSS 416 MB; records RSS 523 MB and maximum local
+  event-loop block 1,538 ms. Render Free has 512 MB and 0.15 CPU. See the runtime incident
+  document and ignored diagnostic reports. Local measurements do not certify cloud performance.
+- PR #29 now records merge, acceptance failure and recovery truthfully. Do not claim release
+  complete until the corrected 3.3 deployment and actual live acceptance pass.
+- The owner requires exactly one main release commit. Do not silently add a second main
+  commit or rewrite the approved squash; make the verified recovery fix reviewable and
+  resolve authorization for the additional corrective commit before merging it.
+- Original development history, local `.claude/` and raw assets remain preserved. Rights
+  limitations and the owner's informed acceptance remain unchanged; no repeat licensing ask.
+
+---
+
+## Earlier publication preparation (preserved; execution status superseded above)
+
 # NBA 3.3 publication preparation - latest handoff
 
 18 October 2026, Australia/Sydney (verification began 17 October).

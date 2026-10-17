@@ -28,6 +28,7 @@ import { LeaguePlayers } from './league-players.js';
 import { LeagueEras } from './league-eras.js';
 import { LeagueLineups } from './league-lineups.js';
 import { LeagueHonours } from './league-honours.js';
+import type { DerivedLeagueCache } from './league-derived-cache.js';
 
 /** Runs a handler and maps league request errors to their documented status codes. */
 export function respond(res: Response, run: () => unknown) {
@@ -72,6 +73,7 @@ const repeated = (query: Record<string, unknown>) =>
 export function createLeagueRouter(
   service: LeagueService | undefined,
   live?: NbaLiveClient,
+  derived?: DerivedLeagueCache,
 ) {
   const router = Router();
   const teams = service ? new LeagueTeams(service) : undefined;
@@ -146,7 +148,9 @@ export function createLeagueRouter(
         'INVALID_LEAGUE_RECORDS',
         'Choose a scope, record kind, category and mode from the supported values.',
       );
-    return respondAsync(res, () => records!.recordsWhenReady(q.data));
+    return respondAsync(res, async () =>
+      derived ? derived.records(q.data) : records!.recordsWhenReady(q.data),
+    );
   });
   router.all('/records', methodNotAllowedHandler);
   router.get('/team-rankings', (req, res) => {
@@ -305,7 +309,7 @@ export function createLeagueRouter(
         'INVALID_LEAGUE_HONOURS',
         'This endpoint takes no parameters.',
       );
-    return respond(res, () => honours!.honours());
+    return respond(res, () => (derived ? derived.honours() : honours!.honours()));
   });
   router.all('/honours', methodNotAllowedHandler);
   router.get('/eras', (req, res) => {

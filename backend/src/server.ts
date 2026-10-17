@@ -25,6 +25,7 @@ import { createShotArchiveProvider } from './features/shot-archive/shot-provider
 import { WikipediaAwardsProvider } from './features/history/history-awards-provider.js';
 import { createLineupStudyProvider } from './features/lineup-study/lineup-study-provider.js';
 import { WikipediaDraftProvider } from './features/history/history-draft-provider.js';
+import { loadDerivedLeagueCache } from './features/league/league-derived-cache.js';
 
 const defaultPort = 3001;
 const configuredPort = Number.parseInt(process.env.PORT ?? `${defaultPort}`, 10);
@@ -63,6 +64,11 @@ const wikiClient =
     : new WikiArchiveClient();
 const recordedProvider = new RecordedArchiveProvider();
 const leagueService = new LeagueService();
+const leagueDerivedCache = loadDerivedLeagueCache();
+if (process.env.NODE_ENV === 'production' && !leagueDerivedCache)
+  throw new Error(
+    'Production requires built and validated league research results. Run npm run build.',
+  );
 const app = createApp(createPlayerProvider(config), {
   playerSource: config.mode,
   historyProvider: new WikidataHistoryProvider(),
@@ -81,6 +87,7 @@ const app = createApp(createPlayerProvider(config), {
   ),
   recordedArchiveProvider: recordedProvider,
   leagueService,
+  ...(leagueDerivedCache ? { leagueDerivedCache } : {}),
   leagueLive: new NbaLiveClient({ timeoutMs: 8000 }),
   shotArchiveProvider: await createShotArchiveProvider(),
   awardsProvider: new WikipediaAwardsProvider(wikiClient),
@@ -106,6 +113,9 @@ app.listen(port, () => {
   console.log(
     `NBA Performance Explorer API listening on http://localhost:${port} (provider: ${config.mode})`,
   );
+  // The production build already performed the archive scans. Never repeat them on the
+  // serving thread: Render Free has only 0.15 CPU and a five-second health-check deadline.
+  if (leagueDerivedCache) return;
   // Derive the champions and the single-game records once in the background, yielding between
   // seasons, so the first visitor does not wait and requests are served meanwhile.
   setTimeout(() => {

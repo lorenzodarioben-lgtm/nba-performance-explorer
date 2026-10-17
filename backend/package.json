@@ -10,7 +10,7 @@
     "smoke:free-sources": "tsx src/scripts/probe-free-sources.ts",
     "smoke:engine": "tsx src/scripts/smoke-engine.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true });\"",
-    "build": "npm run clean && tsc --project tsconfig.json && node dist/scripts/copy-shot-data.js",
+    "build": "npm run clean && tsc --project tsconfig.json && node dist/scripts/copy-shot-data.js && node dist/scripts/build-derived-league.js",
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "test": "vitest run"
   },
