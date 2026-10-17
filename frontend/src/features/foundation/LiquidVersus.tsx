@@ -30,12 +30,16 @@ function paint(
   for (const drop of model.droplets) {
     if (!drop.active) continue;
     const progress = drop.age / drop.lifetime;
-    const tail = Math.max(0, (progress - 0.6) / 0.4);
+    const tail = Math.max(0, (progress - 0.55) / 0.45);
     const radius = drop.radius * (1 - tail * tail * (3 - 2 * tail));
     const stretch =
-      1 + Math.min(0.85, Math.hypot(drop.vx, drop.vy) / 220) * Math.exp(-drop.age * 7);
+      1 +
+      Math.min(0.75, Math.hypot(drop.vx, drop.vy) / 240) * Math.exp(-drop.age * 6) +
+      Math.sin(drop.age * (24 / Math.sqrt(drop.radius)) + drop.phase) *
+        drop.wobble *
+        Math.exp(-drop.age * 5);
     // Briefly narrow a liquid neck before the independently integrated mass leaves.
-    if (drop.age < 0.075) {
+    if (drop.age < drop.neckTime) {
       const angle = Math.atan2(drop.y - model.offset.y, drop.x - model.offset.x);
       const index =
         Math.round(((angle / (Math.PI * 2) + 1) % 1) * model.nodes.length) %
@@ -45,7 +49,7 @@ function paint(
       const ay = model.offset.y + Math.sin(angle) * edge;
       const tx = -Math.sin(angle),
         ty = Math.cos(angle);
-      const width = radius * 0.8 * (1 - drop.age / 0.075);
+      const width = radius * 0.8 * Math.pow(1 - drop.age / drop.neckTime, 1.5);
       const mx = (ax + drop.x) / 2,
         my = (ay + drop.y) / 2;
       ctx.beginPath();
@@ -101,6 +105,7 @@ export function LiquidVersus() {
       lastTime = 0,
       visible = false;
     let reportedDrops = -1;
+    let reportedEmitted = -1;
     let bounds = host.getBoundingClientRect();
     let previous: (Point & { time: number }) | null = null;
 
@@ -111,6 +116,11 @@ export function LiquidVersus() {
         if (reportedDrops !== model.activeDroplets) {
           reportedDrops = model.activeDroplets;
           host!.dataset.droplets = String(reportedDrops);
+        }
+        if (reportedEmitted !== model.emittedTotal) {
+          reportedEmitted = model.emittedTotal;
+          host!.dataset.emitted = String(reportedEmitted);
+          host!.dataset.emittedMass = model.emittedMass.toFixed(3);
         }
       } catch {
         delete host!.dataset.liquid;
@@ -204,6 +214,8 @@ export function LiquidVersus() {
       delete host.dataset.liquid;
       delete host.dataset.active;
       delete host.dataset.droplets;
+      delete host.dataset.emitted;
+      delete host.dataset.emittedMass;
     };
   }, [allowed]);
 

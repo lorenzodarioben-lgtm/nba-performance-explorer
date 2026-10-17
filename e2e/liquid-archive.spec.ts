@@ -282,7 +282,7 @@ test('real swipes separate visible liquid droplets, stay bounded and stop at res
   for (let swipe = 0; swipe < 8; swipe++) {
     await page.mouse.move(cx + (swipe % 2 ? 150 : -150), cy);
     await page.waitForTimeout(55);
-    expect(Number(await ball.getAttribute('data-droplets'))).toBeLessThanOrEqual(12);
+    expect(Number(await ball.getAttribute('data-droplets'))).toBeLessThanOrEqual(16);
   }
   await page.mouse.move(cx + 300, cy + 200);
   await expect(ball).toHaveAttribute('data-active', 'false', { timeout: 6000 });

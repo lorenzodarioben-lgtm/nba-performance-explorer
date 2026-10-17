@@ -167,6 +167,8 @@ test('liquid surface deforms with real pointer velocity, settles, pauses and fal
   test.skip(info.project.name !== 'desktop', 'touch uses the static surface');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
+  await page.waitForLoadState('networkidle');
+  await page.evaluate(() => document.fonts.ready);
   const ball = page.locator('.homecmp__vs');
   await ball.scrollIntoViewIfNeeded();
   await expect(ball).toHaveAttribute('data-liquid', 'ready');
