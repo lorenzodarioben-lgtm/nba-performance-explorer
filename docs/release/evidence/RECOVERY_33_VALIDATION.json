@@ -1,0 +1,251 @@
+{
+  "checkedAt": "2026-10-17T13:47:49.374Z",
+  "localDate": "18 October 2026, Australia/Sydney",
+  "candidateBranch": "codex/fix-release-startup-warmup",
+  "parent": "cddbc102648fe33078673c6e9efec9ce8e388242",
+  "productionDeployment": {
+    "accepted": false,
+    "servedCommit": "cd557e4d3cf75e44f930ba75de4ea149a80ccdda",
+    "recoveryDeployId": "dep-db9nhgjbc2fs73cibglg",
+    "autoDeploy": "disabled after specific-commit recovery"
+  },
+  "scope": {
+    "frontendChanged": false,
+    "sourceDatasetsChanged": false,
+    "contractsChanged": false,
+    "originalCalculatorsChanged": false
+  },
+  "validate": {
+    "passed": true,
+    "frontendTests": 541,
+    "frontendFiles": 85,
+    "backendTests": 537,
+    "backendFiles": 61,
+    "lintErrors": 0,
+    "existingWarnings": 13,
+    "formatting": true,
+    "moduleCase": true,
+    "visualAssets": true,
+    "typecheck": true,
+    "builds": true
+  },
+  "derivedBuild": {
+    "champions": 43,
+    "recordQueries": 72,
+    "bytes": 549170,
+    "allResultsComparedToOriginalCalculators": true,
+    "digestAndFingerprintValidated": true
+  },
+  "coldProduction": {
+    "checkedAt": "2026-10-17T13:46:03.221Z",
+    "configuration": {
+      "nodeEnv": "production",
+      "provider": "nba-stats",
+      "fixturesAllowed": false
+    },
+    "observationMs": 35314,
+    "checks": [
+      {
+        "path": "/api/league/records?scope=regular-season&kind=game&category=points&mode=totals",
+        "elapsedMs": 12,
+        "ok": true
+      },
+      {
+        "path": "/api/league/records?scope=regular-season&kind=game&category=points&mode=per-game",
+        "elapsedMs": 3,
+        "ok": true
+      },
+      {
+        "path": "/api/league/records?scope=regular-season&kind=season&category=points&mode=totals",
+        "elapsedMs": 3,
+        "ok": true
+      },
+      {
+        "path": "/api/league/records?scope=regular-season&kind=season&category=points&mode=per-game",
+        "elapsedMs": 5,
+        "ok": true
+      },
+      {
+        "path": "/api/league/records?scope=playoffs&kind=game&category=points&mode=totals",
+        "elapsedMs": 2,
+        "ok": true
+      },
+      {
+        "path": "/api/league/records?scope=playoffs&kind=game&category=points&mode=per-game",
+        "elapsedMs": 2,
+        "ok": true
+      },
+      {
+        "path": "/api/league/records?scope=playoffs&kind=season&category=points&mode=totals",
+        "elapsedMs": 3,
+        "ok": true
+      },
+      {
+        "path": "/api/league/records?scope=playoffs&kind=season&category=points&mode=per-game",
+        "elapsedMs": 3,
+        "ok": true
+      },
+      {
+        "path": "/api/league/honours",
+        "ok": true
+      }
+    ],
+    "heartbeats": {
+      "count": 69,
+      "all200": true,
+      "maxMs": 5
+    },
+    "resource": {
+      "maxRssMB": 183,
+      "maxEventLoopBlockMs": 25
+    },
+    "limitation": "Local regression, not a Render performance certification; candidate is not deployed.",
+    "sourceReportSha256": "b5d001280478127e1f1f745575568030e93906a3d2791610bd1e4ba6832a668d"
+  },
+  "productionSmoke": {
+    "checkedAt": "2026-10-17T13:46:54.021Z",
+    "localProductionOnly": true,
+    "configuration": {
+      "nodeEnv": "production",
+      "provider": "nba-stats",
+      "fixturesAllowed": false,
+      "wikiMode": "live",
+      "timeoutMs": 10000
+    },
+    "deployed": false,
+    "checks": [
+      {
+        "name": "production fixture safeguards",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "production health",
+        "ok": true,
+        "detail": {
+          "status": "ok",
+          "timestamp": "2026-10-17T13:46:37.141Z",
+          "service": "nba-performance-explorer-api"
+        }
+      },
+      {
+        "name": "live provider selected",
+        "ok": true,
+        "detail": {
+          "playerSource": "nba-stats"
+        }
+      },
+      {
+        "name": "live player search",
+        "ok": true,
+        "detail": {
+          "contractValid": true,
+          "rows": 1,
+          "source": null
+        }
+      },
+      {
+        "name": "live player profile",
+        "ok": true,
+        "detail": {
+          "contractValid": true,
+          "rows": null,
+          "source": null
+        }
+      },
+      {
+        "name": "live career seasons",
+        "ok": true,
+        "detail": {
+          "contractValid": true,
+          "rows": 23,
+          "source": null
+        }
+      },
+      {
+        "name": "live game log",
+        "ok": true,
+        "detail": {
+          "contractValid": true,
+          "rows": 71,
+          "source": null
+        }
+      },
+      {
+        "name": "current scoreboard schedule",
+        "ok": true,
+        "detail": {
+          "contractValid": true,
+          "rows": 0,
+          "source": "nba-stats"
+        }
+      },
+      {
+        "name": "historical standings",
+        "ok": true,
+        "detail": {
+          "contractValid": true,
+          "rows": null,
+          "source": "nba-stats"
+        }
+      },
+      {
+        "name": "historical season navigation",
+        "ok": true,
+        "detail": {
+          "contractValid": true,
+          "rows": 1,
+          "source": "wikidata"
+        }
+      },
+      {
+        "name": "unknown API stays a structured 404",
+        "ok": true,
+        "detail": {
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "Route not found.",
+            "status": 404
+          }
+        }
+      },
+      {
+        "name": "SPA refresh and built assets",
+        "ok": true,
+        "detail": null
+      },
+      {
+        "name": "production browser 1440",
+        "ok": true,
+        "detail": {
+          "pageErrors": [],
+          "consoleErrors": [],
+          "livePlayerKeyboardNavigation": true
+        }
+      },
+      {
+        "name": "production browser 390",
+        "ok": true,
+        "detail": {
+          "pageErrors": [],
+          "consoleErrors": [],
+          "livePlayerKeyboardNavigation": true
+        }
+      },
+      {
+        "name": "controlled outage stays unavailable, without fixtures",
+        "ok": true,
+        "detail": {
+          "status": 503,
+          "code": "PROVIDER_UNAVAILABLE",
+          "simulatedOutage": true
+        }
+      }
+    ],
+    "passed": 15,
+    "failed": 0,
+    "originalAssertionsChanged": false,
+    "evidenceOutputAdapted": true
+  },
+  "cloudAcceptance": "Pending corrective-commit authorization, CI, deployment and live verification. Local success is not production acceptance."
+}
