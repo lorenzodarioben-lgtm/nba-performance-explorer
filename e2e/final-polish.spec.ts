@@ -24,13 +24,13 @@ test('polished search keeps shortcuts, Escape, keyboard selection and focus', as
   await expect(input).toHaveAttribute('placeholder', 'Search by player name');
   const heroField = page.locator('.homehero__search .searchfield-wrap');
   expect(await heroField.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe(
-    'rgba(14, 14, 16, 0.58)',
+    'rgba(14, 14, 16, 0.36)',
   );
   await input.focus();
   await expect(input).toBeFocused();
   await expect
     .poll(() => heroField.evaluate((el) => getComputedStyle(el).backgroundColor))
-    .toBe('rgba(14, 14, 16, 0.72)');
+    .toBe('rgba(14, 14, 16, 0.5)');
   await input.fill('LeBron');
   await expect(page.getByRole('option', { name: /LeBron James/ })).toBeVisible();
   await input.press('ArrowDown');

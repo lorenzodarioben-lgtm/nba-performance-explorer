@@ -103,7 +103,7 @@
   color: var(--chalk-2);
 }
 .homehero__line {
-  font: 800 clamp(4.608rem, 14.304vw, 12.432rem) / 0.78 var(--display);
+  font: 800 clamp(4.46976rem, 13.87488vw, 12.05904rem) / 0.78 var(--display);
   letter-spacing: -0.015em;
   color: var(--chalk);
 }
@@ -127,8 +127,8 @@
   padding: 0 16px;
   border: 1px solid rgb(244 243 241 / 0.18);
   border-radius: 3px;
-  background: rgb(14 14 16 / 0.58);
-  backdrop-filter: blur(4px);
+  background: rgb(14 14 16 / 0.36);
+  backdrop-filter: blur(3px);
   box-shadow: none;
   transition:
     background-color var(--dur-quick) var(--ease-film),
@@ -136,11 +136,11 @@
 }
 .homehero__search .searchfield-wrap:hover {
   border-color: rgb(244 243 241 / 0.32);
-  background: rgb(14 14 16 / 0.66);
+  background: rgb(14 14 16 / 0.44);
 }
 .homehero__search .searchfield-wrap:focus-within {
   border-color: var(--red-hi);
-  background: rgb(14 14 16 / 0.72);
+  background: rgb(14 14 16 / 0.5);
   box-shadow: 0 0 0 1px rgb(239 68 68 / 0.18);
 }
 .homehero__search .searchfield-wrap > svg {
@@ -619,10 +619,10 @@
 }
 .homecmp__liquid {
   position: absolute;
-  width: 152px;
-  height: 152px;
-  left: -32px;
-  top: -32px;
+  width: 208px;
+  height: 208px;
+  left: -60px;
+  top: -60px;
   pointer-events: none;
   opacity: 0;
 }

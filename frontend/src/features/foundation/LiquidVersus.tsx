@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useMotionAllowed } from '../../motion/MotionPreference';
 import { LiquidModel, type Point } from './liquidModel';
 
-const SIZE = 152;
+const SIZE = 208;
 const CENTER = SIZE / 2;
 
 function paint(
@@ -14,19 +14,65 @@ function paint(
   ctx.setTransform(dpr, 0, 0, dpr, CENTER * dpr, CENTER * dpr);
   ctx.clearRect(-CENTER, -CENTER, SIZE, SIZE);
   const points = model.boundary();
-  const path = new Path2D();
+  ctx.beginPath();
   const first = points[0]!,
     last = points[points.length - 1]!;
-  path.moveTo((last.x + first.x) / 2, (last.y + first.y) / 2);
+  ctx.moveTo((last.x + first.x) / 2, (last.y + first.y) / 2);
   points.forEach((p, i) => {
     const next = points[(i + 1) % points.length]!;
-    path.quadraticCurveTo(p.x, p.y, (p.x + next.x) / 2, (p.y + next.y) / 2);
+    ctx.quadraticCurveTo(p.x, p.y, (p.x + next.x) / 2, (p.y + next.y) / 2);
   });
-  path.closePath();
+  ctx.closePath();
   // The simulation changes only the contour. Colour and glow belong to the
   // original circle; the native CSS surface takes over again at rest.
   ctx.fillStyle = color;
-  ctx.fill(path);
+  ctx.fill();
+  for (const drop of model.droplets) {
+    if (!drop.active) continue;
+    const progress = drop.age / drop.lifetime;
+    const tail = Math.max(0, (progress - 0.6) / 0.4);
+    const radius = drop.radius * (1 - tail * tail * (3 - 2 * tail));
+    const stretch =
+      1 + Math.min(0.85, Math.hypot(drop.vx, drop.vy) / 220) * Math.exp(-drop.age * 7);
+    // Briefly narrow a liquid neck before the independently integrated mass leaves.
+    if (drop.age < 0.075) {
+      const angle = Math.atan2(drop.y - model.offset.y, drop.x - model.offset.x);
+      const index =
+        Math.round(((angle / (Math.PI * 2) + 1) % 1) * model.nodes.length) %
+        model.nodes.length;
+      const edge = model.radius + model.nodes[index]!.displacement;
+      const ax = model.offset.x + Math.cos(angle) * edge;
+      const ay = model.offset.y + Math.sin(angle) * edge;
+      const tx = -Math.sin(angle),
+        ty = Math.cos(angle);
+      const width = radius * 0.8 * (1 - drop.age / 0.075);
+      const mx = (ax + drop.x) / 2,
+        my = (ay + drop.y) / 2;
+      ctx.beginPath();
+      ctx.moveTo(ax + tx * width, ay + ty * width);
+      ctx.quadraticCurveTo(
+        mx,
+        my,
+        drop.x + tx * radius * 0.5,
+        drop.y + ty * radius * 0.5,
+      );
+      ctx.lineTo(drop.x - tx * radius * 0.5, drop.y - ty * radius * 0.5);
+      ctx.quadraticCurveTo(mx, my, ax - tx * width, ay - ty * width);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.beginPath();
+    ctx.ellipse(
+      drop.x,
+      drop.y,
+      radius * stretch,
+      radius / stretch,
+      Math.atan2(drop.vy, drop.vx),
+      0,
+      Math.PI * 2,
+    );
+    ctx.fill();
+  }
 }
 
 /** Decorative liquid surface. No React renders in the animation loop; no idle rendering. */
@@ -54,6 +100,7 @@ export function LiquidVersus() {
       frame = 0,
       lastTime = 0,
       visible = false;
+    let reportedDrops = -1;
     let bounds = host.getBoundingClientRect();
     let previous: (Point & { time: number }) | null = null;
 
@@ -61,6 +108,10 @@ export function LiquidVersus() {
       try {
         paint(context, model, dpr, color);
         host!.dataset.liquid = 'ready';
+        if (reportedDrops !== model.activeDroplets) {
+          reportedDrops = model.activeDroplets;
+          host!.dataset.droplets = String(reportedDrops);
+        }
       } catch {
         delete host!.dataset.liquid;
         visible = false;
@@ -152,6 +203,7 @@ export function LiquidVersus() {
       document.removeEventListener('visibilitychange', visibility);
       delete host.dataset.liquid;
       delete host.dataset.active;
+      delete host.dataset.droplets;
     };
   }, [allowed]);
 
