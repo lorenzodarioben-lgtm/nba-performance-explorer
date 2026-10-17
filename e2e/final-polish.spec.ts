@@ -293,6 +293,9 @@ test('brand and confirmed service status provide visible feedback', async ({
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   const brand = page.locator('.mast .brand');
+  const logo = brand.locator('img');
+  await page.waitForLoadState('networkidle');
+  await page.evaluate(() => document.fonts.ready);
   await expect(page.locator('.home-status__dot')).toBeVisible();
   const pulse = await page.locator('.home-status__dot').evaluate((dot) => ({
     core: getComputedStyle(dot).animationName,
@@ -317,11 +320,84 @@ test('brand and confirmed service status provide visible feedback', async ({
     duration: ['2.8s', '2.8s'],
   });
   await brand.focus();
-  await expect
-    .poll(() => brand.evaluate((el) => getComputedStyle(el, '::after').transform))
-    .toBe('matrix(1, 0, 0, 1, 0, 0)');
+  expect(await brand.evaluate((el) => getComputedStyle(el).outlineStyle)).toBe('solid');
+  expect(await brand.evaluate((el) => getComputedStyle(el).outlineWidth)).toBe('2px');
+  expect(await brand.evaluate((el) => getComputedStyle(el, '::after').content)).toBe(
+    'none',
+  );
+  const layout = () =>
+    page
+      .locator('.mast__bar, .mast__nav, .mast__search, .brand__name')
+      .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().toJSON()));
+  const originalLayout = await layout();
+  const imageSize = () =>
+    logo.evaluate((el) => ({
+      width: (el as HTMLElement).offsetWidth,
+      height: (el as HTMLElement).offsetHeight,
+      src: (el as HTMLImageElement).getAttribute('src'),
+    }));
+  const originalSize = await imageSize();
   if (info.project.name === 'desktop') {
-    await brand.hover();
+    expect(
+      await logo.evaluate((el) => ({
+        property: getComputedStyle(el).transitionProperty,
+        duration: getComputedStyle(el).transitionDuration,
+        easing: getComputedStyle(el).transitionTimingFunction,
+      })),
+    ).toEqual({
+      property: 'transform',
+      duration: '0.22s',
+      easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+    });
+    const pose = () =>
+      logo.evaluate((el) => {
+        const m = new DOMMatrix(getComputedStyle(el).transform);
+        return {
+          x: m.e,
+          y: m.f,
+          angle: Math.round(((Math.atan2(m.b, m.a) * 180) / Math.PI) * 1000) / 1000,
+        };
+      });
+    await logo.hover();
+    await expect.poll(pose).toEqual({ x: 0, y: -1, angle: -3 });
+    expect(await logo.evaluate((el) => getComputedStyle(el).filter)).toBe('none');
+    expect(await layout()).toEqual(originalLayout);
+    expect(await imageSize()).toEqual(originalSize);
     await page.screenshot({ path: `${evidence}/after-brand-status.png` });
+    await page.mouse.move(500, 140);
+    await page.waitForTimeout(60);
+    const returning = await pose();
+    expect(returning.angle).toBeGreaterThan(-3);
+    expect(returning.angle).toBeLessThan(0);
+    await expect
+      .poll(() => logo.evaluate((el) => getComputedStyle(el).transform))
+      .toBe('none');
+    expect(await layout()).toEqual(originalLayout);
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect(page.locator('html')).toHaveAttribute('data-motion', 'reduced');
+    await logo.hover();
+    expect(await logo.evaluate((el) => getComputedStyle(el).transform)).toBe('none');
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.evaluate(() =>
+      localStorage.setItem('npe.motion-preference.v1', 'reduced'),
+    );
+    await page.reload();
+    await expect(page.locator('html')).toHaveAttribute('data-motion', 'reduced');
+    await logo.hover();
+    expect(await logo.evaluate((el) => getComputedStyle(el).transform)).toBe('none');
+  } else {
+    expect(await logo.evaluate((el) => getComputedStyle(el).transform)).toBe('none');
+    expect(originalSize.height).toBe(32);
   }
+  await page.goto('/players');
+  if (info.project.name === 'mobile') {
+    await page.getByRole('button', { name: 'Menu', exact: true }).click();
+    const menu = page.getByRole('dialog', { name: 'Menu', exact: true });
+    await expect(menu).toBeVisible();
+    await menu
+      .getByRole('link', { name: 'NBA Performance Explorer', exact: true })
+      .click();
+    await expect(menu).not.toBeVisible();
+  } else await logo.click();
+  await expect(page).toHaveURL(/\/$/);
 });

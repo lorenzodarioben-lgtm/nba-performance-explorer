@@ -31,7 +31,6 @@
   height: var(--mast-h);
 }
 .brand {
-  position: relative;
   display: inline-flex;
   flex: none;
   align-items: center;
@@ -41,41 +40,23 @@
 .brand img {
   width: auto;
   height: 32px;
-  transition: filter var(--dur-quick) var(--ease-film);
-}
-.brand::after {
-  content: '';
-  position: absolute;
-  left: 25px;
-  bottom: -7px;
-  width: 40px;
-  height: 2px;
-  background: var(--red-hi);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--dur-base) var(--ease-arena);
+  transition: transform var(--dur-base) var(--ease-snap);
 }
 @media (hover: hover) and (pointer: fine) {
-  .brand:hover img {
-    filter: brightness(1.22);
-  }
-  .brand:hover::after {
-    transform: scaleX(1);
+  html:not([data-motion='reduced']) .brand:hover img {
+    transform: translateY(-1px) rotate(-3deg);
   }
 }
 .brand:focus-visible {
   outline: 2px solid var(--chalk-2);
   outline-offset: 10px;
 }
-.brand:focus-visible img {
-  filter: brightness(1.22);
-}
-.brand:focus-visible::after {
-  transform: scaleX(1);
+html[data-motion='reduced'] .brand img {
+  transition: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  .brand::after {
-    transition: none;
+  html:not([data-motion='full']) .brand:hover img {
+    transform: none;
   }
 }
 .brand__name {

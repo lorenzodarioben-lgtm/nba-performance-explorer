@@ -1,3 +1,29 @@
+# Original NBA logo hover restored — latest handoff
+
+17 October 2026 · `codex/nba-explorer-final-polish` · starts from `7b78d7f`.
+The commit containing this correction is the delivery commit (`git log -1 --oneline`).
+
+- Restored the exact `5cc481a` logo movement, `translateY(-1px) rotate(-3deg)`, and
+  `transition: transform var(--dur-base) var(--ease-snap)` — the same 220ms and
+  `cubic-bezier(0.2, 0.8, 0.2, 1)`. Removed the newer brightness/red-underline treatment.
+- Kept the existing image, 32px CSS height, automatic width, brand navigation and
+  visible keyboard outline. Fine-pointer hover and system/in-app reduced-motion guards
+  preserve touch and accessibility behavior. Only the image moves; navigation stays fixed.
+- `AppHeader.tsx` is unchanged. The CSS diff is limited to brand rules; search, homepage,
+  liquid physics, history and unrelated styles/assets are unchanged.
+- Focused verification: **6 header unit tests and 2 Chromium desktop/mobile tests pass**.
+  Direct image hover reaches exactly -1px / -3 degrees, returns smoothly to rest, retains
+  image layout dimensions and causes no navbar/search layout shift. Keyboard outline,
+  system/in-app reduced motion, home navigation and mobile menu logo navigation pass.
+- Full lint, frontend/backend typecheck and production builds pass. Lint has zero errors
+  and the same 13 existing warnings. Changed-file formatting and `git diff --check` pass.
+- Existing `.claude/` and raw `NBA_ASSETS` are preserved. Same feature branch; no main
+  changes, PR, merge or deployment.
+
+---
+
+## Previous liquid physics 3.0 handoff (preserved)
+
 # Liquid VS physics 3.0 — latest handoff
 
 17 October 2026 · `codex/nba-explorer-final-polish` · starts from `8fef36c`.
