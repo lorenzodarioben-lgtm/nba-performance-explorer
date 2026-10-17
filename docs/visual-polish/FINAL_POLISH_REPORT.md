@@ -1,3 +1,156 @@
+# Liquid VS physics 3.0
+
+READY FOR OWNER REVIEW · 17 October 2026 · `codex/nba-explorer-final-polish` · starts from `8fef36c`.
+Implementation, bounded visual confirmation, full validation and full browser regression complete.
+Implementation checkpoint: `3a4ec0b`.
+The commit containing this report update is the delivery commit (`git log -1 --oneline`).
+All earlier reports and evidence remain below.
+
+## Cause and simulation change
+
+The previous model selected 2–5 droplets directly from speed, using fixed radii,
+even angle spacing, a 900px/s gate and a global 120ms cooldown. Most fast mouse samples
+hit the speed cap and replayed the same five-piece fan. Slow contact could not separate.
+An 8ms denominator floor also understated the velocity of frequent pointer samples.
+
+The 64-node surface is retained. Actual swept contact length now deposits tensile work
+at the downstream crest. Velocity, bounded acceleration, incidence, chord depth and
+contact position determine that work and its spatial spread. It persists and relaxes
+between samples. Local outward velocity, displacement and neighbour strain determine
+which crests can pinch off. Existing waves and stored work carry into subsequent swipes.
+There is no speed-to-count mapping or mandatory count.
+
+Each candidate must pay a cohesion/size-dependent separation cost. The same local patch
+loses tensile work, outward velocity and some displacement; the main mass recoils in
+the boundary normal direction. An unsuccessful neck relaxes and dissipates work too.
+This makes droplet size compete with fragment count. Fast movement can release a few
+larger pieces or more satellites; slow contact can accumulate enough work for small
+detachments. Gentle contact at an already disturbed crest can release residual work,
+as verified against an identically seeded surface recovering without that contact.
+
+The production random source is `Math.random`, injectable through the model constructor.
+Bounded material variation (±10%), nucleation perturbations and a skewed size distribution
+modulate physical conditions. Tests use explicit seeds; identical samples and seeds
+reproduce the full node/droplet state. No forced alternation or random spawn-count bucket.
+
+| Parameter / safeguard | Final implementation                                                                                                                                                                                                                |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Surface               | Original 64 nodes, neighbour coupling, restoring pressure and damping. Contact impulses scale with travelled distance to reduce sample-count dependence.                                                                            |
+| Contact work          | Actual in-body chord fraction × sublinear velocity term × incidence × bounded acceleration influence. Work relaxes at 1.8/s.                                                                                                        |
+| Pinch-off             | Positive crest velocity above 10, sufficient local tensile work, cohesion and size-dependent cost; short local refractory periods replace the global cooldown. Eight attempts per evaluation are a safety bound, not a quota.       |
+| Size and population   | Radii **1.15–6 CSS px**, skewed toward satellites. **16** preallocated slots; no particle accumulation. Larger pieces require more local work.                                                                                      |
+| Momentum              | Moving crest, pointer direction, main-body drift and bounded tangential shear; size-dependent launch. Recoil and measured local mechanical-energy withdrawal accompany separation.                                                  |
+| Shape                 | Velocity-aligned ellipse plus small damped capillary wobble; both recover toward round. A **76.5–125ms** neck narrows before free flight.                                                                                           |
+| Flight and ending     | Radius-dependent viscous drag, mild gravity (26px/s²), attraction strongest near the main mass, **0.52–1.02s** nominal lifetime. Smooth shrinkage and faster lifetime expenditure beyond 76px; reabsorption occurs inside the body. |
+| Runtime               | Existing Canvas 2D / 208px region, DPR cap 2, speed cap 2400px/s, elapsed cap 50ms and substeps up to 120Hz. Reused surface buffers and particle pool; temporary per-node pointer objects and frame callbacks removed.              |
+| Idle and access       | No React frame state. Render loop ends at rest; offscreen/hidden-tab pause and cleanup remain. Original static CSS circle for touch, reduced motion and failed canvas. Stationary decorative VS label remains.                      |
+
+## Actual repeated trials
+
+Two focused independent real-mouse Chromium runs each performed **20 slow, 20 medium and 20 fast
+swipes** on the unseeded production model. Repositioning follows a perimeter outside
+the liquid so it does not add a hidden crossing. Every trial waits for recovery, and
+monotonic detachment counters include all newly generated pieces, including short-lived
+ones. Counts do not mean simultaneously visible components.
+
+Final focused confirmation:
+
+| Input group     | Actual mean wall speed | Observed count distribution (20 trials)            | Mean count | Mean detached area units |
+| --------------- | ---------------------- | -------------------------------------------------- | ---------- | ------------------------ |
+| Slow deliberate | 188.8px/s              | 1 × 12; 2 × 8; zero-droplet trials: 0              | 1.40       | 2.375                    |
+| Medium          | 441.4px/s              | 2 × 3; 3 × 13; 4 × 4; zero-droplet trials: 0       | 3.05       | 6.112                    |
+| Fast            | 1281.5px/s             | 3 × 1; 4 × 6; 5 × 5; 6 × 8; zero-droplet trials: 0 | 5.00       | 18.447                   |
+
+The initial independent fast run ranged **3–7**, with mean 5.00, using the same physics.
+The count can repeat; sizes, positions and momentum vary without a rule requiring each
+result to differ. Browser automation overhead makes the measured speeds lower than the
+requested 220/650/1500px/s. Area units are the sum of squared radii, a relative mass proxy,
+not a physical mass measurement. [Final raw trials](screenshots/liquid-physics-3/browser-trials.json),
+[initial raw trials](screenshots/liquid-physics-3/browser-trials-initial.json).
+
+The full regression suite repeats a third independent 20-trial group at each speed:
+slow counts 1 × 14 / 2 × 6 (mean **1.30**), medium 2 × 1 / 3 × 11 / 4 × 8 (**3.35**),
+fast 3 × 1 / 4 × 4 / 5 × 8 / 6 × 5 / 7 × 2 (**5.15**). All three groups have zero
+zero-detachment trials. Mean wall speeds are 189.7 / 430.3 / 1263.5px/s. See
+[regression raw trials](screenshots/liquid-physics-3/browser-trials-regression.json).
+
+Twenty seeded model trials per group also exercise zeros: very gentle 40px/s and gentle
+100px/s each had **20 zero-detachment trials**. At 220px/s there were **two zeros, seventeen
+single drops and one double**; medium averaged 3.85 and fast 6.05. Sparse fast crossings
+ranged 3–8. Fast edge strokes averaged 1.4 and much less detached area than centre strokes.
+Maximum observed flight extent including original droplet radius was 91.68px in those
+trials, inside the 104px canvas half-width. See [seeded measurements](screenshots/liquid-physics-3/model-trials.json).
+
+## Browser evidence and performance
+
+Actual mouse sequences cover very slow/gentle contact, slow/medium strokes, fast horizontal,
+vertical, diagonal, edge and centre crossings, differing same-speed results and six rapid
+strokes while the surface is recovering. The final sequence records 0 / 0 / 1 / 4 droplets
+for very slow / gentle / slow / medium; fast horizontal / vertical / diagonal / edge / second
+horizontal generate 5 / 3 / 6 / 2 / 4. The repeated sequence generates 37 total over six
+strokes, while the active pool stays bounded. These totals are not a 37-particle burst.
+
+The first visual review confirmed varied free masses and necks, but the end-of-stroke
+gentle stills missed the active deformation. The confirmation batch captures gentle
+mid-contact and three additional same-speed fast examples. The approved original native
+circle crop matches pixel-for-pixel at **1920×1080, 1440×900, 1024×900 and 390×844**.
+The section dimensions and stationary label/heading/photo positions are preserved;
+all four widths have zero page overflow. [Resting comparison](screenshots/liquid-physics-3/rest-baseline-comparison.json).
+
+The final focused **4× CDP CPU throttle** run measured median **16.7ms**, p95 **16.8ms**
+frame interval over 229 sampled intervals; 176 canvas draws. A subsequent 300ms settled
+observation recorded no additional draws. This synthetic JavaScript throttle includes
+capture/instrumentation overhead and does not certify physical laptops, GPUs or touch
+hardware. [Motion measurements](screenshots/liquid-physics-3/motion-checks.json).
+
+- [25-second cropped browser recording](screenshots/liquid-physics-3/motion-closeup.webm)
+- [Native frame sequence](screenshots/liquid-physics-3/frame-sequence.png)
+- [Full browser recording](screenshots/liquid-physics-3/interaction.webm)
+- [All native evidence](screenshots/liquid-physics-3)
+
+Reproduce seeded measurements with `npx tsx scripts/measure-liquid-physics.mjs` and resting
+captures with `node scripts/capture-liquid-rest.mjs`. The `organic liquid` Playwright tests
+record the mouse distributions/video. Set `PW_CHROMIUM_PATH` for an installed browser.
+`LIQUID_PHYSICS_EVIDENCE_DIR`, `LIQUID_ARCHIVE_EVIDENCE_DIR` and `POLISH_EVIDENCE_DIR` direct
+rerun artifacts elsewhere so the reviewed evidence is preserved.
+
+## Verification, scope and limits
+
+Focused model/static-fallback tests: **17 passed**. The two new browser checks passed in
+both visual rounds (mobile intentionally uses the static fallback). The existing sparse
+swipe check passed. A legacy pixel test initially sampled before fonts/layout settled,
+yielding zero for both strokes; explicit font/network settling fixes the harness. Its
+unchanged behavior assertions then passed: slow disturbance 14,259, fast 135,762 and no
+idle draws. Full `npm run validate` passed: **541 frontend tests, 532 backend tests**,
+formatting, lint (zero errors; same 13 existing warnings), module-case/asset checks,
+frontend/backend types and both production builds. Full `npm run e2e` passed:
+**238 passed, 78 intentional skips, zero failures**, 7.8 minutes. Skips: 73 duplicate
+mobile axe cases, four mouse-only liquid checks on touch and the duplicate mobile
+four-width headline check. Final changed-file formatting also passed.
+See [validation log](verification/liquid3-validate.txt) and
+[focused deterministic tests](verification/liquid3-unit.txt), plus the
+[full browser log](verification/liquid3-e2e.txt).
+
+Separate visual-asset verification passed: **401 files, 73 players, 45 marks and 1,257
+matched archive/franchise team-seasons** ([asset log](verification/liquid3-assets.txt)). No dependency changes.
+
+Scope stays within `liquidModel.ts`, `LiquidVersus.tsx`, directly related tests, evidence
+tooling and these reports. No styles, headline/search, photography, history, navigation,
+other pages, backend data, assets or registries changed. No new hook exceptions. Existing
+`.claude/` and raw `NBA_ASSETS` remain unstaged. Main is preserved; no PR, merge or deploy.
+
+Compromises: this is a bounded physically inspired 2D model, not a volume-conserving CFD
+solver. Satellites can become very small; a swipe need not produce a unique count, and
+artistic count ranges are not guarantees. Fixture player API is used for browser checks;
+production NBA connectivity and physical devices are outside this verification.
+
+**Next action:** open `http://localhost:5173/`, scroll to the red VS ball, then compare
+a slow centre stroke with a fast edge stroke in the running local preview.
+
+---
+
+## Previous liquid 2.0 and archive record (preserved)
+
 # Liquid physics 2.0 and the historical archive
 
 READY FOR OWNER REVIEW · 17 October 2026 · `codex/nba-explorer-final-polish`

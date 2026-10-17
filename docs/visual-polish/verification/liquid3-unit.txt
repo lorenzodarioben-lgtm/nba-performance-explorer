@@ -1,0 +1,12 @@
+
+> frontend@0.1.0 test
+> vitest run src/features/foundation/liquidModel.test.ts src/features/foundation/LiquidVersus.test.tsx
+
+
+ RUN  v4.1.11 C:/Users/lorenzodario/Documents/PersonalProjects/NBA_APP_CLAUDE_3/frontend
+
+
+ Test Files  2 passed (2)
+      Tests  17 passed (17)
+   Start at  17:32:33
+   Duration  3.16s (transform 210ms, setup 2.11s, import 160ms, tests 478ms, environment 2.79s)

@@ -1,3 +1,66 @@
+# Liquid VS physics 3.0 — latest handoff
+
+17 October 2026 · `codex/nba-explorer-final-polish` · starts from `8fef36c`.
+Implementation checkpoint: `3a4ec0b`.
+The commit containing this update is the delivery commit (`git log -1 --oneline`).
+Earlier handoffs below are retained.
+
+- **Status:** READY FOR OWNER REVIEW. Implementation, bounded visual confirmation,
+  full validation and full desktop/mobile browser regression complete.
+- **Cause:** previous speed buckets, fixed radii/angle spacing, a 900px/s gate and global
+  cooldown replayed the same fast fan. An 8ms timestamp floor understated frequent samples.
+- **Model:** keep 64-node coupling/restoring pressure; integrate actual chord contact,
+  velocity, bounded acceleration and incidence into local tensile work. Outward crest
+  motion, displacement, neighbour strain and residual work govern pinch-off. No speed-to-count rule.
+- **Variation:** injectable RNG; bounded material/nucleation perturbations and skewed
+  sizes. Seeded runs reproduce the whole state. Each drop pays a size/cohesion cost,
+  drains the local moving crest and recoils the main mass. Failed necks dissipate work.
+- **Motion:** 16 preallocated slots, radii 1.15–6px, varying directional momentum, local
+  shear and drift inheritance; brief narrowing neck; damped stretch/wobble; viscous drag,
+  near-body attraction, slight gravity and smooth shrink/reabsorption. Nominal life 0.52–1.02s.
+- **Protections:** same 208px canvas, DPR/speed/delta caps, stable 120Hz substeps,
+  idle/offscreen/hidden-tab stop, passive listeners and cleanup. No React frame updates.
+  Static touch/reduced-motion/canvas-failure fallback and stationary label preserved.
+- **Actual mouse trials:** final 20-per-speed run: slow 1–2 (mean 1.40), medium 2–4
+  (3.05), fast 3–6 (5.00). First independent fast run ranged 3–7. Zero-drop trials in
+  those slow/medium/fast browser groups: zero; seeded gentle groups are 20/20 zeros and
+  seeded slow has two zero outcomes. Browser wall speeds average 189/441/1282px/s.
+  A third independent run in the full suite passes with slow/medium/fast means
+  1.30 / 3.35 / 5.15 and ranges 1–2 / 2–4 / 3–7 (20 trials each).
+- **Visual proof:** actual video/frames show necks, independent masses, edge/centre,
+  horizontal/vertical/diagonal and repeated interactions during recovery. Pixel-exact
+  original resting circle at all four requested widths; label/title/images remain fixed.
+  No page overflow. Six repeated strokes produce 37 total detachments, with a bounded active pool.
+- **Performance:** focused synthetic 4× CPU run: median 16.7ms, p95 16.8ms; no further
+  draws during 300ms settled observation. No physical laptop/GPU certification.
+- **Tests:** 17 focused model/fallback tests pass. New browser checks and sparse-swipe
+  regression pass; legacy pixel check passes after waiting for stable fonts/layout,
+  retaining all assertions. Full `npm run validate` passed: 541 frontend tests, 532 backend
+  tests, types, assets, formatting and production builds. Lint has zero errors and the
+  same 13 existing warnings. Full `npm run e2e`: **238 passed, 78 intentional skips,
+  zero failures**, 7.8 minutes. Skips: 73 duplicate mobile axe cases, four mouse-only
+  liquid checks on touch and the duplicate mobile four-width headline check.
+  Final changed-file formatting passed. Separate asset check
+  passes: 401 files, 73 players, 45 marks, 1,257 team-seasons. No dependency changes.
+- **Evidence:** [full report](docs/visual-polish/FINAL_POLISH_REPORT.md),
+  [actual movie](docs/visual-polish/screenshots/liquid-physics-3/motion-closeup.webm),
+  [frame sequence](docs/visual-polish/screenshots/liquid-physics-3/frame-sequence.png),
+  [raw repeated trials](docs/visual-polish/screenshots/liquid-physics-3/browser-trials.json).
+- **Limits:** bounded 2D approximation, not CFD or exact volume conservation. Counts
+  can repeat; artistic ranges are not spawn quotas. Player API uses fixtures in browser
+  checks; production NBA connectivity and physical touch/GPU hardware are unverified.
+- **Scope:** liquid model/renderer, directly related tests/tooling/reports only. No styles,
+  homepage headline/search/images, history, navigation, backend/data, registries or dependency
+  changes. No new hook suppressions; `.claude/` and raw `NBA_ASSETS` stay unstaged.
+  Main and other work preserved. No PR, merge, deployment or history rewriting.
+
+**Exact next action:** open `http://localhost:5173/`, scroll to the red VS ball,
+and compare slow centre and fast edge strokes. Existing frontend/fixture backend remain available.
+
+---
+
+## Previous liquid 2.0 and archive handoff (preserved)
+
 # Liquid physics 2.0 and historical archive — latest handoff
 
 17 October 2026 · `codex/nba-explorer-final-polish` · starts from `699e5ac`.

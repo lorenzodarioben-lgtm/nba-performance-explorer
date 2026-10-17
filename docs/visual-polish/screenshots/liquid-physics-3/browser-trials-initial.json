@@ -1,0 +1,39 @@
+{
+  "source": "First unseeded actual-mouse run, 20 trials per speed. Preserved before confirmation capture.",
+  "summary": {
+    "slow": {
+      "counts": [1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      "histogram": {
+        "1": 19,
+        "2": 1
+      },
+      "meanCount": 1.05,
+      "meanMass": 1.8067000000000004,
+      "meanWallSpeed": 190.35
+    },
+    "medium": {
+      "counts": [3, 3, 3, 3, 3, 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 3, 3, 2, 4, 3],
+      "histogram": {
+        "2": 1,
+        "3": 15,
+        "4": 4
+      },
+      "meanCount": 3.15,
+      "meanMass": 5.7836,
+      "meanWallSpeed": 430.63
+    },
+    "fast": {
+      "counts": [7, 5, 4, 5, 7, 3, 5, 4, 5, 6, 6, 5, 3, 4, 4, 5, 7, 4, 6, 5],
+      "histogram": {
+        "3": 2,
+        "4": 5,
+        "5": 7,
+        "6": 3,
+        "7": 3
+      },
+      "meanCount": 5,
+      "meanMass": 18.59935,
+      "meanWallSpeed": 1281.6349999999998
+    }
+  }
+}

@@ -38,8 +38,8 @@ const mean = (values: number[]) => values.reduce((a, b) => a + b, 0) / values.le
 
 describe('liquid surface physics', () => {
   it('injects more energy for a faster swipe over exactly the same path', () => {
-    const slow = new LiquidModel(),
-      fast = new LiquidModel();
+    const slow = new LiquidModel(64, random(1)),
+      fast = new LiquidModel(64, random(1));
     slow.disturb({ x: -65, y: 10 }, { x: 65, y: 10 }, 1.3);
     fast.disturb({ x: -65, y: 10 }, { x: 65, y: 10 }, 0.06);
     expect(fast.energy()).toBeGreaterThan(slow.energy() * 10);
@@ -52,8 +52,8 @@ describe('liquid surface physics', () => {
     ).toBeGreaterThan(Math.max(...slow.nodes.map((n) => Math.abs(n.displacement))) * 2);
   });
   it('responds to direction and recovers its circular resting boundary', () => {
-    const right = new LiquidModel(),
-      left = new LiquidModel();
+    const right = new LiquidModel(64, random(1)),
+      left = new LiquidModel(64, random(1));
     right.disturb({ x: -65, y: 0 }, { x: 65, y: 0 }, 0.06);
     left.disturb({ x: 65, y: 0 }, { x: -65, y: 0 }, 0.06);
     right.step();
@@ -65,7 +65,7 @@ describe('liquid surface physics', () => {
     for (const p of right.boundary()) expect(Math.hypot(p.x, p.y)).toBeCloseTo(44, 2);
   });
   it('bounds repeated impulses and ignores invalid or distant samples', () => {
-    const model = new LiquidModel();
+    const model = new LiquidModel(64, random(1));
     model.disturb({ x: 400, y: 400 }, { x: 450, y: 450 }, 0.01);
     model.disturb({ x: 0, y: 0 }, { x: Infinity, y: 0 }, 0.01);
     model.disturb({ x: 0, y: 0 }, { x: 50, y: 0 }, 0);
@@ -86,7 +86,7 @@ describe('liquid surface physics', () => {
   it('very gentle travel primarily ripples, with no detachment on a near miss', () => {
     const gentle = trials(40);
     expect(gentle.filter((m) => m.emittedTotal === 0).length).toBeGreaterThan(25);
-    const near = new LiquidModel();
+    const near = new LiquidModel(64, random(1));
     near.disturb({ x: -100, y: 55 }, { x: 100, y: 55 }, 0.02);
     expect(near.activeDroplets).toBe(0);
   });
@@ -126,7 +126,7 @@ describe('liquid surface physics', () => {
     expect(diagonal.droplets).toEqual(repeat.droplets);
   });
   it('bounds the pool, flight and lifetime under repeated swipes, then fully recovers', () => {
-    const model = new LiquidModel(),
+    const model = new LiquidModel(64, random(1)),
       pool = model.droplets;
     for (let swipe = 0; swipe < 40; swipe++) {
       const sign = swipe % 2 ? -1 : 1;
